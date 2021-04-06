@@ -1,6 +1,6 @@
 module.exports = {
   projects: [
-    '<rootDir>/apps/browser-extension/popup',
+    '<rootDir>/apps/browser-extension',
     '<rootDir>/apps/api',
     '<rootDir>/libs/shared/routing',
     '<rootDir>/libs/shared',

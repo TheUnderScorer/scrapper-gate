@@ -28,7 +28,7 @@
   "projects": {
     "browser-extension-e2e": {
       "tags": [],
-      "implicitDependencies": ["browser-extension-popup"]
+      "implicitDependencies": ["browser-extension"]
     },
     "api": {
       "tags": []
@@ -75,7 +75,7 @@
     "shared-frontend-theme": {
       "tags": []
     },
-    "browser-extension-popup": {
+    "browser-extension": {
       "tags": []
     }
   }
