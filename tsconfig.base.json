@@ -7,15 +7,48 @@
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
     "importHelpers": true,
-    "target": "es2015",
+    "jsx": "react-jsx",
+    "target": "ES2019",
     "module": "esnext",
     "lib": ["es2017", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@scrapper-gate/api-interfaces": ["libs/api-interfaces/src/index.ts"]
+      "@scrapper-gate/shared/schema": ["libs/shared/schema/src/index.ts"],
+      "@scrapper-gate/shared/routing": ["libs/shared/routing/src/index.ts"],
+      "@scrapper-gate/shared/common": ["libs/shared/common/src/index.ts"],
+      "@scrapper-gate/shared/logger": ["libs/shared/logger/src/index.ts"],
+      "@scrapper-gate/shared-backend/awilix": [
+        "libs/shared-backend/awilix/src/index.ts"
+      ],
+      "@scrapper-gate/shared-backend/server": [
+        "libs/shared-backend/server/src/index.ts"
+      ],
+      "@scrapper-gate/shared-backend/unit-of-work": [
+        "libs/shared-backend/unit-of-work/src/index.ts"
+      ],
+      "@scrapper-gate/shared-backend/cqrs": [
+        "libs/shared-backend/cqrs/src/index.ts"
+      ],
+      "@scrapper-gate/shared-backend/database": [
+        "libs/shared-backend/database/src/index.ts"
+      ],
+      "@scrapper-gate/shared-frontend/common": [
+        "libs/shared-frontend/common/src/index.ts"
+      ],
+      "@scrapper-gate/shared/domain/auth": [
+        "libs/shared/domain/auth/src/index.ts"
+      ],
+      "@scrapper-gate/shared-frontend/schema": [
+        "libs/shared-frontend/schema/src/index.ts"
+      ],
+      "@scrapper-gate/shared-frontend/domain/auth": [
+        "libs/shared-frontend/domain/auth/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]

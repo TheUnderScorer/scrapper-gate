@@ -1,11 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-import App from './app/app';
+import { ApiClientProvider } from '@scrapper-gate/shared-frontend/common';
+import { Popup } from './Popup';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ApiClientProvider>
+      <Popup />
+    </ApiClientProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

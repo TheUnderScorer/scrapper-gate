@@ -1,0 +1,52 @@
+references:
+  typescript: &typescript
+    config:
+    skipTypename: true
+    hooks:
+    afterOneFileWrite:
+      - prettier --write
+      - eslint --fix
+
+overwrite: true
+watch: false
+schema:
+  - 'libs/shared/schema/src/schema/*.ts'
+
+documents: null
+config:
+  useIndexSignature: true
+generates:
+  ./libs/shared/schema/src/types.ts:
+    documents:
+      - ./apps/**/*.gql
+      - ./libs/**/*.gql
+    config:
+      skipTypename: true
+      maybeValue: T | undefined
+    hooks:
+      afterOneFileWrite:
+        - prettier --write
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-resolvers
+
+  ./libs/shared-frontend/schema/src/gql.tsx:
+    preset: import-types
+    presetConfig:
+      typesPath: '@scrapper-gate/shared/schema'
+    documents:
+      - ./apps/**/*.gql
+      - ./libs/**/*.gql
+    config:
+      maybeValue: T | undefined
+      skipTypename: true
+      withComponent: false
+      withHOC: false
+      withHooks: true
+      reactApolloVersion: 3
+    hooks:
+      afterOneFileWrite:
+        - prettier --write
+    plugins:
+      - typescript-react-apollo

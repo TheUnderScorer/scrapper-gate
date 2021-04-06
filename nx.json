@@ -16,9 +16,12 @@
   "npmScope": "scrapper-gate",
   "tasksRunnerOptions": {
     "default": {
-      "runner": "@nrwl/workspace/tasks-runners/default",
+      "runner": "@nrwl/nx-cloud",
       "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e"]
+        "cacheableOperations": ["build", "lint", "test", "e2e"],
+        "accessToken": "NGU1YWZmY2QtNDYzMS00ODk1LTk1ODEtMjM4NjBmMTQ5ODM2fHJlYWQtd3JpdGU=",
+        "canTrackAnalytics": false,
+        "showUsageWarnings": true
       }
     }
   },
@@ -33,7 +36,43 @@
     "api": {
       "tags": []
     },
-    "api-interfaces": {
+    "shared-schema": {
+      "tags": []
+    },
+    "shared-routing": {
+      "tags": []
+    },
+    "shared-common": {
+      "tags": []
+    },
+    "shared-logger": {
+      "tags": []
+    },
+    "shared-backend-awilix": {
+      "tags": []
+    },
+    "shared-backend-server": {
+      "tags": []
+    },
+    "shared-backend-unit-of-work": {
+      "tags": []
+    },
+    "shared-backend-cqrs": {
+      "tags": []
+    },
+    "shared-backend-database": {
+      "tags": []
+    },
+    "shared-frontend-common": {
+      "tags": []
+    },
+    "shared-domain-auth": {
+      "tags": []
+    },
+    "shared-frontend-schema": {
+      "tags": []
+    },
+    "shared-frontend-domain-auth": {
       "tags": []
     }
   }

@@ -1,0 +1,94 @@
+version: '3.4'
+
+services:
+  app-postgres:
+    image: postgres:13.2-alpine
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USERNAME: postgres
+      POSTGRES_DB: app
+    networks:
+      - app
+    ports:
+      - 5432:5432
+
+  redis:
+    image: redis:6.2.1-alpine
+    hostname: redis
+    ports:
+      - 6379:6379
+    networks:
+      - app
+
+  sqs:
+    build:
+      context: .
+      dockerfile: docker/elasticmq/Dockerfile
+    ports:
+      - 9324:9324
+    volumes:
+      - ./docker/elasticmq/elasticmq.conf:/opt/elasticmq.conf
+    networks:
+      - app
+
+  security:
+    build:
+      context: .
+      dockerfile: ./docker/security/Dockerfile
+    command: api
+    hostname: security
+    ports:
+      - 50050:50050
+    environment:
+      API_URL: 'https://api.lvh.me'
+      OAUTH_ENABLED_PROVIDERS: 'google,facebook'
+      OAUTH_CREATE_USER_ACCOUNT: 'true'
+      OAUTH_GOOGLE_CLIENT_ID: 1024671591387-1h85kq8p747i478ouqinaq5tm5953u17.apps.googleusercontent.com
+      OAUTH_GOOGLE_CLIENT_SECRET: GMHPdnGTRGLmelReTFHxNBfU
+      OAUTH_GOOGLE_CLIENT_ALLOWED_DOMAINS: tsh.io,thesoftwarehouse.pl
+      OAUTH_FACEBOOK_CLIENT_ID: 959016991183154
+      OAUTH_FACEBOOK_CLIENT_SECRET: b184620eea19a283573c38b614e9dec5
+      OAUTH_DEFAULT_ATTRIBUTES: OAUTH_USER
+      ACCESS_TOKEN_EXPIRATION: 10000
+      REFRESH_TOKEN_SECRET: 15000
+      CONNECTION_STRING: postgres://postgres:password@security-postgres:5432/users
+      INITIAL_API_KEYS: b6cfcd8f-db8e-2cb5-cb34-e1a8900067fd
+      MAILER_TYPE: standalone
+      MAILER_SMTP_HOST: 'mailhog'
+      MAILER_SMTP_PORT: 1025
+      MAILER_SMTP_SECURE: 'false'
+      MAILER_NEW_PASSWORD_SPA_URL: 'http://localhost:3000/auth/reset-password'
+      TOKEN_PAYLOAD_DISABLE_ATTRIBUTES: 'true'
+      TOKEN_PAYLOAD_DISABLE_POLICY: 'true'
+    depends_on:
+      - security-postgres
+      - mailhog
+      - redis
+    networks:
+      app:
+        aliases:
+          - security
+
+  security-postgres:
+    image: postgres:13.2-alpine
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USERNAME: postgres
+      POSTGRES_DB: users
+    networks:
+      - app
+
+  mailhog:
+    image: mailhog/mailhog
+    restart: always
+    hostname: mailhog
+    networks:
+      - app
+    ports:
+      - 1025:1025
+      - 8025:8025
+    environment:
+      - MH_HOSTNAME=mailhog
+
+networks:
+  app:
