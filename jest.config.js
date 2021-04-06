@@ -1,6 +1,6 @@
 module.exports = {
   projects: [
-    '<rootDir>/apps/browser-extension',
+    '<rootDir>/apps/browser-extension/popup',
     '<rootDir>/apps/api',
     '<rootDir>/libs/shared/routing',
     '<rootDir>/libs/shared',
@@ -15,5 +15,6 @@ module.exports = {
     '<rootDir>/libs/shared/domain/auth',
     '<rootDir>/libs/shared-frontend/schema',
     '<rootDir>/libs/shared-frontend/auth',
+    '<rootDir>/libs/shared-frontend/theme',
   ],
 };

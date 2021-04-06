@@ -3,7 +3,7 @@
   "cli": {
     "defaultCollection": "@nrwl/react"
   },
-  "defaultProject": "browser-extension",
+  "defaultProject": "browser-extension-popup",
   "generators": {
     "@nrwl/react": {
       "application": {
@@ -21,81 +21,6 @@
     }
   },
   "projects": {
-    "browser-extension": {
-      "root": "apps/browser-extension",
-      "sourceRoot": "apps/browser-extension/src",
-      "projectType": "application",
-      "targets": {
-        "build": {
-          "executor": "@nrwl/web:build",
-          "outputs": ["{options.outputPath}"],
-          "options": {
-            "outputPath": "dist/apps/browser-extension",
-            "index": "apps/browser-extension/src/index.html",
-            "main": "apps/browser-extension/src/main.tsx",
-            "polyfills": "apps/browser-extension/src/polyfills.ts",
-            "tsConfig": "apps/browser-extension/tsconfig.app.json",
-            "assets": [
-              "apps/browser-extension/src/favicon.ico",
-              "apps/browser-extension/src/assets"
-            ],
-            "styles": ["apps/browser-extension/src/styles.css"],
-            "scripts": [],
-            "webpackConfig": "@nrwl/react/plugins/webpack"
-          },
-          "configurations": {
-            "production": {
-              "fileReplacements": [
-                {
-                  "replace": "apps/browser-extension/src/environments/environment.ts",
-                  "with": "apps/browser-extension/src/environments/environment.prod.ts"
-                }
-              ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "extractCss": true,
-              "namedChunks": false,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                }
-              ]
-            }
-          }
-        },
-        "serve": {
-          "executor": "@nrwl/web:dev-server",
-          "options": {
-            "buildTarget": "browser-extension:build",
-            "proxyConfig": "apps/browser-extension/proxy.conf.json"
-          },
-          "configurations": {
-            "production": {
-              "buildTarget": "browser-extension:build:production"
-            }
-          }
-        },
-        "lint": {
-          "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["apps/browser-extension/**/*.{ts,tsx,js,jsx}"]
-          }
-        },
-        "test": {
-          "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/browser-extension"],
-          "options": {
-            "jestConfig": "apps/browser-extension/jest.config.js",
-            "passWithNoTests": true
-          }
-        }
-      }
-    },
     "browser-extension-e2e": {
       "root": "apps/browser-extension-e2e",
       "sourceRoot": "apps/browser-extension-e2e/src",
@@ -106,11 +31,11 @@
           "options": {
             "cypressConfig": "apps/browser-extension-e2e/cypress.json",
             "tsConfig": "apps/browser-extension-e2e/tsconfig.e2e.json",
-            "devServerTarget": "browser-extension:serve"
+            "devServerTarget": "browser-extension-popup:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "browser-extension:serve:production"
+              "devServerTarget": "browser-extension-popup:serve:production"
             }
           }
         },
@@ -447,6 +372,106 @@
           "outputs": ["coverage/libs/shared-frontend/domain/auth"],
           "options": {
             "jestConfig": "libs/shared-frontend/domain/auth/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "shared-frontend-theme": {
+      "root": "libs/shared-frontend/theme",
+      "sourceRoot": "libs/shared-frontend/theme/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/shared-frontend/theme/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shared-frontend/theme"],
+          "options": {
+            "jestConfig": "libs/shared-frontend/theme/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "browser-extension-popup": {
+      "root": "apps/browser-extension/popup",
+      "sourceRoot": "apps/browser-extension/popup/src",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/web:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/browser-extension/popup",
+            "index": "apps/browser-extension/popup/src/index.html",
+            "main": "apps/browser-extension/popup/src/main.tsx",
+            "polyfills": "apps/browser-extension/popup/src/polyfills.ts",
+            "tsConfig": "apps/browser-extension/popup/tsconfig.app.json",
+            "assets": [
+              "apps/browser-extension/popup/src/favicon.ico",
+              "apps/browser-extension/popup/src/assets"
+            ],
+            "styles": ["apps/browser-extension/popup/src/styles.css"],
+            "scripts": [],
+            "webpackConfig": "apps/browser-extension/popup/webpack.config.js"
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/browser-extension/popup/src/environments/environment.ts",
+                  "with": "apps/browser-extension/popup/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/web:dev-server",
+          "options": {
+            "buildTarget": "browser-extension-popup:build",
+            "proxyConfig": "apps/browser-extension/popup/proxy.conf.json"
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "browser-extension-popup:build:production"
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/browser-extension/popup/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/browser-extension/popup"],
+          "options": {
+            "jestConfig": "apps/browser-extension/popup/jest.config.js",
             "passWithNoTests": true
           }
         }

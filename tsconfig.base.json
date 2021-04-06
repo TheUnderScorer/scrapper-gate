@@ -48,6 +48,9 @@
       ],
       "@scrapper-gate/shared-frontend/domain/auth": [
         "libs/shared-frontend/domain/auth/src/index.ts"
+      ],
+      "@scrapper-gate/shared-frontend/theme": [
+        "libs/shared-frontend/theme/src/index.ts"
       ]
     }
   },

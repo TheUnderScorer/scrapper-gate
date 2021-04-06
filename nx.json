@@ -26,12 +26,9 @@
     }
   },
   "projects": {
-    "browser-extension": {
-      "tags": []
-    },
     "browser-extension-e2e": {
       "tags": [],
-      "implicitDependencies": ["browser-extension"]
+      "implicitDependencies": ["browser-extension-popup"]
     },
     "api": {
       "tags": []
@@ -73,6 +70,12 @@
       "tags": []
     },
     "shared-frontend-domain-auth": {
+      "tags": []
+    },
+    "shared-frontend-theme": {
+      "tags": []
+    },
+    "browser-extension-popup": {
       "tags": []
     }
   }
