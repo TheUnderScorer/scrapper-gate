@@ -1,0 +1,11 @@
+mutation Login($input: LoginInput!) {
+  login(input: $input) @rest(
+    type: "LoginResponse"
+    path: "/api/public/auth/login"
+    method: "POST"
+    endpoint: "default"
+  ) {
+    accessToken
+    refreshToken
+  }
+}

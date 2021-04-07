@@ -1,0 +1,336 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<LoginForm /> should render without crashing 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <form
+        class="makeStyles-form-1"
+      >
+        <div
+          class="css-m72s89-Stack-root"
+        >
+          <div
+            class="css-1a8w37c"
+          >
+            <h5
+              class="MuiTypography-root MuiTypography-h5 css-ag7rrr-MuiTypography-root"
+            >
+              <span>
+                Sign in to 
+                <strong>
+                  Scrapper Gate
+                </strong>
+                 
+                <img
+                  alt="🚀"
+                  draggable="false"
+                  src="https://twemoji.maxcdn.com/2/svg//1f680.svg"
+                  style="height: 1em; width: 1em; margin: 0px .05em 0px .1em; vertical-align: -0.1em;"
+                />
+              </span>
+            </h5>
+          </div>
+          <div
+            style="opacity: 0; visibility: hidden;"
+          />
+          <div
+            class="MuiFormControl-root MuiFormControl-marginNone MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
+          >
+            <label
+              class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary css-88nued-MuiFormLabel-root-MuiInputLabel-root"
+              data-shrink="false"
+            >
+              E-mail
+            </label>
+            <div
+              class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall css-zokxp0-MuiInputBase-root-MuiOutlinedInput-root"
+            >
+              <input
+                aria-invalid="false"
+                class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputSizeSmall css-1gpj8ho-MuiInputBase-input-MuiOutlinedInput-input"
+                name="username"
+                type="text"
+                value=""
+              />
+              <fieldset
+                aria-hidden="true"
+                class="MuiOutlinedInput-notchedOutline css-1o2jng6-MuiOutlinedInput-notchedOutline"
+              >
+                <legend
+                  class="css-2s9zix"
+                >
+                  <span>
+                    E-mail
+                  </span>
+                </legend>
+              </fieldset>
+            </div>
+          </div>
+          <div
+            class="MuiFormControl-root MuiFormControl-marginNone MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
+          >
+            <label
+              class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary css-88nued-MuiFormLabel-root-MuiInputLabel-root"
+              data-shrink="false"
+            >
+              Password
+            </label>
+            <div
+              class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall css-zokxp0-MuiInputBase-root-MuiOutlinedInput-root"
+            >
+              <input
+                aria-invalid="false"
+                class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputSizeSmall css-1gpj8ho-MuiInputBase-input-MuiOutlinedInput-input"
+                name="password"
+                type="password"
+                value=""
+              />
+              <fieldset
+                aria-hidden="true"
+                class="MuiOutlinedInput-notchedOutline css-1o2jng6-MuiOutlinedInput-notchedOutline"
+              >
+                <legend
+                  class="css-2s9zix"
+                >
+                  <span>
+                    Password
+                  </span>
+                </legend>
+              </fieldset>
+            </div>
+          </div>
+          <button
+            class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-fullWidth MuiButtonBase-root css-1pxzs7f-MuiButtonBase-root-MuiButton-root"
+            id="login"
+            tabindex="0"
+            type="submit"
+          >
+            <span
+              class="MuiButton-label css-8xplcm-MuiButton-label"
+            >
+              Login
+            </span>
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+          <div
+            class="css-4nj22a-Stack-root"
+          >
+            <p
+              class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+            >
+              Don't have account?
+            </p>
+            <button
+              class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root css-d0ukip-MuiButtonBase-root-MuiButton-root"
+              tabindex="0"
+              type="button"
+            >
+              <span
+                class="MuiButton-label css-8xplcm-MuiButton-label"
+              >
+                Sign up
+              </span>
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </body>,
+  "container": <div>
+    <form
+      class="makeStyles-form-1"
+    >
+      <div
+        class="css-m72s89-Stack-root"
+      >
+        <div
+          class="css-1a8w37c"
+        >
+          <h5
+            class="MuiTypography-root MuiTypography-h5 css-ag7rrr-MuiTypography-root"
+          >
+            <span>
+              Sign in to 
+              <strong>
+                Scrapper Gate
+              </strong>
+               
+              <img
+                alt="🚀"
+                draggable="false"
+                src="https://twemoji.maxcdn.com/2/svg//1f680.svg"
+                style="height: 1em; width: 1em; margin: 0px .05em 0px .1em; vertical-align: -0.1em;"
+              />
+            </span>
+          </h5>
+        </div>
+        <div
+          style="opacity: 0; visibility: hidden;"
+        />
+        <div
+          class="MuiFormControl-root MuiFormControl-marginNone MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
+        >
+          <label
+            class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary css-88nued-MuiFormLabel-root-MuiInputLabel-root"
+            data-shrink="false"
+          >
+            E-mail
+          </label>
+          <div
+            class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall css-zokxp0-MuiInputBase-root-MuiOutlinedInput-root"
+          >
+            <input
+              aria-invalid="false"
+              class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputSizeSmall css-1gpj8ho-MuiInputBase-input-MuiOutlinedInput-input"
+              name="username"
+              type="text"
+              value=""
+            />
+            <fieldset
+              aria-hidden="true"
+              class="MuiOutlinedInput-notchedOutline css-1o2jng6-MuiOutlinedInput-notchedOutline"
+            >
+              <legend
+                class="css-2s9zix"
+              >
+                <span>
+                  E-mail
+                </span>
+              </legend>
+            </fieldset>
+          </div>
+        </div>
+        <div
+          class="MuiFormControl-root MuiFormControl-marginNone MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
+        >
+          <label
+            class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary css-88nued-MuiFormLabel-root-MuiInputLabel-root"
+            data-shrink="false"
+          >
+            Password
+          </label>
+          <div
+            class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall css-zokxp0-MuiInputBase-root-MuiOutlinedInput-root"
+          >
+            <input
+              aria-invalid="false"
+              class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputSizeSmall css-1gpj8ho-MuiInputBase-input-MuiOutlinedInput-input"
+              name="password"
+              type="password"
+              value=""
+            />
+            <fieldset
+              aria-hidden="true"
+              class="MuiOutlinedInput-notchedOutline css-1o2jng6-MuiOutlinedInput-notchedOutline"
+            >
+              <legend
+                class="css-2s9zix"
+              >
+                <span>
+                  Password
+                </span>
+              </legend>
+            </fieldset>
+          </div>
+        </div>
+        <button
+          class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-fullWidth MuiButtonBase-root css-1pxzs7f-MuiButtonBase-root-MuiButton-root"
+          id="login"
+          tabindex="0"
+          type="submit"
+        >
+          <span
+            class="MuiButton-label css-8xplcm-MuiButton-label"
+          >
+            Login
+          </span>
+          <span
+            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+          />
+        </button>
+        <div
+          class="css-4nj22a-Stack-root"
+        >
+          <p
+            class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+          >
+            Don't have account?
+          </p>
+          <button
+            class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root css-d0ukip-MuiButtonBase-root-MuiButton-root"
+            tabindex="0"
+            type="button"
+          >
+            <span
+              class="MuiButton-label css-8xplcm-MuiButton-label"
+            >
+              Sign up
+            </span>
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

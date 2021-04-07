@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-types,@typescript-eslint/no-explicit-any */
+/* eslint-disable */
 import { GraphQLResolveInfo } from 'graphql';
 export type Maybe<T> = T | undefined;
 export type Exact<T extends { [key: string]: unknown }> = {
@@ -94,6 +94,14 @@ export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetCurrentUserQuery = {
   me?: Maybe<Pick<User, 'id' | 'email' | 'firstName' | 'lastName'>>;
+};
+
+export type LoginMutationVariables = Exact<{
+  input: LoginInput;
+}>;
+
+export type LoginMutation = {
+  login?: Maybe<Pick<LoginResponse, 'accessToken' | 'refreshToken'>>;
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -249,6 +257,20 @@ export type ResolversParentTypes = ResolversObject<{
   ID: Scalars['ID'];
 }>;
 
+export type RestDirectiveArgs = {
+  type?: Maybe<Scalars['String']>;
+  path?: Maybe<Scalars['String']>;
+  method?: Maybe<Scalars['String']>;
+  endpoint?: Maybe<Scalars['String']>;
+};
+
+export type RestDirectiveResolver<
+  Result,
+  Parent,
+  ContextType = any,
+  Args = RestDirectiveArgs
+> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+
 export type ForgotPasswordResponseResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['ForgotPasswordResponse'] = ResolversParentTypes['ForgotPasswordResponse']
@@ -369,3 +391,14 @@ export type Resolvers<ContextType = any> = ResolversObject<{
  * Use "Resolvers" root object instead. If you wish to get "IResolvers", add "typesPrefix: I" to your config.
  */
 export type IResolvers<ContextType = any> = Resolvers<ContextType>;
+export type DirectiveResolvers<ContextType = any> = ResolversObject<{
+  rest?: RestDirectiveResolver<any, any, ContextType>;
+}>;
+
+/**
+ * @deprecated
+ * Use "DirectiveResolvers" root object instead. If you wish to get "IDirectiveResolvers", add "typesPrefix: I" to your config.
+ */
+export type IDirectiveResolvers<
+  ContextType = any
+> = DirectiveResolvers<ContextType>;

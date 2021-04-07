@@ -1,15 +1,15 @@
-import { gql } from 'apollo-server-fastify';
+import gql from 'graphql-tag';
 
 export const rootSchema = gql`
-    type Query {
-      _: Boolean
-    }
+  type Query {
+    _: Boolean
+  }
 
-    type Mutation {
-      _: Boolean
-    }
+  type Mutation {
+    _: Boolean
+  }
 
-    type Subscription {
-      _: Boolean
-    }
+  type Subscription {
+    _: Boolean
+  }
 `;

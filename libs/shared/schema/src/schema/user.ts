@@ -1,14 +1,14 @@
-import { gql } from 'apollo-server-fastify';
+import gql from 'graphql-tag';
 
 export const userSchema = gql`
-    type User {
-      id: ID!
-      firstName: String
-      lastName: String
-      email: String!
-    }
+  type User {
+    id: ID!
+    firstName: String
+    lastName: String
+    email: String!
+  }
 
-    extend type Query {
-      me: User
-    }
-`
+  extend type Query {
+    me: User
+  }
+`;

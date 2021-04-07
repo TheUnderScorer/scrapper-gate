@@ -1,6 +1,6 @@
 {
   "root": true,
-  "ignorePatterns": ["**/*"],
+  "ignorePatterns": ["**/*", "libs/shared/schema/src/types.ts"],
   "plugins": ["@nrwl/nx"],
   "overrides": [
     {

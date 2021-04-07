@@ -1,18 +1,13 @@
 {
   "implicitDependencies": {
     "workspace.json": "*",
-    "package.json": {
-      "dependencies": "*",
-      "devDependencies": "*"
-    },
+    "package.json": { "dependencies": "*", "devDependencies": "*" },
     "tsconfig.base.json": "*",
     "tslint.json": "*",
     ".eslintrc.json": "*",
     "nx.json": "*"
   },
-  "affected": {
-    "defaultBase": "master"
-  },
+  "affected": { "defaultBase": "master" },
   "npmScope": "scrapper-gate",
   "tasksRunnerOptions": {
     "default": {
@@ -30,53 +25,24 @@
       "tags": [],
       "implicitDependencies": ["browser-extension"]
     },
-    "api": {
-      "tags": []
-    },
-    "shared-schema": {
-      "tags": []
-    },
-    "shared-routing": {
-      "tags": []
-    },
-    "shared-common": {
-      "tags": []
-    },
-    "shared-logger": {
-      "tags": []
-    },
-    "shared-backend-awilix": {
-      "tags": []
-    },
-    "shared-backend-server": {
-      "tags": []
-    },
-    "shared-backend-unit-of-work": {
-      "tags": []
-    },
-    "shared-backend-cqrs": {
-      "tags": []
-    },
-    "shared-backend-database": {
-      "tags": []
-    },
-    "shared-frontend-common": {
-      "tags": []
-    },
-    "shared-domain-auth": {
-      "tags": []
-    },
-    "shared-frontend-schema": {
-      "tags": []
-    },
-    "shared-frontend-domain-auth": {
-      "tags": []
-    },
-    "shared-frontend-theme": {
-      "tags": []
-    },
-    "browser-extension": {
-      "tags": []
-    }
+    "api": { "tags": [] },
+    "shared-schema": { "tags": [] },
+    "shared-routing": { "tags": [] },
+    "shared-common": { "tags": [] },
+    "shared-logger": { "tags": [] },
+    "shared-backend-awilix": { "tags": [] },
+    "shared-backend-server": { "tags": [] },
+    "shared-backend-unit-of-work": { "tags": [] },
+    "shared-backend-cqrs": { "tags": [] },
+    "shared-backend-database": { "tags": [] },
+    "shared-frontend-common": { "tags": [] },
+    "shared-domain-auth": { "tags": [] },
+    "shared-frontend-schema": { "tags": [] },
+    "shared-frontend-domain-auth": { "tags": [] },
+    "shared-frontend-theme": { "tags": [] },
+    "browser-extension": { "tags": [] },
+    "shared-frontend-ui": { "tags": [] },
+    "shared-validation": { "tags": [] },
+    "shared-frontend-form": { "tags": [] }
   }
 }

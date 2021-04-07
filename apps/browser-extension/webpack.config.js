@@ -12,11 +12,14 @@ module.exports = (config) => {
     path.resolve(__dirname, './src/background.ts'),
   ];
 
+  delete preppedConfig.entry.styles;
+
   preppedConfig.output.filename = '[name].js';
   preppedConfig.output.chunkFilename = '[name].js';
 
   // Don't use runtime chunks
   delete preppedConfig.optimization.runtimeChunk;
+  delete preppedConfig.optimization.splitChunks;
 
   preppedConfig.plugins.push(
     new CopyPlugin({
@@ -32,6 +35,12 @@ module.exports = (config) => {
   preppedConfig.plugins.push(
     new ExtensionReloader({
       manifest: path.resolve(__dirname, 'manifest.json'),
+      port: 4200,
+      entries: {
+        contentScript: 'content',
+        background: 'background',
+        extensionPage: 'main',
+      },
     })
   );
 
