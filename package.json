@@ -8,7 +8,7 @@
     "build": "nx build",
     "build:browser-extension": "nx build browser-extension && npm run copy-ext-manifest",
     "copy-ext-manifest": "cp apps/browser-extension/manifest.json dist/apps/browser-extension",
-    "test": "nx test",
+    "test": "nx run-many --all --target=test",
     "lint": "nx workspace-lint && nx lint && nx lint api",
     "e2e": "nx e2e",
     "affected:apps": "nx affected:apps",

@@ -20,7 +20,7 @@ jobs:
         run: npm ci --legacy-peer-deps
 
       - name: Build
-        run: npx nx build && npx nx build api
+        run: npx nx build browser-extension --prod && npx nx build api --prod
 
   lint:
     name: Run linter

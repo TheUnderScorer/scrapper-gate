@@ -41,6 +41,8 @@ Object {
             <label
               class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary css-88nued-MuiFormLabel-root-MuiInputLabel-root"
               data-shrink="false"
+              for="username"
+              id="username-label"
             >
               E-mail
             </label>
@@ -50,6 +52,7 @@ Object {
               <input
                 aria-invalid="false"
                 class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputSizeSmall css-1gpj8ho-MuiInputBase-input-MuiOutlinedInput-input"
+                id="username"
                 name="username"
                 type="text"
                 value=""
@@ -74,6 +77,8 @@ Object {
             <label
               class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary css-88nued-MuiFormLabel-root-MuiInputLabel-root"
               data-shrink="false"
+              for="password"
+              id="password-label"
             >
               Password
             </label>
@@ -83,6 +88,7 @@ Object {
               <input
                 aria-invalid="false"
                 class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputSizeSmall css-1gpj8ho-MuiInputBase-input-MuiOutlinedInput-input"
+                id="password"
                 name="password"
                 type="password"
                 value=""
@@ -180,6 +186,8 @@ Object {
           <label
             class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary css-88nued-MuiFormLabel-root-MuiInputLabel-root"
             data-shrink="false"
+            for="username"
+            id="username-label"
           >
             E-mail
           </label>
@@ -189,6 +197,7 @@ Object {
             <input
               aria-invalid="false"
               class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputSizeSmall css-1gpj8ho-MuiInputBase-input-MuiOutlinedInput-input"
+              id="username"
               name="username"
               type="text"
               value=""
@@ -213,6 +222,8 @@ Object {
           <label
             class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary css-88nued-MuiFormLabel-root-MuiInputLabel-root"
             data-shrink="false"
+            for="password"
+            id="password-label"
           >
             Password
           </label>
@@ -222,6 +233,7 @@ Object {
             <input
               aria-invalid="false"
               class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputSizeSmall css-1gpj8ho-MuiInputBase-input-MuiOutlinedInput-input"
+              id="password"
               name="password"
               type="password"
               value=""
