@@ -1,0 +1,47 @@
+# REST - don't remove
+
+input LoginInput {
+  username: String!
+  password: String!
+}
+
+type LoginResponse {
+  accessToken: String!
+  refreshToken: String!
+}
+
+input ForgotPasswordInput {
+  username: String!
+}
+
+type ForgotPasswordResponse {
+  error: String
+  stack: String
+}
+
+input ResetPasswordInput {
+  newPassword: String!
+}
+
+type ResetPasswordResponse {
+  error: String
+  stack: String
+}
+
+type IsAutenthicatedResponse {
+  isAutenthicated: Boolean
+}
+
+# END REST
+
+extend type Mutation {
+  #REST don't remove
+  login(input: LoginInput!): LoginResponse
+  forgotPassword(input: ForgotPasswordInput): ForgotPasswordResponse
+  resetPassword(input: ResetPasswordInput, token: String!): ResetPasswordResponse
+  #END REST
+}
+
+extend type Query {
+  isAutenthicated: IsAutenthicatedResponse
+}

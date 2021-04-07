@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types,@typescript-eslint/no-explicit-any */
 import { GraphQLResolveInfo } from 'graphql';
 export type Maybe<T> = T | undefined;
 export type Exact<T extends { [key: string]: unknown }> = {
@@ -7,6 +8,10 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> &
   { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> &
   { [SubKey in K]: Maybe<T[SubKey]> };
+export type RequireFields<T, K extends keyof T> = {
+  [X in Exclude<keyof T, K>]?: T[X];
+} &
+  { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -16,13 +21,62 @@ export type Scalars = {
   Float: number;
 };
 
+export type ForgotPasswordInput = {
+  username: Scalars['String'];
+};
+
+export type ForgotPasswordResponse = {
+  error?: Maybe<Scalars['String']>;
+  stack?: Maybe<Scalars['String']>;
+};
+
+export type IsAutenthicatedResponse = {
+  isAutenthicated?: Maybe<Scalars['Boolean']>;
+};
+
+export type LoginInput = {
+  username: Scalars['String'];
+  password: Scalars['String'];
+};
+
+export type LoginResponse = {
+  accessToken: Scalars['String'];
+  refreshToken: Scalars['String'];
+};
+
 export type Mutation = {
   _?: Maybe<Scalars['Boolean']>;
+  forgotPassword?: Maybe<ForgotPasswordResponse>;
+  login?: Maybe<LoginResponse>;
+  resetPassword?: Maybe<ResetPasswordResponse>;
+};
+
+export type MutationForgotPasswordArgs = {
+  input?: Maybe<ForgotPasswordInput>;
+};
+
+export type MutationLoginArgs = {
+  input: LoginInput;
+};
+
+export type MutationResetPasswordArgs = {
+  input?: Maybe<ResetPasswordInput>;
+  token: Scalars['String'];
 };
 
 export type Query = {
   _?: Maybe<Scalars['Boolean']>;
+  isAutenthicated?: Maybe<IsAutenthicatedResponse>;
   me?: Maybe<User>;
+};
+
+export type ResetPasswordInput = {
+  newPassword: Scalars['String'];
+};
+
+export type ResetPasswordResponse = {
+  error?: Maybe<Scalars['String']>;
+  stack?: Maybe<Scalars['String']>;
 };
 
 export type Subscription = {
@@ -161,24 +215,68 @@ export type DirectiveResolverFn<
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
-  Mutation: ResolverTypeWrapper<{}>;
+  ForgotPasswordInput: ForgotPasswordInput;
+  String: ResolverTypeWrapper<Scalars['String']>;
+  ForgotPasswordResponse: ResolverTypeWrapper<ForgotPasswordResponse>;
+  IsAutenthicatedResponse: ResolverTypeWrapper<IsAutenthicatedResponse>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  LoginInput: LoginInput;
+  LoginResponse: ResolverTypeWrapper<LoginResponse>;
+  Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
+  ResetPasswordInput: ResetPasswordInput;
+  ResetPasswordResponse: ResolverTypeWrapper<ResetPasswordResponse>;
   Subscription: ResolverTypeWrapper<{}>;
   User: ResolverTypeWrapper<User>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
-  String: ResolverTypeWrapper<Scalars['String']>;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
-  Mutation: {};
+  ForgotPasswordInput: ForgotPasswordInput;
+  String: Scalars['String'];
+  ForgotPasswordResponse: ForgotPasswordResponse;
+  IsAutenthicatedResponse: IsAutenthicatedResponse;
   Boolean: Scalars['Boolean'];
+  LoginInput: LoginInput;
+  LoginResponse: LoginResponse;
+  Mutation: {};
   Query: {};
+  ResetPasswordInput: ResetPasswordInput;
+  ResetPasswordResponse: ResetPasswordResponse;
   Subscription: {};
   User: User;
   ID: Scalars['ID'];
-  String: Scalars['String'];
+}>;
+
+export type ForgotPasswordResponseResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['ForgotPasswordResponse'] = ResolversParentTypes['ForgotPasswordResponse']
+> = ResolversObject<{
+  error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  stack?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type IsAutenthicatedResponseResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['IsAutenthicatedResponse'] = ResolversParentTypes['IsAutenthicatedResponse']
+> = ResolversObject<{
+  isAutenthicated?: Resolver<
+    Maybe<ResolversTypes['Boolean']>,
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type LoginResponseResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['LoginResponse'] = ResolversParentTypes['LoginResponse']
+> = ResolversObject<{
+  accessToken?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  refreshToken?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type MutationResolvers<
@@ -186,6 +284,24 @@ export type MutationResolvers<
   ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']
 > = ResolversObject<{
   _?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  forgotPassword?: Resolver<
+    Maybe<ResolversTypes['ForgotPasswordResponse']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationForgotPasswordArgs, never>
+  >;
+  login?: Resolver<
+    Maybe<ResolversTypes['LoginResponse']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationLoginArgs, 'input'>
+  >;
+  resetPassword?: Resolver<
+    Maybe<ResolversTypes['ResetPasswordResponse']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationResetPasswordArgs, 'token'>
+  >;
 }>;
 
 export type QueryResolvers<
@@ -193,7 +309,21 @@ export type QueryResolvers<
   ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']
 > = ResolversObject<{
   _?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  isAutenthicated?: Resolver<
+    Maybe<ResolversTypes['IsAutenthicatedResponse']>,
+    ParentType,
+    ContextType
+  >;
   me?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+}>;
+
+export type ResetPasswordResponseResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['ResetPasswordResponse'] = ResolversParentTypes['ResetPasswordResponse']
+> = ResolversObject<{
+  error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  stack?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type SubscriptionResolvers<
@@ -224,8 +354,12 @@ export type UserResolvers<
 }>;
 
 export type Resolvers<ContextType = any> = ResolversObject<{
+  ForgotPasswordResponse?: ForgotPasswordResponseResolvers<ContextType>;
+  IsAutenthicatedResponse?: IsAutenthicatedResponseResolvers<ContextType>;
+  LoginResponse?: LoginResponseResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  ResetPasswordResponse?: ResetPasswordResponseResolvers<ContextType>;
   Subscription?: SubscriptionResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 }>;

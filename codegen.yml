@@ -11,6 +11,7 @@ overwrite: true
 watch: false
 schema:
   - 'libs/shared/schema/src/schema/*.ts'
+  - 'libs/shared/schema/src/schema/*.graphql'
 
 documents: null
 config:
