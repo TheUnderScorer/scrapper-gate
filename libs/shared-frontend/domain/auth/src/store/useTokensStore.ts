@@ -1,6 +1,6 @@
 import create from 'zustand';
-import { AuthTokens } from '@scrapper-gate/shared/domain/auth';
 import { persist } from 'zustand/middleware';
+import { AuthTokens } from '@scrapper-gate/shared/schema';
 
 export interface TokensStore {
   tokens?: AuthTokens;
@@ -11,7 +11,7 @@ export interface TokensStore {
 
 export const useTokensStore = create<TokensStore>(
   persist(
-    (set, get) => ({
+    (set) => ({
       tokens: undefined,
       setTokens: (tokens) => {
         set({

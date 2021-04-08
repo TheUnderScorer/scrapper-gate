@@ -22,6 +22,9 @@ import {
 } from '@scrapper-gate/shared-backend/domain/auth';
 import { errorHandler } from '@scrapper-gate/shared-backend/server';
 import { makeRepositoriesProviderFromDefinitions } from '@scrapper-gate/shared-backend/database';
+import { handlers } from './handlers';
+import { UserRepository } from '@scrapper-gate/shared-backend/domain/user';
+import { decode } from 'jsonwebtoken';
 
 export interface CreateContainerDependencies {
   dbConnection?: Connection;
@@ -70,7 +73,7 @@ export const createContainer = async ({
     apolloServer: asFunction(apolloServerFactory).singleton(),
     container: asValue(container),
     connection: asValue(connection),
-    handlers: asValue({}),
+    handlers: asValue(handlers),
     repositoriesProvider: asValue(
       makeRepositoriesProviderFromDefinitions(entityDefinitions)
     ),
@@ -78,6 +81,9 @@ export const createContainer = async ({
     securityClient: asValue(securityClient),
     extractToken: asFunction(makeExtractToken).singleton(),
     extractUser: asFunction(makeExtractUser).singleton(),
+    userRepository: asValue(connection.getCustomRepository(UserRepository)),
+    decodeToken: asValue(decode),
+    securityApiKey: asValue(securityApiKey),
   });
 
   server.decorateRequest('container', '');

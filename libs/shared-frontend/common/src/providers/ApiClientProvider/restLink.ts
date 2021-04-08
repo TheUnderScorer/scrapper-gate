@@ -1,5 +1,5 @@
-import { AuthTokens } from '@scrapper-gate/shared/domain/auth';
 import { RestLink } from 'apollo-link-rest';
+import { AuthTokens } from '@scrapper-gate/shared/schema';
 
 export const restLink = (tokens?: AuthTokens) => {
   return new RestLink({

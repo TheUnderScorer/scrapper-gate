@@ -1,6 +1,6 @@
-import { AuthTokens } from '@scrapper-gate/shared/domain/auth';
 import { createHttpLink } from '@apollo/client';
 import { apiRoutes } from '@scrapper-gate/shared/routing';
+import { AuthTokens } from '@scrapper-gate/shared/schema';
 
 let refreshTokenPromise: Promise<Response> | null = null;
 

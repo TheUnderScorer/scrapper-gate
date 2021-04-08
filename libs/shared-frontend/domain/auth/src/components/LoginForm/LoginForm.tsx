@@ -1,7 +1,10 @@
 import React, { useCallback, useState } from 'react';
-import { AuthTokens } from '@scrapper-gate/shared/domain/auth';
 import { useForm } from 'react-hook-form';
-import { LoginInput, LoginInputDto } from '@scrapper-gate/shared/schema';
+import {
+  AuthTokens,
+  LoginInput,
+  LoginInputDto,
+} from '@scrapper-gate/shared/schema';
 import { useLoginMutation } from '@scrapper-gate/shared-frontend/schema';
 import { useTokensStore } from '@scrapper-gate/shared-frontend/domain/auth';
 import {
