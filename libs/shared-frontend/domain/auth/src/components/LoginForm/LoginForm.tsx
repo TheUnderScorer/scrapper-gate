@@ -12,27 +12,40 @@ import {
   joiValidationResolver,
 } from '@scrapper-gate/shared-frontend/form';
 import {
-  Box,
   Button,
   CircularProgress,
+  Fab,
+  makeStyles,
   Stack,
   Typography,
 } from '@material-ui/core';
-import { Emoji, ErrorAlert } from '@scrapper-gate/shared-frontend/ui';
-import { makeStyles } from '@material-ui/styles';
+import { ErrorAlert } from '@scrapper-gate/shared-frontend/ui';
+import { Link } from 'react-router-dom';
 
 export interface LoginFormProps {
   afterLogin?: (tokens: AuthTokens) => void;
+  signupUrl: string;
 }
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   form: {
     width: '100%',
-    height: '100%',
   },
-});
+  alert: {
+    marginBottom: 0,
+    marginTop: theme.spacing(3),
+  },
+  action: {
+    width: '100%',
+  },
+  fab: {
+    '&.MuiButtonBase-root': {
+      minWidth: '150px',
+    },
+  },
+}));
 
-export const LoginForm = ({ afterLogin }: LoginFormProps) => {
+export const LoginForm = ({ afterLogin, signupUrl }: LoginFormProps) => {
   const classes = useStyles();
 
   const [error, setError] = useState<Error | null>(null);
@@ -74,15 +87,8 @@ export const LoginForm = ({ afterLogin }: LoginFormProps) => {
 
   return (
     <form className={classes.form} onSubmit={form.handleSubmit(handleSubmit)}>
-      <Stack direction="column" spacing={2} alignItems="center">
-        <Box>
-          <Typography variant="h5">
-            <Emoji>
-              Sign in to <strong>Scrapper Gate</strong> 🚀
-            </Emoji>
-          </Typography>
-        </Box>
-        <ErrorAlert error={error} />
+      <Stack direction="column" spacing={3} alignItems="center">
+        <ErrorAlert className={classes.alert} error={error} />
         <FormTextField
           id="username"
           control={form.control}
@@ -90,7 +96,7 @@ export const LoginForm = ({ afterLogin }: LoginFormProps) => {
           fullWidth
           size="small"
           name="username"
-          variant="outlined"
+          variant="filled"
           disabled={loading}
         />
         <FormTextField
@@ -100,29 +106,36 @@ export const LoginForm = ({ afterLogin }: LoginFormProps) => {
           fullWidth
           size="small"
           name="password"
-          variant="outlined"
+          variant="filled"
           disabled={loading}
           type="password"
         />
-        <Button
-          id="login"
-          disabled={loading}
-          type="submit"
-          fullWidth
-          variant={loading ? 'text' : 'contained'}
-        >
-          {loading ? <CircularProgress size={25} /> : 'Login'}
-        </Button>
+
         <Stack
+          className={classes.action}
           spacing={2}
           direction="row"
           alignItems="center"
-          justifyContent="center"
+          justifyContent="space-between"
         >
-          <Typography variant="body2">Don't have account?</Typography>
-          <Button disabled={loading} color="primary">
-            Sign up
-          </Button>
+          <Fab
+            className={classes.fab}
+            id="login"
+            disabled={loading}
+            type="submit"
+            variant="extended"
+            color={loading ? 'default' : 'primary'}
+          >
+            {loading ? <CircularProgress size={25} /> : 'Login'}
+          </Fab>
+          <Stack alignItems="center" direction="row">
+            <Typography variant="caption">Don't have account?</Typography>
+            <Link to={signupUrl}>
+              <Button disabled={loading} color="primary" variant="text">
+                Sign up
+              </Button>
+            </Link>
+          </Stack>
         </Stack>
       </Stack>
     </form>

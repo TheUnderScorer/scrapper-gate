@@ -4,12 +4,7 @@ import { CreateUserCommand } from '@scrapper-gate/shared-backend/domain/user';
 
 export const userResolver = (): Resolvers<BaseApolloContent> => ({
   Query: {
-    me: () => ({
-      id: 'id',
-      email: 'test@test.com',
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    }),
+    me: () => undefined,
   },
   Mutation: {
     createUser: (_, args, ctx) =>

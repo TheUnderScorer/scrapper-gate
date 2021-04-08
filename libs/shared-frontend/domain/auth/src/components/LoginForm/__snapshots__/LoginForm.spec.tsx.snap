@@ -9,37 +9,17 @@ Object {
         class="makeStyles-form-1"
       >
         <div
-          class="css-m72s89-Stack-root"
+          class="css-x2y2x3-Stack-root"
         >
           <div
-            class="css-1a8w37c"
-          >
-            <h5
-              class="MuiTypography-root MuiTypography-h5 css-ag7rrr-MuiTypography-root"
-            >
-              <span>
-                Sign in to 
-                <strong>
-                  Scrapper Gate
-                </strong>
-                 
-                <img
-                  alt="🚀"
-                  draggable="false"
-                  src="https://twemoji.maxcdn.com/2/svg//1f680.svg"
-                  style="height: 1em; width: 1em; margin: 0px .05em 0px .1em; vertical-align: -0.1em;"
-                />
-              </span>
-            </h5>
-          </div>
-          <div
+            class="makeStyles-alert-2 css-1a8w37c"
             style="opacity: 0; visibility: hidden;"
           />
           <div
             class="MuiFormControl-root MuiFormControl-marginNone MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
           >
             <label
-              class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary css-88nued-MuiFormLabel-root-MuiInputLabel-root"
+              class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-filled MuiFormLabel-root MuiFormLabel-colorPrimary css-i7psbh-MuiFormLabel-root-MuiInputLabel-root"
               data-shrink="false"
               for="username"
               id="username-label"
@@ -47,35 +27,23 @@ Object {
               E-mail
             </label>
             <div
-              class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall css-zokxp0-MuiInputBase-root-MuiOutlinedInput-root"
+              class="MuiFilledInput-root MuiFilledInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall css-1qblmz5-MuiInputBase-root-MuiFilledInput-root"
             >
               <input
                 aria-invalid="false"
-                class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputSizeSmall css-1gpj8ho-MuiInputBase-input-MuiOutlinedInput-input"
+                class="MuiFilledInput-input MuiInputBase-input MuiInputBase-inputSizeSmall css-15bxpno-MuiInputBase-input-MuiFilledInput-input"
                 id="username"
                 name="username"
                 type="text"
                 value=""
               />
-              <fieldset
-                aria-hidden="true"
-                class="MuiOutlinedInput-notchedOutline css-1o2jng6-MuiOutlinedInput-notchedOutline"
-              >
-                <legend
-                  class="css-2s9zix"
-                >
-                  <span>
-                    E-mail
-                  </span>
-                </legend>
-              </fieldset>
             </div>
           </div>
           <div
             class="MuiFormControl-root MuiFormControl-marginNone MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
           >
             <label
-              class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary css-88nued-MuiFormLabel-root-MuiInputLabel-root"
+              class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-filled MuiFormLabel-root MuiFormLabel-colorPrimary css-i7psbh-MuiFormLabel-root-MuiInputLabel-root"
               data-shrink="false"
               for="password"
               id="password-label"
@@ -83,38 +51,134 @@ Object {
               Password
             </label>
             <div
-              class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall css-zokxp0-MuiInputBase-root-MuiOutlinedInput-root"
+              class="MuiFilledInput-root MuiFilledInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall css-1qblmz5-MuiInputBase-root-MuiFilledInput-root"
             >
               <input
                 aria-invalid="false"
-                class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputSizeSmall css-1gpj8ho-MuiInputBase-input-MuiOutlinedInput-input"
+                class="MuiFilledInput-input MuiInputBase-input MuiInputBase-inputSizeSmall css-15bxpno-MuiInputBase-input-MuiFilledInput-input"
                 id="password"
                 name="password"
                 type="password"
                 value=""
               />
-              <fieldset
-                aria-hidden="true"
-                class="MuiOutlinedInput-notchedOutline css-1o2jng6-MuiOutlinedInput-notchedOutline"
-              >
-                <legend
-                  class="css-2s9zix"
-                >
-                  <span>
-                    Password
-                  </span>
-                </legend>
-              </fieldset>
             </div>
           </div>
+          <div
+            class="makeStyles-action-3 css-jno3rv-Stack-root"
+          >
+            <button
+              class="MuiButtonBase-root MuiFab-root MuiFab-extended MuiFab-sizeLarge MuiFab-primary makeStyles-fab-4 css-ikidz8-MuiButtonBase-root-MuiFab-root"
+              id="login"
+              tabindex="0"
+              type="submit"
+            >
+              <span
+                class="MuiFab-label css-110lfi1-MuiFab-label"
+              >
+                Login
+              </span>
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
+            </button>
+            <div
+              class="css-vssjb6-Stack-root"
+            >
+              <span
+                class="MuiTypography-root MuiTypography-caption css-1sn4lm3-MuiTypography-root"
+              >
+                Don't have account?
+              </span>
+              <button
+                class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root css-d0ukip-MuiButtonBase-root-MuiButton-root"
+                tabindex="0"
+                type="button"
+              >
+                <span
+                  class="MuiButton-label css-8xplcm-MuiButton-label"
+                >
+                  Sign up
+                </span>
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </body>,
+  "container": <div>
+    <form
+      class="makeStyles-form-1"
+    >
+      <div
+        class="css-x2y2x3-Stack-root"
+      >
+        <div
+          class="makeStyles-alert-2 css-1a8w37c"
+          style="opacity: 0; visibility: hidden;"
+        />
+        <div
+          class="MuiFormControl-root MuiFormControl-marginNone MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
+        >
+          <label
+            class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-filled MuiFormLabel-root MuiFormLabel-colorPrimary css-i7psbh-MuiFormLabel-root-MuiInputLabel-root"
+            data-shrink="false"
+            for="username"
+            id="username-label"
+          >
+            E-mail
+          </label>
+          <div
+            class="MuiFilledInput-root MuiFilledInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall css-1qblmz5-MuiInputBase-root-MuiFilledInput-root"
+          >
+            <input
+              aria-invalid="false"
+              class="MuiFilledInput-input MuiInputBase-input MuiInputBase-inputSizeSmall css-15bxpno-MuiInputBase-input-MuiFilledInput-input"
+              id="username"
+              name="username"
+              type="text"
+              value=""
+            />
+          </div>
+        </div>
+        <div
+          class="MuiFormControl-root MuiFormControl-marginNone MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
+        >
+          <label
+            class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-filled MuiFormLabel-root MuiFormLabel-colorPrimary css-i7psbh-MuiFormLabel-root-MuiInputLabel-root"
+            data-shrink="false"
+            for="password"
+            id="password-label"
+          >
+            Password
+          </label>
+          <div
+            class="MuiFilledInput-root MuiFilledInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall css-1qblmz5-MuiInputBase-root-MuiFilledInput-root"
+          >
+            <input
+              aria-invalid="false"
+              class="MuiFilledInput-input MuiInputBase-input MuiInputBase-inputSizeSmall css-15bxpno-MuiInputBase-input-MuiFilledInput-input"
+              id="password"
+              name="password"
+              type="password"
+              value=""
+            />
+          </div>
+        </div>
+        <div
+          class="makeStyles-action-3 css-jno3rv-Stack-root"
+        >
           <button
-            class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-fullWidth MuiButtonBase-root css-1pxzs7f-MuiButtonBase-root-MuiButton-root"
+            class="MuiButtonBase-root MuiFab-root MuiFab-extended MuiFab-sizeLarge MuiFab-primary makeStyles-fab-4 css-ikidz8-MuiButtonBase-root-MuiFab-root"
             id="login"
             tabindex="0"
             type="submit"
           >
             <span
-              class="MuiButton-label css-8xplcm-MuiButton-label"
+              class="MuiFab-label css-110lfi1-MuiFab-label"
             >
               Login
             </span>
@@ -123,13 +187,13 @@ Object {
             />
           </button>
           <div
-            class="css-4nj22a-Stack-root"
+            class="css-vssjb6-Stack-root"
           >
-            <p
-              class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
+            <span
+              class="MuiTypography-root MuiTypography-caption css-1sn4lm3-MuiTypography-root"
             >
               Don't have account?
-            </p>
+            </span>
             <button
               class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root css-d0ukip-MuiButtonBase-root-MuiButton-root"
               tabindex="0"
@@ -145,150 +209,6 @@ Object {
               />
             </button>
           </div>
-        </div>
-      </form>
-    </div>
-  </body>,
-  "container": <div>
-    <form
-      class="makeStyles-form-1"
-    >
-      <div
-        class="css-m72s89-Stack-root"
-      >
-        <div
-          class="css-1a8w37c"
-        >
-          <h5
-            class="MuiTypography-root MuiTypography-h5 css-ag7rrr-MuiTypography-root"
-          >
-            <span>
-              Sign in to 
-              <strong>
-                Scrapper Gate
-              </strong>
-               
-              <img
-                alt="🚀"
-                draggable="false"
-                src="https://twemoji.maxcdn.com/2/svg//1f680.svg"
-                style="height: 1em; width: 1em; margin: 0px .05em 0px .1em; vertical-align: -0.1em;"
-              />
-            </span>
-          </h5>
-        </div>
-        <div
-          style="opacity: 0; visibility: hidden;"
-        />
-        <div
-          class="MuiFormControl-root MuiFormControl-marginNone MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
-        >
-          <label
-            class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary css-88nued-MuiFormLabel-root-MuiInputLabel-root"
-            data-shrink="false"
-            for="username"
-            id="username-label"
-          >
-            E-mail
-          </label>
-          <div
-            class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall css-zokxp0-MuiInputBase-root-MuiOutlinedInput-root"
-          >
-            <input
-              aria-invalid="false"
-              class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputSizeSmall css-1gpj8ho-MuiInputBase-input-MuiOutlinedInput-input"
-              id="username"
-              name="username"
-              type="text"
-              value=""
-            />
-            <fieldset
-              aria-hidden="true"
-              class="MuiOutlinedInput-notchedOutline css-1o2jng6-MuiOutlinedInput-notchedOutline"
-            >
-              <legend
-                class="css-2s9zix"
-              >
-                <span>
-                  E-mail
-                </span>
-              </legend>
-            </fieldset>
-          </div>
-        </div>
-        <div
-          class="MuiFormControl-root MuiFormControl-marginNone MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
-        >
-          <label
-            class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-outlined MuiFormLabel-root MuiFormLabel-colorPrimary css-88nued-MuiFormLabel-root-MuiInputLabel-root"
-            data-shrink="false"
-            for="password"
-            id="password-label"
-          >
-            Password
-          </label>
-          <div
-            class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall css-zokxp0-MuiInputBase-root-MuiOutlinedInput-root"
-          >
-            <input
-              aria-invalid="false"
-              class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputSizeSmall css-1gpj8ho-MuiInputBase-input-MuiOutlinedInput-input"
-              id="password"
-              name="password"
-              type="password"
-              value=""
-            />
-            <fieldset
-              aria-hidden="true"
-              class="MuiOutlinedInput-notchedOutline css-1o2jng6-MuiOutlinedInput-notchedOutline"
-            >
-              <legend
-                class="css-2s9zix"
-              >
-                <span>
-                  Password
-                </span>
-              </legend>
-            </fieldset>
-          </div>
-        </div>
-        <button
-          class="MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-sizeMedium MuiButton-containedSizeMedium MuiButton-fullWidth MuiButtonBase-root css-1pxzs7f-MuiButtonBase-root-MuiButton-root"
-          id="login"
-          tabindex="0"
-          type="submit"
-        >
-          <span
-            class="MuiButton-label css-8xplcm-MuiButton-label"
-          >
-            Login
-          </span>
-          <span
-            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-          />
-        </button>
-        <div
-          class="css-4nj22a-Stack-root"
-        >
-          <p
-            class="MuiTypography-root MuiTypography-body2 css-e784if-MuiTypography-root"
-          >
-            Don't have account?
-          </p>
-          <button
-            class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root css-d0ukip-MuiButtonBase-root-MuiButton-root"
-            tabindex="0"
-            type="button"
-          >
-            <span
-              class="MuiButton-label css-8xplcm-MuiButton-label"
-            >
-              Sign up
-            </span>
-            <span
-              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-            />
-          </button>
         </div>
       </div>
     </form>

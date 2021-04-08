@@ -1,25 +1,15 @@
 import React, { PropsWithChildren } from 'react';
-import { makeStyles } from '@material-ui/styles';
-import { Property } from 'csstype';
-import { Container } from '@material-ui/core';
+import { CSSProperties, makeStyles } from '@material-ui/styles';
+import { BoxProps, Container } from '@material-ui/core';
 import classNames from 'classnames';
 
-export type PopupContainerProps = {
-  backgroundColor?: Property.BackgroundColor;
-  height?: Property.Height;
-  width?: Property.Width;
-};
+export type PopupContainerProps = BoxProps;
 
 const useStyles = makeStyles(() => ({
-  container: ({
-    height,
-    backgroundColor,
-    width = '500px',
-  }: PopupContainerProps) => ({
+  container: ({ width = '500px', ...rest }: PopupContainerProps) => ({
     '&.MuiContainer-root': {
       width,
-      height,
-      backgroundColor,
+      ...(rest as CSSProperties),
     },
   }),
 }));

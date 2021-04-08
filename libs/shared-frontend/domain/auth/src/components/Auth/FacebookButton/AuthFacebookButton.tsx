@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '@material-ui/core';
+import { Fab } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookF } from '@fortawesome/free-brands-svg-icons';
@@ -15,14 +15,8 @@ export const AuthFacebookButton = () => {
   const classes = useStyles();
 
   return (
-    <Button
-      fullWidth
-      startIcon={<FontAwesomeIcon icon={faFacebookF} />}
-      variant="contained"
-      color="primary"
-      className={classes.btn}
-    >
-      Continue with facebook
-    </Button>
+    <Fab color="primary" size="small" className={classes.btn}>
+      <FontAwesomeIcon icon={faFacebookF} />
+    </Fab>
   );
 };

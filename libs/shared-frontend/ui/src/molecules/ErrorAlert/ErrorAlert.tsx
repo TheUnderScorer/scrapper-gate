@@ -7,6 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 export interface ErrorAlertProps {
   error?: Error;
   onClose?: () => void;
+  className?: string;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -18,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const ErrorAlert = ({ error, onClose }: ErrorAlertProps) => {
+export const ErrorAlert = ({ error, onClose, className }: ErrorAlertProps) => {
   const classes = useStyles();
 
   const [currentError, setCurrentError] = useState(error);
@@ -37,20 +38,18 @@ export const ErrorAlert = ({ error, onClose }: ErrorAlertProps) => {
 
   return (
     <Fade timeout={1000} in={Boolean(currentError)}>
-      <div>
+      <Box className={className}>
         {currentError && (
-          <Box mb={3}>
-            <Alert
-              onClose={handleClose}
-              className={classes.alert}
-              variant="filled"
-              severity="error"
-            >
-              {error?.message ?? 'Unknown error occurred.'}
-            </Alert>
-          </Box>
+          <Alert
+            onClose={handleClose}
+            className={classes.alert}
+            variant="filled"
+            severity="error"
+          >
+            {error?.message ?? 'Unknown error occurred.'}
+          </Alert>
         )}
-      </div>
+      </Box>
     </Fade>
   );
 };
