@@ -1,5 +1,3 @@
-import { RepositoriesProvider } from '@scrapper-gate/shared-backend/database';
+import { userEntity } from '@scrapper-gate/shared-backend/domain/user';
 
-export const repositoriesProvider: RepositoriesProvider = (transaction) => {
-  return {};
-};
+export const entityDefinitions = [userEntity];

@@ -60,6 +60,16 @@
       ],
       "@scrapper-gate/shared-frontend/form": [
         "libs/shared-frontend/form/src/index.ts"
+      ],
+      "@scrapper-gate/shared-backend/domain/auth": [
+        "libs/shared-backend/domain/auth/src/index.ts"
+      ],
+      "@scrapper-gate/shared/errors": ["libs/shared/errors/src/index.ts"],
+      "@scrapper-gate/shared-backend/domain/user": [
+        "libs/shared-backend/domain/user/src/index.ts"
+      ],
+      "@scrapper-gate/shared-backend/base-model": [
+        "libs/shared-backend/base-model/src/index.ts"
       ]
     }
   },

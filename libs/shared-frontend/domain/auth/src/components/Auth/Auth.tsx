@@ -3,9 +3,9 @@ import { Centered } from '@scrapper-gate/shared-frontend/ui';
 import { Box, Divider, Stack } from '@material-ui/core';
 import { AuthFacebookButton } from './FacebookButton/AuthFacebookButton';
 import { AuthGoogleButton } from './GoogleButton/AuthGoogleButton';
-import { LoginForm } from '../LoginForm/LoginForm';
+import { LoginForm, LoginFormProps } from '../LoginForm/LoginForm';
 
-export interface AuthProps {
+export interface AuthProps extends LoginFormProps {
   imageSrc?: string;
   imageClassName?: string;
   btnSectionWidth?: string;
@@ -15,6 +15,7 @@ export const Auth = ({
   btnSectionWidth,
   imageClassName,
   imageSrc,
+  afterLogin,
 }: AuthProps) => {
   return (
     <Centered>
@@ -23,7 +24,7 @@ export const Auth = ({
       )}
       <Box width={btnSectionWidth}>
         <Stack direction="column" spacing={2}>
-          <LoginForm />
+          <LoginForm afterLogin={afterLogin} />
           <Divider variant="fullWidth" />
           <AuthFacebookButton />
           <AuthGoogleButton />

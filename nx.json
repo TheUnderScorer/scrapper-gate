@@ -43,6 +43,10 @@
     "browser-extension": { "tags": [] },
     "shared-frontend-ui": { "tags": [] },
     "shared-validation": { "tags": [] },
-    "shared-frontend-form": { "tags": [] }
+    "shared-frontend-form": { "tags": [] },
+    "shared-backend-domain-auth": { "tags": [] },
+    "shared-errors": { "tags": [] },
+    "shared-backend-domain-user": { "tags": [] },
+    "shared-backend-base-model": { "tags": [] }
   }
 }

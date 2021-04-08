@@ -514,6 +514,88 @@
           }
         }
       }
+    },
+    "shared-backend-domain-auth": {
+      "root": "libs/shared-backend/domain/auth",
+      "sourceRoot": "libs/shared-backend/domain/auth/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/shared-backend/domain/auth/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shared-backend/domain/auth"],
+          "options": {
+            "jestConfig": "libs/shared-backend/domain/auth/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "shared-errors": {
+      "root": "libs/shared/errors",
+      "sourceRoot": "libs/shared/errors/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": { "lintFilePatterns": ["libs/shared/errors/**/*.ts"] }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shared/errors"],
+          "options": {
+            "jestConfig": "libs/shared/errors/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "shared-backend-domain-user": {
+      "root": "libs/shared-backend/domain/user",
+      "sourceRoot": "libs/shared-backend/domain/user/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/shared-backend/domain/user/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shared-backend/domain/user"],
+          "options": {
+            "jestConfig": "libs/shared-backend/domain/user/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "shared-backend-base-model": {
+      "root": "libs/shared-backend/base-model",
+      "sourceRoot": "libs/shared-backend/base-model/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/shared-backend/base-model/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shared-backend/base-model"],
+          "options": {
+            "jestConfig": "libs/shared-backend/base-model/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   }
 }

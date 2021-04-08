@@ -1,6 +1,8 @@
 import gql from 'graphql-tag';
 
 export const rootSchema = gql`
+  scalar Date
+
   type Query {
     _: Boolean
   }
@@ -11,5 +13,11 @@ export const rootSchema = gql`
 
   type Subscription {
     _: Boolean
+  }
+
+  interface BaseEntity {
+    id: ID!
+    createdAt: Date!
+    updatedAt: Date!
   }
 `;

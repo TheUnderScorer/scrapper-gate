@@ -1,5 +1,9 @@
 /* eslint-disable */
-import { GraphQLResolveInfo } from 'graphql';
+import {
+  GraphQLResolveInfo,
+  GraphQLScalarType,
+  GraphQLScalarTypeConfig,
+} from 'graphql';
 export type Maybe<T> = T | undefined;
 export type Exact<T extends { [key: string]: unknown }> = {
   [K in keyof T]: T[K];
@@ -19,6 +23,13 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  Date: any;
+};
+
+export type BaseEntity = {
+  id: Scalars['ID'];
+  createdAt: Scalars['Date'];
+  updatedAt: Scalars['Date'];
 };
 
 export type ForgotPasswordInput = {
@@ -83,8 +94,10 @@ export type Subscription = {
   _?: Maybe<Scalars['Boolean']>;
 };
 
-export type User = {
+export type User = BaseEntity & {
   id: Scalars['ID'];
+  createdAt: Scalars['Date'];
+  updatedAt: Scalars['Date'];
   firstName?: Maybe<Scalars['String']>;
   lastName?: Maybe<Scalars['String']>;
   email: Scalars['String'];
@@ -223,6 +236,9 @@ export type DirectiveResolverFn<
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
+  BaseEntity: ResolversTypes['User'];
+  ID: ResolverTypeWrapper<Scalars['ID']>;
+  Date: ResolverTypeWrapper<Scalars['Date']>;
   ForgotPasswordInput: ForgotPasswordInput;
   String: ResolverTypeWrapper<Scalars['String']>;
   ForgotPasswordResponse: ResolverTypeWrapper<ForgotPasswordResponse>;
@@ -236,11 +252,13 @@ export type ResolversTypes = ResolversObject<{
   ResetPasswordResponse: ResolverTypeWrapper<ResetPasswordResponse>;
   Subscription: ResolverTypeWrapper<{}>;
   User: ResolverTypeWrapper<User>;
-  ID: ResolverTypeWrapper<Scalars['ID']>;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
+  BaseEntity: ResolversParentTypes['User'];
+  ID: Scalars['ID'];
+  Date: Scalars['Date'];
   ForgotPasswordInput: ForgotPasswordInput;
   String: Scalars['String'];
   ForgotPasswordResponse: ForgotPasswordResponse;
@@ -254,7 +272,6 @@ export type ResolversParentTypes = ResolversObject<{
   ResetPasswordResponse: ResetPasswordResponse;
   Subscription: {};
   User: User;
-  ID: Scalars['ID'];
 }>;
 
 export type RestDirectiveArgs = {
@@ -270,6 +287,21 @@ export type RestDirectiveResolver<
   ContextType = any,
   Args = RestDirectiveArgs
 > = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+
+export type BaseEntityResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['BaseEntity'] = ResolversParentTypes['BaseEntity']
+> = ResolversObject<{
+  __resolveType: TypeResolveFn<'User', ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+}>;
+
+export interface DateScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
+  name: 'Date';
+}
 
 export type ForgotPasswordResponseResolvers<
   ContextType = any,
@@ -365,6 +397,8 @@ export type UserResolvers<
   ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']
 > = ResolversObject<{
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   firstName?: Resolver<
     Maybe<ResolversTypes['String']>,
     ParentType,
@@ -376,6 +410,8 @@ export type UserResolvers<
 }>;
 
 export type Resolvers<ContextType = any> = ResolversObject<{
+  BaseEntity?: BaseEntityResolvers<ContextType>;
+  Date?: GraphQLScalarType;
   ForgotPasswordResponse?: ForgotPasswordResponseResolvers<ContextType>;
   IsAutenthicatedResponse?: IsAutenthicatedResponseResolvers<ContextType>;
   LoginResponse?: LoginResponseResolvers<ContextType>;
