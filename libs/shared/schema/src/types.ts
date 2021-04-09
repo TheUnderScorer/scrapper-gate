@@ -1,4 +1,8 @@
-import { GraphQLResolveInfo } from 'graphql';
+import {
+  GraphQLResolveInfo,
+  GraphQLScalarType,
+  GraphQLScalarTypeConfig,
+} from 'graphql';
 export type Maybe<T> = T | undefined;
 export type Exact<T extends { [key: string]: unknown }> = {
   [K in keyof T]: T[K];
@@ -7,6 +11,10 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> &
   { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> &
   { [SubKey in K]: Maybe<T[SubKey]> };
+export type RequireFields<T, K extends keyof T> = {
+  [X in Exclude<keyof T, K>]?: T[X];
+} &
+  { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -14,23 +22,101 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  Date: any;
+};
+
+export type AuthTokens = {
+  accessToken: Scalars['String'];
+  refreshToken: Scalars['String'];
+};
+
+export type BaseEntity = {
+  id: Scalars['ID'];
+  createdAt: Scalars['Date'];
+  updatedAt: Scalars['Date'];
+};
+
+export type CreateUserInput = {
+  email: Scalars['String'];
+  password: Scalars['String'];
+};
+
+export type CreateUserResult = {
+  user: User;
+  tokens: AuthTokens;
+};
+
+export type ForgotPasswordInput = {
+  username: Scalars['String'];
+};
+
+export type ForgotPasswordResponse = {
+  error?: Maybe<Scalars['String']>;
+  stack?: Maybe<Scalars['String']>;
+};
+
+export type IsAutenthicatedResponse = {
+  isAutenthicated?: Maybe<Scalars['Boolean']>;
+};
+
+export type LoginInput = {
+  username: Scalars['String'];
+  password: Scalars['String'];
+};
+
+export type LoginResponse = {
+  accessToken: Scalars['String'];
+  refreshToken: Scalars['String'];
 };
 
 export type Mutation = {
   _?: Maybe<Scalars['Boolean']>;
+  createUser: CreateUserResult;
+  forgotPassword?: Maybe<ForgotPasswordResponse>;
+  login?: Maybe<LoginResponse>;
+  resetPassword?: Maybe<ResetPasswordResponse>;
+};
+
+export type MutationCreateUserArgs = {
+  input: CreateUserInput;
+};
+
+export type MutationForgotPasswordArgs = {
+  input?: Maybe<ForgotPasswordInput>;
+};
+
+export type MutationLoginArgs = {
+  input: LoginInput;
+};
+
+export type MutationResetPasswordArgs = {
+  input?: Maybe<ResetPasswordInput>;
+  token: Scalars['String'];
 };
 
 export type Query = {
   _?: Maybe<Scalars['Boolean']>;
+  isAutenthicated?: Maybe<IsAutenthicatedResponse>;
   me?: Maybe<User>;
+};
+
+export type ResetPasswordInput = {
+  newPassword: Scalars['String'];
+};
+
+export type ResetPasswordResponse = {
+  error?: Maybe<Scalars['String']>;
+  stack?: Maybe<Scalars['String']>;
 };
 
 export type Subscription = {
   _?: Maybe<Scalars['Boolean']>;
 };
 
-export type User = {
+export type User = BaseEntity & {
   id: Scalars['ID'];
+  createdAt: Scalars['Date'];
+  updatedAt: Scalars['Date'];
   firstName?: Maybe<Scalars['String']>;
   lastName?: Maybe<Scalars['String']>;
   email: Scalars['String'];
@@ -40,6 +126,28 @@ export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetCurrentUserQuery = {
   me?: Maybe<Pick<User, 'id' | 'email' | 'firstName' | 'lastName'>>;
+};
+
+export type LoginMutationVariables = Exact<{
+  input: LoginInput;
+}>;
+
+export type LoginMutation = {
+  login?: Maybe<Pick<LoginResponse, 'accessToken' | 'refreshToken'>>;
+};
+
+export type CreateUserMutationVariables = Exact<{
+  input: CreateUserInput;
+}>;
+
+export type CreateUserMutation = {
+  createUser: {
+    user: Pick<
+      User,
+      'id' | 'email' | 'firstName' | 'lastName' | 'createdAt' | 'updatedAt'
+    >;
+    tokens: Pick<AuthTokens, 'accessToken' | 'refreshToken'>;
+  };
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -161,24 +269,125 @@ export type DirectiveResolverFn<
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
-  Mutation: ResolverTypeWrapper<{}>;
+  AuthTokens: ResolverTypeWrapper<AuthTokens>;
+  String: ResolverTypeWrapper<Scalars['String']>;
+  BaseEntity: ResolversTypes['User'];
+  ID: ResolverTypeWrapper<Scalars['ID']>;
+  CreateUserInput: CreateUserInput;
+  CreateUserResult: ResolverTypeWrapper<CreateUserResult>;
+  Date: ResolverTypeWrapper<Scalars['Date']>;
+  ForgotPasswordInput: ForgotPasswordInput;
+  ForgotPasswordResponse: ResolverTypeWrapper<ForgotPasswordResponse>;
+  IsAutenthicatedResponse: ResolverTypeWrapper<IsAutenthicatedResponse>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  LoginInput: LoginInput;
+  LoginResponse: ResolverTypeWrapper<LoginResponse>;
+  Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
+  ResetPasswordInput: ResetPasswordInput;
+  ResetPasswordResponse: ResolverTypeWrapper<ResetPasswordResponse>;
   Subscription: ResolverTypeWrapper<{}>;
   User: ResolverTypeWrapper<User>;
-  ID: ResolverTypeWrapper<Scalars['ID']>;
-  String: ResolverTypeWrapper<Scalars['String']>;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
-  Mutation: {};
+  AuthTokens: AuthTokens;
+  String: Scalars['String'];
+  BaseEntity: ResolversParentTypes['User'];
+  ID: Scalars['ID'];
+  CreateUserInput: CreateUserInput;
+  CreateUserResult: CreateUserResult;
+  Date: Scalars['Date'];
+  ForgotPasswordInput: ForgotPasswordInput;
+  ForgotPasswordResponse: ForgotPasswordResponse;
+  IsAutenthicatedResponse: IsAutenthicatedResponse;
   Boolean: Scalars['Boolean'];
+  LoginInput: LoginInput;
+  LoginResponse: LoginResponse;
+  Mutation: {};
   Query: {};
+  ResetPasswordInput: ResetPasswordInput;
+  ResetPasswordResponse: ResetPasswordResponse;
   Subscription: {};
   User: User;
-  ID: Scalars['ID'];
-  String: Scalars['String'];
+}>;
+
+export type RestDirectiveArgs = {
+  type?: Maybe<Scalars['String']>;
+  path?: Maybe<Scalars['String']>;
+  method?: Maybe<Scalars['String']>;
+  endpoint?: Maybe<Scalars['String']>;
+};
+
+export type RestDirectiveResolver<
+  Result,
+  Parent,
+  ContextType = any,
+  Args = RestDirectiveArgs
+> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+
+export type AuthTokensResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['AuthTokens'] = ResolversParentTypes['AuthTokens']
+> = ResolversObject<{
+  accessToken?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  refreshToken?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type BaseEntityResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['BaseEntity'] = ResolversParentTypes['BaseEntity']
+> = ResolversObject<{
+  __resolveType: TypeResolveFn<'User', ParentType, ContextType>;
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+}>;
+
+export type CreateUserResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['CreateUserResult'] = ResolversParentTypes['CreateUserResult']
+> = ResolversObject<{
+  user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
+  tokens?: Resolver<ResolversTypes['AuthTokens'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export interface DateScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
+  name: 'Date';
+}
+
+export type ForgotPasswordResponseResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['ForgotPasswordResponse'] = ResolversParentTypes['ForgotPasswordResponse']
+> = ResolversObject<{
+  error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  stack?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type IsAutenthicatedResponseResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['IsAutenthicatedResponse'] = ResolversParentTypes['IsAutenthicatedResponse']
+> = ResolversObject<{
+  isAutenthicated?: Resolver<
+    Maybe<ResolversTypes['Boolean']>,
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type LoginResponseResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['LoginResponse'] = ResolversParentTypes['LoginResponse']
+> = ResolversObject<{
+  accessToken?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  refreshToken?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type MutationResolvers<
@@ -186,6 +395,30 @@ export type MutationResolvers<
   ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']
 > = ResolversObject<{
   _?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  createUser?: Resolver<
+    ResolversTypes['CreateUserResult'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateUserArgs, 'input'>
+  >;
+  forgotPassword?: Resolver<
+    Maybe<ResolversTypes['ForgotPasswordResponse']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationForgotPasswordArgs, never>
+  >;
+  login?: Resolver<
+    Maybe<ResolversTypes['LoginResponse']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationLoginArgs, 'input'>
+  >;
+  resetPassword?: Resolver<
+    Maybe<ResolversTypes['ResetPasswordResponse']>,
+    ParentType,
+    ContextType,
+    RequireFields<MutationResetPasswordArgs, 'token'>
+  >;
 }>;
 
 export type QueryResolvers<
@@ -193,7 +426,21 @@ export type QueryResolvers<
   ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']
 > = ResolversObject<{
   _?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  isAutenthicated?: Resolver<
+    Maybe<ResolversTypes['IsAutenthicatedResponse']>,
+    ParentType,
+    ContextType
+  >;
   me?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+}>;
+
+export type ResetPasswordResponseResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['ResetPasswordResponse'] = ResolversParentTypes['ResetPasswordResponse']
+> = ResolversObject<{
+  error?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  stack?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type SubscriptionResolvers<
@@ -213,6 +460,8 @@ export type UserResolvers<
   ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']
 > = ResolversObject<{
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   firstName?: Resolver<
     Maybe<ResolversTypes['String']>,
     ParentType,
@@ -224,8 +473,16 @@ export type UserResolvers<
 }>;
 
 export type Resolvers<ContextType = any> = ResolversObject<{
+  AuthTokens?: AuthTokensResolvers<ContextType>;
+  BaseEntity?: BaseEntityResolvers<ContextType>;
+  CreateUserResult?: CreateUserResultResolvers<ContextType>;
+  Date?: GraphQLScalarType;
+  ForgotPasswordResponse?: ForgotPasswordResponseResolvers<ContextType>;
+  IsAutenthicatedResponse?: IsAutenthicatedResponseResolvers<ContextType>;
+  LoginResponse?: LoginResponseResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  ResetPasswordResponse?: ResetPasswordResponseResolvers<ContextType>;
   Subscription?: SubscriptionResolvers<ContextType>;
   User?: UserResolvers<ContextType>;
 }>;
@@ -235,3 +492,14 @@ export type Resolvers<ContextType = any> = ResolversObject<{
  * Use "Resolvers" root object instead. If you wish to get "IResolvers", add "typesPrefix: I" to your config.
  */
 export type IResolvers<ContextType = any> = Resolvers<ContextType>;
+export type DirectiveResolvers<ContextType = any> = ResolversObject<{
+  rest?: RestDirectiveResolver<any, any, ContextType>;
+}>;
+
+/**
+ * @deprecated
+ * Use "DirectiveResolvers" root object instead. If you wish to get "IDirectiveResolvers", add "typesPrefix: I" to your config.
+ */
+export type IDirectiveResolvers<
+  ContextType = any
+> = DirectiveResolvers<ContextType>;

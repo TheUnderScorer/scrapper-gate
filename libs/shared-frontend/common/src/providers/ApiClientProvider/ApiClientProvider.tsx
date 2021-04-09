@@ -1,7 +1,13 @@
 import React, { PropsWithChildren, useMemo } from 'react';
-import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+import {
+  ApolloClient,
+  ApolloProvider,
+  from,
+  InMemoryCache,
+} from '@apollo/client';
 import { useTokensStore } from '@scrapper-gate/shared-frontend/domain/auth';
 import { httpLink } from './httpLink';
+import { restLink } from './restLink';
 
 const cache = new InMemoryCache();
 
@@ -11,7 +17,7 @@ export const ApiClientProvider = ({ children }: PropsWithChildren<unknown>) => {
 
   const client = useMemo(() => {
     return new ApolloClient({
-      link: httpLink(tokens, setTokens),
+      link: from([restLink(tokens), httpLink(tokens, setTokens)]),
       cache,
     });
   }, [setTokens, tokens]);

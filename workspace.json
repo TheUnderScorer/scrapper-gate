@@ -1,23 +1,12 @@
 {
   "version": 2,
-  "cli": {
-    "defaultCollection": "@nrwl/react"
-  },
+  "cli": { "defaultCollection": "@nrwl/react" },
   "defaultProject": "browser-extension",
   "generators": {
     "@nrwl/react": {
-      "application": {
-        "style": "css",
-        "linter": "eslint",
-        "babel": true
-      },
-      "component": {
-        "style": "css"
-      },
-      "library": {
-        "style": "css",
-        "linter": "eslint"
-      }
+      "application": { "style": "css", "linter": "eslint", "babel": true },
+      "component": { "style": "css" },
+      "library": { "style": "css", "linter": "eslint" }
     }
   },
   "projects": {
@@ -84,9 +73,7 @@
         },
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["apps/api/**/*.ts"]
-          }
+          "options": { "lintFilePatterns": ["apps/api/**/*.ts"] }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -105,9 +92,7 @@
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/shared/schema/**/*.ts"]
-          }
+          "options": { "lintFilePatterns": ["libs/shared/schema/**/*.ts"] }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -126,9 +111,7 @@
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/shared/routing/**/*.ts"]
-          }
+          "options": { "lintFilePatterns": ["libs/shared/routing/**/*.ts"] }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -147,9 +130,7 @@
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/shared/common/**/*.ts"]
-          }
+          "options": { "lintFilePatterns": ["libs/shared/common/**/*.ts"] }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -168,9 +149,7 @@
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/shared/logger/**/*.ts"]
-          }
+          "options": { "lintFilePatterns": ["libs/shared/logger/**/*.ts"] }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -317,9 +296,7 @@
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/shared/domain/auth/**/*.ts"]
-          }
+          "options": { "lintFilePatterns": ["libs/shared/domain/auth/**/*.ts"] }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -470,6 +447,170 @@
           "outputs": ["coverage/apps/browser-extension"],
           "options": {
             "jestConfig": "apps/browser-extension/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "shared-frontend-ui": {
+      "root": "libs/shared-frontend/ui",
+      "sourceRoot": "libs/shared-frontend/ui/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/shared-frontend/ui/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shared-frontend/ui"],
+          "options": {
+            "jestConfig": "libs/shared-frontend/ui/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "shared-validation": {
+      "root": "libs/shared/validation",
+      "sourceRoot": "libs/shared/validation/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": { "lintFilePatterns": ["libs/shared/validation/**/*.ts"] }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shared/validation"],
+          "options": {
+            "jestConfig": "libs/shared/validation/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "shared-frontend-form": {
+      "root": "libs/shared-frontend/form",
+      "sourceRoot": "libs/shared-frontend/form/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/shared-frontend/form/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shared-frontend/form"],
+          "options": {
+            "jestConfig": "libs/shared-frontend/form/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "shared-backend-domain-auth": {
+      "root": "libs/shared-backend/domain/auth",
+      "sourceRoot": "libs/shared-backend/domain/auth/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/shared-backend/domain/auth/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shared-backend/domain/auth"],
+          "options": {
+            "jestConfig": "libs/shared-backend/domain/auth/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "shared-errors": {
+      "root": "libs/shared/errors",
+      "sourceRoot": "libs/shared/errors/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": { "lintFilePatterns": ["libs/shared/errors/**/*.ts"] }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shared/errors"],
+          "options": {
+            "jestConfig": "libs/shared/errors/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "shared-backend-domain-user": {
+      "root": "libs/shared-backend/domain/user",
+      "sourceRoot": "libs/shared-backend/domain/user/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/shared-backend/domain/user/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shared-backend/domain/user"],
+          "options": {
+            "jestConfig": "libs/shared-backend/domain/user/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "shared-backend-base-model": {
+      "root": "libs/shared-backend/base-model",
+      "sourceRoot": "libs/shared-backend/base-model/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/shared-backend/base-model/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shared-backend/base-model"],
+          "options": {
+            "jestConfig": "libs/shared-backend/base-model/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "shared-domain-user": {
+      "root": "libs/shared/domain/user",
+      "sourceRoot": "libs/shared/domain/user/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": { "lintFilePatterns": ["libs/shared/domain/user/**/*.ts"] }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shared/domain/user"],
+          "options": {
+            "jestConfig": "libs/shared/domain/user/jest.config.js",
             "passWithNoTests": true
           }
         }

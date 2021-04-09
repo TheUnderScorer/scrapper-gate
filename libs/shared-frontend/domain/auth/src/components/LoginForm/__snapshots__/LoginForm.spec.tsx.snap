@@ -1,0 +1,222 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<LoginForm /> should render without crashing 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <form
+        class="makeStyles-form-1"
+      >
+        <div
+          class="css-x2y2x3-Stack-root"
+        >
+          <div
+            class="makeStyles-alert-2 css-1a8w37c"
+            style="opacity: 0; visibility: hidden;"
+          />
+          <div
+            class="MuiFormControl-root MuiFormControl-marginNone MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
+          >
+            <label
+              class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-filled MuiFormLabel-root MuiFormLabel-colorPrimary css-i7psbh-MuiFormLabel-root-MuiInputLabel-root"
+              data-shrink="false"
+              for="username"
+              id="username-label"
+            >
+              E-mail
+            </label>
+            <div
+              class="MuiFilledInput-root MuiFilledInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall css-1qblmz5-MuiInputBase-root-MuiFilledInput-root"
+            >
+              <input
+                aria-invalid="false"
+                class="MuiFilledInput-input MuiInputBase-input MuiInputBase-inputSizeSmall css-15bxpno-MuiInputBase-input-MuiFilledInput-input"
+                id="username"
+                name="username"
+                type="text"
+                value=""
+              />
+            </div>
+          </div>
+          <div
+            class="MuiFormControl-root MuiFormControl-marginNone MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
+          >
+            <label
+              class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-filled MuiFormLabel-root MuiFormLabel-colorPrimary css-i7psbh-MuiFormLabel-root-MuiInputLabel-root"
+              data-shrink="false"
+              for="password"
+              id="password-label"
+            >
+              Password
+            </label>
+            <div
+              class="MuiFilledInput-root MuiFilledInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall css-1qblmz5-MuiInputBase-root-MuiFilledInput-root"
+            >
+              <input
+                aria-invalid="false"
+                class="MuiFilledInput-input MuiInputBase-input MuiInputBase-inputSizeSmall css-15bxpno-MuiInputBase-input-MuiFilledInput-input"
+                id="password"
+                name="password"
+                type="password"
+                value=""
+              />
+            </div>
+          </div>
+          <div
+            class="makeStyles-action-3 css-jno3rv-Stack-root"
+          >
+            <button
+              class="MuiButtonBase-root MuiFab-root MuiFab-extended MuiFab-sizeLarge MuiFab-primary makeStyles-fab-4 css-ikidz8-MuiButtonBase-root-MuiFab-root"
+              id="login"
+              tabindex="0"
+              type="submit"
+            >
+              <span
+                class="MuiFab-label css-110lfi1-MuiFab-label"
+              >
+                Login
+              </span>
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </body>,
+  "container": <div>
+    <form
+      class="makeStyles-form-1"
+    >
+      <div
+        class="css-x2y2x3-Stack-root"
+      >
+        <div
+          class="makeStyles-alert-2 css-1a8w37c"
+          style="opacity: 0; visibility: hidden;"
+        />
+        <div
+          class="MuiFormControl-root MuiFormControl-marginNone MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
+        >
+          <label
+            class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-filled MuiFormLabel-root MuiFormLabel-colorPrimary css-i7psbh-MuiFormLabel-root-MuiInputLabel-root"
+            data-shrink="false"
+            for="username"
+            id="username-label"
+          >
+            E-mail
+          </label>
+          <div
+            class="MuiFilledInput-root MuiFilledInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall css-1qblmz5-MuiInputBase-root-MuiFilledInput-root"
+          >
+            <input
+              aria-invalid="false"
+              class="MuiFilledInput-input MuiInputBase-input MuiInputBase-inputSizeSmall css-15bxpno-MuiInputBase-input-MuiFilledInput-input"
+              id="username"
+              name="username"
+              type="text"
+              value=""
+            />
+          </div>
+        </div>
+        <div
+          class="MuiFormControl-root MuiFormControl-marginNone MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
+        >
+          <label
+            class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-filled MuiFormLabel-root MuiFormLabel-colorPrimary css-i7psbh-MuiFormLabel-root-MuiInputLabel-root"
+            data-shrink="false"
+            for="password"
+            id="password-label"
+          >
+            Password
+          </label>
+          <div
+            class="MuiFilledInput-root MuiFilledInput-underline MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-sizeSmall css-1qblmz5-MuiInputBase-root-MuiFilledInput-root"
+          >
+            <input
+              aria-invalid="false"
+              class="MuiFilledInput-input MuiInputBase-input MuiInputBase-inputSizeSmall css-15bxpno-MuiInputBase-input-MuiFilledInput-input"
+              id="password"
+              name="password"
+              type="password"
+              value=""
+            />
+          </div>
+        </div>
+        <div
+          class="makeStyles-action-3 css-jno3rv-Stack-root"
+        >
+          <button
+            class="MuiButtonBase-root MuiFab-root MuiFab-extended MuiFab-sizeLarge MuiFab-primary makeStyles-fab-4 css-ikidz8-MuiButtonBase-root-MuiFab-root"
+            id="login"
+            tabindex="0"
+            type="submit"
+          >
+            <span
+              class="MuiFab-label css-110lfi1-MuiFab-label"
+            >
+              Login
+            </span>
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

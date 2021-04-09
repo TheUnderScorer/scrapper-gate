@@ -11,4 +11,8 @@ module.exports = {
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
   coverageDirectory: '../../coverage/apps/api',
+  setupFilesAfterEnv: [
+    `${process.cwd()}/tests/setupBackend.ts`,
+    `<rootDir>/src/tests/setupServer.ts`,
+  ],
 };

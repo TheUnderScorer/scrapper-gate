@@ -1,12 +1,13 @@
-import { AuthTokens } from '@scrapper-gate/shared/domain/auth';
 import { createHttpLink } from '@apollo/client';
 import { apiRoutes } from '@scrapper-gate/shared/routing';
+import { AuthTokens } from '@scrapper-gate/shared/schema';
 
 let refreshTokenPromise: Promise<Response> | null = null;
 
 export const httpLink = (
   tokens: AuthTokens,
-  setTokens: (tokens: AuthTokens) => void
+  setTokens: (tokens: AuthTokens) => void,
+  fetch = window.fetch
 ) =>
   createHttpLink({
     uri: `${process.env.NX_API_URL}${apiRoutes.graphql}`,

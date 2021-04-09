@@ -1,4 +1,2 @@
-export interface AuthTokens {
-  refreshToken: string;
-  accessToken: string;
-}
+// TODO Replace with actual types
+export type Nil = null;

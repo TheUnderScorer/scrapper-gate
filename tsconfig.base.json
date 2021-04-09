@@ -13,7 +13,7 @@
     "jsx": "react-jsx",
     "target": "ES2019",
     "module": "esnext",
-    "lib": ["es2017", "dom"],
+    "lib": ["dom", "ES2020"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
@@ -51,6 +51,28 @@
       ],
       "@scrapper-gate/shared-frontend/theme": [
         "libs/shared-frontend/theme/src/index.ts"
+      ],
+      "@scrapper-gate/shared-frontend/ui": [
+        "libs/shared-frontend/ui/src/index.ts"
+      ],
+      "@scrapper-gate/shared/validation": [
+        "libs/shared/validation/src/index.ts"
+      ],
+      "@scrapper-gate/shared-frontend/form": [
+        "libs/shared-frontend/form/src/index.ts"
+      ],
+      "@scrapper-gate/shared-backend/domain/auth": [
+        "libs/shared-backend/domain/auth/src/index.ts"
+      ],
+      "@scrapper-gate/shared/errors": ["libs/shared/errors/src/index.ts"],
+      "@scrapper-gate/shared-backend/domain/user": [
+        "libs/shared-backend/domain/user/src/index.ts"
+      ],
+      "@scrapper-gate/shared-backend/base-model": [
+        "libs/shared-backend/base-model/src/index.ts"
+      ],
+      "@scrapper-gate/shared/domain/user": [
+        "libs/shared/domain/user/src/index.ts"
       ]
     }
   },
