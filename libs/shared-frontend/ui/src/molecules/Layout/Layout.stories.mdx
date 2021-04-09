@@ -1,0 +1,32 @@
+import { Props, Canvas, Meta, Story } from '@storybook/addon-docs/blocks';
+import { Layout } from './Layout';
+import { AppBar, Box, Toolbar, Typography } from '@material-ui/core';
+import * as faker from 'faker';
+
+<Meta title="UI/Layout" component={Layout} />
+
+# Layout
+
+## Props
+
+<Props of={Layout} />
+
+## Examples
+
+<Canvas>
+  <Story name="Layout">
+    <Box height="90vh">
+      <Layout
+        footerHeight={60}
+        headerHeight={60}
+        header={
+          <AppBar position="static">
+            <Toolbar>Header</Toolbar>
+          </AppBar>
+        }
+        body={<Typography>{faker.lorem.words(1000)}</Typography>}
+        footer={<Typography>Footer</Typography>}
+      />
+    </Box>
+  </Story>
+</Canvas>
