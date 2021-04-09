@@ -1,0 +1,50 @@
+import { Props, Canvas, Meta, Story } from '@storybook/addon-docs/blocks';
+import { TileCheckbox } from './TileCheckbox';
+import { AirplaySharp } from '@material-ui/icons';
+
+<Meta title="UI/TileCheckbox" component={TileCheckbox} />
+
+# TileCheckbox
+
+## Props
+
+<Props of={TileCheckbox} />
+
+## Examples
+
+### Regular
+
+<Canvas>
+  <Story name="Tile checkbox">
+    <TileCheckbox title="Checkbox" icon={<AirplaySharp />} />
+  </Story>
+</Canvas>
+
+### Checked
+
+<Canvas>
+  <Story name="Checked">
+    <TileCheckbox title="Checkbox" checked icon={<AirplaySharp />} />
+  </Story>
+</Canvas>
+
+### Disabled
+
+<Canvas>
+  <Story name="Disabled">
+    <TileCheckbox title="Checkbox" disabled icon={<AirplaySharp />} />
+  </Story>
+</Canvas>
+
+### Horizontal
+
+<Canvas>
+  <Story name="Horizontal">
+    <TileCheckbox
+      checked
+      title="Checkbox"
+      icon={<AirplaySharp />}
+      direction="horizontal"
+    />
+  </Story>
+</Canvas>

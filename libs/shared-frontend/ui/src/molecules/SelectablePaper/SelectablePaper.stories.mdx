@@ -1,0 +1,41 @@
+import { Canvas, Meta, Props, Story } from '@storybook/addon-docs/blocks';
+import { SelectablePaper } from './SelectablePaper';
+import { Stack, Typography } from '@material-ui/core';
+import { PetsSharp } from '@material-ui/icons';
+
+<Meta title="UI/SelectablePaper" component={SelectablePaper} />
+
+# SelectablePaper
+
+## Props
+
+<Props of={SelectablePaper} />
+
+## Examples
+
+<Canvas>
+  <Story name="Checked">
+    <SelectablePaper checked>
+      <Typography>Checked!</Typography>
+    </SelectablePaper>
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Disabled">
+    <SelectablePaper disabled>
+      <Typography>Disabled!</Typography>
+    </SelectablePaper>
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="With icon">
+    <SelectablePaper>
+      <Stack spacing={1} alignItems="center">
+        <PetsSharp />
+        <Typography>Love pets</Typography>
+      </Stack>
+    </SelectablePaper>
+  </Story>
+</Canvas>
