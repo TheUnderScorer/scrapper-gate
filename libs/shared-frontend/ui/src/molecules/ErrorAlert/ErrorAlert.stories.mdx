@@ -1,0 +1,18 @@
+import { Canvas, Meta, Story, Props } from '@storybook/addon-docs/blocks';
+import { ErrorAlert } from './ErrorAlert';
+
+<Meta title="UI/ErrorAlert" component={ErrorAlert} />
+
+# ErrorAlert
+
+## Props
+
+<Props of={ErrorAlert} />
+
+## Examples
+
+<Canvas>
+  <Story name="With error">
+    <ErrorAlert error={new Error('Something went wrong!')} />
+  </Story>
+</Canvas>

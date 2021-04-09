@@ -470,6 +470,25 @@
             "jestConfig": "libs/shared-frontend/ui/jest.config.js",
             "passWithNoTests": true
           }
+        },
+        "storybook": {
+          "executor": "@nrwl/storybook:storybook",
+          "options": {
+            "uiFramework": "@storybook/react",
+            "port": 4400,
+            "config": { "configFolder": "libs/shared-frontend/ui/.storybook" }
+          },
+          "configurations": { "ci": { "quiet": true } }
+        },
+        "build-storybook": {
+          "executor": "@nrwl/storybook:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "uiFramework": "@storybook/react",
+            "outputPath": "dist/storybook/shared-frontend-ui",
+            "config": { "configFolder": "libs/shared-frontend/ui/.storybook" }
+          },
+          "configurations": { "ci": { "quiet": true } }
         }
       }
     },

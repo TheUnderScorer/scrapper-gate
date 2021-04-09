@@ -5,6 +5,9 @@ import { Alert } from '@material-ui/lab';
 import { makeStyles } from '@material-ui/core/styles';
 
 export interface ErrorAlertProps {
+  /**
+   * Error to display in alert
+   * */
   error?: Error;
   onClose?: () => void;
   className?: string;
