@@ -5,3 +5,4 @@ export * from './constructor';
 export * from './types';
 export * from './DataObject';
 export * from './entities';
+export * from './timeout';

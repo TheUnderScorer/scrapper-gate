@@ -1,0 +1,38 @@
+import { Canvas, Meta, Props, Story } from '@storybook/addon-docs/blocks';
+import { ContextMenu } from './ContextMenu';
+import { Typography } from '@material-ui/core';
+import * as faker from 'faker';
+import { action } from '@storybook/addon-actions';
+
+<Meta title="UI/ContextMenu" component={ContextMenu} />
+
+# ContextMenu
+
+## Props
+
+<Props of={ContextMenu} />
+
+## Examples
+
+### Use right click to see the menu
+
+<Canvas>
+  <Story name="Context Menu">
+    <ContextMenu
+      menuItems={[
+        {
+          content: 'First item',
+          id: '1',
+          onClick: action('First item clicked'),
+        },
+        {
+          content: 'Second item',
+          id: '2',
+          onClick: action('Second item clicked'),
+        },
+      ]}
+    >
+      <Typography>{faker.lorem.paragraphs(2)}</Typography>
+    </ContextMenu>
+  </Story>
+</Canvas>
