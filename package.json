@@ -28,8 +28,8 @@
     "help": "nx help",
     "gql-codegen": "graphql-codegen --config codegen.yml",
     "ts-node-dev": "TS_NODE_PROJECT=tsconfig.node.json ts-node-dev -r tsconfig-paths/register",
-    "release": "semantic-release",
-    "release:dry": "semantic-release -d"
+    "release": "npx semantic-release",
+    "release:dry": "npx semantic-release -d"
   },
   "private": true,
   "dependencies": {
