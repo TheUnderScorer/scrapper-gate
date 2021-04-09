@@ -94,6 +94,21 @@ export type MutationResetPasswordArgs = {
   token: Scalars['String'];
 };
 
+export type Order = {
+  direction: OrderDirection;
+  column: Scalars['String'];
+};
+
+export enum OrderDirection {
+  Asc = 'Asc',
+  Desc = 'Desc',
+}
+
+export type Pagination = {
+  take: Scalars['Int'];
+  skip: Scalars['Int'];
+};
+
 export type Query = {
   _?: Maybe<Scalars['Boolean']>;
   isAutenthicated?: Maybe<IsAutenthicatedResponse>;
@@ -134,20 +149,6 @@ export type LoginMutationVariables = Exact<{
 
 export type LoginMutation = {
   login?: Maybe<Pick<LoginResponse, 'accessToken' | 'refreshToken'>>;
-};
-
-export type CreateUserMutationVariables = Exact<{
-  input: CreateUserInput;
-}>;
-
-export type CreateUserMutation = {
-  createUser: {
-    user: Pick<
-      User,
-      'id' | 'email' | 'firstName' | 'lastName' | 'createdAt' | 'updatedAt'
-    >;
-    tokens: Pick<AuthTokens, 'accessToken' | 'refreshToken'>;
-  };
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -283,6 +284,10 @@ export type ResolversTypes = ResolversObject<{
   LoginInput: LoginInput;
   LoginResponse: ResolverTypeWrapper<LoginResponse>;
   Mutation: ResolverTypeWrapper<{}>;
+  Order: Order;
+  OrderDirection: OrderDirection;
+  Pagination: Pagination;
+  Int: ResolverTypeWrapper<Scalars['Int']>;
   Query: ResolverTypeWrapper<{}>;
   ResetPasswordInput: ResetPasswordInput;
   ResetPasswordResponse: ResolverTypeWrapper<ResetPasswordResponse>;
@@ -306,6 +311,9 @@ export type ResolversParentTypes = ResolversObject<{
   LoginInput: LoginInput;
   LoginResponse: LoginResponse;
   Mutation: {};
+  Order: Order;
+  Pagination: Pagination;
+  Int: Scalars['Int'];
   Query: {};
   ResetPasswordInput: ResetPasswordInput;
   ResetPasswordResponse: ResetPasswordResponse;

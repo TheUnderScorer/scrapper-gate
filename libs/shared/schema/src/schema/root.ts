@@ -3,6 +3,21 @@ import gql from 'graphql-tag';
 export const rootSchema = gql`
   scalar Date
 
+  input Pagination {
+    take: Int!
+    skip: Int!
+  }
+
+  enum OrderDirection {
+    Asc
+    Desc
+  }
+
+  input Order {
+    direction: OrderDirection!
+    column: String!
+  }
+
   type Query {
     _: Boolean
   }

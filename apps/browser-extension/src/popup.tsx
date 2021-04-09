@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { ApiClientProvider } from '@scrapper-gate/shared-frontend/common';
 import { Popup } from './app/Popup/Popup';
 import { ThemeProvider } from '@scrapper-gate/shared-frontend/theme';
 import { HashRouter } from 'react-router-dom';
+import { ApiClientProvider } from '@scrapper-gate/shared-frontend/api-client';
 
 ReactDOM.render(
   <React.StrictMode>

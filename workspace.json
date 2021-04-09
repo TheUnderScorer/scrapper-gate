@@ -615,6 +615,29 @@
           }
         }
       }
+    },
+    "shared-frontend-api-client": {
+      "root": "libs/shared-frontend/api-client",
+      "sourceRoot": "libs/shared-frontend/api-client/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/shared-frontend/api-client/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shared-frontend/api-client"],
+          "options": {
+            "jestConfig": "libs/shared-frontend/api-client/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   }
 }

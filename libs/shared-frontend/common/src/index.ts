@@ -1,1 +1,1 @@
-export * from './providers/ApiClientProvider/ApiClientProvider';
+export * from './types/apollo';

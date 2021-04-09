@@ -20,6 +20,8 @@ module.exports = {
     '<rootDir>/libs/shared-backend/domain/user',
     '<rootDir>/libs/shared-backend/base-model',
     '<rootDir>/libs/shared/domain/user',
+    '<rootDir>/libs/shared-frontend/api-client',
+    '<rootDir>/libs/shared-frontend/ui',
   ],
   setupFilesAfterEnv: [`${__dirname}/tests/setupBackend.ts`],
 };

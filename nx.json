@@ -48,6 +48,7 @@
     "shared-errors": { "tags": [] },
     "shared-backend-domain-user": { "tags": [] },
     "shared-backend-base-model": { "tags": [] },
-    "shared-domain-user": { "tags": [] }
+    "shared-domain-user": { "tags": [] },
+    "shared-frontend-api-client": { "tags": [] }
   }
 }
