@@ -19,6 +19,7 @@ module.exports = {
     '<rootDir>/libs/shared/errors',
     '<rootDir>/libs/shared-backend/domain/user',
     '<rootDir>/libs/shared-backend/base-model',
+    '<rootDir>/libs/shared/domain/user',
   ],
   setupFilesAfterEnv: [`${__dirname}/tests/setupBackend.ts`],
 };

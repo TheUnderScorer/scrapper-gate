@@ -2,10 +2,14 @@ import React, { useCallback, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
   AuthTokens,
+  CreateUserResult,
   LoginInput,
   LoginInputDto,
 } from '@scrapper-gate/shared/schema';
-import { useLoginMutation } from '@scrapper-gate/shared-frontend/schema';
+import {
+  useCreateUserMutation,
+  useLoginMutation,
+} from '@scrapper-gate/shared-frontend/schema';
 import { useTokensStore } from '@scrapper-gate/shared-frontend/domain/auth';
 import {
   FormTextField,
@@ -22,9 +26,16 @@ import {
 import { ErrorAlert } from '@scrapper-gate/shared-frontend/ui';
 import { Link } from 'react-router-dom';
 
+export enum LoginFormType {
+  Login = 'Login',
+  Signup = 'Signup',
+}
+
 export interface LoginFormProps {
   afterLogin?: (tokens: AuthTokens) => void;
-  signupUrl: string;
+  afterCreate?: (result: CreateUserResult) => void;
+  signupUrl?: string;
+  type?: LoginFormType;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -45,11 +56,23 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const LoginForm = ({ afterLogin, signupUrl }: LoginFormProps) => {
+export const LoginForm = ({
+  afterLogin,
+  signupUrl,
+  type = LoginFormType.Login,
+  afterCreate,
+}: LoginFormProps) => {
   const classes = useStyles();
 
   const [error, setError] = useState<Error | null>(null);
-  const [login, { loading }] = useLoginMutation();
+  const [login, { loading: loginLoading }] = useLoginMutation({
+    refetchQueries: ['GetCurrentUser'],
+  });
+  const [signUp, { loading: signupLoading }] = useCreateUserMutation({
+    refetchQueries: ['GetCurrentUser'],
+  });
+
+  const loading = loginLoading || signupLoading;
 
   const form = useForm({
     resolver: joiValidationResolver(LoginInputDto),
@@ -62,16 +85,35 @@ export const LoginForm = ({ afterLogin, signupUrl }: LoginFormProps) => {
       try {
         setError(null);
 
-        const { data } = await login({
+        if (type === LoginFormType.Login) {
+          const { data } = await login({
+            variables: {
+              input,
+            },
+          });
+
+          if (data.login) {
+            setTokens(data.login);
+
+            afterLogin?.(data.login);
+          }
+
+          return;
+        }
+
+        const { data } = await signUp({
           variables: {
-            input,
+            input: {
+              password: input.password,
+              email: input.username,
+            },
           },
         });
 
-        if (data.login) {
-          setTokens(data.login);
+        if (data.createUser) {
+          afterCreate?.(data.createUser);
 
-          afterLogin?.(data.login);
+          setTokens(data.createUser.tokens);
         }
       } catch (e) {
         console.log(e);
@@ -82,7 +124,7 @@ export const LoginForm = ({ afterLogin, signupUrl }: LoginFormProps) => {
         }
       }
     },
-    [setTokens, login, afterLogin]
+    [type, signUp, login, setTokens, afterLogin, afterCreate]
   );
 
   return (
@@ -116,26 +158,36 @@ export const LoginForm = ({ afterLogin, signupUrl }: LoginFormProps) => {
           spacing={2}
           direction="row"
           alignItems="center"
-          justifyContent="space-between"
+          justifyContent={
+            type === LoginFormType.Login ? 'space-between' : 'center'
+          }
         >
           <Fab
             className={classes.fab}
-            id="login"
+            id={type === LoginFormType.Login ? 'login' : 'signup'}
             disabled={loading}
             type="submit"
             variant="extended"
             color={loading ? 'default' : 'primary'}
           >
-            {loading ? <CircularProgress size={25} /> : 'Login'}
+            {loading ? (
+              <CircularProgress size={25} />
+            ) : type === LoginFormType.Login ? (
+              'Login'
+            ) : (
+              'Signup'
+            )}
           </Fab>
-          <Stack alignItems="center" direction="row">
-            <Typography variant="caption">Don't have account?</Typography>
-            <Link to={signupUrl}>
-              <Button disabled={loading} color="primary" variant="text">
-                Sign up
-              </Button>
-            </Link>
-          </Stack>
+          {signupUrl && type === LoginFormType.Login && (
+            <Stack alignItems="center" direction="row">
+              <Typography variant="caption">Don't have account?</Typography>
+              <Link to={signupUrl}>
+                <Button disabled={loading} color="primary" variant="text">
+                  Sign up
+                </Button>
+              </Link>
+            </Stack>
+          )}
         </Stack>
       </Stack>
     </form>

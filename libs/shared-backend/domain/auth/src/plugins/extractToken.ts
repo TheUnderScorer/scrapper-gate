@@ -11,7 +11,7 @@ export interface ExtractTokenDependencies {
 export const makeExtractToken = ({
   securityClient,
 }: ExtractTokenDependencies) => async (fastify: FastifyInstance) => {
-  fastify.addHook('onRequest', async (req) => {
+  fastify.addHook('preHandler', async (req) => {
     const { authorization } = req.headers;
 
     if (authorization) {

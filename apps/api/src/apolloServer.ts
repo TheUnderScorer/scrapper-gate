@@ -1,8 +1,8 @@
 import { ApolloServer } from 'apollo-server-fastify';
 import { Resolvers, typeDefs } from '@scrapper-gate/shared/schema';
-import { BaseApolloContent } from '@scrapper-gate/shared-backend/server';
 import { AwilixContainer } from 'awilix';
 import { Logger } from '@scrapper-gate/shared/logger';
+import { BaseApolloContext } from '@scrapper-gate/shared-backend/server';
 
 export interface ApolloServerFactoryParams {
   resolvers: Resolvers;
@@ -18,9 +18,10 @@ export const apolloServerFactory = ({
   return new ApolloServer({
     resolvers,
     typeDefs,
-    context: (): BaseApolloContent => ({
+    context: ({ request }): BaseApolloContext => ({
       container,
       unitOfWork: container.resolve('unitOfWork'),
+      user: request?.user,
     }),
     introspection: true,
     formatError: (error) => {

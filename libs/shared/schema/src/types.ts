@@ -1,4 +1,3 @@
-/* eslint-disable */
 import {
   GraphQLResolveInfo,
   GraphQLScalarType,
@@ -72,7 +71,7 @@ export type LoginResponse = {
 
 export type Mutation = {
   _?: Maybe<Scalars['Boolean']>;
-  createUser: User;
+  createUser: CreateUserResult;
   forgotPassword?: Maybe<ForgotPasswordResponse>;
   login?: Maybe<LoginResponse>;
   resetPassword?: Maybe<ResetPasswordResponse>;
@@ -135,6 +134,20 @@ export type LoginMutationVariables = Exact<{
 
 export type LoginMutation = {
   login?: Maybe<Pick<LoginResponse, 'accessToken' | 'refreshToken'>>;
+};
+
+export type CreateUserMutationVariables = Exact<{
+  input: CreateUserInput;
+}>;
+
+export type CreateUserMutation = {
+  createUser: {
+    user: Pick<
+      User,
+      'id' | 'email' | 'firstName' | 'lastName' | 'createdAt' | 'updatedAt'
+    >;
+    tokens: Pick<AuthTokens, 'accessToken' | 'refreshToken'>;
+  };
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -383,7 +396,7 @@ export type MutationResolvers<
 > = ResolversObject<{
   _?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   createUser?: Resolver<
-    ResolversTypes['User'],
+    ResolversTypes['CreateUserResult'],
     ParentType,
     ContextType,
     RequireFields<MutationCreateUserArgs, 'input'>

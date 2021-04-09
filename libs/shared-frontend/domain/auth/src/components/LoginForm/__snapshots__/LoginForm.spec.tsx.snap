@@ -81,29 +81,6 @@ Object {
                 class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
               />
             </button>
-            <div
-              class="css-vssjb6-Stack-root"
-            >
-              <span
-                class="MuiTypography-root MuiTypography-caption css-1sn4lm3-MuiTypography-root"
-              >
-                Don't have account?
-              </span>
-              <button
-                class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root css-d0ukip-MuiButtonBase-root-MuiButton-root"
-                tabindex="0"
-                type="button"
-              >
-                <span
-                  class="MuiButton-label css-8xplcm-MuiButton-label"
-                >
-                  Sign up
-                </span>
-                <span
-                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                />
-              </button>
-            </div>
           </div>
         </div>
       </form>
@@ -186,29 +163,6 @@ Object {
               class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
             />
           </button>
-          <div
-            class="css-vssjb6-Stack-root"
-          >
-            <span
-              class="MuiTypography-root MuiTypography-caption css-1sn4lm3-MuiTypography-root"
-            >
-              Don't have account?
-            </span>
-            <button
-              class="MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButtonBase-root css-d0ukip-MuiButtonBase-root-MuiButton-root"
-              tabindex="0"
-              type="button"
-            >
-              <span
-                class="MuiButton-label css-8xplcm-MuiButton-label"
-              >
-                Sign up
-              </span>
-              <span
-                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-              />
-            </button>
-          </div>
         </div>
       </div>
     </form>

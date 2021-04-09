@@ -5,7 +5,7 @@ import { BaseSchema } from '@scrapper-gate/shared/validation';
 export class LoginInputDto
   extends BaseSchema<LoginInput>
   implements LoginInput {
-  @(jf.string().required())
+  @(jf.string().required().min(8))
   password: string;
 
   @(jf.string().required().email({

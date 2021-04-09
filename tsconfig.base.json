@@ -70,6 +70,9 @@
       ],
       "@scrapper-gate/shared-backend/base-model": [
         "libs/shared-backend/base-model/src/index.ts"
+      ],
+      "@scrapper-gate/shared/domain/user": [
+        "libs/shared/domain/user/src/index.ts"
       ]
     }
   },

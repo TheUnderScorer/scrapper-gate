@@ -88,6 +88,9 @@ export const createContainer = async ({
 
   server.decorateRequest('container', '');
   server.decorateRequest('token', '');
+  server.decorateRequest('user', '');
+  await container.resolve<ExtractToken>('extractToken')(server);
+  await container.resolve<ExtractUser>('extractUser')(server);
 
   server.get(apiRoutes.health, async () => {
     return {
@@ -101,15 +104,10 @@ export const createContainer = async ({
     req.container = container;
   });
 
-  server.register(
-    apolloServer.createHandler({
-      path: apiRoutes.graphql,
-      cors: true,
-    })
-  );
-
-  await container.resolve<ExtractToken>('extractToken')(server);
-  await container.resolve<ExtractUser>('extractUser')(server);
+  await apolloServer.createHandler({
+    path: apiRoutes.graphql,
+    cors: true,
+  })(server);
 
   server.setErrorHandler(errorHandler);
 
