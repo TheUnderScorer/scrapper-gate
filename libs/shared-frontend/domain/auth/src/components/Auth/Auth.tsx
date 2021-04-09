@@ -7,6 +7,7 @@ import {
   IconButton,
   makeStyles,
   Stack,
+  Tooltip,
   Typography,
 } from '@material-ui/core';
 import { AuthFacebookButton } from './FacebookButton/AuthFacebookButton';
@@ -63,13 +64,15 @@ export const Auth = ({ afterLogin, afterCreate }: AuthProps) => {
         </Route>
         <Route path={`${match.path}/sign-up`}>
           <Stack alignItems="center" spacing={2} direction="row">
-            <IconButton
-              onClick={() => history.push(match.path)}
-              size="small"
-              className={classes.icon}
-            >
-              <ArrowBackSharp />
-            </IconButton>
+            <Tooltip title="Go back">
+              <IconButton
+                onClick={() => history.push(match.path)}
+                size="small"
+                className={classes.icon}
+              >
+                <ArrowBackSharp />
+              </IconButton>
+            </Tooltip>
             <Typography variant="h5">
               <Emoji>
                 Sign up to <strong>Scrapper Gate</strong> 🚀
