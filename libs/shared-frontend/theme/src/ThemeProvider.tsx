@@ -6,6 +6,7 @@ import {
 } from '@material-ui/core';
 import React, { PropsWithChildren, useMemo } from 'react';
 import { getContrast } from '@scrapper-gate/shared/common';
+import { ThemeProvider as EmotionThemeProvider } from '@emotion/react';
 
 export interface ThemeProviderProps {
   htmlFontSize?: number;
@@ -114,5 +115,9 @@ export const ThemeProvider = ({
     [container, htmlFontSize, isContent, rest]
   );
 
-  return <MuiThemeProvider theme={theme}>{children}</MuiThemeProvider>;
+  return (
+    <EmotionThemeProvider theme={theme}>
+      <MuiThemeProvider theme={theme}>{children}</MuiThemeProvider>
+    </EmotionThemeProvider>
+  );
 };
