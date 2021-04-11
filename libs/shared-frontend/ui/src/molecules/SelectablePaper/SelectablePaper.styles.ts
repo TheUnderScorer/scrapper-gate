@@ -17,6 +17,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
 
     '&.disabled': {
       backgroundColor: theme.palette.action.disabledBackground,
+      cursor: 'not-allowed',
     },
 
     '&.checked': {

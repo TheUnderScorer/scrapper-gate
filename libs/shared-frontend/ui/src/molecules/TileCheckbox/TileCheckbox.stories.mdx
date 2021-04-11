@@ -18,19 +18,9 @@ import { AirplaySharp } from '@material-ui/icons';
   <Story name="Tile checkbox">
     <TileCheckbox title="Checkbox" icon={<AirplaySharp />} />
   </Story>
-</Canvas>
-
-### Checked
-
-<Canvas>
   <Story name="Checked">
     <TileCheckbox title="Checkbox" checked icon={<AirplaySharp />} />
   </Story>
-</Canvas>
-
-### Disabled
-
-<Canvas>
   <Story name="Disabled">
     <TileCheckbox title="Checkbox" disabled icon={<AirplaySharp />} />
   </Story>
@@ -41,7 +31,22 @@ import { AirplaySharp } from '@material-ui/icons';
 <Canvas>
   <Story name="Horizontal">
     <TileCheckbox
+      title="Checkbox"
+      icon={<AirplaySharp />}
+      direction="horizontal"
+    />
+  </Story>
+  <Story name="Horizontal - checked">
+    <TileCheckbox
       checked
+      title="Checkbox"
+      icon={<AirplaySharp />}
+      direction="horizontal"
+    />
+  </Story>
+  <Story name="Horizontal - disabled">
+    <TileCheckbox
+      disabled
       title="Checkbox"
       icon={<AirplaySharp />}
       direction="horizontal"

@@ -30,16 +30,20 @@ export const FormStateIcon = (props: FormStateIconProps) => {
 
   const hasError = useMemo(
     () => Object.values(form.formState.errors).length > 0,
-    [form.formState.errors]
+    [form.formState]
   );
 
   const error = useMemo(() => {
-    if (form.formState.errors[formErrorKey]) {
-      return form.formState.errors[formErrorKey];
+    if (!hasError) {
+      return '';
+    }
+
+    if (form.formState.errors[formErrorKey]?.message) {
+      return form.formState.errors[formErrorKey].message;
     }
 
     return form.formState.errors[0]?.message ?? 'Validation error';
-  }, [form.formState.errors]);
+  }, [form.formState.errors, hasError]);
 
   const stateIcon = useMemo(
     () => (hasError ? <ErrorSharp /> : <CheckSharp />),

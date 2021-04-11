@@ -1,0 +1,41 @@
+import { Props, Canvas, Meta, Story } from '@storybook/addon-docs/blocks';
+import { Dropdown } from './Dropdown';
+import { PlayArrowSharp } from '@material-ui/icons';
+import { Button } from '@material-ui/core';
+
+<Meta title="UI/Dropdown" component={Dropdown} />
+
+# Dropdown
+
+## Props
+
+<Props of={Dropdown} />
+
+## Examples
+
+<Canvas>
+  <Story name="Dropdown">
+    <Dropdown
+      items={[
+        {
+          icon: <PlayArrowSharp />,
+          content: 'Run scrapper',
+        },
+      ]}
+    />
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="Custom trigger">
+    <Dropdown
+      activator={(bag) => <Button onClick={bag.onClick}>Open menu</Button>}
+      items={[
+        {
+          icon: <PlayArrowSharp />,
+          content: 'Run scrapper',
+        },
+      ]}
+    />
+  </Story>
+</Canvas>

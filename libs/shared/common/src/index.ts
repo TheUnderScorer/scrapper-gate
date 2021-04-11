@@ -6,3 +6,4 @@ export * from './types';
 export * from './DataObject';
 export * from './entities';
 export * from './timeout';
+export * from './array';

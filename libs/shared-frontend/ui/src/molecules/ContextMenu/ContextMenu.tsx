@@ -1,13 +1,7 @@
 import React, { MouseEventHandler, useCallback, useState } from 'react';
-import {
-  Box,
-  ListItemIcon,
-  ListItemText,
-  Menu,
-  MenuItem,
-  PopoverPosition,
-} from '@material-ui/core';
+import { Box, Menu, PopoverPosition } from '@material-ui/core';
 import { ContextMenuProps } from './ContextMenu.types';
+import { GenericMenuItem } from '../GenericMenuItem/GenericMenuItem';
 
 export const ContextMenu = ({
   children,
@@ -43,17 +37,15 @@ export const ContextMenu = ({
           {...menuProps}
         >
           {menuItems.map((item) => (
-            <MenuItem
+            <GenericMenuItem
+              key={item.id}
+              {...item}
               onClick={(event) => {
                 item.onClick?.(event);
 
                 handleClose();
               }}
-              key={item.id}
-            >
-              {item.icon && <ListItemIcon>{item.icon}</ListItemIcon>}
-              <ListItemText>{item.content}</ListItemText>
-            </MenuItem>
+            />
           ))}
         </Menu>
       )}

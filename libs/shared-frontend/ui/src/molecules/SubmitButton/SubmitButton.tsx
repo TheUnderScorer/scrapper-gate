@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const SubmitButton: FC<SubmitButtonProps> = ({
+export const SubmitButton: FC<SubmitButtonProps> = ({
   didSubmit,
   children,
   loading,
@@ -81,5 +81,3 @@ const SubmitButton: FC<SubmitButtonProps> = ({
     </PrimaryIconButton>
   );
 };
-
-export default SubmitButton;
