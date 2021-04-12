@@ -24,5 +24,8 @@ module.exports = {
     '<rootDir>/libs/frontend/ui',
     '<rootDir>/libs/frontend/dialogs',
   ],
-  setupFilesAfterEnv: [`${__dirname}/tests/setupBackend.ts`],
+  setupFilesAfterEnv: [
+    `${__dirname}/tests/setupBackend.ts`,
+    './tests/setupTests.ts',
+  ],
 };

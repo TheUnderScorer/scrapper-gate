@@ -5,6 +5,8 @@ import { ThemeProvider } from '@scrapper-gate/frontend/theme';
 import { HashRouter } from 'react-router-dom';
 import { ApiClientProvider } from '@scrapper-gate/frontend/api-client';
 
+console.log('Popup');
+
 ReactDOM.render(
   <React.StrictMode>
     <HashRouter>
@@ -17,5 +19,3 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('root')
 );
-
-console.log('test');

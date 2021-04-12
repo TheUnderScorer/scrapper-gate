@@ -1,9 +1,6 @@
 import './typings/material-ui';
-import {
-  colors,
-  createMuiTheme,
-  ThemeProvider as MuiThemeProvider,
-} from '@material-ui/core';
+import { ThemeProvider as MuiThemeProvider } from '@material-ui/styles';
+import { colors, createMuiTheme } from '@material-ui/core';
 import React, { PropsWithChildren, useMemo } from 'react';
 import { getContrast } from '@scrapper-gate/shared/common';
 import { ThemeProvider as EmotionThemeProvider } from '@emotion/react';

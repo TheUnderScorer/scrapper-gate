@@ -1,0 +1,74 @@
+import React, {
+  ComponentType,
+  ReactNode,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+import root from 'react-shadow';
+import { jssPreset, StylesProvider } from '@material-ui/styles';
+import { create } from 'jss';
+import { useContainerStore } from '@scrapper-gate/frontend/common';
+import createCache from '@emotion/cache';
+import { CacheProvider } from '@emotion/react';
+
+export interface ScopedProps {
+  children: (shadowRoot: ShadowRoot, container: HTMLDivElement) => ReactNode;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const RootDiv = root.div as ComponentType<any>;
+
+export const Scoped = ({ children }: ScopedProps) => {
+  const setContainer = useContainerStore((store) => store.setContainer);
+  const containerRef = useRef<HTMLDivElement>();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [jss, setJss] = useState<any>(null);
+  const [target, setTarget] = useState<HTMLElement | null>(null);
+
+  const setRefAndCreateJss = (headRef: HTMLElement | null) => {
+    if (headRef && !jss) {
+      const createdJssWithRef = create({
+        ...jssPreset(),
+        insertionPoint: headRef,
+      });
+      setJss(createdJssWithRef);
+      setTarget(headRef);
+
+      console.log({ headRef });
+    }
+  };
+
+  const emotionCache = useMemo(
+    () =>
+      createCache({
+        key: 'scrapper-gate',
+        container: target,
+      }),
+    [target]
+  );
+
+  return (
+    <RootDiv ref={containerRef}>
+      <div ref={setRefAndCreateJss} />
+      {target && containerRef.current && jss && emotionCache && (
+        <CacheProvider value={emotionCache}>
+          <StylesProvider jss={jss}>
+            <div>
+              <div
+                ref={(element) => {
+                  setContainer(element ?? undefined);
+                }}
+              >
+                {children(
+                  containerRef.current.shadowRoot,
+                  containerRef.current
+                )}
+              </div>
+            </div>
+          </StylesProvider>
+        </CacheProvider>
+      )}
+    </RootDiv>
+  );
+};

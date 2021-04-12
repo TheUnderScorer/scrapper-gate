@@ -1,0 +1,12 @@
+#scrapper_gate_content_root {
+  position: fixed;
+  z-index: 99999999999;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  pointer-events: none;
+
+  > div {
+    pointer-events: none;
+  }
+}
