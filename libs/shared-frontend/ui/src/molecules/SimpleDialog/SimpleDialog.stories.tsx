@@ -34,3 +34,33 @@ export const Component = () => {
     </>
   );
 };
+
+export const Loading = () => {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <Button onClick={() => setOpen(true)}>Show dialog</Button>
+      <SimpleDialog
+        fullWidth
+        maxWidth="xl"
+        loading
+        open={open}
+        onClose={() => setOpen(false)}
+        title="Confirm action"
+        actions={
+          <>
+            <Button onClick={() => setOpen(false)} variant="text">
+              Cancel
+            </Button>
+            <Button onClick={() => setOpen(false)} variant="contained">
+              Confirm
+            </Button>
+          </>
+        }
+      >
+        Please wait...
+      </SimpleDialog>
+    </>
+  );
+};

@@ -1,5 +1,6 @@
 import React, { FC, ReactNode } from 'react';
 import {
+  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
@@ -9,6 +10,7 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { AppType, useAppType } from '@scrapper-gate/shared-frontend/common';
+import { Centered } from '../../atoms/Centered/Centered';
 
 export interface SimpleDialogProps
   extends Pick<DialogProps, 'maxWidth' | 'fullWidth' | 'PaperProps'> {
@@ -16,6 +18,7 @@ export interface SimpleDialogProps
   actions?: ReactNode;
   open?: boolean;
   onClose?: () => unknown;
+  loading?: boolean;
 }
 
 const useStyles = makeStyles(() => ({
@@ -32,6 +35,7 @@ export const SimpleDialog: FC<SimpleDialogProps> = ({
   actions,
   children,
   open = false,
+  loading,
   ...props
 }) => {
   const appType = useAppType((store) => store.appType);
@@ -52,7 +56,17 @@ export const SimpleDialog: FC<SimpleDialogProps> = ({
       <DialogContent>
         <DialogContentText>{children}</DialogContentText>
       </DialogContent>
-      {actions && <DialogActions>{actions}</DialogActions>}
+      {(actions || loading) && (
+        <DialogActions>
+          {loading ? (
+            <Centered>
+              <CircularProgress size={20} />
+            </Centered>
+          ) : (
+            actions
+          )}
+        </DialogActions>
+      )}
     </Dialog>
   );
 };

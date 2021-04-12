@@ -657,6 +657,29 @@
           }
         }
       }
+    },
+    "shared-frontend-dialogs": {
+      "root": "libs/shared-frontend/dialogs",
+      "sourceRoot": "libs/shared-frontend/dialogs/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/shared-frontend/dialogs/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shared-frontend/dialogs"],
+          "options": {
+            "jestConfig": "libs/shared-frontend/dialogs/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   }
 }
