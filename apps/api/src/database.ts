@@ -1,3 +1,3 @@
-import { userEntity } from '@scrapper-gate/shared-backend/domain/user';
+import { userEntity } from '@scrapper-gate/backend/domain/user';
 
 export const entityDefinitions = [userEntity];

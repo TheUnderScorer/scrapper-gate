@@ -1,6 +1,6 @@
 import '../typings/global';
 import { Connection, createConnection } from 'typeorm';
-import { UserModel } from '@scrapper-gate/shared-backend/domain/user';
+import { UserModel } from '@scrapper-gate/backend/domain/user';
 import { snakeCase } from 'lodash';
 import { Constructor } from '@scrapper-gate/shared/common';
 

@@ -3,8 +3,8 @@ import '../typings/global';
 import { apiRoutes } from '@scrapper-gate/shared/routing';
 import { MutationCreateUserArgs } from '@scrapper-gate/shared/schema';
 import * as faker from 'faker';
-import { makeGraphqlRequest } from '@scrapper-gate/shared-backend/server';
-import { UserRepository } from '@scrapper-gate/shared-backend/domain/user';
+import { makeGraphqlRequest } from '@scrapper-gate/backend/server';
+import { UserRepository } from '@scrapper-gate/backend/domain/user';
 import { EmailAlreadyTakenError } from '@scrapper-gate/shared/errors';
 
 const createUser = gql`

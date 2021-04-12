@@ -32,7 +32,7 @@ generates:
       - typescript-operations
       - typescript-resolvers
 
-  ./libs/shared-frontend/schema/src/gql.tsx:
+  ./libs/frontend/schema/src/gql.tsx:
     preset: import-types
     presetConfig:
       typesPath: '@scrapper-gate/shared/schema'

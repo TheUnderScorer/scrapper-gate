@@ -1,6 +1,6 @@
 import { Resolvers } from '@scrapper-gate/shared/schema';
-import { BaseApolloContext } from '@scrapper-gate/shared-backend/server';
-import { CreateUserCommand } from '@scrapper-gate/shared-backend/domain/user';
+import { BaseApolloContext } from '@scrapper-gate/backend/server';
+import { CreateUserCommand } from '@scrapper-gate/backend/domain/user';
 
 export const userResolver = (): Resolvers<BaseApolloContext> => ({
   Query: {

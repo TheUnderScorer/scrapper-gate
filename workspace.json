@@ -161,129 +161,127 @@
         }
       }
     },
-    "shared-backend-awilix": {
-      "root": "libs/shared-backend/awilix",
-      "sourceRoot": "libs/shared-backend/awilix/src",
+    "backend-awilix": {
+      "root": "libs/backend/awilix",
+      "sourceRoot": "libs/backend/awilix/src",
       "projectType": "library",
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["libs/shared-backend/awilix/**/*.ts"]
+            "lintFilePatterns": ["libs/backend/awilix/**/*.ts"]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/shared-backend/awilix"],
+          "outputs": ["coverage/libs/backend/awilix"],
           "options": {
-            "jestConfig": "libs/shared-backend/awilix/jest.config.js",
+            "jestConfig": "libs/backend/awilix/jest.config.js",
             "passWithNoTests": true
           }
         }
       }
     },
-    "shared-backend-server": {
-      "root": "libs/shared-backend/server",
-      "sourceRoot": "libs/shared-backend/server/src",
+    "backend-server": {
+      "root": "libs/backend/server",
+      "sourceRoot": "libs/backend/server/src",
       "projectType": "library",
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["libs/shared-backend/server/**/*.ts"]
+            "lintFilePatterns": ["libs/backend/server/**/*.ts"]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/shared-backend/server"],
+          "outputs": ["coverage/libs/backend/server"],
           "options": {
-            "jestConfig": "libs/shared-backend/server/jest.config.js",
+            "jestConfig": "libs/backend/server/jest.config.js",
             "passWithNoTests": true
           }
         }
       }
     },
-    "shared-backend-unit-of-work": {
-      "root": "libs/shared-backend/unit-of-work",
-      "sourceRoot": "libs/shared-backend/unit-of-work/src",
+    "backend-unit-of-work": {
+      "root": "libs/backend/unit-of-work",
+      "sourceRoot": "libs/backend/unit-of-work/src",
       "projectType": "library",
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["libs/shared-backend/unit-of-work/**/*.ts"]
+            "lintFilePatterns": ["libs/backend/unit-of-work/**/*.ts"]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/shared-backend/unit-of-work"],
+          "outputs": ["coverage/libs/backend/unit-of-work"],
           "options": {
-            "jestConfig": "libs/shared-backend/unit-of-work/jest.config.js",
+            "jestConfig": "libs/backend/unit-of-work/jest.config.js",
             "passWithNoTests": true
           }
         }
       }
     },
-    "shared-backend-cqrs": {
-      "root": "libs/shared-backend/cqrs",
-      "sourceRoot": "libs/shared-backend/cqrs/src",
+    "backend-cqrs": {
+      "root": "libs/backend/cqrs",
+      "sourceRoot": "libs/backend/cqrs/src",
       "projectType": "library",
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["libs/shared-backend/cqrs/**/*.ts"]
+            "lintFilePatterns": ["libs/backend/cqrs/**/*.ts"]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/shared-backend/cqrs"],
+          "outputs": ["coverage/libs/backend/cqrs"],
           "options": {
-            "jestConfig": "libs/shared-backend/cqrs/jest.config.js",
+            "jestConfig": "libs/backend/cqrs/jest.config.js",
             "passWithNoTests": true
           }
         }
       }
     },
-    "shared-backend-database": {
-      "root": "libs/shared-backend/database",
-      "sourceRoot": "libs/shared-backend/database/src",
+    "backend-database": {
+      "root": "libs/backend/database",
+      "sourceRoot": "libs/backend/database/src",
       "projectType": "library",
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["libs/shared-backend/database/**/*.ts"]
+            "lintFilePatterns": ["libs/backend/database/**/*.ts"]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/shared-backend/database"],
+          "outputs": ["coverage/libs/backend/database"],
           "options": {
-            "jestConfig": "libs/shared-backend/database/jest.config.js",
+            "jestConfig": "libs/backend/database/jest.config.js",
             "passWithNoTests": true
           }
         }
       }
     },
-    "shared-frontend-common": {
-      "root": "libs/shared-frontend/common",
-      "sourceRoot": "libs/shared-frontend/common/src",
+    "frontend-common": {
+      "root": "libs/frontend/common",
+      "sourceRoot": "libs/frontend/common/src",
       "projectType": "library",
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": [
-              "libs/shared-frontend/common/**/*.{ts,tsx,js,jsx}"
-            ]
+            "lintFilePatterns": ["libs/frontend/common/**/*.{ts,tsx,js,jsx}"]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/shared-frontend/common"],
+          "outputs": ["coverage/libs/frontend/common"],
           "options": {
-            "jestConfig": "libs/shared-frontend/common/jest.config.js",
+            "jestConfig": "libs/frontend/common/jest.config.js",
             "passWithNoTests": true
           }
         }
@@ -308,70 +306,66 @@
         }
       }
     },
-    "shared-frontend-schema": {
-      "root": "libs/shared-frontend/schema",
-      "sourceRoot": "libs/shared-frontend/schema/src",
+    "frontend-schema": {
+      "root": "libs/frontend/schema",
+      "sourceRoot": "libs/frontend/schema/src",
       "projectType": "library",
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": [
-              "libs/shared-frontend/schema/**/*.{ts,tsx,js,jsx}"
-            ]
+            "lintFilePatterns": ["libs/frontend/schema/**/*.{ts,tsx,js,jsx}"]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/shared-frontend/schema"],
+          "outputs": ["coverage/libs/frontend/schema"],
           "options": {
-            "jestConfig": "libs/shared-frontend/schema/jest.config.js",
+            "jestConfig": "libs/frontend/schema/jest.config.js",
             "passWithNoTests": true
           }
         }
       }
     },
-    "shared-frontend-domain-auth": {
-      "root": "libs/shared-frontend/domain/auth",
-      "sourceRoot": "libs/shared-frontend/domain/auth/src",
+    "frontend-domain-auth": {
+      "root": "libs/frontend/domain/auth",
+      "sourceRoot": "libs/frontend/domain/auth/src",
       "projectType": "library",
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": [
-              "libs/shared-frontend/domain/auth/**/*.{ts,tsx,js,jsx}"
+              "libs/frontend/domain/auth/**/*.{ts,tsx,js,jsx}"
             ]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/shared-frontend/domain/auth"],
+          "outputs": ["coverage/libs/frontend/domain/auth"],
           "options": {
-            "jestConfig": "libs/shared-frontend/domain/auth/jest.config.js",
+            "jestConfig": "libs/frontend/domain/auth/jest.config.js",
             "passWithNoTests": true
           }
         }
       }
     },
-    "shared-frontend-theme": {
-      "root": "libs/shared-frontend/theme",
-      "sourceRoot": "libs/shared-frontend/theme/src",
+    "frontend-theme": {
+      "root": "libs/frontend/theme",
+      "sourceRoot": "libs/frontend/theme/src",
       "projectType": "library",
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": [
-              "libs/shared-frontend/theme/**/*.{ts,tsx,js,jsx}"
-            ]
+            "lintFilePatterns": ["libs/frontend/theme/**/*.{ts,tsx,js,jsx}"]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/shared-frontend/theme"],
+          "outputs": ["coverage/libs/frontend/theme"],
           "options": {
-            "jestConfig": "libs/shared-frontend/theme/jest.config.js",
+            "jestConfig": "libs/frontend/theme/jest.config.js",
             "passWithNoTests": true
           }
         }
@@ -452,22 +446,22 @@
         }
       }
     },
-    "shared-frontend-ui": {
-      "root": "libs/shared-frontend/ui",
-      "sourceRoot": "libs/shared-frontend/ui/src",
+    "frontend-ui": {
+      "root": "libs/frontend/ui",
+      "sourceRoot": "libs/frontend/ui/src",
       "projectType": "library",
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["libs/shared-frontend/ui/**/*.{ts,tsx,js,jsx}"]
+            "lintFilePatterns": ["libs/frontend/ui/**/*.{ts,tsx,js,jsx}"]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/shared-frontend/ui"],
+          "outputs": ["coverage/libs/frontend/ui"],
           "options": {
-            "jestConfig": "libs/shared-frontend/ui/jest.config.js",
+            "jestConfig": "libs/frontend/ui/jest.config.js",
             "passWithNoTests": true
           }
         },
@@ -476,7 +470,7 @@
           "options": {
             "uiFramework": "@storybook/react",
             "port": 4400,
-            "config": { "configFolder": "libs/shared-frontend/ui/.storybook" }
+            "config": { "configFolder": "libs/frontend/ui/.storybook" }
           },
           "configurations": { "ci": { "quiet": true } }
         },
@@ -485,8 +479,8 @@
           "outputs": ["{options.outputPath}"],
           "options": {
             "uiFramework": "@storybook/react",
-            "outputPath": "dist/storybook/shared-frontend-ui",
-            "config": { "configFolder": "libs/shared-frontend/ui/.storybook" }
+            "outputPath": "dist/storybook/frontend-ui",
+            "config": { "configFolder": "libs/frontend/ui/.storybook" }
           },
           "configurations": { "ci": { "quiet": true } }
         }
@@ -511,45 +505,43 @@
         }
       }
     },
-    "shared-frontend-form": {
-      "root": "libs/shared-frontend/form",
-      "sourceRoot": "libs/shared-frontend/form/src",
+    "frontend-form": {
+      "root": "libs/frontend/form",
+      "sourceRoot": "libs/frontend/form/src",
       "projectType": "library",
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": [
-              "libs/shared-frontend/form/**/*.{ts,tsx,js,jsx}"
-            ]
+            "lintFilePatterns": ["libs/frontend/form/**/*.{ts,tsx,js,jsx}"]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/shared-frontend/form"],
+          "outputs": ["coverage/libs/frontend/form"],
           "options": {
-            "jestConfig": "libs/shared-frontend/form/jest.config.js",
+            "jestConfig": "libs/frontend/form/jest.config.js",
             "passWithNoTests": true
           }
         }
       }
     },
-    "shared-backend-domain-auth": {
-      "root": "libs/shared-backend/domain/auth",
-      "sourceRoot": "libs/shared-backend/domain/auth/src",
+    "backend-domain-auth": {
+      "root": "libs/backend/domain/auth",
+      "sourceRoot": "libs/backend/domain/auth/src",
       "projectType": "library",
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["libs/shared-backend/domain/auth/**/*.ts"]
+            "lintFilePatterns": ["libs/backend/domain/auth/**/*.ts"]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/shared-backend/domain/auth"],
+          "outputs": ["coverage/libs/backend/domain/auth"],
           "options": {
-            "jestConfig": "libs/shared-backend/domain/auth/jest.config.js",
+            "jestConfig": "libs/backend/domain/auth/jest.config.js",
             "passWithNoTests": true
           }
         }
@@ -574,43 +566,43 @@
         }
       }
     },
-    "shared-backend-domain-user": {
-      "root": "libs/shared-backend/domain/user",
-      "sourceRoot": "libs/shared-backend/domain/user/src",
+    "backend-domain-user": {
+      "root": "libs/backend/domain/user",
+      "sourceRoot": "libs/backend/domain/user/src",
       "projectType": "library",
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["libs/shared-backend/domain/user/**/*.ts"]
+            "lintFilePatterns": ["libs/backend/domain/user/**/*.ts"]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/shared-backend/domain/user"],
+          "outputs": ["coverage/libs/backend/domain/user"],
           "options": {
-            "jestConfig": "libs/shared-backend/domain/user/jest.config.js",
+            "jestConfig": "libs/backend/domain/user/jest.config.js",
             "passWithNoTests": true
           }
         }
       }
     },
-    "shared-backend-base-model": {
-      "root": "libs/shared-backend/base-model",
-      "sourceRoot": "libs/shared-backend/base-model/src",
+    "backend-base-model": {
+      "root": "libs/backend/base-model",
+      "sourceRoot": "libs/backend/base-model/src",
       "projectType": "library",
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["libs/shared-backend/base-model/**/*.ts"]
+            "lintFilePatterns": ["libs/backend/base-model/**/*.ts"]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/shared-backend/base-model"],
+          "outputs": ["coverage/libs/backend/base-model"],
           "options": {
-            "jestConfig": "libs/shared-backend/base-model/jest.config.js",
+            "jestConfig": "libs/backend/base-model/jest.config.js",
             "passWithNoTests": true
           }
         }
@@ -635,47 +627,45 @@
         }
       }
     },
-    "shared-frontend-api-client": {
-      "root": "libs/shared-frontend/api-client",
-      "sourceRoot": "libs/shared-frontend/api-client/src",
+    "frontend-api-client": {
+      "root": "libs/frontend/api-client",
+      "sourceRoot": "libs/frontend/api-client/src",
       "projectType": "library",
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": [
-              "libs/shared-frontend/api-client/**/*.{ts,tsx,js,jsx}"
+              "libs/frontend/api-client/**/*.{ts,tsx,js,jsx}"
             ]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/shared-frontend/api-client"],
+          "outputs": ["coverage/libs/frontend/api-client"],
           "options": {
-            "jestConfig": "libs/shared-frontend/api-client/jest.config.js",
+            "jestConfig": "libs/frontend/api-client/jest.config.js",
             "passWithNoTests": true
           }
         }
       }
     },
-    "shared-frontend-dialogs": {
-      "root": "libs/shared-frontend/dialogs",
-      "sourceRoot": "libs/shared-frontend/dialogs/src",
+    "frontend-dialogs": {
+      "root": "libs/frontend/dialogs",
+      "sourceRoot": "libs/frontend/dialogs/src",
       "projectType": "library",
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": [
-              "libs/shared-frontend/dialogs/**/*.{ts,tsx,js,jsx}"
-            ]
+            "lintFilePatterns": ["libs/frontend/dialogs/**/*.{ts,tsx,js,jsx}"]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/shared-frontend/dialogs"],
+          "outputs": ["coverage/libs/frontend/dialogs"],
           "options": {
-            "jestConfig": "libs/shared-frontend/dialogs/jest.config.js",
+            "jestConfig": "libs/frontend/dialogs/jest.config.js",
             "passWithNoTests": true
           }
         }

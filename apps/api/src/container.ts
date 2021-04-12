@@ -6,24 +6,24 @@ import {
 } from 'awilix';
 import fastify from 'fastify';
 import { apiRoutes } from '@scrapper-gate/shared/routing';
-import { asArray } from '@scrapper-gate/shared-backend/awilix';
+import { asArray } from '@scrapper-gate/backend/awilix';
 import { userResolver } from './resolvers/user.resolver';
 import { apolloServerFactory } from './apolloServer';
 import { ApolloServer } from 'apollo-server-fastify';
 import { Connection, createConnection } from 'typeorm';
 import { entityDefinitions } from './database';
-import { UnitOfWork } from '@scrapper-gate/shared-backend/unit-of-work';
+import { UnitOfWork } from '@scrapper-gate/backend/unit-of-work';
 import { SecurityClient } from '@tshio/security-client';
 import {
   ExtractToken,
   ExtractUser,
   makeExtractToken,
   makeExtractUser,
-} from '@scrapper-gate/shared-backend/domain/auth';
-import { errorHandler } from '@scrapper-gate/shared-backend/server';
-import { makeRepositoriesProviderFromDefinitions } from '@scrapper-gate/shared-backend/database';
+} from '@scrapper-gate/backend/domain/auth';
+import { errorHandler } from '@scrapper-gate/backend/server';
+import { makeRepositoriesProviderFromDefinitions } from '@scrapper-gate/backend/database';
 import { handlers } from './handlers';
-import { UserRepository } from '@scrapper-gate/shared-backend/domain/user';
+import { UserRepository } from '@scrapper-gate/backend/domain/user';
 import { decode } from 'jsonwebtoken';
 
 export interface CreateContainerDependencies {

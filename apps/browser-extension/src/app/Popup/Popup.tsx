@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
-import { useIsAuthorized } from '@scrapper-gate/shared-frontend/domain/auth';
+import { useIsAuthorized } from '@scrapper-gate/frontend/domain/auth';
 import { Route, Switch, useHistory } from 'react-router-dom';
 import { browserExtensionRoutes } from '@scrapper-gate/shared/routing';
 import { PopupAuthView } from './views/PopupAuthView';
 import { useMount } from 'react-use';
-import { AppType, useAppType } from '@scrapper-gate/shared-frontend/common';
+import { AppType, useAppType } from '@scrapper-gate/frontend/common';
 
 export const Popup = () => {
   const { isAuthorized } = useIsAuthorized();

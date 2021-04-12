@@ -151,6 +151,17 @@ export type LoginMutation = {
   login?: Maybe<Pick<LoginResponse, 'accessToken' | 'refreshToken'>>;
 };
 
+export type CreateUserMutationVariables = Exact<{
+  input: CreateUserInput;
+}>;
+
+export type CreateUserMutation = {
+  createUser: {
+    tokens: Pick<AuthTokens, 'accessToken' | 'refreshToken'>;
+    user: Pick<User, 'id' | 'email' | 'createdAt' | 'updatedAt'>;
+  };
+};
+
 export type WithIndex<TObject> = TObject & Record<string, any>;
 export type ResolversObject<TObject> = WithIndex<TObject>;
 

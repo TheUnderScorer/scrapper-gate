@@ -2,7 +2,7 @@ import { ApolloServer } from 'apollo-server-fastify';
 import { Resolvers, typeDefs } from '@scrapper-gate/shared/schema';
 import { AwilixContainer } from 'awilix';
 import { Logger } from '@scrapper-gate/shared/logger';
-import { BaseApolloContext } from '@scrapper-gate/shared-backend/server';
+import { BaseApolloContext } from '@scrapper-gate/backend/server';
 
 export interface ApolloServerFactoryParams {
   resolvers: Resolvers;
