@@ -21,7 +21,7 @@ export interface MessageSenderState<Data = unknown> {
   called: boolean;
 }
 
-export type MessageSenderResult<Type extends MessageTypes, Data = any> = [
+export type MessageSenderResult<Type extends MessageTypes, Data = unknown> = [
   MessageSenderSend<Type>,
   MessageSenderState<Data>
 ];

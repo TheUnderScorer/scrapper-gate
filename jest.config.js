@@ -26,8 +26,4 @@ module.exports = {
     '<rootDir>/libs/frontend/domain/scrapper',
     '<rootDir>/libs/backend/domain/scrapper',
   ],
-  setupFilesAfterEnv: [
-    `${__dirname}/tests/setupBackend.ts`,
-    './tests/setupTests.ts',
-  ],
 };
