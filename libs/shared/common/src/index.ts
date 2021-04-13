@@ -7,3 +7,4 @@ export * from './DataObject';
 export * from './entities';
 export * from './timeout';
 export * from './array';
+export * from './runStates';

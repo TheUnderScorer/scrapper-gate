@@ -14,10 +14,15 @@ interface FlowBuilderColors {
   endText: string;
 }
 
+interface Gradients {
+  primaryMainToDark: string;
+}
+
 export interface BasePalette<TOption> {
   primaryLight?: TOption;
   greyVariant: TOption;
   flowBuilderColors: FlowBuilderColors;
+  gradients: Gradients;
 }
 
 export interface AppTheme extends Theme {

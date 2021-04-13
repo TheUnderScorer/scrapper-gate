@@ -3,6 +3,12 @@ import { Connection, createConnection } from 'typeorm';
 import { UserModel } from '@scrapper-gate/backend/domain/user';
 import { snakeCase } from 'lodash';
 import { Constructor } from '@scrapper-gate/shared/common';
+import {
+  ScrapperModel,
+  ScrapperStepModel,
+} from '@scrapper-gate/backend/domain/scrapper';
+
+const entities = [UserModel, ScrapperModel, ScrapperStepModel];
 
 let rootConnection: Connection;
 
@@ -40,14 +46,14 @@ beforeEach(async () => {
       password: process.env.DB_PASSWORD,
       // TODO Migrations setup
       synchronize: true,
-      entities: [UserModel],
+      entities,
       type: 'postgres',
     });
   }
 
   const dbName = snakeCase(expect.getState().currentTestName);
 
-  global.connection = await createTestDatabase(dbName, [UserModel]);
+  global.connection = await createTestDatabase(dbName, entities);
 });
 
 afterEach(async () => {

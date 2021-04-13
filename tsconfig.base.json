@@ -59,7 +59,13 @@
       "@scrapper-gate/frontend/api-client": [
         "libs/frontend/api-client/src/index.ts"
       ],
-      "@scrapper-gate/frontend/dialogs": ["libs/frontend/dialogs/src/index.ts"]
+      "@scrapper-gate/frontend/dialogs": ["libs/frontend/dialogs/src/index.ts"],
+      "@scrapper-gate/frontend/domain/scrapper": [
+        "libs/frontend/domain/scrapper/src/index.ts"
+      ],
+      "@scrapper-gate/backend/domain/scrapper": [
+        "libs/backend/domain/scrapper/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]

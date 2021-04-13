@@ -23,6 +23,7 @@ export type Scalars = {
   Int: number;
   Float: number;
   Date: any;
+  Url: any;
 };
 
 export type AuthTokens = {
@@ -34,6 +35,11 @@ export type BaseEntity = {
   id: Scalars['ID'];
   createdAt: Scalars['Date'];
   updatedAt: Scalars['Date'];
+  deletedAt?: Maybe<Scalars['Date']>;
+};
+
+export type CreateScrapperInput = {
+  name?: Maybe<Scalars['String']>;
 };
 
 export type CreateUserInput = {
@@ -44,6 +50,10 @@ export type CreateUserInput = {
 export type CreateUserResult = {
   user: User;
   tokens: AuthTokens;
+};
+
+export type CreatedBy = {
+  createdBy?: Maybe<User>;
 };
 
 export type ForgotPasswordInput = {
@@ -68,6 +78,12 @@ export type LoginResponse = {
   accessToken: Scalars['String'];
   refreshToken: Scalars['String'];
 };
+
+export enum MouseButton {
+  Left = 'Left',
+  Right = 'Right',
+  Middle = 'Middle',
+}
 
 export type Mutation = {
   _?: Maybe<Scalars['Boolean']>;
@@ -124,6 +140,85 @@ export type ResetPasswordResponse = {
   stack?: Maybe<Scalars['String']>;
 };
 
+export enum RunState {
+  Completed = 'Completed',
+  Error = 'Error',
+  InProgress = 'InProgress',
+  Pending = 'Pending',
+  Stopped = 'Stopped',
+}
+
+export type Scrapper = BaseEntity &
+  CreatedBy & {
+    id: Scalars['ID'];
+    createdAt: Scalars['Date'];
+    updatedAt: Scalars['Date'];
+    isRunning?: Maybe<Scalars['Boolean']>;
+    name?: Maybe<Scalars['String']>;
+    state?: Maybe<RunState>;
+    createdBy?: Maybe<User>;
+    deletedAt?: Maybe<Scalars['Date']>;
+    steps?: Maybe<Array<ScrapperStep>>;
+  };
+
+export enum ScrapperAction {
+  Click = 'Click',
+  Condition = 'Condition',
+  GoBack = 'GoBack',
+  NavigateTo = 'NavigateTo',
+  ReadText = 'ReadText',
+  ReloadPage = 'ReloadPage',
+  Type = 'Type',
+}
+
+export type ScrapperStep = BaseEntity &
+  CreatedBy & {
+    id: Scalars['ID'];
+    createdAt: Scalars['Date'];
+    updatedAt: Scalars['Date'];
+    deletedAt?: Maybe<Scalars['Date']>;
+    createdBy?: Maybe<User>;
+    goBackSteps?: Maybe<Scalars['Int']>;
+    nextStep?: Maybe<ScrapperStep>;
+    mouseButton?: Maybe<MouseButton>;
+    url?: Maybe<Scalars['Url']>;
+    navigateToUrl?: Maybe<Scalars['Url']>;
+    reloadDelay?: Maybe<Scalars['Float']>;
+    typeDelay?: Maybe<Scalars['Float']>;
+    useUrlFromPreviousStep?: Maybe<Scalars['Boolean']>;
+    action?: Maybe<ScrapperAction>;
+    selectors?: Maybe<Array<Selector>>;
+  };
+
+export type ScrapperStepInput = {
+  id?: Maybe<Scalars['ID']>;
+  goBackSteps?: Maybe<Scalars['Int']>;
+  nextStepId?: Maybe<Scalars['ID']>;
+  mouseButton?: Maybe<MouseButton>;
+  url?: Maybe<Scalars['Url']>;
+  navigateToUrl?: Maybe<Scalars['Url']>;
+  reloadDelay?: Maybe<Scalars['Float']>;
+  typeDelay?: Maybe<Scalars['Float']>;
+  useUrlFromPreviousStep?: Maybe<Scalars['Boolean']>;
+  action?: Maybe<ScrapperAction>;
+  selectors?: Maybe<Array<SelectorInput>>;
+};
+
+export type Selector = {
+  type?: Maybe<SelectorType>;
+  value: Scalars['String'];
+};
+
+export type SelectorInput = {
+  type?: Maybe<SelectorType>;
+  value: Scalars['String'];
+};
+
+export enum SelectorType {
+  Selector = 'Selector',
+  TextContent = 'TextContent',
+}
+
 export type Subscription = {
   _?: Maybe<Scalars['Boolean']>;
 };
@@ -135,6 +230,7 @@ export type User = BaseEntity & {
   firstName?: Maybe<Scalars['String']>;
   lastName?: Maybe<Scalars['String']>;
   email: Scalars['String'];
+  deletedAt?: Maybe<Scalars['Date']>;
 };
 
 export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never }>;
@@ -283,10 +379,15 @@ export type DirectiveResolverFn<
 export type ResolversTypes = ResolversObject<{
   AuthTokens: ResolverTypeWrapper<AuthTokens>;
   String: ResolverTypeWrapper<Scalars['String']>;
-  BaseEntity: ResolversTypes['User'];
+  BaseEntity:
+    | ResolversTypes['Scrapper']
+    | ResolversTypes['ScrapperStep']
+    | ResolversTypes['User'];
   ID: ResolverTypeWrapper<Scalars['ID']>;
+  CreateScrapperInput: CreateScrapperInput;
   CreateUserInput: CreateUserInput;
   CreateUserResult: ResolverTypeWrapper<CreateUserResult>;
+  CreatedBy: ResolversTypes['Scrapper'] | ResolversTypes['ScrapperStep'];
   Date: ResolverTypeWrapper<Scalars['Date']>;
   ForgotPasswordInput: ForgotPasswordInput;
   ForgotPasswordResponse: ResolverTypeWrapper<ForgotPasswordResponse>;
@@ -294,6 +395,7 @@ export type ResolversTypes = ResolversObject<{
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   LoginInput: LoginInput;
   LoginResponse: ResolverTypeWrapper<LoginResponse>;
+  MouseButton: MouseButton;
   Mutation: ResolverTypeWrapper<{}>;
   Order: Order;
   OrderDirection: OrderDirection;
@@ -302,7 +404,17 @@ export type ResolversTypes = ResolversObject<{
   Query: ResolverTypeWrapper<{}>;
   ResetPasswordInput: ResetPasswordInput;
   ResetPasswordResponse: ResolverTypeWrapper<ResetPasswordResponse>;
+  RunState: RunState;
+  Scrapper: ResolverTypeWrapper<Scrapper>;
+  ScrapperAction: ScrapperAction;
+  ScrapperStep: ResolverTypeWrapper<ScrapperStep>;
+  Float: ResolverTypeWrapper<Scalars['Float']>;
+  ScrapperStepInput: ScrapperStepInput;
+  Selector: ResolverTypeWrapper<Selector>;
+  SelectorInput: SelectorInput;
+  SelectorType: SelectorType;
   Subscription: ResolverTypeWrapper<{}>;
+  Url: ResolverTypeWrapper<Scalars['Url']>;
   User: ResolverTypeWrapper<User>;
 }>;
 
@@ -310,10 +422,17 @@ export type ResolversTypes = ResolversObject<{
 export type ResolversParentTypes = ResolversObject<{
   AuthTokens: AuthTokens;
   String: Scalars['String'];
-  BaseEntity: ResolversParentTypes['User'];
+  BaseEntity:
+    | ResolversParentTypes['Scrapper']
+    | ResolversParentTypes['ScrapperStep']
+    | ResolversParentTypes['User'];
   ID: Scalars['ID'];
+  CreateScrapperInput: CreateScrapperInput;
   CreateUserInput: CreateUserInput;
   CreateUserResult: CreateUserResult;
+  CreatedBy:
+    | ResolversParentTypes['Scrapper']
+    | ResolversParentTypes['ScrapperStep'];
   Date: Scalars['Date'];
   ForgotPasswordInput: ForgotPasswordInput;
   ForgotPasswordResponse: ForgotPasswordResponse;
@@ -328,7 +447,14 @@ export type ResolversParentTypes = ResolversObject<{
   Query: {};
   ResetPasswordInput: ResetPasswordInput;
   ResetPasswordResponse: ResetPasswordResponse;
+  Scrapper: Scrapper;
+  ScrapperStep: ScrapperStep;
+  Float: Scalars['Float'];
+  ScrapperStepInput: ScrapperStepInput;
+  Selector: Selector;
+  SelectorInput: SelectorInput;
   Subscription: {};
+  Url: Scalars['Url'];
   User: User;
 }>;
 
@@ -359,10 +485,15 @@ export type BaseEntityResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['BaseEntity'] = ResolversParentTypes['BaseEntity']
 > = ResolversObject<{
-  __resolveType: TypeResolveFn<'User', ParentType, ContextType>;
+  __resolveType: TypeResolveFn<
+    'Scrapper' | 'ScrapperStep' | 'User',
+    ParentType,
+    ContextType
+  >;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  deletedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 }>;
 
 export type CreateUserResultResolvers<
@@ -372,6 +503,18 @@ export type CreateUserResultResolvers<
   user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   tokens?: Resolver<ResolversTypes['AuthTokens'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type CreatedByResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['CreatedBy'] = ResolversParentTypes['CreatedBy']
+> = ResolversObject<{
+  __resolveType: TypeResolveFn<
+    'Scrapper' | 'ScrapperStep',
+    ParentType,
+    ContextType
+  >;
+  createdBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
 }>;
 
 export interface DateScalarConfig
@@ -462,6 +605,93 @@ export type ResetPasswordResponseResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type ScrapperResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['Scrapper'] = ResolversParentTypes['Scrapper']
+> = ResolversObject<{
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  isRunning?: Resolver<
+    Maybe<ResolversTypes['Boolean']>,
+    ParentType,
+    ContextType
+  >;
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  state?: Resolver<Maybe<ResolversTypes['RunState']>, ParentType, ContextType>;
+  createdBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  deletedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
+  steps?: Resolver<
+    Maybe<Array<ResolversTypes['ScrapperStep']>>,
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type ScrapperStepResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['ScrapperStep'] = ResolversParentTypes['ScrapperStep']
+> = ResolversObject<{
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  deletedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
+  createdBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  goBackSteps?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  nextStep?: Resolver<
+    Maybe<ResolversTypes['ScrapperStep']>,
+    ParentType,
+    ContextType
+  >;
+  mouseButton?: Resolver<
+    Maybe<ResolversTypes['MouseButton']>,
+    ParentType,
+    ContextType
+  >;
+  url?: Resolver<Maybe<ResolversTypes['Url']>, ParentType, ContextType>;
+  navigateToUrl?: Resolver<
+    Maybe<ResolversTypes['Url']>,
+    ParentType,
+    ContextType
+  >;
+  reloadDelay?: Resolver<
+    Maybe<ResolversTypes['Float']>,
+    ParentType,
+    ContextType
+  >;
+  typeDelay?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  useUrlFromPreviousStep?: Resolver<
+    Maybe<ResolversTypes['Boolean']>,
+    ParentType,
+    ContextType
+  >;
+  action?: Resolver<
+    Maybe<ResolversTypes['ScrapperAction']>,
+    ParentType,
+    ContextType
+  >;
+  selectors?: Resolver<
+    Maybe<Array<ResolversTypes['Selector']>>,
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type SelectorResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['Selector'] = ResolversParentTypes['Selector']
+> = ResolversObject<{
+  type?: Resolver<
+    Maybe<ResolversTypes['SelectorType']>,
+    ParentType,
+    ContextType
+  >;
+  value?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export type SubscriptionResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']
@@ -473,6 +703,11 @@ export type SubscriptionResolvers<
     ContextType
   >;
 }>;
+
+export interface UrlScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes['Url'], any> {
+  name: 'Url';
+}
 
 export type UserResolvers<
   ContextType = any,
@@ -488,6 +723,7 @@ export type UserResolvers<
   >;
   lastName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  deletedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -495,6 +731,7 @@ export type Resolvers<ContextType = any> = ResolversObject<{
   AuthTokens?: AuthTokensResolvers<ContextType>;
   BaseEntity?: BaseEntityResolvers<ContextType>;
   CreateUserResult?: CreateUserResultResolvers<ContextType>;
+  CreatedBy?: CreatedByResolvers<ContextType>;
   Date?: GraphQLScalarType;
   ForgotPasswordResponse?: ForgotPasswordResponseResolvers<ContextType>;
   IsAutenthicatedResponse?: IsAutenthicatedResponseResolvers<ContextType>;
@@ -502,7 +739,11 @@ export type Resolvers<ContextType = any> = ResolversObject<{
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   ResetPasswordResponse?: ResetPasswordResponseResolvers<ContextType>;
+  Scrapper?: ScrapperResolvers<ContextType>;
+  ScrapperStep?: ScrapperStepResolvers<ContextType>;
+  Selector?: SelectorResolvers<ContextType>;
   Subscription?: SubscriptionResolvers<ContextType>;
+  Url?: GraphQLScalarType;
   User?: UserResolvers<ContextType>;
 }>;
 

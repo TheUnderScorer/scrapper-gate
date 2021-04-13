@@ -168,9 +168,7 @@
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/backend/awilix/**/*.ts"]
-          }
+          "options": { "lintFilePatterns": ["libs/backend/awilix/**/*.ts"] }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -189,9 +187,7 @@
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/backend/server/**/*.ts"]
-          }
+          "options": { "lintFilePatterns": ["libs/backend/server/**/*.ts"] }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -231,9 +227,7 @@
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/backend/cqrs/**/*.ts"]
-          }
+          "options": { "lintFilePatterns": ["libs/backend/cqrs/**/*.ts"] }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -252,9 +246,7 @@
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/backend/database/**/*.ts"]
-          }
+          "options": { "lintFilePatterns": ["libs/backend/database/**/*.ts"] }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -594,9 +586,7 @@
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/backend/base-model/**/*.ts"]
-          }
+          "options": { "lintFilePatterns": ["libs/backend/base-model/**/*.ts"] }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -666,6 +656,50 @@
           "outputs": ["coverage/libs/frontend/dialogs"],
           "options": {
             "jestConfig": "libs/frontend/dialogs/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "frontend-domain-scrapper": {
+      "root": "libs/frontend/domain/scrapper",
+      "sourceRoot": "libs/frontend/domain/scrapper/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/frontend/domain/scrapper/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/frontend/domain/scrapper"],
+          "options": {
+            "jestConfig": "libs/frontend/domain/scrapper/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "backend-domain-scrapper": {
+      "root": "libs/backend/domain/scrapper",
+      "sourceRoot": "libs/backend/domain/scrapper/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/backend/domain/scrapper/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/backend/domain/scrapper"],
+          "options": {
+            "jestConfig": "libs/backend/domain/scrapper/jest.config.js",
             "passWithNoTests": true
           }
         }

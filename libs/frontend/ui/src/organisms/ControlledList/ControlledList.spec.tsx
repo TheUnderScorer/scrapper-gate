@@ -22,6 +22,7 @@ gql`
     id: ID!
     updatedAt: Date!
     createdAt: Date!
+    deletedAt: Date
   }
 
   type TestItemQueryResult {

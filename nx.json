@@ -50,6 +50,8 @@
     "backend-base-model": { "tags": [] },
     "shared-domain-user": { "tags": [] },
     "frontend-api-client": { "tags": [] },
-    "frontend-dialogs": { "tags": [] }
+    "frontend-dialogs": { "tags": [] },
+    "frontend-domain-scrapper": { "tags": [] },
+    "backend-domain-scrapper": { "tags": [] }
   }
 }

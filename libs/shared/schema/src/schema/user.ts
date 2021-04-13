@@ -8,6 +8,7 @@ export const userSchema = gql`
     firstName: String
     lastName: String
     email: String!
+    deletedAt: Date
   }
 
   input CreateUserInput {

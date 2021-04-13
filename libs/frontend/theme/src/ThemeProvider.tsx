@@ -25,15 +25,17 @@ export const ThemeProvider = ({
     []
   );
 
+  const primary = {
+    dark: colors.deepPurple['800'],
+    main: colors.deepPurple['500'],
+    light: colors.deepPurple['100'],
+  };
+
   const theme = useMemo(
     () =>
       createMuiTheme({
         palette: {
-          primary: {
-            dark: colors.deepPurple['800'],
-            main: colors.deepPurple['500'],
-            light: colors.deepPurple['100'],
-          },
+          primary,
           greyVariant: colors.grey,
           flowBuilderColors: {
             condition: colors.orange['500'],
@@ -44,6 +46,9 @@ export const ThemeProvider = ({
             startText: defaultTheme.palette.common.white,
             end: defaultTheme.palette.error.main,
             endText: defaultTheme.palette.common.white,
+          },
+          gradients: {
+            primaryMainToDark: `linear-gradient(45deg, ${primary.main} 30%, ${primary.dark} 90%)`,
           },
         },
         components: {

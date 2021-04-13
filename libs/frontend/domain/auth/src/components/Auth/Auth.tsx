@@ -19,10 +19,11 @@ import {
 } from '../LoginForm/LoginForm';
 import { Route, useHistory, useRouteMatch } from 'react-router-dom';
 import { ArrowBackSharp } from '@material-ui/icons';
+import { AppTheme } from '@scrapper-gate/frontend/theme';
 
 export type AuthProps = Pick<LoginFormProps, 'afterLogin' | 'afterCreate'>;
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: AppTheme) => ({
   container: {
     padding: 0,
     height: '100%',
@@ -32,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
     padding: `0 ${theme.spacing(2)}`,
   },
   box: {
-    background: `linear-gradient(45deg, ${theme.palette.primary.main} 30%, ${theme.palette.primary.dark} 90%)`,
+    background: theme.palette.gradients.primaryMainToDark,
     color: theme.palette.primary.contrastText,
     padding: `${theme.spacing(5)} 0`,
     display: 'flex',

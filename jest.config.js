@@ -23,6 +23,8 @@ module.exports = {
     '<rootDir>/libs/frontend/api-client',
     '<rootDir>/libs/frontend/ui',
     '<rootDir>/libs/frontend/dialogs',
+    '<rootDir>/libs/frontend/domain/scrapper',
+    '<rootDir>/libs/backend/domain/scrapper',
   ],
   setupFilesAfterEnv: [
     `${__dirname}/tests/setupBackend.ts`,
