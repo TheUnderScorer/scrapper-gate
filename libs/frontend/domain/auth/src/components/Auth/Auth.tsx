@@ -12,14 +12,11 @@ import {
 } from '@material-ui/core';
 import { AuthFacebookButton } from './FacebookButton/AuthFacebookButton';
 import { AuthGoogleButton } from './GoogleButton/AuthGoogleButton';
-import {
-  LoginForm,
-  LoginFormProps,
-  LoginFormType,
-} from '../LoginForm/LoginForm';
+import { LoginForm } from '../LoginForm/LoginForm';
 import { Route, useHistory, useRouteMatch } from 'react-router-dom';
 import { ArrowBackSharp } from '@material-ui/icons';
 import { AppTheme } from '@scrapper-gate/frontend/theme';
+import { LoginFormProps, LoginFormType } from '../LoginForm/LoginForm.types';
 
 export type AuthProps = Pick<LoginFormProps, 'afterLogin' | 'afterCreate'>;
 

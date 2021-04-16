@@ -1,42 +1,18 @@
-import React, { useCallback, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import {
-  AuthTokens,
-  CreateUserResult,
-  LoginInput,
-  LoginInputDto,
-} from '@scrapper-gate/shared/schema';
-import {
-  useCreateUserMutation,
-  useLoginMutation,
-} from '@scrapper-gate/frontend/schema';
-import { useTokensStore } from '@scrapper-gate/frontend/domain/auth';
-import {
-  FormTextField,
-  joiValidationResolver,
-} from '@scrapper-gate/frontend/form';
+import React from 'react';
+import { FormCheckbox, FormTextField } from '@scrapper-gate/frontend/form';
 import {
   Button,
   CircularProgress,
   Fab,
+  Link as MuiLink,
   makeStyles,
   Stack,
   Typography,
 } from '@material-ui/core';
 import { ErrorAlert } from '@scrapper-gate/frontend/ui';
 import { Link } from 'react-router-dom';
-
-export enum LoginFormType {
-  Login = 'Login',
-  Signup = 'Signup',
-}
-
-export interface LoginFormProps {
-  afterLogin?: (tokens: AuthTokens) => void;
-  afterCreate?: (result: CreateUserResult) => void;
-  signupUrl?: string;
-  type?: LoginFormType;
-}
+import { LoginFormProps, LoginFormType } from './LoginForm.types';
+import { useLoginForm } from './useLoginForm';
 
 const useStyles = makeStyles((theme) => ({
   form: {
@@ -63,69 +39,11 @@ export const LoginForm = ({
   afterCreate,
 }: LoginFormProps) => {
   const classes = useStyles();
-
-  const [error, setError] = useState<Error | null>(null);
-  const [login, { loading: loginLoading }] = useLoginMutation({
-    refetchQueries: ['GetCurrentUser'],
+  const { error, loading, form, handleSubmit } = useLoginForm({
+    type,
+    afterLogin,
+    afterCreate,
   });
-  const [signUp, { loading: signupLoading }] = useCreateUserMutation({
-    refetchQueries: ['GetCurrentUser'],
-  });
-
-  const loading = loginLoading || signupLoading;
-
-  const form = useForm({
-    resolver: joiValidationResolver(LoginInputDto),
-  });
-
-  const setTokens = useTokensStore((store) => store.setTokens);
-
-  const handleSubmit = useCallback(
-    async (input: LoginInput) => {
-      try {
-        setError(null);
-
-        if (type === LoginFormType.Login) {
-          const { data } = await login({
-            variables: {
-              input,
-            },
-          });
-
-          if (data.login) {
-            setTokens(data.login);
-
-            afterLogin?.(data.login);
-          }
-
-          return;
-        }
-
-        const { data } = await signUp({
-          variables: {
-            input: {
-              password: input.password,
-              email: input.username,
-            },
-          },
-        });
-
-        if (data.createUser) {
-          afterCreate?.(data.createUser);
-
-          setTokens(data.createUser.tokens);
-        }
-      } catch (e) {
-        console.log(e);
-        if (e?.networkError?.result?.error) {
-          setError(new Error(e.networkError.result.error));
-        } else {
-          setError(e);
-        }
-      }
-    },
-    [type, signUp, login, setTokens, afterLogin, afterCreate]
-  );
 
   return (
     <form className={classes.form} onSubmit={form.handleSubmit(handleSubmit)}>
@@ -152,7 +70,18 @@ export const LoginForm = ({
           disabled={loading}
           type="password"
         />
-
+        {type === LoginFormType.Signup && (
+          <FormCheckbox
+            control={form.control}
+            color="primary"
+            label={
+              <>
+                I accept <MuiLink>terms & conditions</MuiLink>
+              </>
+            }
+            name="acceptTerms"
+          />
+        )}
         <Stack
           className={classes.action}
           spacing={2}

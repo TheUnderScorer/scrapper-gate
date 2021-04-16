@@ -52,6 +52,7 @@
     "frontend-api-client": { "tags": [] },
     "frontend-dialogs": { "tags": [] },
     "frontend-domain-scrapper": { "tags": [] },
-    "backend-domain-scrapper": { "tags": [] }
+    "backend-domain-scrapper": { "tags": [] },
+    "shared-run-states": { "tags": [] }
   }
 }

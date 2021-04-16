@@ -1,18 +1,19 @@
 import React from 'react';
 import { TextField, TextFieldProps } from '@material-ui/core';
-import { ControllerProps, useController } from 'react-hook-form';
+import { useController } from 'react-hook-form';
+import { FieldControllerProps } from '../../types';
 
-export interface FormTextFieldProps
+export interface FormTextFieldProps<T>
   extends Omit<TextFieldProps, 'name'>,
-    Pick<ControllerProps, 'defaultValue' | 'rules' | 'control' | 'name'> {}
+    FieldControllerProps<T> {}
 
-export const FormTextField = ({
+export const FormTextField = <T extends unknown>({
   defaultValue,
   rules,
   control,
   name,
   ...rest
-}: FormTextFieldProps) => {
+}: FormTextFieldProps<T>) => {
   const {
     field,
     fieldState: { error },

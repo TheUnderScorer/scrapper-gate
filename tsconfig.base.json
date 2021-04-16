@@ -65,6 +65,9 @@
       ],
       "@scrapper-gate/backend/domain/scrapper": [
         "libs/backend/domain/scrapper/src/index.ts"
+      ],
+      "@scrapper-gate/shared/run-states": [
+        "libs/shared/run-states/src/index.ts"
       ]
     }
   },

@@ -6,3 +6,4 @@ export * from './molecules/Scoped/Scoped';
 export * from './styles/styles.types';
 export * from './styles/highlight';
 export * from './styles/Styles';
+export * from './molecules/Layout/Layout';

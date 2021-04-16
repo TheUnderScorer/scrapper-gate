@@ -21,6 +21,7 @@ mutation CreateUser($input: CreateUserInput!) {
       email
       createdAt
       updatedAt
+      acceptTerms
     }
   }
 }

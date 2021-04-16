@@ -5,6 +5,10 @@ import { browserExtensionRoutes } from '@scrapper-gate/shared/routing';
 import { PopupAuthView } from './views/PopupAuthView';
 import { useMount } from 'react-use';
 import { AppType, useAppType } from '@scrapper-gate/frontend/common';
+import { Layout } from '@scrapper-gate/frontend/ui';
+import { PopupHeader } from './components/PopupHeader/PopupHeader';
+import { Box } from '@material-ui/core';
+import { PopupScrappersView } from './views/PopupScrappersView';
 
 export const Popup = () => {
   const { isAuthorized } = useIsAuthorized();
@@ -32,7 +36,17 @@ export const Popup = () => {
         </Route>
       )}
       {isAuthorized && (
-        <Route path={browserExtensionRoutes.popup.scrappers}>Hello user!</Route>
+        <Box width="500px" height="500px">
+          <Layout
+            header={<PopupHeader />}
+            headerHeight={94}
+            body={
+              <Route path={browserExtensionRoutes.popup.scrappers}>
+                <PopupScrappersView />
+              </Route>
+            }
+          />
+        </Box>
       )}
     </Switch>
   );

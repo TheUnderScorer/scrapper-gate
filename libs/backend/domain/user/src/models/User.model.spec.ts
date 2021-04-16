@@ -7,6 +7,7 @@ describe('UserModel', () => {
       email: 'test@test.com',
       firstName: 'John',
       lastName: 'Doe',
+      acceptTerms: true,
     });
 
     const repository = global.connection.getRepository(UserModel);

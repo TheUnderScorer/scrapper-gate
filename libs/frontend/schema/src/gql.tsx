@@ -130,6 +130,7 @@ export const CreateUserDocument = gql`
         email
         createdAt
         updatedAt
+        acceptTerms
       }
     }
   }

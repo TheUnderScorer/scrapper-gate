@@ -45,6 +45,7 @@ export type CreateScrapperInput = {
 export type CreateUserInput = {
   email: Scalars['String'];
   password: Scalars['String'];
+  acceptTerms: Scalars['Boolean'];
 };
 
 export type CreateUserResult = {
@@ -231,6 +232,7 @@ export type User = BaseEntity & {
   lastName?: Maybe<Scalars['String']>;
   email: Scalars['String'];
   deletedAt?: Maybe<Scalars['Date']>;
+  acceptTerms: Scalars['Boolean'];
 };
 
 export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never }>;
@@ -254,7 +256,10 @@ export type CreateUserMutationVariables = Exact<{
 export type CreateUserMutation = {
   createUser: {
     tokens: Pick<AuthTokens, 'accessToken' | 'refreshToken'>;
-    user: Pick<User, 'id' | 'email' | 'createdAt' | 'updatedAt'>;
+    user: Pick<
+      User,
+      'id' | 'email' | 'createdAt' | 'updatedAt' | 'acceptTerms'
+    >;
   };
 };
 
@@ -386,13 +391,13 @@ export type ResolversTypes = ResolversObject<{
   ID: ResolverTypeWrapper<Scalars['ID']>;
   CreateScrapperInput: CreateScrapperInput;
   CreateUserInput: CreateUserInput;
+  Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   CreateUserResult: ResolverTypeWrapper<CreateUserResult>;
   CreatedBy: ResolversTypes['Scrapper'] | ResolversTypes['ScrapperStep'];
   Date: ResolverTypeWrapper<Scalars['Date']>;
   ForgotPasswordInput: ForgotPasswordInput;
   ForgotPasswordResponse: ResolverTypeWrapper<ForgotPasswordResponse>;
   IsAutenthicatedResponse: ResolverTypeWrapper<IsAutenthicatedResponse>;
-  Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   LoginInput: LoginInput;
   LoginResponse: ResolverTypeWrapper<LoginResponse>;
   MouseButton: MouseButton;
@@ -429,6 +434,7 @@ export type ResolversParentTypes = ResolversObject<{
   ID: Scalars['ID'];
   CreateScrapperInput: CreateScrapperInput;
   CreateUserInput: CreateUserInput;
+  Boolean: Scalars['Boolean'];
   CreateUserResult: CreateUserResult;
   CreatedBy:
     | ResolversParentTypes['Scrapper']
@@ -437,7 +443,6 @@ export type ResolversParentTypes = ResolversObject<{
   ForgotPasswordInput: ForgotPasswordInput;
   ForgotPasswordResponse: ForgotPasswordResponse;
   IsAutenthicatedResponse: IsAutenthicatedResponse;
-  Boolean: Scalars['Boolean'];
   LoginInput: LoginInput;
   LoginResponse: LoginResponse;
   Mutation: {};
@@ -724,6 +729,7 @@ export type UserResolvers<
   lastName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   deletedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
+  acceptTerms?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 

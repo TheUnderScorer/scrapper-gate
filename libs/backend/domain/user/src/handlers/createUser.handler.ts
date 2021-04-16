@@ -1,12 +1,16 @@
 import { commandHandler } from 'functional-cqrs';
 import { CreateUserCommand } from '../commands/CreateUser.command';
 import { UserRepository } from '../repositories/User.repository';
-import { EmailAlreadyTakenError } from '@scrapper-gate/shared/errors';
+import {
+  EmailAlreadyTakenError,
+  HttpError,
+} from '@scrapper-gate/shared/errors';
 import { SecurityClient } from '@tshio/security-client';
 import { Roles } from '../roles';
 import { UserModel } from '../models/User.model';
 import { UserCreatedEvent } from '../events/UserCreated.event';
 import { CreateUserResult } from '@scrapper-gate/shared/schema';
+import { StatusCodes } from 'http-status-codes';
 
 export interface CreateUserHandlerDependencies {
   userRepository: UserRepository;
@@ -29,6 +33,13 @@ export const createUserHandler = commandHandler.asFunction<
       throw new EmailAlreadyTakenError(payload.input.email);
     }
 
+    if (!payload.input.acceptTerms) {
+      throw new HttpError(
+        'You have to accept terms and conditions.',
+        StatusCodes.BAD_REQUEST
+      );
+    }
+
     const addUserResult = await securityClient.users.addUser(
       {
         username: payload.input.email,
@@ -43,6 +54,7 @@ export const createUserHandler = commandHandler.asFunction<
     const user = UserModel.create({
       id: addUserResult.newUserId,
       email: payload.input.email,
+      acceptTerms: payload.input.acceptTerms,
     });
 
     await userRepository.save(user);

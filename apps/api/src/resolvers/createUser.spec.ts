@@ -33,6 +33,7 @@ describe('Create user', () => {
         input: {
           email,
           password: 'passw0rd',
+          acceptTerms: true,
         },
       }),
     });
@@ -58,6 +59,7 @@ describe('Create user', () => {
         input: {
           email,
           password: 'passw0rd',
+          acceptTerms: true,
         },
       }),
     });
@@ -69,6 +71,7 @@ describe('Create user', () => {
         input: {
           email,
           password: 'passw0rd',
+          acceptTerms: true,
         },
       }),
     });

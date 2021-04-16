@@ -1,20 +1,14 @@
 import { useEffect, useState } from 'react';
 import { getActiveTab } from '../tabsQuery/getActiveTab';
-import { useRecoilValue } from 'recoil';
-import {
-  ExtensionSource,
-  extensionSource,
-} from '../state/atoms/extensionSource';
+import { AppType, useAppType } from '@scrapper-gate/frontend/common';
+import { browser } from 'webextension-polyfill-ts';
 
 export const useActiveTabUrl = () => {
-  const extensionSourceValue = useRecoilValue(extensionSource);
+  const appType = useAppType((store) => store.appType);
   const [url, setUrl] = useState('');
 
   useEffect(() => {
-    if (
-      !extensionSourceValue ||
-      extensionSourceValue === ExtensionSource.Content
-    ) {
+    if (!appType || appType === AppType.ExtensionContentScript) {
       const url = document.location.toString();
 
       if (url.startsWith('chrome-extension')) {
@@ -32,14 +26,14 @@ export const useActiveTabUrl = () => {
       }
     });
 
-    chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+    browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
       if (!tab.active) {
         return;
       }
 
       setUrl(tab.url ?? '');
     });
-  }, [extensionSourceValue]);
+  }, [appType]);
 
   return url;
 };

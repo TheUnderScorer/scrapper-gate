@@ -3,7 +3,8 @@ import { BaseModel } from '@scrapper-gate/backend/base-model';
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { UserModel } from '@scrapper-gate/backend/domain/user';
 import { ScrapperStepModel } from './ScrapperStep.model';
-import { Entities, runStates } from '@scrapper-gate/shared/common';
+import { Entities } from '@scrapper-gate/shared/common';
+import { runStates } from '@scrapper-gate/shared/run-states';
 
 @Entity(Entities.Scrapper)
 export class ScrapperModel

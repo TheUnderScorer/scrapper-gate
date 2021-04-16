@@ -17,4 +17,7 @@ export class UserModel extends BaseModel<User> implements User {
     nullable: true,
   })
   lastName?: string;
+
+  @Column()
+  acceptTerms: boolean;
 }

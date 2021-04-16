@@ -9,11 +9,13 @@ export const userSchema = gql`
     lastName: String
     email: String!
     deletedAt: Date
+    acceptTerms: Boolean!
   }
 
   input CreateUserInput {
     email: String!
     password: String!
+    acceptTerms: Boolean!
   }
 
   type CreateUserResult {
