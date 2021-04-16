@@ -10,6 +10,7 @@ export interface LayoutProps {
   headerHeight?: number | string;
   footerHeight?: number | string;
   className?: string;
+  noGutters?: boolean;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -19,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
   body: (props: LayoutProps) => ({
     overflowY: props.footer || props.header ? 'auto' : 'hidden',
     overflowX: 'hidden',
-    padding: `${theme.spacing(2)} 0`,
+    padding: props.noGutters ? 0 : `${theme.spacing(2)} 0`,
   }),
 }));
 

@@ -8,3 +8,7 @@ export * from './styles/highlight';
 export * from './styles/Styles';
 export * from './molecules/Layout/Layout';
 export * from './organisms/ControlledList/ControlledList';
+export * from './assets/getAsset';
+export * from './assets/useAsset';
+export * from './assets/assets.types';
+export * from './atoms/Image/Image';

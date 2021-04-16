@@ -149,6 +149,7 @@ export const ControlledList = <
   }, [didInitialFetch, result]);
 
   if (!loading && !result?.total) {
+    console.log({ emptyContent });
     return (
       (emptyContent as ReactElement) ?? (
         <Centered>

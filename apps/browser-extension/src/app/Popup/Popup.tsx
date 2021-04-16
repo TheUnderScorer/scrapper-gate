@@ -38,8 +38,9 @@ export const Popup = () => {
       {isAuthorized && (
         <Box width="500px" height="500px">
           <Layout
+            noGutters
             header={<PopupHeader />}
-            headerHeight={94}
+            headerHeight={56}
             body={
               <Route path={browserExtensionRoutes.popup.scrappers}>
                 <PopupScrappersView />
