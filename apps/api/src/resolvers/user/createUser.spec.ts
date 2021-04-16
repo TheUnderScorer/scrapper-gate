@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import '../typings/global';
+import '../../typings/global';
 import { apiRoutes } from '@scrapper-gate/shared/routing';
 import { MutationCreateUserArgs } from '@scrapper-gate/shared/schema';
 import * as faker from 'faker';

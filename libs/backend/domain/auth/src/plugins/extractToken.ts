@@ -1,8 +1,9 @@
 import '../fastify';
 import { SecurityClient } from '@tshio/security-client';
 import { FastifyInstance } from 'fastify';
-import { HttpError } from '@scrapper-gate/shared/errors';
+import { HttpError, UnauthorizedError } from '@scrapper-gate/shared/errors';
 import { StatusCodes } from 'http-status-codes';
+import { UnpackPromise } from '@scrapper-gate/shared/common';
 
 export interface ExtractTokenDependencies {
   securityClient: SecurityClient;
@@ -21,15 +22,20 @@ export const makeExtractToken = ({
         throw new HttpError('Invalid token format.', StatusCodes.UNAUTHORIZED);
       }
 
-      const isAuthorized = await securityClient.users.isAuthenticated({
-        accessToken: token,
-      });
+      let isAuthorized: UnpackPromise<
+        ReturnType<typeof securityClient.users.isAuthenticated>
+      >;
 
-      if (!isAuthorized) {
-        throw new HttpError(
-          'User is not authorized.',
-          StatusCodes.UNAUTHORIZED
-        );
+      try {
+        isAuthorized = await securityClient.users.isAuthenticated({
+          accessToken: token,
+        });
+      } catch {
+        throw new UnauthorizedError();
+      }
+
+      if (!isAuthorized.isAuthenticated) {
+        throw new UnauthorizedError();
       }
 
       req.token = token;

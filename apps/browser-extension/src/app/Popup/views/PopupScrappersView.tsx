@@ -1,6 +1,6 @@
 import React from 'react';
-import { Centered } from '@scrapper-gate/frontend/ui';
+import { MyScrappersList } from '@scrapper-gate/frontend/domain/scrapper';
 
 export const PopupScrappersView = () => {
-  return <Centered>No scrappers found.</Centered>;
+  return <MyScrappersList />;
 };

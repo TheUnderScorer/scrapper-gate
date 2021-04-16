@@ -24,7 +24,9 @@ import { FetchPolicyProps } from '@scrapper-gate/frontend/common';
 import { QueryResult } from '@scrapper-gate/shared/common';
 import { Centered } from '@scrapper-gate/frontend/ui';
 
-export interface RenderItemParams<Entity extends BaseEntity = BaseEntity> {
+export interface RenderItemParams<
+  Entity extends Pick<BaseEntity, 'id'> = BaseEntity
+> {
   item: Entity;
   style: unknown;
 }
@@ -43,7 +45,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 export interface ControlledListProps<
-  Entity extends BaseEntity = BaseEntity,
+  Entity extends Pick<BaseEntity, 'id'> = BaseEntity,
   QueryVars = unknown
 > extends FetchPolicyProps {
   id: string;
@@ -67,7 +69,7 @@ export const initialPagination: Pagination = {
 const initialQueryVars: Record<string, unknown> = {};
 
 export const ControlledList = <
-  Entity extends BaseEntity = BaseEntity,
+  Entity extends Pick<BaseEntity, 'id'> = BaseEntity,
   QueryVars extends Record<string, unknown> = Record<string, unknown>
 >({
   query,
@@ -149,7 +151,9 @@ export const ControlledList = <
   if (!loading && !result?.total) {
     return (
       (emptyContent as ReactElement) ?? (
-        <Typography>No results found.</Typography>
+        <Centered>
+          <Typography>No results found.</Typography>
+        </Centered>
       )
     );
   }

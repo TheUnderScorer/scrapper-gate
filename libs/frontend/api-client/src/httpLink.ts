@@ -6,7 +6,7 @@ let refreshTokenPromise: Promise<Response> | null = null;
 
 export const httpLink = (
   tokens: AuthTokens,
-  setTokens: (tokens: AuthTokens) => void,
+  setTokens: (tokens?: AuthTokens) => void,
   fetch = window.fetch
 ) =>
   createHttpLink({
@@ -26,9 +26,9 @@ export const httpLink = (
 
       return fetch(endpoint, newOptions).then(async (response) => {
         if (
+          response.status === 401 &&
           tokens?.accessToken &&
-          tokens?.refreshToken &&
-          response.status === 401
+          tokens?.refreshToken
         ) {
           const copyResponse = response.clone();
 
@@ -78,6 +78,12 @@ export const httpLink = (
                 },
               });
             }
+          } else {
+            setTokens(undefined);
+
+            delete newOptions.headers.authorization;
+
+            return fetch(endpoint, newOptions);
           }
         }
 

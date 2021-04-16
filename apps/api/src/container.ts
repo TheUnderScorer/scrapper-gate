@@ -7,7 +7,7 @@ import {
 import fastify from 'fastify';
 import { apiRoutes } from '@scrapper-gate/shared/routing';
 import { asArray } from '@scrapper-gate/backend/awilix';
-import { userResolver } from './resolvers/user.resolver';
+import { userResolver } from './resolvers/user/user.resolver';
 import { apolloServerFactory } from './apolloServer';
 import { ApolloServer } from 'apollo-server-fastify';
 import { Connection, createConnection } from 'typeorm';
@@ -25,6 +25,7 @@ import { makeRepositoriesProviderFromDefinitions } from '@scrapper-gate/backend/
 import { handlers } from './handlers';
 import { UserRepository } from '@scrapper-gate/backend/domain/user';
 import { decode } from 'jsonwebtoken';
+import { scrapperResolver } from './resolvers/scrapper/scrapper.resolver';
 
 export interface CreateContainerDependencies {
   dbConnection?: Connection;
@@ -69,7 +70,10 @@ export const createContainer = async ({
     port: asValue(port),
     server: asValue(server),
     logger: asValue(server.log),
-    resolvers: asArray([asFunction(userResolver)]),
+    resolvers: asArray([
+      asFunction(userResolver),
+      asFunction(scrapperResolver),
+    ]),
     apolloServer: asFunction(apolloServerFactory).singleton(),
     container: asValue(container),
     connection: asValue(connection),

@@ -7,3 +7,4 @@ export * from './styles/styles.types';
 export * from './styles/highlight';
 export * from './styles/Styles';
 export * from './molecules/Layout/Layout';
+export * from './organisms/ControlledList/ControlledList';

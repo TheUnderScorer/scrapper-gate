@@ -128,8 +128,14 @@ export type Pagination = {
 
 export type Query = {
   _?: Maybe<Scalars['Boolean']>;
+  getMyScrappers: ScrapperQueryResult;
   isAutenthicated?: Maybe<IsAutenthicatedResponse>;
   me?: Maybe<User>;
+};
+
+export type QueryGetMyScrappersArgs = {
+  pagination?: Maybe<Pagination>;
+  order?: Maybe<Order>;
 };
 
 export type ResetPasswordInput = {
@@ -171,6 +177,11 @@ export enum ScrapperAction {
   ReloadPage = 'ReloadPage',
   Type = 'Type',
 }
+
+export type ScrapperQueryResult = {
+  total: Scalars['Int'];
+  items?: Maybe<Array<Scrapper>>;
+};
 
 export type ScrapperStep = BaseEntity &
   CreatedBy & {
@@ -259,6 +270,19 @@ export type CreateUserMutation = {
     user: Pick<
       User,
       'id' | 'email' | 'createdAt' | 'updatedAt' | 'acceptTerms'
+    >;
+  };
+};
+
+export type MyScrappersQueryVariables = Exact<{
+  pagination?: Maybe<Pagination>;
+  order?: Maybe<Order>;
+}>;
+
+export type MyScrappersQuery = {
+  getMyScrappers: Pick<ScrapperQueryResult, 'total'> & {
+    items?: Maybe<
+      Array<Pick<Scrapper, 'id' | 'name' | 'state' | 'isRunning' | 'createdAt'>>
     >;
   };
 };
@@ -412,6 +436,7 @@ export type ResolversTypes = ResolversObject<{
   RunState: RunState;
   Scrapper: ResolverTypeWrapper<Scrapper>;
   ScrapperAction: ScrapperAction;
+  ScrapperQueryResult: ResolverTypeWrapper<ScrapperQueryResult>;
   ScrapperStep: ResolverTypeWrapper<ScrapperStep>;
   Float: ResolverTypeWrapper<Scalars['Float']>;
   ScrapperStepInput: ScrapperStepInput;
@@ -453,6 +478,7 @@ export type ResolversParentTypes = ResolversObject<{
   ResetPasswordInput: ResetPasswordInput;
   ResetPasswordResponse: ResetPasswordResponse;
   Scrapper: Scrapper;
+  ScrapperQueryResult: ScrapperQueryResult;
   ScrapperStep: ScrapperStep;
   Float: Scalars['Float'];
   ScrapperStepInput: ScrapperStepInput;
@@ -462,6 +488,15 @@ export type ResolversParentTypes = ResolversObject<{
   Url: Scalars['Url'];
   User: User;
 }>;
+
+export type AuthDirectiveArgs = {};
+
+export type AuthDirectiveResolver<
+  Result,
+  Parent,
+  ContextType = any,
+  Args = AuthDirectiveArgs
+> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type RestDirectiveArgs = {
   type?: Maybe<Scalars['String']>;
@@ -593,6 +628,12 @@ export type QueryResolvers<
   ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']
 > = ResolversObject<{
   _?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  getMyScrappers?: Resolver<
+    ResolversTypes['ScrapperQueryResult'],
+    ParentType,
+    ContextType,
+    RequireFields<QueryGetMyScrappersArgs, never>
+  >;
   isAutenthicated?: Resolver<
     Maybe<ResolversTypes['IsAutenthicatedResponse']>,
     ParentType,
@@ -628,6 +669,19 @@ export type ScrapperResolvers<
   deletedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   steps?: Resolver<
     Maybe<Array<ResolversTypes['ScrapperStep']>>,
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type ScrapperQueryResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['ScrapperQueryResult'] = ResolversParentTypes['ScrapperQueryResult']
+> = ResolversObject<{
+  total?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  items?: Resolver<
+    Maybe<Array<ResolversTypes['Scrapper']>>,
     ParentType,
     ContextType
   >;
@@ -746,6 +800,7 @@ export type Resolvers<ContextType = any> = ResolversObject<{
   Query?: QueryResolvers<ContextType>;
   ResetPasswordResponse?: ResetPasswordResponseResolvers<ContextType>;
   Scrapper?: ScrapperResolvers<ContextType>;
+  ScrapperQueryResult?: ScrapperQueryResultResolvers<ContextType>;
   ScrapperStep?: ScrapperStepResolvers<ContextType>;
   Selector?: SelectorResolvers<ContextType>;
   Subscription?: SubscriptionResolvers<ContextType>;
@@ -759,6 +814,7 @@ export type Resolvers<ContextType = any> = ResolversObject<{
  */
 export type IResolvers<ContextType = any> = Resolvers<ContextType>;
 export type DirectiveResolvers<ContextType = any> = ResolversObject<{
+  auth?: AuthDirectiveResolver<any, any, ContextType>;
   rest?: RestDirectiveResolver<any, any, ContextType>;
 }>;
 

@@ -723,6 +723,25 @@
           }
         }
       }
+    },
+    "backend-db-utils": {
+      "root": "libs/backend/db-utils",
+      "sourceRoot": "libs/backend/db-utils/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": { "lintFilePatterns": ["libs/backend/db-utils/**/*.ts"] }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/backend/db-utils"],
+          "options": {
+            "jestConfig": "libs/backend/db-utils/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   }
 }

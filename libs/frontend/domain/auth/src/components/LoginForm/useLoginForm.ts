@@ -1,6 +1,6 @@
 import { LoginFormInput, LoginFormType } from './LoginForm.types';
 import { AuthTokens, CreateUserResult } from '@scrapper-gate/shared/schema';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
   useCreateUserMutation,
   useLoginMutation,
@@ -31,9 +31,10 @@ export function useLoginForm({
 
   const loading = loginLoading || signupLoading;
 
-  const form = useForm<LoginFormInput>({
+  const form = useForm<LoginFormDto>({
     resolver: joiValidationResolver(LoginFormDto),
   });
+  const { setValue } = form;
 
   const setTokens = useTokensStore((store) => store.setTokens);
 
@@ -86,6 +87,10 @@ export function useLoginForm({
     },
     [type, signUp, login, setTokens, afterLogin, afterCreate]
   );
+
+  useEffect(() => {
+    setValue('type', type);
+  }, [type, setValue]);
 
   return { error, loading, form, handleSubmit };
 }

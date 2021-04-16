@@ -9,7 +9,7 @@ export class LoginFormDto extends LoginInputDto implements LoginFormInput {
 
   @(jf.boolean().custom(({ joi }) => {
     return joi.when('type', {
-      is: joi.string().equal(LoginFormType.Signup),
+      is: LoginFormType.Signup,
       then: joi
         .boolean()
         .required()

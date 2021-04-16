@@ -1,1 +1,2 @@
-export * from './lib/frontend-domain-scrapper';
+export * from './components/ScrapperListItem/ScrapperListItem.types';
+export * from './components/MyScrappersList/MyScrappersList';

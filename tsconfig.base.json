@@ -68,7 +68,8 @@
       ],
       "@scrapper-gate/shared/run-states": [
         "libs/shared/run-states/src/index.ts"
-      ]
+      ],
+      "@scrapper-gate/backend/db-utils": ["libs/backend/db-utils/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

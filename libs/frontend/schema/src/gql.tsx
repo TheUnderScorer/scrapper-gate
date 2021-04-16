@@ -177,3 +177,67 @@ export type CreateUserMutationOptions = Apollo.BaseMutationOptions<
   Types.CreateUserMutation,
   Types.CreateUserMutationVariables
 >;
+export const MyScrappersDocument = gql`
+  query MyScrappers($pagination: Pagination, $order: Order) {
+    getMyScrappers(order: $order, pagination: $pagination) {
+      total
+      items {
+        id
+        name
+        state
+        isRunning
+        createdAt
+      }
+    }
+  }
+`;
+
+/**
+ * __useMyScrappersQuery__
+ *
+ * To run a query within a React component, call `useMyScrappersQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMyScrappersQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMyScrappersQuery({
+ *   variables: {
+ *      pagination: // value for 'pagination'
+ *      order: // value for 'order'
+ *   },
+ * });
+ */
+export function useMyScrappersQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    Types.MyScrappersQuery,
+    Types.MyScrappersQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    Types.MyScrappersQuery,
+    Types.MyScrappersQueryVariables
+  >(MyScrappersDocument, options);
+}
+export function useMyScrappersLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    Types.MyScrappersQuery,
+    Types.MyScrappersQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    Types.MyScrappersQuery,
+    Types.MyScrappersQueryVariables
+  >(MyScrappersDocument, options);
+}
+export type MyScrappersQueryHookResult = ReturnType<typeof useMyScrappersQuery>;
+export type MyScrappersLazyQueryHookResult = ReturnType<
+  typeof useMyScrappersLazyQuery
+>;
+export type MyScrappersQueryResult = Apollo.QueryResult<
+  Types.MyScrappersQuery,
+  Types.MyScrappersQueryVariables
+>;

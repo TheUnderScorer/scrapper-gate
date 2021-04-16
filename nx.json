@@ -53,6 +53,7 @@
     "frontend-dialogs": { "tags": [] },
     "frontend-domain-scrapper": { "tags": [] },
     "backend-domain-scrapper": { "tags": [] },
-    "shared-run-states": { "tags": [] }
+    "shared-run-states": { "tags": [] },
+    "backend-db-utils": { "tags": [] }
   }
 }

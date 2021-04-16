@@ -13,6 +13,11 @@ export const scrapperSchema = gql`
     steps: [ScrapperStep!]
   }
 
+  type ScrapperQueryResult {
+    total: Int!
+    items: [Scrapper!]
+  }
+
   type ScrapperStep implements BaseEntity & CreatedBy {
     id: ID!
     createdAt: Date!
@@ -63,5 +68,10 @@ export const scrapperSchema = gql`
 
   input CreateScrapperInput {
     name: String
+  }
+
+  extend type Query {
+    getMyScrappers(pagination: Pagination, order: Order): ScrapperQueryResult!
+      @auth
   }
 `;

@@ -1,0 +1,12 @@
+query MyScrappers($pagination: Pagination, $order: Order) {
+  getMyScrappers(order: $order, pagination: $pagination) {
+    total
+    items {
+      id
+      name
+      state
+      isRunning
+      createdAt
+    }
+  }
+}
