@@ -16,6 +16,9 @@ export const ApiClientProvider = ({ children }: PropsWithChildren<unknown>) => {
   const setTokens = useTokensStore((store) => store.setTokens);
 
   const client = useMemo(() => {
+    console.log({
+      clientMemo: tokens,
+    });
     return new ApolloClient({
       link: from([restLink(tokens), httpLink(tokens, setTokens)]),
       cache,

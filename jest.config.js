@@ -27,5 +27,6 @@ module.exports = {
     '<rootDir>/libs/backend/domain/scrapper',
     '<rootDir>/libs/shared/run-states',
     '<rootDir>/libs/backend/db-utils',
+    '<rootDir>/libs/frontend/domain/user',
   ],
 };

@@ -9,6 +9,8 @@ import {
 import { MenuSharp } from '@material-ui/icons';
 import { Route, Switch } from 'react-router-dom';
 import { browserExtensionRoutes } from '@scrapper-gate/shared/routing';
+import { BooleanParam, useQueryParam } from 'use-query-params';
+import { popupDrawerQueryKey } from '../PopupDrawer/PopupDrawer';
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -26,10 +28,13 @@ const useStyles = makeStyles((theme) => ({
 export const PopupHeader = () => {
   const classes = useStyles();
 
+  const [, setDrawerOpen] = useQueryParam(popupDrawerQueryKey, BooleanParam);
+
   return (
     <AppBar className={classes.appBar} position="static">
       <Toolbar className={classes.toolbar}>
         <IconButton
+          onClick={() => setDrawerOpen(true, 'push')}
           className={classes.menuBtn}
           edge="start"
           color="inherit"

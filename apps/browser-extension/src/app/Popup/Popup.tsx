@@ -5,13 +5,14 @@ import { browserExtensionRoutes } from '@scrapper-gate/shared/routing';
 import { PopupAuthView } from './views/PopupAuthView';
 import { useMount } from 'react-use';
 import { AppType, useAppType } from '@scrapper-gate/frontend/common';
-import { Layout } from '@scrapper-gate/frontend/ui';
+import { Centered, Layout } from '@scrapper-gate/frontend/ui';
 import { PopupHeader } from './components/PopupHeader/PopupHeader';
-import { Box } from '@material-ui/core';
+import { Box, CircularProgress } from '@material-ui/core';
 import { PopupScrappersView } from './views/PopupScrappersView';
+import { PopupDrawer } from './components/PopupDrawer/PopupDrawer';
 
 export const Popup = () => {
-  const { isAuthorized } = useIsAuthorized();
+  const { isAuthorized, loading } = useIsAuthorized();
   const history = useHistory();
 
   const setAppType = useAppType((store) => store.setAppType);
@@ -19,9 +20,11 @@ export const Popup = () => {
   useEffect(() => {
     if (!isAuthorized) {
       history.push(browserExtensionRoutes.popup.login);
-    } else {
-      history.push(browserExtensionRoutes.popup.scrappers);
+
+      return;
     }
+
+    history.push(browserExtensionRoutes.popup.scrappers);
   }, [history, isAuthorized]);
 
   useMount(() => {
@@ -30,24 +33,36 @@ export const Popup = () => {
 
   return (
     <Switch>
-      {!isAuthorized && (
-        <Route path={browserExtensionRoutes.popup.login}>
-          <PopupAuthView />
-        </Route>
-      )}
-      {isAuthorized && (
+      {loading && (
         <Box width="500px" height="500px">
-          <Layout
-            noGutters
-            header={<PopupHeader />}
-            headerHeight={56}
-            body={
-              <Route path={browserExtensionRoutes.popup.scrappers}>
-                <PopupScrappersView />
-              </Route>
-            }
-          />
+          <Centered>
+            <CircularProgress />
+          </Centered>
         </Box>
+      )}
+      {!loading && (
+        <>
+          {!isAuthorized && (
+            <Route path={browserExtensionRoutes.popup.login}>
+              <PopupAuthView />
+            </Route>
+          )}
+          {isAuthorized && (
+            <Box width="500px" height="500px">
+              <PopupDrawer />
+              <Layout
+                noGutters
+                header={<PopupHeader />}
+                headerHeight={56}
+                body={
+                  <Route path={browserExtensionRoutes.popup.scrappers}>
+                    <PopupScrappersView />
+                  </Route>
+                }
+              />
+            </Box>
+          )}
+        </>
       )}
     </Switch>
   );

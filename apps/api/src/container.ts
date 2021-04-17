@@ -91,8 +91,7 @@ export const createContainer = async ({
   });
 
   server.decorateRequest('container', '');
-  server.decorateRequest('token', '');
-  server.decorateRequest('user', '');
+
   await container.resolve<ExtractToken>('extractToken')(server);
   await container.resolve<ExtractUser>('extractUser')(server);
 

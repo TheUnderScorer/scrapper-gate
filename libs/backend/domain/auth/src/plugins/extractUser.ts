@@ -16,6 +16,8 @@ export const makeExtractUser = ({
   userRepository,
   decodeToken,
 }: ExtractUserDependencies) => async (fastify: FastifyInstance) => {
+  fastify.decorateRequest('user', '');
+
   fastify.addHook('preHandler', async (req) => {
     if (!req.token) {
       return;

@@ -4,6 +4,6 @@ export const browserExtensionRoutes = {
     signUp: '/sign-up',
     welcome: '/',
     scrappers: '/scrappers/',
-    scrapperResults: '/scrapper-results',
+    scrapperResults: '/scrapper-results/',
   },
 };

@@ -12,3 +12,4 @@ export * from './assets/getAsset';
 export * from './assets/useAsset';
 export * from './assets/assets.types';
 export * from './atoms/Image/Image';
+export * from './molecules/QueryDrawer/QueryDrawer';

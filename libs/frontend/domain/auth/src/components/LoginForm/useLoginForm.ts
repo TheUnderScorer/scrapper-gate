@@ -22,12 +22,8 @@ export function useLoginForm({
   afterCreate,
 }: UseLoginFormParams) {
   const [error, setError] = useState<Error | null>(null);
-  const [login, { loading: loginLoading }] = useLoginMutation({
-    refetchQueries: ['GetCurrentUser'],
-  });
-  const [signUp, { loading: signupLoading }] = useCreateUserMutation({
-    refetchQueries: ['GetCurrentUser'],
-  });
+  const [login, { loading: loginLoading }] = useLoginMutation();
+  const [signUp, { loading: signupLoading }] = useCreateUserMutation();
 
   const loading = loginLoading || signupLoading;
 
