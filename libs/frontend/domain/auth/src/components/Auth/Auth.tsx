@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme: AppTheme) => ({
   box: {
     background: theme.palette.gradients.primaryMainToDark,
     color: theme.palette.primary.contrastText,
-    padding: `${theme.spacing(5)} 0`,
+    height: theme.spacing(12),
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -65,7 +65,6 @@ export const Auth = ({ afterLogin, afterCreate }: AuthProps) => {
             <Tooltip title="Go back">
               <IconButton
                 onClick={() => history.push(match.path)}
-                size="small"
                 className={classes.icon}
               >
                 <ArrowBackSharp />

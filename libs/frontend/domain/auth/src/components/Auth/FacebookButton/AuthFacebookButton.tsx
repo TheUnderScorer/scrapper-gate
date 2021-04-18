@@ -15,7 +15,7 @@ export const AuthFacebookButton = () => {
   const classes = useStyles();
 
   return (
-    <Fab color="primary" size="small" className={classes.btn}>
+    <Fab size="small" className={classes.btn}>
       <FontAwesomeIcon icon={faFacebookF} />
     </Fab>
   );

@@ -1,17 +1,15 @@
 import './typings/material-ui';
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/styles';
-import { colors, createMuiTheme } from '@material-ui/core';
+import { createMuiTheme, CssBaseline } from '@material-ui/core';
 import React, { PropsWithChildren, useMemo } from 'react';
-import { getContrast } from '@scrapper-gate/shared/common';
 import { ThemeProvider as EmotionThemeProvider } from '@emotion/react';
+import { palette } from './palette';
 
 export interface ThemeProviderProps {
   htmlFontSize?: number;
   isContent?: boolean;
   container?: HTMLElement;
 }
-
-const defaultTheme = createMuiTheme();
 
 export const ThemeProvider = ({
   isContent,
@@ -25,36 +23,26 @@ export const ThemeProvider = ({
     []
   );
 
-  const primary = {
-    dark: colors.deepPurple['800'],
-    main: colors.deepPurple['500'],
-    light: colors.deepPurple['100'],
-  };
-
   const theme = useMemo(
     () =>
       createMuiTheme({
-        palette: {
-          primary,
-          greyVariant: colors.grey,
-          flowBuilderColors: {
-            condition: colors.orange['500'],
-            conditionText: getContrast(colors.orange['500']),
-            action: colors.blue['500'],
-            actionText: getContrast(colors.blue['500']),
-            start: colors.green['500'],
-            startText: defaultTheme.palette.common.white,
-            end: defaultTheme.palette.error.main,
-            endText: defaultTheme.palette.common.white,
-          },
-          gradients: {
-            primaryMainToDark: `linear-gradient(45deg, ${primary.main} 30%, ${primary.dark} 90%)`,
-          },
-        },
+        palette,
         components: {
           MuiButton: {
             defaultProps: {
               disableElevation: true,
+            },
+            styleOverrides: {
+              containedPrimary: {
+                background: palette.gradients.primaryMainToDark,
+              },
+            },
+          },
+          MuiFab: {
+            styleOverrides: {
+              primary: {
+                background: palette.gradients.primaryMainToDark,
+              },
             },
           },
           MuiPopover: {
@@ -114,12 +102,15 @@ export const ThemeProvider = ({
           modal: 1400,
         },
       }),
-    [container, htmlFontSize, isContent, rest]
+    [container, htmlFontSize, isContent, rest.htmlFontSize]
   );
 
   return (
     <EmotionThemeProvider theme={theme}>
-      <MuiThemeProvider theme={theme}>{children}</MuiThemeProvider>
+      <MuiThemeProvider theme={theme}>
+        <CssBaseline />
+        {children}
+      </MuiThemeProvider>
     </EmotionThemeProvider>
   );
 };
