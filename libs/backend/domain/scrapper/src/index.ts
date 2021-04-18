@@ -6,3 +6,6 @@ export * from './scrapper.entity';
 export * from './scrapperStep.entity';
 export * from './queries/GetScrappersByUser.query';
 export * from './queryHandlers/getScrappersByUser.handler';
+export * from './commands/CreateScrapper.command';
+export * from './handlers/createScrapper.handler';
+export * from './events/ScrapperCreated.event';

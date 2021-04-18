@@ -3,7 +3,7 @@ import { getContrast } from '@scrapper-gate/shared/common';
 
 const defaultTheme = createMuiTheme();
 
-const primary = {
+export const primary = {
   dark: colors.deepPurple['800'],
   main: colors.deepPurple['500'],
   light: colors.deepPurple['100'],

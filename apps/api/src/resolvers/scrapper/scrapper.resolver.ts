@@ -1,8 +1,14 @@
 import { Resolvers } from '@scrapper-gate/shared/schema';
 import { BaseApolloContext } from '@scrapper-gate/backend/server';
-import { GetScrappersByUserQuery } from '@scrapper-gate/backend/domain/scrapper';
+import {
+  CreateScrapperCommand,
+  GetScrappersByUserQuery,
+} from '@scrapper-gate/backend/domain/scrapper';
+import { UserModel } from '@scrapper-gate/backend/domain/user';
 
-export const scrapperResolver = (): Resolvers<BaseApolloContext> => ({
+export const scrapperResolver = (): Resolvers<
+  BaseApolloContext<UserModel>
+> => ({
   Query: {
     getMyScrappers: (_, args, ctx) =>
       ctx.unitOfWork.run(({ queriesBus }) =>
@@ -10,6 +16,17 @@ export const scrapperResolver = (): Resolvers<BaseApolloContext> => ({
           new GetScrappersByUserQuery({
             ...args,
             userId: ctx.user.id,
+          })
+        )
+      ),
+  },
+  Mutation: {
+    createScrapper: (_, args, ctx) =>
+      ctx.unitOfWork.run(({ commandsBus }) =>
+        commandsBus.execute(
+          new CreateScrapperCommand({
+            input: args.input,
+            user: ctx.user,
           })
         )
       ),

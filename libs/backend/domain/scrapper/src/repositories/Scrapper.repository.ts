@@ -19,7 +19,8 @@ export class ScrapperRepository extends Repository<ScrapperModel> {
     });
 
     return queryBuilder
-      .where('scrapper.userId = :userId', { userId })
+      .leftJoin('scrapper.createdBy', 'createdBy')
+      .where('createdBy.id = :userId', { userId })
       .getManyAndCount();
   }
 }

@@ -70,6 +70,10 @@ export const scrapperSchema = gql`
     name: String
   }
 
+  extend type Mutation {
+    createScrapper(input: CreateScrapperInput): Scrapper! @auth
+  }
+
   extend type Query {
     getMyScrappers(pagination: Pagination, order: Order): ScrapperQueryResult!
       @auth

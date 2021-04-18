@@ -88,10 +88,15 @@ export enum MouseButton {
 
 export type Mutation = {
   _?: Maybe<Scalars['Boolean']>;
+  createScrapper: Scrapper;
   createUser: CreateUserResult;
   forgotPassword?: Maybe<ForgotPasswordResponse>;
   login?: Maybe<LoginResponse>;
   resetPassword?: Maybe<ResetPasswordResponse>;
+};
+
+export type MutationCreateScrapperArgs = {
+  input?: Maybe<CreateScrapperInput>;
 };
 
 export type MutationCreateUserArgs = {
@@ -597,6 +602,12 @@ export type MutationResolvers<
   ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']
 > = ResolversObject<{
   _?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  createScrapper?: Resolver<
+    ResolversTypes['Scrapper'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateScrapperArgs, never>
+  >;
   createUser?: Resolver<
     ResolversTypes['CreateUserResult'],
     ParentType,
