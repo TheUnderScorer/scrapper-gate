@@ -1,5 +1,4 @@
 import { useCreateScrapperMutation } from '@scrapper-gate/frontend/schema';
-import { v4 as uuid } from 'uuid';
 import {
   CreateScrapperMutation,
   CreateScrapperMutationVariables,
@@ -11,14 +10,14 @@ export type UseCreateScrapperParams = Omit<
   'refetchQueries' | 'optimisticResponse'
 >;
 
-export const useCreateScrapper = () => {
+export const useCreateScrapper = (params?: UseCreateScrapperParams) => {
   return useCreateScrapperMutation({
     refetchQueries: ['MyScrappers'],
     optimisticResponse: (vars) => {
       return {
         __typename: 'Mutation',
         createScrapper: {
-          id: uuid(),
+          id: new Date().toISOString(),
           createdAt: new Date(),
           updatedAt: new Date(),
           name: vars.input?.name,
@@ -26,5 +25,6 @@ export const useCreateScrapper = () => {
         },
       };
     },
+    ...params,
   });
 };

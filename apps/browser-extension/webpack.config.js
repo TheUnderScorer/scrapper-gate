@@ -2,9 +2,15 @@ const createConfig = require('@nrwl/react/plugins/webpack');
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const ExtensionReloader = require('webpack-extension-reloader');
+const WebExtensionTarget = require('webpack-target-webextension');
 
 module.exports = (config) => {
   const preppedConfig = createConfig(config);
+
+  preppedConfig.resolve.mainFields = ['browser', 'module', 'main'];
+  preppedConfig.resolve.aliasFields = ['browser'];
+
+  preppedConfig.target = WebExtensionTarget(preppedConfig.node);
 
   preppedConfig.entry.main = [path.resolve(__dirname, './src/popup.tsx')];
   preppedConfig.entry.content = [path.resolve(__dirname, './src/content.tsx')];
@@ -32,14 +38,17 @@ module.exports = (config) => {
   );
 
   if (preppedConfig.devServer) {
-    preppedConfig.devServer.hot = false;
+    preppedConfig.devServer.hot = true;
+    preppedConfig.devServer.hotOnly = true;
     preppedConfig.devServer.writeToDisk = true;
     preppedConfig.devServer.headers = {
       // We're doing CORS request for HMR
       'Access-Control-Allow-Origin': '*',
     };
     preppedConfig.devServer.disableHostCheck = true;
-    preppedConfig.devServer.https = true;
+    preppedConfig.devServer.injectHot = true;
+    preppedConfig.devServer.injectClient = true;
+    preppedConfig.devServer.https = false;
   }
 
   if (preppedConfig.mode === 'development') {
