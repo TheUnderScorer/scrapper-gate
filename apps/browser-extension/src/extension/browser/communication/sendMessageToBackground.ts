@@ -6,7 +6,7 @@ export const sendMessageToBackground = async <Result>(
 ): Promise<MessageResult<Result>> => {
   const result = await browser.runtime.sendMessage(message);
 
-  if (result.error) {
+  if (result?.error) {
     throw result.error;
   }
 

@@ -117,7 +117,7 @@ export const PopupDrawer = () => {
               {drawerItems.map((item) => {
                 if (item.type === 'subHeader') {
                   return (
-                    <ListSubheader component="div">
+                    <ListSubheader key={item.id} component="div">
                       {item.content}
                     </ListSubheader>
                   );
@@ -125,7 +125,11 @@ export const PopupDrawer = () => {
 
                 if (item.type === 'divider') {
                   return (
-                    <Divider className={classes.divider} variant="fullWidth" />
+                    <Divider
+                      key={item.id}
+                      className={classes.divider}
+                      variant="fullWidth"
+                    />
                   );
                 }
 

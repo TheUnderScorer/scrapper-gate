@@ -5,8 +5,8 @@
   height: 100vh;
   top: 0;
   pointer-events: none;
+}
 
-  > div {
-    pointer-events: none;
-  }
+#scrapper_gate_content_root > div {
+  pointer-events: none;
 }

@@ -1,5 +1,8 @@
 import React from 'react';
-import { MyScrappersList } from '@scrapper-gate/frontend/domain/scrapper';
+import {
+  MyScrappersList,
+  useCreateScrapper,
+} from '@scrapper-gate/frontend/domain/scrapper';
 import { Centered, Image, useAsset } from '@scrapper-gate/frontend/ui';
 import { Fab, makeStyles, Typography } from '@material-ui/core';
 
@@ -18,6 +21,8 @@ export const PopupScrappersView = () => {
 
   const { asset, alt } = useAsset('notFoundSolid');
 
+  const [createScrapper] = useCreateScrapper();
+
   return (
     <MyScrappersList
       emptyContent={
@@ -26,7 +31,11 @@ export const PopupScrappersView = () => {
           <Typography className={classes.text} variant="subtitle1">
             No scrappers found.
           </Typography>
-          <Fab color="primary" variant="extended">
+          <Fab
+            onClick={() => createScrapper()}
+            color="primary"
+            variant="extended"
+          >
             Create first scrapper
           </Fab>
         </Centered>

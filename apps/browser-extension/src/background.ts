@@ -1,5 +1,7 @@
 /* eslint-disable no-console */
 import 'reflect-metadata';
+// For fallback `tabs.executeScript`
+import 'webpack-target-webextension/lib/background';
 import { handlers } from './extension/background/messageHandlers/handlers';
 import { Message, MessageTypes } from './extension/browser/communication/types';
 import { contentStateStore } from './extension/background/store/contentStateStore';

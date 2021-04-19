@@ -3,10 +3,11 @@ import {
   AppBar,
   IconButton,
   makeStyles,
+  Stack,
   Toolbar,
   Typography,
 } from '@material-ui/core';
-import { MenuSharp } from '@material-ui/icons';
+import { Add, MenuSharp } from '@material-ui/icons';
 import { Route, Switch } from 'react-router-dom';
 import { browserExtensionRoutes } from '@scrapper-gate/shared/routing';
 import { BooleanParam, useQueryParam } from 'use-query-params';
@@ -44,9 +45,11 @@ export const PopupHeader = () => {
         </IconButton>
         <Typography variant="h6" noWrap>
           <Switch>
-            <Route path={browserExtensionRoutes.popup.scrappers}>
-              Scrappers
-            </Route>
+            <Stack alignItems="center" direction="row" spacing={1}>
+              <Route path={browserExtensionRoutes.popup.scrappers}>
+                Scrappers
+              </Route>
+            </Stack>
           </Switch>
         </Typography>
       </Toolbar>
