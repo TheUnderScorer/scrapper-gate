@@ -1,3 +1,7 @@
 import { MyScrappersQuery } from '@scrapper-gate/shared/schema';
 
-export type ScrapperListItem = MyScrappersQuery['getMyScrappers']['items'][0];
+export type ScrapperListItemScrapper = MyScrappersQuery['getMyScrappers']['items'][0];
+
+export interface ScrapperListItemProps {
+  scrapper: ScrapperListItemScrapper;
+}

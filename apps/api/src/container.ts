@@ -20,7 +20,7 @@ import {
   makeExtractToken,
   makeExtractUser,
 } from '@scrapper-gate/backend/domain/auth';
-import { errorHandler } from '@scrapper-gate/backend/server';
+import { ErrorHandler, errorHandler } from '@scrapper-gate/backend/server';
 import { makeRepositoriesProviderFromDefinitions } from '@scrapper-gate/backend/database';
 import { handlers } from './handlers';
 import { UserRepository } from '@scrapper-gate/backend/domain/user';
@@ -88,6 +88,7 @@ export const createContainer = async ({
     userRepository: asValue(connection.getCustomRepository(UserRepository)),
     decodeToken: asValue(decode),
     securityApiKey: asValue(securityApiKey),
+    errorHandler: asFunction(errorHandler).singleton(),
   });
 
   server.decorateRequest('container', '');
@@ -112,7 +113,7 @@ export const createContainer = async ({
     cors: true,
   })(server);
 
-  server.setErrorHandler(errorHandler);
+  server.setErrorHandler(container.resolve<ErrorHandler>('errorHandler'));
 
   return container;
 };

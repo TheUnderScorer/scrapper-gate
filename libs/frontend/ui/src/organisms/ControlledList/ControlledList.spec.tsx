@@ -10,7 +10,7 @@ import {
   RenderResult,
   waitFor,
 } from '@testing-library/react';
-import { ControlledList } from './ControlledList';
+import { ControlledList, ControlledListProps } from './ControlledList';
 import { BaseEntity, Pagination } from '@scrapper-gate/shared/schema';
 
 interface TestItem extends BaseEntity {
@@ -102,7 +102,7 @@ const mocks: MockedResponse[] = [
   },
 ];
 
-const Wrapper = () => {
+const Wrapper = (props: Pick<ControlledListProps, 'paginationType'>) => {
   return (
     <div
       className="wrapper"
@@ -119,15 +119,16 @@ const Wrapper = () => {
           </List>
         )}
         query={query}
+        {...props}
       />
     </div>
   );
 };
 
-const renderCmp = () =>
+const renderCmp = (props?: Pick<ControlledListProps, 'paginationType'>) =>
   render(
     <MockedProvider mocks={mocks} addTypename>
-      <Wrapper />
+      <Wrapper {...props} />
     </MockedProvider>
   );
 

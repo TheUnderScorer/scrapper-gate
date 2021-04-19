@@ -31,4 +31,7 @@ export const scrapperResolver = (): Resolvers<
         )
       ),
   },
+  Scrapper: {
+    name: (root) => root.name ?? 'Unnamed scrapper',
+  },
 });

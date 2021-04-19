@@ -29,7 +29,7 @@ export const makeExtractUser = ({
       throw new HttpError('Invalid token.', StatusCodes.BAD_REQUEST);
     }
 
-    req.user = await userRepository.findOneOrFail(decodedToken.userId);
+    req.user = await userRepository.findOne(decodedToken.userId);
   });
 };
 

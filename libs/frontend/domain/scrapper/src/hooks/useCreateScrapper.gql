@@ -1,0 +1,10 @@
+mutation CreateScrapper($input: CreateScrapperInput) {
+  createScrapper(input: $input) {
+    id
+    name
+    createdAt
+    updatedAt
+    isRunning
+    state
+  }
+}

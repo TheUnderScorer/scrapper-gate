@@ -1,15 +1,20 @@
 import React, {
-  MutableRefObject,
+  ElementType,
+  ReactElement,
   ReactNode,
   useCallback,
   useEffect,
   useMemo,
-  useRef,
   useState,
-  ReactElement,
 } from 'react';
 import { DocumentNode, useQuery } from '@apollo/client';
-import { CircularProgress, Typography } from '@material-ui/core';
+import {
+  Box,
+  CircularProgress,
+  List,
+  Pagination as PaginationComponent,
+  Typography,
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
 import { Alert } from '@material-ui/lab';
@@ -22,7 +27,7 @@ import {
 } from '@scrapper-gate/shared/schema';
 import { FetchPolicyProps } from '@scrapper-gate/frontend/common';
 import { QueryResult } from '@scrapper-gate/shared/common';
-import { Centered } from '@scrapper-gate/frontend/ui';
+import { Centered, Layout } from '@scrapper-gate/frontend/ui';
 
 export interface RenderItemParams<
   Entity extends Pick<BaseEntity, 'id'> = BaseEntity
@@ -31,14 +36,11 @@ export interface RenderItemParams<
   style: unknown;
 }
 
-const useStyles = makeStyles(() => ({
-  container: {
+const useStyles = makeStyles((theme) => ({
+  list: {
+    width: '100%',
     height: '100%',
-    overflow: 'auto',
-    padding: 0,
-    margin: 0,
-  },
-  scroll: {
+    overflow: 'hidden',
     overflowY: 'auto !important' as 'auto',
     overflowX: 'hidden !important' as 'hidden',
   },
@@ -58,11 +60,12 @@ export interface ControlledListProps<
   onLoadingChange?: (loading: boolean) => unknown;
   className?: string;
   onDataChange?: (data: QueryResult<Entity> | null) => unknown;
-  paginationType?: 'scroll';
+  paginationType?: 'scroll' | 'pagination';
+  component?: ElementType;
 }
 
 export const initialPagination: Pagination = {
-  take: 9,
+  take: 10,
   skip: 0,
 };
 
@@ -83,10 +86,12 @@ export const ControlledList = <
   fetchPolicy,
   onDataChange,
   id,
+  component,
+  paginationType = 'pagination',
 }: ControlledListProps<Entity, QueryVars>) => {
   const [items, setItems] = useState<Entity[]>([]);
   const [total, setTotal] = useState(0);
-  const containerRef = useRef<HTMLDivElement>();
+  const [page, setPage] = useState(1);
 
   const classes = useStyles();
 
@@ -94,7 +99,7 @@ export const ControlledList = <
   const [pagination, setPagination] = useState<Pagination>(defaultPagination);
   const [order] = useState<Order | undefined>(defaultOrder);
 
-  const take = useMemo(() => pagination.take, [pagination.take]);
+  const { take } = pagination;
 
   const { data, error, loading } = useQuery<
     QueryResult<Entity>,
@@ -113,12 +118,46 @@ export const ControlledList = <
     [data]
   );
 
+  const totalPages = useMemo(() => {
+    if (!result?.total) {
+      return 0;
+    }
+
+    return Math.ceil(result.total / pagination.take);
+  }, [result, pagination.take]);
+
   const handleNext = useCallback(() => {
     setPagination((prev) => ({
       ...prev,
       take: prev.take + take,
     }));
   }, [take]);
+
+  const renderList = useCallback(() => {
+    return (
+      <List
+        id={id}
+        component={component}
+        className={classNames(classes.list, className, 'controlled-list')}
+      >
+        {items.map((item) => renderItem({ item, style: {} }))}
+      </List>
+    );
+  }, [className, classes.list, component, id, items, renderItem]);
+
+  const handlePaginationChange = useCallback(
+    (_: unknown, page: number) => {
+      const newSkip = page > 1 ? Math.ceil(pagination.take * (page - 1)) : 0;
+
+      setPagination((prev) => ({
+        ...prev,
+        skip: newSkip,
+      }));
+
+      setPage(page);
+    },
+    [pagination.take]
+  );
 
   useEffect(() => {
     if (onLoadingChange) {
@@ -149,7 +188,6 @@ export const ControlledList = <
   }, [didInitialFetch, result]);
 
   if (!loading && !result?.total) {
-    console.log({ emptyContent });
     return (
       (emptyContent as ReactElement) ?? (
         <Centered>
@@ -159,7 +197,7 @@ export const ControlledList = <
     );
   }
 
-  if (loading && !didInitialFetch) {
+  if (loading && (!didInitialFetch || paginationType === 'pagination')) {
     return (
       <Centered>
         <CircularProgress size={20} color="inherit" />
@@ -171,14 +209,9 @@ export const ControlledList = <
     return <Alert>{error.message}</Alert>;
   }
 
-  return (
-    <div
-      id={id}
-      ref={containerRef as MutableRefObject<HTMLDivElement>}
-      className={classNames(classes.container, className, 'controlled-list')}
-    >
+  if (paginationType === 'scroll') {
+    return (
       <InfiniteScroll
-        className={classes.scroll}
         scrollableTarget={id}
         loader={
           <Centered>
@@ -189,8 +222,27 @@ export const ControlledList = <
         hasMore={total > items.length}
         next={handleNext}
       >
-        {items.map((item) => renderItem({ item, style: {} }))}
+        {renderList()}
       </InfiniteScroll>
-    </div>
+    );
+  }
+
+  return (
+    <Layout
+      noGutters
+      footer={
+        total > pagination.take ? (
+          <Centered>
+            <PaginationComponent
+              count={totalPages}
+              page={page}
+              onChange={handlePaginationChange}
+            />
+          </Centered>
+        ) : undefined
+      }
+      footerHeight={50}
+      body={renderList()}
+    />
   );
 };

@@ -251,6 +251,17 @@ export type User = BaseEntity & {
   acceptTerms: Scalars['Boolean'];
 };
 
+export type CreateScrapperMutationVariables = Exact<{
+  input?: Maybe<CreateScrapperInput>;
+}>;
+
+export type CreateScrapperMutation = {
+  createScrapper: Pick<
+    Scrapper,
+    'id' | 'name' | 'createdAt' | 'updatedAt' | 'isRunning' | 'state'
+  >;
+};
+
 export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetCurrentUserQuery = {

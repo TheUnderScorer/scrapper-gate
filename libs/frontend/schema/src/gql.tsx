@@ -4,6 +4,60 @@ import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 const defaultOptions = {};
 
+export const CreateScrapperDocument = gql`
+  mutation CreateScrapper($input: CreateScrapperInput) {
+    createScrapper(input: $input) {
+      id
+      name
+      createdAt
+      updatedAt
+      isRunning
+      state
+    }
+  }
+`;
+export type CreateScrapperMutationFn = Apollo.MutationFunction<
+  Types.CreateScrapperMutation,
+  Types.CreateScrapperMutationVariables
+>;
+
+/**
+ * __useCreateScrapperMutation__
+ *
+ * To run a mutation, you first call `useCreateScrapperMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateScrapperMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createScrapperMutation, { data, loading, error }] = useCreateScrapperMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useCreateScrapperMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    Types.CreateScrapperMutation,
+    Types.CreateScrapperMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    Types.CreateScrapperMutation,
+    Types.CreateScrapperMutationVariables
+  >(CreateScrapperDocument, options);
+}
+export type CreateScrapperMutationHookResult = ReturnType<
+  typeof useCreateScrapperMutation
+>;
+export type CreateScrapperMutationResult = Apollo.MutationResult<Types.CreateScrapperMutation>;
+export type CreateScrapperMutationOptions = Apollo.BaseMutationOptions<
+  Types.CreateScrapperMutation,
+  Types.CreateScrapperMutationVariables
+>;
 export const GetCurrentUserDocument = gql`
   query GetCurrentUser {
     me {

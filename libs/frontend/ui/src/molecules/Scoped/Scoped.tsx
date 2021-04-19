@@ -34,19 +34,19 @@ export const Scoped = ({ children }: ScopedProps) => {
       });
       setJss(createdJssWithRef);
       setTarget(headRef);
-
-      console.log({ headRef });
     }
   };
 
   const emotionCache = useMemo(
     () =>
       createCache({
-        key: 'scrapper-gate',
+        key: 'scrapper-gate-styles',
         container: target,
       }),
     [target]
   );
+
+  console.log('Rendering scoped...', children);
 
   return (
     <RootDiv ref={containerRef}>
@@ -56,6 +56,7 @@ export const Scoped = ({ children }: ScopedProps) => {
           <StylesProvider jss={jss}>
             <div>
               <div
+                className="scoped-root"
                 ref={(element) => {
                   setContainer(element ?? undefined);
                 }}
