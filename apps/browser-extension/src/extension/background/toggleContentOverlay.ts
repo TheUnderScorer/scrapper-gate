@@ -1,11 +1,10 @@
 import { getActiveTab } from '../browser/tabsQuery/getActiveTab';
-import { browserLocalStorage } from '../localStorage/browserLocalStorage';
-import { Tabs } from 'webextension-polyfill-ts';
+import { browser, Tabs } from 'webextension-polyfill-ts';
 import { uniq } from 'remeda';
 
 export const toggleContentOverlay = async (active: boolean, tab?: Tabs.Tab) => {
   const targetTab = tab ?? (await getActiveTab());
-  let { activeOverlays } = await browserLocalStorage.get(['activeOverlays']);
+  let { activeOverlays } = await browser.storage.local.get(['activeOverlays']);
 
   if (!Array.isArray(activeOverlays)) {
     activeOverlays = [];
@@ -21,5 +20,7 @@ export const toggleContentOverlay = async (active: boolean, tab?: Tabs.Tab) => {
     );
   }
 
-  await browserLocalStorage.set('activeOverlays', uniq(newActiveOverlays));
+  await browser.storage.local.set({
+    activeOverlays: uniq(newActiveOverlays),
+  });
 };

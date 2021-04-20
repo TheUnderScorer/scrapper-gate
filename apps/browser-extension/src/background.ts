@@ -1,56 +1,14 @@
-/* eslint-disable no-console */
-import 'reflect-metadata';
-// For fallback `tabs.executeScript`
-import 'webpack-target-webextension/lib/background';
-import { handlers } from './extension/background/messageHandlers/handlers';
-import { Message, MessageTypes } from './extension/browser/communication/types';
-import { contentStateStore } from './extension/background/store/contentStateStore';
-import { browserLocalStorage } from './extension/localStorage/browserLocalStorage';
-import { browser } from 'webextension-polyfill-ts';
+import { logger } from '@scrapper-gate/frontend/logger';
 
-browser.runtime.onMessage.addListener(
-  async (message: Message<MessageTypes>, sender) => {
-    console.log('Received message:', message);
+declare function importScripts(path: string);
 
-    if (handlers[message.type]) {
-      const handler = handlers[message.type];
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const response = await handler(message as any, sender);
+try {
+  logger.info('Booting background...');
+  // eslint-disable-next-line no-restricted-globals,@typescript-eslint/no-explicit-any
+  (self as any).window = self;
+  importScripts('backgroundMain.js');
 
-      console.log(`Response for message ${message.type}: `, response);
-
-      return response;
-    }
-  }
-);
-
-browser.tabs.onRemoved.addListener(async (tabId) => {
-  if (contentStateStore.has(tabId)) {
-    contentStateStore.delete(tabId);
-  }
-
-  const {
-    contentRoutes = {},
-    activeOverlays = [],
-  } = await browserLocalStorage.get(['contentRoutes', 'activeOverlays']);
-
-  if (Array.isArray(activeOverlays) && activeOverlays?.length) {
-    const newActiveOverlay = [...activeOverlays].filter(
-      (overlayTabId) => overlayTabId !== tabId
-    );
-
-    await browserLocalStorage.set('activeOverlays', newActiveOverlay);
-  }
-
-  if (contentRoutes && Array.isArray(contentRoutes)) {
-    const newContentRoutes = {
-      ...contentRoutes,
-    };
-
-    delete newContentRoutes[tabId];
-
-    await browserLocalStorage.set('contentRoutes', newContentRoutes);
-  }
-
-  console.log(`${tabId} data cleaned.`);
-});
+  logger.debug('Background loaded');
+} catch (e) {
+  console.error(e);
+}

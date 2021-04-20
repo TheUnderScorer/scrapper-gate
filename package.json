@@ -6,6 +6,7 @@
     "nx": "nx",
     "start": "nx serve",
     "build": "nx build --prod",
+    "watch:browser-extension": "nx serve --prod",
     "test": "jest",
     "lint": "nx workspace-lint && nx lint && nx lint api",
     "e2e": "nx e2e",
@@ -83,6 +84,7 @@
     "use-context-selector": "^1.3.7",
     "use-query-params": "^1.2.2",
     "uuid": "^3.4.0",
+    "webextension-polyfill": "^0.7.0",
     "webextension-polyfill-ts": "^0.25.0",
     "zustand": "^3.3.3"
   },

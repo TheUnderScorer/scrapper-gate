@@ -7,6 +7,7 @@ import { AuthTokens } from '@scrapper-gate/shared/schema';
 
 export enum MessageTypes {
   ToggleContent = 'ToggleContent',
+  InjectContent = 'InjectContent',
   ScrapperOverlayToggled = 'ScrapperOverlayToggled',
   SetContentRoute = 'SetContentRoute',
   ContentRouteChanged = 'ContentRouteChanged',
@@ -41,6 +42,7 @@ export type MessagesPayloadMap = {
   [MessageTypes.ContentStateChanged]: MessagePayload<ContentStateChangePayload>;
   [MessageTypes.GetContentState]: MessagePayload<GetContentStatePayload>;
   [MessageTypes.Logout]: never;
+  [MessageTypes.InjectContent]: never;
 };
 
 export interface Message<Type, Payload = unknown> {

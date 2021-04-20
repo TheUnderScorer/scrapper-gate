@@ -4,6 +4,7 @@ import { toggleContentOverlay } from '../toggleContentOverlay';
 import { updateContentRoute } from '../updateContentRoute';
 import { contentStateStore } from '../store/contentStateStore';
 import { sendMessageToActiveTab } from '../../browser/communication/sendMessageToTab';
+import { browser } from 'webextension-polyfill-ts';
 
 export const handlers: HandlersMap = {
   [MessageTypes.ScrapperOverlayToggled]: async (message) => {
@@ -49,5 +50,19 @@ export const handlers: HandlersMap = {
     return {
       result: true,
     };
+  },
+  [MessageTypes.InjectContent]: async (message, sender) => {
+    if (!sender.tab?.id) {
+      return;
+    }
+
+    console.log('Injecting content script...', chrome.scripting);
+
+    chrome.scripting.executeScript({
+      files: ['contentRoot.js'],
+      target: {
+        tabId: sender.tab.id,
+      },
+    });
   },
 };

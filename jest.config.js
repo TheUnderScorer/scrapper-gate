@@ -28,5 +28,6 @@ module.exports = {
     '<rootDir>/libs/shared/run-states',
     '<rootDir>/libs/backend/db-utils',
     '<rootDir>/libs/frontend/domain/user',
+    '<rootDir>/libs/frontend/logger',
   ],
 };

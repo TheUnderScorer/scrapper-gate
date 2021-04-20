@@ -72,7 +72,8 @@
       "@scrapper-gate/backend/db-utils": ["libs/backend/db-utils/src/index.ts"],
       "@scrapper-gate/frontend/domain/user": [
         "libs/frontend/domain/user/src/index.ts"
-      ]
+      ],
+      "@scrapper-gate/frontend/logger": ["libs/frontend/logger/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

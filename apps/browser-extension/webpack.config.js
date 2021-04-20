@@ -1,21 +1,20 @@
 const createConfig = require('@nrwl/react/plugins/webpack');
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
-const ExtensionReloader = require('webpack-extension-reloader');
-const WebExtensionTarget = require('webpack-target-webextension');
 
 module.exports = (config) => {
   const preppedConfig = createConfig(config);
 
-  preppedConfig.resolve.mainFields = ['browser', 'module', 'main'];
-  preppedConfig.resolve.aliasFields = ['browser'];
-
-  preppedConfig.target = WebExtensionTarget(preppedConfig.node);
-
   preppedConfig.entry.main = [path.resolve(__dirname, './src/popup.tsx')];
   preppedConfig.entry.content = [path.resolve(__dirname, './src/content.tsx')];
+  preppedConfig.entry.contentRoot = [
+    path.resolve(__dirname, './src/app/Content/contentRoot.tsx'),
+  ];
   preppedConfig.entry.background = [
     path.resolve(__dirname, './src/background.ts'),
+  ];
+  preppedConfig.entry.backgroundMain = [
+    path.resolve(__dirname, './src/backgroundMain.ts'),
   ];
 
   delete preppedConfig.entry.styles;
@@ -39,31 +38,12 @@ module.exports = (config) => {
 
   if (preppedConfig.devServer) {
     preppedConfig.devServer.hot = true;
-    preppedConfig.devServer.hotOnly = true;
     preppedConfig.devServer.writeToDisk = true;
-    preppedConfig.devServer.headers = {
-      // We're doing CORS request for HMR
-      'Access-Control-Allow-Origin': '*',
-    };
     preppedConfig.devServer.disableHostCheck = true;
-    preppedConfig.devServer.injectHot = true;
-    preppedConfig.devServer.injectClient = true;
-    preppedConfig.devServer.https = false;
+    preppedConfig.devServer.injectClient = false;
   }
 
   if (preppedConfig.mode === 'development') {
-    preppedConfig.plugins.push(
-      new ExtensionReloader({
-        manifest: path.resolve(__dirname, 'manifest.json'),
-        port: 4200,
-        entries: {
-          contentScript: 'content',
-          background: 'background',
-          extensionPage: 'main',
-        },
-      })
-    );
-
     preppedConfig.optimization.removeAvailableModules = false;
     preppedConfig.optimization.removeEmptyChunks = false;
 
@@ -75,8 +55,6 @@ module.exports = (config) => {
       type: 'memory',
     };
   }
-
-  preppedConfig.output.globalObject = 'window';
 
   return preppedConfig;
 };

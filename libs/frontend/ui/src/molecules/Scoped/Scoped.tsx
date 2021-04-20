@@ -46,8 +46,6 @@ export const Scoped = ({ children }: ScopedProps) => {
     [target]
   );
 
-  console.log('Rendering scoped...', children);
-
   return (
     <RootDiv ref={containerRef}>
       <div ref={setRefAndCreateJss} />

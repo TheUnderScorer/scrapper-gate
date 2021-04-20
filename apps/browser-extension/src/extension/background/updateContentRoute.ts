@@ -1,6 +1,5 @@
 import { getActiveTab } from '../browser/tabsQuery/getActiveTab';
-import { browserLocalStorage } from '../localStorage/browserLocalStorage';
-import { Tabs } from 'webextension-polyfill-ts';
+import { browser, Tabs } from 'webextension-polyfill-ts';
 import { StoredRoute } from '../browser/communication/types';
 
 export const updateContentRoute = async (
@@ -8,18 +7,17 @@ export const updateContentRoute = async (
   tab?: Tabs.Tab
 ) => {
   const targetTab = tab ?? (await getActiveTab());
-  const { contentRoutes = {} } = await browserLocalStorage.get([
+  const { contentRoutes = {} } = await browser.storage.local.get([
     'contentRoutes',
   ]);
 
-  if (typeof contentRoutes !== 'object') {
+  if (typeof contentRoutes !== 'object' || !targetTab) {
     return;
   }
 
-  const newContentRoutes = {
-    ...(contentRoutes ?? {}),
-    [targetTab.id]: route,
-  };
+  contentRoutes[targetTab.id] = route;
 
-  await browserLocalStorage.set('contentRoutes', newContentRoutes);
+  await browser.storage.local.set({
+    contentRoutes,
+  });
 };

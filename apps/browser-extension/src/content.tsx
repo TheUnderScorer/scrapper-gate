@@ -1,6 +1,20 @@
-import { contentContainer } from './extension/contentScript/contentContainer';
+import { sendMessageToBackground } from './extension/browser/communication/sendMessageToBackground';
+import { MessageTypes } from './extension/browser/communication/types';
+import { logger } from '@scrapper-gate/frontend/logger';
 
 let didInit = false;
+
+async function createContentScript() {
+  if (didInit) {
+    return;
+  }
+
+  logger.debug('Sending message');
+
+  await sendMessageToBackground({
+    type: MessageTypes.InjectContent,
+  });
+}
 
 function main() {
   if (didInit) {
@@ -8,7 +22,7 @@ function main() {
   }
 
   setTimeout(() => {
-    console.log('Fix for emotion styles...');
+    logger.debug('Fix for emotion styles...');
 
     const emotion10Styles = document.querySelectorAll(
       `style[data-emotion]:not([data-s])`
@@ -19,16 +33,12 @@ function main() {
       node.removeAttribute('data-emotion');
     });
 
-    console.log('Fix for emotion styles done ;)');
+    logger.debug('Fix for emotion styles done ;)');
 
-    document.body.appendChild(contentContainer);
-
-    import('./app/Content/contentRoot').then(() => {
-      console.log('Content script loaded...');
-    });
+    createContentScript().then(() => console.log('Content script loaded'));
 
     didInit = true;
-  }, 2000);
+  }, 250);
 }
 
 main();

@@ -1,4 +1,3 @@
-import { browserLocalStorage } from '../../localStorage/browserLocalStorage';
 import { getActiveTabInContent } from './getActiveTab';
 import { StoredRoute } from '../../browser/communication/types';
 
@@ -7,7 +6,9 @@ export const getLatestContentRoute = async (): Promise<
 > => {
   const activeTab = await getActiveTabInContent();
 
-  const { contentRoutes = {} } = await browserLocalStorage.get([
+  return undefined;
+
+  /*const { contentRoutes = {} } = await browserLocalStorage.get([
     'contentRoutes',
   ]);
 
@@ -15,5 +16,5 @@ export const getLatestContentRoute = async (): Promise<
     return undefined;
   }
 
-  return contentRoutes[activeTab.id];
+  return contentRoutes[activeTab.id];*/
 };

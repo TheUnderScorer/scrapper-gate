@@ -4,28 +4,32 @@ import { ThemeProvider } from '@scrapper-gate/frontend/theme';
 import { ApiClientProvider } from '@scrapper-gate/frontend/api-client';
 import { Scoped } from '@scrapper-gate/frontend/ui';
 import { SnackbarProvider } from 'notistack';
-import '../../content.css';
 import { ContentRouter } from '../../extension/contentScript/components/ContentRouter';
 import { contentContainer } from '../../extension/contentScript/contentContainer';
+import '../../content.css';
+import { ContentErrorBoundary } from './ContentErrorBoundary';
 import { Content } from './Content';
+import { logger } from '@scrapper-gate/frontend/logger';
 
-console.log('Starting content script...');
+logger.debug('Starting content script... ;)');
+
+document.body.appendChild(contentContainer);
 
 ReactDOM.render(
   <React.StrictMode>
     <Scoped>
       {(shadowRoot, container) => (
-        <ContentRouter>
-          <ThemeProvider isContent container={container}>
-            <ApiClientProvider>
-              <SnackbarProvider>
-                <div>
+        <ContentErrorBoundary>
+          <ContentRouter>
+            <ThemeProvider isContent container={container}>
+              <ApiClientProvider>
+                <SnackbarProvider>
                   <Content />
-                </div>
-              </SnackbarProvider>
-            </ApiClientProvider>
-          </ThemeProvider>
-        </ContentRouter>
+                </SnackbarProvider>
+              </ApiClientProvider>
+            </ThemeProvider>
+          </ContentRouter>
+        </ContentErrorBoundary>
       )}
     </Scoped>
   </React.StrictMode>,
