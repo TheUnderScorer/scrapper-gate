@@ -10,6 +10,8 @@ import { useMount } from 'react-use';
 import { useContentRouteStorage } from '../../extension/contentScript/hooks/useContentRouteStorage';
 import { Route, Switch, useHistory } from 'react-router-dom';
 import Root from '../../extension/contentScript/components/Root';
+import { browserExtensionRoutes } from '@scrapper-gate/shared/routing';
+import { SimpleDialog } from '@scrapper-gate/frontend/ui';
 
 const initialState = {
   visible: false,
@@ -24,7 +26,7 @@ export const Content = () => {
   const setTokens = useTokensStore((store) => store.setTokens);
   const setAppType = useAppType((store) => store.setAppType);
 
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(true);
 
   const history = useHistory();
 
@@ -64,6 +66,11 @@ export const Content = () => {
     <Switch>
       <Route path="/" exact>
         <Root />
+      </Route>
+      <Route path={browserExtensionRoutes.content.scrapper()}>
+        <SimpleDialog open title="Scrapper">
+          Test, lol
+        </SimpleDialog>
       </Route>
     </Switch>
   );

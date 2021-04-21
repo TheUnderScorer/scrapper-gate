@@ -24,9 +24,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const MyScrappersList = (
-  props: Pick<ControlledListProps, 'emptyContent'>
-) => {
+export interface MyScrappersListProps
+  extends Pick<ControlledListProps, 'emptyContent'> {
+  onCreate?: () => unknown;
+}
+
+export const MyScrappersList = ({
+  onCreate,
+  ...props
+}: MyScrappersListProps) => {
   const classes = useStyles();
 
   const [hasData, setHasData] = useState(false);
@@ -44,9 +50,9 @@ export const MyScrappersList = (
         query={MyScrappersDocument}
         {...props}
       />
-      {hasData && (
+      {hasData && onCreate && (
         <Fab
-          onClick={() => createScrapper()}
+          onClick={onCreate}
           color="primary"
           className={classes.fab}
           disabled={loading}

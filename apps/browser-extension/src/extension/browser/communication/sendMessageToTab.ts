@@ -9,7 +9,7 @@ export const sendMessageToTab = async <Result>(
   const response = await browser.tabs.sendMessage(tabId, message);
 
   if (response.error) {
-    throw response.error;
+    throw new Error(response.error.message);
   }
 
   return response;

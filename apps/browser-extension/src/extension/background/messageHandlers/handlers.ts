@@ -15,12 +15,19 @@ export const handlers: HandlersMap = {
       payload: message.payload,
     };
   },
-  [MessageTypes.ContentRouteChanged]: async (message) => {
-    await updateContentRoute(message.payload);
+  [MessageTypes.ContentRouteChanged]: async (message, sender) => {
+    await updateContentRoute(message.payload, sender.tab);
 
     return {
       result: true,
       payload: message.payload,
+    };
+  },
+  [MessageTypes.ToggleContent]: async (message) => {
+    await sendMessageToActiveTab(message);
+
+    return {
+      result: true,
     };
   },
   [MessageTypes.GetActiveTab]: async () => ({

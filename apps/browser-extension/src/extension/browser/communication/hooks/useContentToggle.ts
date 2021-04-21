@@ -18,7 +18,7 @@ export const useContentToggle = (): [Callback, MessageSenderState] => {
   const tokensVal = useTokensStore((store) => store.tokens);
   const [send, data] = useMessageSender({
     type: MessageTypes.ToggleContent,
-    target: Target.activeTab,
+    target: Target.background,
   });
 
   const sendMessage = useCallback(

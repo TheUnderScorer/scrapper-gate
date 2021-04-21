@@ -1,14 +1,13 @@
-import { getActiveTabInContent } from './getActiveTab';
+import { getActiveTabFromBackground } from '../../browser/tabsQuery/getActiveTabFromBackground';
 import { StoredRoute } from '../../browser/communication/types';
+import { browser } from 'webextension-polyfill-ts';
 
 export const getLatestContentRoute = async (): Promise<
   StoredRoute | undefined
 > => {
-  const activeTab = await getActiveTabInContent();
+  const activeTab = await getActiveTabFromBackground();
 
-  return undefined;
-
-  /*const { contentRoutes = {} } = await browserLocalStorage.get([
+  const { contentRoutes = {} } = await browser.storage.local.get([
     'contentRoutes',
   ]);
 
@@ -16,5 +15,5 @@ export const getLatestContentRoute = async (): Promise<
     return undefined;
   }
 
-  return contentRoutes[activeTab.id];*/
+  return contentRoutes[activeTab.id];
 };

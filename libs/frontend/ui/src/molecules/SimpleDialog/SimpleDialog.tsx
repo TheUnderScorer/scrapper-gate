@@ -9,7 +9,6 @@ import {
   DialogTitle,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { AppType, useAppType } from '@scrapper-gate/frontend/common';
 import { Centered } from '../../atoms/Centered/Centered';
 
 export interface SimpleDialogProps
@@ -38,20 +37,10 @@ export const SimpleDialog: FC<SimpleDialogProps> = ({
   loading,
   ...props
 }) => {
-  const appType = useAppType((store) => store.appType);
-  const isContent = appType === AppType.ExtensionContentScript;
-
   const classes = useStyles();
 
   return (
-    <Dialog
-      className={classes.dialog}
-      open={open}
-      onClose={onClose}
-      disablePortal={isContent}
-      disableAutoFocus={isContent}
-      {...props}
-    >
+    <Dialog className={classes.dialog} open={open} onClose={onClose} {...props}>
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         <DialogContentText>{children}</DialogContentText>

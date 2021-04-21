@@ -1,10 +1,8 @@
 import React from 'react';
-import {
-  MyScrappersList,
-  useCreateScrapper,
-} from '@scrapper-gate/frontend/domain/scrapper';
+import { MyScrappersList } from '@scrapper-gate/frontend/domain/scrapper';
 import { Centered, Image, useAsset } from '@scrapper-gate/frontend/ui';
 import { Fab, makeStyles, Typography } from '@material-ui/core';
+import { useCreateScrapperExtension } from '../hooks/useCreateScrapperExtension';
 
 const useStyles = makeStyles((theme) => ({
   empty: {
@@ -21,10 +19,11 @@ export const PopupScrappersView = () => {
 
   const { asset, alt } = useAsset('notFoundSolid');
 
-  const [createScrapper] = useCreateScrapper();
+  const [createScrapper] = useCreateScrapperExtension();
 
   return (
     <MyScrappersList
+      onCreate={() => createScrapper()}
       emptyContent={
         <Centered direction="column" className={classes.empty}>
           <Image alt={alt} src={asset} />

@@ -7,6 +7,7 @@ import {
 } from './useMessageSender.types';
 import { sendMessageToActiveTab } from '../../communication/sendMessageToTab';
 import { sendMessageToBackground } from '../../communication/sendMessageToBackground';
+import { logger } from '@scrapper-gate/frontend/logger';
 
 export const useMessageSender = <Type extends MessageTypes, Data = unknown>({
   target,
@@ -19,49 +20,33 @@ export const useMessageSender = <Type extends MessageTypes, Data = unknown>({
 
   const send = useCallback(
     async (payload?: MessagesPayloadMap[Type]) => {
+      logger.debug(`Sending message ${type}:`, payload);
+
       setLoading(true);
       setCalled(true);
 
-      switch (target) {
-        case Target.activeTab: {
-          try {
-            const response = await sendMessageToActiveTab<Data>({
-              type,
-              payload,
-            });
+      const caller =
+        target === Target.activeTab
+          ? sendMessageToActiveTab
+          : sendMessageToBackground;
 
-            setError(null);
-            setData(response?.payload ?? null);
-          } catch (e) {
-            setError(e);
-            setData(null);
-          } finally {
-            setLoading(false);
-          }
+      try {
+        const response = await caller<Data>({
+          type,
+          payload,
+        });
 
-          break;
-        }
+        logger.debug(`Message ${type} response:`, response);
 
-        case Target.background:
-          try {
-            const response = await sendMessageToBackground<Data>({
-              type,
-              payload,
-            });
+        setError(null);
+        setData(response?.payload ?? null);
+      } catch (e) {
+        logger.error(`Message ${type} error:`, e);
 
-            setError(null);
-            setData(response?.payload ?? null);
-          } catch (e) {
-            setError(e);
-            setData(null);
-          } finally {
-            setLoading(false);
-          }
-          break;
-
-        default:
-          setLoading(false);
-          throw new Error('Invalid type provided.');
+        setError(e);
+        setData(null);
+      } finally {
+        setLoading(false);
       }
     },
     [target, type]

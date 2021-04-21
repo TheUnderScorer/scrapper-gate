@@ -51,5 +51,5 @@ browser.tabs.onRemoved.addListener(async (tabId) => {
     });
   }
 
-  logger.debug(`${tabId} data cleaned.`);
+  logger.debug(`Tab ${tabId} data cleaned.`);
 });

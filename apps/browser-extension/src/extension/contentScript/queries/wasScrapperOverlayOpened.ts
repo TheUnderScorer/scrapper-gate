@@ -1,9 +1,9 @@
-import { getActiveTabInContent } from './getActiveTab';
-import { browserLocalStorage } from '../../localStorage/browserLocalStorage';
+import { getActiveTabFromBackground } from '../../browser/tabsQuery/getActiveTabFromBackground';
+import { browser } from 'webextension-polyfill-ts';
 
 export const wasScrapperOverlayOpened = async () => {
-  const activeTab = await getActiveTabInContent();
-  const { activeOverlays = [] } = await browserLocalStorage.get([
+  const activeTab = await getActiveTabFromBackground();
+  const { activeOverlays = [] } = await browser.storage.local.get([
     'activeOverlays',
   ]);
 

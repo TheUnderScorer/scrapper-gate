@@ -4,6 +4,7 @@ import { createMuiTheme, CssBaseline } from '@material-ui/core';
 import React, { PropsWithChildren, useMemo } from 'react';
 import { ThemeProvider as EmotionThemeProvider } from '@emotion/react';
 import { palette } from './palette';
+import { useContainerStore } from '@scrapper-gate/frontend/common';
 
 export interface ThemeProviderProps {
   htmlFontSize?: number;
@@ -14,14 +15,19 @@ export interface ThemeProviderProps {
 export const ThemeProvider = ({
   isContent,
   children,
-  container,
+  container: propContainer,
   ...rest
 }: PropsWithChildren<ThemeProviderProps>) => {
+  const storeContainer = useContainerStore((store) => store.container);
+  const container = propContainer ?? storeContainer;
+
   const htmlFontSize = useMemo(
     () =>
       parseInt(getComputedStyle(document.querySelector('html')).fontSize, 10),
     []
   );
+
+  console.log({ container });
 
   const theme = useMemo(
     () =>
