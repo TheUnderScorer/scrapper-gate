@@ -12,7 +12,7 @@ async function createContentScript() {
   logger.debug('Sending message');
 
   await sendMessageToBackground({
-    type: MessageTypes.InjectContent,
+    type: MessageTypes.InjectContentScript,
   });
 }
 

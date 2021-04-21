@@ -12,7 +12,7 @@ type Callback = (
 ) => Promise<void>;
 
 /**
- * Hook for handling message that toggles contentScript in "contentScript"
+ * Hook for handling message that toggles contentScript
  * */
 export const useContentToggle = (): [Callback, MessageSenderState] => {
   const tokensVal = useTokensStore((store) => store.tokens);

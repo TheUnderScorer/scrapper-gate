@@ -1,21 +1,15 @@
-import {
-  ContentStateChangePayload,
-  GetContentStatePayload,
-} from './content/contentState.types';
 import { Runtime } from 'webextension-polyfill-ts';
 import { AuthTokens } from '@scrapper-gate/shared/schema';
 
 export enum MessageTypes {
   ToggleContent = 'ToggleContent',
-  InjectContent = 'InjectContent',
+  InjectContentScript = 'InjectContentScript',
   ScrapperOverlayToggled = 'ScrapperOverlayToggled',
   SetContentRoute = 'SetContentRoute',
   ContentRouteChanged = 'ContentRouteChanged',
   Logout = 'Logout',
   GetActiveTab = 'GetActiveTab',
   Test = 'Test',
-  ContentStateChanged = 'ContentStateChanged',
-  GetContentState = 'GetContentState',
 }
 
 type MessagePayload<Payload> = Payload | null | undefined;
@@ -39,10 +33,8 @@ export type MessagesPayloadMap = {
   [MessageTypes.ScrapperOverlayToggled]: MessagePayload<boolean>;
   [MessageTypes.ContentRouteChanged]: StoredRoute;
   [MessageTypes.GetActiveTab]: never;
-  [MessageTypes.ContentStateChanged]: MessagePayload<ContentStateChangePayload>;
-  [MessageTypes.GetContentState]: MessagePayload<GetContentStatePayload>;
   [MessageTypes.Logout]: never;
-  [MessageTypes.InjectContent]: never;
+  [MessageTypes.InjectContentScript]: never;
 };
 
 export interface Message<Type, Payload = unknown> {
