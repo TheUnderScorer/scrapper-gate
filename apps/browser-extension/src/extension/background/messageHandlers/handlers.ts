@@ -1,4 +1,8 @@
-import { HandlersMap, MessageTypes } from '../../browser/communication/types';
+import {
+  HandlersMap,
+  MessageTypes,
+  StoredRoute,
+} from '../../browser/communication/types';
 import { getActiveTab } from '../../browser/tabsQuery/getActiveTab';
 import { toggleContentOverlay } from '../toggleContentOverlay';
 import { updateContentRoute } from '../updateContentRoute';
@@ -28,6 +32,16 @@ export const handlers: HandlersMap = {
 
     return {
       result: true,
+    };
+  },
+  [MessageTypes.GetContentRoute]: async () => {
+    const result = await sendMessageToActiveTab<StoredRoute | undefined>({
+      type: MessageTypes.GetContentRoute,
+    });
+
+    return {
+      result: true,
+      payload: result.payload,
     };
   },
   [MessageTypes.GetActiveTab]: async () => ({

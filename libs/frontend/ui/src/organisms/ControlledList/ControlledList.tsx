@@ -119,12 +119,12 @@ export const ControlledList = <
   );
 
   const totalPages = useMemo(() => {
-    if (!result?.total) {
+    if (!total) {
       return 0;
     }
 
-    return Math.ceil(result.total / pagination.take);
-  }, [result, pagination.take]);
+    return Math.ceil(total / pagination.take);
+  }, [total, pagination.take]);
 
   const handleNext = useCallback(() => {
     setPagination((prev) => ({
@@ -197,7 +197,7 @@ export const ControlledList = <
     );
   }
 
-  if (loading && (!didInitialFetch || paginationType === 'pagination')) {
+  if (loading && !didInitialFetch) {
     return (
       <Centered>
         <CircularProgress size={20} color="inherit" />

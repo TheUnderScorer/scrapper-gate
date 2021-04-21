@@ -5,6 +5,7 @@ import {
   MessageTypes,
 } from '../../communication/types';
 import { browser, Runtime } from 'webextension-polyfill-ts';
+import { logger } from '@scrapper-gate/frontend/logger';
 
 interface OnMessageListenerHookProps<
   Type extends keyof TypesMap,
@@ -47,8 +48,10 @@ export const useOnMessageListener = <
       sender: Runtime.MessageSender
     ) => {
       if (message.type !== type) {
-        return;
+        return true;
       }
+
+      logger.debug(`Received message: `, message);
 
       setValue(message.payload);
 
@@ -57,8 +60,14 @@ export const useOnMessageListener = <
       }
 
       if (responseSender) {
-        return responseSender(message, sender);
+        const response = responseSender(message, sender);
+
+        logger.debug(`Message ${message.type} response:`, response);
+
+        return response;
       }
+
+      return true;
     };
 
     browser.runtime.onMessage.addListener(listener);

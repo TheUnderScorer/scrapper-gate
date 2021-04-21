@@ -7,6 +7,7 @@ export enum MessageTypes {
   ScrapperOverlayToggled = 'ScrapperOverlayToggled',
   SetContentRoute = 'SetContentRoute',
   ContentRouteChanged = 'ContentRouteChanged',
+  GetContentRoute = 'GetContentRoute',
   Logout = 'Logout',
   GetActiveTab = 'GetActiveTab',
   Test = 'Test',
@@ -35,6 +36,7 @@ export type MessagesPayloadMap = {
   [MessageTypes.GetActiveTab]: never;
   [MessageTypes.Logout]: never;
   [MessageTypes.InjectContentScript]: never;
+  [MessageTypes.GetContentRoute]: never;
 };
 
 export interface Message<Type, Payload = unknown> {

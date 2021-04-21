@@ -4,16 +4,13 @@ import {
   ControlledListProps,
 } from '@scrapper-gate/frontend/ui';
 import { MyScrappersDocument } from '@scrapper-gate/frontend/schema';
-import { ScrapperListItemScrapper } from '../ScrapperListItem/ScrapperListItem.types';
 import {
-  CircularProgress,
-  Fab,
-  ListItem,
-  ListItemText,
-} from '@material-ui/core';
+  ScrapperListItemProps,
+  ScrapperListItemScrapper,
+} from '../ScrapperListItem/ScrapperListItem.types';
+import { CircularProgress, Fab } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Add } from '@material-ui/icons';
-import { useCreateScrapper } from '../../hooks/useCreateScrapper';
 import { ScrapperListItem } from '../ScrapperListItem/ScrapperListItem';
 
 const useStyles = makeStyles((theme) => ({
@@ -25,19 +22,23 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export interface MyScrappersListProps
-  extends Pick<ControlledListProps, 'emptyContent'> {
+  extends Pick<ControlledListProps, 'emptyContent'>,
+    Pick<ScrapperListItemProps, 'onClick'> {
+  fabLoading?: boolean;
   onCreate?: () => unknown;
+  activeScrapperId?: string;
 }
 
 export const MyScrappersList = ({
   onCreate,
+  onClick,
+  fabLoading,
+  activeScrapperId,
   ...props
 }: MyScrappersListProps) => {
   const classes = useStyles();
 
   const [hasData, setHasData] = useState(false);
-
-  const [createScrapper, { loading }] = useCreateScrapper();
 
   return (
     <>
@@ -45,7 +46,12 @@ export const MyScrappersList = ({
         id="my_scrappers_list"
         onDataChange={(data) => setHasData(Boolean(data?.total))}
         renderItem={({ item }) => (
-          <ScrapperListItem scrapper={item} key={item.id} />
+          <ScrapperListItem
+            selected={item.id === activeScrapperId}
+            onClick={onClick}
+            scrapper={item}
+            key={item.id}
+          />
         )}
         query={MyScrappersDocument}
         {...props}
@@ -55,9 +61,9 @@ export const MyScrappersList = ({
           onClick={onCreate}
           color="primary"
           className={classes.fab}
-          disabled={loading}
+          disabled={fabLoading}
         >
-          {loading ? <CircularProgress color="inherit" /> : <Add />}
+          {fabLoading ? <CircularProgress color="inherit" /> : <Add />}
         </Fab>
       )}
     </>

@@ -5,12 +5,16 @@ import {
   ListItemSecondaryAction,
   ListItemText,
 } from '@material-ui/core';
-import { Dropdown } from '../../../../../ui/src/molecules/Dropdown/Dropdown';
+import { Dropdown } from '@scrapper-gate/frontend/ui';
 import { Delete } from '@material-ui/icons';
 
-export const ScrapperListItem = ({ scrapper }: ScrapperListItemProps) => {
+export const ScrapperListItem = ({
+  scrapper,
+  onClick,
+  ...props
+}: ScrapperListItemProps) => {
   return (
-    <ListItem button>
+    <ListItem button onClick={() => onClick?.(scrapper)} {...props}>
       <ListItemText>{scrapper.name}</ListItemText>
       <ListItemSecondaryAction>
         <Dropdown
