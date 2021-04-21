@@ -56,6 +56,7 @@
     "shared-run-states": { "tags": [] },
     "backend-db-utils": { "tags": [] },
     "frontend-domain-user": { "tags": [] },
-    "frontend-logger": { "tags": [] }
+    "frontend-logger": { "tags": [] },
+    "shared-domain-scrapper": { "tags": [] }
   }
 }

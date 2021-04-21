@@ -73,7 +73,10 @@
       "@scrapper-gate/frontend/domain/user": [
         "libs/frontend/domain/user/src/index.ts"
       ],
-      "@scrapper-gate/frontend/logger": ["libs/frontend/logger/src/index.ts"]
+      "@scrapper-gate/frontend/logger": ["libs/frontend/logger/src/index.ts"],
+      "@scrapper-gate/shared/domain/scrapper": [
+        "libs/shared/domain/scrapper/src/index.ts"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]

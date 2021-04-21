@@ -8,4 +8,5 @@ export const createMockUser = (): User => ({
   lastName: faker.name.lastName(),
   createdAt: new Date(),
   updatedAt: new Date(),
+  acceptTerms: true,
 });

@@ -12,6 +12,7 @@ import {
 } from '@testing-library/react';
 import { ControlledList, ControlledListProps } from './ControlledList';
 import { BaseEntity, Pagination } from '@scrapper-gate/shared/schema';
+import userEvent from '@testing-library/user-event';
 
 interface TestItem extends BaseEntity {
   __typename?: 'TestItem';
@@ -100,9 +101,28 @@ const mocks: MockedResponse[] = [
       },
     }),
   },
+  {
+    request: {
+      query,
+      variables: {
+        pagination: { ...initialPagination, take: 5 },
+        order: undefined,
+      },
+    },
+    result: () => ({
+      data: {
+        getTestItems: {
+          items: mockItems.slice(0, 5),
+          total: mockItems.length,
+        },
+      },
+    }),
+  },
 ];
 
-const Wrapper = (props: Pick<ControlledListProps, 'paginationType'>) => {
+const Wrapper = (
+  props: Pick<ControlledListProps, 'paginationType' | 'onDataChange'>
+) => {
   return (
     <div
       className="wrapper"
@@ -125,7 +145,9 @@ const Wrapper = (props: Pick<ControlledListProps, 'paginationType'>) => {
   );
 };
 
-const renderCmp = (props?: Pick<ControlledListProps, 'paginationType'>) =>
+const renderCmp = (
+  props?: Pick<ControlledListProps, 'paginationType' | 'onDataChange'>
+) =>
   render(
     <MockedProvider mocks={mocks} addTypename>
       <Wrapper {...props} />
@@ -147,7 +169,9 @@ describe('<ControlledList />', () => {
   });
 
   it('should support infinite scrolling', async () => {
-    const cmp = renderCmp();
+    const cmp = renderCmp({
+      paginationType: 'scroll',
+    });
 
     await waitForFirstLoad(cmp);
 
@@ -165,5 +189,32 @@ describe('<ControlledList />', () => {
       const listItems = cmp.container.querySelectorAll('.test-list-item');
       expect(listItems).toHaveLength(newTake);
     });
+  });
+
+  it('should support normal pagination', async () => {
+    const onDataChange = jest.fn();
+    const cmp = renderCmp({
+      paginationType: 'pagination',
+      onDataChange,
+    });
+
+    await waitForFirstLoad(cmp);
+
+    const paginationItem = cmp.container.querySelector(
+      '[aria-label="Go to page 2"]'
+    );
+
+    act(() => {
+      userEvent.click(paginationItem);
+    });
+
+    const newTake = 5;
+
+    await waitFor(() => {
+      const listItems = cmp.container.querySelectorAll('.test-list-item');
+      expect(listItems).toHaveLength(newTake);
+    });
+
+    expect(onDataChange).toHaveBeenCalledTimes(3);
   });
 });

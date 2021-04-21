@@ -12,6 +12,7 @@ import { CircularProgress, Fab } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Add } from '@material-ui/icons';
 import { ScrapperListItem } from '../ScrapperListItem/ScrapperListItem';
+import { FetchPolicyProps } from '@scrapper-gate/frontend/common';
 
 const useStyles = makeStyles((theme) => ({
   fab: {
@@ -23,7 +24,8 @@ const useStyles = makeStyles((theme) => ({
 
 export interface MyScrappersListProps
   extends Pick<ControlledListProps, 'emptyContent'>,
-    Pick<ScrapperListItemProps, 'onClick'> {
+    Pick<ScrapperListItemProps, 'onClick'>,
+    FetchPolicyProps {
   fabLoading?: boolean;
   onCreate?: () => unknown;
   activeScrapperId?: string;
@@ -34,6 +36,7 @@ export const MyScrappersList = ({
   onClick,
   fabLoading,
   activeScrapperId,
+  fetchPolicy,
   ...props
 }: MyScrappersListProps) => {
   const classes = useStyles();
@@ -43,6 +46,7 @@ export const MyScrappersList = ({
   return (
     <>
       <ControlledList<ScrapperListItemScrapper>
+        fetchPolicy={fetchPolicy}
         id="my_scrappers_list"
         onDataChange={(data) => setHasData(Boolean(data?.total))}
         renderItem={({ item }) => (

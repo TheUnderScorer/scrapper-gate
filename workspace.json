@@ -811,6 +811,27 @@
           }
         }
       }
+    },
+    "shared-domain-scrapper": {
+      "root": "libs/shared/domain/scrapper",
+      "sourceRoot": "libs/shared/domain/scrapper/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/shared/domain/scrapper/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shared/domain/scrapper"],
+          "options": {
+            "jestConfig": "libs/shared/domain/scrapper/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   }
 }

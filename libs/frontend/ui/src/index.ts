@@ -14,3 +14,5 @@ export * from './assets/assets.types';
 export * from './atoms/Image/Image';
 export * from './molecules/QueryDrawer/QueryDrawer';
 export * from './molecules/Dropdown/Dropdown';
+export { useNormalPagination } from './organisms/ControlledList/useNormalPagination';
+export { useInfiniteScrollPagination } from './organisms/ControlledList/useInfiniteScrollPagination';

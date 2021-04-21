@@ -14,7 +14,12 @@ export const ScrapperListItem = ({
   ...props
 }: ScrapperListItemProps) => {
   return (
-    <ListItem button onClick={() => onClick?.(scrapper)} {...props}>
+    <ListItem
+      className="scrapper-list-item"
+      button
+      onClick={() => onClick?.(scrapper)}
+      {...props}
+    >
       <ListItemText>{scrapper.name}</ListItemText>
       <ListItemSecondaryAction>
         <Dropdown

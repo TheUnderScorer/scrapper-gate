@@ -19,8 +19,6 @@ export const useActiveScrapperInContent = () => {
     initialValue: async () => {
       const tab = await getActiveTab();
 
-      console.log({ tab });
-
       return getContentRoute(tab.id);
     },
   });

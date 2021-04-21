@@ -9,7 +9,6 @@ import React, {
 } from 'react';
 import { DocumentNode, useQuery } from '@apollo/client';
 import {
-  Box,
   CircularProgress,
   List,
   Pagination as PaginationComponent,
@@ -28,6 +27,8 @@ import {
 import { FetchPolicyProps } from '@scrapper-gate/frontend/common';
 import { QueryResult } from '@scrapper-gate/shared/common';
 import { Centered, Layout } from '@scrapper-gate/frontend/ui';
+import { useNormalPagination } from './useNormalPagination';
+import { useInfiniteScrollPagination } from './useInfiniteScrollPagination';
 
 export interface RenderItemParams<
   Entity extends Pick<BaseEntity, 'id'> = BaseEntity
@@ -36,7 +37,7 @@ export interface RenderItemParams<
   style: unknown;
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   list: {
     width: '100%',
     height: '100%',
@@ -118,20 +119,17 @@ export const ControlledList = <
     [data]
   );
 
-  const totalPages = useMemo(() => {
-    if (!total) {
-      return 0;
-    }
+  const handleNext = useInfiniteScrollPagination({
+    setPagination,
+    take,
+  });
 
-    return Math.ceil(total / pagination.take);
-  }, [total, pagination.take]);
-
-  const handleNext = useCallback(() => {
-    setPagination((prev) => ({
-      ...prev,
-      take: prev.take + take,
-    }));
-  }, [take]);
+  const { totalPages, handlePaginationChange } = useNormalPagination({
+    total,
+    pagination,
+    setPagination,
+    setPage,
+  });
 
   const renderList = useCallback(() => {
     return (
@@ -144,20 +142,6 @@ export const ControlledList = <
       </List>
     );
   }, [className, classes.list, component, id, items, renderItem]);
-
-  const handlePaginationChange = useCallback(
-    (_: unknown, page: number) => {
-      const newSkip = page > 1 ? Math.ceil(pagination.take * (page - 1)) : 0;
-
-      setPagination((prev) => ({
-        ...prev,
-        skip: newSkip,
-      }));
-
-      setPage(page);
-    },
-    [pagination.take]
-  );
 
   useEffect(() => {
     if (onLoadingChange) {

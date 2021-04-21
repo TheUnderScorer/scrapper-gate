@@ -9,6 +9,7 @@ import { useCreateScrapperExtension } from '../hooks/useCreateScrapperExtension'
 import { useContentToggle } from '../../../extension/browser/communication/hooks/useContentToggle';
 import { browserExtensionRoutes } from '@scrapper-gate/shared/routing';
 import { useActiveScrapperInContent } from '../hooks/useActiveScrapperInContent';
+import { FetchPolicyProps } from '@scrapper-gate/frontend/common';
 
 const useStyles = makeStyles((theme) => ({
   empty: {
@@ -20,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const PopupScrappersView = () => {
+export const PopupScrappersView = ({ fetchPolicy }: FetchPolicyProps) => {
   const classes = useStyles();
 
   const { asset, alt } = useAsset('notFoundSolid');
@@ -53,6 +54,7 @@ export const PopupScrappersView = () => {
 
   return (
     <MyScrappersList
+      fetchPolicy={fetchPolicy}
       activeScrapperId={activeScrapperId}
       onClick={handleScrapperClick}
       fabLoading={loading}
