@@ -6,8 +6,6 @@ import { HashRouter } from 'react-router-dom';
 import { ApiClientProvider } from '@scrapper-gate/frontend/api-client';
 import { QueryParamProvider } from '@scrapper-gate/frontend/common';
 
-console.log('Popup');
-
 ReactDOM.render(
   <React.StrictMode>
     <HashRouter>

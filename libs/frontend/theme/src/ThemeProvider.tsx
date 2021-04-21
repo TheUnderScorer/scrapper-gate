@@ -27,8 +27,6 @@ export const ThemeProvider = ({
     []
   );
 
-  console.log({ container });
-
   const theme = useMemo(
     () =>
       createMuiTheme({

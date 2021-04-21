@@ -4,6 +4,7 @@ import {
   BaseSchemaConstructor,
   ValidationError,
 } from '@scrapper-gate/shared/validation';
+import { logger } from '@scrapper-gate/frontend/logger';
 
 export const joiValidationResolver = <T>(
   schema: BaseSchemaConstructor<BaseSchema<T>>
@@ -25,7 +26,7 @@ export const joiValidationResolver = <T>(
       throw error;
     }
 
-    console.log({ error });
+    logger.error(`Validation error:`, error);
 
     error.details.forEach((detail) => {
       const path = Array.isArray(detail.path)

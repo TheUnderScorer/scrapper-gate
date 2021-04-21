@@ -1,13 +1,14 @@
 import { onError } from '@apollo/client/link/error';
+import { logger } from '@scrapper-gate/frontend/logger';
 
 export const onErrorLink = onError(({ graphQLErrors, networkError }) => {
   graphQLErrors?.forEach(({ message, locations, path }) =>
-    console.log(
+    logger.error(
       `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
     )
   );
 
   if (networkError) {
-    console.log(`[Network error]: ${networkError}`);
+    logger.error(`[Network error]: ${networkError}`);
   }
 });

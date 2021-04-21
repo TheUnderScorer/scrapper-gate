@@ -35,7 +35,7 @@ function main() {
 
     logger.debug('Fix for emotion styles done ;)');
 
-    createContentScript().then(() => console.log('Content script loaded'));
+    createContentScript().then(() => logger.debug('Content script loaded'));
 
     didInit = true;
   }, 250);

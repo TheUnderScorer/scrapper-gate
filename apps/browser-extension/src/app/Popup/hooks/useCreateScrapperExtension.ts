@@ -13,8 +13,6 @@ export const useCreateScrapperExtension = (
   return useCreateScrapper({
     ...params,
     onCompleted: async (data) => {
-      console.log({ data });
-
       params?.onCompleted?.(data);
 
       if (data?.createScrapper?.id) {
