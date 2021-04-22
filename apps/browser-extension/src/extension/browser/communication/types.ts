@@ -27,6 +27,8 @@ export interface StoredRoute {
   state?: unknown;
 }
 
+export type StoredRoutes = Record<string, StoredRoute>;
+
 export type MessagesPayloadMap = {
   [MessageTypes.ToggleContent]: MessagePayload<ContentToggleHookPayload>;
   [MessageTypes.Test]: MessagePayload<boolean>;

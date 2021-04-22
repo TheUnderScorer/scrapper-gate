@@ -3,6 +3,8 @@ import { browser } from 'webextension-polyfill-ts';
 import { handlers } from './extension/background/messageHandlers/handlers';
 import { Message, MessageTypes } from './extension/browser/communication/types';
 import { logger } from '@scrapper-gate/frontend/logger';
+import { cleanupStoresForTab } from './extension/background/cleanupStoresForTab';
+import { cleanupOnInit } from './extension/background/cleanupOnInit';
 
 logger.debug('Background script started');
 
@@ -23,33 +25,19 @@ browser.runtime.onMessage.addListener(
   }
 );
 
+cleanupOnInit()
+  .then(() => logger.debug('Cleanup on init done.'))
+  .catch((err) => logger.error('Cleanup on init failed:', err));
+
 browser.tabs.onRemoved.addListener(async (tabId) => {
   const {
     contentRoutes = {},
     activeOverlays = [],
   } = await browser.storage.local.get(['contentRoutes', 'activeOverlays']);
 
-  if (Array.isArray(activeOverlays) && activeOverlays?.length) {
-    const newActiveOverlay = [...activeOverlays].filter(
-      (overlayTabId) => overlayTabId !== tabId
-    );
-
-    await browser.storage.local.set({
-      activeOverlays: newActiveOverlay,
-    });
-  }
-
-  if (contentRoutes && Array.isArray(contentRoutes)) {
-    const newContentRoutes = {
-      ...contentRoutes,
-    };
-
-    delete newContentRoutes[tabId];
-
-    await browser.storage.local.set({
-      contentRoutes: newContentRoutes,
-    });
-  }
-
-  logger.debug(`Tab ${tabId} data cleaned.`);
+  await cleanupStoresForTab({
+    tabId,
+    contentRoutes,
+    activeOverlays,
+  });
 });
