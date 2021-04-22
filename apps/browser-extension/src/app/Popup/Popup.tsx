@@ -5,7 +5,7 @@ import { browserExtensionRoutes } from '@scrapper-gate/shared/routing';
 import { PopupAuthView } from './views/PopupAuthView';
 import { useMount } from 'react-use';
 import { AppType, useAppType } from '@scrapper-gate/frontend/common';
-import { Centered, Layout } from '@scrapper-gate/frontend/ui';
+import { Centered, Layout, flowBuilderUtils } from '@scrapper-gate/frontend/ui';
 import { PopupHeader } from './components/PopupHeader/PopupHeader';
 import { Box, CircularProgress } from '@material-ui/core';
 import { PopupScrappersView } from './views/PopupScrappersView';

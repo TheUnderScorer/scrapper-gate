@@ -57,6 +57,7 @@
     "backend-db-utils": { "tags": [] },
     "frontend-domain-user": { "tags": [] },
     "frontend-logger": { "tags": [] },
-    "shared-domain-scrapper": { "tags": [] }
+    "shared-domain-scrapper": { "tags": [] },
+    "frontend-keyboard-shortcuts": { "tags": [] }
   }
 }

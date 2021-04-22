@@ -54,13 +54,13 @@ export const CheckboxGroup = <ValueType extends unknown>({
         </Grid>
       )}
       {options.map(({ label, icon, value: itemValue }) => (
-        <Grid item key={itemValue}>
+        <Grid item key={itemValue.toString()}>
           <TileCheckbox
             title={label}
             icon={icon}
             checked={value.includes(itemValue)}
             disabled={disabled}
-            onClick={handleClick(itemValue)}
+            onClick={handleClick(itemValue as ValueType)}
           />
         </Grid>
       ))}

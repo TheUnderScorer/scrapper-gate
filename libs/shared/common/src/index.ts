@@ -9,3 +9,4 @@ export * from './timeout';
 export * from './array';
 export * from './promise';
 export * from './template';
+export * from './i18n';

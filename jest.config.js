@@ -30,5 +30,6 @@ module.exports = {
     '<rootDir>/libs/frontend/domain/user',
     '<rootDir>/libs/frontend/logger',
     '<rootDir>/libs/shared/domain/scrapper',
+    '<rootDir>/libs/frontend/keyboard-shortcuts',
   ],
 };

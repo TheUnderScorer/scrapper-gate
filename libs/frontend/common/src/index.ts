@@ -6,3 +6,5 @@ export * from './types/appType';
 export * from './stores/useContainerStore';
 export * from './types/components';
 export * from './providers/QueryParamProvider';
+export * from './os';
+export * from './stopPropagation';

@@ -1,3 +1,5 @@
-import { Typography } from '@material-ui/core';
+import { styled, Typography } from '@material-ui/core';
 
-export const TooltipText = Typography;
+export const TooltipText = styled(Typography)(({ theme }) => ({
+  ...theme.typography.body2,
+}));

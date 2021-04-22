@@ -832,6 +832,29 @@
           }
         }
       }
+    },
+    "frontend-keyboard-shortcuts": {
+      "root": "libs/frontend/keyboard-shortcuts",
+      "sourceRoot": "libs/frontend/keyboard-shortcuts/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/frontend/keyboard-shortcuts/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/frontend/keyboard-shortcuts"],
+          "options": {
+            "jestConfig": "libs/frontend/keyboard-shortcuts/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   }
 }

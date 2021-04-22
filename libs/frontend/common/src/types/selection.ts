@@ -5,3 +5,7 @@ export interface Selection<T = unknown> {
   icon?: ReactNode;
   value: T;
 }
+
+export interface DragItemSelection<T = unknown> extends Selection<T> {
+  type?: string;
+}

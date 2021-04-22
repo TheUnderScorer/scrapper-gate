@@ -76,6 +76,9 @@
       "@scrapper-gate/frontend/logger": ["libs/frontend/logger/src/index.ts"],
       "@scrapper-gate/shared/domain/scrapper": [
         "libs/shared/domain/scrapper/src/index.ts"
+      ],
+      "@scrapper-gate/frontend/keyboard-shortcuts": [
+        "libs/frontend/keyboard-shortcuts/src/index.ts"
       ]
     }
   },

@@ -44,13 +44,13 @@ export const RadioGroup = <ValueType extends unknown>({
         </Grid>
       )}
       {options.map(({ label, icon, value: optionValue }) => (
-        <Grid item key={optionValue}>
+        <Grid item key={optionValue.toString()}>
           <TileRadio
             title={label}
             icon={icon}
             checked={value === optionValue}
             disabled={disabled}
-            onClick={handleClick(optionValue)}
+            onClick={handleClick(optionValue as ValueType)}
           />
         </Grid>
       ))}

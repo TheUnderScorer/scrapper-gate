@@ -4,7 +4,6 @@ import {
   CircularProgress,
   IconButton,
   makeStyles,
-  Stack,
   Toolbar,
   Tooltip,
   Typography,
