@@ -1,17 +1,20 @@
 import React from 'react';
 import {
   AppBar,
+  CircularProgress,
   IconButton,
   makeStyles,
   Stack,
   Toolbar,
+  Tooltip,
   Typography,
 } from '@material-ui/core';
-import { MenuSharp } from '@material-ui/icons';
+import { Add, MenuSharp } from '@material-ui/icons';
 import { Route, Switch } from 'react-router-dom';
 import { browserExtensionRoutes } from '@scrapper-gate/shared/routing';
 import { BooleanParam, useQueryParam } from 'use-query-params';
 import { popupDrawerQueryKey } from '../PopupDrawer/PopupDrawer';
+import { useCreateScrapperExtension } from '../../hooks/useCreateScrapperExtension';
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -24,12 +27,20 @@ const useStyles = makeStyles((theme) => ({
   menuBtn: {
     marginRight: theme.spacing(2),
   },
+  addBtn: {
+    marginLeft: 'auto',
+  },
 }));
 
 export const PopupHeader = () => {
   const classes = useStyles();
 
   const [, setDrawerOpen] = useQueryParam(popupDrawerQueryKey, BooleanParam);
+
+  const [
+    createScrapper,
+    { loading: createScrapperLoading },
+  ] = useCreateScrapperExtension();
 
   return (
     <AppBar className={classes.appBar} position="static">
@@ -45,13 +56,29 @@ export const PopupHeader = () => {
         </IconButton>
         <Typography variant="h6" noWrap>
           <Switch>
-            <Stack alignItems="center" direction="row" spacing={1}>
-              <Route path={browserExtensionRoutes.popup.scrappers}>
-                Scrappers
-              </Route>
-            </Stack>
+            <Route path={browserExtensionRoutes.popup.scrappers}>
+              Scrappers
+            </Route>
           </Switch>
         </Typography>
+        <Switch>
+          <Route path={browserExtensionRoutes.popup.scrappers}>
+            <Tooltip title="Create scrapper">
+              <IconButton
+                color="inherit"
+                className={classes.addBtn}
+                disabled={createScrapperLoading}
+                onClick={() => createScrapper()}
+              >
+                {createScrapperLoading ? (
+                  <CircularProgress size={15} color="inherit" />
+                ) : (
+                  <Add />
+                )}
+              </IconButton>
+            </Tooltip>
+          </Route>
+        </Switch>
       </Toolbar>
     </AppBar>
   );

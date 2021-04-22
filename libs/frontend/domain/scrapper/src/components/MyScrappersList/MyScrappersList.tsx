@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   ControlledList,
   ControlledListProps,
@@ -8,19 +8,8 @@ import {
   ScrapperListItemProps,
   ScrapperListItemScrapper,
 } from '../ScrapperListItem/ScrapperListItem.types';
-import { CircularProgress, Fab } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import { Add } from '@material-ui/icons';
 import { ScrapperListItem } from '../ScrapperListItem/ScrapperListItem';
 import { FetchPolicyProps } from '@scrapper-gate/frontend/common';
-
-const useStyles = makeStyles((theme) => ({
-  fab: {
-    position: 'fixed',
-    bottom: theme.spacing(2),
-    right: theme.spacing(2),
-  },
-}));
 
 export interface MyScrappersListProps
   extends Pick<ControlledListProps, 'emptyContent'>,
@@ -39,37 +28,20 @@ export const MyScrappersList = ({
   fetchPolicy,
   ...props
 }: MyScrappersListProps) => {
-  const classes = useStyles();
-
-  const [hasData, setHasData] = useState(false);
-
   return (
-    <>
-      <ControlledList<ScrapperListItemScrapper>
-        fetchPolicy={fetchPolicy}
-        id="my_scrappers_list"
-        onDataChange={(data) => setHasData(Boolean(data?.total))}
-        renderItem={({ item }) => (
-          <ScrapperListItem
-            selected={item.id === activeScrapperId}
-            onClick={onClick}
-            scrapper={item}
-            key={item.id}
-          />
-        )}
-        query={MyScrappersDocument}
-        {...props}
-      />
-      {hasData && onCreate && (
-        <Fab
-          onClick={onCreate}
-          color="primary"
-          className={classes.fab}
-          disabled={fabLoading}
-        >
-          {fabLoading ? <CircularProgress color="inherit" /> : <Add />}
-        </Fab>
+    <ControlledList<ScrapperListItemScrapper>
+      fetchPolicy={fetchPolicy}
+      id="my_scrappers_list"
+      renderItem={({ item }) => (
+        <ScrapperListItem
+          selected={item.id === activeScrapperId}
+          onClick={onClick}
+          scrapper={item}
+          key={item.id}
+        />
       )}
-    </>
+      query={MyScrappersDocument}
+      {...props}
+    />
   );
 };
