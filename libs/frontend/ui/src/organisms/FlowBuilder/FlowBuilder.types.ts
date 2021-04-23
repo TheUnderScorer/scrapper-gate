@@ -13,7 +13,7 @@ import { ComponentType, MouseEvent, ReactNode } from 'react';
 import { FlowBuilderInstanceContext } from './providers/FlowBuilderInstance.provider';
 import { NormalEdgeVariations } from './edgeTypes/NormalEdge.types';
 import { MenuItemProperties, Selection } from '@scrapper-gate/frontend/common';
-import { FieldNameCreator } from '../../../../form/src/types';
+import { FieldNameCreator } from '@scrapper-gate/frontend/form';
 
 export interface FlowBuilderAddApi<T extends BaseNodeProperties> {
   flowInstance: FlowBuilderInstanceContext['flowInstance'];

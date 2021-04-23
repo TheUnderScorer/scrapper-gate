@@ -10,7 +10,7 @@ import React, { useCallback, useEffect, useMemo } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
 import { Node } from 'react-flow-renderer';
-import { useDebounce, usePrevious } from 'react-use';
+import { useDebounce, useMotion, useMount, usePrevious } from 'react-use';
 import {
   FlowBuilderItemsContext,
   useFlowBuilderItemsSelector,
@@ -19,6 +19,7 @@ import { BaseNodeProperties } from '../../FlowBuilder.types';
 import { getById } from '@scrapper-gate/shared/common';
 import { useFlowBuilderContextSelector } from '../../providers/FlowBuilderProps.provider';
 import { useFlowBuilderActiveNode } from '../../providers/FlowBuilderActiveNode.provider';
+import { useFormContext } from 'react-hook-form';
 
 interface DialogStyleProps {
   isUsingElementPicker: boolean;
@@ -50,6 +51,8 @@ export const FlowBuilderNodeContent = () => {
     (ctx) => ctx.isUsingElementPicker
   );
 
+  const form = useFormContext();
+
   const classes = useStyles({ isUsingElementPicker });
 
   const {
@@ -74,13 +77,12 @@ export const FlowBuilderNodeContent = () => {
   );
   const getItems = useFlowBuilderItemsSelector((ctx) => ctx.getItems);
 
-  const getFieldName = useMemo(() => {
-    const arrayIndex = getItems().findIndex(
-      (node) => node?.id === activeNode?.id
-    );
+  const getIndex = () =>
+    getItems().findIndex((node) => node?.id === activeNode?.id);
 
-    return (name: string) => `items.${arrayIndex}.data.${name}`;
-  }, [getItems, activeNode]);
+  const getFieldName = useMemo(() => {
+    return (name: string) => `items.${getIndex()}.data.${name}`;
+  }, [getIndex]);
 
   const ContentComponent = useMemo(() => {
     if (activeNode?.data?.noContent) {
@@ -112,14 +114,6 @@ export const FlowBuilderNodeContent = () => {
     500,
     [contentOpen]
   );
-
-  console.log({
-    contentOpen,
-    ContentComponent,
-    activeNodeId,
-    activeNode,
-    items: getItems(),
-  });
 
   return (
     <Dialog

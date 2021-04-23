@@ -2,10 +2,15 @@ import { useCallback } from 'react';
 import { NodeProps, XYPosition } from 'react-flow-renderer';
 import { useFlowBuilderInstanceContext } from '../providers/FlowBuilderInstance.provider';
 import { useFlowBuilderItemsSelector } from '../providers/FlowBuilderItems.provider';
-import { BaseNodeSelectionProperties } from '../FlowBuilder.types';
+import {
+  BaseNodeSelectionProperties,
+  FlowBuilderFormState,
+} from '../FlowBuilder.types';
 import { filterForNodes, getFurthestNode } from '../utils/filter';
 import { useFlowBuilderContextSelector } from '../providers/FlowBuilderProps.provider';
 import { Selection } from '@scrapper-gate/frontend/common';
+import { useFormContext } from 'react-hook-form';
+import { registerFlowBuilderItem } from '../utils/registerFlowBuilderItem';
 
 export interface AddItemArgs {
   source?: NodeProps;
@@ -18,6 +23,8 @@ export const useAddItem = () => {
   const { flowInstance } = useFlowBuilderInstanceContext();
   const afterCreate = useFlowBuilderItemsSelector((ctx) => ctx.afterCreate);
   const setItems = useFlowBuilderItemsSelector((ctx) => ctx.setItems);
+
+  const { register } = useFormContext<FlowBuilderFormState>();
 
   return useCallback(
     async (
@@ -33,7 +40,7 @@ export const useAddItem = () => {
       const { createdNodes, items: createdItems, nodeToCenterOn } = await onAdd(
         item,
         {
-          flowInstance: flowInstance!,
+          flowInstance,
           items,
           getNodes: () => filterForNodes(items),
           getFurthestNode: getFurthestNode(filterForNodes(items)),
@@ -42,7 +49,15 @@ export const useAddItem = () => {
         }
       );
 
-      setItems([...items, ...createdNodes]);
+      const newItems = [...items, ...createdNodes];
+
+      createdNodes.forEach((node) => {
+        const index = newItems.findIndex((item) => item?.id === node.id);
+
+        registerFlowBuilderItem(register, node, index);
+      });
+
+      setItems(newItems);
 
       afterCreate(
         createdNodes?.map((node) => node.id) ?? [],

@@ -7,10 +7,10 @@ import {
   useEffect,
 } from 'react';
 import { useDebounce } from 'react-use';
-import { useFormContext } from 'react-hook-form';
+import { Path, useFormContext } from 'react-hook-form';
 import { useKeyboardShortcuts } from '@scrapper-gate/frontend/keyboard-shortcuts';
 import { useHotkeys } from 'react-hotkeys-hook';
-import { equals } from 'remeda';
+import { equals, forEachObj } from 'remeda';
 
 const initial = {
   past: [],
@@ -22,22 +22,20 @@ export interface UseFormUndoProps {
   limit?: number;
 }
 
-export const useFormUndo = <FormValues extends unknown>({
+export const useFormUndo = <FormValues extends Record<string, unknown>>({
   limit = 50,
 }: UseFormUndoProps = {}) => {
   const doingUndoOrRedoRef = useRef(false);
 
   const shortcuts = useKeyboardShortcuts();
 
-  const formApi = useFormContext<FormValues>();
+  const { getValues, setValue, watch } = useFormContext<FormValues>();
 
-  const [lastFormState, setLastFormState] = useState(
-    formApi.getValues() as FormValues
-  );
+  const [lastFormState, setLastFormState] = useState(getValues() as FormValues);
 
   const [state, setState] = useState({
     ...initial,
-    present: formApi.getValues() as FormValues,
+    present: getValues() as FormValues,
   });
 
   const handleValuesChange = useCallback(
@@ -69,6 +67,20 @@ export const useFormUndo = <FormValues extends unknown>({
   const canUndo = useMemo(() => state.past.length > 0, [state.past.length]);
   const canRedo = useMemo(() => state.future.length > 0, [state.future.length]);
 
+  const updateForm = useCallback(
+    (values: FormValues) => {
+      forEachObj.indexed(values as FormValues, (value, key) => {
+        if (typeof key === 'symbol') {
+          return;
+        }
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        setValue(key as Path<FormValues>, value as any);
+      });
+    },
+    [setValue]
+  );
+
   const redo = useCallback(
     (e?: SyntheticEvent | Event) => {
       e?.preventDefault();
@@ -84,7 +96,7 @@ export const useFormUndo = <FormValues extends unknown>({
         const next = future[0];
         const newFuture = future.slice(1);
 
-        formApi.reset(next);
+        updateForm(next);
 
         return {
           past: [...past, present],
@@ -95,7 +107,7 @@ export const useFormUndo = <FormValues extends unknown>({
 
       doingUndoOrRedoRef.current = false;
     },
-    [canRedo, formApi]
+    [canRedo, updateForm]
   );
 
   const undo = useCallback(
@@ -113,7 +125,7 @@ export const useFormUndo = <FormValues extends unknown>({
         const previous = past[past.length - 1];
         const newPast = past.slice(0, past.length - 1);
 
-        formApi.reset(previous);
+        updateForm(previous);
 
         return {
           past: newPast,
@@ -124,13 +136,13 @@ export const useFormUndo = <FormValues extends unknown>({
 
       doingUndoOrRedoRef.current = false;
     },
-    [canUndo, formApi]
+    [canUndo, updateForm]
   );
 
   useHotkeys(shortcuts.undo, undo, [undo]);
   useHotkeys(shortcuts.redo, redo, [redo]);
 
-  const values = formApi.watch();
+  const values = watch();
 
   useEffect(() => {
     if (equals(values, lastFormState)) {

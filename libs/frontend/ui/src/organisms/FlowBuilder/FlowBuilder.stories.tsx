@@ -61,7 +61,7 @@ const NodeContent: NodeContentComponent<BaseNodeProperties> = ({
     <Box width="100%">
       <FormTextField<Record<string, string>>
         fullWidth
-        defaultValue={node.data.title}
+        defaultValue={node?.data?.title ?? ''}
         name={getFieldName('title')}
         label="Test"
       />

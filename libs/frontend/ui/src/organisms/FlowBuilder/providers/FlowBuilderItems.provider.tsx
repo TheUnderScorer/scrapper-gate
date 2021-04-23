@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Node, useZoomPanHelper } from 'react-flow-renderer';
-import React, { ReactNode, useCallback, useState } from 'react';
-import { useTimeoutFn } from 'react-use';
+import React, { ReactNode, useCallback, useEffect, useState } from 'react';
+import { useMount, useTimeoutFn } from 'react-use';
 import { createContext, useContextSelector } from 'use-context-selector';
 import {
   BaseNodeProperties,
@@ -9,6 +10,7 @@ import {
   FlowBuilderItem,
 } from '../FlowBuilder.types';
 import { useFormContext } from 'react-hook-form';
+import { registerFlowBuilderItem } from '../utils/registerFlowBuilderItem';
 
 export interface FlowBuilderItemsContext<T extends BaseNodeProperties> {
   items: FlowBuilderItem<T>[];
@@ -49,7 +51,13 @@ export const useFlowBuilderItemsSelector = <Value extends unknown>(
 export const FlowBuilderItemsProvider = <T extends BaseNodeProperties>(props: {
   children: ReactNode;
 }) => {
-  const { getValues, watch, setValue } = useFormContext();
+  const {
+    getValues,
+    watch,
+    setValue,
+    register,
+  } = useFormContext<FlowBuilderFormState>();
+  // @ts-ignore
   const value = watch('items') as FlowBuilderFormState<T>['items'];
 
   const setItems = useCallback(
@@ -93,6 +101,16 @@ export const FlowBuilderItemsProvider = <T extends BaseNodeProperties>(props: {
     },
     [resetTimeout, zoomHelper]
   );
+
+  useMount(() => {
+    value.forEach((item, index) => {
+      registerFlowBuilderItem(register, item, index);
+    });
+  });
+
+  useEffect(() => {
+    console.log(value);
+  }, [value]);
 
   return (
     <Context.Provider
