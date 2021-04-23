@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { UseFormRegister } from 'react-hook-form';
 import {
   BaseNodeProperties,
@@ -11,10 +12,13 @@ export const registerFlowBuilderItem = (
   item: FlowBuilderItem<BaseNodeProperties>,
   index: number
 ) => {
+  console.log({ item });
   forEachObj.indexed(item, (value, key) => {
     if (key === 'data') {
       return;
     }
+
+    console.log({ value, key });
 
     // @ts-ignore
     register(`items.${index}.${key}`);

@@ -10,3 +10,4 @@ export * from './array';
 export * from './promise';
 export * from './template';
 export * from './i18n';
+export * from './throwError';

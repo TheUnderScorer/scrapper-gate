@@ -1,7 +1,13 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Node, useZoomPanHelper } from 'react-flow-renderer';
-import React, { ReactNode, useCallback, useEffect, useState } from 'react';
-import { useMount, useTimeoutFn } from 'react-use';
+import React, {
+  ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
+import { useTimeoutFn } from 'react-use';
 import { createContext, useContextSelector } from 'use-context-selector';
 import {
   BaseNodeProperties,
@@ -9,8 +15,12 @@ import {
   FlowBuilderFormState,
   FlowBuilderItem,
 } from '../FlowBuilder.types';
-import { useFormContext } from 'react-hook-form';
-import { registerFlowBuilderItem } from '../utils/registerFlowBuilderItem';
+import {
+  useFieldArray,
+  UseFieldArrayReturn,
+  useFormContext,
+} from 'react-hook-form';
+import { throwError } from '@scrapper-gate/shared/common';
 
 export interface FlowBuilderItemsContext<T extends BaseNodeProperties> {
   items: FlowBuilderItem<T>[];
@@ -25,23 +35,20 @@ export interface FlowBuilderItemsContext<T extends BaseNodeProperties> {
     items: FlowBuilderItem<T>[],
     nodeToCenterOn?: Node
   ) => unknown;
+  registerItems: () => void;
+  field: UseFieldArrayReturn;
 }
 
 const Context = createContext<FlowBuilderItemsContext<unknown>>({
   items: [],
-  getItems: () => {
-    throw new Error();
-  },
-  setItems: () => {
-    throw new Error();
-  },
+  getItems: throwError(),
+  setItems: throwError(),
   recentlyCreatedNodeIds: [],
-  afterCreate: () => {
-    throw new Error();
-  },
-  setConnectionSource: () => {
-    throw new Error();
-  },
+  afterCreate: throwError(),
+  setConnectionSource: throwError(),
+  registerItems: throwError(),
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  field: {} as any,
 });
 
 export const useFlowBuilderItemsSelector = <Value extends unknown>(
@@ -53,12 +60,23 @@ export const FlowBuilderItemsProvider = <T extends BaseNodeProperties>(props: {
 }) => {
   const {
     getValues,
-    watch,
     setValue,
     register,
   } = useFormContext<FlowBuilderFormState>();
-  // @ts-ignore
-  const value = watch('items') as FlowBuilderFormState<T>['items'];
+
+  const field = useFieldArray({
+    name: 'items',
+  });
+  const value = field.fields as FlowBuilderItem<T>[];
+  const mappedValue = useMemo(() => {
+    return value.map((value, index) => ({
+      ...value,
+      data: {
+        ...value?.data,
+        index,
+      },
+    }));
+  }, [value]);
 
   const setItems = useCallback(
     (items: FlowBuilderItem<T>[]) => {
@@ -102,27 +120,29 @@ export const FlowBuilderItemsProvider = <T extends BaseNodeProperties>(props: {
     [resetTimeout, zoomHelper]
   );
 
-  useMount(() => {
-    value.forEach((item, index) => {
-      registerFlowBuilderItem(register, item, index);
+  const registerItems = useCallback(() => {
+    getValues().items.forEach((item, index) => {
+      register(`items.${index}` as const);
     });
-  });
+  }, [getValues, register]);
 
   useEffect(() => {
-    console.log(value);
-  }, [value]);
+    console.log(mappedValue);
+  }, [mappedValue]);
 
   return (
     <Context.Provider
       value={{
         ...props,
         getItems,
-        items: value,
+        items: mappedValue,
         setItems,
         recentlyCreatedNodeIds,
         afterCreate,
         setConnectionSource,
         connectionSource,
+        registerItems,
+        field,
       }}
     >
       {props.children}

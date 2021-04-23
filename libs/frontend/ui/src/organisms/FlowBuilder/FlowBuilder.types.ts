@@ -85,6 +85,7 @@ export interface BaseNodeProperties {
   sourceHandle?: string;
   targetHandle?: string;
   edgeVariation?: NormalEdgeVariations;
+  index?: number;
 }
 
 export interface BaseNodeSelectionProperties extends BaseNodeProperties {

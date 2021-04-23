@@ -12,8 +12,7 @@ import classNames from 'classnames';
 import { MenuItemProperties } from '@scrapper-gate/frontend/common';
 import { useRemoveItems } from '../hooks/useRemoveItems';
 import { equals } from 'remeda';
-import { useFormContext } from 'react-hook-form';
-import { useFlowBuilderItemsSelector } from '../providers/FlowBuilderItems.provider';
+import { useController } from 'react-hook-form';
 
 export type FlowBuilderNodeProps = NodeProps<BaseNodeProperties>;
 
@@ -47,12 +46,14 @@ export const FlowBuilderNode = memo(
     const error = useNodeError(node.id);
     const classes = useStyles();
     const removeItems = useRemoveItems();
-    const form = useFormContext();
-    const getItems = useFlowBuilderItemsSelector((ctx) => ctx.getItems);
 
     const {
-      data: { dropdownMenu, title },
+      data: { dropdownMenu, title, index },
     } = node;
+
+    useController({
+      name: `items.${index}`,
+    });
 
     const menuItems = useMemo<MenuItemProperties[]>(() => {
       if (node.data.cannotBeDeleted) {

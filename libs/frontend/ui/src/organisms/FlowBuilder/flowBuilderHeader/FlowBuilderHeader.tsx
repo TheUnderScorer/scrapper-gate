@@ -57,6 +57,7 @@ export const FlowBuilderHeader = ({
 
   const setItems = useFlowBuilderItemsSelector((ctx) => ctx.setItems);
   const getItems = useFlowBuilderItemsSelector((ctx) => ctx.getItems);
+  const registerItems = useFlowBuilderItemsSelector((ctx) => ctx.registerItems);
 
   const handleSort = useCallback(() => {
     const { items: newItems } = buildBasicGraph(getItems());
@@ -87,12 +88,16 @@ export const FlowBuilderHeader = ({
                 <SortSharp />
               </IconButton>
             </Tooltip>
-            <UndoButtons />
+            <UndoButtons onUndo={registerItems} onRedo={registerItems} />
             {additionalActions}
             <Divider orientation="vertical" className={classes.divider} />
-            <FormStateIcon className={classes.iconButton} />
+            <FormStateIcon size="small" className={classes.iconButton} />
             <Fab
-              disabled={formState.isSubmitting || Boolean(formState.errors)}
+              disabled={
+                !formState.isSubmitting &&
+                formState.isDirty &&
+                formState.isValid
+              }
               className={classes.fab}
               size="small"
               variant="extended"

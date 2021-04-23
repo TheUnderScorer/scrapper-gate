@@ -7,7 +7,12 @@ import {
   useEffect,
 } from 'react';
 import { useDebounce } from 'react-use';
-import { Path, useFormContext } from 'react-hook-form';
+import {
+  DeepPartial,
+  Path,
+  UnpackNestedValue,
+  useFormContext,
+} from 'react-hook-form';
 import { useKeyboardShortcuts } from '@scrapper-gate/frontend/keyboard-shortcuts';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { equals, forEachObj } from 'remeda';
@@ -18,18 +23,22 @@ const initial = {
   future: [],
 };
 
-export interface UseFormUndoProps {
+export interface UseFormUndoProps<FormValues extends Record<string, unknown>> {
   limit?: number;
+  onUndo?: (values: FormValues) => unknown;
+  onRedo?: (values: FormValues) => unknown;
 }
 
 export const useFormUndo = <FormValues extends Record<string, unknown>>({
   limit = 50,
-}: UseFormUndoProps = {}) => {
+  onRedo,
+  onUndo,
+}: UseFormUndoProps<FormValues> = {}) => {
   const doingUndoOrRedoRef = useRef(false);
 
   const shortcuts = useKeyboardShortcuts();
 
-  const { getValues, setValue, watch } = useFormContext<FormValues>();
+  const { getValues, watch, reset } = useFormContext<FormValues>();
 
   const [lastFormState, setLastFormState] = useState(getValues() as FormValues);
 
@@ -68,17 +77,12 @@ export const useFormUndo = <FormValues extends Record<string, unknown>>({
   const canRedo = useMemo(() => state.future.length > 0, [state.future.length]);
 
   const updateForm = useCallback(
-    (values: FormValues) => {
-      forEachObj.indexed(values as FormValues, (value, key) => {
-        if (typeof key === 'symbol') {
-          return;
-        }
+    (values: FormValues, type: 'undo' | 'redo') => {
+      reset(values as UnpackNestedValue<DeepPartial<FormValues>>);
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        setValue(key as Path<FormValues>, value as any);
-      });
+      type === 'undo' ? onUndo?.(values) : onRedo?.(values);
     },
-    [setValue]
+    [onRedo, onUndo, reset]
   );
 
   const redo = useCallback(
@@ -96,7 +100,7 @@ export const useFormUndo = <FormValues extends Record<string, unknown>>({
         const next = future[0];
         const newFuture = future.slice(1);
 
-        updateForm(next);
+        updateForm(next, 'redo');
 
         return {
           past: [...past, present],
@@ -125,7 +129,7 @@ export const useFormUndo = <FormValues extends Record<string, unknown>>({
         const previous = past[past.length - 1];
         const newPast = past.slice(0, past.length - 1);
 
-        updateForm(previous);
+        updateForm(previous, 'undo');
 
         return {
           past: newPast,

@@ -26,6 +26,7 @@ import { wait } from '@scrapper-gate/shared/common';
 import { PrimaryLightIconButton } from '../../atoms/Buttons/Buttons';
 import { FormProvider, useForm } from 'react-hook-form';
 import { FormTextField } from '@scrapper-gate/frontend/form';
+import { DevTool } from '@hookform/devtools';
 
 export default {
   title: 'UI/Flow Builder',
@@ -137,6 +138,7 @@ export const BasicPreset = () => {
 
   return (
     <FormProvider {...form}>
+      <DevTool control={form.control} />
       <form
         onSubmit={form.handleSubmit(handleSubmit)}
         style={{

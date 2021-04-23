@@ -9,8 +9,9 @@ import {
 import { filterForNodes, getFurthestNode } from '../utils/filter';
 import { useFlowBuilderContextSelector } from '../providers/FlowBuilderProps.provider';
 import { Selection } from '@scrapper-gate/frontend/common';
-import { useFormContext } from 'react-hook-form';
 import { registerFlowBuilderItem } from '../utils/registerFlowBuilderItem';
+import { useFormContext } from 'react-hook-form';
+import { forEachObj } from 'remeda';
 
 export interface AddItemArgs {
   source?: NodeProps;
@@ -22,9 +23,9 @@ export const useAddItem = () => {
   const getItems = useFlowBuilderItemsSelector((ctx) => ctx.getItems);
   const { flowInstance } = useFlowBuilderInstanceContext();
   const afterCreate = useFlowBuilderItemsSelector((ctx) => ctx.afterCreate);
-  const setItems = useFlowBuilderItemsSelector((ctx) => ctx.setItems);
+  const { append } = useFlowBuilderItemsSelector((ctx) => ctx.field);
 
-  const { register } = useFormContext<FlowBuilderFormState>();
+  const { register } = useFormContext();
 
   return useCallback(
     async (
@@ -49,15 +50,9 @@ export const useAddItem = () => {
         }
       );
 
-      const newItems = [...items, ...createdNodes];
-
-      createdNodes.forEach((node) => {
-        const index = newItems.findIndex((item) => item?.id === node.id);
-
-        registerFlowBuilderItem(register, node, index);
+      append(createdNodes, {
+        shouldFocus: false,
       });
-
-      setItems(newItems);
 
       afterCreate(
         createdNodes?.map((node) => node.id) ?? [],
@@ -65,6 +60,7 @@ export const useAddItem = () => {
         nodeToCenterOn
       );
     },
-    [onAdd, getItems, flowInstance, setItems, afterCreate]
+
+    [onAdd, getItems, flowInstance, afterCreate, append]
   );
 };
