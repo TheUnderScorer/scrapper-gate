@@ -1,4 +1,11 @@
-import { useCallback, useMemo, useRef, useState, SyntheticEvent } from 'react';
+import {
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+  SyntheticEvent,
+  useEffect,
+} from 'react';
 import { useDebounce } from 'react-use';
 import { useFormContext } from 'react-hook-form';
 import { useKeyboardShortcuts } from '@scrapper-gate/frontend/keyboard-shortcuts';
@@ -33,7 +40,7 @@ export const useFormUndo = <FormValues extends unknown>({
     present: formApi.getValues() as FormValues,
   });
 
-  const onValuesChange = useCallback(
+  const handleValuesChange = useCallback(
     (formValues: FormValues) => {
       setState((prevState) => {
         const { past, present } = prevState;
@@ -123,13 +130,19 @@ export const useFormUndo = <FormValues extends unknown>({
   useHotkeys(shortcuts.undo, undo, [undo]);
   useHotkeys(shortcuts.redo, redo, [redo]);
 
-  formApi.watch((values) => {
-    setLastFormState(values as FormValues);
-  });
+  const values = formApi.watch();
 
-  useDebounce(() => onValuesChange(lastFormState), 350, [
+  useEffect(() => {
+    if (equals(values, lastFormState)) {
+      return;
+    }
+
+    setLastFormState(values as FormValues);
+  }, [lastFormState, values]);
+
+  useDebounce(() => handleValuesChange(lastFormState), 350, [
     lastFormState,
-    onValuesChange,
+    handleValuesChange,
   ]);
 
   return {

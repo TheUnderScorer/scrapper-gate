@@ -59,7 +59,7 @@ export const FlowBuilderNode = memo(
           className: classes.deleteStep,
           id: 'delete_step',
           icon: <DeleteSharp />,
-          title: 'Delete step',
+          content: 'Delete step',
           onClick: () => removeItems([node]),
         },
       ];

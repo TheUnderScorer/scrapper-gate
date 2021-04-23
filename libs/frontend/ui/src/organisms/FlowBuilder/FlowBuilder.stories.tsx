@@ -125,6 +125,7 @@ export const BasicPreset = () => {
     defaultValues: {
       items: initialState,
     },
+    shouldUnregister: false,
   });
 
   return (
