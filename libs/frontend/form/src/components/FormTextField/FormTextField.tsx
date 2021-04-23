@@ -12,6 +12,7 @@ export const FormTextField = <T extends unknown>({
   rules,
   control,
   name,
+  shouldUnregister,
   ...rest
 }: FormTextFieldProps<T>) => {
   const {
@@ -22,6 +23,7 @@ export const FormTextField = <T extends unknown>({
     rules,
     control,
     defaultValue,
+    shouldUnregister,
   });
 
   return (

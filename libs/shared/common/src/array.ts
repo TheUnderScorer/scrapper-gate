@@ -8,7 +8,7 @@ export const isLast = (index: number, arr: unknown[]) =>
   getLastIndex(arr) === index;
 
 export const getById = <T extends { id: unknown }>(arr: T[], id: unknown) => {
-  return arr.find((item) => item.id === id);
+  return arr.find((item) => item?.id === id);
 };
 
 export const mapToArray = <T>(map: Map<unknown, T>) => {

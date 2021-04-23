@@ -14,7 +14,7 @@ export const PrimaryLightButton = styled(Button)(({ theme }) => ({
 PrimaryLightButton.defaultProps = defaultProps;
 
 export const PrimaryLightIconButton = styled(Fab)(({ theme }) => ({
-  '&, &:hover': {
+  '&.MuiFab-root, &.MuiFab-root:hover': {
     color: theme.palette.text.primary,
     backgroundColor: theme.palette.primary.light,
     boxShadow: 'none',

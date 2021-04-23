@@ -12,6 +12,8 @@ import classNames from 'classnames';
 import { MenuItemProperties } from '@scrapper-gate/frontend/common';
 import { useRemoveItems } from '../hooks/useRemoveItems';
 import { equals } from 'remeda';
+import { useFormContext } from 'react-hook-form';
+import { useFlowBuilderItemsSelector } from '../providers/FlowBuilderItems.provider';
 
 export type FlowBuilderNodeProps = NodeProps<BaseNodeProperties>;
 
@@ -34,7 +36,9 @@ const useStyles = makeStyles((theme) => ({
     textAlign: 'center',
   },
   deleteStep: {
-    color: theme.palette.error.main,
+    '&, & svg': {
+      color: theme.palette.error.main,
+    },
   },
 }));
 
@@ -43,6 +47,8 @@ export const FlowBuilderNode = memo(
     const error = useNodeError(node.id);
     const classes = useStyles();
     const removeItems = useRemoveItems();
+    const form = useFormContext();
+    const getItems = useFlowBuilderItemsSelector((ctx) => ctx.getItems);
 
     const {
       data: { dropdownMenu, title },

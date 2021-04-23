@@ -9,7 +9,7 @@ import {
   StopSharp,
   Visibility,
 } from '@material-ui/icons';
-import { Box, TextField, Typography } from '@material-ui/core';
+import { Box, Typography } from '@material-ui/core';
 import {
   BaseNodeProperties,
   FlowBuilderNodeTypes,
@@ -25,6 +25,7 @@ import { FlowBuilder } from './FlowBuilder';
 import { wait } from '@scrapper-gate/shared/common';
 import { PrimaryLightIconButton } from '../../atoms/Buttons/Buttons';
 import { FormProvider, useForm } from 'react-hook-form';
+import { FormTextField } from '@scrapper-gate/frontend/form';
 
 export default {
   title: 'UI/Flow Builder',
@@ -54,10 +55,16 @@ const basicConnect = basicHandleConnect();
 
 const NodeContent: NodeContentComponent<BaseNodeProperties> = ({
   getFieldName,
+  node,
 }) => {
   return (
     <Box width="100%">
-      <TextField fullWidth name={getFieldName('test')} label="Test" />
+      <FormTextField<Record<string, string>>
+        fullWidth
+        defaultValue={node.data.title}
+        name={getFieldName('title')}
+        label="Test"
+      />
     </Box>
   );
 };

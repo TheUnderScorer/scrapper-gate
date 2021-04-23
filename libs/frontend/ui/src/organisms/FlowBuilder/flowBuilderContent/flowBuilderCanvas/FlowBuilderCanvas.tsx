@@ -10,7 +10,6 @@ import React, {
 import ReactFlow from 'react-flow-renderer';
 import classNames from 'classnames';
 import { useFlowBuilderInstanceContext } from '../../providers/FlowBuilderInstance.provider';
-import { useSelectAllShortcut } from '../../hooks/useSelectAllShortcut';
 import { useFlowBuilderDragState } from '../../providers/FlowBuilderDragState.provider';
 import {
   BaseNodeSelectionProperties,
@@ -24,7 +23,6 @@ import { FlowBuilderNode } from '../../nodeTypes/FlowBuilderNode';
 import { useFlowBuilderItemsSelector } from '../../providers/FlowBuilderItems.provider';
 import { edgeTypes } from '../../edgeTypes/edgeTypes';
 import { useRemoveItems } from '../../hooks/useRemoveItems';
-import { useFlowBuilderActiveNodeSelector } from '../../providers/FlowBuilderActiveNode.provider';
 import { useFlowBuilderContextSelector } from '../../providers/FlowBuilderProps.provider';
 import { useHandleDragEnd } from '../../hooks/useHandleDragEnd';
 import { AppTheme } from '@scrapper-gate/frontend/theme';
@@ -39,7 +37,7 @@ const useStyles = makeStyles((theme: AppTheme) => ({
   canvas: {
     '& .react-flow__handle': {
       width: '10px',
-      height: '10px',
+      height: '15px',
       padding: theme.spacing(0.3),
       borderColor: 'transparent',
       backgroundColor: 'transparent',
@@ -89,12 +87,6 @@ export const FlowBuilderCanvas = () => {
 
   const classes = useStyles();
 
-  const activeNodeId = useFlowBuilderActiveNodeSelector(
-    (ctx) => ctx.activeNodeId
-  );
-  const contentOpen = useFlowBuilderActiveNodeSelector(
-    (ctx) => ctx.contentOpen
-  );
   const nodeTypes = useFlowBuilderContextSelector((ctx) => ctx.nodeTypes);
 
   const mappedNodeTypes = useMemo(
@@ -153,23 +145,9 @@ export const FlowBuilderCanvas = () => {
     drop: handleDrop,
   });
 
-  const selectAllRef = useSelectAllShortcut();
-
-  const filteredItems = useMemo(() => {
-    if (!activeNodeId || !contentOpen) {
-      return items;
-    }
-
-    return items.filter((item) => item.id === activeNodeId);
-  }, [activeNodeId, contentOpen, items]);
-
   useEffect(() => {
     drop(containerRef.current);
   }, [drop]);
-
-  useEffect(() => {
-    selectAllRef.current = containerRef.current;
-  }, [selectAllRef]);
 
   return (
     <div
@@ -184,7 +162,7 @@ export const FlowBuilderCanvas = () => {
 
           setFlowInstance(instance);
         }}
-        elements={filteredItems}
+        elements={items}
         nodeTypes={mappedNodeTypes}
         onElementsRemove={
           removeItems as (items: FlowBuilderItem<unknown>[]) => unknown

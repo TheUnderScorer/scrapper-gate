@@ -9,8 +9,13 @@ export type ActionNodeBoxProps = NodeIconBoxProps;
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    backgroundColor: theme.palette.flowBuilderColors.action,
-    color: theme.palette.flowBuilderColors.actionText,
+    '&.MuiPaper-root': {
+      backgroundColor: theme.palette.flowBuilderColors.action,
+      color: theme.palette.flowBuilderColors.actionText,
+    },
+  },
+  span: {
+    display: 'inline-flex',
   },
 }));
 
@@ -37,7 +42,7 @@ export const ActionNodeBox = ({
       }}
     >
       <Centered>
-        <span className={iconClassName}>{icon}</span>
+        <span className={classNames(iconClassName, classes.span)}>{icon}</span>
       </Centered>
       {handles}
     </Paper>

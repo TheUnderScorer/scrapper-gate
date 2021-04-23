@@ -62,7 +62,7 @@ export const FlowBuilderNodeContent = () => {
   const activeNodeSelector = useCallback(
     (ctx: FlowBuilderItemsContext<BaseNodeProperties>) =>
       activeNodeId
-        ? (getById(ctx.items, activeNodeId) as Node<BaseNodeProperties>)
+        ? (getById(ctx.getItems(), activeNodeId) as Node<BaseNodeProperties>)
         : null,
     [activeNodeId]
   );
@@ -75,9 +75,11 @@ export const FlowBuilderNodeContent = () => {
   const getItems = useFlowBuilderItemsSelector((ctx) => ctx.getItems);
 
   const getFieldName = useMemo(() => {
-    const arrayIndex = getItems().indexOf(activeNode);
+    const arrayIndex = getItems().findIndex(
+      (node) => node?.id === activeNode?.id
+    );
 
-    return (name: string) => `items[${arrayIndex}].data.${name}`;
+    return (name: string) => `items.${arrayIndex}.data.${name}`;
   }, [getItems, activeNode]);
 
   const ContentComponent = useMemo(() => {
@@ -110,6 +112,14 @@ export const FlowBuilderNodeContent = () => {
     500,
     [contentOpen]
   );
+
+  console.log({
+    contentOpen,
+    ContentComponent,
+    activeNodeId,
+    activeNode,
+    items: getItems(),
+  });
 
   return (
     <Dialog
