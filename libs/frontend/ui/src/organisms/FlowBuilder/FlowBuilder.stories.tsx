@@ -16,16 +16,18 @@ import {
   FlowBuilderPlaceholderProperties,
   NodeContentComponent,
 } from './FlowBuilder.types';
-import { basicHandleConnect } from './utils/basicHandleConnect';
+import {
+  basicHandleAddNode,
+  basicHandleConnect,
+  basicHandleRemoveNode,
+} from './utils';
 import { FlowBuilder } from './FlowBuilder';
-import { basicHandleRemoveNode } from './utils/basicHandleRemoveNode';
-import { basicHandleAddNode } from './utils/basicHandleAddNode';
 import { wait } from '@scrapper-gate/shared/common';
 import { PrimaryLightIconButton } from '../../atoms/Buttons/Buttons';
 import { FormProvider, useForm } from 'react-hook-form';
 
 export default {
-  title: 'Flow Builder',
+  title: 'UI/Flow Builder',
 };
 
 const handleAddNode = basicHandleAddNode(() => new Date().toISOString());
@@ -152,11 +154,11 @@ export const BasicPreset = () => {
           menu={[
             {
               id: '1',
-              title: 'Item 1',
+              content: 'Item 1',
             },
             {
               id: '2',
-              title: 'Item 2',
+              content: 'Item 2',
             },
           ]}
           title="Flow Builder"

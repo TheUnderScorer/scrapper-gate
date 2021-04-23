@@ -68,12 +68,12 @@ export const FlowBuilderHeader = ({
     <AppBar elevation={0} color="transparent" position="static">
       <Toolbar className={classes.appBar}>
         <Stack
-          justifyItems="space-between"
+          justifyContent="space-between"
           alignItems="center"
           direction="row"
           className={classes.mainGrid}
         >
-          <Stack alignItems="center" spacing={2}>
+          <Stack direction="row" alignItems="center" spacing={2}>
             {onClose && (
               <IconButton className={classes.iconButton} onClick={onClose}>
                 <CloseSharp />
@@ -81,7 +81,7 @@ export const FlowBuilderHeader = ({
             )}
             {title && <Typography variant="h5">{title}</Typography>}
           </Stack>
-          <Stack spacing={2} alignItems="center">
+          <Stack direction="row" spacing={2} alignItems="center">
             <Tooltip title={<TooltipText>Sort items</TooltipText>}>
               <IconButton onClick={handleSort}>
                 <SortSharp />

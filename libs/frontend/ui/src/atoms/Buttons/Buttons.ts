@@ -14,11 +14,10 @@ export const PrimaryLightButton = styled(Button)(({ theme }) => ({
 PrimaryLightButton.defaultProps = defaultProps;
 
 export const PrimaryLightIconButton = styled(Fab)(({ theme }) => ({
-  boxShadow: 'none',
-
   '&, &:hover': {
-    color: theme.palette.primary.dark,
+    color: theme.palette.text.primary,
     backgroundColor: theme.palette.primary.light,
+    boxShadow: 'none',
   },
 }));
 PrimaryLightIconButton.defaultProps = defaultProps;

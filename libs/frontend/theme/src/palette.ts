@@ -10,6 +10,7 @@ export const primary = {
 };
 
 export const palette: PaletteOptions = {
+  ...defaultTheme.palette,
   primary,
   greyVariant: colors.grey,
   flowBuilderColors: {

@@ -5,6 +5,7 @@ import React, { PropsWithChildren, useMemo } from 'react';
 import { ThemeProvider as EmotionThemeProvider } from '@emotion/react';
 import { palette } from './palette';
 import { useContainerStore } from '@scrapper-gate/frontend/common';
+import { shadeColor } from '@scrapper-gate/shared/common';
 
 export interface ThemeProviderProps {
   htmlFontSize?: number;
@@ -39,13 +40,16 @@ export const ThemeProvider = ({
             styleOverrides: {
               containedPrimary: {
                 background: palette.gradients.primaryMainToDark,
+                color: palette.text.primary,
               },
             },
           },
           MuiFab: {
             styleOverrides: {
               primary: {
-                background: palette.gradients.primaryMainToDark,
+                '&:not[disabled]': {
+                  background: palette.gradients.primaryMainToDark,
+                },
               },
             },
           },
