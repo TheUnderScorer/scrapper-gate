@@ -6,9 +6,9 @@ import { getById } from '@scrapper-gate/shared/common';
 import { useFlowBuilderContextSelector } from '../providers/FlowBuilderProps.provider';
 
 export const useRemoveItems = () => {
+  const setItems = useFlowBuilderItemsSelector((ctx) => ctx.setItems);
   const getItems = useFlowBuilderItemsSelector((ctx) => ctx.getItems);
   const onRemove = useFlowBuilderContextSelector((ctx) => ctx.onRemove);
-  const { remove } = useFlowBuilderItemsSelector((ctx) => ctx.field);
 
   return useCallback(
     (
@@ -22,24 +22,18 @@ export const useRemoveItems = () => {
 
       const items = getItems();
 
-      const filteredItemsToDelete = itemsToDelete.filter(
-        (item) => !getById(items, item.id).data?.cannotBeDeleted
+      const filteredItems = onRemove?.(
+        itemsToDelete.filter(
+          (item) => !getById(items, item.id).data?.cannotBeDeleted
+        ),
+        {
+          removeElements,
+          items,
+        }
       );
 
-      // TODO Change "onRemove" param
-      const filteredItems = onRemove?.(filteredItemsToDelete, {
-        removeElements,
-        items,
-      });
-
-      const indexes = filteredItemsToDelete.map((itemToDelete) => {
-        return items.findIndex((item) => item?.id === itemToDelete.id);
-      });
-
-      console.log({ indexes });
-
-      remove(indexes);
+      setItems(filteredItems);
     },
-    [getItems, onRemove, remove]
+    [getItems, onRemove, setItems]
   );
 };

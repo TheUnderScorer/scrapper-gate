@@ -1,21 +1,9 @@
-import {
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-  SyntheticEvent,
-  useEffect,
-} from 'react';
-import { useDebounce } from 'react-use';
-import {
-  DeepPartial,
-  Path,
-  UnpackNestedValue,
-  useFormContext,
-} from 'react-hook-form';
-import { useKeyboardShortcuts } from '@scrapper-gate/frontend/keyboard-shortcuts';
+import { useForm, useFormState } from 'react-final-form';
+import { SyntheticEvent, useCallback, useMemo, useRef, useState } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
-import { equals, forEachObj } from 'remeda';
+import { useDebounce } from 'react-use';
+import { useKeyboardShortcuts } from '@scrapper-gate/frontend/keyboard-shortcuts';
+import { equals } from 'remeda';
 
 const initial = {
   past: [],
@@ -23,32 +11,26 @@ const initial = {
   future: [],
 };
 
-export interface UseFormUndoProps<FormValues extends Record<string, unknown>> {
+export interface UseFormUndoProps {
   limit?: number;
-  onUndo?: (values: FormValues) => unknown;
-  onRedo?: (values: FormValues) => unknown;
 }
 
-export const useFormUndo = <FormValues extends Record<string, unknown>>({
-  limit = 50,
-  onRedo,
-  onUndo,
-}: UseFormUndoProps<FormValues> = {}) => {
+export const useFormUndo = ({ limit = 50 }: UseFormUndoProps = {}) => {
   const doingUndoOrRedoRef = useRef(false);
 
   const shortcuts = useKeyboardShortcuts();
 
-  const { getValues, watch, reset } = useFormContext<FormValues>();
+  const formApi = useForm();
 
-  const [lastFormState, setLastFormState] = useState(getValues() as FormValues);
+  const [lastFormState, setLastFormState] = useState(formApi.getState().values);
 
   const [state, setState] = useState({
     ...initial,
-    present: getValues() as FormValues,
+    present: formApi.getState().values,
   });
 
-  const handleValuesChange = useCallback(
-    (formValues: FormValues) => {
+  const onValuesChange = useCallback(
+    (formValues: Record<string, unknown>) => {
       setState((prevState) => {
         const { past, present } = prevState;
 
@@ -76,17 +58,8 @@ export const useFormUndo = <FormValues extends Record<string, unknown>>({
   const canUndo = useMemo(() => state.past.length > 0, [state.past.length]);
   const canRedo = useMemo(() => state.future.length > 0, [state.future.length]);
 
-  const updateForm = useCallback(
-    (values: FormValues, type: 'undo' | 'redo') => {
-      reset(values as UnpackNestedValue<DeepPartial<FormValues>>);
-
-      type === 'undo' ? onUndo?.(values) : onRedo?.(values);
-    },
-    [onRedo, onUndo, reset]
-  );
-
   const redo = useCallback(
-    (e?: SyntheticEvent | Event) => {
+    (e?: Event | SyntheticEvent) => {
       e?.preventDefault();
       e?.stopPropagation();
 
@@ -100,7 +73,7 @@ export const useFormUndo = <FormValues extends Record<string, unknown>>({
         const next = future[0];
         const newFuture = future.slice(1);
 
-        updateForm(next, 'redo');
+        formApi.reset(next);
 
         return {
           past: [...past, present],
@@ -111,11 +84,11 @@ export const useFormUndo = <FormValues extends Record<string, unknown>>({
 
       doingUndoOrRedoRef.current = false;
     },
-    [canRedo, updateForm]
+    [canRedo, formApi]
   );
 
   const undo = useCallback(
-    (e?: SyntheticEvent | Event) => {
+    (e?: Event | SyntheticEvent) => {
       e?.preventDefault();
       e?.stopPropagation();
 
@@ -129,7 +102,7 @@ export const useFormUndo = <FormValues extends Record<string, unknown>>({
         const previous = past[past.length - 1];
         const newPast = past.slice(0, past.length - 1);
 
-        updateForm(previous, 'undo');
+        formApi.reset(previous);
 
         return {
           past: newPast,
@@ -140,25 +113,20 @@ export const useFormUndo = <FormValues extends Record<string, unknown>>({
 
       doingUndoOrRedoRef.current = false;
     },
-    [canUndo, updateForm]
+    [canUndo, formApi]
   );
 
   useHotkeys(shortcuts.undo, undo, [undo]);
   useHotkeys(shortcuts.redo, redo, [redo]);
 
-  const values = watch();
+  useFormState({
+    subscription: { values: true, initialValues: true },
+    onChange: (state) => setLastFormState(state.values),
+  });
 
-  useEffect(() => {
-    if (equals(values, lastFormState)) {
-      return;
-    }
-
-    setLastFormState(values as FormValues);
-  }, [lastFormState, values]);
-
-  useDebounce(() => handleValuesChange(lastFormState), 350, [
+  useDebounce(() => onValuesChange(lastFormState), 350, [
     lastFormState,
-    handleValuesChange,
+    onValuesChange,
   ]);
 
   return {

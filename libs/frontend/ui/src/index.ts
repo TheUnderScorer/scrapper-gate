@@ -18,3 +18,4 @@ export * from './molecules/Dropdown/Dropdown';
 export * from './atoms/TooltipText/TooltipText';
 export * from './molecules/TextWithKeyHint/TextWithKeyHint';
 export * from './molecules/UndoButtons/UndoButtons';
+export * from './atoms/Buttons/Buttons';

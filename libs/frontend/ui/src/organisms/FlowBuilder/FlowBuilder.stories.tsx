@@ -9,27 +9,28 @@ import {
   StopSharp,
   Visibility,
 } from '@material-ui/icons';
+
+import { Form } from 'react-final-form';
+import { FORM_ERROR } from 'final-form';
 import { Box, Typography } from '@material-ui/core';
 import {
   BaseNodeProperties,
+  FlowBuilder,
   FlowBuilderNodeTypes,
   FlowBuilderPlaceholderProperties,
   NodeContentComponent,
-} from './FlowBuilder.types';
+  PrimaryLightIconButton,
+} from '@scrapper-gate/frontend/ui';
 import {
   basicHandleAddNode,
   basicHandleConnect,
   basicHandleRemoveNode,
 } from './utils';
-import { FlowBuilder } from './FlowBuilder';
 import { wait } from '@scrapper-gate/shared/common';
-import { PrimaryLightIconButton } from '../../atoms/Buttons/Buttons';
-import { FormProvider, useForm } from 'react-hook-form';
 import { FormTextField } from '@scrapper-gate/frontend/form';
-import { DevTool } from '@hookform/devtools';
 
 export default {
-  title: 'UI/Flow Builder',
+  title: 'Flow Builder',
 };
 
 const handleAddNode = basicHandleAddNode(() => new Date().toISOString());
@@ -56,16 +57,10 @@ const basicConnect = basicHandleConnect();
 
 const NodeContent: NodeContentComponent<BaseNodeProperties> = ({
   getFieldName,
-  node,
 }) => {
   return (
     <Box width="100%">
-      <FormTextField<Record<string, string>>
-        fullWidth
-        defaultValue={node?.data?.title ?? ''}
-        name={getFieldName('title')}
-        label="Test"
-      />
+      <FormTextField fullWidth name={getFieldName('title')} label="Title" />
     </Box>
   );
 };
@@ -78,7 +73,9 @@ export const BasicPreset = () => {
   const handleSubmit = useCallback(async () => {
     await wait(5000);
 
-    throw new Error('Form submit error');
+    return {
+      [FORM_ERROR]: 'Test error',
+    };
   }, []);
 
   const nodesSelection = useMemo(
@@ -129,60 +126,58 @@ export const BasicPreset = () => {
     []
   );
 
-  const form = useForm({
-    defaultValues: {
-      items: initialState,
-    },
-    shouldUnregister: false,
-  });
-
   return (
-    <FormProvider {...form}>
-      <DevTool control={form.control} />
-      <form
-        onSubmit={form.handleSubmit(handleSubmit)}
-        style={{
-          height: '90vh',
-          width: '90vw',
-        }}
-      >
-        <FlowBuilder<FlowBuilderPlaceholderProperties>
-          nodesSelection={nodesSelection}
-          onAdd={handleAddNode}
-          tabs={[
-            {
-              value: 'tab_1',
-              label: 'Tab 1',
-              content: <Typography>Tab 1 content</Typography>,
-            },
-            {
-              value: 'tab_2',
-              label: 'Tab 2',
-              content: <Typography>Tab 2 content</Typography>,
-            },
-          ]}
-          menu={[
-            {
-              id: '1',
-              content: 'Item 1',
-            },
-            {
-              id: '2',
-              content: 'Item 2',
-            },
-          ]}
-          title="Flow Builder"
-          onClose={action('Close')}
-          onRemove={handleBasicRemoveNode}
-          onConnect={basicConnect}
-          nodeContents={nodeContents}
-          additionalActions={
-            <PrimaryLightIconButton size="small">
-              <PlayArrowSharp />
-            </PrimaryLightIconButton>
-          }
-        />
-      </form>
-    </FormProvider>
+    <Form
+      onSubmit={handleSubmit}
+      initialValues={{
+        items: initialState,
+      }}
+      render={(props) => (
+        <form
+          onSubmit={props.handleSubmit}
+          style={{
+            height: '90vh',
+            width: '90vw',
+          }}
+        >
+          <FlowBuilder<FlowBuilderPlaceholderProperties>
+            nodesSelection={nodesSelection}
+            onAdd={handleAddNode}
+            tabs={[
+              {
+                value: 'tab_1',
+                label: 'Tab 1',
+                content: <Typography>Tab 1 content</Typography>,
+              },
+              {
+                value: 'tab_2',
+                label: 'Tab 2',
+                content: <Typography>Tab 2 content</Typography>,
+              },
+            ]}
+            menu={[
+              {
+                id: 'item_1',
+                content: 'Item 1',
+              },
+              {
+                id: 'item_2',
+                content: 'Item 2',
+              },
+            ]}
+            title="Flow Builder"
+            onClose={action('Close')}
+            onRemove={handleBasicRemoveNode}
+            onConnect={basicConnect}
+            nodeContents={nodeContents}
+            additionalActions={
+              <PrimaryLightIconButton size="small">
+                <PlayArrowSharp />
+              </PrimaryLightIconButton>
+            }
+          />
+        </form>
+      )}
+    />
   );
 };

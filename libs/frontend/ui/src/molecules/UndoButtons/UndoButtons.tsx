@@ -5,14 +5,9 @@ import { useKeyboardShortcuts } from '@scrapper-gate/frontend/keyboard-shortcuts
 import { TextWithKeyHint } from '@scrapper-gate/frontend/ui';
 import { useFormUndo, UseFormUndoProps } from '@scrapper-gate/frontend/form';
 
-export type UndoButtonsProps<FormValues extends Record<string, unknown>> = Pick<
-  UseFormUndoProps<FormValues>,
-  'onUndo' | 'onRedo' | 'limit'
->;
+export type UndoButtonsProps = Pick<UseFormUndoProps, 'limit'>;
 
-export const UndoButtons = <FormValues extends Record<string, unknown>>(
-  props: UndoButtonsProps<FormValues>
-) => {
+export const UndoButtons = (props: UndoButtonsProps) => {
   const shortcuts = useKeyboardShortcuts();
 
   const undoMethods = useFormUndo(props);

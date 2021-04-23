@@ -7,10 +7,9 @@ import {
   Tooltip,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { useFormState } from 'react-final-form';
 import { CheckSharp, ErrorSharp } from '@material-ui/icons';
-import { useFormContext } from 'react-hook-form';
-import { formErrorKey } from '@scrapper-gate/frontend/form';
-import { TooltipText } from '../../atoms/TooltipText/TooltipText';
+import { TooltipText } from '@scrapper-gate/frontend/ui';
 
 export type FormStateIconProps = IconButtonProps;
 
@@ -26,24 +25,34 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const FormStateIcon = (props: FormStateIconProps) => {
-  const form = useFormContext();
+  const formState = useFormState({
+    subscription: {
+      hasValidationErrors: true,
+      submitError: true,
+      error: true,
+      hasSubmitErrors: true,
+      submitErrors: true,
+      submitting: true,
+    },
+  });
 
-  const hasError = useMemo(
-    () => Object.values(form.formState.errors).length > 0,
-    [form.formState]
+  const hasError = Boolean(
+    formState.error ||
+      formState.hasSubmitErrors ||
+      formState.hasValidationErrors
   );
 
   const error = useMemo(() => {
-    if (!hasError) {
-      return '';
+    if (formState.hasSubmitErrors) {
+      return formState.submitError;
     }
 
-    if (form.formState.errors[formErrorKey]?.message) {
-      return form.formState.errors[formErrorKey].message;
+    if (formState.error) {
+      return formState.error;
     }
 
-    return form.formState.errors[0]?.message ?? 'Validation error';
-  }, [form.formState.errors, hasError]);
+    return formState.hasValidationErrors ? 'Validation error' : null;
+  }, [formState]);
 
   const stateIcon = useMemo(
     () => (hasError ? <ErrorSharp /> : <CheckSharp />),
@@ -67,11 +76,7 @@ export const FormStateIcon = (props: FormStateIconProps) => {
             props.className
           )}
         >
-          {form.formState.isSubmitting ? (
-            <CircularProgress size={20} />
-          ) : (
-            stateIcon
-          )}
+          {formState.submitting ? <CircularProgress size={20} /> : stateIcon}
         </IconButton>
       </span>
     </Tooltip>

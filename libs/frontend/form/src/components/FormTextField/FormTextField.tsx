@@ -1,38 +1,39 @@
 import React from 'react';
 import { TextField, TextFieldProps } from '@material-ui/core';
-import { useController } from 'react-hook-form';
-import { FieldControllerProps } from '../../types';
+import { FieldProps } from '../../types';
+import { useField } from 'react-final-form';
 
 export interface FormTextFieldProps<T>
-  extends Omit<TextFieldProps, 'name'>,
-    FieldControllerProps<T> {}
+  extends Pick<
+      TextFieldProps,
+      'helperText' | 'variant' | 'fullWidth' | 'label'
+    >,
+    FieldProps<T> {
+  name: string;
+}
 
 export const FormTextField = <T extends unknown>({
   defaultValue,
-  rules,
-  control,
   name,
-  shouldUnregister,
+  helperText,
+  variant,
+  label,
+  fullWidth,
   ...rest
 }: FormTextFieldProps<T>) => {
-  const {
-    field,
-    fieldState: { error },
-  } = useController({
-    name,
-    rules,
-    control,
-    defaultValue,
-    shouldUnregister,
+  const { input, meta } = useField(name, {
+    ...rest,
   });
 
   return (
     <TextField
       {...rest}
-      {...field}
-      variant={rest.variant}
-      error={Boolean(error)}
-      helperText={error ? error.message : rest.helperText}
+      label={label}
+      fullWidth={fullWidth}
+      variant={variant}
+      error={Boolean(meta.error)}
+      helperText={meta.error ? meta.error.message : helperText}
+      {...input}
     />
   );
 };

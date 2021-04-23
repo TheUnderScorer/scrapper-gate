@@ -6,6 +6,7 @@ import {
   StopSharp,
 } from '@material-ui/icons';
 import React from 'react';
+import { Form } from 'react-final-form';
 import {
   act,
   fireEvent,
@@ -14,24 +15,18 @@ import {
   waitFor,
 } from '@testing-library/react';
 import {
-  FormProvider,
-  useForm,
-  UseFormProps,
-  UseFormReturn,
-} from 'react-hook-form';
-
-import userEvent from '@testing-library/user-event';
-import {
   BaseNodeProperties,
   BaseNodeSelectionProperties,
+  FlowBuilder,
   FlowBuilderItem,
   FlowBuilderNodeTypes,
+  FlowBuilderProps,
   NodeContentComponent,
-} from './FlowBuilder.types';
+} from '@scrapper-gate/frontend/ui';
+import userEvent from '@testing-library/user-event';
 import { Selection } from '@scrapper-gate/frontend/common';
-import { FlowBuilder, FlowBuilderProps } from './FlowBuilder';
-import { createNodeFromSelection } from './utils/createNodeFromSelection';
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
+import { createNodeFromSelection } from './utils/createNodeFromSelection';
 import { wait } from '@scrapper-gate/shared/common';
 
 const offset = 50;
@@ -87,7 +82,7 @@ const nodesSelection: Selection<BaseNodeSelectionProperties>[] = [
       dropdownMenu: (node) => [
         {
           id: 'test',
-          content: ` Custom item (node #${node.id})`,
+          content: `Custom item (node #${node.id})`,
         },
       ],
     },
@@ -111,35 +106,26 @@ const nodesSelection: Selection<BaseNodeSelectionProperties>[] = [
   },
 ];
 
-const Form = ({
-  children,
-  ...props
-}: UseFormProps & { children: (form: UseFormReturn) => JSX.Element }) => {
-  const form = useForm(props);
-
-  return <FormProvider {...form}>{children(form)}</FormProvider>;
-};
-
 const renderComponent = ({
   initialItems = defaultInitialItems,
   ...flowBuilderProps
 }: Partial<FlowBuilderProps> & {
   initialItems?: FlowBuilderItem<BaseNodeProperties>[];
-} = {}) => {
-  return render(
+} = {}) =>
+  render(
     <ThemeProvider>
       <Form
-        defaultValues={{
+        onSubmit={handleSubmit}
+        initialValues={{
           items: initialItems,
         }}
-      >
-        {(props) => (
+        render={(props) => (
           <form
             style={{
               width: 500,
               height: 500,
             }}
-            onSubmit={props.handleSubmit(handleSubmit)}
+            onSubmit={props.handleSubmit}
           >
             <FlowBuilder
               nodesSelection={nodesSelection}
@@ -147,10 +133,9 @@ const renderComponent = ({
             />
           </form>
         )}
-      </Form>
+      />
     </ThemeProvider>
   );
-};
 
 const dragSelectionIntoCanvas = (
   selection: HTMLElement,

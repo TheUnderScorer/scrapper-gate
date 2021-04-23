@@ -11,12 +11,12 @@ import {
 } from '@material-ui/core';
 import { CloseSharp, SortSharp } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
+import { MenuItemProperties } from '@scrapper-gate/frontend/common';
 import { useFlowBuilderItemsSelector } from '../providers/FlowBuilderItems.provider';
 import { FormStateIcon } from '../../../molecules/FormStateIcon/FormStateIcon';
-import { Dropdown, TooltipText, UndoButtons } from '@scrapper-gate/frontend/ui';
-import { useFormState } from 'react-hook-form';
+import { Dropdown, UndoButtons, TooltipText } from '@scrapper-gate/frontend/ui';
 import { buildBasicGraph } from '../utils/graph';
-import { MenuItemProperties } from '@scrapper-gate/frontend/common';
+import { useFormState } from 'react-final-form';
 
 export interface FlowBuilderHeaderProps {
   title?: string;
@@ -53,11 +53,15 @@ export const FlowBuilderHeader = ({
   menu,
 }: FlowBuilderHeaderProps) => {
   const classes = useStyles();
-  const formState = useFormState();
+  const formState = useFormState({
+    subscription: {
+      submitting: true,
+      hasValidationErrors: true,
+    },
+  });
 
   const setItems = useFlowBuilderItemsSelector((ctx) => ctx.setItems);
   const getItems = useFlowBuilderItemsSelector((ctx) => ctx.getItems);
-  const registerItems = useFlowBuilderItemsSelector((ctx) => ctx.registerItems);
 
   const handleSort = useCallback(() => {
     const { items: newItems } = buildBasicGraph(getItems());
@@ -88,23 +92,19 @@ export const FlowBuilderHeader = ({
                 <SortSharp />
               </IconButton>
             </Tooltip>
-            <UndoButtons onUndo={registerItems} onRedo={registerItems} />
+            <UndoButtons />
             {additionalActions}
             <Divider orientation="vertical" className={classes.divider} />
-            <FormStateIcon size="small" className={classes.iconButton} />
+            <FormStateIcon className={classes.iconButton} />
             <Fab
-              disabled={
-                !formState.isSubmitting &&
-                formState.isDirty &&
-                formState.isValid
-              }
+              disabled={formState.submitting || formState.hasValidationErrors}
               className={classes.fab}
               size="small"
               variant="extended"
               color="primary"
               type="submit"
             >
-              {formState.isSubmitting ? 'Saving...' : 'Save'}
+              {formState.submitting ? 'Saving...' : 'Save'}
             </Fab>
             {menu && (
               <Dropdown
