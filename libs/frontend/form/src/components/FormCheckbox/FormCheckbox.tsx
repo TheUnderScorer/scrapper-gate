@@ -7,40 +7,36 @@ import {
   FormControlLabelProps,
   FormHelperText,
 } from '@material-ui/core';
-import { FieldControllerProps } from '@scrapper-gate/frontend/form';
-import { Controller } from 'react-hook-form';
+import { FieldProps } from '@scrapper-gate/frontend/form';
+import { useField } from 'react-final-form';
 
 export interface FormCheckboxProps<T>
   extends Pick<FormControlLabelProps, 'label'>,
-    FieldControllerProps<T>,
-    Omit<CheckboxProps, 'name' | 'defaultValue'> {}
+    Omit<CheckboxProps, 'name' | 'defaultValue'> {
+  fieldProps?: FieldProps<T>;
+  name: string;
+}
 
 export const FormCheckbox = <T extends unknown>({
   name,
-  rules,
-  control,
+  fieldProps,
   required,
   label,
-  defaultValue,
+  id,
   ...rest
 }: FormCheckboxProps<T>) => {
+  const { input, meta } = useField(name, {
+    ...fieldProps,
+    type: 'checkbox',
+  });
+
   return (
-    <Controller
-      name={name}
-      rules={rules}
-      control={control}
-      defaultValue={defaultValue}
-      render={({ field, fieldState }) => (
-        <FormControl error={Boolean(fieldState.error)}>
-          <FormControlLabel
-            control={<Checkbox {...rest} {...field} />}
-            label={label}
-          />
-          {fieldState.error && (
-            <FormHelperText>{fieldState.error.message}</FormHelperText>
-          )}
-        </FormControl>
-      )}
-    />
+    <FormControl error={Boolean(meta.error)}>
+      <FormControlLabel
+        control={<Checkbox {...rest} {...input} id={id ?? input.name} />}
+        label={label}
+      />
+      {meta.error && <FormHelperText>{meta.error.message}</FormHelperText>}
+    </FormControl>
   );
 };

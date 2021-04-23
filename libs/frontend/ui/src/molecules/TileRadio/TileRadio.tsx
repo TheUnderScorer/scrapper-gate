@@ -1,7 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { TileRadioProps } from './TileRadio.types';
-
 import classNames from 'classnames';
 import { SelectablePaper } from '../SelectablePaper/SelectablePaper';
 import { Stack, Typography } from '@material-ui/core';

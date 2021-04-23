@@ -1,39 +1,38 @@
-import React, { ReactNode, useCallback } from 'react';
+import React, { FC, ReactNode, useCallback } from 'react';
 import { Grid, GridSpacing, InputLabel } from '@material-ui/core';
+import { useField } from 'react-final-form';
 import { TileRadio } from '../TileRadio/TileRadio';
-import { ControllerProps, useController } from 'react-hook-form';
 import { Selection } from '@scrapper-gate/frontend/common';
 
-export interface RadioGroupProps
-  extends Pick<ControllerProps, 'control' | 'name' | 'defaultValue'> {
+export interface RadioGroupProps {
+  name: string;
   options: Selection[];
   disabled?: boolean;
   spacing?: GridSpacing;
   label?: ReactNode;
 }
 
-export const RadioGroup = <ValueType extends unknown>({
+export const RadioGroup: FC<RadioGroupProps> = <ValueType extends unknown>({
   name,
   options,
   disabled,
   spacing = 1,
-  control,
-  defaultValue,
   label: radioLabel,
 }: RadioGroupProps) => {
-  const {
-    field: { onChange, value },
-  } = useController({
-    name,
-    control,
-    defaultValue,
-  });
+  const { input } = useField(name);
+  const { onChange } = input;
+  const value = input.value as ValueType | null;
 
   const handleClick = useCallback(
     (selectedValue: ValueType) => () => {
-      onChange(selectedValue === value ? '' : selectedValue);
+      onChange({
+        target: {
+          value: selectedValue === value ? undefined : selectedValue,
+          name,
+        },
+      });
     },
-    [onChange, value]
+    [name, onChange, value]
   );
 
   return (

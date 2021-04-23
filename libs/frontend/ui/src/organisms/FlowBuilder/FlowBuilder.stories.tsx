@@ -30,7 +30,7 @@ import { wait } from '@scrapper-gate/shared/common';
 import { FormTextField } from '@scrapper-gate/frontend/form';
 
 export default {
-  title: 'Flow Builder',
+  title: 'UI/Flow Builder',
 };
 
 const handleAddNode = basicHandleAddNode(() => new Date().toISOString());

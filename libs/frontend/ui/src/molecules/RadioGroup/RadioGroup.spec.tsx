@@ -1,9 +1,9 @@
-import { act, render } from '@testing-library/react';
+import { render, RenderResult, act } from '@testing-library/react';
 import fireEvent from '@testing-library/user-event';
+import { Form } from 'react-final-form';
 import { Description, Home } from '@material-ui/icons';
 import React from 'react';
 import { RadioGroup } from './RadioGroup';
-import { useForm } from 'react-hook-form';
 import { Selection } from '@scrapper-gate/frontend/common';
 
 const options: Selection[] = [
@@ -19,19 +19,21 @@ const options: Selection[] = [
   },
 ];
 
-const Cmp = () => {
-  const form = useForm();
-
-  return (
-    <div>
-      <RadioGroup name="test" options={options} control={form.control} />
-    </div>
+const renderCmp = (): RenderResult =>
+  render(
+    <Form
+      onSubmit={jest.fn()}
+      render={() => (
+        <div>
+          <RadioGroup name="test" options={options} />
+        </div>
+      )}
+    />
   );
-};
 
 describe('<RadioGroup />', () => {
   it('should handle selected item', () => {
-    const { container } = render(<Cmp />);
+    const { container } = renderCmp();
     const item = container.querySelector('.selectable-paper');
 
     act(() => {

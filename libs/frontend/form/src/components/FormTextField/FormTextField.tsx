@@ -6,7 +6,13 @@ import { useField } from 'react-final-form';
 export interface FormTextFieldProps<T>
   extends Pick<
       TextFieldProps,
-      'helperText' | 'variant' | 'fullWidth' | 'label'
+      | 'helperText'
+      | 'variant'
+      | 'fullWidth'
+      | 'label'
+      | 'id'
+      | 'size'
+      | 'disabled'
     >,
     FieldProps<T> {
   name: string;
@@ -19,10 +25,18 @@ export const FormTextField = <T extends unknown>({
   variant,
   label,
   fullWidth,
+  id,
+  size,
+  disabled,
   ...rest
 }: FormTextFieldProps<T>) => {
   const { input, meta } = useField(name, {
     ...rest,
+  });
+
+  console.log({
+    input,
+    meta,
   });
 
   return (
@@ -31,8 +45,11 @@ export const FormTextField = <T extends unknown>({
       label={label}
       fullWidth={fullWidth}
       variant={variant}
+      size={size}
       error={Boolean(meta.error)}
       helperText={meta.error ? meta.error.message : helperText}
+      id={id ?? input.name}
+      disabled={disabled}
       {...input}
     />
   );

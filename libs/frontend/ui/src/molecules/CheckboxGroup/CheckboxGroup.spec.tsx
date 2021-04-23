@@ -1,9 +1,9 @@
 import { Description, Home } from '@material-ui/icons';
 import React from 'react';
-import { act, render } from '@testing-library/react';
+import { act, render, RenderResult } from '@testing-library/react';
+import { Form } from 'react-final-form';
 import fireEvent from '@testing-library/user-event';
 import { CheckboxGroup } from './CheckboxGroup';
-import { useForm } from 'react-hook-form';
 import { Selection } from '@scrapper-gate/frontend/common';
 import { wait } from '@scrapper-gate/shared/common';
 
@@ -25,19 +25,21 @@ const options: Selection[] = [
   },
 ];
 
-const Cmp = () => {
-  const form = useForm();
-
-  return (
-    <div>
-      <CheckboxGroup name="test" control={form.control} options={options} />
-    </div>
+const renderCmp = (): RenderResult =>
+  render(
+    <Form
+      onSubmit={jest.fn()}
+      render={() => (
+        <div>
+          <CheckboxGroup name="test" options={options} />
+        </div>
+      )}
+    />
   );
-};
 
 describe('<CheckboxGroup />', () => {
   it('should handle selection', async () => {
-    const { container } = render(<Cmp />);
+    const { container } = renderCmp();
     const checkboxes = Array.from(
       container.querySelectorAll('.tile-checkbox-container')
     ).slice(0, 2);

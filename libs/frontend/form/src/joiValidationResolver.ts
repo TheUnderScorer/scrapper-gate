@@ -1,45 +1,41 @@
-import { ResolverResult, set } from 'react-hook-form';
 import {
   BaseSchema,
   BaseSchemaConstructor,
-  ValidationError,
+  ValidationError as AppValidationError,
 } from '@scrapper-gate/shared/validation';
 import { logger } from '@scrapper-gate/frontend/logger';
+import set from 'lodash.set';
+import { ValidationErrors } from 'final-form';
 
 export const joiValidationResolver = <T>(
   schema: BaseSchemaConstructor<BaseSchema<T>>
-) => async (data: unknown): Promise<ResolverResult<T>> => {
+) => async (data: unknown): Promise<ValidationErrors> => {
   try {
-    const values = schema.validate(data);
+    schema.validate(data);
 
     return {
-      values,
       errors: {},
     };
   } catch (error) {
-    const result = {
-      values: {},
-      errors: {},
-    };
+    const result = {};
 
-    if (!(error instanceof ValidationError)) {
+    if (!(error instanceof AppValidationError)) {
       throw error;
     }
-
-    logger.error(`Validation error:`, error);
 
     error.details.forEach((detail) => {
       const path = Array.isArray(detail.path)
         ? detail.path.join('.')
         : detail.path;
 
-      set(result.errors, path, {
+      set(result, path, {
         type: detail.type ?? 'validation',
         message: detail.message,
       });
     });
 
-    console.log({ error, result });
+    logger.debug(`Validation error:`, error);
+    logger.debug('Result:', result);
 
     return result;
   }

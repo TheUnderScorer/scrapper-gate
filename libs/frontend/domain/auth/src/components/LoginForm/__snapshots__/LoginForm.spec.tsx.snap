@@ -31,7 +31,7 @@ Object {
             >
               <input
                 aria-invalid="false"
-                class="MuiFilledInput-input MuiInputBase-input MuiInputBase-inputSizeSmall css-15bxpno-MuiInputBase-input-MuiFilledInput-input"
+                class="MuiFilledInput-input MuiInputBase-input MuiInputBase-inputSizeSmall css-c5v1qu-MuiInputBase-input-MuiFilledInput-input"
                 id="username"
                 name="username"
                 type="text"
@@ -55,7 +55,7 @@ Object {
             >
               <input
                 aria-invalid="false"
-                class="MuiFilledInput-input MuiInputBase-input MuiInputBase-inputSizeSmall css-15bxpno-MuiInputBase-input-MuiFilledInput-input"
+                class="MuiFilledInput-input MuiInputBase-input MuiInputBase-inputSizeSmall css-c5v1qu-MuiInputBase-input-MuiFilledInput-input"
                 id="password"
                 name="password"
                 type="password"
@@ -113,7 +113,7 @@ Object {
           >
             <input
               aria-invalid="false"
-              class="MuiFilledInput-input MuiInputBase-input MuiInputBase-inputSizeSmall css-15bxpno-MuiInputBase-input-MuiFilledInput-input"
+              class="MuiFilledInput-input MuiInputBase-input MuiInputBase-inputSizeSmall css-c5v1qu-MuiInputBase-input-MuiFilledInput-input"
               id="username"
               name="username"
               type="text"
@@ -137,7 +137,7 @@ Object {
           >
             <input
               aria-invalid="false"
-              class="MuiFilledInput-input MuiInputBase-input MuiInputBase-inputSizeSmall css-15bxpno-MuiInputBase-input-MuiFilledInput-input"
+              class="MuiFilledInput-input MuiInputBase-input MuiInputBase-inputSizeSmall css-c5v1qu-MuiInputBase-input-MuiFilledInput-input"
               id="password"
               name="password"
               type="password"

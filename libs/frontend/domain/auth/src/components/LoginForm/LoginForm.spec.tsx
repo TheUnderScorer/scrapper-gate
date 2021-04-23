@@ -20,6 +20,7 @@ import fireEvent from '@testing-library/user-event';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { createMockUser } from '@scrapper-gate/shared/domain/user';
+import { wait } from '@scrapper-gate/shared/common';
 
 const user = createMockUser();
 
@@ -58,6 +59,7 @@ const mocks: MockedResponse[] = [
         input: {
           email: 'test@test.com',
           password: 'password',
+          acceptTerms: true,
         },
       } as CreateUserMutationVariables,
     },
@@ -133,13 +135,24 @@ describe('<LoginForm />', () => {
 
     await fillFields(container);
 
+    const acceptTerms = container.querySelector('#acceptTerms');
+
+    act(() => {
+      userEvent.click(acceptTerms);
+    });
+
+    await wait(50);
+
     const signupBtn = container.querySelector('#signup');
 
     act(() => {
       userEvent.click(signupBtn);
     });
 
-    await waitFor(() => expect(handleCreate).toHaveBeenCalledTimes(1));
+    await waitFor(() => expect(handleCreate).toHaveBeenCalledTimes(1), {
+      timeout: 3000,
+      interval: 250,
+    });
     expect(handleCreate).toHaveBeenCalledWith(createUserResult);
     expect(useTokensStore.getState().tokens).toEqual(createUserResult.tokens);
   });

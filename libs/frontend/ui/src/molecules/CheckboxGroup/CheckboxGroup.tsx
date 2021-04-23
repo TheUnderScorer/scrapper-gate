@@ -1,49 +1,49 @@
-import React, { useCallback } from 'react';
+import React, { FC, useCallback } from 'react';
+import { useField } from 'react-final-form';
 import { Grid, GridSpacing, InputLabel } from '@material-ui/core';
 import { TileCheckbox } from '../TileCheckbox/TileCheckbox';
 import { Selection } from '@scrapper-gate/frontend/common';
-import { ControllerProps, useController } from 'react-hook-form';
 
-export interface CheckboxGroupProps
-  extends Pick<ControllerProps, 'name' | 'control' | 'defaultValue'> {
+export interface CheckboxGroupProps {
+  name: string;
   options: Selection[];
   disabled?: boolean;
   spacing?: GridSpacing;
   label?: string;
 }
 
-export const CheckboxGroup = <ValueType extends unknown>({
+export const CheckboxGroup: FC<CheckboxGroupProps> = <
+  ValueType extends unknown
+>({
   name,
   options,
   disabled,
   spacing = 1,
   label: checkboxLabel,
-  control,
-  defaultValue = [],
 }: CheckboxGroupProps) => {
-  const {
-    field: { onChange, value },
-  } = useController({
-    name,
-    control,
-    defaultValue,
-  });
+  const { input } = useField(name);
+  const { value: values = [] as ValueType[], onChange } = input;
 
   const handleClick = useCallback(
-    (clickedValue: ValueType) => () => {
-      let newValue: ValueType[] = value ?? [];
+    (value: ValueType) => () => {
+      let newValue: ValueType[] = values ?? [];
 
-      const isChecked = newValue.includes(clickedValue);
+      const isChecked = values.includes(value);
 
       if (isChecked) {
-        newValue = newValue.filter((val) => val !== clickedValue);
+        newValue = newValue.filter((val) => val !== value);
       } else {
-        newValue = [...newValue, clickedValue];
+        newValue = [...newValue, value];
       }
 
-      onChange(newValue);
+      onChange({
+        target: {
+          value: newValue,
+          name,
+        },
+      });
     },
-    [onChange, value]
+    [name, onChange, values]
   );
 
   return (
@@ -58,7 +58,7 @@ export const CheckboxGroup = <ValueType extends unknown>({
           <TileCheckbox
             title={label}
             icon={icon}
-            checked={value.includes(itemValue)}
+            checked={values.includes(itemValue)}
             disabled={disabled}
             onClick={handleClick(itemValue as ValueType)}
           />

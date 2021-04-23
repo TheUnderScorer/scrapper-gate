@@ -1,12 +1,12 @@
 import { Description, Home } from '@material-ui/icons';
 import React from 'react';
+import { Form } from 'react-final-form';
+import { action } from '@storybook/addon-actions';
 import { RadioGroup } from './RadioGroup';
-import { useForm } from 'react-hook-form';
 import { Selection } from '@scrapper-gate/frontend/common';
 
 export default {
-  title: 'UI/RadioGroup',
-  component: RadioGroup,
+  title: 'UI/Radio Group',
 };
 
 const options: Selection[] = [
@@ -23,19 +23,17 @@ const options: Selection[] = [
 ];
 
 export const Controlled = () => {
-  const form = useForm();
-
   return (
-    <div>
-      <RadioGroup
-        label="Test value"
-        name="test"
-        control={form.control}
-        options={options}
-      />
-      <div>
-        <pre>Values: {JSON.stringify(form.watch(), null, ' ')}</pre>
-      </div>
-    </div>
+    <Form
+      onSubmit={action('submit')}
+      render={({ values }) => (
+        <div>
+          <RadioGroup label="Test value" name="test" options={options} />
+          <div>
+            <pre>Values: {JSON.stringify(values, null, ' ')}</pre>
+          </div>
+        </div>
+      )}
+    />
   );
 };
