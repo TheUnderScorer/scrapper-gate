@@ -6,14 +6,14 @@ Object {
   "baseElement": <body>
     <div>
       <div
-        class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column MuiGrid-wrap-xs-nowrap makeStyles-container-5 layout css-19kb62l-MuiGrid-root"
+        class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column MuiGrid-wrap-xs-nowrap makeStyles-container-4 layout css-19kb62l-MuiGrid-root"
       >
         <div
-          class="MuiGrid-root MuiGrid-item makeStyles-body-6 makeStyles-body-7 layout-body css-10texkh-MuiGrid-root"
+          class="MuiGrid-root MuiGrid-item makeStyles-body-5 makeStyles-body-6 layout-body css-10texkh-MuiGrid-root"
           style="height: calc(100% - 0px); flex: 1;"
         >
           <ul
-            class="MuiList-root MuiList-padding makeStyles-list-4 controlled-list css-h4y409-MuiList-root"
+            class="MuiList-root MuiList-padding makeStyles-list-3 controlled-list css-h4y409-MuiList-root"
             id="my_scrappers_list"
           >
             <li
@@ -70,30 +70,6 @@ Object {
           </ul>
         </div>
       </div>
-      <button
-        class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary makeStyles-fab-3 css-mv5a4t-MuiButtonBase-root-MuiFab-root"
-        tabindex="0"
-        type="button"
-      >
-        <span
-          class="MuiFab-label css-110lfi1-MuiFab-label"
-        >
-          <svg
-            aria-hidden="true"
-            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-            data-testid="AddIcon"
-            focusable="false"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
-            />
-          </svg>
-        </span>
-        <span
-          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-        />
-      </button>
     </div>
     <div
       aria-hidden="true"
@@ -165,14 +141,14 @@ Object {
   </body>,
   "container": <div>
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column MuiGrid-wrap-xs-nowrap makeStyles-container-5 layout css-19kb62l-MuiGrid-root"
+      class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column MuiGrid-wrap-xs-nowrap makeStyles-container-4 layout css-19kb62l-MuiGrid-root"
     >
       <div
-        class="MuiGrid-root MuiGrid-item makeStyles-body-6 makeStyles-body-7 layout-body css-10texkh-MuiGrid-root"
+        class="MuiGrid-root MuiGrid-item makeStyles-body-5 makeStyles-body-6 layout-body css-10texkh-MuiGrid-root"
         style="height: calc(100% - 0px); flex: 1;"
       >
         <ul
-          class="MuiList-root MuiList-padding makeStyles-list-4 controlled-list css-h4y409-MuiList-root"
+          class="MuiList-root MuiList-padding makeStyles-list-3 controlled-list css-h4y409-MuiList-root"
           id="my_scrappers_list"
         >
           <li
@@ -229,30 +205,6 @@ Object {
         </ul>
       </div>
     </div>
-    <button
-      class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeLarge MuiFab-primary makeStyles-fab-3 css-mv5a4t-MuiButtonBase-root-MuiFab-root"
-      tabindex="0"
-      type="button"
-    >
-      <span
-        class="MuiFab-label css-110lfi1-MuiFab-label"
-      >
-        <svg
-          aria-hidden="true"
-          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-          data-testid="AddIcon"
-          focusable="false"
-          viewBox="0 0 24 24"
-        >
-          <path
-            d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
-          />
-        </svg>
-      </span>
-      <span
-        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-      />
-    </button>
   </div>,
   "debug": [Function],
   "findAllByAltText": [Function],

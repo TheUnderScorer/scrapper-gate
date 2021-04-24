@@ -13,7 +13,6 @@ import userEvent from '@testing-library/user-event';
 import { mockEvent, MockzillaEventOf } from 'mockzilla-webextension';
 import { useTokensStore } from '@scrapper-gate/frontend/domain/auth';
 import { browserExtensionRoutes } from '@scrapper-gate/shared/routing';
-import { MessageTwoTone } from '@material-ui/icons';
 import {
   MessageTypes,
   StoredRoute,
