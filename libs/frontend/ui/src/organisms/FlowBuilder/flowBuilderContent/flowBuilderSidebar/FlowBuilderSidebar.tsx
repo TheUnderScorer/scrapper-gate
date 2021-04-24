@@ -3,27 +3,22 @@ import {
   IconButton,
   InputAdornment,
   List,
-  Paper,
   Stack,
   TextField,
   Typography,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-
 import { ClearSharp } from '@material-ui/icons';
 import { FlowBuilderSidebarItem } from './flowBuilderSidebarItem/FlowBuilderSidebarItem';
 import { useFlowBuilderSelection } from '../../providers/FlowBuilderSelection.provider';
-import { Centered } from '@scrapper-gate/frontend/ui';
+import { Centered, ResizablePanel } from '@scrapper-gate/frontend/ui';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
     padding: theme.spacing(2),
-    width: '25%',
-    maxWidth: '350px',
     borderLeft: 'none',
     borderTop: 'none',
     borderBottom: 'none',
-    height: '100%',
   },
   grid: {
     height: '100%',
@@ -59,7 +54,20 @@ export const FlowBuilderSidebar = () => {
   const clearSearch = useCallback(() => setSearch(''), []);
 
   return (
-    <Paper square elevation={1} variant="outlined" className={classes.paper}>
+    <ResizablePanel
+      initialWidth="25%"
+      enable={{
+        right: true,
+      }}
+      minWidth="200px"
+      maxWidth="600px"
+      paperProps={{
+        square: true,
+        elevation: 1,
+        variant: 'outlined',
+        className: classes.paper,
+      }}
+    >
       <Stack spacing={2} direction="column" className={classes.grid}>
         <Typography variant="h6">List of steps</Typography>
         <TextField
@@ -93,6 +101,6 @@ export const FlowBuilderSidebar = () => {
           </Centered>
         )}
       </Stack>
-    </Paper>
+    </ResizablePanel>
   );
 };

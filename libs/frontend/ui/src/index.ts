@@ -19,3 +19,5 @@ export * from './atoms/TooltipText/TooltipText';
 export * from './molecules/TextWithKeyHint/TextWithKeyHint';
 export * from './molecules/UndoButtons/UndoButtons';
 export * from './atoms/Buttons/Buttons';
+export * from './molecules/ResizablePanel/ResizablePanel';
+export * from './molecules/ResizablePanel/ResizablePanel.types';

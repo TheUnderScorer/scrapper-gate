@@ -52,6 +52,9 @@ const useStyles = makeStyles((theme: AppTheme) => ({
         border: `1px solid ${theme.palette.background.paper}`,
       },
     },
+    '& .react-flow__handle-top, & .react-flow__handle-bottom': {
+      width: '15px',
+    },
     '& .react-flow__handle-top::after': {
       top: '-2px',
     },

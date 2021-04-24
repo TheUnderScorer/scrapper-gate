@@ -12,7 +12,7 @@ export const useKeyboardShortcuts = () => {
     () =>
       when(os, {
         [OperatingSystem.Mac]: {
-          contentDrawer: {
+          drawer: {
             toggle: '[',
           },
           elementPicker: {
@@ -23,7 +23,7 @@ export const useKeyboardShortcuts = () => {
           selectAll: 'command+a',
         },
         [inArray(OperatingSystem.Windows, OperatingSystem.Linux)]: {
-          contentDrawer: {
+          drawer: {
             toggle: '[',
           },
           elementPicker: {
