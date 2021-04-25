@@ -36,14 +36,14 @@ const useStyles = makeStyles((theme: AppTheme) => ({
   },
   canvas: {
     '& .react-flow__handle': {
-      width: '10px',
-      height: '15px',
+      width: '15px',
+      height: '20px',
       padding: theme.spacing(0.3),
       borderColor: 'transparent',
       backgroundColor: 'transparent',
       '&::after': {
-        width: '10px',
-        height: '10px',
+        width: '15px',
+        height: '15px',
         content: '""',
         borderRadius: '50%',
         position: 'absolute',
@@ -57,9 +57,11 @@ const useStyles = makeStyles((theme: AppTheme) => ({
     },
     '& .react-flow__handle-top::after': {
       top: '-2px',
+      left: '3px',
     },
     '& .react-flow__handle-bottom::after': {
       bottom: '-2px',
+      left: '3px',
     },
     '& .react-flow__handle-left::after': {
       right: 'auto',
