@@ -34,11 +34,6 @@ export const FormTextField = <T extends unknown>({
     ...rest,
   });
 
-  console.log({
-    input,
-    meta,
-  });
-
   return (
     <TextField
       {...rest}

@@ -1,8 +1,7 @@
-import React, { MouseEventHandler, useCallback, useRef, useState } from 'react';
-import { Menu, PopoverPosition } from '@material-ui/core';
+import React, { MouseEventHandler, useCallback, useState } from 'react';
+import { ClickAwayListener, Menu, PopoverPosition } from '@material-ui/core';
 import { ContextMenuProps } from './ContextMenu.types';
 import { GenericMenuItem } from '../GenericMenuItem/GenericMenuItem';
-import { useClickAway } from 'react-use';
 import { makeStyles } from '@material-ui/styles';
 import classNames from 'classnames';
 import { preventDefault } from '@scrapper-gate/frontend/common';
@@ -39,42 +38,35 @@ export const ContextMenu = ({
     setMouseState(null);
   }, []);
 
-  const menuRef = useRef<HTMLDivElement>();
-
-  useClickAway(menuRef, handleClose);
-
-  console.log({ menuRef });
-
   return (
     <>
       {children({ onContextMenu: handleContextMenu })}
       {menuItems && (
-        <Menu
-          onContextMenu={preventDefault}
-          className={classNames('context-menu', classes.menu)}
-          ref={(el) => {
-            menuRef.current = el?.querySelector('.MuiPaper-root');
-          }}
-          hideBackdrop
-          keepMounted
-          open={Boolean(mouseState)}
-          onClose={handleClose}
-          anchorReference="anchorPosition"
-          anchorPosition={mouseState}
-          {...menuProps}
-        >
-          {menuItems.map((item) => (
-            <GenericMenuItem
-              key={item.id}
-              {...item}
-              onClick={(event) => {
-                item.onClick?.(event);
+        <ClickAwayListener onClickAway={handleClose}>
+          <Menu
+            onContextMenu={preventDefault}
+            className={classNames('context-menu', classes.menu)}
+            hideBackdrop
+            keepMounted
+            open={Boolean(mouseState)}
+            onClose={handleClose}
+            anchorReference="anchorPosition"
+            anchorPosition={mouseState}
+            {...menuProps}
+          >
+            {menuItems.map((item) => (
+              <GenericMenuItem
+                key={item.id}
+                {...item}
+                onClick={(event) => {
+                  item.onClick?.(event);
 
-                handleClose();
-              }}
-            />
-          ))}
-        </Menu>
+                  handleClose();
+                }}
+              />
+            ))}
+          </Menu>
+        </ClickAwayListener>
       )}
     </>
   );

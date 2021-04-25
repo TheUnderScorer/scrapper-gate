@@ -27,13 +27,16 @@ import { useFlowBuilderContextSelector } from '../../providers/FlowBuilderProps.
 import { useHandleDragEnd } from '../../hooks/useHandleDragEnd';
 import { AppTheme } from '@scrapper-gate/frontend/theme';
 import { DropTargetMonitor, useDrop } from 'react-dnd';
-import { Selection } from '@scrapper-gate/frontend/common';
+import { MenuItemProperties, Selection } from '@scrapper-gate/frontend/common';
 import { ContextMenu } from '../../../../molecules/ContextMenu/ContextMenu';
+import { useFlowBuilderSelection } from '../../providers/FlowBuilderSelection.provider';
+import { Sort } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme: AppTheme) => ({
   paper: {
     backgroundColor: theme.palette.greyVariant['100'],
     flex: 1,
+    position: 'relative',
   },
   canvas: {
     '& .react-flow__handle': {
@@ -151,26 +154,53 @@ export const FlowBuilderCanvas = () => {
     drop: handleDrop,
   });
 
+  const { selection } = useFlowBuilderSelection();
+
+  const menuItems = useMemo<MenuItemProperties[]>(() => {
+    const nodeTypesItems: MenuItemProperties[] = selection.map(
+      ({ icon, label }) => {
+        return {
+          id: label,
+          content: label,
+          icon: icon,
+        };
+      }
+    );
+
+    return [
+      {
+        id: 'nodes_subheader',
+        type: 'subHeader',
+        content: 'Nodes',
+      },
+      ...nodeTypesItems,
+      {
+        id: 'sort_divider',
+        type: 'divider',
+      },
+      {
+        id: 'Sort',
+        content: 'Sort nodes',
+        icon: <Sort />,
+      },
+    ];
+  }, [selection]);
+
   useEffect(() => {
     drop(containerRef.current);
   }, [drop]);
 
   return (
-    <div
-      ref={containerRef as MutableRefObject<HTMLDivElement>}
-      className={classNames(classes.paper, 'flow-builder-canvas', { canDrop })}
-    >
-      <ContextMenu
-        menuItems={[
-          {
-            id: '1',
-            content: 'Test',
-          },
-        ]}
-      >
-        {({ onContextMenu }) => (
+    <ContextMenu menuItems={menuItems}>
+      {({ onContextMenu }) => (
+        <div
+          onContextMenu={onContextMenu}
+          ref={containerRef as MutableRefObject<HTMLDivElement>}
+          className={classNames(classes.paper, 'flow-builder-canvas', {
+            canDrop,
+          })}
+        >
           <ReactFlow
-            onContextMenu={onContextMenu}
             edgeTypes={edgeTypes}
             className={classes.canvas}
             onLoad={(instance) => {
@@ -195,8 +225,8 @@ export const FlowBuilderCanvas = () => {
             onConnectEnd={handleConnectionEnd}
             connectionLineComponent={ConnectionLine}
           />
-        )}
-      </ContextMenu>
-    </div>
+        </div>
+      )}
+    </ContextMenu>
   );
 };
