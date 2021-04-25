@@ -1,7 +1,6 @@
 import { Canvas, Meta, Props, Story } from '@storybook/addon-docs/blocks';
 import { ContextMenu } from './ContextMenu';
-import { Typography } from '@material-ui/core';
-import * as faker from 'faker';
+import { Box, Typography } from '@material-ui/core';
 import { action } from '@storybook/addon-actions';
 
 <Meta title="UI/ContextMenu" component={ContextMenu} />
@@ -32,7 +31,21 @@ import { action } from '@storybook/addon-actions';
         },
       ]}
     >
-      <Typography>{faker.lorem.paragraphs(2)}</Typography>
+      {(bag) => {
+        return (
+          <Box onContextMenu={bag.onContextMenu}>
+            <Typography>
+              Error eaque ex odit et autem ipsum facere. Quas omnis explicabo
+              est labore mollitia aperiam tenetur. Similique et eum et error. Et
+              enim facilis ut odio commodi laudantium. Ipsa architecto ipsum
+              consequatur totam veniam sit vitae qui. Beatae natus et
+              perferendis ducimus et maxime iste consequatur sed. Id rem nostrum
+              voluptas est non modi recusandae libero. Quisquam provident ut
+              numquam consequatur.
+            </Typography>
+          </Box>
+        );
+      }}
     </ContextMenu>
   </Story>
 </Canvas>

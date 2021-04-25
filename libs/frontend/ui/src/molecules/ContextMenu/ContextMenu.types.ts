@@ -1,10 +1,13 @@
-import { ReactNode } from 'react';
-import { BoxProps, MenuProps } from '@material-ui/core';
+import { MouseEventHandler, ReactNode } from 'react';
+import { MenuProps } from '@material-ui/core';
 import { MenuItemProperties } from '@scrapper-gate/frontend/common';
 
+export interface ContextMenuChildrenBag {
+  onContextMenu: MouseEventHandler;
+}
+
 export interface ContextMenuProps {
-  children?: ReactNode;
+  children?: (bag: ContextMenuChildrenBag) => ReactNode;
   menuItems: MenuItemProperties[];
   menuProps?: Omit<MenuProps, 'open' | 'anchorReference' | 'anchorPosition'>;
-  boxProps?: Omit<BoxProps, 'onContextMenu'>;
 }

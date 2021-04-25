@@ -1,12 +1,11 @@
 import React, { MouseEventHandler, useCallback, useState } from 'react';
-import { Box, Menu, PopoverPosition } from '@material-ui/core';
+import { Menu, PopoverPosition } from '@material-ui/core';
 import { ContextMenuProps } from './ContextMenu.types';
 import { GenericMenuItem } from '../GenericMenuItem/GenericMenuItem';
 
 export const ContextMenu = ({
   children,
   menuItems,
-  boxProps,
   ...menuProps
 }: ContextMenuProps) => {
   const [mouseState, setMouseState] = useState<PopoverPosition | null>(null);
@@ -25,8 +24,8 @@ export const ContextMenu = ({
   }, []);
 
   return (
-    <Box onContextMenu={handleContextMenu} {...boxProps}>
-      {children}
+    <>
+      {children({ onContextMenu: handleContextMenu })}
       {menuItems && (
         <Menu
           keepMounted
@@ -49,6 +48,6 @@ export const ContextMenu = ({
           ))}
         </Menu>
       )}
-    </Box>
+    </>
   );
 };
