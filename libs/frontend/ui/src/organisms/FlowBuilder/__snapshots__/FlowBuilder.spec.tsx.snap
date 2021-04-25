@@ -208,209 +208,247 @@ Object {
               class="makeStyles-stack-14 css-1abmola-Stack-root"
             >
               <div
-                class="MuiPaper-root MuiPaper-outlined makeStyles-paper-15 css-mta8o9-MuiPaper-root"
+                class="makeStyles-container-19"
+                style="position: relative; user-select: auto; width: 25%; height: 100%; max-width: 600px; min-width: 200px; box-sizing: border-box; flex-shrink: 0;"
               >
-                <div
-                  class="makeStyles-grid-16 css-1gnw4iv-Stack-root"
+                <button
+                  class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeSmall makeStyles-iconBtn-21 toggle-panel css-gqo1yx-MuiButtonBase-root-MuiFab-root"
+                  data-mui-internal-clone-element="true"
+                  tabindex="0"
+                  type="button"
                 >
-                  <h6
-                    class="MuiTypography-root MuiTypography-h6 css-5d68dr-MuiTypography-root"
+                  <span
+                    class="MuiFab-label css-110lfi1-MuiFab-label"
                   >
-                    List of steps
-                  </h6>
-                  <div
-                    class="MuiFormControl-root MuiFormControl-marginNone MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
-                  >
-                    <div
-                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-ag3e3g-MuiInputBase-root-MuiOutlinedInput-root"
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-egrpcv-MuiSvgIcon-root"
+                      data-testid="ChevronLeftIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
                     >
-                      <input
-                        aria-invalid="false"
-                        class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd css-nxo287-MuiInputBase-input-MuiOutlinedInput-input"
-                        placeholder="Search steps..."
-                        type="text"
-                        value=""
+                      <path
+                        d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"
                       />
-                      <div
-                        class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-hiddenLabel MuiInputAdornment-sizeSmall css-1laqsz7-MuiInputAdornment-root"
-                      >
-                        <button
-                          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-21hjtl-MuiButtonBase-root-MuiIconButton-root"
-                          tabindex="0"
-                          type="button"
-                        >
-                          <span
-                            class="MuiIconButton-label css-4jkopv-MuiIconButton-label"
-                          >
-                            <svg
-                              aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-egrpcv-MuiSvgIcon-root"
-                              data-testid="ClearSharpIcon"
-                              focusable="false"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"
-                              />
-                            </svg>
-                          </span>
-                          <span
-                            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                          />
-                        </button>
-                      </div>
-                      <fieldset
-                        aria-hidden="true"
-                        class="MuiOutlinedInput-notchedOutline css-1o2jng6-MuiOutlinedInput-notchedOutline"
-                        style="padding-left: 8px;"
-                      >
-                        <legend
-                          class="css-1br1jja"
-                          style="width: 0.01px;"
-                        >
-                          <span
-                            class="notranslate"
-                          >
-                            ​
-                          </span>
-                        </legend>
-                      </fieldset>
-                    </div>
-                  </div>
-                  <ul
-                    class="MuiList-root MuiList-padding makeStyles-list-17 css-h4y409-MuiList-root"
+                    </svg>
+                  </span>
+                  <span
+                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  />
+                </button>
+                <div
+                  class="MuiPaper-root MuiPaper-outlined makeStyles-paper-15 makeStyles-content-20 resizable-panel-content css-mta8o9-MuiPaper-root"
+                >
+                  <div
+                    class="makeStyles-grid-16 css-1gnw4iv-Stack-root"
                   >
-                    <li
-                      class="MuiListItem-root MuiListItem-gutters makeStyles-tile-18 item-Action css-18why60-MuiListItem-root"
-                      draggable="true"
+                    <h6
+                      class="MuiTypography-root MuiTypography-h6 css-5d68dr-MuiTypography-root"
+                    >
+                      List of steps
+                    </h6>
+                    <div
+                      class="MuiFormControl-root MuiFormControl-marginNone MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
                     >
                       <div
-                        class="MuiListItemIcon-root css-cveggr-MuiListItemIcon-root"
+                        class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-ag3e3g-MuiInputBase-root-MuiOutlinedInput-root"
                       >
+                        <input
+                          aria-invalid="false"
+                          class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd css-nxo287-MuiInputBase-input-MuiOutlinedInput-input"
+                          placeholder="Search steps..."
+                          type="text"
+                          value=""
+                        />
                         <div
-                          class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded makeStyles-paper-20 action-node-box css-172kgz0-MuiPaper-root"
-                          style="width: 50px; height: 50px; position: relative;"
+                          class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-hiddenLabel MuiInputAdornment-sizeSmall css-1laqsz7-MuiInputAdornment-root"
                         >
-                          <div
-                            class="centered css-1rr92ez"
+                          <button
+                            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-21hjtl-MuiButtonBase-root-MuiIconButton-root"
+                            tabindex="0"
+                            type="button"
                           >
                             <span
-                              class="makeStyles-span-21"
+                              class="MuiIconButton-label css-4jkopv-MuiIconButton-label"
                             >
                               <svg
                                 aria-hidden="true"
                                 class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-egrpcv-MuiSvgIcon-root"
-                                data-testid="OpenInBrowserSharpIcon"
+                                data-testid="ClearSharpIcon"
                                 focusable="false"
                                 viewBox="0 0 24 24"
                               >
                                 <path
-                                  d="M3 4v16h6v-2H5V8h14v10h-4v2h6V4H3zm9 6l-4 4h3v6h2v-6h3l-4-4z"
+                                  d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"
                                 />
                               </svg>
                             </span>
-                          </div>
+                            <span
+                              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                            />
+                          </button>
                         </div>
-                      </div>
-                      <div
-                        class="MuiListItemText-root makeStyles-text-19 css-tlelie-MuiListItemText-root"
-                      >
-                        <span
-                          class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-18fn6n9-MuiTypography-root"
+                        <fieldset
+                          aria-hidden="true"
+                          class="MuiOutlinedInput-notchedOutline css-1o2jng6-MuiOutlinedInput-notchedOutline"
+                          style="padding-left: 8px;"
                         >
-                          Open in browser
-                        </span>
-                      </div>
-                    </li>
-                    <li
-                      class="MuiListItem-root MuiListItem-gutters makeStyles-tile-18 item-Conditional css-18why60-MuiListItem-root"
-                      draggable="true"
-                    >
-                      <div
-                        class="MuiListItemIcon-root css-cveggr-MuiListItemIcon-root"
-                      >
-                        <div
-                          class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded makeStyles-diamond-24 makeStyles-diamond-25 conditional-node css-172kgz0-MuiPaper-root"
-                        >
-                          <div
-                            class="centered makeStyles-content-23 css-1rr92ez"
-                          >
-                            <span>
-                              <svg
-                                aria-hidden="true"
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-egrpcv-MuiSvgIcon-root"
-                                data-testid="AccountTreeSharpIcon"
-                                focusable="false"
-                                viewBox="0 0 24 24"
-                              >
-                                <path
-                                  d="M22 11V3h-7v3H9V3H2v8h7V8h2v10h4v3h7v-8h-7v3h-2V8h2v3z"
-                                />
-                              </svg>
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        class="MuiListItemText-root makeStyles-text-19 css-tlelie-MuiListItemText-root"
-                      >
-                        <span
-                          class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-18fn6n9-MuiTypography-root"
-                        >
-                          Conditional
-                        </span>
-                      </div>
-                    </li>
-                    <li
-                      class="MuiListItem-root MuiListItem-gutters makeStyles-tile-18 item-End css-18why60-MuiListItem-root"
-                      draggable="true"
-                    >
-                      <div
-                        class="MuiListItemIcon-root css-cveggr-MuiListItemIcon-root"
-                      >
-                        <div
-                          class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded ActionNodeBox-root-28 Styled(ActionNodeBox)-root-26 Styled(ActionNodeBox)-root-27 makeStyles-paper-20 action-node-box css-172kgz0-MuiPaper-root"
-                          style="width: 50px; height: 50px; position: relative;"
-                        >
-                          <div
-                            class="centered css-1rr92ez"
+                          <legend
+                            class="css-1br1jja"
+                            style="width: 0.01px;"
                           >
                             <span
-                              class="makeStyles-span-21"
+                              class="notranslate"
                             >
-                              <svg
-                                aria-hidden="true"
-                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-egrpcv-MuiSvgIcon-root"
-                                data-testid="StopSharpIcon"
-                                focusable="false"
-                                viewBox="0 0 24 24"
-                              >
-                                <path
-                                  d="M6 6h12v12H6V6z"
-                                />
-                              </svg>
+                              ​
                             </span>
+                          </legend>
+                        </fieldset>
+                      </div>
+                    </div>
+                    <ul
+                      class="MuiList-root MuiList-padding makeStyles-list-17 css-h4y409-MuiList-root"
+                    >
+                      <li
+                        class="MuiListItem-root MuiListItem-gutters makeStyles-tile-22 item-Action css-18why60-MuiListItem-root"
+                        draggable="true"
+                      >
+                        <div
+                          class="MuiListItemIcon-root css-cveggr-MuiListItemIcon-root"
+                        >
+                          <div
+                            class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded makeStyles-paper-24 action-node-box css-172kgz0-MuiPaper-root"
+                            style="width: 50px; height: 50px; position: relative;"
+                          >
+                            <div
+                              class="centered css-1rr92ez"
+                            >
+                              <span
+                                class="makeStyles-span-25"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-egrpcv-MuiSvgIcon-root"
+                                  data-testid="OpenInBrowserSharpIcon"
+                                  focusable="false"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    d="M3 4v16h6v-2H5V8h14v10h-4v2h6V4H3zm9 6l-4 4h3v6h2v-6h3l-4-4z"
+                                  />
+                                </svg>
+                              </span>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      <div
-                        class="MuiListItemText-root makeStyles-text-19 css-tlelie-MuiListItemText-root"
-                      >
-                        <span
-                          class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-18fn6n9-MuiTypography-root"
+                        <div
+                          class="MuiListItemText-root makeStyles-text-23 css-tlelie-MuiListItemText-root"
                         >
-                          End
-                        </span>
-                      </div>
-                    </li>
-                  </ul>
+                          <span
+                            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-18fn6n9-MuiTypography-root"
+                          >
+                            Open in browser
+                          </span>
+                        </div>
+                      </li>
+                      <li
+                        class="MuiListItem-root MuiListItem-gutters makeStyles-tile-22 item-Conditional css-18why60-MuiListItem-root"
+                        draggable="true"
+                      >
+                        <div
+                          class="MuiListItemIcon-root css-cveggr-MuiListItemIcon-root"
+                        >
+                          <div
+                            class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded makeStyles-diamond-28 makeStyles-diamond-29 conditional-node css-172kgz0-MuiPaper-root"
+                          >
+                            <div
+                              class="centered makeStyles-content-27 css-1rr92ez"
+                            >
+                              <span>
+                                <svg
+                                  aria-hidden="true"
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-egrpcv-MuiSvgIcon-root"
+                                  data-testid="AccountTreeSharpIcon"
+                                  focusable="false"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    d="M22 11V3h-7v3H9V3H2v8h7V8h2v10h4v3h7v-8h-7v3h-2V8h2v3z"
+                                  />
+                                </svg>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="MuiListItemText-root makeStyles-text-23 css-tlelie-MuiListItemText-root"
+                        >
+                          <span
+                            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-18fn6n9-MuiTypography-root"
+                          >
+                            Conditional
+                          </span>
+                        </div>
+                      </li>
+                      <li
+                        class="MuiListItem-root MuiListItem-gutters makeStyles-tile-22 item-End css-18why60-MuiListItem-root"
+                        draggable="true"
+                      >
+                        <div
+                          class="MuiListItemIcon-root css-cveggr-MuiListItemIcon-root"
+                        >
+                          <div
+                            class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded ActionNodeBox-root-32 Styled(ActionNodeBox)-root-30 Styled(ActionNodeBox)-root-31 makeStyles-paper-24 action-node-box css-172kgz0-MuiPaper-root"
+                            style="width: 50px; height: 50px; position: relative;"
+                          >
+                            <div
+                              class="centered css-1rr92ez"
+                            >
+                              <span
+                                class="makeStyles-span-25"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-egrpcv-MuiSvgIcon-root"
+                                  data-testid="StopSharpIcon"
+                                  focusable="false"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    d="M6 6h12v12H6V6z"
+                                  />
+                                </svg>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="MuiListItemText-root makeStyles-text-23 css-tlelie-MuiListItemText-root"
+                        >
+                          <span
+                            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-18fn6n9-MuiTypography-root"
+                          >
+                            End
+                          </span>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div
+                  class="makeStyles-handle-18"
+                >
+                  <div
+                    class=""
+                    style="position: absolute; user-select: none; width: 10px; height: 100%; top: 0px; right: -5px; cursor: col-resize;"
+                  />
                 </div>
               </div>
               <div
-                class="makeStyles-paper-29 flow-builder-canvas"
+                class="makeStyles-paper-33 flow-builder-canvas"
               >
                 <div
-                  class="react-flow makeStyles-canvas-30"
+                  class="react-flow makeStyles-canvas-34"
                 >
                   <div
                     class="react-flow__renderer react-flow__zoompane"
@@ -431,7 +469,7 @@ Object {
                             class="css-yxp10p"
                           >
                             <button
-                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall makeStyles-dropdownIcon-34 css-21hjtl-MuiButtonBase-root-MuiIconButton-root"
+                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall makeStyles-dropdownIcon-38 css-21hjtl-MuiButtonBase-root-MuiIconButton-root"
                               tabindex="0"
                               type="button"
                             >
@@ -455,14 +493,14 @@ Object {
                               />
                             </button>
                             <div
-                              class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded makeStyles-paper-20 action-node-box css-172kgz0-MuiPaper-root"
+                              class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded makeStyles-paper-24 action-node-box css-172kgz0-MuiPaper-root"
                               style="width: 70px; height: 70px; position: relative;"
                             >
                               <div
                                 class="centered css-1rr92ez"
                               >
                                 <span
-                                  class="makeStyles-icon-38 makeStyles-span-21"
+                                  class="makeStyles-icon-42 makeStyles-span-25"
                                 >
                                   <svg
                                     aria-hidden="true"
@@ -485,7 +523,7 @@ Object {
                               />
                             </div>
                             <span
-                              class="MuiTypography-root MuiTypography-caption makeStyles-text-36 css-1kjdt4l-MuiTypography-root"
+                              class="MuiTypography-root MuiTypography-caption makeStyles-text-40 css-1kjdt4l-MuiTypography-root"
                             >
                               First element
                             </span>
@@ -504,7 +542,7 @@ Object {
                             class="css-yxp10p"
                           >
                             <button
-                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall makeStyles-dropdownIcon-34 css-21hjtl-MuiButtonBase-root-MuiIconButton-root"
+                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall makeStyles-dropdownIcon-38 css-21hjtl-MuiButtonBase-root-MuiIconButton-root"
                               tabindex="0"
                               type="button"
                             >
@@ -528,14 +566,14 @@ Object {
                               />
                             </button>
                             <div
-                              class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded makeStyles-paper-20 action-node-box css-172kgz0-MuiPaper-root"
+                              class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded makeStyles-paper-24 action-node-box css-172kgz0-MuiPaper-root"
                               style="width: 70px; height: 70px; position: relative;"
                             >
                               <div
                                 class="centered css-1rr92ez"
                               >
                                 <span
-                                  class="makeStyles-icon-38 makeStyles-span-21"
+                                  class="makeStyles-icon-42 makeStyles-span-25"
                                 >
                                   <svg
                                     aria-hidden="true"
@@ -584,7 +622,7 @@ Object {
                               />
                             </div>
                             <span
-                              class="MuiTypography-root MuiTypography-caption makeStyles-text-36 css-1kjdt4l-MuiTypography-root"
+                              class="MuiTypography-root MuiTypography-caption makeStyles-text-40 css-1kjdt4l-MuiTypography-root"
                             >
                               Second element
                             </span>
@@ -603,7 +641,7 @@ Object {
                             class="css-yxp10p"
                           >
                             <button
-                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall makeStyles-dropdownIcon-34 css-21hjtl-MuiButtonBase-root-MuiIconButton-root"
+                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall makeStyles-dropdownIcon-38 css-21hjtl-MuiButtonBase-root-MuiIconButton-root"
                               tabindex="0"
                               type="button"
                             >
@@ -627,14 +665,14 @@ Object {
                               />
                             </button>
                             <div
-                              class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded makeStyles-paper-20 action-node-box css-172kgz0-MuiPaper-root"
+                              class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded makeStyles-paper-24 action-node-box css-172kgz0-MuiPaper-root"
                               style="width: 70px; height: 70px; position: relative;"
                             >
                               <div
                                 class="centered css-1rr92ez"
                               >
                                 <span
-                                  class="makeStyles-icon-38 makeStyles-span-21"
+                                  class="makeStyles-icon-42 makeStyles-span-25"
                                 >
                                   <svg
                                     aria-hidden="true"
@@ -663,7 +701,7 @@ Object {
                               />
                             </div>
                             <span
-                              class="MuiTypography-root MuiTypography-caption makeStyles-text-36 css-1kjdt4l-MuiTypography-root"
+                              class="MuiTypography-root MuiTypography-caption makeStyles-text-40 css-1kjdt4l-MuiTypography-root"
                             >
                               Third element
                             </span>
@@ -758,7 +796,7 @@ Object {
         >
           <li
             aria-disabled="false"
-            class="MuiButtonBase-root MuiListItem-root MuiListItem-gutters MuiListItem-button MuiMenuItem-root makeStyles-deleteStep-37 css-1x5hx7h-MuiButtonBase-root-MuiListItem-root-MuiMenuItem-root"
+            class="MuiButtonBase-root MuiListItem-root MuiListItem-gutters MuiListItem-button MuiMenuItem-root makeStyles-deleteStep-41 css-1x5hx7h-MuiButtonBase-root-MuiListItem-root-MuiMenuItem-root"
             id="delete_step"
             role="menuitem"
             tabindex="-1"
@@ -825,7 +863,7 @@ Object {
         >
           <li
             aria-disabled="false"
-            class="MuiButtonBase-root MuiListItem-root MuiListItem-gutters MuiListItem-button MuiMenuItem-root makeStyles-deleteStep-37 css-1x5hx7h-MuiButtonBase-root-MuiListItem-root-MuiMenuItem-root"
+            class="MuiButtonBase-root MuiListItem-root MuiListItem-gutters MuiListItem-button MuiMenuItem-root makeStyles-deleteStep-41 css-1x5hx7h-MuiButtonBase-root-MuiListItem-root-MuiMenuItem-root"
             id="delete_step"
             role="menuitem"
             tabindex="-1"
@@ -892,7 +930,7 @@ Object {
         >
           <li
             aria-disabled="false"
-            class="MuiButtonBase-root MuiListItem-root MuiListItem-gutters MuiListItem-button MuiMenuItem-root makeStyles-deleteStep-37 css-1x5hx7h-MuiButtonBase-root-MuiListItem-root-MuiMenuItem-root"
+            class="MuiButtonBase-root MuiListItem-root MuiListItem-gutters MuiListItem-button MuiMenuItem-root makeStyles-deleteStep-41 css-1x5hx7h-MuiButtonBase-root-MuiListItem-root-MuiMenuItem-root"
             id="delete_step"
             role="menuitem"
             tabindex="-1"
@@ -1137,209 +1175,247 @@ Object {
             class="makeStyles-stack-14 css-1abmola-Stack-root"
           >
             <div
-              class="MuiPaper-root MuiPaper-outlined makeStyles-paper-15 css-mta8o9-MuiPaper-root"
+              class="makeStyles-container-19"
+              style="position: relative; user-select: auto; width: 25%; height: 100%; max-width: 600px; min-width: 200px; box-sizing: border-box; flex-shrink: 0;"
             >
-              <div
-                class="makeStyles-grid-16 css-1gnw4iv-Stack-root"
+              <button
+                class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeSmall makeStyles-iconBtn-21 toggle-panel css-gqo1yx-MuiButtonBase-root-MuiFab-root"
+                data-mui-internal-clone-element="true"
+                tabindex="0"
+                type="button"
               >
-                <h6
-                  class="MuiTypography-root MuiTypography-h6 css-5d68dr-MuiTypography-root"
+                <span
+                  class="MuiFab-label css-110lfi1-MuiFab-label"
                 >
-                  List of steps
-                </h6>
-                <div
-                  class="MuiFormControl-root MuiFormControl-marginNone MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
-                >
-                  <div
-                    class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-ag3e3g-MuiInputBase-root-MuiOutlinedInput-root"
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-egrpcv-MuiSvgIcon-root"
+                    data-testid="ChevronLeftIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
                   >
-                    <input
-                      aria-invalid="false"
-                      class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd css-nxo287-MuiInputBase-input-MuiOutlinedInput-input"
-                      placeholder="Search steps..."
-                      type="text"
-                      value=""
+                    <path
+                      d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"
                     />
-                    <div
-                      class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-hiddenLabel MuiInputAdornment-sizeSmall css-1laqsz7-MuiInputAdornment-root"
-                    >
-                      <button
-                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-21hjtl-MuiButtonBase-root-MuiIconButton-root"
-                        tabindex="0"
-                        type="button"
-                      >
-                        <span
-                          class="MuiIconButton-label css-4jkopv-MuiIconButton-label"
-                        >
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-egrpcv-MuiSvgIcon-root"
-                            data-testid="ClearSharpIcon"
-                            focusable="false"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"
-                            />
-                          </svg>
-                        </span>
-                        <span
-                          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                        />
-                      </button>
-                    </div>
-                    <fieldset
-                      aria-hidden="true"
-                      class="MuiOutlinedInput-notchedOutline css-1o2jng6-MuiOutlinedInput-notchedOutline"
-                      style="padding-left: 8px;"
-                    >
-                      <legend
-                        class="css-1br1jja"
-                        style="width: 0.01px;"
-                      >
-                        <span
-                          class="notranslate"
-                        >
-                          ​
-                        </span>
-                      </legend>
-                    </fieldset>
-                  </div>
-                </div>
-                <ul
-                  class="MuiList-root MuiList-padding makeStyles-list-17 css-h4y409-MuiList-root"
+                  </svg>
+                </span>
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </button>
+              <div
+                class="MuiPaper-root MuiPaper-outlined makeStyles-paper-15 makeStyles-content-20 resizable-panel-content css-mta8o9-MuiPaper-root"
+              >
+                <div
+                  class="makeStyles-grid-16 css-1gnw4iv-Stack-root"
                 >
-                  <li
-                    class="MuiListItem-root MuiListItem-gutters makeStyles-tile-18 item-Action css-18why60-MuiListItem-root"
-                    draggable="true"
+                  <h6
+                    class="MuiTypography-root MuiTypography-h6 css-5d68dr-MuiTypography-root"
+                  >
+                    List of steps
+                  </h6>
+                  <div
+                    class="MuiFormControl-root MuiFormControl-marginNone MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
                   >
                     <div
-                      class="MuiListItemIcon-root css-cveggr-MuiListItemIcon-root"
+                      class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-ag3e3g-MuiInputBase-root-MuiOutlinedInput-root"
                     >
+                      <input
+                        aria-invalid="false"
+                        class="MuiOutlinedInput-input MuiInputBase-input MuiInputBase-inputAdornedEnd css-nxo287-MuiInputBase-input-MuiOutlinedInput-input"
+                        placeholder="Search steps..."
+                        type="text"
+                        value=""
+                      />
                       <div
-                        class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded makeStyles-paper-20 action-node-box css-172kgz0-MuiPaper-root"
-                        style="width: 50px; height: 50px; position: relative;"
+                        class="MuiInputAdornment-root MuiInputAdornment-positionEnd MuiInputAdornment-outlined MuiInputAdornment-hiddenLabel MuiInputAdornment-sizeSmall css-1laqsz7-MuiInputAdornment-root"
                       >
-                        <div
-                          class="centered css-1rr92ez"
+                        <button
+                          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall css-21hjtl-MuiButtonBase-root-MuiIconButton-root"
+                          tabindex="0"
+                          type="button"
                         >
                           <span
-                            class="makeStyles-span-21"
+                            class="MuiIconButton-label css-4jkopv-MuiIconButton-label"
                           >
                             <svg
                               aria-hidden="true"
                               class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-egrpcv-MuiSvgIcon-root"
-                              data-testid="OpenInBrowserSharpIcon"
+                              data-testid="ClearSharpIcon"
                               focusable="false"
                               viewBox="0 0 24 24"
                             >
                               <path
-                                d="M3 4v16h6v-2H5V8h14v10h-4v2h6V4H3zm9 6l-4 4h3v6h2v-6h3l-4-4z"
+                                d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"
                               />
                             </svg>
                           </span>
-                        </div>
+                          <span
+                            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                          />
+                        </button>
                       </div>
-                    </div>
-                    <div
-                      class="MuiListItemText-root makeStyles-text-19 css-tlelie-MuiListItemText-root"
-                    >
-                      <span
-                        class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-18fn6n9-MuiTypography-root"
+                      <fieldset
+                        aria-hidden="true"
+                        class="MuiOutlinedInput-notchedOutline css-1o2jng6-MuiOutlinedInput-notchedOutline"
+                        style="padding-left: 8px;"
                       >
-                        Open in browser
-                      </span>
-                    </div>
-                  </li>
-                  <li
-                    class="MuiListItem-root MuiListItem-gutters makeStyles-tile-18 item-Conditional css-18why60-MuiListItem-root"
-                    draggable="true"
-                  >
-                    <div
-                      class="MuiListItemIcon-root css-cveggr-MuiListItemIcon-root"
-                    >
-                      <div
-                        class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded makeStyles-diamond-24 makeStyles-diamond-25 conditional-node css-172kgz0-MuiPaper-root"
-                      >
-                        <div
-                          class="centered makeStyles-content-23 css-1rr92ez"
-                        >
-                          <span>
-                            <svg
-                              aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-egrpcv-MuiSvgIcon-root"
-                              data-testid="AccountTreeSharpIcon"
-                              focusable="false"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                d="M22 11V3h-7v3H9V3H2v8h7V8h2v10h4v3h7v-8h-7v3h-2V8h2v3z"
-                              />
-                            </svg>
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      class="MuiListItemText-root makeStyles-text-19 css-tlelie-MuiListItemText-root"
-                    >
-                      <span
-                        class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-18fn6n9-MuiTypography-root"
-                      >
-                        Conditional
-                      </span>
-                    </div>
-                  </li>
-                  <li
-                    class="MuiListItem-root MuiListItem-gutters makeStyles-tile-18 item-End css-18why60-MuiListItem-root"
-                    draggable="true"
-                  >
-                    <div
-                      class="MuiListItemIcon-root css-cveggr-MuiListItemIcon-root"
-                    >
-                      <div
-                        class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded ActionNodeBox-root-28 Styled(ActionNodeBox)-root-26 Styled(ActionNodeBox)-root-27 makeStyles-paper-20 action-node-box css-172kgz0-MuiPaper-root"
-                        style="width: 50px; height: 50px; position: relative;"
-                      >
-                        <div
-                          class="centered css-1rr92ez"
+                        <legend
+                          class="css-1br1jja"
+                          style="width: 0.01px;"
                         >
                           <span
-                            class="makeStyles-span-21"
+                            class="notranslate"
                           >
-                            <svg
-                              aria-hidden="true"
-                              class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-egrpcv-MuiSvgIcon-root"
-                              data-testid="StopSharpIcon"
-                              focusable="false"
-                              viewBox="0 0 24 24"
-                            >
-                              <path
-                                d="M6 6h12v12H6V6z"
-                              />
-                            </svg>
+                            ​
                           </span>
+                        </legend>
+                      </fieldset>
+                    </div>
+                  </div>
+                  <ul
+                    class="MuiList-root MuiList-padding makeStyles-list-17 css-h4y409-MuiList-root"
+                  >
+                    <li
+                      class="MuiListItem-root MuiListItem-gutters makeStyles-tile-22 item-Action css-18why60-MuiListItem-root"
+                      draggable="true"
+                    >
+                      <div
+                        class="MuiListItemIcon-root css-cveggr-MuiListItemIcon-root"
+                      >
+                        <div
+                          class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded makeStyles-paper-24 action-node-box css-172kgz0-MuiPaper-root"
+                          style="width: 50px; height: 50px; position: relative;"
+                        >
+                          <div
+                            class="centered css-1rr92ez"
+                          >
+                            <span
+                              class="makeStyles-span-25"
+                            >
+                              <svg
+                                aria-hidden="true"
+                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-egrpcv-MuiSvgIcon-root"
+                                data-testid="OpenInBrowserSharpIcon"
+                                focusable="false"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  d="M3 4v16h6v-2H5V8h14v10h-4v2h6V4H3zm9 6l-4 4h3v6h2v-6h3l-4-4z"
+                                />
+                              </svg>
+                            </span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div
-                      class="MuiListItemText-root makeStyles-text-19 css-tlelie-MuiListItemText-root"
-                    >
-                      <span
-                        class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-18fn6n9-MuiTypography-root"
+                      <div
+                        class="MuiListItemText-root makeStyles-text-23 css-tlelie-MuiListItemText-root"
                       >
-                        End
-                      </span>
-                    </div>
-                  </li>
-                </ul>
+                        <span
+                          class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-18fn6n9-MuiTypography-root"
+                        >
+                          Open in browser
+                        </span>
+                      </div>
+                    </li>
+                    <li
+                      class="MuiListItem-root MuiListItem-gutters makeStyles-tile-22 item-Conditional css-18why60-MuiListItem-root"
+                      draggable="true"
+                    >
+                      <div
+                        class="MuiListItemIcon-root css-cveggr-MuiListItemIcon-root"
+                      >
+                        <div
+                          class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded makeStyles-diamond-28 makeStyles-diamond-29 conditional-node css-172kgz0-MuiPaper-root"
+                        >
+                          <div
+                            class="centered makeStyles-content-27 css-1rr92ez"
+                          >
+                            <span>
+                              <svg
+                                aria-hidden="true"
+                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-egrpcv-MuiSvgIcon-root"
+                                data-testid="AccountTreeSharpIcon"
+                                focusable="false"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  d="M22 11V3h-7v3H9V3H2v8h7V8h2v10h4v3h7v-8h-7v3h-2V8h2v3z"
+                                />
+                              </svg>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="MuiListItemText-root makeStyles-text-23 css-tlelie-MuiListItemText-root"
+                      >
+                        <span
+                          class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-18fn6n9-MuiTypography-root"
+                        >
+                          Conditional
+                        </span>
+                      </div>
+                    </li>
+                    <li
+                      class="MuiListItem-root MuiListItem-gutters makeStyles-tile-22 item-End css-18why60-MuiListItem-root"
+                      draggable="true"
+                    >
+                      <div
+                        class="MuiListItemIcon-root css-cveggr-MuiListItemIcon-root"
+                      >
+                        <div
+                          class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded ActionNodeBox-root-32 Styled(ActionNodeBox)-root-30 Styled(ActionNodeBox)-root-31 makeStyles-paper-24 action-node-box css-172kgz0-MuiPaper-root"
+                          style="width: 50px; height: 50px; position: relative;"
+                        >
+                          <div
+                            class="centered css-1rr92ez"
+                          >
+                            <span
+                              class="makeStyles-span-25"
+                            >
+                              <svg
+                                aria-hidden="true"
+                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-egrpcv-MuiSvgIcon-root"
+                                data-testid="StopSharpIcon"
+                                focusable="false"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  d="M6 6h12v12H6V6z"
+                                />
+                              </svg>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="MuiListItemText-root makeStyles-text-23 css-tlelie-MuiListItemText-root"
+                      >
+                        <span
+                          class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-18fn6n9-MuiTypography-root"
+                        >
+                          End
+                        </span>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div
+                class="makeStyles-handle-18"
+              >
+                <div
+                  class=""
+                  style="position: absolute; user-select: none; width: 10px; height: 100%; top: 0px; right: -5px; cursor: col-resize;"
+                />
               </div>
             </div>
             <div
-              class="makeStyles-paper-29 flow-builder-canvas"
+              class="makeStyles-paper-33 flow-builder-canvas"
             >
               <div
-                class="react-flow makeStyles-canvas-30"
+                class="react-flow makeStyles-canvas-34"
               >
                 <div
                   class="react-flow__renderer react-flow__zoompane"
@@ -1360,7 +1436,7 @@ Object {
                           class="css-yxp10p"
                         >
                           <button
-                            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall makeStyles-dropdownIcon-34 css-21hjtl-MuiButtonBase-root-MuiIconButton-root"
+                            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall makeStyles-dropdownIcon-38 css-21hjtl-MuiButtonBase-root-MuiIconButton-root"
                             tabindex="0"
                             type="button"
                           >
@@ -1384,14 +1460,14 @@ Object {
                             />
                           </button>
                           <div
-                            class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded makeStyles-paper-20 action-node-box css-172kgz0-MuiPaper-root"
+                            class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded makeStyles-paper-24 action-node-box css-172kgz0-MuiPaper-root"
                             style="width: 70px; height: 70px; position: relative;"
                           >
                             <div
                               class="centered css-1rr92ez"
                             >
                               <span
-                                class="makeStyles-icon-38 makeStyles-span-21"
+                                class="makeStyles-icon-42 makeStyles-span-25"
                               >
                                 <svg
                                   aria-hidden="true"
@@ -1414,7 +1490,7 @@ Object {
                             />
                           </div>
                           <span
-                            class="MuiTypography-root MuiTypography-caption makeStyles-text-36 css-1kjdt4l-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-caption makeStyles-text-40 css-1kjdt4l-MuiTypography-root"
                           >
                             First element
                           </span>
@@ -1433,7 +1509,7 @@ Object {
                           class="css-yxp10p"
                         >
                           <button
-                            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall makeStyles-dropdownIcon-34 css-21hjtl-MuiButtonBase-root-MuiIconButton-root"
+                            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall makeStyles-dropdownIcon-38 css-21hjtl-MuiButtonBase-root-MuiIconButton-root"
                             tabindex="0"
                             type="button"
                           >
@@ -1457,14 +1533,14 @@ Object {
                             />
                           </button>
                           <div
-                            class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded makeStyles-paper-20 action-node-box css-172kgz0-MuiPaper-root"
+                            class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded makeStyles-paper-24 action-node-box css-172kgz0-MuiPaper-root"
                             style="width: 70px; height: 70px; position: relative;"
                           >
                             <div
                               class="centered css-1rr92ez"
                             >
                               <span
-                                class="makeStyles-icon-38 makeStyles-span-21"
+                                class="makeStyles-icon-42 makeStyles-span-25"
                               >
                                 <svg
                                   aria-hidden="true"
@@ -1513,7 +1589,7 @@ Object {
                             />
                           </div>
                           <span
-                            class="MuiTypography-root MuiTypography-caption makeStyles-text-36 css-1kjdt4l-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-caption makeStyles-text-40 css-1kjdt4l-MuiTypography-root"
                           >
                             Second element
                           </span>
@@ -1532,7 +1608,7 @@ Object {
                           class="css-yxp10p"
                         >
                           <button
-                            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall makeStyles-dropdownIcon-34 css-21hjtl-MuiButtonBase-root-MuiIconButton-root"
+                            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall makeStyles-dropdownIcon-38 css-21hjtl-MuiButtonBase-root-MuiIconButton-root"
                             tabindex="0"
                             type="button"
                           >
@@ -1556,14 +1632,14 @@ Object {
                             />
                           </button>
                           <div
-                            class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded makeStyles-paper-20 action-node-box css-172kgz0-MuiPaper-root"
+                            class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded makeStyles-paper-24 action-node-box css-172kgz0-MuiPaper-root"
                             style="width: 70px; height: 70px; position: relative;"
                           >
                             <div
                               class="centered css-1rr92ez"
                             >
                               <span
-                                class="makeStyles-icon-38 makeStyles-span-21"
+                                class="makeStyles-icon-42 makeStyles-span-25"
                               >
                                 <svg
                                   aria-hidden="true"
@@ -1592,7 +1668,7 @@ Object {
                             />
                           </div>
                           <span
-                            class="MuiTypography-root MuiTypography-caption makeStyles-text-36 css-1kjdt4l-MuiTypography-root"
+                            class="MuiTypography-root MuiTypography-caption makeStyles-text-40 css-1kjdt4l-MuiTypography-root"
                           >
                             Third element
                           </span>
