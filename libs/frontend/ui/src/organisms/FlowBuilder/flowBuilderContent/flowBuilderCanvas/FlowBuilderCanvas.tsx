@@ -28,6 +28,7 @@ import { useHandleDragEnd } from '../../hooks/useHandleDragEnd';
 import { AppTheme } from '@scrapper-gate/frontend/theme';
 import { DropTargetMonitor, useDrop } from 'react-dnd';
 import { Selection } from '@scrapper-gate/frontend/common';
+import { ContextMenu } from '../../../../molecules/ContextMenu/ContextMenu';
 
 const useStyles = makeStyles((theme: AppTheme) => ({
   paper: {
@@ -159,31 +160,43 @@ export const FlowBuilderCanvas = () => {
       ref={containerRef as MutableRefObject<HTMLDivElement>}
       className={classNames(classes.paper, 'flow-builder-canvas', { canDrop })}
     >
-      <ReactFlow
-        edgeTypes={edgeTypes}
-        className={classes.canvas}
-        onLoad={(instance) => {
-          instance.fitView();
+      <ContextMenu
+        menuItems={[
+          {
+            id: '1',
+            content: 'Test',
+          },
+        ]}
+      >
+        {({ onContextMenu }) => (
+          <ReactFlow
+            onContextMenu={onContextMenu}
+            edgeTypes={edgeTypes}
+            className={classes.canvas}
+            onLoad={(instance) => {
+              instance.fitView();
 
-          setFlowInstance(instance);
-        }}
-        elements={items}
-        nodeTypes={mappedNodeTypes}
-        onElementsRemove={
-          removeItems as (items: FlowBuilderItem<unknown>[]) => unknown
-        }
-        onConnect={connect}
-        onNodeDragStop={handleDragEnd}
-        onNodeDrag={(event, node) => {
-          setTimeout(() => setDraggedNode(node), 150);
-        }}
-        onConnectStart={(event, data) => {
-          console.log('connect start', { data });
-          setConnectionSource(data);
-        }}
-        onConnectEnd={handleConnectionEnd}
-        connectionLineComponent={ConnectionLine}
-      />
+              setFlowInstance(instance);
+            }}
+            elements={items}
+            nodeTypes={mappedNodeTypes}
+            onElementsRemove={
+              removeItems as (items: FlowBuilderItem<unknown>[]) => unknown
+            }
+            onConnect={connect}
+            onNodeDragStop={handleDragEnd}
+            onNodeDrag={(event, node) => {
+              setTimeout(() => setDraggedNode(node), 150);
+            }}
+            onConnectStart={(event, data) => {
+              console.log('connect start', { data });
+              setConnectionSource(data);
+            }}
+            onConnectEnd={handleConnectionEnd}
+            connectionLineComponent={ConnectionLine}
+          />
+        )}
+      </ContextMenu>
     </div>
   );
 };

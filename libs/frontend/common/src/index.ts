@@ -8,3 +8,4 @@ export * from './types/components';
 export * from './providers/QueryParamProvider';
 export * from './os';
 export * from './stopPropagation';
+export * from './preventDefault';

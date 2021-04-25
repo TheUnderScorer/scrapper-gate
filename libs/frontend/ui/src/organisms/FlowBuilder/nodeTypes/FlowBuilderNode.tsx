@@ -9,7 +9,10 @@ import { FlowBuilderNodeBoxIcon } from './FlowBuilderNodeBoxIcon';
 import { BaseNodeProperties } from '../FlowBuilder.types';
 import { makeStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
-import { MenuItemProperties } from '@scrapper-gate/frontend/common';
+import {
+  MenuItemProperties,
+  stopPropagation,
+} from '@scrapper-gate/frontend/common';
 import { useRemoveItems } from '../hooks/useRemoveItems';
 
 export type FlowBuilderNodeProps = NodeProps<BaseNodeProperties>;
@@ -68,6 +71,7 @@ const BaseFlowBuilderNode = forwardRef<HTMLDivElement, FlowBuilderNodeProps>(
 
     return (
       <div
+        onContextMenu={stopPropagation}
         ref={ref}
         className={classNames(
           'flow-builder-node',
