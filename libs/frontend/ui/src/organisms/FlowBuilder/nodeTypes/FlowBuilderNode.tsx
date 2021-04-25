@@ -11,7 +11,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
 import { MenuItemProperties } from '@scrapper-gate/frontend/common';
 import { useRemoveItems } from '../hooks/useRemoveItems';
-import { equals } from 'remeda';
 
 export type FlowBuilderNodeProps = NodeProps<BaseNodeProperties>;
 
@@ -40,8 +39,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const FlowBuilderNode = memo(
-  forwardRef<HTMLDivElement, FlowBuilderNodeProps>((node, ref) => {
+const BaseFlowBuilderNode = forwardRef<HTMLDivElement, FlowBuilderNodeProps>(
+  (node, ref) => {
     const error = useNodeError(node.id);
     const classes = useStyles();
     const removeItems = useRemoveItems();
@@ -102,9 +101,7 @@ export const FlowBuilderNode = memo(
         </Box>
       </div>
     );
-  }),
-  // TODO Check performance
-  (prevProps, nextProps) => {
-    return equals(prevProps, nextProps);
   }
 );
+
+export const FlowBuilderNode = memo(BaseFlowBuilderNode);

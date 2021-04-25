@@ -6,6 +6,7 @@ import { createContext, useContextSelector } from 'use-context-selector';
 import {
   BaseNodeProperties,
   ConnectionSource,
+  FlowBuilderFormState,
   FlowBuilderItem,
 } from '@scrapper-gate/frontend/ui';
 import { throwError } from '@scrapper-gate/shared/common';
@@ -42,10 +43,17 @@ export const FlowBuilderItemsProvider = <T extends BaseNodeProperties>(props: {
   children: ReactNode;
 }) => {
   const {
-    input: { value, onChange },
+    input: { value },
   } = useField<FlowBuilderItem<T>[]>('items');
 
-  const { getState } = useForm();
+  const { getState, change } = useForm<FlowBuilderFormState>();
+
+  const setItems = useCallback(
+    (items: FlowBuilderItem<T>[]) => {
+      change('items', items);
+    },
+    [change]
+  );
 
   const getItems = useCallback(() => getState().values.items, [getState]);
 
@@ -88,7 +96,7 @@ export const FlowBuilderItemsProvider = <T extends BaseNodeProperties>(props: {
         ...props,
         getItems,
         items: value,
-        setItems: onChange,
+        setItems,
         recentlyCreatedNodeIds,
         afterCreate,
         setConnectionSource,

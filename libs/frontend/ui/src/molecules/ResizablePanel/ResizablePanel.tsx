@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
   content: {
     width: '100%',
     height: '100%',
+    overflowX: 'visible',
 
     '&.closed': {
       padding: 0,
@@ -112,7 +113,7 @@ export const ResizablePanel = ({
       onResizeStop={() => {
         setIsResize(false);
       }}
-      onResize={(event, direction, elementRef, delta) => {
+      onResize={(event, direction, elementRef) => {
         setLastWidth(elementRef.clientWidth);
       }}
       minWidth={open ? props.minWidth : 1}
