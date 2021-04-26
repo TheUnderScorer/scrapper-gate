@@ -9,7 +9,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import {
   FlowBuilderHeader,
   FlowBuilderHeaderProps,
-} from './flowBuilderHeader/FlowBuilderHeader';
+} from './Header/FlowBuilderHeader';
 import {
   BaseFlowBuilderProps,
   BaseNodeProperties,
@@ -20,8 +20,8 @@ import {
   FlowBuilderTabs,
   FlowBuilderTabsProps,
   mainTab,
-} from './flowBuilderTabs/FlowBuilderTabs';
-import { FlowBuilderContent } from './flowBuilderContent/FlowBuilderContent';
+} from './Tabs/FlowBuilderTabs';
+import { FlowBuilderContent } from './Content/FlowBuilderContent';
 import { FlowBuilderActiveNodeProvider } from './providers/FlowBuilderActiveNode.provider';
 import { FlowBuilderInstanceProvider } from './providers/FlowBuilderInstance.provider';
 import { FlowBuilderSelectionProvider } from './providers/FlowBuilderSelection.provider';

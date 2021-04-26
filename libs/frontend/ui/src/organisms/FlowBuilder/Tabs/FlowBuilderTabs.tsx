@@ -4,8 +4,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Selection } from '@scrapper-gate/frontend/common';
 
 export interface FlowBuilderTabsProps {
-  value: any;
-  onChange: (value: any) => any;
+  value: unknown;
+  onChange: (value: unknown) => unknown;
   tabs?: Array<Selection & { content?: ReactNode }>;
   mainTabLabel?: string;
 }

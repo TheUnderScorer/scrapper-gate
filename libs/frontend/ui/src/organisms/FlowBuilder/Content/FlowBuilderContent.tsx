@@ -1,7 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { FlowBuilderSidebar } from './flowBuilderSidebar/FlowBuilderSidebar';
-import { FlowBuilderCanvas } from './flowBuilderCanvas/FlowBuilderCanvas';
-import { FlowBuilderNodeContent } from './flowBuilderNodeContent/FlowBuilderNodeContent';
+import { FlowBuilderSidebar } from '../Sidebar/FlowBuilderSidebar';
+import { FlowBuilderCanvas } from '../Canvas/FlowBuilderCanvas';
+import { FlowBuilderNodeContent } from '../NodeContent/FlowBuilderNodeContent';
 import { Stack } from '@material-ui/core';
 
 const useStyles = makeStyles(() => ({

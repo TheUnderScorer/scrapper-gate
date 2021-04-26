@@ -8,7 +8,7 @@ import { NormalEdge } from '../edgeTypes/NormalEdge';
 
 export type ConnectionLineProps = ConnectionLineComponentProps;
 
-export const ConnectionLine = ({
+export const FlowBuilderConnectionLine = ({
   sourceX,
   sourceY,
   targetX,

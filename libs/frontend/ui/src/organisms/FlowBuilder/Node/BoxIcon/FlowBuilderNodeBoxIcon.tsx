@@ -1,13 +1,13 @@
 import React, { useCallback, useMemo } from 'react';
 import { Connection, NodeProps } from 'react-flow-renderer';
 import { makeStyles } from '@material-ui/core/styles';
-import { useFlowBuilderItemsSelector } from '../providers/FlowBuilderItems.provider';
-import { BaseNodeProperties } from '../FlowBuilder.types';
-import { useNodeMetadata } from '../hooks/useNodeMetadata';
-import { useIsNodeDragged } from '../hooks/useIsNodeDragged';
-import { useFlowBuilderActiveNodeSelector } from '../providers/FlowBuilderActiveNode.provider';
-import { defaultNodeSize } from './constants';
-import { useFlowBuilderContextSelector } from '../providers/FlowBuilderProps.provider';
+import { useFlowBuilderItemsSelector } from '../../providers/FlowBuilderItems.provider';
+import { BaseNodeProperties } from '../../FlowBuilder.types';
+import { useNodeMetadata } from '../../hooks/useNodeMetadata';
+import { useIsNodeDragged } from '../../hooks/useIsNodeDragged';
+import { useFlowBuilderActiveNodeSelector } from '../../providers/FlowBuilderActiveNode.provider';
+import { defaultNodeSize } from '../../nodeTypes/constants';
+import { useFlowBuilderContextSelector } from '../../providers/FlowBuilderProps.provider';
 
 export interface FlowBuilderNodeBoxIconProps {
   node: NodeProps<BaseNodeProperties>;

@@ -9,8 +9,8 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { ClearSharp } from '@material-ui/icons';
-import { FlowBuilderSidebarItem } from './flowBuilderSidebarItem/FlowBuilderSidebarItem';
-import { useFlowBuilderSelection } from '../../providers/FlowBuilderSelection.provider';
+import { FlowBuilderSidebarItem } from './Item/FlowBuilderSidebarItem';
+import { useFlowBuilderSelection } from '../providers/FlowBuilderSelection.provider';
 import { Centered, ResizablePanel } from '@scrapper-gate/frontend/ui';
 
 const useStyles = makeStyles((theme) => ({

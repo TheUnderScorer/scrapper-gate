@@ -8,8 +8,8 @@ import { ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import {
   BaseNodeSelectionProperties,
   FlowBuilderDropTypes,
-} from '../../../FlowBuilder.types';
-import { useNodeMetadata } from '../../../hooks/useNodeMetadata';
+} from '../../FlowBuilder.types';
+import { useNodeMetadata } from '../../hooks/useNodeMetadata';
 import { Selection } from '@scrapper-gate/frontend/common';
 
 export interface FlowBuilderSidebarItemProps<

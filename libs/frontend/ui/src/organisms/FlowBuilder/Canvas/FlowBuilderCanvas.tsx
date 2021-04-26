@@ -9,27 +9,27 @@ import React, {
 } from 'react';
 import ReactFlow from 'react-flow-renderer';
 import classNames from 'classnames';
-import { useFlowBuilderInstanceContext } from '../../providers/FlowBuilderInstance.provider';
-import { useFlowBuilderDragState } from '../../providers/FlowBuilderDragState.provider';
+import { useFlowBuilderInstanceContext } from '../providers/FlowBuilderInstance.provider';
+import { useFlowBuilderDragState } from '../providers/FlowBuilderDragState.provider';
 import {
   BaseNodeSelectionProperties,
   FlowBuilderDropTypes,
   FlowBuilderItem,
-} from '../../FlowBuilder.types';
-import { ConnectionLine } from '../../connectionLine/ConnectionLine';
-import { useConnectHandler } from '../../hooks/useConnectHandler';
-import { useAddItem } from '../../hooks/useAddItem';
-import { FlowBuilderNode } from '../../nodeTypes/FlowBuilderNode';
-import { useFlowBuilderItemsSelector } from '../../providers/FlowBuilderItems.provider';
-import { edgeTypes } from '../../edgeTypes/edgeTypes';
-import { useRemoveItems } from '../../hooks/useRemoveItems';
-import { useFlowBuilderContextSelector } from '../../providers/FlowBuilderProps.provider';
-import { useHandleDragEnd } from '../../hooks/useHandleDragEnd';
+} from '../FlowBuilder.types';
+import { FlowBuilderConnectionLine } from '../ConnectionLine/FlowBuilderConnectionLine';
+import { useConnectHandler } from '../hooks/useConnectHandler';
+import { useAddItem } from '../hooks/useAddItem';
+import { FlowBuilderNode } from '../Node/FlowBuilderNode';
+import { useFlowBuilderItemsSelector } from '../providers/FlowBuilderItems.provider';
+import { edgeTypes } from '../edgeTypes/edgeTypes';
+import { useRemoveItems } from '../hooks/useRemoveItems';
+import { useFlowBuilderContextSelector } from '../providers/FlowBuilderProps.provider';
+import { useHandleDragEnd } from '../hooks/useHandleDragEnd';
 import { AppTheme } from '@scrapper-gate/frontend/theme';
 import { DropTargetMonitor, useDrop } from 'react-dnd';
 import { MenuItemProperties, Selection } from '@scrapper-gate/frontend/common';
-import { ContextMenu } from '../../../../molecules/ContextMenu/ContextMenu';
-import { useFlowBuilderSelection } from '../../providers/FlowBuilderSelection.provider';
+import { ContextMenu } from '../../../molecules/ContextMenu/ContextMenu';
+import { useFlowBuilderSelection } from '../providers/FlowBuilderSelection.provider';
 import { Sort } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme: AppTheme) => ({
@@ -223,7 +223,7 @@ export const FlowBuilderCanvas = () => {
               setConnectionSource(data);
             }}
             onConnectEnd={handleConnectionEnd}
-            connectionLineComponent={ConnectionLine}
+            connectionLineComponent={FlowBuilderConnectionLine}
           />
         </div>
       )}

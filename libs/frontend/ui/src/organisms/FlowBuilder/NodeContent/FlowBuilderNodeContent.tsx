@@ -14,11 +14,11 @@ import { useDebounce, usePrevious } from 'react-use';
 import {
   FlowBuilderItemsContext,
   useFlowBuilderItemsSelector,
-} from '../../providers/FlowBuilderItems.provider';
-import { BaseNodeProperties } from '../../FlowBuilder.types';
+} from '../providers/FlowBuilderItems.provider';
+import { BaseNodeProperties } from '../FlowBuilder.types';
 import { getById } from '@scrapper-gate/shared/common';
-import { useFlowBuilderContextSelector } from '../../providers/FlowBuilderProps.provider';
-import { useFlowBuilderActiveNode } from '../../providers/FlowBuilderActiveNode.provider';
+import { useFlowBuilderContextSelector } from '../providers/FlowBuilderProps.provider';
+import { useFlowBuilderActiveNode } from '../providers/FlowBuilderActiveNode.provider';
 
 interface DialogStyleProps {
   isUsingElementPicker: boolean;
