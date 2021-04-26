@@ -10,5 +10,5 @@ export interface MenuItemProperties {
   className?: string;
   children?: MenuItemProperties[];
   selected?: boolean;
-  type?: 'item' | 'subHeader' | 'divider';
+  type?: 'item' | 'subHeader' | 'divider' | 'input';
 }

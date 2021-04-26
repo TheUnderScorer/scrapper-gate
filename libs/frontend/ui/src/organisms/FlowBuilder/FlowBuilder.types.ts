@@ -60,6 +60,7 @@ export interface BaseFlowBuilderProps<
   nodeContents?: Record<string, NodeContentComponent<T>>;
   defaultNodeContent?: NodeContentComponent<T>;
   isUsingElementPicker?: boolean;
+  nodesLabel?: string;
 }
 
 export interface NodeContentHelpers {

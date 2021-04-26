@@ -148,9 +148,19 @@ const dragSelectionIntoCanvas = (
 };
 
 describe('<FlowBuilder />', () => {
+  const onAdd = jest.fn((selection, { position, items }) => {
+    const node = createNodeFromSelection('#new_node', selection, position);
+
+    return {
+      items,
+      createdNodes: [node],
+    };
+  });
+
   beforeEach(() => {
     handleSubmit.mockClear();
     firstNodeOnClick.mockClear();
+    onAdd.mockClear();
   });
 
   it('should render without crashing', () => {
@@ -182,17 +192,6 @@ describe('<FlowBuilder />', () => {
   });
 
   it('should add new items that are dragged into canvas and then undo and redo it', async () => {
-    const onAdd: FlowBuilderProps['onAdd'] = jest.fn(
-      (selection, { position, items }) => {
-        const node = createNodeFromSelection('#new_node', selection, position);
-
-        return {
-          items,
-          createdNodes: [node],
-        };
-      }
-    );
-
     const cmp = renderComponent({
       onAdd,
     });
@@ -274,5 +273,33 @@ describe('<FlowBuilder />', () => {
     await wait(450);
 
     expect(screen.getByText('Test content of node test')).toBeInTheDocument();
+  });
+
+  it('should add new items via context menu', async () => {
+    const cmp = renderComponent({
+      onAdd,
+    });
+    const canvas = cmp.container.querySelector('.flow-builder-canvas');
+
+    act(() => {
+      fireEvent.contextMenu(canvas, {
+        clientY: 50,
+        clientX: 50,
+      });
+    });
+
+    const contextMenu = document.querySelector('.context-menu');
+    const [item] = screen
+      .getAllByText('Open in browser')
+      .filter((item) => contextMenu.contains(item))
+      .map((item) => item.parentElement.parentElement);
+
+    act(() => {
+      userEvent.click(item);
+    });
+
+    expect(onAdd).toHaveBeenCalledTimes(1);
+    expect(onAdd.mock.calls[0][1].position.x).toEqual(49);
+    expect(onAdd.mock.calls[0][0].label).toEqual('Open in browser');
   });
 });

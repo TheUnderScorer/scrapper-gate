@@ -27,10 +27,9 @@ import { useFlowBuilderContextSelector } from '../providers/FlowBuilderProps.pro
 import { useHandleDragEnd } from '../hooks/useHandleDragEnd';
 import { AppTheme } from '@scrapper-gate/frontend/theme';
 import { DropTargetMonitor, useDrop } from 'react-dnd';
-import { MenuItemProperties, Selection } from '@scrapper-gate/frontend/common';
-import { ContextMenu } from '../../../molecules/ContextMenu/ContextMenu';
-import { useFlowBuilderSelection } from '../providers/FlowBuilderSelection.provider';
-import { Sort } from '@material-ui/icons';
+import { Selection } from '@scrapper-gate/frontend/common';
+import { ContextMenu } from '@scrapper-gate/frontend/ui';
+import { useCanvasContextMenu } from '../hooks/useCanvasContextMenu';
 
 const useStyles = makeStyles((theme: AppTheme) => ({
   paper: {
@@ -154,44 +153,26 @@ export const FlowBuilderCanvas = () => {
     drop: handleDrop,
   });
 
-  const { selection } = useFlowBuilderSelection();
-
-  const menuItems = useMemo<MenuItemProperties[]>(() => {
-    const nodeTypesItems: MenuItemProperties[] = selection.map(
-      ({ icon, label }) => {
-        return {
-          id: label,
-          content: label,
-          icon: icon,
-        };
-      }
-    );
-
-    return [
-      {
-        id: 'nodes_subheader',
-        type: 'subHeader',
-        content: 'Nodes',
-      },
-      ...nodeTypesItems,
-      {
-        id: 'sort_divider',
-        type: 'divider',
-      },
-      {
-        id: 'Sort',
-        content: 'Sort nodes',
-        icon: <Sort />,
-      },
-    ];
-  }, [selection]);
+  const {
+    menuItems,
+    handleOpen: handleContextMenuOpen,
+    handleClose: handleContextMenuClose,
+    menuRef,
+  } = useCanvasContextMenu({
+    containerRef,
+  });
 
   useEffect(() => {
     drop(containerRef.current);
   }, [drop]);
 
   return (
-    <ContextMenu menuItems={menuItems}>
+    <ContextMenu
+      ref={menuRef}
+      onOpen={handleContextMenuOpen}
+      onClose={handleContextMenuClose}
+      menuItems={menuItems}
+    >
       {({ onContextMenu }) => (
         <div
           onContextMenu={onContextMenu}

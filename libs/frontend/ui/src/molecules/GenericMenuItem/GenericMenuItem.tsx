@@ -33,6 +33,10 @@ export const GenericMenuItem = forwardRef<HTMLLIElement, MenuItemProperties>(
       return <ListItem disableGutters className={classes.divider} divider />;
     }
 
+    if (type === 'input') {
+      return <ListItem>{content}</ListItem>;
+    }
+
     return (
       <MenuItem ref={ref} id={id} onClick={onClick} className={className}>
         {icon && <ListItemIcon>{icon}</ListItemIcon>}

@@ -1,17 +1,15 @@
-import React, { useCallback, useMemo, useState } from 'react';
-import {
-  IconButton,
-  InputAdornment,
-  List,
-  Stack,
-  TextField,
-  Typography,
-} from '@material-ui/core';
+import React, { useState } from 'react';
+import { List, Stack, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { ClearSharp } from '@material-ui/icons';
 import { FlowBuilderSidebarItem } from './Item/FlowBuilderSidebarItem';
 import { useFlowBuilderSelection } from '../providers/FlowBuilderSelection.provider';
-import { Centered, ResizablePanel } from '@scrapper-gate/frontend/ui';
+import {
+  BaseNodeSelectionProperties,
+  Centered,
+  FilterTextField,
+  ResizablePanel,
+} from '@scrapper-gate/frontend/ui';
+import { Selection } from '@scrapper-gate/frontend/common';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -37,21 +35,9 @@ const useStyles = makeStyles((theme) => ({
 export const FlowBuilderSidebar = () => {
   const classes = useStyles();
 
-  const [search, setSearch] = useState('');
-
   const { selection } = useFlowBuilderSelection();
 
-  const filteredSelection = useMemo(() => {
-    if (!search) {
-      return selection;
-    }
-
-    return selection?.filter((item) =>
-      item.label.toLowerCase().includes(search.toLowerCase())
-    );
-  }, [search, selection]);
-
-  const clearSearch = useCallback(() => setSearch(''), []);
+  const [filteredSelection, setFilteredSelection] = useState(selection);
 
   return (
     <ResizablePanel
@@ -70,19 +56,11 @@ export const FlowBuilderSidebar = () => {
     >
       <Stack spacing={2} direction="column" className={classes.grid}>
         <Typography variant="h6">List of steps</Typography>
-        <TextField
-          value={search}
-          onChange={(event) => setSearch(event.target.value)}
+        <FilterTextField<Selection<BaseNodeSelectionProperties>>
+          items={selection}
+          onItemsChange={setFilteredSelection}
+          filterKeys={['label']}
           placeholder="Search steps..."
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton size="small" onClick={clearSearch}>
-                  <ClearSharp />
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
         />
         {Boolean(filteredSelection?.length) && (
           <List className={classes.list}>

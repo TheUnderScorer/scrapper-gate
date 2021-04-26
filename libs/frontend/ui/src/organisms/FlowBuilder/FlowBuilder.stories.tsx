@@ -142,6 +142,7 @@ export const BasicPreset = () => {
         >
           <FlowBuilder<FlowBuilderPlaceholderProperties>
             nodesSelection={nodesSelection}
+            nodesLabel="Steps"
             onAdd={handleAddNode}
             tabs={[
               {
