@@ -132,13 +132,15 @@ export const NormalEdge = ({
         id={id}
         strokeWidth={1}
         d={path}
-        markerStart={markerEnd}
         markerEnd={markerEnd}
         className={classNames('react-flow__edge-path', classes.path)}
       />
-      <text className={classes.text} y={targetY - 15} x={targetX - 50}>
-        {labelValue}
-      </text>
+      <g>
+        <rect y={targetY - 15} x={targetX - 50} />
+        <text className={classes.text} y={targetY - 15} x={targetX - 50}>
+          {labelValue}
+        </text>
+      </g>
     </g>
   );
 };
