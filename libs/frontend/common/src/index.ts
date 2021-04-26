@@ -9,3 +9,5 @@ export * from './providers/QueryParamProvider';
 export * from './os';
 export * from './stopPropagation';
 export * from './preventDefault';
+export * from './isElementEditable';
+export * from './highlight';

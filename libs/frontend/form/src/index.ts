@@ -4,3 +4,4 @@ export * from './components/FormCheckbox/FormCheckbox';
 export * from './formErrorKey';
 export * from './types';
 export * from './hooks/useFormUndo';
+export * from './hooks/useDebouncedValidator';

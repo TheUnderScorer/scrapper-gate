@@ -24,3 +24,4 @@ export * from './molecules/ResizablePanel/ResizablePanel.types';
 export * from './molecules/FilterTextField/FilterTextField';
 export * from './molecules/ContextMenu/ContextMenu';
 export * from './molecules/ContextMenu/ContextMenu.types';
+export * from './organisms/HtmlElementPicker/HtmlElementPicker';

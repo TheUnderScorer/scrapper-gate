@@ -79,6 +79,9 @@
       ],
       "@scrapper-gate/frontend/keyboard-shortcuts": [
         "libs/frontend/keyboard-shortcuts/src/index.ts"
+      ],
+      "@scrapper-gate/frontend/html-picker": [
+        "libs/frontend/html-picker/src/index.ts"
       ]
     }
   },

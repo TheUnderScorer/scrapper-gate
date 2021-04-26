@@ -11,3 +11,6 @@ export * from './promise';
 export * from './template';
 export * from './i18n';
 export * from './throwError';
+export * from './prefix';
+export * from './selectors';
+export * from './xpath';
