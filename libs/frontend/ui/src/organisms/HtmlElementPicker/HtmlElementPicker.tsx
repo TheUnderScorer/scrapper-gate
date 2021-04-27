@@ -1,10 +1,8 @@
 import React, {
-  ChangeEvent,
   ChangeEventHandler,
   useCallback,
   useEffect,
   useMemo,
-  useRef,
   useState,
 } from 'react';
 import {
@@ -13,36 +11,25 @@ import {
   FormHelperText,
   Grid,
   IconButton,
-  InputAdornment,
   InputLabel,
-  MenuItem,
-  Select,
-  TextField,
   Tooltip,
-  useTheme,
 } from '@material-ui/core';
-import { Add, Code, Colorize } from '@material-ui/icons';
-import tinycolor from 'tinycolor2';
+import { Add, Colorize } from '@material-ui/icons';
 import { useDebounce, useKey, useToggle, useUnmount } from 'react-use';
 import { createPortal } from 'react-dom';
 import { useField } from 'react-final-form';
 import { HtmlElementPickerSnackbar } from './Snackbar/HtmlElementPickerSnackbar';
 import { SelectorsList } from '../../molecules/SelectorsList/SelectorsList';
-import {
-  HtmlElementPickerProps,
-  HtmlElementPickerValidationRules,
-} from './HtmlElementPicker.types';
+import { HtmlElementPickerProps } from './HtmlElementPicker.types';
 import { getElementsBySelectors } from '@scrapper-gate/shared/common';
 import { makeUniqueSelector } from '../../../../html-picker/src/selectors';
-import { HtmlPicker } from '@scrapper-gate/frontend/html-picker';
 import { Selector, SelectorType } from '@scrapper-gate/shared/schema';
 import { useStyles } from './HtmlElementPicker.styles';
 import { addHighlight, removeHighlight } from '@scrapper-gate/frontend/common';
-import { useDebouncedValidator } from '@scrapper-gate/frontend/form';
 import { TooltipText } from '../../atoms/TooltipText/TooltipText';
-import { selectorModeMap } from './selectorModeMap';
-
-const selectionModes = Object.entries(selectorModeMap);
+import { useHtmlPicker } from './useHtmlPicker';
+import { useHtmlPickerValidator } from './useHtmlPickerValidator';
+import { HtmlElementPickerInput } from './Input/HtmlElementPickerInput';
 
 const HtmlElementPicker = ({
   name,
@@ -81,44 +68,10 @@ const HtmlElementPicker = ({
     [id]
   );
 
-  const validateFn = useCallback(
-    (fieldValue?: Selector[]) => {
-      if (fieldValue?.length && validationRules.length && !pickerDisabled) {
-        try {
-          const elements = getElementsBySelectors(fieldValue ?? [], document);
-
-          if (
-            !elements.length &&
-            validationRules.includes(
-              HtmlElementPickerValidationRules.ElementsExist
-            )
-          ) {
-            return 'No elements found matching given selector';
-          }
-
-          if (elementsValidator) {
-            return elementsValidator(elements);
-          }
-        } catch {
-          if (
-            !validationRules.includes(
-              HtmlElementPickerValidationRules.ValidSelector
-            )
-          ) {
-            return undefined;
-          }
-
-          return 'Invalid selector provided';
-        }
-      }
-
-      return undefined;
-    },
-    [validationRules, pickerDisabled, elementsValidator]
-  );
-
-  const validate = useDebouncedValidator<Selector[]>({
-    validate: validateFn,
+  const validate = useHtmlPickerValidator({
+    pickerDisabled,
+    validationRules,
+    elementsValidator,
   });
 
   const {
@@ -181,98 +134,22 @@ const HtmlElementPicker = ({
     [value, onChange]
   );
 
-  const pickerRef = useRef<HtmlPicker | null>(null);
-
-  const [hoveredElement, setHoveredElement] = useState<HTMLElement | null>(
-    null
-  );
-
   const [open, toggleOpen] = useToggle(false);
   const [clickEnabled, toggleClickEnabled] = useToggle(false);
   const [multiSelect, toggleMultiSelect] = useToggle(false);
 
-  const theme = useTheme();
-
-  const callback = useCallback(
-    (target: Element, event: Event) => {
-      if (
-        ignoredElementsContainer?.contains(target) ||
-        event.type === 'mousemove'
-      ) {
-        return;
-      }
-
-      const newValue = getValueByMode(target);
-
-      if (!newValue.value) {
-        return;
-      }
-
-      if (!multiSelect) {
-        onChange([newValue]);
-
-        toggleOpen(false);
-      } else {
-        onChange([...(value ?? []), newValue]);
-      }
-    },
-    [
-      ignoredElementsContainer,
-      getValueByMode,
-      multiSelect,
-      onChange,
-      toggleOpen,
-      value,
-    ]
-  );
-
-  useEffect(() => {
-    if (pickerRef.current) {
-      pickerRef.current.close();
-    }
-
-    if (open) {
-      pickerRef.current = new HtmlPicker({
-        background: tinycolor(theme.palette.primary.light)
-          .setAlpha(0.5)
-          .toRgbString(),
-        borderWidth: 2,
-        ignoreElementsContainer: ignoredElementsContainer,
-        onElementHover: async (element) => {
-          if (
-            ignoredElementsContainer?.contains(element) ||
-            !getValueByMode(element).value
-          ) {
-            return;
-          }
-
-          setHoveredElement(element);
-        },
-        action: {
-          trigger: 'click',
-          callback,
-        },
-      });
-    } else {
-      pickerRef.current = null;
-    }
-  }, [
-    open,
-    theme,
-    pickerRef,
+  const { hoveredElement, pickerRef } = useHtmlPicker({
+    value,
     onChange,
+    toggleOpen,
+    open,
+    getValueByMode,
+    multiSelect,
+    mode,
     container,
     ignoredElementsContainer,
-    callback,
-    mode,
-    getValueByMode,
-  ]);
-
-  useEffect(() => {
-    if (!open) {
-      setHoveredElement(null);
-    }
-  }, [open]);
+    clickEnabled,
+  });
 
   useEffect(() => {
     if (onPickerToggle) {
@@ -305,18 +182,6 @@ const HtmlElementPicker = ({
     [value, id]
   );
 
-  useEffect(() => {
-    if (pickerRef.current) {
-      pickerRef.current.preventClick = !clickEnabled;
-      pickerRef.current.action = {
-        trigger: 'click',
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
-        callback: clickEnabled ? () => {} : callback,
-      };
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [clickEnabled, pickerRef.current, callback]);
-
   useUnmount(() => {
     removeHighlight(id);
     pickerRef.current?.close();
@@ -337,43 +202,16 @@ const HtmlElementPicker = ({
         }}
       >
         <Grid item xs={11}>
-          <TextField
+          <HtmlElementPickerInput
             name={name}
-            placeholder={
-              mode === SelectorType.Selector
-                ? 'Enter query selector'
-                : 'Enter text content'
-            }
-            fullWidth
+            mode={mode}
             helperText={helperText}
             variant={variant}
-            className="html-element-picker-input"
             onChange={handleTextFieldValueChange}
             value={textFieldValue}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <Code />
-                </InputAdornment>
-              ),
-              endAdornment: (
-                <InputAdornment position="end">
-                  <Select
-                    onChange={(event: ChangeEvent<{ value: string }>) =>
-                      setMode(event.target.value as SelectorType)
-                    }
-                    value={mode}
-                    placeholder="Mode"
-                  >
-                    {selectionModes.map(([key, modeLabel]) => (
-                      <MenuItem value={key} key={key}>
-                        {modeLabel}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </InputAdornment>
-              ),
-            }}
+            onSelectChange={(event) =>
+              setMode(event.target.value as SelectorType)
+            }
           />
         </Grid>
         <Grid item xs={1}>
@@ -387,7 +225,6 @@ const HtmlElementPicker = ({
           </IconButton>
         </Grid>
       </Grid>
-
       <Box mt={1}>
         <Tooltip
           title={
