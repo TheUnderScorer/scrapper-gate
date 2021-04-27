@@ -25,5 +25,4 @@ export * from './molecules/FilterTextField/FilterTextField';
 export * from './molecules/ContextMenu/ContextMenu';
 export * from './molecules/ContextMenu/ContextMenu.types';
 export * from './organisms/HtmlElementPicker/HtmlElementPicker';
-export { HtmlElementPickerInput } from './organisms/HtmlElementPicker/Input/HtmlElementPickerInput';
-export { selectionModes } from './organisms/HtmlElementPicker/Input/HtmlElementPickerInput';
+export * from './organisms/HtmlElementPicker/HtmlElementPicker.types';

@@ -248,7 +248,7 @@ Object {
                       List of steps
                     </h6>
                     <div
-                      class="MuiFormControl-root MuiFormControl-marginNone MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+                      class="MuiFormControl-root MuiFormControl-marginNone MuiTextField-root filter-text-field css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
                     >
                       <div
                         class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-ag3e3g-MuiInputBase-root-MuiOutlinedInput-root"
@@ -1215,7 +1215,7 @@ Object {
                     List of steps
                   </h6>
                   <div
-                    class="MuiFormControl-root MuiFormControl-marginNone MuiTextField-root css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
+                    class="MuiFormControl-root MuiFormControl-marginNone MuiTextField-root filter-text-field css-1u3bzj6-MuiFormControl-root-MuiTextField-root"
                   >
                     <div
                       class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl MuiInputBase-adornedEnd css-ag3e3g-MuiInputBase-root-MuiOutlinedInput-root"
