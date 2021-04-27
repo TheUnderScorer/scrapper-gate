@@ -32,5 +32,6 @@ module.exports = {
     '<rootDir>/libs/shared/domain/scrapper',
     '<rootDir>/libs/frontend/keyboard-shortcuts',
     '<rootDir>/libs/frontend/html-picker',
+    '<rootDir>/libs/shared/constructor',
   ],
 };

@@ -34,11 +34,23 @@ export const handleSelector = (
 
 export const getSelectorWithElementsAggregate = (
   selectors: Selector[],
-  document: Document
+  document: Document,
+  ignoredElementsContainer?: HTMLElement
 ): SelectorAggregate[] => {
-  return selectors.map((selector) => ({
+  const result = selectors.map((selector) => ({
     ...selector,
     elements: handleSelector(selector, document),
+  }));
+
+  if (!ignoredElementsContainer) {
+    return result;
+  }
+
+  return result.map((item) => ({
+    ...item,
+    elements: item.elements.filter(
+      (element) => !ignoredElementsContainer.contains(element)
+    ),
   }));
 };
 

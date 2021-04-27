@@ -82,6 +82,9 @@
       ],
       "@scrapper-gate/frontend/html-picker": [
         "libs/frontend/html-picker/src/index.ts"
+      ],
+      "@scrapper-gate/shared/constructor": [
+        "libs/shared/constructor/src/index.ts"
       ]
     }
   },

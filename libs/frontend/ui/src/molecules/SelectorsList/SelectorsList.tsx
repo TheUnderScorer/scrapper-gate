@@ -17,6 +17,7 @@ export interface SelectorsListProps {
   onDelete?: (index: number) => unknown;
   hideHeader?: boolean;
   className?: string;
+  ignoredElementsContainer?: HTMLElement;
 }
 
 export const SelectorsList: FC<SelectorsListProps> = ({
@@ -24,6 +25,7 @@ export const SelectorsList: FC<SelectorsListProps> = ({
   hideHeader = false,
   onDelete,
   className,
+  ignoredElementsContainer,
 }) => {
   const selectorsAggr = useMemo(() => {
     if (!value.length) {
@@ -31,11 +33,15 @@ export const SelectorsList: FC<SelectorsListProps> = ({
     }
 
     try {
-      return getSelectorWithElementsAggregate(value, document);
+      return getSelectorWithElementsAggregate(
+        value,
+        document,
+        ignoredElementsContainer
+      );
     } catch {
       return [];
     }
-  }, [value]);
+  }, [value, ignoredElementsContainer]);
 
   const totalSelectors = useMemo(() => {
     if (hideHeader) {

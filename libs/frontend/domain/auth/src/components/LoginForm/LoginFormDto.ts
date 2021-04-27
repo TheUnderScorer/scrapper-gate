@@ -1,7 +1,6 @@
-import { LoginInputDto } from '@scrapper-gate/shared/schema';
 import * as jf from 'joiful';
 import { LoginFormInput, LoginFormType } from './LoginForm.types';
-import { JoiMessages } from '@scrapper-gate/shared/validation';
+import { JoiMessages, LoginInputDto } from '@scrapper-gate/shared/validation';
 
 export class LoginFormDto extends LoginInputDto implements LoginFormInput {
   @jf.string()

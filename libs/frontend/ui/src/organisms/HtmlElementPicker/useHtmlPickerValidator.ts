@@ -6,6 +6,7 @@ import {
   HtmlElementPickerValidationRules,
 } from './HtmlElementPicker.types';
 import { useDebouncedValidator } from '@scrapper-gate/frontend/form';
+import { InvalidSelectorProvidedError } from '@scrapper-gate/shared/errors';
 
 export type UseHtmlPickerValidatorProps = Pick<
   HtmlElementPickerProps,
@@ -29,13 +30,13 @@ export const useHtmlPickerValidator = ({
               HtmlElementPickerValidationRules.ElementsExist
             )
           ) {
-            return 'No elements found matching given selector';
+            return new Error('No elements found matching given selector');
           }
 
           if (elementsValidator) {
             return elementsValidator(elements);
           }
-        } catch {
+        } catch (e) {
           if (
             !validationRules.includes(
               HtmlElementPickerValidationRules.ValidSelector
@@ -44,7 +45,7 @@ export const useHtmlPickerValidator = ({
             return undefined;
           }
 
-          return 'Invalid selector provided';
+          return new InvalidSelectorProvidedError();
         }
       }
 

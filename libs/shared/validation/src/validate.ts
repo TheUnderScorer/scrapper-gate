@@ -1,6 +1,6 @@
 import { validateAsClass } from 'joiful';
 import { ValidationError } from './ValidationError';
-import { Constructor } from '@scrapper-gate/shared/common';
+import { Constructor } from '@scrapper-gate/shared/constructor';
 import { JoiMessages } from './types';
 
 export const validate = <T>(

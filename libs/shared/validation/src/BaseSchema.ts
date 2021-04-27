@@ -1,5 +1,5 @@
 import { validate } from './validate';
-import { Constructor } from '@scrapper-gate/shared/common';
+import { Constructor } from '@scrapper-gate/shared/constructor';
 
 export interface BaseSchemaConstructor<T extends BaseSchema<unknown>>
   extends Constructor<T> {

@@ -59,6 +59,7 @@
     "frontend-logger": { "tags": [] },
     "shared-domain-scrapper": { "tags": [] },
     "frontend-keyboard-shortcuts": { "tags": [] },
-    "frontend-html-picker": { "tags": [] }
+    "frontend-html-picker": { "tags": [] },
+    "shared-constructor": { "tags": [] }
   }
 }

@@ -80,7 +80,7 @@ describe('<HtmlElementPicker />', () => {
     const component = renderCmp({
       validationRules: [HtmlElementPickerValidationRules.ElementsExist],
     });
-    await addSelector('.test123', component);
+    await addSelector('#test', component);
 
     await waitFor(
       () =>
@@ -89,7 +89,7 @@ describe('<HtmlElementPicker />', () => {
         ),
       {
         interval: 500,
-        timeout: 3000,
+        timeout: 5000,
       }
     );
   });

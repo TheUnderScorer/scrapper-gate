@@ -12,6 +12,7 @@ import {
   Grid,
   IconButton,
   InputLabel,
+  Stack,
   Tooltip,
 } from '@material-ui/core';
 import { Add, Colorize } from '@material-ui/icons';
@@ -20,9 +21,15 @@ import { createPortal } from 'react-dom';
 import { useField } from 'react-final-form';
 import { HtmlElementPickerSnackbar } from './Snackbar/HtmlElementPickerSnackbar';
 import { SelectorsList } from '../../molecules/SelectorsList/SelectorsList';
-import { HtmlElementPickerProps } from './HtmlElementPicker.types';
-import { getElementsBySelectors } from '@scrapper-gate/shared/common';
-import { makeUniqueSelector } from '../../../../html-picker/src/selectors';
+import {
+  HtmlElementPickerProps,
+  HtmlElementPickerValidationRules,
+} from './HtmlElementPicker.types';
+import {
+  getElementsBySelectors,
+  removeAtIndex,
+} from '@scrapper-gate/shared/common';
+import { makeUniqueSelector } from '@scrapper-gate/frontend/html-picker';
 import { Selector, SelectorType } from '@scrapper-gate/shared/schema';
 import { useStyles } from './HtmlElementPicker.styles';
 import { addHighlight, removeHighlight } from '@scrapper-gate/frontend/common';
@@ -30,6 +37,8 @@ import { TooltipText } from '../../atoms/TooltipText/TooltipText';
 import { useHtmlPicker } from './useHtmlPicker';
 import { useHtmlPickerValidator } from './useHtmlPickerValidator';
 import { HtmlElementPickerInput } from './Input/HtmlElementPickerInput';
+import { InvalidSelectorProvidedError } from '@scrapper-gate/shared/errors';
+import { uniqBy } from 'remeda';
 
 const HtmlElementPicker = ({
   name,
@@ -38,7 +47,7 @@ const HtmlElementPicker = ({
   label,
   helperText,
   onPickerToggle,
-  container,
+  container = document.body,
   ignoredElementsContainer,
   pickerDisabled,
   pickerDisabledTooltip = 'Picker is currently not available',
@@ -49,7 +58,7 @@ const HtmlElementPicker = ({
 }: HtmlElementPickerProps) => {
   const classes = useStyles();
 
-  const [textFieldValue, setTextFieldValue] = useState<string | null>(null);
+  const [textFieldValue, setTextFieldValue] = useState<string | null>('');
   const handleTextFieldValueChange: ChangeEventHandler<HTMLInputElement> = useCallback(
     (e) => {
       setTextFieldValue(e.target.value);
@@ -76,7 +85,7 @@ const HtmlElementPicker = ({
 
   const {
     input: { onChange, value },
-    meta: { error },
+    meta: { error: fieldError },
   } = useField<Selector[]>(name, {
     validate,
   });
@@ -103,22 +112,40 @@ const HtmlElementPicker = ({
     [mode, uniqueSelector]
   );
 
+  const [addError, setAddError] = useState<Error | null>(null);
   const handleAdd = useCallback(() => {
+    setAddError(null);
+
     if (!textFieldValue) {
       return;
     }
 
-    const newValue: Selector[] = [
-      ...(value ?? []),
-      {
-        value: textFieldValue,
-        type: mode,
-      },
-    ];
+    const valueCopy = [...value];
 
-    onChange(newValue);
+    const newSelector: Selector = {
+      value: textFieldValue,
+      type: mode,
+    };
+
+    if (
+      validationRules.includes(HtmlElementPickerValidationRules.ValidSelector)
+    ) {
+      try {
+        getElementsBySelectors([newSelector], document);
+      } catch {
+        setAddError(new InvalidSelectorProvidedError());
+        return;
+      }
+    }
+
+    const newValue: Selector[] = uniqBy(
+      [...valueCopy, newSelector],
+      (item) => `${item.value}${item.type}`
+    );
+
     setTextFieldValue('');
-  }, [onChange, textFieldValue, value, mode]);
+    onChange(newValue);
+  }, [textFieldValue, value, mode, validationRules, onChange]);
 
   const handleDelete = useCallback(
     (index: number) => {
@@ -126,8 +153,7 @@ const HtmlElementPicker = ({
         return;
       }
 
-      const newValue = [...value];
-      newValue.splice(index, 1);
+      const newValue = removeAtIndex(value, index);
 
       onChange(newValue);
     },
@@ -137,6 +163,8 @@ const HtmlElementPicker = ({
   const [open, toggleOpen] = useToggle(false);
   const [clickEnabled, toggleClickEnabled] = useToggle(false);
   const [multiSelect, toggleMultiSelect] = useToggle(false);
+
+  const error = fieldError ?? addError;
 
   const { hoveredElement, pickerRef } = useHtmlPicker({
     value,
@@ -167,7 +195,14 @@ const HtmlElementPicker = ({
 
       if (value) {
         try {
-          const elements = getElementsBySelectors(value, document);
+          const elements = getElementsBySelectors(
+            value,
+            document
+          ).filter((element) =>
+            ignoredElementsContainer
+              ? !ignoredElementsContainer.contains(element)
+              : true
+          );
 
           if (elements.length) {
             addHighlight(elements, id);
@@ -179,7 +214,7 @@ const HtmlElementPicker = ({
       }
     },
     500,
-    [value, id]
+    [value, id, ignoredElementsContainer]
   );
 
   useUnmount(() => {
@@ -192,39 +227,42 @@ const HtmlElementPicker = ({
       <InputLabel shrink error={Boolean(error)}>
         {label}
       </InputLabel>
-      <SelectorsList hideHeader onDelete={handleDelete} value={value ?? []} />
-      <Grid
-        alignItems="baseline"
-        container
+      <SelectorsList
+        ignoredElementsContainer={ignoredElementsContainer}
+        hideHeader
+        onDelete={handleDelete}
+        value={value ?? []}
+      />
+      <Stack
+        alignItems="center"
+        direction="row"
         spacing={1}
         style={{
           width: '100%',
         }}
       >
-        <Grid item xs={11}>
-          <HtmlElementPickerInput
-            name={name}
-            mode={mode}
-            helperText={helperText}
-            variant={variant}
-            onChange={handleTextFieldValueChange}
-            value={textFieldValue}
-            onSelectChange={(event) =>
-              setMode(event.target.value as SelectorType)
-            }
-          />
-        </Grid>
-        <Grid item xs={1}>
-          <IconButton
-            className="add-selector"
-            disabled={!textFieldValue}
-            onClick={handleAdd}
-            size="small"
-          >
-            <Add />
-          </IconButton>
-        </Grid>
-      </Grid>
+        <HtmlElementPickerInput
+          error={Boolean(error)}
+          name={name}
+          mode={mode}
+          helperText={helperText}
+          variant={variant}
+          onChange={handleTextFieldValueChange}
+          value={textFieldValue}
+          onEnter={handleAdd}
+          onSelectChange={(event) =>
+            setMode(event.target.value as SelectorType)
+          }
+        />
+        <IconButton
+          className="add-selector"
+          disabled={!textFieldValue}
+          onClick={handleAdd}
+          size="small"
+        >
+          <Add />
+        </IconButton>
+      </Stack>
       <Box mt={1}>
         <Tooltip
           title={
@@ -246,13 +284,15 @@ const HtmlElementPicker = ({
                 toggleOpen(!open);
               }}
             >
-              Open picker
+              {open ? 'Close picker' : 'Open picker'}
             </Button>
           </span>
         </Tooltip>
       </Box>
       {error && (
-        <FormHelperText className={classes.helperText}>{error}</FormHelperText>
+        <FormHelperText className={classes.helperText}>
+          {error.message}
+        </FormHelperText>
       )}
 
       {container &&

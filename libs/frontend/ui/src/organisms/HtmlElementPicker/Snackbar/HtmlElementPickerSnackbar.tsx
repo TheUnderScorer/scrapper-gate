@@ -30,6 +30,7 @@ export interface HtmlElementPickerSnackbarProps {
   value: Selector[];
   getSelector: (element: Element) => Selector;
   onDelete?: SelectorsListProps['onDelete'];
+  ignoredElementsContainer?: HTMLElement;
 }
 
 const useStyles = makeStyles(() => ({
@@ -63,6 +64,7 @@ export const HtmlElementPickerSnackbar = ({
   value,
   getSelector,
   onDelete,
+  ignoredElementsContainer,
 }: HtmlElementPickerSnackbarProps) => {
   const keyboardShortcuts = useKeyboardShortcuts();
 
@@ -96,11 +98,15 @@ export const HtmlElementPickerSnackbar = ({
     [expanded, onEnableClickToggle, snackbar]
   );
 
-  useHotkeys(keyboardShortcuts.elementPicker.toggleElementClicking, (event) => {
-    event.stopImmediatePropagation();
+  useHotkeys(
+    keyboardShortcuts.elementPicker.toggleElementClicking,
+    (event) => {
+      event.stopPropagation();
 
-    handleEnableClickToggle(!enableClick);
-  });
+      handleEnableClickToggle(!enableClick);
+    },
+    [enableClick]
+  );
 
   return (
     <CollapsableCard
@@ -119,6 +125,7 @@ export const HtmlElementPickerSnackbar = ({
         {Boolean(value.length) && (
           <Grid item>
             <SelectorsList
+              ignoredElementsContainer={ignoredElementsContainer}
               className={classes.selectorsList}
               onDelete={onDelete}
               value={value}
@@ -128,8 +135,8 @@ export const HtmlElementPickerSnackbar = ({
         <Grid item>
           <FormControlLabel
             label={
-              <Stack direction="row">
-                Enable element clicking
+              <Stack alignItems="center" spacing={1} direction="row">
+                <span>Enable element clicking</span>
                 <KeyHint>
                   {keyboardShortcuts.elementPicker.toggleElementClicking}
                 </KeyHint>

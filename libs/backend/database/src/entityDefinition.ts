@@ -1,6 +1,7 @@
-import { Constructor, Entities } from '@scrapper-gate/shared/common';
+import { Entities } from '@scrapper-gate/shared/common';
 import { Repository } from 'typeorm';
 import { RepositoriesProvider } from './types';
+import { Constructor } from '@scrapper-gate/shared/constructor';
 
 export interface EntityDefinition<T> {
   model: Constructor<T>;

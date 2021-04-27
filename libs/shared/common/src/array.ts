@@ -14,3 +14,10 @@ export const getById = <T extends { id: unknown }>(arr: T[], id: unknown) => {
 export const mapToArray = <T>(map: Map<unknown, T>) => {
   return Array.from(map.values());
 };
+
+export const removeAtIndex = <T>(array: T[], index: number, count = 1) => {
+  const newValue = [...array];
+  newValue.splice(index, count);
+
+  return newValue;
+};
