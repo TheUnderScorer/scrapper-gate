@@ -1,4 +1,9 @@
-import { makeStyles } from '@material-ui/core';
+import {
+  CircularProgress,
+  makeStyles,
+  Stack,
+  Typography,
+} from '@material-ui/core';
 import React, {
   MutableRefObject,
   ReactNode,
@@ -28,7 +33,7 @@ import { useHandleDragEnd } from '../hooks/useHandleDragEnd';
 import { AppTheme } from '@scrapper-gate/frontend/theme';
 import { DropTargetMonitor, useDrop } from 'react-dnd';
 import { Selection } from '@scrapper-gate/frontend/common';
-import { ContextMenu } from '@scrapper-gate/frontend/ui';
+import { Centered, ContextMenu } from '@scrapper-gate/frontend/ui';
 import { useCanvasContextMenu } from '../hooks/useCanvasContextMenu';
 
 const useStyles = makeStyles((theme: AppTheme) => ({
@@ -110,6 +115,8 @@ export const FlowBuilderCanvas = () => {
   const addItem = useAddItem();
   const connect = useConnectHandler();
 
+  const loading = useFlowBuilderContextSelector((ctx) => ctx.loading);
+
   const removeItems = useRemoveItems();
   const handleDragEnd = useHandleDragEnd();
 
@@ -165,6 +172,17 @@ export const FlowBuilderCanvas = () => {
   useEffect(() => {
     drop(containerRef.current);
   }, [drop]);
+
+  if (loading) {
+    return (
+      <Centered className={classes.paper}>
+        <Stack alignItems="center" direction="column" spacing={2}>
+          <CircularProgress />
+          <Typography variant="body2">Loading builder...</Typography>
+        </Stack>
+      </Centered>
+    );
+  }
 
   return (
     <ContextMenu

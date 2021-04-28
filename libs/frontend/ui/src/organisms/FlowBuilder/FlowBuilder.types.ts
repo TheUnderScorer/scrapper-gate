@@ -1,7 +1,6 @@
 import {
   Connection,
   Edge,
-  EdgeProps,
   Node,
   NodeProps,
   OnConnectStartParams,
@@ -12,7 +11,7 @@ import {
 import { ComponentType, MouseEvent, ReactNode } from 'react';
 import { FlowBuilderInstanceContext } from './providers/FlowBuilderInstance.provider';
 import { NormalEdgeVariations } from './edgeTypes/NormalEdge.types';
-import { MenuItemProperties, Selection } from '@scrapper-gate/frontend/common';
+import { MenuItemProperties } from '@scrapper-gate/frontend/common';
 import { FieldNameCreator } from '@scrapper-gate/frontend/form';
 
 export interface FlowBuilderAddApi<T extends BaseNodeProperties> {
@@ -37,30 +36,6 @@ export interface CreateNodeResult<
   createdNodes?: Node[];
   items: FlowBuilderItem<T>[];
   nodeToCenterOn?: Node;
-}
-
-export interface BaseFlowBuilderProps<
-  T extends BaseNodeProperties,
-  S extends BaseNodeSelectionProperties
-> {
-  onAdd?: (
-    item: Selection<S>,
-    api: FlowBuilderAddApi<T>
-  ) => CreateNodeResult<T> | Promise<CreateNodeResult<T>>;
-  onRemove?: (
-    nodes: Array<EdgeProps<T> | NodeProps<T>>,
-    api: FlowBuilderRemoveApi<T>
-  ) => FlowBuilderItem<T>[];
-  nodesSelection?: Selection<S>[];
-  onChange?: (items: FlowBuilderItem<T>[]) => unknown;
-  nodeTypes?: Record<string, NodeMetadata<T>>;
-  onConnect?: (connection: Connection, edge?: Partial<Edge<T>>) => Edge<T>;
-  useFallbackConnectionHandler?: boolean;
-  isValidConnection?: (params: IsValidConnectionParams<T>) => boolean;
-  nodeContents?: Record<string, NodeContentComponent<T>>;
-  defaultNodeContent?: NodeContentComponent<T>;
-  isUsingElementPicker?: boolean;
-  nodesLabel?: string;
 }
 
 export interface NodeContentHelpers {

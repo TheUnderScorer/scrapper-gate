@@ -3,7 +3,13 @@ import React, { useMemo, useState } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
 
-import { ReactFlowProvider } from 'react-flow-renderer';
+import {
+  Connection,
+  Edge,
+  EdgeProps,
+  NodeProps,
+  ReactFlowProvider,
+} from 'react-flow-renderer';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import {
@@ -11,9 +17,15 @@ import {
   FlowBuilderHeaderProps,
 } from './Header/FlowBuilderHeader';
 import {
-  BaseFlowBuilderProps,
   BaseNodeProperties,
   BaseNodeSelectionProperties,
+  CreateNodeResult,
+  FlowBuilderAddApi,
+  FlowBuilderItem,
+  FlowBuilderRemoveApi,
+  IsValidConnectionParams,
+  NodeContentComponent,
+  NodeMetadata,
 } from './FlowBuilder.types';
 import { FlowBuilderItemsProvider } from './providers/FlowBuilderItems.provider';
 import {
@@ -28,13 +40,33 @@ import { FlowBuilderSelectionProvider } from './providers/FlowBuilderSelection.p
 import { nodeTypes } from './nodeTypes/nodeTypes';
 import { FlowBuilderPropsProvider } from './providers/FlowBuilderProps.provider';
 import { FlowBuilderDragStateProvider } from './providers/FlowBuilderDragState.provider';
+import { Selection } from '@scrapper-gate/frontend/common';
 
 export interface FlowBuilderProps<
   T extends BaseNodeProperties = BaseNodeProperties,
   S extends BaseNodeSelectionProperties = BaseNodeSelectionProperties
 > extends FlowBuilderHeaderProps,
-    Pick<FlowBuilderTabsProps, 'tabs' | 'mainTabLabel'>,
-    BaseFlowBuilderProps<T, S> {}
+    Pick<FlowBuilderTabsProps, 'tabs' | 'mainTabLabel'> {
+  onAdd?: (
+    item: Selection<S>,
+    api: FlowBuilderAddApi<T>
+  ) => CreateNodeResult<T> | Promise<CreateNodeResult<T>>;
+  onRemove?: (
+    nodes: Array<EdgeProps<T> | NodeProps<T>>,
+    api: FlowBuilderRemoveApi<T>
+  ) => FlowBuilderItem<T>[];
+  nodesSelection?: Selection<S>[];
+  onChange?: (items: FlowBuilderItem<T>[]) => unknown;
+  nodeTypes?: Record<string, NodeMetadata<T>>;
+  onConnect?: (connection: Connection, edge?: Partial<Edge<T>>) => Edge<T>;
+  useFallbackConnectionHandler?: boolean;
+  isValidConnection?: (params: IsValidConnectionParams<T>) => boolean;
+  nodeContents?: Record<string, NodeContentComponent<T>>;
+  defaultNodeContent?: NodeContentComponent<T>;
+  isUsingElementPicker?: boolean;
+  nodesLabel?: string;
+  loading?: boolean;
+}
 
 const defaultNodeTypes = {};
 

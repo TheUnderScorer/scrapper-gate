@@ -69,6 +69,22 @@ const nodeContents = {
   [FlowBuilderNodeTypes.Action]: NodeContent,
 };
 
+export const Loading = () => {
+  return (
+    <Form
+      initialValues={{
+        items: [],
+      }}
+      onSubmit={console.log}
+      render={() => (
+        <Box width="90vw" height="90vh">
+          <FlowBuilder loading nodeTypes={{}} nodesSelection={[]} />
+        </Box>
+      )}
+    />
+  );
+};
+
 export const BasicPreset = () => {
   const handleSubmit = useCallback(async () => {
     await wait(5000);

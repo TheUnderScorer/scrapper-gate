@@ -17,6 +17,9 @@ import { FormStateIcon } from '../../../molecules/FormStateIcon/FormStateIcon';
 import { Dropdown, UndoButtons, TooltipText } from '@scrapper-gate/frontend/ui';
 import { buildBasicGraph } from '../utils/graph';
 import { useFormState } from 'react-final-form';
+import { useFlowBuilderContextSelector } from '../providers/FlowBuilderProps.provider';
+import { SkeletonComponentOrIcon } from '../../../molecules/Skeleton/ComponentOrIcon/SkeletonComponentOrIcon';
+import { Skeleton } from '@material-ui/lab';
 
 export interface FlowBuilderHeaderProps {
   title?: string;
@@ -63,6 +66,8 @@ export const FlowBuilderHeader = ({
   const setItems = useFlowBuilderItemsSelector((ctx) => ctx.setItems);
   const getItems = useFlowBuilderItemsSelector((ctx) => ctx.getItems);
 
+  const loading = useFlowBuilderContextSelector((ctx) => ctx.loading);
+
   const handleSort = useCallback(() => {
     const { items: newItems } = buildBasicGraph(getItems());
 
@@ -79,33 +84,56 @@ export const FlowBuilderHeader = ({
           className={classes.mainGrid}
         >
           <Stack direction="row" alignItems="center" spacing={2}>
-            {onClose && (
-              <IconButton className={classes.iconButton} onClick={onClose}>
-                <CloseSharp />
-              </IconButton>
+            {!loading && (
+              <>
+                {onClose && (
+                  <IconButton className={classes.iconButton} onClick={onClose}>
+                    <CloseSharp />
+                  </IconButton>
+                )}
+                {title && <Typography variant="h5">{title}</Typography>}
+              </>
             )}
-            {title && <Typography variant="h5">{title}</Typography>}
+            {loading && (
+              <>
+                <Skeleton variant="circle" width={30} height={30} />
+                <Skeleton variant="text" width={60} height={10} />
+              </>
+            )}
           </Stack>
           <Stack direction="row" spacing={2} alignItems="center">
-            <Tooltip title={<TooltipText>Sort items</TooltipText>}>
-              <IconButton onClick={handleSort}>
-                <SortSharp />
-              </IconButton>
-            </Tooltip>
-            <UndoButtons />
+            <SkeletonComponentOrIcon loading={loading} width={30} height={30}>
+              <Tooltip title={<TooltipText>Sort items</TooltipText>}>
+                <IconButton onClick={handleSort}>
+                  <SortSharp />
+                </IconButton>
+              </Tooltip>
+            </SkeletonComponentOrIcon>
+            <SkeletonComponentOrIcon loading={loading} width={30} height={30}>
+              <UndoButtons />
+            </SkeletonComponentOrIcon>
             {additionalActions}
             <Divider orientation="vertical" className={classes.divider} />
-            <FormStateIcon className={classes.iconButton} />
-            <Fab
-              disabled={formState.submitting || formState.hasValidationErrors}
-              className={classes.fab}
-              size="small"
-              variant="extended"
-              color="primary"
-              type="submit"
+            <SkeletonComponentOrIcon loading={loading} width={30} height={30}>
+              <FormStateIcon className={classes.iconButton} />
+            </SkeletonComponentOrIcon>
+            <SkeletonComponentOrIcon
+              variant="rect"
+              loading={loading}
+              width={60}
+              height={30}
             >
-              {formState.submitting ? 'Saving...' : 'Save'}
-            </Fab>
+              <Fab
+                disabled={formState.submitting || formState.hasValidationErrors}
+                className={classes.fab}
+                size="small"
+                variant="extended"
+                color="primary"
+                type="submit"
+              >
+                {formState.submitting ? 'Saving...' : 'Save'}
+              </Fab>
+            </SkeletonComponentOrIcon>
             {menu && (
               <Dropdown
                 iconButtonProps={{
