@@ -2,6 +2,7 @@ import { EntityRepository, Repository } from 'typeorm';
 import { ScrapperModel } from '../models/Scrapper.model';
 import { BaseQueryVariables } from '@scrapper-gate/shared/schema';
 import { applyQueryVariables } from '@scrapper-gate/backend/db-utils';
+import { ScrapperNotFoundError } from '@scrapper-gate/shared/errors';
 
 export interface GetScrappersByUserParams extends BaseQueryVariables {
   userId: string;
@@ -22,5 +23,27 @@ export class ScrapperRepository extends Repository<ScrapperModel> {
       .leftJoin('scrapper.createdBy', 'createdBy')
       .where('createdBy.id = :userId', { userId })
       .getManyAndCount();
+  }
+
+  async findOneByUser(scrapperId: string, userId: string) {
+    return this.findOne({
+      where: {
+        id: scrapperId,
+        createdBy: {
+          id: userId,
+        },
+      },
+      relations: ['createdBy', 'steps'],
+    });
+  }
+
+  async getOneByUser(scrapperId: string, userId: string) {
+    const scrapper = await this.findOneByUser(scrapperId, userId);
+
+    if (!scrapper) {
+      throw new ScrapperNotFoundError();
+    }
+
+    return scrapper;
   }
 }

@@ -77,5 +77,6 @@ export const scrapperSchema = gql`
   extend type Query {
     getMyScrappers(pagination: Pagination, order: Order): ScrapperQueryResult!
       @auth
+    getMyScrapper(id: ID!): Scrapper! @auth
   }
 `;

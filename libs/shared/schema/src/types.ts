@@ -133,9 +133,14 @@ export type Pagination = {
 
 export type Query = {
   _?: Maybe<Scalars['Boolean']>;
+  getMyScrapper: Scrapper;
   getMyScrappers: ScrapperQueryResult;
   isAutenthicated?: Maybe<IsAutenthicatedResponse>;
   me?: Maybe<User>;
+};
+
+export type QueryGetMyScrapperArgs = {
+  id: Scalars['ID'];
 };
 
 export type QueryGetMyScrappersArgs = {
@@ -251,17 +256,6 @@ export type User = BaseEntity & {
   acceptTerms: Scalars['Boolean'];
 };
 
-export type CreateScrapperMutationVariables = Exact<{
-  input?: Maybe<CreateScrapperInput>;
-}>;
-
-export type CreateScrapperMutation = {
-  createScrapper: Pick<
-    Scrapper,
-    'id' | 'name' | 'createdAt' | 'updatedAt' | 'isRunning' | 'state'
-  >;
-};
-
 export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetCurrentUserQuery = {
@@ -301,6 +295,48 @@ export type MyScrappersQuery = {
       Array<Pick<Scrapper, 'id' | 'name' | 'state' | 'isRunning' | 'createdAt'>>
     >;
   };
+};
+
+export type GetScrapperForBuilderQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+export type GetScrapperForBuilderQuery = {
+  getMyScrapper: Pick<
+    Scrapper,
+    'id' | 'createdAt' | 'isRunning' | 'name' | 'state' | 'updatedAt'
+  > & {
+    steps?: Maybe<
+      Array<
+        Pick<
+          ScrapperStep,
+          | 'id'
+          | 'action'
+          | 'createdAt'
+          | 'updatedAt'
+          | 'mouseButton'
+          | 'navigateToUrl'
+          | 'reloadDelay'
+          | 'url'
+          | 'useUrlFromPreviousStep'
+        > & {
+          nextStep?: Maybe<Pick<ScrapperStep, 'id'>>;
+          selectors?: Maybe<Array<Pick<Selector, 'type' | 'value'>>>;
+        }
+      >
+    >;
+  };
+};
+
+export type CreateScrapperMutationVariables = Exact<{
+  input?: Maybe<CreateScrapperInput>;
+}>;
+
+export type CreateScrapperMutation = {
+  createScrapper: Pick<
+    Scrapper,
+    'id' | 'name' | 'createdAt' | 'updatedAt' | 'isRunning' | 'state'
+  >;
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -650,6 +686,12 @@ export type QueryResolvers<
   ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']
 > = ResolversObject<{
   _?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  getMyScrapper?: Resolver<
+    ResolversTypes['Scrapper'],
+    ParentType,
+    ContextType,
+    RequireFields<QueryGetMyScrapperArgs, 'id'>
+  >;
   getMyScrappers?: Resolver<
     ResolversTypes['ScrapperQueryResult'],
     ParentType,

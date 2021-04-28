@@ -2,6 +2,7 @@ import { Resolvers } from '@scrapper-gate/shared/schema';
 import { BaseApolloContext } from '@scrapper-gate/backend/server';
 import {
   CreateScrapperCommand,
+  GetScrapperByUserQuery,
   GetScrappersByUserQuery,
 } from '@scrapper-gate/backend/domain/scrapper';
 import { UserModel } from '@scrapper-gate/backend/domain/user';
@@ -15,6 +16,15 @@ export const scrapperResolver = (): Resolvers<
         queriesBus.query(
           new GetScrappersByUserQuery({
             ...args,
+            userId: ctx.user.id,
+          })
+        )
+      ),
+    getMyScrapper: (_, args, ctx) =>
+      ctx.unitOfWork.run(({ queriesBus }) =>
+        queriesBus.query(
+          new GetScrapperByUserQuery({
+            scrapperId: args.id,
             userId: ctx.user.id,
           })
         )
