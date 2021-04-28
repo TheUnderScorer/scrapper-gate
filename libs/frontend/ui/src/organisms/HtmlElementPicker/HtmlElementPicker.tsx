@@ -8,7 +8,6 @@ import React, {
 import {
   Box,
   Button,
-  FormHelperText,
   Grid,
   IconButton,
   InputLabel,
@@ -31,7 +30,6 @@ import {
 } from '@scrapper-gate/shared/common';
 import { makeUniqueSelector } from '@scrapper-gate/frontend/html-picker';
 import { Selector, SelectorType } from '@scrapper-gate/shared/schema';
-import { useStyles } from './HtmlElementPicker.styles';
 import { addHighlight, removeHighlight } from '@scrapper-gate/frontend/common';
 import { TooltipText } from '../../atoms/TooltipText/TooltipText';
 import { useHtmlPicker } from './useHtmlPicker';
@@ -56,8 +54,6 @@ const HtmlElementPicker = ({
   defaultMode = SelectorType.Selector,
   highlightId,
 }: HtmlElementPickerProps) => {
-  const classes = useStyles();
-
   const [textFieldValue, setTextFieldValue] = useState<string | null>('');
   const handleTextFieldValueChange: ChangeEventHandler<HTMLInputElement> = useCallback(
     (e) => {
@@ -227,12 +223,6 @@ const HtmlElementPicker = ({
       <InputLabel shrink error={Boolean(error)}>
         {label}
       </InputLabel>
-      <SelectorsList
-        ignoredElementsContainer={ignoredElementsContainer}
-        hideHeader
-        onDelete={handleDelete}
-        value={value ?? []}
-      />
       <Stack
         alignItems="center"
         direction="row"
@@ -242,7 +232,7 @@ const HtmlElementPicker = ({
         }}
       >
         <HtmlElementPickerInput
-          error={Boolean(error)}
+          error={error?.message}
           name={name}
           mode={mode}
           helperText={helperText}
@@ -289,12 +279,12 @@ const HtmlElementPicker = ({
           </span>
         </Tooltip>
       </Box>
-      {error && (
-        <FormHelperText className={classes.helperText}>
-          {error.message}
-        </FormHelperText>
-      )}
-
+      <SelectorsList
+        ignoredElementsContainer={ignoredElementsContainer}
+        hideHeader
+        onDelete={handleDelete}
+        value={value ?? []}
+      />
       {container &&
         open &&
         createPortal(

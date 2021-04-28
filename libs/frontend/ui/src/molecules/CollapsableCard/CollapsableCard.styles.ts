@@ -20,7 +20,7 @@ export const useStyles = makeStyles((theme: Theme) => {
       '& svg': {
         transition: theme.transitions.create('all'),
       },
-      '&.expanded svg': {
+      '&:not(.expanded) svg': {
         transform: 'rotate(180deg)',
       },
     },

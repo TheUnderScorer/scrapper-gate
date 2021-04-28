@@ -15,14 +15,12 @@ import { Key } from 'ts-key-enum';
 const selectionModes = Object.entries(selectorModeMap);
 
 export interface HtmlElementPickerInputProps
-  extends Pick<
-    TextFieldProps,
-    'name' | 'variant' | 'onChange' | 'helperText' | 'error'
-  > {
+  extends Pick<TextFieldProps, 'name' | 'variant' | 'onChange' | 'helperText'> {
   mode: SelectorType.Selector | SelectorType.TextContent;
   value: string;
   onSelectChange: SelectProps['onChange'];
   onEnter?: () => unknown;
+  error?: string;
 }
 
 export const HtmlElementPickerInput = ({
@@ -45,8 +43,8 @@ export const HtmlElementPickerInput = ({
           : 'Enter text content'
       }
       fullWidth
-      error={error}
-      helperText={helperText}
+      error={Boolean(error)}
+      helperText={error ?? helperText}
       variant={variant}
       className="html-element-picker-input"
       onChange={onChange}
