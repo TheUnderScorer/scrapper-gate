@@ -4,7 +4,10 @@ import { createMuiTheme, CssBaseline } from '@material-ui/core';
 import React, { PropsWithChildren, useMemo } from 'react';
 import { ThemeProvider as EmotionThemeProvider } from '@emotion/react';
 import { palette } from './palette';
-import { useContainerStore } from '@scrapper-gate/frontend/common';
+import {
+  stopPropagation,
+  useContainerStore,
+} from '@scrapper-gate/frontend/common';
 import { shadeColor } from '@scrapper-gate/shared/common';
 
 export interface ThemeProviderProps {
@@ -97,8 +100,16 @@ export const ThemeProvider = ({
           },
           MuiInput: {
             defaultProps: {
-              onKeyDown: (e) => e.stopPropagation(),
-              onKeyUp: (e) => e.stopPropagation(),
+              onKeyDown: stopPropagation,
+              onKeyUp: stopPropagation,
+              onKeyPress: stopPropagation,
+            },
+          },
+          MuiTextField: {
+            defaultProps: {
+              onKeyDown: stopPropagation,
+              onKeyUp: stopPropagation,
+              onKeyPress: stopPropagation,
             },
           },
         },

@@ -13,3 +13,5 @@ export * from './throwError';
 export * from './prefix';
 export * from './selectors';
 export * from './xpath';
+export * from './text';
+export * from './url';

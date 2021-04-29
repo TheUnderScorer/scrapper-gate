@@ -65,6 +65,11 @@ export class ScrapperStepModel
   action?: ScrapperAction;
 
   @Column({
+    nullable: true,
+  })
+  clickTimes?: number;
+
+  @Column({
     type: 'jsonb',
     nullable: true,
   })

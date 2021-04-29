@@ -238,8 +238,8 @@ describe('<FlowBuilder />', () => {
 
   it('should render node content after clicking it', async () => {
     const ContentComponent: NodeContentComponent<BaseNodeProperties> = ({
-      node,
-    }) => <span>Test content of node {node.id}</span>;
+      nodeIndex,
+    }) => <span>Test content of node {nodeIndex.id}</span>;
 
     const items: FlowBuilderItem<BaseNodeProperties>[] = [
       ...defaultInitialItems,

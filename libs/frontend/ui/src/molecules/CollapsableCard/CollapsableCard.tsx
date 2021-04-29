@@ -98,7 +98,11 @@ export const CollapsableCard = forwardRef<HTMLElement, CollapsableCardProps>(
             <Grid item>
               <Grid container spacing={1} direction="column">
                 <Grid item>
-                  <Typography className="collapsable-card-title" variant="h5">
+                  <Typography
+                    noWrap
+                    className="collapsable-card-title"
+                    variant="h5"
+                  >
                     {title}
                   </Typography>
                 </Grid>

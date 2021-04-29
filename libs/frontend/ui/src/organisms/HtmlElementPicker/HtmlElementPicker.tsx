@@ -8,9 +8,9 @@ import React, {
 import {
   Box,
   Button,
+  Divider,
   Grid,
   IconButton,
-  InputLabel,
   Stack,
   Tooltip,
 } from '@material-ui/core';
@@ -38,7 +38,7 @@ import { HtmlElementPickerInput } from './Input/HtmlElementPickerInput';
 import { InvalidSelectorProvidedError } from '@scrapper-gate/shared/errors';
 import { uniqBy } from 'remeda';
 
-const HtmlElementPicker = ({
+export const HtmlElementPicker = ({
   name,
   variant,
   className,
@@ -220,9 +220,6 @@ const HtmlElementPicker = ({
 
   return (
     <Grid className={className} container direction="column">
-      <InputLabel shrink error={Boolean(error)}>
-        {label}
-      </InputLabel>
       <Stack
         alignItems="center"
         direction="row"
@@ -232,6 +229,7 @@ const HtmlElementPicker = ({
         }}
       >
         <HtmlElementPickerInput
+          label={label}
           error={error?.message}
           name={name}
           mode={mode}
@@ -285,6 +283,7 @@ const HtmlElementPicker = ({
         onDelete={handleDelete}
         value={value ?? []}
       />
+      {Boolean(value?.length) && <Divider />}
       {container &&
         open &&
         createPortal(
@@ -313,5 +312,3 @@ const HtmlElementPicker = ({
     </Grid>
   );
 };
-
-export default HtmlElementPicker;

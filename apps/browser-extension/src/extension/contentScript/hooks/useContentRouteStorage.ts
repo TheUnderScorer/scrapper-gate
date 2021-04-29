@@ -4,6 +4,7 @@ import { useMessageSender } from '../../browser/hooks/useMessageSender/useMessag
 import { MessageTypes } from '../../browser/communication/types';
 import { Target } from '../../browser/hooks/useMessageSender/useMessageSender.types';
 import { useOnMessageListener } from '../../browser/hooks/useOnMessageListener/useOnMessageListener';
+import { useDebounce } from 'react-use';
 
 /**
  * Sends message every time content route changes, in order to keep track of it.
@@ -29,9 +30,13 @@ export const useContentRouteStorage = () => {
     [location.pathname, location.search, location.state]
   );
 
-  useEffect(() => {
-    send(route).catch(console.error);
-  }, [route, send]);
+  useDebounce(
+    () => {
+      send(route).catch(console.error);
+    },
+    1000,
+    [route, send]
+  );
 
   // Send current route if requested
   useOnMessageListener({

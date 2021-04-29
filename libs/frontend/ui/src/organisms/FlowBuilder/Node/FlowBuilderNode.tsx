@@ -80,7 +80,7 @@ const BaseFlowBuilderNode = forwardRef<HTMLDivElement, FlowBuilderNodeProps>(
       >
         <Box position="relative" textAlign="center" width={defaultNodeSize}>
           {error && (
-            <Tooltip title={<TooltipText>{error}</TooltipText>}>
+            <Tooltip title={<TooltipText>{error.message}</TooltipText>}>
               <ErrorSharp color="error" className={classes.errorIcon} />
             </Tooltip>
           )}

@@ -34,6 +34,7 @@ export const scrapperSchema = gql`
     useUrlFromPreviousStep: Boolean
     action: ScrapperAction
     selectors: [Selector!]
+    clickTimes: Int
   }
 
   input ScrapperStepInput {
@@ -48,6 +49,7 @@ export const scrapperSchema = gql`
     useUrlFromPreviousStep: Boolean
     action: ScrapperAction
     selectors: [SelectorInput!]
+    clickTimes: Int
   }
 
   enum ScrapperAction {

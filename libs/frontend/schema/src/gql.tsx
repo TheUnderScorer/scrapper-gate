@@ -4,6 +4,87 @@ import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 const defaultOptions = {};
 
+export const GetScrapperForBuilderDocument = gql`
+  query GetScrapperForBuilder($id: ID!) {
+    getMyScrapper(id: $id) {
+      id
+      createdAt
+      isRunning
+      name
+      state
+      updatedAt
+      steps {
+        id
+        action
+        createdAt
+        updatedAt
+        mouseButton
+        navigateToUrl
+        nextStep {
+          id
+        }
+        reloadDelay
+        selectors {
+          type
+          value
+        }
+        url
+        useUrlFromPreviousStep
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetScrapperForBuilderQuery__
+ *
+ * To run a query within a React component, call `useGetScrapperForBuilderQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetScrapperForBuilderQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetScrapperForBuilderQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetScrapperForBuilderQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    Types.GetScrapperForBuilderQuery,
+    Types.GetScrapperForBuilderQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    Types.GetScrapperForBuilderQuery,
+    Types.GetScrapperForBuilderQueryVariables
+  >(GetScrapperForBuilderDocument, options);
+}
+export function useGetScrapperForBuilderLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    Types.GetScrapperForBuilderQuery,
+    Types.GetScrapperForBuilderQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    Types.GetScrapperForBuilderQuery,
+    Types.GetScrapperForBuilderQueryVariables
+  >(GetScrapperForBuilderDocument, options);
+}
+export type GetScrapperForBuilderQueryHookResult = ReturnType<
+  typeof useGetScrapperForBuilderQuery
+>;
+export type GetScrapperForBuilderLazyQueryHookResult = ReturnType<
+  typeof useGetScrapperForBuilderLazyQuery
+>;
+export type GetScrapperForBuilderQueryResult = Apollo.QueryResult<
+  Types.GetScrapperForBuilderQuery,
+  Types.GetScrapperForBuilderQueryVariables
+>;
 export const GetCurrentUserDocument = gql`
   query GetCurrentUser {
     me {
@@ -240,87 +321,6 @@ export type MyScrappersLazyQueryHookResult = ReturnType<
 export type MyScrappersQueryResult = Apollo.QueryResult<
   Types.MyScrappersQuery,
   Types.MyScrappersQueryVariables
->;
-export const GetScrapperForBuilderDocument = gql`
-  query GetScrapperForBuilder($id: ID!) {
-    getMyScrapper(id: $id) {
-      id
-      createdAt
-      isRunning
-      name
-      state
-      updatedAt
-      steps {
-        id
-        action
-        createdAt
-        updatedAt
-        mouseButton
-        navigateToUrl
-        nextStep {
-          id
-        }
-        reloadDelay
-        selectors {
-          type
-          value
-        }
-        url
-        useUrlFromPreviousStep
-      }
-    }
-  }
-`;
-
-/**
- * __useGetScrapperForBuilderQuery__
- *
- * To run a query within a React component, call `useGetScrapperForBuilderQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetScrapperForBuilderQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetScrapperForBuilderQuery({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useGetScrapperForBuilderQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    Types.GetScrapperForBuilderQuery,
-    Types.GetScrapperForBuilderQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    Types.GetScrapperForBuilderQuery,
-    Types.GetScrapperForBuilderQueryVariables
-  >(GetScrapperForBuilderDocument, options);
-}
-export function useGetScrapperForBuilderLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    Types.GetScrapperForBuilderQuery,
-    Types.GetScrapperForBuilderQueryVariables
-  >
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    Types.GetScrapperForBuilderQuery,
-    Types.GetScrapperForBuilderQueryVariables
-  >(GetScrapperForBuilderDocument, options);
-}
-export type GetScrapperForBuilderQueryHookResult = ReturnType<
-  typeof useGetScrapperForBuilderQuery
->;
-export type GetScrapperForBuilderLazyQueryHookResult = ReturnType<
-  typeof useGetScrapperForBuilderLazyQuery
->;
-export type GetScrapperForBuilderQueryResult = Apollo.QueryResult<
-  Types.GetScrapperForBuilderQuery,
-  Types.GetScrapperForBuilderQueryVariables
 >;
 export const CreateScrapperDocument = gql`
   mutation CreateScrapper($input: CreateScrapperInput) {

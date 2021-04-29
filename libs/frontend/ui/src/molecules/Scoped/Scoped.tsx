@@ -21,6 +21,7 @@ const RootDiv = root.div as ComponentType<any>;
 
 export const Scoped = ({ children }: ScopedProps) => {
   const setContainer = useContainerStore((store) => store.setContainer);
+  const setShadowRoot = useContainerStore((store) => store.setShadowRoot);
   const topDivRef = useRef<HTMLDivElement>();
   const containerRef = useRef<HTMLDivElement>();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -58,6 +59,7 @@ export const Scoped = ({ children }: ScopedProps) => {
                 className="scoped-root"
                 ref={(element) => {
                   setContainer(element ?? undefined);
+                  setShadowRoot(element.getRootNode() as ShadowRoot);
 
                   topDivRef.current = element;
                 }}

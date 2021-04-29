@@ -7,5 +7,5 @@ export const useNodeError = (nodeId: string) => {
     },
   });
 
-  return formState.errors?.invalidNodes?.[nodeId] as string | undefined;
+  return formState.errors?.invalidNodes?.[nodeId] as Error | undefined;
 };

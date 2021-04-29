@@ -35,6 +35,7 @@ import { DropTargetMonitor, useDrop } from 'react-dnd';
 import { Selection } from '@scrapper-gate/frontend/common';
 import { Centered, ContextMenu } from '@scrapper-gate/frontend/ui';
 import { useCanvasContextMenu } from '../hooks/useCanvasContextMenu';
+import { Key } from 'ts-key-enum';
 
 const useStyles = makeStyles((theme: AppTheme) => ({
   paper: {
@@ -171,7 +172,8 @@ export const FlowBuilderCanvas = () => {
 
   useEffect(() => {
     drop(containerRef.current);
-  }, [drop]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [drop, containerRef.current]);
 
   if (loading) {
     return (
@@ -223,6 +225,8 @@ export const FlowBuilderCanvas = () => {
             }}
             onConnectEnd={handleConnectionEnd}
             connectionLineComponent={FlowBuilderConnectionLine}
+            /*TODO Find a way to disable this at all*/
+            deleteKeyCode={Key.Delete}
           />
         </div>
       )}

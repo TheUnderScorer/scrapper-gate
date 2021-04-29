@@ -13,6 +13,7 @@ export interface FormTextFieldProps<T>
       | 'id'
       | 'size'
       | 'disabled'
+      | 'InputProps'
     >,
     FieldProps<T> {
   name: string;

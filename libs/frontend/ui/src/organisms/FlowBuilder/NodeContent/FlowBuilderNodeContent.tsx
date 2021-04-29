@@ -59,6 +59,8 @@ export const FlowBuilderNodeContent = () => {
     setActiveNodeId,
   } = useFlowBuilderActiveNode();
 
+  const getItems = useFlowBuilderItemsSelector((ctx) => ctx.getItems);
+
   const activeNodeSelector = useCallback(
     (ctx: FlowBuilderItemsContext<BaseNodeProperties>) =>
       activeNodeId
@@ -68,17 +70,20 @@ export const FlowBuilderNodeContent = () => {
   );
 
   const activeNode = useFlowBuilderItemsSelector(activeNodeSelector);
+  const activeNodeIndex = useMemo(() => {
+    return (
+      activeNode && getItems().findIndex((item) => item?.id === activeNode.id)
+    );
+  }, [activeNode, getItems]);
+
   const nodeContents = useFlowBuilderContextSelector((ctx) => ctx.nodeContents);
   const defaultNodeContent = useFlowBuilderContextSelector(
     (ctx) => ctx.defaultNodeContent
   );
-  const getItems = useFlowBuilderItemsSelector((ctx) => ctx.getItems);
 
   const getFieldName = useMemo(() => {
-    const index = getItems().findIndex((node) => node?.id === activeNode?.id);
-
-    return (name: string) => `items.${index}.data.${name}`;
-  }, [activeNode, getItems]);
+    return (name: string) => `items[${activeNodeIndex}].data.${name}`;
+  }, [activeNodeIndex]);
 
   const ContentComponent = useMemo(() => {
     if (activeNode?.data?.noContent) {
@@ -121,10 +126,16 @@ export const FlowBuilderNodeContent = () => {
       <DialogTitle>Edit step</DialogTitle>
       <DialogContent className={classNames(classes.content, 'node-content')}>
         {ContentComponent && (
-          <ContentComponent node={activeNode} getFieldName={getFieldName} />
+          <ContentComponent
+            nodeIndex={activeNodeIndex}
+            getFieldName={getFieldName}
+          />
         )}
         {PrevContentComponent && !ContentComponent && (
-          <PrevContentComponent node={activeNode} getFieldName={getFieldName} />
+          <PrevContentComponent
+            nodeIndex={activeNodeIndex}
+            getFieldName={getFieldName}
+          />
         )}
       </DialogContent>
       <DialogActions>

@@ -9,12 +9,10 @@ import {
   StopSharp,
   Visibility,
 } from '@material-ui/icons';
-
 import { Form } from 'react-final-form';
 import { FORM_ERROR } from 'final-form';
 import { Box, Typography } from '@material-ui/core';
 import {
-  BaseNodeProperties,
   FlowBuilder,
   FlowBuilderNodeTypes,
   FlowBuilderPlaceholderProperties,
@@ -55,9 +53,7 @@ const initialState = [
 const handleBasicRemoveNode = basicHandleRemoveNode();
 const basicConnect = basicHandleConnect();
 
-const NodeContent: NodeContentComponent<BaseNodeProperties> = ({
-  getFieldName,
-}) => {
+const NodeContent: NodeContentComponent = ({ getFieldName }) => {
   return (
     <Box width="100%">
       <FormTextField fullWidth name={getFieldName('title')} label="Title" />

@@ -61,8 +61,8 @@ export interface FlowBuilderProps<
   onConnect?: (connection: Connection, edge?: Partial<Edge<T>>) => Edge<T>;
   useFallbackConnectionHandler?: boolean;
   isValidConnection?: (params: IsValidConnectionParams<T>) => boolean;
-  nodeContents?: Record<string, NodeContentComponent<T>>;
-  defaultNodeContent?: NodeContentComponent<T>;
+  nodeContents?: Record<string, NodeContentComponent>;
+  defaultNodeContent?: NodeContentComponent;
   isUsingElementPicker?: boolean;
   nodesLabel?: string;
   loading?: boolean;
@@ -117,7 +117,7 @@ export const FlowBuilder = <
                 <FlowBuilderActiveNodeProvider>
                   <FlowBuilderDragStateProvider>
                     <Paper
-                      elevation={1}
+                      elevation={0}
                       variant="outlined"
                       className={classes.paper}
                     >

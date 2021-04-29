@@ -3,9 +3,12 @@ import {
   FlowBuilderFormState,
   FlowBuilderNodeTypes,
 } from '../FlowBuilder.types';
-import { getNodeEdges, GetNodeEdgesBehaviour } from '../utils/getNodeEdges';
+import {
+  getNodeEdges,
+  GetNodeEdgesBehaviour,
+  splitNodesAndEdges,
+} from '../utils';
 import { mapToArray } from '@scrapper-gate/shared/common';
-import { splitNodesAndEdges } from '../utils/splitNodesAndEdges';
 
 export const ensureAllNodesAreConnected = ({ items }: FlowBuilderFormState) => {
   if (items.length <= 1) {

@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import {
+  Divider,
   FormControlLabel,
   Grid,
   Stack,
@@ -130,6 +131,7 @@ export const HtmlElementPickerSnackbar = ({
               onDelete={onDelete}
               value={value}
             />
+            <Divider />
           </Grid>
         )}
         <Grid item>

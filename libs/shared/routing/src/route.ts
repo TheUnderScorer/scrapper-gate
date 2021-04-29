@@ -12,5 +12,5 @@ export const paramRoute = <
     return route.split('?')[0];
   }
 
-  return applyVariablesToText(route, params, TemplateType.Dot);
+  return applyVariablesToText(route, params, TemplateType.Colon);
 };

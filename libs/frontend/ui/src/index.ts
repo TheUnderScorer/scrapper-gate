@@ -26,3 +26,6 @@ export * from './molecules/ContextMenu/ContextMenu';
 export * from './molecules/ContextMenu/ContextMenu.types';
 export * from './organisms/HtmlElementPicker/HtmlElementPicker';
 export * from './organisms/HtmlElementPicker/HtmlElementPicker.types';
+export * from './molecules/Incrementator/Incrementator';
+export * from './styles/reactFlowBuilder';
+export * from './styles/hiddenNumericArrows';

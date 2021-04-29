@@ -210,6 +210,7 @@ export type ScrapperStep = BaseEntity &
     useUrlFromPreviousStep?: Maybe<Scalars['Boolean']>;
     action?: Maybe<ScrapperAction>;
     selectors?: Maybe<Array<Selector>>;
+    clickTimes?: Maybe<Scalars['Int']>;
   };
 
 export type ScrapperStepInput = {
@@ -224,6 +225,7 @@ export type ScrapperStepInput = {
   useUrlFromPreviousStep?: Maybe<Scalars['Boolean']>;
   action?: Maybe<ScrapperAction>;
   selectors?: Maybe<Array<SelectorInput>>;
+  clickTimes?: Maybe<Scalars['Int']>;
 };
 
 export type Selector = {
@@ -254,6 +256,37 @@ export type User = BaseEntity & {
   email: Scalars['String'];
   deletedAt?: Maybe<Scalars['Date']>;
   acceptTerms: Scalars['Boolean'];
+};
+
+export type GetScrapperForBuilderQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+export type GetScrapperForBuilderQuery = {
+  getMyScrapper: Pick<
+    Scrapper,
+    'id' | 'createdAt' | 'isRunning' | 'name' | 'state' | 'updatedAt'
+  > & {
+    steps?: Maybe<
+      Array<
+        Pick<
+          ScrapperStep,
+          | 'id'
+          | 'action'
+          | 'createdAt'
+          | 'updatedAt'
+          | 'mouseButton'
+          | 'navigateToUrl'
+          | 'reloadDelay'
+          | 'url'
+          | 'useUrlFromPreviousStep'
+        > & {
+          nextStep?: Maybe<Pick<ScrapperStep, 'id'>>;
+          selectors?: Maybe<Array<Pick<Selector, 'type' | 'value'>>>;
+        }
+      >
+    >;
+  };
 };
 
 export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never }>;
@@ -293,37 +326,6 @@ export type MyScrappersQuery = {
   getMyScrappers: Pick<ScrapperQueryResult, 'total'> & {
     items?: Maybe<
       Array<Pick<Scrapper, 'id' | 'name' | 'state' | 'isRunning' | 'createdAt'>>
-    >;
-  };
-};
-
-export type GetScrapperForBuilderQueryVariables = Exact<{
-  id: Scalars['ID'];
-}>;
-
-export type GetScrapperForBuilderQuery = {
-  getMyScrapper: Pick<
-    Scrapper,
-    'id' | 'createdAt' | 'isRunning' | 'name' | 'state' | 'updatedAt'
-  > & {
-    steps?: Maybe<
-      Array<
-        Pick<
-          ScrapperStep,
-          | 'id'
-          | 'action'
-          | 'createdAt'
-          | 'updatedAt'
-          | 'mouseButton'
-          | 'navigateToUrl'
-          | 'reloadDelay'
-          | 'url'
-          | 'useUrlFromPreviousStep'
-        > & {
-          nextStep?: Maybe<Pick<ScrapperStep, 'id'>>;
-          selectors?: Maybe<Array<Pick<Selector, 'type' | 'value'>>>;
-        }
-      >
     >;
   };
 };
@@ -799,6 +801,7 @@ export type ScrapperStepResolvers<
     ParentType,
     ContextType
   >;
+  clickTimes?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 

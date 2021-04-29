@@ -11,3 +11,5 @@ export * from './stopPropagation';
 export * from './preventDefault';
 export * from './isElementEditable';
 export * from './highlight';
+export * from './hooks/useLongPressValue';
+export * from './hooks/useIsUsingElementPicker';

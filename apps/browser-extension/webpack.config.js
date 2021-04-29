@@ -37,7 +37,7 @@ module.exports = (config) => {
   );
 
   if (preppedConfig.devServer) {
-    preppedConfig.devServer.hot = true;
+    // preppedConfig.devServer.hot = true;
     preppedConfig.devServer.writeToDisk = true;
     preppedConfig.devServer.disableHostCheck = true;
     preppedConfig.devServer.injectClient = false;
@@ -51,9 +51,6 @@ module.exports = (config) => {
 
     preppedConfig.resolve.symlinks = false;
     preppedConfig.output.pathinfo = false;
-    preppedConfig.cache = {
-      type: 'memory',
-    };
   }
 
   return preppedConfig;

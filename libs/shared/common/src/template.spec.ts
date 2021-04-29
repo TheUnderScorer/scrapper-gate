@@ -20,7 +20,7 @@ describe('Apply variables to text', () => {
         param1: 'testParam',
         param2: 'anotherTestParam',
       },
-      TemplateType.Dot
+      TemplateType.Colon
     );
 
     expect(result).toEqual('/test-route/testParam/anotherTestParam');

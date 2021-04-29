@@ -11,7 +11,7 @@ import { useContentRouteStorage } from '../../extension/contentScript/hooks/useC
 import { Route, Switch, useHistory } from 'react-router-dom';
 import Root from '../../extension/contentScript/components/Root';
 import { browserExtensionRoutes } from '@scrapper-gate/shared/routing';
-import { SimpleDialog } from '@scrapper-gate/frontend/ui';
+import { ScrapperBuilderView } from './views/ScrapperBuilderView/ScrapperBuilderView';
 
 const initialState = {
   visible: false,
@@ -68,9 +68,7 @@ export const Content = () => {
         <Root />
       </Route>
       <Route path={browserExtensionRoutes.content.scrapper()}>
-        <SimpleDialog open title="Scrapper">
-          Test, lol
-        </SimpleDialog>
+        <ScrapperBuilderView />
       </Route>
     </Switch>
   );

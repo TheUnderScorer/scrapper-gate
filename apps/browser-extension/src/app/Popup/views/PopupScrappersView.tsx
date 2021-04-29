@@ -63,7 +63,7 @@ export const PopupScrappersView = ({ fetchPolicy }: FetchPolicyProps) => {
         <Centered direction="column" className={classes.empty}>
           <Image alt={alt} src={asset} />
           <Typography className={classes.text} variant="subtitle1">
-            No scrappers found.
+            No scrappers found
           </Typography>
           <Fab
             onClick={() => createScrapper()}

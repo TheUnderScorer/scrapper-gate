@@ -2,7 +2,7 @@ import { Form } from 'react-final-form';
 import React from 'react';
 import { act, render, RenderResult, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import HtmlElementPicker from './HtmlElementPicker';
+import { HtmlElementPicker } from './HtmlElementPicker';
 import {
   HtmlElementPickerProps,
   HtmlElementPickerValidationRules,

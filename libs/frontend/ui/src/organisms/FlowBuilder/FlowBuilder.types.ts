@@ -138,11 +138,8 @@ export interface IsValidConnectionParams<T extends BaseNodeProperties> {
   items: FlowBuilderItem<T>[];
 }
 
-export interface NodeContentProps<T extends BaseNodeProperties>
-  extends NodeContentHelpers {
-  node: Node<T>;
+export interface NodeContentProps extends NodeContentHelpers {
+  nodeIndex: number;
 }
 
-export type NodeContentComponent<T extends BaseNodeProperties> = ComponentType<
-  NodeContentProps<T>
->;
+export type NodeContentComponent = ComponentType<NodeContentProps>;
