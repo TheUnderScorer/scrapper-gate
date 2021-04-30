@@ -215,7 +215,7 @@ export const HtmlElementPicker = ({
 
   useUnmount(() => {
     removeHighlight(id);
-    pickerRef.current?.close();
+    pickerRef.current?.dispose();
   });
 
   return (

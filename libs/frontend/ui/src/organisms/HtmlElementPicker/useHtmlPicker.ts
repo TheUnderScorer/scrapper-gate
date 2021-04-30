@@ -75,7 +75,7 @@ export const useHtmlPicker = ({
 
   useEffect(() => {
     if (pickerRef.current) {
-      pickerRef.current.close();
+      pickerRef.current.dispose();
     }
 
     if (open) {

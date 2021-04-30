@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/adjacent-overload-signatures,@typescript-eslint/explicit-module-boundary-types */
-import { prefix } from '@scrapper-gate/shared/common';
+import { Disposable, prefix } from '@scrapper-gate/shared/common';
 
 interface ElementPickerProps {
   container?: HTMLElement;
@@ -10,8 +9,10 @@ interface ElementPickerProps {
   ignoreElements?: Element[];
   action?: Action;
   onElementHover?: (element: HTMLElement) => unknown;
+  onElementSelect?: (element: HTMLElement) => unknown;
   ignoreElementsContainer?: HTMLElement;
   preventClick?: boolean;
+  shouldHandleOutsideClick?: (element: HTMLElement) => boolean;
 }
 
 type Action = {
@@ -20,10 +21,12 @@ type Action = {
 };
 
 // TODO Refactor
-export class HtmlPicker implements ElementPickerProps {
+export class HtmlPicker implements ElementPickerProps, Disposable {
   readonly hoverBox: HTMLElement;
 
-  private readonly detectMouseMove: (e: MouseEvent) => unknown;
+  private detectMouseMove: (e: MouseEvent) => unknown;
+
+  private handleOutsideClick: (e: MouseEvent) => unknown;
 
   private previousEvent?: MouseEvent;
 
@@ -35,49 +38,40 @@ export class HtmlPicker implements ElementPickerProps {
 
   private triggerListener?: () => unknown;
 
-  private clickTimes = 0;
+  selectedElement?: HTMLElement;
 
-  private handleClick = (e: Event) => {
+  private handleClick = (event: Event) => {
     if (this.preventClick) {
-      if (e.stopImmediatePropagation) {
-        e.stopImmediatePropagation();
+      if (event.stopImmediatePropagation) {
+        event.stopImmediatePropagation();
       }
 
-      e.preventDefault();
-      e.stopPropagation();
+      event.preventDefault();
+      event.stopPropagation();
     }
 
-    this.clickTimes += 1;
+    if (!this.selectedElement) {
+      this.selectedElement = this.currentTarget;
 
-    if (this.action?.trigger === 'click') {
-      this.action.callback(this.currentTarget, e);
-
-      this.clickTimes = 0;
+      this.props.onElementSelect?.(this.selectedElement);
 
       return;
     }
 
-    setTimeout(() => {
-      if (this.clickTimes > 1 && this.action?.trigger === 'dblclick') {
-        this.action.callback(this.currentTarget, e);
-      }
+    if (this.action?.trigger === 'click') {
+      this.action.callback(this.currentTarget, event);
 
-      this.clickTimes = 0;
-    }, 500);
+      this.selectedElement = undefined;
+    }
   };
 
   constructor(options: ElementPickerProps) {
-    this.hoverBox = document.createElement('div');
-    this.hoverBox.style.position = 'absolute';
-    this.hoverBox.style.pointerEvents = 'none';
-    this.hoverBox.style.zIndex = '9999';
-    this.hoverBox.style.maxWidth = '100%';
-    this.hoverBox.classList.add(prefix('hover-box'));
+    this.hoverBox = HtmlPicker.createHoverBox();
 
     const defaultOptions: ElementPickerProps = {
       container: document.body,
       selectors: '*', // default to pick all elements
-      background: 'rgba(153, 235, 255, 0.5)', // transparent light blue
+      background: 'rgba(153, 235, 255, 0.5)',
       borderWidth: 5,
       transition: 'all 150ms ease', // set to "" (empty string) to disable
       ignoreElements: [document.body],
@@ -91,28 +85,59 @@ export class HtmlPicker implements ElementPickerProps {
 
     Object.assign(this, mergedOptions);
 
-    /* Object.keys(mergedOptions).forEach((key) => {
-      this[key as keyof ElementPickerProps] = mergedOptions[
-        key as keyof ElementPickerProps
-      ]!;
-    }); */
+    this.createAndRegisterMouseMoveListener();
+    this.createHandleOutsideClick();
+  }
 
-    this.detectMouseMove = async (e) => {
-      this.previousEvent = e;
-      let target = e.target as HTMLElement;
+  private static createHoverBox() {
+    const hoverBox = document.createElement('div');
+    hoverBox.style.position = 'absolute';
+    hoverBox.style.pointerEvents = 'none';
+    hoverBox.style.zIndex = '9999';
+    hoverBox.style.maxWidth = '100%';
+    hoverBox.classList.add(prefix('hover-box'));
+
+    return hoverBox;
+  }
+
+  private createHandleOutsideClick() {
+    this.handleOutsideClick = (event) => {
+      const target = event.target as HTMLElement;
 
       if (
-        !this.ignoreElements?.includes(target) &&
-        target.matches(this.selectors) &&
-        this.container?.contains(target) &&
-        !this.ignoreElementsContainer?.contains(target)
+        !this.selectedElement ||
+        this.selectedElement === target ||
+        this.selectedElement.contains(target) ||
+        (this.props.shouldHandleOutsideClick &&
+          !this.props.shouldHandleOutsideClick(target))
       ) {
-        // is NOT ignored elements
+        return;
+      }
+
+      this.selectedElement = null;
+      this.hoverBox.style.width = '0';
+
+      this.detectMouseMove(event);
+    };
+
+    document.addEventListener('click', this.handleOutsideClick);
+  }
+
+  private createAndRegisterMouseMoveListener() {
+    this.detectMouseMove = async (event) => {
+      if (this.selectedElement) {
+        return;
+      }
+
+      this.previousEvent = event;
+      let target = event.target as HTMLElement;
+
+      if (this.isElementValid(target)) {
         if (target === this.hoverBox) {
           // the true hovered element behind the added hover box
           const hoveredElement = document.elementsFromPoint(
-            e.clientX,
-            e.clientY
+            event.clientX,
+            event.clientY
           )[1] as HTMLElement;
 
           if (
@@ -122,6 +147,7 @@ export class HtmlPicker implements ElementPickerProps {
             // avoid repeated calculation and rendering
             return;
           }
+
           target = hoveredElement;
         }
 
@@ -156,15 +182,24 @@ export class HtmlPicker implements ElementPickerProps {
           this.triggered &&
           !['click', 'dbclick'].includes(this.action?.trigger ?? '')
         ) {
-          this.action?.callback(target, e);
+          this.action?.callback(target, event);
           this.triggered = false;
         }
       } else {
-        // console.log("hiding hover box...");
         this.hoverBox.style.width = '0';
       }
     };
+
     document.addEventListener('mousemove', this.detectMouseMove);
+  }
+
+  private isElementValid(target: HTMLElement) {
+    return (
+      !this.ignoreElements?.includes(target) &&
+      target.matches(this.selectors) &&
+      this.container?.contains(target) &&
+      !this.ignoreElementsContainer?.contains(target)
+    );
   }
 
   get container() {
@@ -175,9 +210,11 @@ export class HtmlPicker implements ElementPickerProps {
     if (value instanceof HTMLElement) {
       this.props.container = value;
       this.container?.appendChild(this.hoverBox);
-    } else {
-      throw new Error('Please specify an HTMLElement as container!');
+
+      return;
     }
+
+    throw new TypeError('Please specify an HTMLElement as container!');
   }
 
   get background() {
@@ -230,10 +267,6 @@ export class HtmlPicker implements ElementPickerProps {
     this.redetectMouseMove();
   }
 
-  get action() {
-    return this.props.action;
-  }
-
   get preventClick() {
     return this.props.preventClick;
   }
@@ -260,6 +293,10 @@ export class HtmlPicker implements ElementPickerProps {
     }
   }
 
+  get action() {
+    return this.props.action;
+  }
+
   get ignoreElementsContainer() {
     return this.props.ignoreElementsContainer;
   }
@@ -268,7 +305,9 @@ export class HtmlPicker implements ElementPickerProps {
     this.props.ignoreElementsContainer = el;
   }
 
-  close() {
+  dispose() {
+    this.selectedElement = undefined;
+
     this.hoverBox.remove();
 
     if (this.action?.trigger) {
@@ -281,6 +320,7 @@ export class HtmlPicker implements ElementPickerProps {
     }
 
     document.removeEventListener('mousemove', this.detectMouseMove);
+    document.removeEventListener('click', this.handleOutsideClick);
   }
 
   get onElementHover() {
@@ -289,6 +329,20 @@ export class HtmlPicker implements ElementPickerProps {
 
   set onElementHover(callback) {
     this.props.onElementHover = callback;
+  }
+
+  set onElementSelect(handler: ElementPickerProps['onElementSelect']) {
+    this.props.onElementSelect = handler;
+  }
+
+  set shouldHandleOutsideClick(
+    handler: ElementPickerProps['shouldHandleOutsideClick']
+  ) {
+    this.props.shouldHandleOutsideClick = handler;
+  }
+
+  getCurrentTarget() {
+    return this.currentTarget;
   }
 
   private redetectMouseMove() {
