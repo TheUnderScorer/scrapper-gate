@@ -40,7 +40,6 @@ jobs:
           git config --global user.name 'TheUnderScorer'
           git config --global user.email 'przemyslawzydek@gmail.com'
           git remote set-url origin https://TheUnderScorer:$GITHUB_TOKEN@github.com/TheUnderScorer/scrapper-gate
-          git fetch
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -48,7 +47,7 @@ jobs:
         run: npm ci --legacy-peer-deps
 
       - name: Lint
-        run: npm run format:check && npm run lint
+        run: npm run format:check -- --base=origin/master && npm run lint
 
   test:
     name: Run tests
