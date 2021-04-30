@@ -13,6 +13,6 @@ describe('Param route', () => {
         test: 'testParam',
         query: true,
       })
-    ).toEqual('/test-route/testParam?query=true');
+    ).toEqual('/test-route/testParam?query=1');
   });
 });

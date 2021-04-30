@@ -65,7 +65,7 @@ describe('<HtmlElementPicker />', () => {
     expect(hoverBox).not.toBeNull();
 
     act(() => {
-      userEvent.click(targetElement);
+      userEvent.dblClick(targetElement);
     });
 
     const listItem = await component.findByText('.test-element (1)');
@@ -213,7 +213,7 @@ describe('<HtmlElementPicker />', () => {
     });
 
     act(() => {
-      userEvent.click(targetElement1);
+      userEvent.dblClick(targetElement1);
     });
 
     act(() => {
@@ -221,7 +221,7 @@ describe('<HtmlElementPicker />', () => {
     });
 
     act(() => {
-      userEvent.click(targetElement2);
+      userEvent.dblClick(targetElement2);
     });
 
     const list = component.container.querySelector('.selectors-list');
