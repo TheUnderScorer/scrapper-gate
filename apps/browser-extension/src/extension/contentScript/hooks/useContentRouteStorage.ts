@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useMessageSender } from '../../browser/hooks/useMessageSender/useMessageSender';
 import { MessageTypes } from '../../browser/communication/types';
 import { Target } from '../../browser/hooks/useMessageSender/useMessageSender.types';
