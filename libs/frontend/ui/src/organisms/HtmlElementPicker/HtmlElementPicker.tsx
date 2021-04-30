@@ -3,6 +3,7 @@ import React, {
   useCallback,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from 'react';
 import {
@@ -37,6 +38,8 @@ import { useHtmlPickerValidator } from './useHtmlPickerValidator';
 import { HtmlElementPickerInput } from './Input/HtmlElementPickerInput';
 import { InvalidSelectorProvidedError } from '@scrapper-gate/shared/errors';
 import { uniqBy } from 'remeda';
+import { HtmlElementPickerElementDropdown } from './ElementDropdown/HtmlElementPickerElementDropdown';
+import { Key } from 'ts-key-enum';
 
 export const HtmlElementPicker = ({
   name,
@@ -54,6 +57,10 @@ export const HtmlElementPicker = ({
   defaultMode = SelectorType.Selector,
   highlightId,
 }: HtmlElementPickerProps) => {
+  const [open, toggleOpen] = useToggle(false);
+  const [clickEnabled, toggleClickEnabled] = useToggle(false);
+  const [multiSelect, toggleMultiSelect] = useToggle(true);
+
   const [textFieldValue, setTextFieldValue] = useState<string | null>('');
   const handleTextFieldValueChange: ChangeEventHandler<HTMLInputElement> = useCallback(
     (e) => {
@@ -156,23 +163,59 @@ export const HtmlElementPicker = ({
     [value, onChange]
   );
 
-  const [open, toggleOpen] = useToggle(false);
-  const [clickEnabled, toggleClickEnabled] = useToggle(false);
-  const [multiSelect, toggleMultiSelect] = useToggle(false);
+  const appendElement = useCallback(
+    (target: HTMLElement, event?: Event) => {
+      if (
+        ignoredElementsContainer?.contains(target) ||
+        event?.type === 'mousemove'
+      ) {
+        return;
+      }
+
+      const newValue = getValueByMode(target);
+
+      if (!newValue.value) {
+        return;
+      }
+
+      if (!multiSelect) {
+        onChange([newValue]);
+
+        toggleOpen(false);
+      } else {
+        onChange([...(value ?? []), newValue]);
+      }
+    },
+    [
+      getValueByMode,
+      ignoredElementsContainer,
+      multiSelect,
+      onChange,
+      toggleOpen,
+      value,
+    ]
+  );
 
   const error = fieldError ?? addError;
 
-  const { hoveredElement, pickerRef } = useHtmlPicker({
-    value,
-    onChange,
-    toggleOpen,
+  const elementDropdownRef = useRef<HTMLDivElement>();
+
+  const {
+    hoveredElement,
+    pickerRef,
+    selectedElement,
+    selectedElementSelector,
+    setTarget,
+  } = useHtmlPicker({
+    appendElement,
     open,
     getValueByMode,
-    multiSelect,
     mode,
     container,
     ignoredElementsContainer,
     clickEnabled,
+    elementDropdownRef,
+    uniqueSelector,
   });
 
   useEffect(() => {
@@ -181,7 +224,7 @@ export const HtmlElementPicker = ({
     }
   }, [open, onPickerToggle]);
 
-  useKey('Escape', () => {
+  useKey(Key.Escape, () => {
     toggleOpen(false);
   });
 
@@ -309,6 +352,13 @@ export const HtmlElementPicker = ({
           </div>,
           container
         )}
+      <HtmlElementPickerElementDropdown
+        onSelectedElementChange={setTarget}
+        onSelect={() => appendElement(selectedElement)}
+        selector={selectedElementSelector}
+        ref={elementDropdownRef}
+        selectedElement={selectedElement}
+      />
     </Grid>
   );
 };

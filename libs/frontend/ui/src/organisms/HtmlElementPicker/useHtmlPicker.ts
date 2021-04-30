@@ -1,9 +1,19 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { HtmlPicker } from '@scrapper-gate/frontend/html-picker';
+import {
+  MutableRefObject,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
+import {
+  HtmlPicker,
+  UniqueSelector,
+} from '@scrapper-gate/frontend/html-picker';
 import tinycolor from 'tinycolor2';
 import { HtmlElementPickerProps } from './HtmlElementPicker.types';
 import { Selector, SelectorType } from '@scrapper-gate/shared/schema';
 import { useTheme } from '@material-ui/core';
+import { prefix } from '@scrapper-gate/shared/common';
 
 export interface UseHtmlPickerProps
   extends Pick<
@@ -11,26 +21,24 @@ export interface UseHtmlPickerProps
     'ignoredElementsContainer' | 'container'
   > {
   open: boolean;
-  toggleOpen: (open: boolean) => void;
   getValueByMode: (element: Element) => Selector;
-  multiSelect: boolean;
-  value: Selector[];
-  onChange: (value: Selector[]) => void;
+  appendElement: (target: HTMLElement, event: Event) => void;
   mode: SelectorType;
   clickEnabled: boolean;
+  elementDropdownRef: MutableRefObject<HTMLDivElement>;
+  uniqueSelector: UniqueSelector;
 }
 
 export const useHtmlPicker = ({
   open,
   getValueByMode,
   ignoredElementsContainer,
-  multiSelect,
-  toggleOpen,
-  value,
-  onChange,
+  appendElement,
   container,
   mode,
   clickEnabled,
+  elementDropdownRef,
+  uniqueSelector,
 }: UseHtmlPickerProps) => {
   const theme = useTheme();
 
@@ -38,40 +46,27 @@ export const useHtmlPicker = ({
     null
   );
 
-  const callback = useCallback(
-    (target: Element, event: Event) => {
-      if (
-        ignoredElementsContainer?.contains(target) ||
-        event.type === 'mousemove'
-      ) {
-        return;
-      }
+  const [selectedElementSelector, setSelectedElementSelector] = useState<
+    string | null
+  >(null);
 
-      const newValue = getValueByMode(target);
-
-      if (!newValue.value) {
-        return;
-      }
-
-      if (!multiSelect) {
-        onChange([newValue]);
-
-        toggleOpen(false);
-      } else {
-        onChange([...(value ?? []), newValue]);
-      }
-    },
-    [
-      ignoredElementsContainer,
-      getValueByMode,
-      multiSelect,
-      onChange,
-      toggleOpen,
-      value,
-    ]
+  const [selectedElement, setSelectedElement] = useState<HTMLElement | null>(
+    null
   );
 
   const pickerRef = useRef<HtmlPicker | null>(null);
+
+  const setTarget = useCallback(
+    (element: HTMLElement, event?: MouseEvent) => {
+      if (!pickerRef.current) {
+        return;
+      }
+
+      pickerRef.current.setTarget(element, event);
+      pickerRef.current.selectedElement = element;
+    },
+    [pickerRef]
+  );
 
   useEffect(() => {
     if (pickerRef.current) {
@@ -83,21 +78,41 @@ export const useHtmlPicker = ({
         background: tinycolor(theme.palette.primary.light)
           .setAlpha(0.5)
           .toRgbString(),
+        zIndex: theme.zIndex.modal + 10,
         borderWidth: 2,
         ignoreElementsContainer: ignoredElementsContainer,
         onElementHover: async (element) => {
           if (
             ignoredElementsContainer?.contains(element) ||
-            !getValueByMode(element).value
+            !getValueByMode(element).value ||
+            element.classList.contains(prefix('highlight'))
           ) {
             return;
           }
 
           setHoveredElement(element);
         },
+        shouldHandleOutsideClick: (element) =>
+          !elementDropdownRef.current?.contains(element) &&
+          !ignoredElementsContainer?.contains(element),
+        onElementSelect: (element) => {
+          const isHighLight = element?.classList?.contains(prefix('highlight'));
+
+          if (!element || isHighLight) {
+            setSelectedElement(null);
+
+            if (isHighLight) {
+              pickerRef.current.selectedElement = undefined;
+            }
+
+            return;
+          }
+
+          setSelectedElement(element);
+        },
         action: {
           trigger: 'click',
-          callback,
+          callback: appendElement,
         },
       });
     } else {
@@ -107,12 +122,12 @@ export const useHtmlPicker = ({
     open,
     theme,
     pickerRef,
-    onChange,
     container,
     ignoredElementsContainer,
-    callback,
     mode,
     getValueByMode,
+    elementDropdownRef,
+    appendElement,
   ]);
 
   useEffect(() => {
@@ -127,14 +142,25 @@ export const useHtmlPicker = ({
       pickerRef.current.action = {
         trigger: 'click',
         // eslint-disable-next-line @typescript-eslint/no-empty-function
-        callback: clickEnabled ? () => {} : callback,
+        callback: clickEnabled ? () => {} : appendElement,
       };
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [clickEnabled, pickerRef.current, callback]);
+  }, [clickEnabled, pickerRef.current, appendElement]);
+
+  useEffect(() => {
+    if (!selectedElement) {
+      setSelectedElementSelector(null);
+    }
+
+    setSelectedElementSelector(uniqueSelector(selectedElement));
+  }, [selectedElement, uniqueSelector]);
 
   return {
     pickerRef,
     hoveredElement,
+    selectedElement,
+    selectedElementSelector,
+    setTarget,
   };
 };

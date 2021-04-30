@@ -15,3 +15,4 @@ export * from './selectors';
 export * from './xpath';
 export * from './text';
 export * from './url';
+export * from './firstLast';

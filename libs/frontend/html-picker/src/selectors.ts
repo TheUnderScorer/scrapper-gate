@@ -44,3 +44,5 @@ export const addOrRemoveSelectorFromSelectors = (
 
   return newSelectors;
 };
+
+export type UniqueSelector = ReturnType<typeof makeUniqueSelector>;

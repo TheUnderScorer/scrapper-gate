@@ -2,13 +2,21 @@ import { HtmlPicker } from './HtmlPicker';
 import userEvent from '@testing-library/user-event';
 
 describe('HTMLPicker', () => {
+  let picker: HtmlPicker;
+
+  afterEach(() => {
+    if (picker) {
+      picker.dispose();
+    }
+  });
+
   it('should display hover box on hovered elements', () => {
     const onHover = jest.fn();
     const onSelect = jest.fn();
 
     const targetElement = document.createElement('div');
 
-    const picker = new HtmlPicker({
+    picker = new HtmlPicker({
       container: document.body,
       onElementHover: onHover,
       onElementSelect: onSelect,
@@ -39,7 +47,7 @@ describe('HTMLPicker', () => {
     document.body.appendChild(wrapper);
     wrapper.appendChild(targetElement);
 
-    const picker = new HtmlPicker({
+    picker = new HtmlPicker({
       container: document.body,
     });
 
@@ -61,9 +69,10 @@ describe('HTMLPicker', () => {
     document.body.appendChild(targetElement);
     document.body.appendChild(ignoredElement);
 
-    const picker = new HtmlPicker({
+    picker = new HtmlPicker({
       container: document.body,
       shouldHandleOutsideClick: (element) => element !== ignoredElement,
+      preventClick: true,
     });
 
     userEvent.click(targetElement);
@@ -82,7 +91,7 @@ describe('HTMLPicker', () => {
     document.body.appendChild(wrapper);
     wrapper.appendChild(targetElement);
 
-    const picker = new HtmlPicker({
+    picker = new HtmlPicker({
       container: document.body,
       ignoreElementsContainer: wrapper,
     });
@@ -97,7 +106,7 @@ describe('HTMLPicker', () => {
 
     document.body.appendChild(targetElement);
 
-    const picker = new HtmlPicker({
+    picker = new HtmlPicker({
       container: document.body,
       ignoreElements: [document.body, targetElement],
     });
@@ -116,7 +125,7 @@ describe('HTMLPicker', () => {
     document.body.appendChild(targetElement);
     document.body.appendChild(otherElement);
 
-    const picker = new HtmlPicker({
+    picker = new HtmlPicker({
       container: document.body,
       selectors: '.target',
     });

@@ -7,7 +7,7 @@ import {
   HtmlElementPickerProps,
   HtmlElementPickerValidationRules,
 } from './HtmlElementPicker.types';
-import { prefix, wait } from '@scrapper-gate/shared/common';
+import { first, prefix, wait } from '@scrapper-gate/shared/common';
 
 const getCmp = (props: Partial<HtmlElementPickerProps>) => (
   <Form
@@ -41,6 +41,22 @@ const addSelector = async (value: string, cmp: RenderResult) => {
   });
 };
 
+const selectElement = (
+  component: RenderResult,
+  targetElement: HTMLDivElement
+) => {
+  const togglePicker = component.container.querySelector('.toggle-picker');
+
+  act(() => {
+    userEvent.click(togglePicker);
+  });
+
+  act(() => {
+    userEvent.hover(targetElement);
+    userEvent.click(targetElement);
+  });
+};
+
 describe('<HtmlElementPicker />', () => {
   it('should fill input with selector of picked element', async () => {
     const component = renderCmp();
@@ -68,7 +84,7 @@ describe('<HtmlElementPicker />', () => {
       userEvent.dblClick(targetElement);
     });
 
-    const listItem = await component.findByText('.test-element (1)');
+    const listItem = await component.findAllByText('.test-element (1)');
     expect(listItem).not.toBeNull();
 
     await waitFor(() => {
@@ -198,16 +214,6 @@ describe('<HtmlElementPicker />', () => {
       await wait(500);
     });
 
-    const enableMultiClick = component.baseElement.querySelector(
-      '.multiselect'
-    );
-
-    await act(async () => {
-      userEvent.click(enableMultiClick);
-
-      await wait(500);
-    });
-
     act(() => {
       userEvent.hover(targetElement1);
     });
@@ -278,5 +284,77 @@ describe('<HtmlElementPicker />', () => {
     // eslint-disable-next-line prefer-destructuring
     event = handleClick.mock.calls[1][0];
     expect(event.defaultPrevented).toBeFalsy();
+  });
+
+  it('should display dropdown on selected element and support selecting from it', async () => {
+    const component = renderCmp();
+
+    const targetElement = document.createElement('div');
+    targetElement.id = 'test_element123';
+
+    component.rerender(
+      getCmp({
+        container: component.baseElement,
+      })
+    );
+
+    component.baseElement.appendChild(targetElement);
+
+    selectElement(component, targetElement);
+
+    let dropdown = component.container.querySelector('.element-dropdown');
+
+    expect(dropdown).toBeInTheDocument();
+    expect(dropdown).toHaveTextContent('div#test_element123');
+
+    const select = dropdown.querySelector('.select-element');
+
+    act(() => {
+      userEvent.click(select);
+    });
+
+    await wait(500);
+
+    dropdown = component.container.querySelector('.element-dropdown');
+
+    expect(dropdown).not.toBeInTheDocument();
+
+    expect(
+      first(component.getAllByText('#test_element123 (1)'))
+    ).toBeInTheDocument();
+  });
+
+  it('should deselect element on outside click', async () => {
+    const component = renderCmp();
+
+    const outsideElement = document.createElement('div');
+
+    const targetElement = document.createElement('div');
+    targetElement.id = 'test_element';
+
+    component.rerender(
+      getCmp({
+        container: component.baseElement,
+      })
+    );
+
+    component.baseElement.appendChild(targetElement);
+    document.body.appendChild(outsideElement);
+
+    selectElement(component, targetElement);
+
+    let dropdown = component.container.querySelector('.element-dropdown');
+
+    expect(dropdown).toBeInTheDocument();
+
+    act(() => {
+      userEvent.click(outsideElement);
+    });
+
+    await wait(500);
+
+    dropdown = component.container.querySelector('.element-dropdown');
+
+    expect(dropdown).not.toBeInTheDocument();
   });
 });
