@@ -41,6 +41,7 @@ export const scrapperSchema = gql`
     action: ScrapperAction
     selectors: [Selector!]
     clickTimes: Int
+    position: NodePosition
   }
 
   input ScrapperStepInput {
@@ -56,6 +57,7 @@ export const scrapperSchema = gql`
     action: ScrapperAction
     selectors: [SelectorInput!]
     clickTimes: Int
+    position: NodePositionInput
   }
 
   enum ScrapperAction {

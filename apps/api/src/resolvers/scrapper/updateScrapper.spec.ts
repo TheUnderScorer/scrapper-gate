@@ -46,10 +46,18 @@ const updateSteps = async (accessToken: string, scrapper: ScrapperModel) => {
             clickTimes: 1,
             mouseButton: MouseButton.Left,
             nextStepId: id,
+            position: {
+              x: 0,
+              y: 0,
+            },
           },
           {
             id,
             action: ScrapperAction.ReadText,
+            position: {
+              x: 250,
+              y: 0,
+            },
           },
         ],
       },

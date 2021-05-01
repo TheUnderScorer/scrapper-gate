@@ -121,6 +121,16 @@ export type MutationUpdateScrapperArgs = {
   input: ScrapperInput;
 };
 
+export type NodePosition = {
+  y?: Maybe<Scalars['Float']>;
+  x?: Maybe<Scalars['Float']>;
+};
+
+export type NodePositionInput = {
+  x?: Maybe<Scalars['Float']>;
+  y?: Maybe<Scalars['Float']>;
+};
+
 export type Order = {
   direction: OrderDirection;
   column: Scalars['String'];
@@ -222,10 +232,11 @@ export type ScrapperStep = BaseEntity &
     action?: Maybe<ScrapperAction>;
     selectors?: Maybe<Array<Selector>>;
     clickTimes?: Maybe<Scalars['Int']>;
+    position?: Maybe<NodePosition>;
   };
 
 export type ScrapperStepInput = {
-  id?: Maybe<Scalars['ID']>;
+  id: Scalars['ID'];
   goBackSteps?: Maybe<Scalars['Int']>;
   nextStepId?: Maybe<Scalars['ID']>;
   mouseButton?: Maybe<MouseButton>;
@@ -237,6 +248,7 @@ export type ScrapperStepInput = {
   action?: Maybe<ScrapperAction>;
   selectors?: Maybe<Array<SelectorInput>>;
   clickTimes?: Maybe<Scalars['Int']>;
+  position?: Maybe<NodePositionInput>;
 };
 
 export type Selector = {
@@ -491,6 +503,9 @@ export type ResolversTypes = ResolversObject<{
   LoginResponse: ResolverTypeWrapper<LoginResponse>;
   MouseButton: MouseButton;
   Mutation: ResolverTypeWrapper<{}>;
+  NodePosition: ResolverTypeWrapper<NodePosition>;
+  Float: ResolverTypeWrapper<Scalars['Float']>;
+  NodePositionInput: NodePositionInput;
   Order: Order;
   OrderDirection: OrderDirection;
   Pagination: Pagination;
@@ -504,7 +519,6 @@ export type ResolversTypes = ResolversObject<{
   ScrapperInput: ScrapperInput;
   ScrapperQueryResult: ResolverTypeWrapper<ScrapperQueryResult>;
   ScrapperStep: ResolverTypeWrapper<ScrapperStep>;
-  Float: ResolverTypeWrapper<Scalars['Float']>;
   ScrapperStepInput: ScrapperStepInput;
   Selector: ResolverTypeWrapper<Selector>;
   SelectorInput: SelectorInput;
@@ -537,6 +551,9 @@ export type ResolversParentTypes = ResolversObject<{
   LoginInput: LoginInput;
   LoginResponse: LoginResponse;
   Mutation: {};
+  NodePosition: NodePosition;
+  Float: Scalars['Float'];
+  NodePositionInput: NodePositionInput;
   Order: Order;
   Pagination: Pagination;
   Int: Scalars['Int'];
@@ -547,7 +564,6 @@ export type ResolversParentTypes = ResolversObject<{
   ScrapperInput: ScrapperInput;
   ScrapperQueryResult: ScrapperQueryResult;
   ScrapperStep: ScrapperStep;
-  Float: Scalars['Float'];
   ScrapperStepInput: ScrapperStepInput;
   Selector: Selector;
   SelectorInput: SelectorInput;
@@ -702,6 +718,15 @@ export type MutationResolvers<
   >;
 }>;
 
+export type NodePositionResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['NodePosition'] = ResolversParentTypes['NodePosition']
+> = ResolversObject<{
+  y?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  x?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export type QueryResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']
@@ -821,6 +846,11 @@ export type ScrapperStepResolvers<
     ContextType
   >;
   clickTimes?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  position?: Resolver<
+    Maybe<ResolversTypes['NodePosition']>,
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -883,6 +913,7 @@ export type Resolvers<ContextType = any> = ResolversObject<{
   IsAutenthicatedResponse?: IsAutenthicatedResponseResolvers<ContextType>;
   LoginResponse?: LoginResponseResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
+  NodePosition?: NodePositionResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   ResetPasswordResponse?: ResetPasswordResponseResolvers<ContextType>;
   Scrapper?: ScrapperResolvers<ContextType>;

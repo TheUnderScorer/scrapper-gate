@@ -1,5 +1,6 @@
 import {
   MouseButton,
+  NodePosition,
   ScrapperAction,
   ScrapperStep,
   Selector,
@@ -77,4 +78,10 @@ export class ScrapperStepModel
 
   @ManyToOne(() => ScrapperModel, (model) => model.steps)
   scrapper: ScrapperModel;
+
+  @Column({
+    type: 'jsonb',
+    nullable: true,
+  })
+  position?: NodePosition;
 }
