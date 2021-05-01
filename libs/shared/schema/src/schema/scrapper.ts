@@ -32,6 +32,8 @@ export const scrapperSchema = gql`
     createdBy: User
     goBackSteps: Int
     nextStep: ScrapperStep
+    stepOnTrue: ScrapperStep
+    stepOnFalse: ScrapperStep
     mouseButton: MouseButton
     url: Url
     navigateToUrl: Url
@@ -42,6 +44,7 @@ export const scrapperSchema = gql`
     selectors: [Selector!]
     clickTimes: Int
     position: NodePosition
+    key: String
   }
 
   input ScrapperStepInput {
@@ -58,6 +61,9 @@ export const scrapperSchema = gql`
     selectors: [SelectorInput!]
     clickTimes: Int
     position: NodePositionInput
+    stepIdOnTrue: ID
+    stepIdOnFalse: ID
+    key: String
   }
 
   enum ScrapperAction {

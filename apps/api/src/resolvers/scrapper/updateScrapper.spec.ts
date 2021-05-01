@@ -172,4 +172,85 @@ describe('Update scrapper', () => {
     expect(updatedScrapper.name).toEqual(name);
     expect(updatedScrapper.steps).toHaveLength(2);
   });
+
+  it('should handle conditional steps', async () => {
+    const {
+      tokens: { accessToken },
+    } = await createUser();
+
+    const scrapper = await createScrapper(accessToken);
+
+    const firstStepId = uuid();
+    const trueStepId = uuid();
+    const falseStepId = uuid();
+
+    const response = await global.server.inject({
+      method: 'POST',
+      path: apiRoutes.graphql,
+      headers: {
+        authorization: `Bearer ${accessToken}`,
+      },
+      payload: makeGraphqlRequest<{ input: ScrapperInput }>(mutation, {
+        input: {
+          id: scrapper.id,
+          steps: [
+            {
+              id: firstStepId,
+              action: ScrapperAction.Condition,
+              stepIdOnTrue: trueStepId,
+              stepIdOnFalse: falseStepId,
+              clickTimes: 1,
+              mouseButton: MouseButton.Left,
+              position: {
+                x: 0,
+                y: 0,
+              },
+            },
+            {
+              key: 'true',
+              id: trueStepId,
+              action: ScrapperAction.ReadText,
+              position: {
+                x: 250,
+                y: 0,
+              },
+            },
+            {
+              key: 'false',
+              id: falseStepId,
+              action: ScrapperAction.Click,
+              position: {
+                x: -250,
+                y: 0,
+              },
+            },
+          ],
+        },
+      }),
+    });
+    const body = JSON.parse(response.body);
+
+    expect(body.data.updateScrapper.steps).toHaveLength(3);
+
+    const updatedScrapper = await global.connection
+      .getRepository(ScrapperModel)
+      .findOneOrFail(scrapper.id, {
+        relations: [
+          'steps',
+          'steps.nextStep',
+          'steps.stepOnTrue',
+          'steps.stepOnFalse',
+        ],
+      });
+
+    const firstStep = updatedScrapper.steps.find(
+      (step) => step.action === ScrapperAction.Condition
+    );
+
+    expect(firstStep.stepOnTrue).toBeDefined();
+    expect(firstStep.stepOnFalse).toBeDefined();
+
+    expect(firstStep.stepOnTrue.action).toEqual(ScrapperAction.ReadText);
+    expect(firstStep.stepOnFalse.action).toEqual(ScrapperAction.Click);
+  });
 });

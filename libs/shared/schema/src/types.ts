@@ -223,6 +223,8 @@ export type ScrapperStep = BaseEntity &
     createdBy?: Maybe<User>;
     goBackSteps?: Maybe<Scalars['Int']>;
     nextStep?: Maybe<ScrapperStep>;
+    stepOnTrue?: Maybe<ScrapperStep>;
+    stepOnFalse?: Maybe<ScrapperStep>;
     mouseButton?: Maybe<MouseButton>;
     url?: Maybe<Scalars['Url']>;
     navigateToUrl?: Maybe<Scalars['Url']>;
@@ -233,6 +235,7 @@ export type ScrapperStep = BaseEntity &
     selectors?: Maybe<Array<Selector>>;
     clickTimes?: Maybe<Scalars['Int']>;
     position?: Maybe<NodePosition>;
+    key?: Maybe<Scalars['String']>;
   };
 
 export type ScrapperStepInput = {
@@ -249,6 +252,9 @@ export type ScrapperStepInput = {
   selectors?: Maybe<Array<SelectorInput>>;
   clickTimes?: Maybe<Scalars['Int']>;
   position?: Maybe<NodePositionInput>;
+  stepIdOnTrue?: Maybe<Scalars['ID']>;
+  stepIdOnFalse?: Maybe<Scalars['ID']>;
+  key?: Maybe<Scalars['String']>;
 };
 
 export type Selector = {
@@ -813,6 +819,16 @@ export type ScrapperStepResolvers<
     ParentType,
     ContextType
   >;
+  stepOnTrue?: Resolver<
+    Maybe<ResolversTypes['ScrapperStep']>,
+    ParentType,
+    ContextType
+  >;
+  stepOnFalse?: Resolver<
+    Maybe<ResolversTypes['ScrapperStep']>,
+    ParentType,
+    ContextType
+  >;
   mouseButton?: Resolver<
     Maybe<ResolversTypes['MouseButton']>,
     ParentType,
@@ -851,6 +867,7 @@ export type ScrapperStepResolvers<
     ParentType,
     ContextType
   >;
+  key?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 

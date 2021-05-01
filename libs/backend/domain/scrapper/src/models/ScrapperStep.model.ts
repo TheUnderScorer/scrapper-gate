@@ -6,7 +6,14 @@ import {
   Selector,
 } from '@scrapper-gate/shared/schema';
 import { BaseModel } from '@scrapper-gate/backend/base-model';
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  OneToOne,
+} from 'typeorm';
 import { UserModel } from '@scrapper-gate/backend/domain/user';
 import { ScrapperModel } from './Scrapper.model';
 import { Entities } from '@scrapper-gate/shared/common';
@@ -29,6 +36,14 @@ export class ScrapperStepModel
 
   @OneToMany(() => ScrapperStepModel, (model) => model.nextStep)
   previousSteps?: ScrapperStepModel[];
+
+  @OneToOne(() => ScrapperStepModel)
+  @JoinColumn()
+  stepOnFalse?: ScrapperStepModel;
+
+  @OneToOne(() => ScrapperStepModel)
+  @JoinColumn()
+  stepOnTrue?: ScrapperStepModel;
 
   @Column({
     nullable: true,
@@ -84,4 +99,9 @@ export class ScrapperStepModel
     nullable: true,
   })
   position?: NodePosition;
+
+  @Column({
+    nullable: true,
+  })
+  key?: string;
 }
