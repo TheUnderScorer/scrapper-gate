@@ -16,6 +16,7 @@ export interface HtmlElementPickerProps {
   onPick?: (element: Element) => unknown;
   onPickerToggle?: (active: boolean) => unknown;
   container?: Element;
+  portal?: Element;
   ignoredElementsContainer?: HTMLElement;
   pickerDisabled?: boolean;
   pickerDisabledTooltip?: ReactNode;

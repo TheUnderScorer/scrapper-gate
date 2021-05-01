@@ -11,7 +11,7 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import {
-  Colorize,
+  Check,
   KeyboardArrowDown,
   KeyboardArrowLeft,
   KeyboardArrowRight,
@@ -79,7 +79,6 @@ export const HtmlElementPickerElementDropdown = forwardRef<
       keepMounted={false}
       hideBackdrop
       className={classNames(classes.popover, 'element-dropdown')}
-      disablePortal
       open={Boolean(selectedElement)}
       anchorEl={selectedElement}
     >
@@ -99,7 +98,7 @@ export const HtmlElementPickerElementDropdown = forwardRef<
           </Stack>
           <Tooltip title="Select this element">
             <IconButton className="select-element" onClick={onSelect}>
-              <Colorize />
+              <Check />
             </IconButton>
           </Tooltip>
         </Stack>

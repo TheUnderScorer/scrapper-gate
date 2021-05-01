@@ -11,6 +11,7 @@ export default {
 };
 
 export const Picker = () => {
+  const ignoredElementsContainer = useRef<HTMLDivElement>();
   const containerRef = useRef<HTMLDivElement>();
 
   return (
@@ -27,18 +28,19 @@ export const Picker = () => {
               height: '80vh',
             }}
           >
-            <Box ref={containerRef} width="50%">
+            <Box ref={ignoredElementsContainer} width="50%">
               <HtmlElementPicker
                 validationRules={[
                   HtmlElementPickerValidationRules.ElementsExist,
                   HtmlElementPickerValidationRules.ValidSelector,
                 ]}
                 container={containerRef.current}
-                ignoredElementsContainer={containerRef.current}
+                ignoredElementsContainer={ignoredElementsContainer.current}
+                portal={ignoredElementsContainer.current}
                 name="picker"
               />
             </Box>
-            <Box width="50%">
+            <Box ref={containerRef} width="50%">
               <div id="el_1">First element</div>
               <button id="btn">Btn</button>
               <div id="text_nested">

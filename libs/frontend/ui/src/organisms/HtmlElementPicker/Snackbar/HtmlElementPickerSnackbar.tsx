@@ -1,71 +1,74 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { ReactNode, useCallback, useMemo, useState } from 'react';
 import {
-  Divider,
+  AppBar,
   FormControlLabel,
-  Grid,
+  IconButton,
+  Paper,
   Stack,
   Switch,
+  Toolbar,
   Typography,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import classNames from 'classnames';
 import {
   SelectorsList,
   SelectorsListProps,
 } from '../../../molecules/SelectorsList/SelectorsList';
-import { CollapsableCard } from '../../../molecules/CollapsableCard/CollapsableCard';
 import { KeyHint } from '../../../atoms/KeyHint/KeyHint';
 import { Selector } from '@scrapper-gate/shared/schema';
 import { useKeyboardShortcuts } from '@scrapper-gate/frontend/keyboard-shortcuts';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { useSnackbar } from 'notistack';
+import Draggable from 'react-draggable';
+import { Close } from '@material-ui/icons';
+import classNames from 'classnames';
 
 export interface HtmlElementPickerSnackbarProps {
   open?: boolean;
   onClose?: () => unknown;
-  hoveredElement: HTMLElement | null;
   enableClick: boolean;
   onEnableClickToggle: (value?: boolean) => unknown;
   multiselect: boolean;
   onMultiSelect: (value?: boolean) => unknown;
   value: Selector[];
-  getSelector: (element: Element) => Selector;
   onDelete?: SelectorsListProps['onDelete'];
   ignoredElementsContainer?: HTMLElement;
+  input: ReactNode;
 }
 
-const useStyles = makeStyles(() => ({
-  title: {
-    '& .collapsable-card-title': {
-      whiteSpace: 'nowrap',
-      overflow: 'hidden',
-      textOverflow: 'ellipsis',
-      maxWidth: '60vw',
-    },
-  },
+const useStyles = makeStyles((theme) => ({
   selectorsList: {
     maxHeight: '40vh',
     overflow: 'auto',
   },
-  card: {
-    position: 'fixed',
-    bottom: 0,
-    width: '100vw',
-    marginBottom: '0 !important',
+  paper: {
+    minWidth: '550px',
+    backgroundColor: theme.palette.greyVariant['100'],
+    position: 'absolute',
+    pointerEvents: 'all',
+  },
+  content: {
+    padding: theme.spacing(2),
+  },
+  appBar: {
+    backgroundColor: theme.palette.background.paper,
+    cursor: 'move',
+  },
+  toolbar: {
+    paddingLeft: theme.spacing(0.5),
   },
 }));
 
 export const HtmlElementPickerSnackbar = ({
   onClose,
-  hoveredElement,
   enableClick,
   onEnableClickToggle,
   multiselect,
   onMultiSelect,
   value,
-  getSelector,
   onDelete,
   ignoredElementsContainer,
+  input,
 }: HtmlElementPickerSnackbarProps) => {
   const keyboardShortcuts = useKeyboardShortcuts();
 
@@ -73,11 +76,6 @@ export const HtmlElementPickerSnackbar = ({
 
   const [expanded, setExpanded] = useState(true);
   const classes = useStyles();
-
-  const selector = useMemo(
-    () => (hoveredElement ? getSelector(hoveredElement) : null),
-    [getSelector, hoveredElement]
-  );
 
   const handleEnableClickToggle = useCallback(
     (toggle?: boolean) => {
@@ -110,75 +108,88 @@ export const HtmlElementPickerSnackbar = ({
   );
 
   return (
-    <CollapsableCard
-      primary
-      onChange={setExpanded}
-      className={classNames('picker-snackbar', classes.title, classes.card)}
-      closable
-      onClose={onClose}
-      title={
-        hoveredElement && selector
-          ? selector.value
-          : 'Hover over element to view details.'
-      }
+    <Draggable
+      bounds={{
+        top: 0,
+        bottom: window.innerHeight,
+        left: -250,
+        right: window.innerWidth - 250,
+      }}
+      defaultClassName="draggable"
+      axis="both"
+      handle=".element-picker-dialog"
     >
-      <Grid container direction="column" spacing={2}>
-        {Boolean(value.length) && (
-          <Grid item>
-            <SelectorsList
-              ignoredElementsContainer={ignoredElementsContainer}
-              className={classes.selectorsList}
-              onDelete={onDelete}
-              value={value}
+      <Paper
+        elevation={3}
+        className={classNames('element-picker-dialog', classes.paper)}
+      >
+        <AppBar
+          className={classes.appBar}
+          variant="outlined"
+          position="static"
+          color="transparent"
+        >
+          <Toolbar className={classes.toolbar}>
+            <IconButton color="inherit" onClick={onClose}>
+              <Close />
+            </IconButton>
+            <Typography>Select element</Typography>
+          </Toolbar>
+        </AppBar>
+        <Stack className={classes.content} direction="column" spacing={2}>
+          {input}
+          <SelectorsList
+            ignoredElementsContainer={ignoredElementsContainer}
+            className={classes.selectorsList}
+            onDelete={onDelete}
+            value={value}
+          />
+          <Stack direction="column">
+            <FormControlLabel
+              label={
+                <Stack alignItems="center" spacing={1} direction="row">
+                  <span>Enable element clicking</span>
+                  <KeyHint>
+                    {keyboardShortcuts.elementPicker.toggleElementClicking}
+                  </KeyHint>
+                </Stack>
+              }
+              className="enable-click-control"
+              control={
+                <Switch
+                  checked={enableClick}
+                  onChange={(e, checked) => {
+                    e.stopPropagation();
+                    handleEnableClickToggle(checked);
+                  }}
+                />
+              }
             />
-            <Divider />
-          </Grid>
-        )}
-        <Grid item>
-          <FormControlLabel
-            label={
-              <Stack alignItems="center" spacing={1} direction="row">
-                <span>Enable element clicking</span>
-                <KeyHint>
-                  {keyboardShortcuts.elementPicker.toggleElementClicking}
-                </KeyHint>
-              </Stack>
-            }
-            className="enable-click-control"
-            control={
-              <Switch
-                checked={enableClick}
-                onChange={(e, checked) => {
-                  e.stopPropagation();
-                  handleEnableClickToggle(checked);
-                }}
-              />
-            }
-          />
-          <Typography variant="caption" component="div">
-            If enabled, you won't be able to select any elements.
-          </Typography>
-        </Grid>
-        <Grid item>
-          <FormControlLabel
-            label="Multi selection"
-            className="multiselect"
-            control={
-              <Switch
-                checked={multiselect}
-                onChange={(e, checked) => {
-                  e.stopPropagation();
-                  onMultiSelect(checked);
-                }}
-              />
-            }
-          />
-          <Typography variant="caption" component="div">
-            If enabled, append selected selector to selection rather than
-            overwriting it.
-          </Typography>
-        </Grid>
-      </Grid>
-    </CollapsableCard>
+            <Typography variant="caption" component="div">
+              If enabled, you won't be able to select any elements.
+            </Typography>
+          </Stack>
+          <Stack direction="column">
+            <FormControlLabel
+              label="Multi selection"
+              className="multiselect"
+              control={
+                <Switch
+                  checked={multiselect}
+                  onChange={(e, checked) => {
+                    e.stopPropagation();
+                    onMultiSelect(checked);
+                  }}
+                />
+              }
+            />
+            <Typography variant="caption" component="div">
+              If enabled, append selected selector to selection rather than
+              overwriting it.
+            </Typography>
+          </Stack>
+        </Stack>
+      </Paper>
+    </Draggable>
   );
 };

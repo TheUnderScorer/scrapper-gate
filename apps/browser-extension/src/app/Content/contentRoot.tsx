@@ -4,6 +4,7 @@ import { ThemeProvider } from '@scrapper-gate/frontend/theme';
 import { ApiClientProvider } from '@scrapper-gate/frontend/api-client';
 import {
   hiddenNumericArrows,
+  highlight,
   reactFlowBuilderStyles,
   Scoped,
 } from '@scrapper-gate/frontend/ui';
@@ -17,6 +18,7 @@ import { logger } from '@scrapper-gate/frontend/logger';
 import { QueryParamProvider } from '@scrapper-gate/frontend/common';
 import 'react-flow-renderer/dist/style.css';
 import { Global } from '@emotion/react';
+import { GlobalStyles } from '@material-ui/core';
 
 logger.debug('Starting content script... ;)');
 
@@ -24,6 +26,9 @@ document.body.appendChild(contentContainer);
 
 ReactDOM.render(
   <React.StrictMode>
+    <ThemeProvider>
+      <GlobalStyles styles={[highlight]} />
+    </ThemeProvider>
     <Scoped>
       {(shadowRoot, container) => (
         <ContentErrorBoundary>

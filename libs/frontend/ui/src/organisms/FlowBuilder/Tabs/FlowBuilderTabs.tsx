@@ -32,7 +32,7 @@ export const FlowBuilderTabs = ({
   const classes = useStyles();
 
   return (
-    <Paper square variant="outlined" elevation={1} className={classes.paper}>
+    <Paper square variant="outlined" elevation={0} className={classes.paper}>
       <Tabs
         indicatorColor="primary"
         value={value}

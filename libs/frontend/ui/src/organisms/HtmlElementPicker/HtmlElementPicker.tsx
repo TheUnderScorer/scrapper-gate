@@ -6,16 +6,8 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import {
-  Box,
-  Button,
-  Divider,
-  Grid,
-  IconButton,
-  Stack,
-  Tooltip,
-} from '@material-ui/core';
-import { Add, Colorize } from '@material-ui/icons';
+import { Box, Button, Divider, Grid, Tooltip } from '@material-ui/core';
+import { Colorize } from '@material-ui/icons';
 import { useDebounce, useKey, useToggle, useUnmount } from 'react-use';
 import { createPortal } from 'react-dom';
 import { useField } from 'react-final-form';
@@ -56,6 +48,7 @@ export const HtmlElementPicker = ({
   validationRules = [],
   defaultMode = SelectorType.Selector,
   highlightId,
+  portal = container,
 }: HtmlElementPickerProps) => {
   const [open, toggleOpen] = useToggle(false);
   const [clickEnabled, toggleClickEnabled] = useToggle(false);
@@ -261,39 +254,25 @@ export const HtmlElementPicker = ({
     pickerRef.current?.dispose();
   });
 
+  const input = (
+    <HtmlElementPickerInput
+      onAdd={handleAdd}
+      label={label}
+      error={error?.message}
+      name={name}
+      mode={mode}
+      helperText={helperText}
+      variant={variant}
+      onChange={handleTextFieldValueChange}
+      value={textFieldValue}
+      onEnter={handleAdd}
+      onSelectChange={(event) => setMode(event.target.value as SelectorType)}
+    />
+  );
+
   return (
     <Grid className={className} container direction="column">
-      <Stack
-        alignItems="center"
-        direction="row"
-        spacing={1}
-        style={{
-          width: '100%',
-        }}
-      >
-        <HtmlElementPickerInput
-          label={label}
-          error={error?.message}
-          name={name}
-          mode={mode}
-          helperText={helperText}
-          variant={variant}
-          onChange={handleTextFieldValueChange}
-          value={textFieldValue}
-          onEnter={handleAdd}
-          onSelectChange={(event) =>
-            setMode(event.target.value as SelectorType)
-          }
-        />
-        <IconButton
-          className="add-selector"
-          disabled={!textFieldValue}
-          onClick={handleAdd}
-          size="small"
-        >
-          <Add />
-        </IconButton>
-      </Stack>
+      {input}
       <Box mt={1}>
         <Tooltip
           title={
@@ -327,30 +306,23 @@ export const HtmlElementPicker = ({
         value={value ?? []}
       />
       {Boolean(value?.length) && <Divider />}
-      {container &&
+      {portal &&
         open &&
         createPortal(
-          <div
-            style={{
-              pointerEvents: 'all',
+          <HtmlElementPickerSnackbar
+            input={input}
+            onDelete={handleDelete}
+            value={value ?? []}
+            multiselect={multiSelect}
+            onMultiSelect={toggleMultiSelect}
+            onClose={() => {
+              toggleOpen(false);
             }}
-          >
-            <HtmlElementPickerSnackbar
-              onDelete={handleDelete}
-              getSelector={getValueByMode}
-              value={value ?? []}
-              multiselect={multiSelect}
-              onMultiSelect={toggleMultiSelect}
-              hoveredElement={hoveredElement}
-              onClose={() => {
-                toggleOpen(false);
-              }}
-              open={open}
-              enableClick={clickEnabled}
-              onEnableClickToggle={toggleClickEnabled}
-            />
-          </div>,
-          container
+            open={open}
+            enableClick={clickEnabled}
+            onEnableClickToggle={toggleClickEnabled}
+          />,
+          portal
         )}
       <HtmlElementPickerElementDropdown
         onSelectedElementChange={setTarget}
