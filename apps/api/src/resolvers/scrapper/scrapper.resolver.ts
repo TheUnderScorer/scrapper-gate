@@ -4,6 +4,7 @@ import {
   CreateScrapperCommand,
   GetScrapperByUserQuery,
   GetScrappersByUserQuery,
+  UpdateScrapperCommand,
 } from '@scrapper-gate/backend/domain/scrapper';
 import { UserModel } from '@scrapper-gate/backend/domain/user';
 
@@ -37,6 +38,15 @@ export const scrapperResolver = (): Resolvers<
           new CreateScrapperCommand({
             input: args.input,
             user: ctx.user,
+          })
+        )
+      ),
+    updateScrapper: (_, args, ctx) =>
+      ctx.unitOfWork.run(({ commandsBus }) =>
+        commandsBus.execute(
+          new UpdateScrapperCommand({
+            input: args.input,
+            userId: ctx.user.id,
           })
         )
       ),

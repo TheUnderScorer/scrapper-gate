@@ -13,6 +13,12 @@ export const scrapperSchema = gql`
     steps: [ScrapperStep!]
   }
 
+  input ScrapperInput {
+    id: ID!
+    name: String
+    steps: [ScrapperStepInput!]
+  }
+
   type ScrapperQueryResult {
     total: Int!
     items: [Scrapper!]
@@ -38,7 +44,7 @@ export const scrapperSchema = gql`
   }
 
   input ScrapperStepInput {
-    id: ID
+    id: ID!
     goBackSteps: Int
     nextStepId: ID
     mouseButton: MouseButton
@@ -74,6 +80,7 @@ export const scrapperSchema = gql`
 
   extend type Mutation {
     createScrapper(input: CreateScrapperInput): Scrapper! @auth
+    updateScrapper(input: ScrapperInput!): Scrapper! @auth
   }
 
   extend type Query {

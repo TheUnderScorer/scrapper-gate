@@ -4,10 +4,15 @@ import {
   createScrapperHandler,
   getScrapperByUserHandler,
   getScrappersByUserHandler,
+  updateScrapperHandler,
 } from '@scrapper-gate/backend/domain/scrapper';
 
 export const handlers: Handlers = {
-  commandHandlers: [createUserHandler, createScrapperHandler],
+  commandHandlers: [
+    createUserHandler,
+    createScrapperHandler,
+    updateScrapperHandler,
+  ],
   eventHandlers: [],
   queryHandlers: [getScrappersByUserHandler, getScrapperByUserHandler],
 };

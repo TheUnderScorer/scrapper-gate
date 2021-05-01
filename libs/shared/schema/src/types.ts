@@ -93,6 +93,7 @@ export type Mutation = {
   forgotPassword?: Maybe<ForgotPasswordResponse>;
   login?: Maybe<LoginResponse>;
   resetPassword?: Maybe<ResetPasswordResponse>;
+  updateScrapper: Scrapper;
 };
 
 export type MutationCreateScrapperArgs = {
@@ -114,6 +115,10 @@ export type MutationLoginArgs = {
 export type MutationResetPasswordArgs = {
   input?: Maybe<ResetPasswordInput>;
   token: Scalars['String'];
+};
+
+export type MutationUpdateScrapperArgs = {
+  input: ScrapperInput;
 };
 
 export type Order = {
@@ -187,6 +192,12 @@ export enum ScrapperAction {
   ReloadPage = 'ReloadPage',
   Type = 'Type',
 }
+
+export type ScrapperInput = {
+  id: Scalars['ID'];
+  name?: Maybe<Scalars['String']>;
+  steps?: Maybe<Array<ScrapperStepInput>>;
+};
 
 export type ScrapperQueryResult = {
   total: Scalars['Int'];
@@ -490,6 +501,7 @@ export type ResolversTypes = ResolversObject<{
   RunState: RunState;
   Scrapper: ResolverTypeWrapper<Scrapper>;
   ScrapperAction: ScrapperAction;
+  ScrapperInput: ScrapperInput;
   ScrapperQueryResult: ResolverTypeWrapper<ScrapperQueryResult>;
   ScrapperStep: ResolverTypeWrapper<ScrapperStep>;
   Float: ResolverTypeWrapper<Scalars['Float']>;
@@ -532,6 +544,7 @@ export type ResolversParentTypes = ResolversObject<{
   ResetPasswordInput: ResetPasswordInput;
   ResetPasswordResponse: ResetPasswordResponse;
   Scrapper: Scrapper;
+  ScrapperInput: ScrapperInput;
   ScrapperQueryResult: ScrapperQueryResult;
   ScrapperStep: ScrapperStep;
   Float: Scalars['Float'];
@@ -680,6 +693,12 @@ export type MutationResolvers<
     ParentType,
     ContextType,
     RequireFields<MutationResetPasswordArgs, 'token'>
+  >;
+  updateScrapper?: Resolver<
+    ResolversTypes['Scrapper'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateScrapperArgs, 'input'>
   >;
 }>;
 

@@ -11,3 +11,6 @@ export * from './handlers/createScrapper.handler';
 export * from './events/ScrapperCreated.event';
 export * from './queries/GetScrapperByUser.query';
 export * from './queryHandlers/getScrapperByUser.handler';
+export * from './commands/UpdateScrapper.command';
+export * from './handlers/updateScrapper.handler';
+export * from './events/ScrapperUpdated.event';
