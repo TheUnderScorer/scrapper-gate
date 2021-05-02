@@ -17,6 +17,7 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
+    "resolveJsonModule": true,
     "paths": {
       "@scrapper-gate/shared/schema": ["libs/shared/schema/src/index.ts"],
       "@scrapper-gate/shared/routing": ["libs/shared/routing/src/index.ts"],
