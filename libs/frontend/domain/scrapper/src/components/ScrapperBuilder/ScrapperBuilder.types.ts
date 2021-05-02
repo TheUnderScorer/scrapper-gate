@@ -20,7 +20,7 @@ export interface ScrapperElementPickerProps
 export type ScrapperBuilderNode = Node<ScrapperBuilderNodeProperties>;
 
 export type ScrapperBuilderNodeSelection = BaseNodeSelectionProperties &
-  ScrapperBuilderStep;
+  Omit<ScrapperBuilderStep, 'id'>;
 
 export type ScrapperBuilderNodeProperties = BaseNodeProperties &
   ScrapperBuilderStep;
