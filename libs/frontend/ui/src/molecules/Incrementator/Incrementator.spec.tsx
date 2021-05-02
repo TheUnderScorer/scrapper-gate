@@ -16,8 +16,8 @@ describe('<Incrementator />', () => {
       name: 'test',
     });
 
-    const increment = container.querySelector('.incrementator-increment')!;
-    const decrement = container.querySelector('.incrementator-decrement')!;
+    const increment = container.querySelector('.incrementator-increment');
+    const decrement = container.querySelector('.incrementator-decrement');
 
     act(() => {
       fireEvent.click(increment);
@@ -25,7 +25,7 @@ describe('<Incrementator />', () => {
 
     let input = container.querySelector<HTMLInputElement>(
       '.incrementator-input .MuiInputBase-input'
-    )!;
+    );
 
     expect(input.value).toEqual('1');
 
@@ -35,7 +35,7 @@ describe('<Incrementator />', () => {
 
     input = container.querySelector<HTMLInputElement>(
       '.incrementator-input .MuiInputBase-input'
-    )!;
+    );
 
     expect(input.value).toEqual('0');
   });
@@ -46,7 +46,7 @@ describe('<Incrementator />', () => {
       initialValue: 100,
     });
 
-    const increment = container.querySelector('.incrementator-decrement')!;
+    const increment = container.querySelector('.incrementator-decrement');
 
     await act(async () => {
       fireEventAlt.mouseDown(increment);
@@ -58,7 +58,7 @@ describe('<Incrementator />', () => {
 
     const input = container.querySelector<HTMLInputElement>(
       '.incrementator-input .MuiInputBase-input'
-    )!;
+    );
 
     expect(parseInt(input.value, 10)).toBeLessThanOrEqual(90);
   });
@@ -69,7 +69,7 @@ describe('<Incrementator />', () => {
       initialValue: 0,
     });
 
-    const increment = container.querySelector('.incrementator-increment')!;
+    const increment = container.querySelector('.incrementator-increment');
 
     await act(async () => {
       fireEventAlt.mouseDown(increment);
@@ -81,7 +81,7 @@ describe('<Incrementator />', () => {
 
     const input = container.querySelector<HTMLInputElement>(
       '.incrementator-input .MuiInputBase-input'
-    )!;
+    );
 
     expect(parseInt(input.value, 10)).toBeGreaterThanOrEqual(10);
   });

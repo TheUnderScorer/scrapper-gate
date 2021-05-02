@@ -9,20 +9,26 @@ import { BaseNodeProperties } from '../FlowBuilder.types';
 
 export interface FlowBuilderDragStateContext<T extends BaseNodeProperties> {
   draggedNode?: Node<T>;
-  setDraggedNode: (node: Node<T> | null) => any;
+  setDraggedNode: (node: Node<T> | null) => unknown;
 }
 
-const Context = createContext<FlowBuilderDragStateContext<any>>({} as any);
+const Context = createContext<FlowBuilderDragStateContext<BaseNodeProperties>>(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  {} as any
+);
 
 export const useFlowBuilderDragState = () => useContext(Context);
-export const useFlowBuilderDragStateSelector = <Value extends any>(
-  selector: (ctx: FlowBuilderDragStateContext<any>) => Value
+export const useFlowBuilderDragStateSelector = <Value extends unknown>(
+  selector: (ctx: FlowBuilderDragStateContext<unknown>) => Value
 ) => useContextSelector(Context, selector);
 
-export const FlowBuilderDragStateProvider = <T extends BaseNodeProperties>({
+export const FlowBuilderDragStateProvider = ({
   children,
 }: PropsWithChildren<unknown>) => {
-  const [draggedNode, setDraggedNode] = useState<Node<T> | undefined>();
+  const [
+    draggedNode,
+    setDraggedNode,
+  ] = useState<Node<BaseNodeProperties> | null>(null);
 
   return (
     <Context.Provider value={{ draggedNode, setDraggedNode }}>

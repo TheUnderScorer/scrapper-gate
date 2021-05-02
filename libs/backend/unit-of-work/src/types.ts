@@ -1,7 +1,5 @@
 import { Buses } from 'functional-cqrs/build/typings/buses';
 
-export interface UnitOfWorkCallbackContext extends Buses {}
-
-export type UnitOfWorkCallback<ReturnType = any> = (
-  context: UnitOfWorkCallbackContext
+export type UnitOfWorkCallback<ReturnType = unknown> = (
+  context: Buses
 ) => ReturnType | Promise<ReturnType>;

@@ -7,15 +7,16 @@ import {
 
 export interface FlowBuilderActiveNodeContext {
   activeNodeId?: string;
-  setActiveNodeId: (node: string | undefined) => any;
+  setActiveNodeId: (node: string | undefined) => unknown;
   contentOpen: boolean;
   setContentOpen: (open: boolean) => void;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Context = createContext<FlowBuilderActiveNodeContext>({} as any);
 
 export const useFlowBuilderActiveNode = () => useContext(Context);
-export const useFlowBuilderActiveNodeSelector = <Value extends any>(
+export const useFlowBuilderActiveNodeSelector = <Value extends unknown>(
   selector: (ctx: FlowBuilderActiveNodeContext) => Value
 ) => useContextSelector(Context, selector);
 

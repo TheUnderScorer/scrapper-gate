@@ -33,12 +33,12 @@ export const fallbackConnectHandler = (
       ? {
           source: lastPathNodeId,
           sourceHandle: lastPathHandleId,
-          target: source.nodeId!,
-          targetHandle: source.handleId!,
+          target: source.nodeId,
+          targetHandle: source.handleId,
         }
       : {
-          source: source.nodeId!,
-          sourceHandle: source.handleId!,
+          source: source.nodeId,
+          sourceHandle: source.handleId,
           target: lastPathNodeId,
           targetHandle: lastPathNodeId,
         }

@@ -3,9 +3,10 @@ import { OnLoadParams } from 'react-flow-renderer';
 
 export interface FlowBuilderInstanceContext {
   flowInstance?: OnLoadParams;
-  setFlowInstance?: (params: OnLoadParams) => any;
+  setFlowInstance?: (params: OnLoadParams) => unknown;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Context = createContext<FlowBuilderInstanceContext>({} as any);
 
 export const useFlowBuilderInstanceContext = () => useContext(Context);

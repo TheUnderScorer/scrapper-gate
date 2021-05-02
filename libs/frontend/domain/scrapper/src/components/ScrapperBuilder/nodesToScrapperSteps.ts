@@ -1,8 +1,8 @@
 import {
-  BaseNodeSelectionProperties,
   ConditionalNodeEdgeType,
   FlowBuilderItem,
   FlowBuilderNodeTypes,
+  flowBuilderUtils,
 } from '@scrapper-gate/frontend/ui';
 import { ScrapperBuilderNodeProperties } from '@scrapper-gate/frontend/domain/scrapper';
 import {
@@ -13,7 +13,6 @@ import { getById } from '@scrapper-gate/shared/common';
 import { getOutgoers, isNode, Node } from 'react-flow-renderer';
 import { pick } from 'remeda';
 import { scrapperStepInputKeys } from '@scrapper-gate/shared/domain/scrapper';
-import { getNodeEdges } from '../../../../../ui/src/organisms/FlowBuilder/utils';
 
 const allowedNodeTypes = [
   FlowBuilderNodeTypes.Action,
@@ -24,7 +23,7 @@ const handleConditionalNodes = (
   nodes: FlowBuilderItem<ScrapperBuilderNodeProperties>[],
   step: ScrapperStepInput
 ) => {
-  const edges = getNodeEdges(nodes, step.id);
+  const edges = flowBuilderUtils.getNodeEdges(nodes, step.id);
 
   step.stepIdOnTrue = edges.find(
     (edge) => edge.data.conditionalType === ConditionalNodeEdgeType.True

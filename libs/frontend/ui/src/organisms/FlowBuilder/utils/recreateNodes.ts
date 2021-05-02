@@ -13,8 +13,7 @@ import { defaultNodeSize } from '../nodeTypes/constants';
 
 export interface RecreateNodesParams<
   T extends NodeLikeItem,
-  S extends BaseNodeSelectionProperties,
-  N extends BaseNodeProperties
+  S extends BaseNodeSelectionProperties
 > {
   items: T[];
   selections: Selection<S>[];
@@ -29,7 +28,7 @@ export const recreateNodes = <
   findSelectionForItem,
   items,
   selections,
-}: RecreateNodesParams<T, S, N>) => async ({
+}: RecreateNodesParams<T, S>) => async ({
   handleConnect,
   createNode,
 }: NodesCreatorApi<BaseNodeProperties, BaseNodeSelectionProperties>) => {

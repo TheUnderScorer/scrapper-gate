@@ -3,7 +3,6 @@ import { useFlowBuilderContextSelector } from '../providers/FlowBuilderProps.pro
 import { useEffect, useState } from 'react';
 import { useFlowBuilderItemsSelector } from '../providers/FlowBuilderItems.provider';
 import { useAddItem } from './useAddItem';
-import { Node } from 'react-flow-renderer';
 import { logger } from '@scrapper-gate/frontend/logger';
 import { useFormUndo } from '@scrapper-gate/frontend/form';
 
@@ -41,5 +40,5 @@ export const useNodesCreator = () => {
       .catch(logger.error);
 
     setDone(true);
-  }, [connect, done, loading, nodesCreator]);
+  }, [addItem, connect, done, loading, nodesCreator, reset, setItems]);
 };
