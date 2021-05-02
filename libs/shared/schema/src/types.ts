@@ -122,13 +122,13 @@ export type MutationUpdateScrapperArgs = {
 };
 
 export type NodePosition = {
-  y?: Maybe<Scalars['Float']>;
-  x?: Maybe<Scalars['Float']>;
+  y: Scalars['Float'];
+  x: Scalars['Float'];
 };
 
 export type NodePositionInput = {
-  x?: Maybe<Scalars['Float']>;
-  y?: Maybe<Scalars['Float']>;
+  x: Scalars['Float'];
+  y: Scalars['Float'];
 };
 
 export type Order = {
@@ -223,6 +223,7 @@ export type ScrapperStep = BaseEntity &
     createdBy?: Maybe<User>;
     goBackSteps?: Maybe<Scalars['Int']>;
     nextStep?: Maybe<ScrapperStep>;
+    previousSteps?: Maybe<Array<ScrapperStep>>;
     stepOnTrue?: Maybe<ScrapperStep>;
     stepOnFalse?: Maybe<ScrapperStep>;
     mouseButton?: Maybe<MouseButton>;
@@ -302,6 +303,7 @@ export type GetScrapperForBuilderQuery = {
           ScrapperStep,
           | 'id'
           | 'action'
+          | 'key'
           | 'createdAt'
           | 'updatedAt'
           | 'mouseButton'
@@ -311,7 +313,11 @@ export type GetScrapperForBuilderQuery = {
           | 'useUrlFromPreviousStep'
         > & {
           nextStep?: Maybe<Pick<ScrapperStep, 'id'>>;
+          previousSteps?: Maybe<Array<Pick<ScrapperStep, 'id'>>>;
+          stepOnTrue?: Maybe<Pick<ScrapperStep, 'id'>>;
+          stepOnFalse?: Maybe<Pick<ScrapperStep, 'id'>>;
           selectors?: Maybe<Array<Pick<Selector, 'type' | 'value'>>>;
+          position?: Maybe<Pick<NodePosition, 'x' | 'y'>>;
         }
       >
     >;
@@ -357,6 +363,14 @@ export type MyScrappersQuery = {
       Array<Pick<Scrapper, 'id' | 'name' | 'state' | 'isRunning' | 'createdAt'>>
     >;
   };
+};
+
+export type UpdateScrapperMutationVariables = Exact<{
+  input: ScrapperInput;
+}>;
+
+export type UpdateScrapperMutation = {
+  updateScrapper: Pick<Scrapper, 'id' | 'name'>;
 };
 
 export type CreateScrapperMutationVariables = Exact<{
@@ -728,8 +742,8 @@ export type NodePositionResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['NodePosition'] = ResolversParentTypes['NodePosition']
 > = ResolversObject<{
-  y?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
-  x?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  y?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  x?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -816,6 +830,11 @@ export type ScrapperStepResolvers<
   goBackSteps?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   nextStep?: Resolver<
     Maybe<ResolversTypes['ScrapperStep']>,
+    ParentType,
+    ContextType
+  >;
+  previousSteps?: Resolver<
+    Maybe<Array<ResolversTypes['ScrapperStep']>>,
     ParentType,
     ContextType
   >;

@@ -10,6 +10,7 @@ import {
   FlowBuilderItem,
 } from '@scrapper-gate/frontend/ui';
 import { throwError } from '@scrapper-gate/shared/common';
+import { useNodesCreator } from '../hooks/useNodesCreator';
 
 export interface FlowBuilderItemsContext<T extends BaseNodeProperties> {
   items: FlowBuilderItem<T>[];

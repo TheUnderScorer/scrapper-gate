@@ -32,6 +32,7 @@ export const scrapperSchema = gql`
     createdBy: User
     goBackSteps: Int
     nextStep: ScrapperStep
+    previousSteps: [ScrapperStep!]
     stepOnTrue: ScrapperStep
     stepOnFalse: ScrapperStep
     mouseButton: MouseButton

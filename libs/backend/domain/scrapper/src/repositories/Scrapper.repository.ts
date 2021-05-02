@@ -33,7 +33,13 @@ export class ScrapperRepository extends Repository<ScrapperModel> {
           id: userId,
         },
       },
-      relations: ['createdBy', 'steps'],
+      relations: [
+        'createdBy',
+        'steps',
+        'steps.nextStep',
+        'steps.stepOnTrue',
+        'steps.stepOnFalse',
+      ],
     });
   }
 

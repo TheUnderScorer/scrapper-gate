@@ -9,11 +9,21 @@ query GetScrapperForBuilder($id: ID!) {
     steps {
       id
       action
+      key
       createdAt
       updatedAt
       mouseButton
       navigateToUrl
       nextStep {
+        id
+      }
+      previousSteps {
+        id
+      }
+      stepOnTrue {
+        id
+      }
+      stepOnFalse {
         id
       }
       reloadDelay
@@ -23,6 +33,10 @@ query GetScrapperForBuilder($id: ID!) {
       }
       url
       useUrlFromPreviousStep
+      position {
+        x
+        y
+      }
     }
   }
 }

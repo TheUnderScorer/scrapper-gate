@@ -9,6 +9,7 @@ import { useTokensStore } from '@scrapper-gate/frontend/domain/auth';
 import { httpLink } from './httpLink';
 import { restLink } from './restLink';
 import { onErrorLink } from './onErrorLink';
+import { removeTypenameLink } from './removeTypenameLink';
 
 export const ApiClientProvider = ({ children }: PropsWithChildren<unknown>) => {
   const tokens = useTokensStore((store) => store.tokens);
@@ -16,7 +17,12 @@ export const ApiClientProvider = ({ children }: PropsWithChildren<unknown>) => {
 
   const client = useMemo(() => {
     return new ApolloClient({
-      link: from([onErrorLink, restLink(tokens), httpLink(tokens, setTokens)]),
+      link: from([
+        onErrorLink,
+        removeTypenameLink,
+        restLink(tokens),
+        httpLink(tokens, setTokens),
+      ]),
       cache: new InMemoryCache(),
     });
   }, [setTokens, tokens]);

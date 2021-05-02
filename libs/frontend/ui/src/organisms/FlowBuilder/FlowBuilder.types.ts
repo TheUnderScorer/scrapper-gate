@@ -11,7 +11,7 @@ import {
 import { ComponentType, MouseEvent, ReactNode } from 'react';
 import { FlowBuilderInstanceContext } from './providers/FlowBuilderInstance.provider';
 import { NormalEdgeVariations } from './edgeTypes/NormalEdge.types';
-import { MenuItemProperties } from '@scrapper-gate/frontend/common';
+import { MenuItemProperties, Selection } from '@scrapper-gate/frontend/common';
 import { FieldNameCreator } from '@scrapper-gate/frontend/form';
 
 export interface FlowBuilderAddApi<T extends BaseNodeProperties> {
@@ -42,6 +42,11 @@ export interface NodeContentHelpers {
   getFieldName: FieldNameCreator;
 }
 
+export enum ConditionalNodeEdgeType {
+  True = 'True',
+  False = 'False',
+}
+
 export interface BaseNodeProperties {
   isFirst?: boolean;
   isLast?: boolean;
@@ -61,10 +66,13 @@ export interface BaseNodeProperties {
   sourceHandle?: string;
   targetHandle?: string;
   edgeVariation?: NormalEdgeVariations;
+  conditionalType?: ConditionalNodeEdgeType;
 }
 
 export interface BaseNodeSelectionProperties extends BaseNodeProperties {
   type: string;
+  id?: string;
+  position?: XYPosition;
 }
 
 export interface FlowBuilderPlaceholderProperties extends BaseNodeProperties {
@@ -143,3 +151,11 @@ export interface NodeContentProps extends NodeContentHelpers {
 }
 
 export type NodeContentComponent = ComponentType<NodeContentProps>;
+
+export interface NodesCreatorApi<
+  T extends BaseNodeProperties,
+  S extends BaseNodeSelectionProperties
+> {
+  handleConnect: (params: Connection, items: FlowBuilderItem<T>[]) => Edge;
+  createNode: (selection: Selection<S>) => Promise<FlowBuilderItem<T>[]>;
+}

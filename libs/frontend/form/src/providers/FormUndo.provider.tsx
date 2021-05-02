@@ -1,9 +1,41 @@
+import React, {
+  PropsWithChildren,
+  SyntheticEvent,
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+import { createContext, useContext } from 'use-context-selector';
+
+import { throwError } from '@scrapper-gate/shared/common';
+import { useKeyboardShortcuts } from '@scrapper-gate/frontend/keyboard-shortcuts';
 import { useForm, useFormState } from 'react-final-form';
-import { SyntheticEvent, useCallback, useMemo, useRef, useState } from 'react';
+import { equals } from 'remeda';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { useDebounce } from 'react-use';
-import { useKeyboardShortcuts } from '@scrapper-gate/frontend/keyboard-shortcuts';
-import { equals } from 'remeda';
+
+export interface FormUndoContext {
+  redo: (e?: Event | SyntheticEvent) => void;
+  undo: (e?: Event | SyntheticEvent) => void;
+  canRedo: boolean;
+  canUndo: boolean;
+  reset: () => void;
+}
+
+export interface FormUndoProviderProps {
+  limit?: number;
+}
+
+const Context = createContext<FormUndoContext>({
+  canRedo: false,
+  canUndo: false,
+  redo: throwError(),
+  reset: throwError(),
+  undo: throwError(),
+});
+
+export const useFormUndo = () => useContext(Context);
 
 const initial = {
   past: [],
@@ -11,11 +43,10 @@ const initial = {
   future: [],
 };
 
-export interface UseFormUndoProps {
-  limit?: number;
-}
-
-export const useFormUndo = ({ limit = 50 }: UseFormUndoProps = {}) => {
+export const FormUndoProvider = ({
+  children,
+  limit,
+}: PropsWithChildren<FormUndoProviderProps>) => {
   const doingUndoOrRedoRef = useRef(false);
 
   const shortcuts = useKeyboardShortcuts();
@@ -28,6 +59,13 @@ export const useFormUndo = ({ limit = 50 }: UseFormUndoProps = {}) => {
     ...initial,
     present: formApi.getState().values,
   });
+
+  const reset = useCallback(() => {
+    setState({
+      ...initial,
+      present: formApi.getState().values,
+    });
+  }, [formApi]);
 
   const onValuesChange = useCallback(
     (formValues: Record<string, unknown>) => {
@@ -129,11 +167,16 @@ export const useFormUndo = ({ limit = 50 }: UseFormUndoProps = {}) => {
     onValuesChange,
   ]);
 
-  return {
-    undo,
-    redo,
-    canUndo,
-    canRedo,
-    queue: state,
-  };
+  const value = useMemo<FormUndoContext>(
+    () => ({
+      undo,
+      redo,
+      canUndo,
+      canRedo,
+      reset,
+    }),
+    [canRedo, canUndo, redo, reset, undo]
+  );
+
+  return <Context.Provider value={value}>{children}</Context.Provider>;
 };

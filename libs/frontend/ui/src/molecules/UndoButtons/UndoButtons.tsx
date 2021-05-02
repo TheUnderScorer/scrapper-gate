@@ -3,14 +3,12 @@ import { ButtonGroup, IconButton, Tooltip } from '@material-ui/core';
 import { RedoSharp, UndoSharp } from '@material-ui/icons';
 import { useKeyboardShortcuts } from '@scrapper-gate/frontend/keyboard-shortcuts';
 import { TextWithKeyHint } from '@scrapper-gate/frontend/ui';
-import { useFormUndo, UseFormUndoProps } from '@scrapper-gate/frontend/form';
+import { useFormUndo } from '@scrapper-gate/frontend/form';
 
-export type UndoButtonsProps = Pick<UseFormUndoProps, 'limit'>;
-
-export const UndoButtons = (props: UndoButtonsProps) => {
+export const UndoButtons = () => {
   const shortcuts = useKeyboardShortcuts();
 
-  const undoMethods = useFormUndo(props);
+  const undoMethods = useFormUndo();
 
   return (
     <ButtonGroup variant="outlined">

@@ -3,8 +3,17 @@ import { ArrowHeadType, Connection, Node, Position } from 'react-flow-renderer';
 import { useTheme } from '@material-ui/core';
 import { useFlowBuilderItemsSelector } from '../providers/FlowBuilderItems.provider';
 import { getById } from '@scrapper-gate/shared/common';
-import { FlowBuilderEdgeTypes } from '../FlowBuilder.types';
+import {
+  BaseNodeProperties,
+  FlowBuilderEdgeTypes,
+  FlowBuilderItem,
+} from '../FlowBuilder.types';
 import { useFlowBuilderContextSelector } from '../providers/FlowBuilderProps.provider';
+
+export interface ConnectionHandlerArgs {
+  setItemsAfter?: boolean;
+  items?: FlowBuilderItem<BaseNodeProperties>[];
+}
 
 export const useConnectHandler = () => {
   const getItems = useFlowBuilderItemsSelector((ctx) => ctx.getItems);
@@ -14,12 +23,15 @@ export const useConnectHandler = () => {
   const theme = useTheme();
 
   return useCallback(
-    (params: Connection) => {
+    (
+      params: Connection,
+      { items: itemsParam, setItemsAfter = true }: ConnectionHandlerArgs = {}
+    ) => {
       if (!onConnect) {
         return;
       }
 
-      const items = getItems();
+      const items = itemsParam ?? getItems();
 
       const node = getById(items, params.source) as Node;
       const handlesData = nodeTypes[node.type]?.handlesData;
@@ -38,7 +50,11 @@ export const useConnectHandler = () => {
         }
       );
 
-      setItems([...items, edge]);
+      if (setItemsAfter) {
+        setItems([...items, edge]);
+      }
+
+      return edge;
     },
     [getItems, nodeTypes, onConnect, setItems, theme.palette.primary.dark]
   );

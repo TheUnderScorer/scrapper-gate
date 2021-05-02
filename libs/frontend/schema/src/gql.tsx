@@ -16,11 +16,21 @@ export const GetScrapperForBuilderDocument = gql`
       steps {
         id
         action
+        key
         createdAt
         updatedAt
         mouseButton
         navigateToUrl
         nextStep {
+          id
+        }
+        previousSteps {
+          id
+        }
+        stepOnTrue {
+          id
+        }
+        stepOnFalse {
           id
         }
         reloadDelay
@@ -30,6 +40,10 @@ export const GetScrapperForBuilderDocument = gql`
         }
         url
         useUrlFromPreviousStep
+        position {
+          x
+          y
+        }
       }
     }
   }
@@ -321,6 +335,56 @@ export type MyScrappersLazyQueryHookResult = ReturnType<
 export type MyScrappersQueryResult = Apollo.QueryResult<
   Types.MyScrappersQuery,
   Types.MyScrappersQueryVariables
+>;
+export const UpdateScrapperDocument = gql`
+  mutation UpdateScrapper($input: ScrapperInput!) {
+    updateScrapper(input: $input) {
+      id
+      name
+    }
+  }
+`;
+export type UpdateScrapperMutationFn = Apollo.MutationFunction<
+  Types.UpdateScrapperMutation,
+  Types.UpdateScrapperMutationVariables
+>;
+
+/**
+ * __useUpdateScrapperMutation__
+ *
+ * To run a mutation, you first call `useUpdateScrapperMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateScrapperMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateScrapperMutation, { data, loading, error }] = useUpdateScrapperMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateScrapperMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    Types.UpdateScrapperMutation,
+    Types.UpdateScrapperMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    Types.UpdateScrapperMutation,
+    Types.UpdateScrapperMutationVariables
+  >(UpdateScrapperDocument, options);
+}
+export type UpdateScrapperMutationHookResult = ReturnType<
+  typeof useUpdateScrapperMutation
+>;
+export type UpdateScrapperMutationResult = Apollo.MutationResult<Types.UpdateScrapperMutation>;
+export type UpdateScrapperMutationOptions = Apollo.BaseMutationOptions<
+  Types.UpdateScrapperMutation,
+  Types.UpdateScrapperMutationVariables
 >;
 export const CreateScrapperDocument = gql`
   mutation CreateScrapper($input: CreateScrapperInput) {

@@ -3,6 +3,7 @@ import { Handle, Position } from 'react-flow-renderer';
 import {
   BaseNodeProperties,
   BoxWithIconComponent,
+  ConditionalNodeEdgeType,
   FlowBuilderNodeTypes,
   NodeMetadata,
 } from '../FlowBuilder.types';
@@ -59,12 +60,14 @@ export const nodeTypes: Record<
         label: 'If true',
         data: {
           edgeVariation: NormalEdgeVariations.Normal,
+          conditionalType: ConditionalNodeEdgeType.True,
         },
       },
       [Position.Bottom]: {
         label: 'If false',
         data: {
           edgeVariation: NormalEdgeVariations.Normal,
+          conditionalType: ConditionalNodeEdgeType.False,
         },
       },
     },

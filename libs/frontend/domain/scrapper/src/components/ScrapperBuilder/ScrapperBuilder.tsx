@@ -1,9 +1,7 @@
 import React, { useCallback, useMemo } from 'react';
 import {
-  BaseNodeProperties,
   FlowBuilder,
-  FlowBuilderItem,
-  FlowBuilderNodeTypes,
+  FlowBuilderFormState,
   flowBuilderUtils,
   flowBuilderValidation,
   IsValidConnectionParams,
@@ -20,25 +18,20 @@ import { Node } from 'react-flow-renderer';
 import { MouseButton } from '@scrapper-gate/shared/schema';
 import { makeStyles } from '@material-ui/core/styles';
 import { Form } from 'react-final-form';
-import { PlayArrowSharp } from '@material-ui/icons';
 import { ScrapperBuilderNodeContent } from './NodeContent/ScrapperBuilderNodeContent';
-import { useIsUsingElementPicker } from '@scrapper-gate/frontend/common';
+import {
+  useIsUsingElementPicker,
+  useSnackbarOnError,
+} from '@scrapper-gate/frontend/common';
+import { nodesToScrapperSteps } from './nodesToScrapperSteps';
+import { useUpdateScrapperMutation } from '@scrapper-gate/frontend/schema';
+import { scrapperStepsToNodes } from './scrapperStepsToNodes';
 
-const initialNodes: FlowBuilderItem<BaseNodeProperties>[] = [
-  {
-    id: 'start',
-    type: FlowBuilderNodeTypes.Start,
-    position: {
-      x: 0,
-      y: 0,
-    },
-    data: {
-      title: 'Start',
-      cannotBeDeleted: true,
-      icon: <PlayArrowSharp />,
-      noContent: true,
-    },
-  },
+const initialNodes = [
+  flowBuilderUtils.createStartNode({
+    x: 0,
+    y: 0,
+  }),
 ];
 
 const handleConnect = flowBuilderUtils.basicHandleConnect();
@@ -70,6 +63,10 @@ export const ScrapperBuilder = ({
   ElementPicker,
   onClose,
 }: ScrapperBuilderProps) => {
+  const snackbarOnError = useSnackbarOnError();
+
+  const [updateScrapper] = useUpdateScrapperMutation();
+
   const [isUsingElementPicker] = useIsUsingElementPicker();
 
   const classes = useStyles();
@@ -120,10 +117,30 @@ export const ScrapperBuilder = ({
     []
   );
 
+  const handleSubmit = useCallback(
+    async (values: FlowBuilderFormState<ScrapperBuilderNodeProperties>) => {
+      try {
+        const steps = nodesToScrapperSteps(values.items);
+
+        await updateScrapper({
+          variables: {
+            input: {
+              id: initialScrapper.id,
+              steps,
+            },
+          },
+        });
+      } catch (error) {
+        snackbarOnError(error);
+      }
+    },
+    [initialScrapper, snackbarOnError, updateScrapper]
+  );
+
   return (
     <Form
       validate={validate}
-      onSubmit={console.log}
+      onSubmit={handleSubmit}
       initialValues={{
         items: initialNodes,
       }}
@@ -141,6 +158,10 @@ export const ScrapperBuilder = ({
             nodesSelection={selection}
             title={initialScrapper?.name ?? 'Unnamed scrapper'}
             onClose={onClose}
+            nodesCreator={scrapperStepsToNodes(
+              initialScrapper?.steps ?? [],
+              selection
+            )}
           />
         </form>
       )}

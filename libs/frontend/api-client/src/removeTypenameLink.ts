@@ -2,9 +2,15 @@ import { ApolloLink } from '@apollo/client';
 import mapValues from 'lodash.mapvalues';
 
 export const removeTypenameLink = new ApolloLink((operation, forward) => {
+  console.log({
+    ...operation.variables,
+  });
+
   if (operation.variables) {
     operation.variables = removeTypename(operation.variables);
   }
+
+  console.log(operation.variables);
 
   return forward(operation);
 });
@@ -27,7 +33,7 @@ const handle = (item: any, key: string) => {
     return item.map((value) => removeTypename(value));
   }
 
-  if (typeof item === 'object') {
+  if (item && typeof item === 'object') {
     return removeTypename(item);
   }
 

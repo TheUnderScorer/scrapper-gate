@@ -1,0 +1,6 @@
+mutation UpdateScrapper($input: ScrapperInput!) {
+  updateScrapper(input: $input) {
+    id
+    name
+  }
+}

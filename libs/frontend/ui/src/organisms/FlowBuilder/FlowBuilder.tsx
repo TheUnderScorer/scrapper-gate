@@ -26,6 +26,7 @@ import {
   IsValidConnectionParams,
   NodeContentComponent,
   NodeMetadata,
+  NodesCreatorApi,
 } from './FlowBuilder.types';
 import { FlowBuilderItemsProvider } from './providers/FlowBuilderItems.provider';
 import {
@@ -41,6 +42,7 @@ import { nodeTypes } from './nodeTypes/nodeTypes';
 import { FlowBuilderPropsProvider } from './providers/FlowBuilderProps.provider';
 import { FlowBuilderDragStateProvider } from './providers/FlowBuilderDragState.provider';
 import { Selection } from '@scrapper-gate/frontend/common';
+import { FormUndoProvider } from '@scrapper-gate/frontend/form';
 
 export interface FlowBuilderProps<
   T extends BaseNodeProperties = BaseNodeProperties,
@@ -56,7 +58,6 @@ export interface FlowBuilderProps<
     api: FlowBuilderRemoveApi<T>
   ) => FlowBuilderItem<T>[];
   nodesSelection?: Selection<S>[];
-  onChange?: (items: FlowBuilderItem<T>[]) => unknown;
   nodeTypes?: Record<string, NodeMetadata<T>>;
   onConnect?: (connection: Connection, edge?: Partial<Edge<T>>) => Edge<T>;
   useFallbackConnectionHandler?: boolean;
@@ -66,6 +67,8 @@ export interface FlowBuilderProps<
   isUsingElementPicker?: boolean;
   nodesLabel?: string;
   loading?: boolean;
+  // Used on init in order to transform initial items into actual nodes
+  nodesCreator?: (api: NodesCreatorApi<T, S>) => Promise<FlowBuilderItem<T>[]>;
 }
 
 const defaultNodeTypes = {};
@@ -104,41 +107,43 @@ export const FlowBuilder = <
   return (
     <ReactFlowProvider>
       <DndProvider backend={HTML5Backend}>
-        <FlowBuilderPropsProvider
-          {...rest}
-          nodeTypes={{
-            ...(rest.nodeTypes ?? defaultNodeTypes),
-            ...nodeTypes,
-          }}
-        >
-          <FlowBuilderInstanceProvider>
-            <FlowBuilderItemsProvider>
-              <FlowBuilderSelectionProvider selection={nodesSelection}>
-                <FlowBuilderActiveNodeProvider>
-                  <FlowBuilderDragStateProvider>
-                    <Paper
-                      elevation={0}
-                      variant="outlined"
-                      className={classes.paper}
-                    >
-                      <FlowBuilderHeader {...props} />
-                      <FlowBuilderTabs
-                        value={activeTab}
-                        onChange={setActiveTab}
-                        tabs={tabs}
-                        mainTabLabel={mainTabLabel}
-                      />
-                      <Box flex={1} overflow="hidden">
-                        {activeTab === mainTab && <FlowBuilderContent />}
-                        {activeTab !== mainTab && tabContent}
-                      </Box>
-                    </Paper>
-                  </FlowBuilderDragStateProvider>
-                </FlowBuilderActiveNodeProvider>
-              </FlowBuilderSelectionProvider>
-            </FlowBuilderItemsProvider>
-          </FlowBuilderInstanceProvider>
-        </FlowBuilderPropsProvider>
+        <FormUndoProvider>
+          <FlowBuilderPropsProvider
+            {...rest}
+            nodeTypes={{
+              ...(rest.nodeTypes ?? defaultNodeTypes),
+              ...nodeTypes,
+            }}
+          >
+            <FlowBuilderInstanceProvider>
+              <FlowBuilderItemsProvider>
+                <FlowBuilderSelectionProvider selection={nodesSelection}>
+                  <FlowBuilderActiveNodeProvider>
+                    <FlowBuilderDragStateProvider>
+                      <Paper
+                        elevation={0}
+                        variant="outlined"
+                        className={classes.paper}
+                      >
+                        <FlowBuilderHeader {...props} />
+                        <FlowBuilderTabs
+                          value={activeTab}
+                          onChange={setActiveTab}
+                          tabs={tabs}
+                          mainTabLabel={mainTabLabel}
+                        />
+                        <Box flex={1} overflow="hidden">
+                          {activeTab === mainTab && <FlowBuilderContent />}
+                          {activeTab !== mainTab && tabContent}
+                        </Box>
+                      </Paper>
+                    </FlowBuilderDragStateProvider>
+                  </FlowBuilderActiveNodeProvider>
+                </FlowBuilderSelectionProvider>
+              </FlowBuilderItemsProvider>
+            </FlowBuilderInstanceProvider>
+          </FlowBuilderPropsProvider>
+        </FormUndoProvider>
       </DndProvider>
     </ReactFlowProvider>
   );

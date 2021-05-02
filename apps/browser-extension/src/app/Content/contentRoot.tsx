@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { ThemeProvider } from '@scrapper-gate/frontend/theme';
+import { palette, ThemeProvider } from '@scrapper-gate/frontend/theme';
 import { ApiClientProvider } from '@scrapper-gate/frontend/api-client';
 import {
   hiddenNumericArrows,
@@ -18,7 +18,8 @@ import { logger } from '@scrapper-gate/frontend/logger';
 import { QueryParamProvider } from '@scrapper-gate/frontend/common';
 import 'react-flow-renderer/dist/style.css';
 import { Global } from '@emotion/react';
-import { GlobalStyles } from '@material-ui/core';
+import tinycolor from 'tinycolor2';
+import { Palette } from '@material-ui/core/styles/createPalette';
 
 logger.debug('Starting content script... ;)');
 
@@ -26,9 +27,15 @@ document.body.appendChild(contentContainer);
 
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeProvider>
-      <GlobalStyles styles={[highlight]} />
-    </ThemeProvider>
+    <Global
+      styles={[
+        highlight(
+          tinycolor((palette as Palette).primary.dark)
+            .setAlpha(0.5)
+            .toRgbString()
+        ),
+      ]}
+    />
     <Scoped>
       {(shadowRoot, container) => (
         <ContentErrorBoundary>

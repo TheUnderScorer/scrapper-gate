@@ -10,6 +10,7 @@ import { Selection } from '@scrapper-gate/frontend/common';
 export interface AddItemArgs {
   source?: NodeProps;
   position?: XYPosition;
+  setItemsAfter?: boolean;
 }
 
 export const useAddItem = () => {
@@ -22,7 +23,7 @@ export const useAddItem = () => {
   return useCallback(
     async (
       item: Selection<BaseNodeSelectionProperties>,
-      { position, source }: AddItemArgs = {}
+      { position, source, setItemsAfter = true }: AddItemArgs = {}
     ) => {
       if (!onAdd) {
         return;
@@ -38,17 +39,21 @@ export const useAddItem = () => {
           getNodes: () => filterForNodes(items),
           getFurthestNode: getFurthestNode(filterForNodes(items)),
           sourceNode: source,
-          position,
+          position: position ?? item.value.position,
         }
       );
 
-      setItems([...items, ...createdNodes]);
+      if (setItemsAfter) {
+        setItems([...items, ...createdNodes]);
 
-      afterCreate(
-        createdNodes?.map((node) => node.id) ?? [],
-        createdItems,
-        nodeToCenterOn
-      );
+        afterCreate(
+          createdNodes?.map((node) => node.id) ?? [],
+          createdItems,
+          nodeToCenterOn
+        );
+      }
+
+      return createdNodes;
     },
     [onAdd, getItems, flowInstance, setItems, afterCreate]
   );

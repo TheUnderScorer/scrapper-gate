@@ -1,6 +1,7 @@
 import { Scrapper, ScrapperStep } from '@scrapper-gate/shared/schema';
 import { ComponentType } from 'react';
 import {
+  BaseNodeProperties,
   BaseNodeSelectionProperties,
   HtmlElementPickerProps,
   NodeContentProps,
@@ -18,18 +19,25 @@ export interface ScrapperElementPickerProps
 
 export type ScrapperBuilderNode = Node<ScrapperBuilderNodeProperties>;
 
-export interface ScrapperBuilderNodeProperties
-  extends BaseNodeSelectionProperties,
-    Omit<
-      ScrapperStep,
-      'createdBy' | 'scrapper' | 'createdAt' | 'updatedAt' | 'id' | 'index'
-    > {
-  id?: string;
-}
+export type ScrapperBuilderNodeSelection = BaseNodeSelectionProperties &
+  ScrapperBuilderStep;
+
+export type ScrapperBuilderNodeProperties = BaseNodeProperties &
+  ScrapperBuilderStep;
 
 export interface ScrapperBuilderStep
-  extends Omit<ScrapperStep, 'nextStep' | 'createdBy'> {
+  extends Omit<
+    ScrapperStep,
+    | 'nextStep'
+    | 'createdBy'
+    | 'updatedAt'
+    | 'id'
+    | 'createdAt'
+    | 'previousSteps'
+  > {
   nextStep?: Pick<ScrapperStep, 'id'>;
+  previousSteps?: Pick<ScrapperStep, 'id'>[];
+  id?: string;
 }
 
 export interface ScrapperBuilderScrapper

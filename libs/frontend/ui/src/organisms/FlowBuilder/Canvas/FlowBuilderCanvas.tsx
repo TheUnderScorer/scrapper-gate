@@ -12,7 +12,7 @@ import React, {
   useMemo,
   useRef,
 } from 'react';
-import ReactFlow from 'react-flow-renderer';
+import ReactFlow, { Connection } from 'react-flow-renderer';
 import classNames from 'classnames';
 import { useFlowBuilderInstanceContext } from '../providers/FlowBuilderInstance.provider';
 import { useFlowBuilderDragState } from '../providers/FlowBuilderDragState.provider';
@@ -175,7 +175,7 @@ export const FlowBuilderCanvas = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [drop, containerRef.current]);
 
-  if (loading) {
+  if (loading || !items?.length) {
     return (
       <Centered className={classes.paper}>
         <Stack alignItems="center" direction="column" spacing={2}>
@@ -214,7 +214,7 @@ export const FlowBuilderCanvas = () => {
             onElementsRemove={
               removeItems as (items: FlowBuilderItem<unknown>[]) => unknown
             }
-            onConnect={connect}
+            onConnect={(connection) => connect(connection as Connection)}
             onNodeDragStop={handleDragEnd}
             onNodeDrag={(event, node) => {
               setTimeout(() => setDraggedNode(node), 150);

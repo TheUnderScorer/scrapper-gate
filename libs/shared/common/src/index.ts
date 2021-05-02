@@ -16,3 +16,4 @@ export * from './xpath';
 export * from './text';
 export * from './url';
 export * from './firstLast';
+export * from './keysEnum';
