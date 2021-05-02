@@ -22,6 +22,7 @@ import { ScrapperBuilderNodeContent } from './NodeContent/ScrapperBuilderNodeCon
 import {
   useIsUsingElementPicker,
   useSnackbarOnError,
+  useSnackbarOnSuccess,
 } from '@scrapper-gate/frontend/common';
 import { nodesToScrapperSteps } from './nodesToScrapperSteps';
 import { useUpdateScrapperMutation } from '@scrapper-gate/frontend/schema';
@@ -64,6 +65,7 @@ export const ScrapperBuilder = ({
   onClose,
 }: ScrapperBuilderProps) => {
   const snackbarOnError = useSnackbarOnError();
+  const snackbarOnSuccess = useSnackbarOnSuccess();
 
   const [updateScrapper] = useUpdateScrapperMutation();
 
@@ -130,11 +132,13 @@ export const ScrapperBuilder = ({
             },
           },
         });
+
+        snackbarOnSuccess('Scrapper updated.');
       } catch (error) {
         snackbarOnError(error);
       }
     },
-    [initialScrapper, snackbarOnError, updateScrapper]
+    [initialScrapper, snackbarOnError, snackbarOnSuccess, updateScrapper]
   );
 
   return (

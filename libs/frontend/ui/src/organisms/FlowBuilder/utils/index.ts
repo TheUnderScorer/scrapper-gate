@@ -10,3 +10,4 @@ export * from './getPrevNode';
 export * from './getNodeEdges';
 export * from './splitNodesAndEdges';
 export * from './createStartNode';
+export * from './recreateNodes';

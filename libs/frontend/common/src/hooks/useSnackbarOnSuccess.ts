@@ -1,14 +1,15 @@
 import { useSnackbar } from 'notistack';
 import { useCallback } from 'react';
 
-export const useSnackbarOnError = () => {
+export const useSnackbarOnSuccess = () => {
   const snackbar = useSnackbar();
 
   return useCallback(
-    (error: Error) => {
-      snackbar.enqueueSnackbar(error.message, {
-        variant: 'error',
-        title: error.name,
+    (message: string) => {
+      snackbar.enqueueSnackbar(message, {
+        variant: 'success',
+        title: 'Success',
+        persist: false,
         anchorOrigin: {
           vertical: 'top',
           horizontal: 'center',

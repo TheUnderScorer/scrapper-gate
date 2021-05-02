@@ -31,13 +31,15 @@ export interface ScrapperBuilderStep
     | 'nextStep'
     | 'createdBy'
     | 'updatedAt'
-    | 'id'
     | 'createdAt'
     | 'previousSteps'
+    | 'stepOnFalse'
+    | 'stepOnTrue'
   > {
   nextStep?: Pick<ScrapperStep, 'id'>;
   previousSteps?: Pick<ScrapperStep, 'id'>[];
-  id?: string;
+  stepOnTrue?: Pick<ScrapperStep, 'id'>;
+  stepOnFalse?: Pick<ScrapperStep, 'id'>;
 }
 
 export interface ScrapperBuilderScrapper
