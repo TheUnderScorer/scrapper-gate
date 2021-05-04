@@ -9,6 +9,7 @@ export const useSnackbarOnSuccess = () => {
       snackbar.enqueueSnackbar(message, {
         variant: 'success',
         title: 'Success',
+        preventDuplicate: true,
         persist: false,
         anchorOrigin: {
           vertical: 'top',

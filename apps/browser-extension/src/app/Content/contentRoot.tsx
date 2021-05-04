@@ -7,6 +7,7 @@ import {
   highlight,
   reactFlowBuilderStyles,
   Scoped,
+  SnackbarActions,
 } from '@scrapper-gate/frontend/ui';
 import { SnackbarProvider } from 'notistack';
 import { ContentRouter } from '../../extension/contentScript/components/ContentRouter';
@@ -46,7 +47,9 @@ ReactDOM.render(
                   styles={[reactFlowBuilderStyles, hiddenNumericArrows]}
                 />
                 <ApiClientProvider>
-                  <SnackbarProvider>
+                  <SnackbarProvider
+                    action={(key) => <SnackbarActions key={key} />}
+                  >
                     <Content />
                   </SnackbarProvider>
                 </ApiClientProvider>

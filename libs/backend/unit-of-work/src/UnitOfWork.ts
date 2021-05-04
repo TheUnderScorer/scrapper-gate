@@ -1,4 +1,4 @@
-import { UnitOfWorkCallback, UnitOfWorkCallbackContext } from './types';
+import { UnitOfWorkCallback } from './types';
 import { asValue, AwilixContainer } from 'awilix';
 import { asValueObject } from '@scrapper-gate/backend/awilix';
 import { Connection } from 'typeorm';
@@ -7,6 +7,7 @@ import { createCqrs } from 'functional-cqrs';
 import { Logger } from '@scrapper-gate/shared/logger';
 import { Typed } from 'emittery';
 import { RepositoriesProvider } from '@scrapper-gate/backend/database';
+import { Buses } from 'functional-cqrs/build/typings/buses';
 
 export interface UnitOfWorkDependencies {
   connection: Connection;
@@ -62,7 +63,7 @@ export class UnitOfWork {
           ...handlers,
         });
 
-        const callbackContext: UnitOfWorkCallbackContext = {
+        const callbackContext: Buses = {
           eventsBus,
           queriesBus,
           commandsBus,
