@@ -227,6 +227,7 @@ export const FlowBuilderCanvas = () => {
               setTimeout(() => setDraggedNode(node), 150);
             }}
             onConnectStart={(event, data) => {
+              console.log('connect start');
               setConnectionSource(data);
             }}
             onConnectEnd={handleConnectionEnd}

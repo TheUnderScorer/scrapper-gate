@@ -446,6 +446,7 @@ Object {
               </div>
               <div
                 class="makeStyles-paper-33 flow-builder-canvas"
+                data-items="[]"
               >
                 <div
                   class="react-flow makeStyles-canvas-34"
@@ -464,6 +465,7 @@ Object {
                       >
                         <div
                           class="flow-builder-node flow-builder-node-Action"
+                          id="node-1"
                         >
                           <div
                             class="css-yxp10p"
@@ -537,6 +539,7 @@ Object {
                       >
                         <div
                           class="flow-builder-node flow-builder-node-Action"
+                          id="node-2"
                         >
                           <div
                             class="css-yxp10p"
@@ -636,6 +639,7 @@ Object {
                       >
                         <div
                           class="flow-builder-node flow-builder-node-Action"
+                          id="node-3"
                         >
                           <div
                             class="css-yxp10p"
@@ -1413,6 +1417,7 @@ Object {
             </div>
             <div
               class="makeStyles-paper-33 flow-builder-canvas"
+              data-items="[]"
             >
               <div
                 class="react-flow makeStyles-canvas-34"
@@ -1431,6 +1436,7 @@ Object {
                     >
                       <div
                         class="flow-builder-node flow-builder-node-Action"
+                        id="node-1"
                       >
                         <div
                           class="css-yxp10p"
@@ -1504,6 +1510,7 @@ Object {
                     >
                       <div
                         class="flow-builder-node flow-builder-node-Action"
+                        id="node-2"
                       >
                         <div
                           class="css-yxp10p"
@@ -1603,6 +1610,7 @@ Object {
                     >
                       <div
                         class="flow-builder-node flow-builder-node-Action"
+                        id="node-3"
                       >
                         <div
                           class="css-yxp10p"

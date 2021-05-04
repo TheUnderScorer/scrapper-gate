@@ -8,17 +8,20 @@ import {
   HtmlElementPickerValidationRules,
 } from './HtmlElementPicker.types';
 import { first, prefix, wait } from '@scrapper-gate/shared/common';
+import { ThemeProvider } from '@scrapper-gate/frontend/theme';
 
 const getCmp = (props: Partial<HtmlElementPickerProps>) => (
   <Form
     onSubmit={jest.fn()}
     render={() => (
-      <HtmlElementPicker
-        className="test"
-        label="Html Picker"
-        name="test"
-        {...props}
-      />
+      <ThemeProvider>
+        <HtmlElementPicker
+          className="test"
+          label="Html Picker"
+          name="test"
+          {...props}
+        />
+      </ThemeProvider>
     )}
   />
 );
@@ -158,35 +161,6 @@ describe('<HtmlElementPicker />', () => {
     expect(listItems).toHaveLength(0);
   });
 
-  it('should display selected element selector in snackbar', () => {
-    const component = renderCmp();
-    const togglePicker = component.container.querySelector('.toggle-picker');
-
-    component.rerender(
-      getCmp({
-        container: component.baseElement,
-      })
-    );
-
-    const targetElement = document.createElement('div');
-    targetElement.id = 'test_element';
-
-    component.baseElement.appendChild(targetElement);
-
-    act(() => {
-      userEvent.click(togglePicker);
-    });
-
-    act(() => {
-      userEvent.hover(targetElement);
-    });
-
-    const snackbarSelector = component.baseElement.querySelector(
-      '.collapsable-card-title'
-    );
-    expect(snackbarSelector).toHaveTextContent('#test_element');
-  });
-
   it('should support clicking multiple elements if it is enabled', async () => {
     const component = renderCmp();
 
@@ -302,7 +276,7 @@ describe('<HtmlElementPicker />', () => {
 
     selectElement(component, targetElement);
 
-    let dropdown = component.container.querySelector('.element-dropdown');
+    let dropdown = component.baseElement.querySelector('.element-dropdown');
 
     expect(dropdown).toBeInTheDocument();
     expect(dropdown).toHaveTextContent('div#test_element123');
@@ -315,7 +289,7 @@ describe('<HtmlElementPicker />', () => {
 
     await wait(500);
 
-    dropdown = component.container.querySelector('.element-dropdown');
+    dropdown = component.baseElement.querySelector('.element-dropdown');
 
     expect(dropdown).not.toBeInTheDocument();
 
@@ -343,7 +317,7 @@ describe('<HtmlElementPicker />', () => {
 
     selectElement(component, targetElement);
 
-    let dropdown = component.container.querySelector('.element-dropdown');
+    let dropdown = component.baseElement.querySelector('.element-dropdown');
 
     expect(dropdown).toBeInTheDocument();
 
@@ -353,7 +327,7 @@ describe('<HtmlElementPicker />', () => {
 
     await wait(500);
 
-    dropdown = component.container.querySelector('.element-dropdown');
+    dropdown = component.baseElement.querySelector('.element-dropdown');
 
     expect(dropdown).not.toBeInTheDocument();
   });

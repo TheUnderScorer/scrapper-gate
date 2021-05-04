@@ -228,9 +228,9 @@ describe('<FlowBuilder />', () => {
   });
 
   it('should render node content after clicking it', async () => {
-    const ContentComponent: NodeContentComponent<BaseNodeProperties> = ({
-      nodeIndex,
-    }) => <span>Test content of node {nodeIndex.id}</span>;
+    const ContentComponent: NodeContentComponent = ({ nodeIndex }) => {
+      return <span>Test content of node {nodeIndex}</span>;
+    };
 
     const items: FlowBuilderItem<BaseNodeProperties>[] = [
       ...defaultInitialItems,
@@ -263,7 +263,7 @@ describe('<FlowBuilder />', () => {
 
     await wait(450);
 
-    expect(screen.getByText('Test content of node test')).toBeInTheDocument();
+    expect(screen.getByText('Test content of node 5')).toBeInTheDocument();
   });
 
   it('should add new items via context menu', async () => {
