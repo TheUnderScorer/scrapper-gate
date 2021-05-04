@@ -1,6 +1,8 @@
 const createConfig = require('@nrwl/react/plugins/webpack');
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const webpack = require('webpack');
 
 module.exports = (config) => {
   const preppedConfig = createConfig(config);
@@ -43,6 +45,14 @@ module.exports = (config) => {
     preppedConfig.devServer.injectClient = false;
   }
 
+  config.plugins.push(
+    new webpack.NormalModuleReplacementPlugin(/faker/, (resource) => {
+      const srcPath = path.resolve(path.join(__dirname, '../../tools/shim.js'));
+
+      resource.request = resource.request.replace(/faker/, srcPath);
+    })
+  );
+
   if (preppedConfig.mode === 'development') {
     preppedConfig.optimization.removeAvailableModules = false;
     preppedConfig.optimization.removeEmptyChunks = false;
@@ -51,6 +61,20 @@ module.exports = (config) => {
 
     preppedConfig.resolve.symlinks = false;
     preppedConfig.output.pathinfo = false;
+  } else {
+    if (process.env.ANALYZE_BUNDLE === 'true') {
+      preppedConfig.plugins.push(
+        new BundleAnalyzerPlugin({
+          analyzerMode: 'static',
+        })
+      );
+    }
+
+    preppedConfig.plugins.push(
+      new webpack.DefinePlugin({
+        'process.env.NODE_ENV': JSON.stringify('production'),
+      })
+    );
   }
 
   return preppedConfig;
