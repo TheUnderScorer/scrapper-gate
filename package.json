@@ -6,7 +6,6 @@
     "nx": "nx",
     "start": "nx serve",
     "build": "nx build --prod",
-    "watch:browser-extension": "nx serve --prod",
     "test": "jest",
     "lint": "nx run-many --target=lint --all --parallel --maxParallel=4",
     "e2e": "nx e2e",
@@ -99,6 +98,7 @@
     "uuid": "^3.4.0",
     "webextension-polyfill": "^0.7.0",
     "webextension-polyfill-ts": "^0.25.0",
+    "webpack-bundle-analyzer": "^4.4.1",
     "zustand": "^3.3.3"
   },
   "devDependencies": {

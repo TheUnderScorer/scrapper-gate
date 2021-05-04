@@ -1,4 +1,4 @@
-/* eslint-disable */
+/*eslint-disable*/
 import { addDecorator } from '@storybook/react';
 import { withKnobs } from '@storybook/addon-knobs';
 import { withActions } from '@storybook/addon-actions';
