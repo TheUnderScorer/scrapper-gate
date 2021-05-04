@@ -2,7 +2,7 @@ export * from './travelNodes';
 export * from './basicHandleRemoveNode';
 export * from './basicHandleConnect';
 export * from './basicHandleAddNode';
-export * from './createEdgeId';
+export * from './createEdge';
 export * from './fallbackConnectHandler';
 export * from './travelNodes';
 export * from './isNodeConnectedTo';

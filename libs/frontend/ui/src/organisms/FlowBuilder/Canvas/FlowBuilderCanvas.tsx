@@ -36,6 +36,7 @@ import { Selection } from '@scrapper-gate/frontend/common';
 import { Centered, ContextMenu } from '@scrapper-gate/frontend/ui';
 import { useCanvasContextMenu } from '../hooks/useCanvasContextMenu';
 import { Key } from 'ts-key-enum';
+import { stringifyCircular } from '@scrapper-gate/shared/common';
 
 const useStyles = makeStyles((theme: AppTheme) => ({
   paper: {
@@ -117,6 +118,9 @@ export const FlowBuilderCanvas = () => {
   const connect = useConnectHandler();
 
   const loading = useFlowBuilderContextSelector((ctx) => ctx.loading);
+  const renderItemsInDataAttribute = useFlowBuilderContextSelector(
+    (ctx) => ctx.renderItemsInDataAttribute
+  );
 
   const removeItems = useRemoveItems();
   const handleDragEnd = useHandleDragEnd();
@@ -195,6 +199,9 @@ export const FlowBuilderCanvas = () => {
     >
       {({ onContextMenu }) => (
         <div
+          data-items={stringifyCircular(
+            renderItemsInDataAttribute ? items : []
+          )}
           onContextMenu={onContextMenu}
           ref={containerRef as MutableRefObject<HTMLDivElement>}
           className={classNames(classes.paper, 'flow-builder-canvas', {
@@ -220,7 +227,6 @@ export const FlowBuilderCanvas = () => {
               setTimeout(() => setDraggedNode(node), 150);
             }}
             onConnectStart={(event, data) => {
-              console.log('connect start', { data });
               setConnectionSource(data);
             }}
             onConnectEnd={handleConnectionEnd}

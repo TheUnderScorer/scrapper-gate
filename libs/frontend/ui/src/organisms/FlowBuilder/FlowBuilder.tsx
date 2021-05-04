@@ -69,6 +69,8 @@ export interface FlowBuilderProps<
   loading?: boolean;
   // Used on init in order to transform initial items into actual nodes
   nodesCreator?: (api: NodesCreatorApi<T, S>) => Promise<FlowBuilderItem<T>[]>;
+  // Useful in testing, if set to sets data-items to current items on element .flow-builder-canvas
+  renderItemsInDataAttribute?: boolean;
 }
 
 const defaultNodeTypes = {};

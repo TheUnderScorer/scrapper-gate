@@ -231,6 +231,7 @@ export type ScrapperStep = BaseEntity &
     navigateToUrl?: Maybe<Scalars['Url']>;
     reloadDelay?: Maybe<Scalars['Float']>;
     typeDelay?: Maybe<Scalars['Float']>;
+    typeValue?: Maybe<Scalars['String']>;
     useUrlFromPreviousStep?: Maybe<Scalars['Boolean']>;
     action?: Maybe<ScrapperAction>;
     selectors?: Maybe<Array<Selector>>;
@@ -865,6 +866,11 @@ export type ScrapperStepResolvers<
     ContextType
   >;
   typeDelay?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  typeValue?: Resolver<
+    Maybe<ResolversTypes['String']>,
+    ParentType,
+    ContextType
+  >;
   useUrlFromPreviousStep?: Resolver<
     Maybe<ResolversTypes['Boolean']>,
     ParentType,

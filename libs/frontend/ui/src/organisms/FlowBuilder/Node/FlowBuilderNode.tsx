@@ -71,6 +71,7 @@ const BaseFlowBuilderNode = forwardRef<HTMLDivElement, FlowBuilderNodeProps>(
 
     return (
       <div
+        id={`node-${node.id}`}
         onContextMenu={stopPropagation}
         ref={ref}
         className={classNames(

@@ -1,5 +1,5 @@
 import { FlowBuilderProps } from '../FlowBuilder';
-import { createEdge } from './createEdgeId';
+import { createEdge } from './createEdge';
 
 export const basicHandleConnect = (): FlowBuilderProps['onConnect'] => (
   connection,

@@ -127,7 +127,7 @@ export const NormalEdge = ({
   const markerEnd = getMarkerEnd(arrowHeadType, markerEndId);
 
   return (
-    <g>
+    <g id={`edge-${id}`}>
       <path
         id={id}
         strokeWidth={1}

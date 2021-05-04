@@ -8,6 +8,9 @@ interface CreateEdgeParams<T extends BaseNodeProperties> {
   edge?: Partial<Edge>;
 }
 
+export const generateEdgeId = (sourceId: string, targetId: string) =>
+  `e${sourceId}-${targetId}`;
+
 export const createEdge = <T extends BaseNodeProperties>({
   sourceId,
   targetId,
@@ -16,7 +19,7 @@ export const createEdge = <T extends BaseNodeProperties>({
 }: CreateEdgeParams<T>): Edge<T> => ({
   source: sourceId,
   target: targetId,
-  id: `e${sourceId}-${targetId}`,
+  id: generateEdgeId(sourceId, targetId),
   ...edge,
   data: {
     ...edge?.data,

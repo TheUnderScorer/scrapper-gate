@@ -104,4 +104,9 @@ export class ScrapperStepModel
     nullable: true,
   })
   key?: string;
+
+  @Column({
+    nullable: true,
+  })
+  typeValue?: string;
 }

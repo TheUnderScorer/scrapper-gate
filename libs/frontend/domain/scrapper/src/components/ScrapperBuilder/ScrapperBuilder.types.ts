@@ -3,6 +3,7 @@ import { ComponentType } from 'react';
 import {
   BaseNodeProperties,
   BaseNodeSelectionProperties,
+  FlowBuilderProps,
   HtmlElementPickerProps,
   NodeContentProps,
 } from '@scrapper-gate/frontend/ui';
@@ -47,9 +48,9 @@ export interface ScrapperBuilderScrapper
   steps?: ScrapperBuilderStep[];
 }
 
-export interface ScrapperBuilderProps {
+export interface ScrapperBuilderProps
+  extends Pick<FlowBuilderProps, 'onClose' | 'renderItemsInDataAttribute'> {
   initialScrapper?: ScrapperBuilderScrapper;
-  onClose?: () => unknown;
   ElementPicker: ComponentType<ScrapperElementPickerProps>;
   loading?: boolean;
   browserUrl: string;

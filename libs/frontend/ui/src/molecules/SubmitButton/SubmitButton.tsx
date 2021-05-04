@@ -4,6 +4,8 @@ import { Button, CircularProgress, Theme } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
 import { PrimaryIconButton } from '../../atoms/Buttons/Buttons';
+import { useForm, useFormState } from 'react-final-form';
+import { isDisabled } from '@testing-library/user-event/dist/utils';
 
 export interface SubmitButtonProps {
   didSubmit?: boolean;
@@ -36,6 +38,12 @@ export const SubmitButton: FC<SubmitButtonProps> = ({
   className,
   type = 'button',
 }) => {
+  const formState = useFormState({
+    subscription: {
+      dirty: true,
+    },
+  });
+
   const classes = useStyles();
 
   const buttonType = didSubmit ? 'button' : 'submit';
@@ -53,7 +61,7 @@ export const SubmitButton: FC<SubmitButtonProps> = ({
         )}
         type={buttonType}
         onClick={onClick}
-        disabled={loading || disabled}
+        disabled={loading || disabled || !formState.dirty}
         variant="contained"
         color={color}
         startIcon={didSubmit ? <Check /> : null}
@@ -68,7 +76,7 @@ export const SubmitButton: FC<SubmitButtonProps> = ({
     <PrimaryIconButton
       type={buttonType}
       onClick={onClick}
-      disabled={disabled || loading}
+      disabled={disabled || loading || !formState.dirty}
       className={classNames(
         classes.base,
         { didSubmit, loading },

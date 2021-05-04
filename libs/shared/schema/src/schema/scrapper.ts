@@ -40,6 +40,7 @@ export const scrapperSchema = gql`
     navigateToUrl: Url
     reloadDelay: Float
     typeDelay: Float
+    typeValue: String
     useUrlFromPreviousStep: Boolean
     action: ScrapperAction
     selectors: [Selector!]

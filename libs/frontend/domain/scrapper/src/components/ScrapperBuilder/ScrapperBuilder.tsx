@@ -62,7 +62,7 @@ export const ScrapperBuilder = ({
   loading,
   initialScrapper,
   ElementPicker,
-  onClose,
+  ...rest
 }: ScrapperBuilderProps) => {
   const snackbarOnError = useSnackbarOnError();
   const snackbarOnSuccess = useSnackbarOnSuccess();
@@ -161,11 +161,11 @@ export const ScrapperBuilder = ({
             loading={loading}
             nodesSelection={selection}
             title={initialScrapper?.name ?? 'Unnamed scrapper'}
-            onClose={onClose}
             nodesCreator={scrapperStepsToNodes(
               initialScrapper?.steps ?? [],
               selection
             )}
+            {...rest}
           />
         </form>
       )}
