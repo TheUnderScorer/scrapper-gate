@@ -11,8 +11,7 @@ import {
 } from '@scrapper-gate/shared/schema';
 import { getById } from '@scrapper-gate/shared/common';
 import { getOutgoers, isNode, Node } from 'react-flow-renderer';
-import { pick } from 'remeda';
-import { scrapperStepInputKeys } from '@scrapper-gate/shared/domain/scrapper';
+import { pickScrapperInput } from '@scrapper-gate/shared/domain/scrapper';
 
 const allowedNodeTypes = [
   FlowBuilderNodeTypes.Action,
@@ -45,14 +44,11 @@ export const nodesToScrapperSteps = (
         allowedNodeTypes.includes(item.type as FlowBuilderNodeTypes)
     )
     .map((node: Node<ScrapperBuilderNodeProperties>) => {
-      return pick<ScrapperStepInput, keyof ScrapperStepInput>(
-        {
-          ...node.data,
-          position: node.position,
-          id: node.id,
-        },
-        scrapperStepInputKeys
-      );
+      return pickScrapperInput({
+        ...node.data,
+        position: node.position,
+        id: node.id,
+      });
     });
 
   return rawSteps.map((step) => {

@@ -1,4 +1,4 @@
-import React, { ReactNode, useCallback } from 'react';
+import React, { ReactNode, useCallback, useMemo } from 'react';
 import {
   AppBar,
   Divider,
@@ -20,6 +20,7 @@ import { useFormState } from 'react-final-form';
 import { useFlowBuilderContextSelector } from '../providers/FlowBuilderProps.provider';
 import { SkeletonComponentOrIcon } from '../../../molecules/Skeleton/ComponentOrIcon/SkeletonComponentOrIcon';
 import { Skeleton } from '@material-ui/lab';
+import classNames from 'classnames';
 
 export interface FlowBuilderHeaderProps {
   title?: string;
@@ -59,9 +60,14 @@ export const FlowBuilderHeader = ({
   const formState = useFormState({
     subscription: {
       submitting: true,
-      hasValidationErrors: true,
+      errors: true,
     },
   });
+
+  const hasErrors = useMemo(
+    () => Object.values(formState.errors ?? {}).length > 0,
+    [formState]
+  );
 
   const setItems = useFlowBuilderItemsSelector((ctx) => ctx.setItems);
   const getItems = useFlowBuilderItemsSelector((ctx) => ctx.getItems);
@@ -124,8 +130,8 @@ export const FlowBuilderHeader = ({
               height={30}
             >
               <Fab
-                disabled={formState.submitting || formState.hasValidationErrors}
-                className={classes.fab}
+                disabled={formState.submitting || hasErrors}
+                className={classNames(classes.fab, 'flow-builder-submit-btn')}
                 size="small"
                 variant="extended"
                 color="primary"

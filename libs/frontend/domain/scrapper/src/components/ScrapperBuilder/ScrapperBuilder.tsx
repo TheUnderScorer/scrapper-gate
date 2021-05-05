@@ -86,9 +86,9 @@ export const ScrapperBuilder = ({
 
   const nodeCreationInterceptor = useCallback(
     (node: Node<ScrapperBuilderNodeProperties>) => {
-      node.data.url = browserUrl;
-      node.data.mouseButton = MouseButton.Left;
-      node.data.clickTimes = 1;
+      if (!node.data.url) {
+        node.data.url = browserUrl;
+      }
 
       return node;
     },
@@ -148,6 +148,7 @@ export const ScrapperBuilder = ({
       initialValues={{
         items: initialNodes,
       }}
+      validateOnBlur={false}
       destroyOnUnregister={false}
       render={(props) => (
         <form className={classes.form} onSubmit={props.handleSubmit}>

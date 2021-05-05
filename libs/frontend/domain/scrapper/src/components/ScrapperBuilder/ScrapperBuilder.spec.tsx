@@ -10,6 +10,7 @@ import { MemoryRouter } from 'react-router';
 import {
   createMockScrapper,
   createMockScrapperStep,
+  pickScrapperInput,
 } from '@scrapper-gate/shared/domain/scrapper';
 import { Scrapper } from '@scrapper-gate/shared/schema';
 import { getById, wait } from '@scrapper-gate/shared/common';
@@ -18,6 +19,16 @@ import {
   flowBuilderUtils,
 } from '@scrapper-gate/frontend/ui';
 import { isEdge, isNode, Node } from 'react-flow-renderer';
+import userEvent from '@testing-library/user-event';
+import { SnackbarProvider } from 'notistack';
+
+jest.mock('@scrapper-gate/frontend/schema', () => {
+  const mock = jest.fn();
+
+  return {
+    useUpdateScrapperMutation: () => [mock],
+  };
+});
 
 const defaultMocks: MockedResponse[] = [];
 
@@ -32,17 +43,37 @@ const renderCmp = (
       <ThemeProvider>
         <MemoryRouter>
           <QueryParamProvider>
-            <ScrapperBuilder
-              ElementPicker={jest.fn()}
-              browserUrl="http://example.org"
-              renderItemsInDataAttribute
-              {...props}
-            />
+            <SnackbarProvider>
+              <ScrapperBuilder
+                ElementPicker={jest.fn()}
+                browserUrl="http://example.org"
+                renderItemsInDataAttribute
+                {...props}
+              />
+            </SnackbarProvider>
           </QueryParamProvider>
         </MemoryRouter>
       </ThemeProvider>
     </MockedProvider>
   );
+
+const setupScrapperSteps = () => {
+  scrapper.steps = [
+    createMockScrapperStep(scrapper.createdBy),
+    createMockScrapperStep(scrapper.createdBy),
+    createMockScrapperStep(scrapper.createdBy),
+    createMockScrapperStep(scrapper.createdBy),
+  ];
+
+  scrapper.steps[0].nextStep = scrapper.steps[1];
+  scrapper.steps[1].previousSteps = [scrapper.steps[0]];
+
+  scrapper.steps[1].nextStep = scrapper.steps[2];
+  scrapper.steps[2].previousSteps = [scrapper.steps[1]];
+
+  scrapper.steps[2].nextStep = scrapper.steps[3];
+  scrapper.steps[3].previousSteps = [scrapper.steps[2]];
+};
 
 describe('ScrapperBuilder', () => {
   beforeEach(() => {
@@ -56,18 +87,7 @@ describe('ScrapperBuilder', () => {
   });
 
   it('should correctly render scrapper steps', async () => {
-    scrapper.steps = [
-      createMockScrapperStep(scrapper.createdBy),
-      createMockScrapperStep(scrapper.createdBy),
-      createMockScrapperStep(scrapper.createdBy),
-      createMockScrapperStep(scrapper.createdBy),
-    ];
-
-    scrapper.steps[0].nextStep = scrapper.steps[1];
-    scrapper.steps[1].previousSteps = [scrapper.steps[0]];
-
-    scrapper.steps[1].nextStep = scrapper.steps[2];
-    scrapper.steps[2].previousSteps = [scrapper.steps[1]];
+    setupScrapperSteps();
 
     const cmp = renderCmp({
       initialScrapper: scrapper,
@@ -106,4 +126,47 @@ describe('ScrapperBuilder', () => {
       expect(node.position).toEqual(step.position);
     });
   }, 100000);
+
+  it('should persist scrapper', async () => {
+    setupScrapperSteps();
+
+    const cmp = renderCmp({
+      initialScrapper: scrapper,
+      loading: false,
+    });
+
+    const [mockFn] = jest
+      .requireMock('@scrapper-gate/frontend/schema')
+      .useUpdateScrapperMutation() as [jest.Mock];
+
+    await act(async () => {
+      await wait(1000);
+    });
+
+    const submitBtn = cmp.container.querySelector('.flow-builder-submit-btn');
+
+    act(() => {
+      userEvent.click(submitBtn);
+    });
+
+    await act(async () => {
+      await wait(450);
+    });
+
+    expect(mockFn).toHaveBeenCalledTimes(1);
+
+    const { variables } = mockFn.mock.calls[0][0];
+
+    scrapper.steps
+      .map((step) => pickScrapperInput(step))
+      .forEach((stepInput) => {
+        const stepVariable = getById(variables.input.steps, stepInput.id);
+        const step = getById(scrapper.steps, stepInput.id);
+
+        expect(stepVariable).toEqual({
+          ...stepInput,
+          nextStepId: step.nextStep?.id,
+        });
+      });
+  }, 999999999);
 });
