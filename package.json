@@ -6,7 +6,7 @@
     "nx": "nx",
     "start": "nx serve",
     "build": "nx build --prod",
-    "test": "jest --runInBand",
+    "test": "nx run-many --target=test --all",
     "lint": "nx run-many --target=lint --all --parallel --maxParallel=4",
     "e2e": "nx e2e",
     "affected:apps": "nx affected:apps",
