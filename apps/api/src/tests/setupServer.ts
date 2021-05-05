@@ -10,8 +10,12 @@ beforeEach(async () => {
   global.container = container;
 });
 
-afterEach(() => {
+afterEach(async () => {
   if (global.server) {
     global.server.close();
+  }
+
+  if (global.container) {
+    await global.container.dispose();
   }
 });

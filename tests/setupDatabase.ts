@@ -64,6 +64,8 @@ afterEach(async () => {
 });
 
 afterAll(async () => {
+  console.log('After all database');
+
   if (rootConnection) {
     await rootConnection.close();
   }
