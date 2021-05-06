@@ -35,6 +35,7 @@ export const FlowBuilderConnectionLine = ({
       sourcePosition={sourcePosition}
       targetPosition={targetPosition}
       source={connectionSource?.nodeId}
+      target=""
       sourceHandleId={connectionSource?.handleId}
     />
   );

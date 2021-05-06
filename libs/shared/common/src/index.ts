@@ -18,3 +18,4 @@ export * from './url';
 export * from './firstLast';
 export * from './keysEnum';
 export * from './stringifyCircular';
+export * from './repeatUntil';

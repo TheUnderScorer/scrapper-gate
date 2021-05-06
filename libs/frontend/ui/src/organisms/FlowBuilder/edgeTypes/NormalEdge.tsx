@@ -32,6 +32,7 @@ export interface NormalEdgeProps
       | 'sourcePosition'
       | 'targetPosition'
       | 'data'
+      | 'target'
     >,
     Pick<Partial<EdgeProps<BaseNodeProperties>>, 'source' | 'sourceHandleId'> {
   variant?: NormalEdgeVariations;
@@ -61,6 +62,7 @@ export const NormalEdge = ({
   source,
   sourceHandleId,
   data,
+  target,
 }: NormalEdgeProps) => {
   const nodeSelector = useCallback(
     (ctx: FlowBuilderItemsContext<BaseNodeProperties>) => {
@@ -129,6 +131,8 @@ export const NormalEdge = ({
   return (
     <g id={`edge-${id}`}>
       <path
+        data-target={target}
+        data-source={source}
         id={id}
         strokeWidth={1}
         d={path}

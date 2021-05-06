@@ -57,6 +57,7 @@ export interface FlowBuilderProps<
     nodes: Array<EdgeProps<T> | NodeProps<T>>,
     api: FlowBuilderRemoveApi<T>
   ) => FlowBuilderItem<T>[];
+  onChange?: (items: FlowBuilderItem<T>[]) => unknown;
   nodesSelection?: Selection<S>[];
   nodeTypes?: Record<string, NodeMetadata<T>>;
   onConnect?: (connection: Connection, edge?: Partial<Edge<T>>) => Edge<T>;

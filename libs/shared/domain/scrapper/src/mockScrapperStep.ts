@@ -2,15 +2,24 @@ import {
   MouseButton,
   ScrapperAction,
   ScrapperStep,
+  User,
 } from '@scrapper-gate/shared/schema';
 import * as faker from 'faker';
 import { createMockUser } from '@scrapper-gate/shared/domain/user';
+import { repeatUntil } from '@scrapper-gate/shared/common';
 
-export const createMockScrapperStep = (
-  createdBy = createMockUser()
-): ScrapperStep => {
-  const action: ScrapperAction = faker.random.arrayElement(
-    Object.values(ScrapperAction)
+export interface CreateMockScrapperStepArgs {
+  createdBy?: User;
+  disabledActions?: ScrapperAction[];
+}
+
+export const createMockScrapperStep = async ({
+  createdBy = createMockUser(),
+  disabledActions = [],
+}: CreateMockScrapperStepArgs): Promise<ScrapperStep> => {
+  const action = await repeatUntil(
+    () => faker.random.arrayElement(Object.values(ScrapperAction)),
+    (action) => !disabledActions.includes(action)
   );
 
   const baseStep: ScrapperStep = {

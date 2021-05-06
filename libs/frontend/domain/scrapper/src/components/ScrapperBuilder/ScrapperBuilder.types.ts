@@ -49,7 +49,10 @@ export interface ScrapperBuilderScrapper
 }
 
 export interface ScrapperBuilderProps
-  extends Pick<FlowBuilderProps, 'onClose' | 'renderItemsInDataAttribute'> {
+  extends Pick<
+    FlowBuilderProps,
+    'onClose' | 'renderItemsInDataAttribute' | 'onChange'
+  > {
   initialScrapper?: ScrapperBuilderScrapper;
   ElementPicker: ComponentType<ScrapperElementPickerProps>;
   loading?: boolean;

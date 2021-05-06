@@ -1,5 +1,5 @@
 import { Node, useZoomPanHelper } from 'react-flow-renderer';
-import React, { ReactNode, useCallback, useState } from 'react';
+import React, { ReactNode, useCallback, useEffect, useState } from 'react';
 import { useTimeoutFn } from 'react-use';
 import { useField, useForm } from 'react-final-form';
 import { createContext, useContextSelector } from 'use-context-selector';
@@ -10,7 +10,7 @@ import {
   FlowBuilderItem,
 } from '@scrapper-gate/frontend/ui';
 import { throwError } from '@scrapper-gate/shared/common';
-import { useNodesCreator } from '../hooks/useNodesCreator';
+import { useFlowBuilderContextSelector } from './FlowBuilderProps.provider';
 
 export interface FlowBuilderItemsContext<T extends BaseNodeProperties> {
   items: FlowBuilderItem<T>[];
@@ -43,6 +43,8 @@ export const useFlowBuilderItemsSelector = <Value extends unknown>(
 export const FlowBuilderItemsProvider = <T extends BaseNodeProperties>(props: {
   children: ReactNode;
 }) => {
+  const onChange = useFlowBuilderContextSelector((ctx) => ctx.onChange);
+
   const {
     input: { value },
   } = useField<FlowBuilderItem<T>[]>('items');
@@ -90,6 +92,10 @@ export const FlowBuilderItemsProvider = <T extends BaseNodeProperties>(props: {
     },
     [resetTimeout, zoomHelper]
   );
+
+  useEffect(() => {
+    onChange?.(value);
+  }, [onChange, value]);
 
   return (
     <Context.Provider

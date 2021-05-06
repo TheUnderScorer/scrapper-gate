@@ -1,6 +1,7 @@
-import { act, render } from '@testing-library/react';
+import { act, render, waitFor } from '@testing-library/react';
 import {
   ScrapperBuilder,
+  ScrapperBuilderNodeProperties,
   ScrapperBuilderProps,
 } from '@scrapper-gate/frontend/domain/scrapper';
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
@@ -12,15 +13,13 @@ import {
   createMockScrapperStep,
   pickScrapperInput,
 } from '@scrapper-gate/shared/domain/scrapper';
-import { Scrapper } from '@scrapper-gate/shared/schema';
-import { getById, wait } from '@scrapper-gate/shared/common';
-import {
-  flowBuilderTestUtils,
-  flowBuilderUtils,
-} from '@scrapper-gate/frontend/ui';
-import { isEdge, isNode, Node } from 'react-flow-renderer';
+import { Scrapper, ScrapperAction } from '@scrapper-gate/shared/schema';
+import { getById, last, wait } from '@scrapper-gate/shared/common';
 import userEvent from '@testing-library/user-event';
 import { SnackbarProvider } from 'notistack';
+import { Box } from '@material-ui/core';
+import { isEdge, isNode, Node, XYPosition } from 'react-flow-renderer';
+import { FlowBuilderItem, flowBuilderUtils } from '@scrapper-gate/frontend/ui';
 
 jest.mock('@scrapper-gate/frontend/schema', () => {
   const mock = jest.fn();
@@ -44,12 +43,13 @@ const renderCmp = (
         <MemoryRouter>
           <QueryParamProvider>
             <SnackbarProvider>
-              <ScrapperBuilder
-                ElementPicker={jest.fn()}
-                browserUrl="http://example.org"
-                renderItemsInDataAttribute
-                {...props}
-              />
+              <Box width="600px" height="600px">
+                <ScrapperBuilder
+                  ElementPicker={jest.fn()}
+                  browserUrl="http://example.org"
+                  {...props}
+                />
+              </Box>
             </SnackbarProvider>
           </QueryParamProvider>
         </MemoryRouter>
@@ -57,13 +57,33 @@ const renderCmp = (
     </MockedProvider>
   );
 
-const setupScrapperSteps = () => {
-  scrapper.steps = [
-    createMockScrapperStep(scrapper.createdBy),
-    createMockScrapperStep(scrapper.createdBy),
-    createMockScrapperStep(scrapper.createdBy),
-    createMockScrapperStep(scrapper.createdBy),
-  ];
+const setupScrapperSteps = async () => {
+  const basePosition: XYPosition = {
+    x: 50,
+    y: 0,
+  };
+
+  scrapper.steps = await Promise.all([
+    createMockScrapperStep({
+      disabledActions: [ScrapperAction.Condition],
+      createdBy: scrapper.createdBy,
+    }),
+
+    createMockScrapperStep({
+      disabledActions: [ScrapperAction.Condition],
+      createdBy: scrapper.createdBy,
+    }),
+
+    createMockScrapperStep({
+      disabledActions: [ScrapperAction.Condition],
+      createdBy: scrapper.createdBy,
+    }),
+
+    createMockScrapperStep({
+      disabledActions: [ScrapperAction.Condition],
+      createdBy: scrapper.createdBy,
+    }),
+  ]);
 
   scrapper.steps[0].nextStep = scrapper.steps[1];
   scrapper.steps[1].previousSteps = [scrapper.steps[0]];
@@ -73,6 +93,15 @@ const setupScrapperSteps = () => {
 
   scrapper.steps[2].nextStep = scrapper.steps[3];
   scrapper.steps[3].previousSteps = [scrapper.steps[2]];
+
+  scrapper.steps.forEach((step, index) => {
+    step.id = index.toString();
+
+    step.position = {
+      ...basePosition,
+      x: basePosition.x * index,
+    };
+  });
 };
 
 describe('ScrapperBuilder', () => {
@@ -87,26 +116,43 @@ describe('ScrapperBuilder', () => {
   });
 
   it('should correctly render scrapper steps', async () => {
-    setupScrapperSteps();
+    await setupScrapperSteps();
 
-    const cmp = renderCmp({
+    const onChange = jest.fn();
+
+    renderCmp({
       initialScrapper: scrapper,
       loading: false,
+      onChange,
     });
 
     await act(async () => {
       await wait(1000);
     });
 
-    const items = flowBuilderTestUtils.getItems(cmp.container);
+    let items: FlowBuilderItem<ScrapperBuilderNodeProperties>[] = [];
 
-    // All steps + start node + edges
-    expect(items).toHaveLength(8);
+    await waitFor(
+      () => {
+        const call = last(onChange.mock.calls)[0];
+
+        expect(call).toBeDefined();
+
+        items = call;
+
+        expect(items).toHaveLength(scrapper.steps.length * 2 + 1);
+      },
+      {
+        interval: 250,
+        timeout: 7000,
+      }
+    );
 
     const edgesMap = [
       ['start', scrapper.steps[0].id],
       [scrapper.steps[0].id, scrapper.steps[1].id],
       [scrapper.steps[1].id, scrapper.steps[2].id],
+      [scrapper.steps[2].id, scrapper.steps[3].id],
     ];
 
     edgesMap.forEach(([source, target]) => {
@@ -128,7 +174,7 @@ describe('ScrapperBuilder', () => {
   }, 100000);
 
   it('should persist scrapper', async () => {
-    setupScrapperSteps();
+    await setupScrapperSteps();
 
     const cmp = renderCmp({
       initialScrapper: scrapper,
@@ -168,5 +214,5 @@ describe('ScrapperBuilder', () => {
           nextStepId: step.nextStep?.id,
         });
       });
-  }, 999999999);
+  });
 });
