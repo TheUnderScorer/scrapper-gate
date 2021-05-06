@@ -51,7 +51,7 @@ export const recreateNodes = <
       value: {
         id: item.id,
         ...item,
-        type: item.type ?? FlowBuilderNodeTypes.Action,
+        type: item.type ?? selection.value.type ?? FlowBuilderNodeTypes.Action,
         position: {
           x: item.position?.x ?? 0,
           y: item.position?.y ?? 0,
