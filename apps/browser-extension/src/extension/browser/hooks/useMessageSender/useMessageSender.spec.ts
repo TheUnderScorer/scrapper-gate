@@ -7,6 +7,13 @@ import { Target } from './useMessageSender.types';
 
 describe('useMessageSender hook', () => {
   it('should send message to active tab', async () => {
+    mockBrowser.windows.getCurrent.mock(
+      async () =>
+        ({
+          id: 1,
+        } as any)
+    );
+
     mockBrowser.tabs.query.mock(async (args) => [
       {
         id: '#tab_id',
