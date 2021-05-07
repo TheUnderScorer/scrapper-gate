@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { ValidationErrors } from 'final-form';
 
 interface DebouncedValidatorHookProps<Value> {
@@ -10,6 +10,8 @@ export const useDebouncedValidator = <Value>({
   validate,
   ms = 1000,
 }: DebouncedValidatorHookProps<Value>) => {
+  const lastResultRef = useRef<unknown>();
+
   const timer = useRef<(() => unknown) | null>(null);
 
   return useCallback(
@@ -20,15 +22,19 @@ export const useDebouncedValidator = <Value>({
           timer.current = null;
         }
 
-        const timerId = setTimeout(() => {
-          resolve(validate(value));
+        const timerId = setTimeout(async () => {
+          const result = await validate(value);
+
+          lastResultRef.current = result;
+
+          resolve(result);
         }, ms);
 
         timer.current = () => {
           clearTimeout(timerId);
-          resolve(undefined);
+          resolve(lastResultRef.current);
         };
       }),
-    [validate, ms]
+    [ms, validate]
   );
 };

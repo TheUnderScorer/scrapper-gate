@@ -114,6 +114,7 @@ export const Incrementator = ({
               disabled={disabled}
               type="number"
               {...input}
+              defaultValue={initialValue}
             />
           </Box>
         </Grid>

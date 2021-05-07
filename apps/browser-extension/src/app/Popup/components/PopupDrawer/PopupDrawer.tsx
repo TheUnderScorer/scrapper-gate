@@ -140,6 +140,7 @@ export const PopupDrawer = () => {
                     component="button"
                     button
                     selected={item.selected}
+                    key={item.id}
                   >
                     <ListItemIcon>{item.icon}</ListItemIcon>
                     <ListItemText>{item.content}</ListItemText>

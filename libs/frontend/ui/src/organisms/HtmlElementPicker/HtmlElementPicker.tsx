@@ -33,6 +33,8 @@ import { uniqBy } from 'remeda';
 import { HtmlElementPickerElementDropdown } from './ElementDropdown/HtmlElementPickerElementDropdown';
 import { Key } from 'ts-key-enum';
 
+const initialValue = [];
+
 export const HtmlElementPicker = ({
   name,
   variant,
@@ -84,6 +86,7 @@ export const HtmlElementPicker = ({
     meta: { error: fieldError },
   } = useField<Selector[]>(name, {
     validate,
+    initialValue,
   });
 
   const getValueByMode = useCallback(

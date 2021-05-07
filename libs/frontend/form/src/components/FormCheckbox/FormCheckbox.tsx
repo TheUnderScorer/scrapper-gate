@@ -9,6 +9,7 @@ import {
 } from '@material-ui/core';
 import { FieldProps } from '@scrapper-gate/frontend/form';
 import { useField } from 'react-final-form';
+import { useFieldHasError } from '../../hooks/useFieldHasError';
 
 export interface FormCheckboxProps<T>
   extends Pick<FormControlLabelProps, 'label'>,
@@ -30,13 +31,18 @@ export const FormCheckbox = <T extends unknown>({
     type: 'checkbox',
   });
 
+  const hasError = useFieldHasError({
+    meta,
+    showErrorOnlyOnTouched: fieldProps.showErrorOnlyOnTouched,
+  });
+
   return (
-    <FormControl error={Boolean(meta.error)}>
+    <FormControl error={hasError}>
       <FormControlLabel
         control={<Checkbox {...rest} {...input} id={id ?? input.name} />}
         label={label}
       />
-      {meta.error && <FormHelperText>{meta.error.message}</FormHelperText>}
+      {hasError && <FormHelperText>{meta.error.message}</FormHelperText>}
     </FormControl>
   );
 };

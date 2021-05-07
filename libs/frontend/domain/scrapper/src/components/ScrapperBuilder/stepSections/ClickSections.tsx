@@ -53,7 +53,7 @@ export const ClickSections = memo(
             disabled={formState.submitting}
             bottomText="Click times"
             minValue={1}
-            initialValue={clickTimes ?? 1}
+            initialValue={clickTimes || 1}
           />
         </Box>
       </>

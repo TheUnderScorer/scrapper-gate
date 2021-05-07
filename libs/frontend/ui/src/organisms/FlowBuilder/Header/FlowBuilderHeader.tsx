@@ -1,4 +1,4 @@
-import React, { ReactNode, useCallback, useMemo } from 'react';
+import React, { ReactNode, useCallback } from 'react';
 import {
   AppBar,
   Divider,
@@ -14,7 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { MenuItemProperties } from '@scrapper-gate/frontend/common';
 import { useFlowBuilderItemsSelector } from '../providers/FlowBuilderItems.provider';
 import { FormStateIcon } from '../../../molecules/FormStateIcon/FormStateIcon';
-import { Dropdown, UndoButtons, TooltipText } from '@scrapper-gate/frontend/ui';
+import { Dropdown, TooltipText, UndoButtons } from '@scrapper-gate/frontend/ui';
 import { buildBasicGraph } from '../utils/graph';
 import { useFormState } from 'react-final-form';
 import { useFlowBuilderContextSelector } from '../providers/FlowBuilderProps.provider';
@@ -61,13 +61,11 @@ export const FlowBuilderHeader = ({
     subscription: {
       submitting: true,
       errors: true,
+      hasValidationErrors: true,
     },
   });
 
-  const hasErrors = useMemo(
-    () => Object.values(formState.errors ?? {}).length > 0,
-    [formState]
-  );
+  const hasErrors = formState.hasValidationErrors;
 
   const setItems = useFlowBuilderItemsSelector((ctx) => ctx.setItems);
   const getItems = useFlowBuilderItemsSelector((ctx) => ctx.getItems);

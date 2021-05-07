@@ -61,7 +61,7 @@ export const LoginForm = ({
           type,
         })
       }
-      validateOnBlur
+      validateOnBlur={false}
       onSubmit={handleSubmit}
       render={(props) => (
         <form className={classes.form} onSubmit={props.handleSubmit}>
@@ -74,6 +74,7 @@ export const LoginForm = ({
               name="username"
               variant="filled"
               disabled={loading}
+              showErrorOnlyOnTouched
             />
             <FormTextField
               label="Password"
@@ -83,6 +84,7 @@ export const LoginForm = ({
               variant="filled"
               disabled={loading}
               type="password"
+              showErrorOnlyOnTouched
             />
             {type === LoginFormType.Signup && (
               <FormCheckbox
@@ -93,6 +95,9 @@ export const LoginForm = ({
                   </>
                 }
                 name="acceptTerms"
+                fieldProps={{
+                  showErrorOnlyOnTouched: true,
+                }}
               />
             )}
             <Stack

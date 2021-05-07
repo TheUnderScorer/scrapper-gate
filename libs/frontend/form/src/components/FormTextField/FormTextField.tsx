@@ -2,6 +2,7 @@ import React from 'react';
 import { TextField, TextFieldProps } from '@material-ui/core';
 import { FieldProps } from '../../types';
 import { useField } from 'react-final-form';
+import { useFieldHasError } from '../../hooks/useFieldHasError';
 
 export interface FormTextFieldProps<T>
   extends Pick<
@@ -29,10 +30,16 @@ export const FormTextField = <T extends unknown>({
   id,
   size,
   disabled,
+  showErrorOnlyOnTouched,
   ...rest
 }: FormTextFieldProps<T>) => {
   const { input, meta } = useField(name, {
     ...rest,
+  });
+
+  const hasError = useFieldHasError({
+    meta,
+    showErrorOnlyOnTouched,
   });
 
   return (
@@ -42,8 +49,8 @@ export const FormTextField = <T extends unknown>({
       fullWidth={fullWidth}
       variant={variant}
       size={size}
-      error={Boolean(meta.error)}
-      helperText={meta.error ? meta.error.message : helperText}
+      error={hasError}
+      helperText={hasError ? meta.error.message : helperText}
       id={id ?? input.name}
       disabled={disabled}
       {...input}

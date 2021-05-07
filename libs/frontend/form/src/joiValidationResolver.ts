@@ -6,16 +6,18 @@ import {
 import { logger } from '@scrapper-gate/frontend/logger';
 import set from 'lodash.set';
 import { ValidationErrors } from 'final-form';
+import { ValidationOptions } from 'joiful/validation';
 
 export const joiValidationResolver = <T>(
-  schema: BaseSchemaConstructor<BaseSchema<T>>
-) => async (data: unknown): Promise<ValidationErrors> => {
+  schema: BaseSchemaConstructor<BaseSchema<T>>,
+  joiOptions?: ValidationOptions
+) => (data: unknown): ValidationErrors => {
   try {
-    schema.validate(data);
+    logger.debug('Validating:', data);
 
-    return {
-      errors: {},
-    };
+    schema.validate(data, joiOptions);
+
+    return {};
   } catch (error) {
     const result = {};
 

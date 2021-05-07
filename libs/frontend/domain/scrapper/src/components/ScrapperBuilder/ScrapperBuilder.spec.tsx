@@ -95,8 +95,6 @@ const setupScrapperSteps = async () => {
   scrapper.steps[3].previousSteps = [scrapper.steps[2]];
 
   scrapper.steps.forEach((step, index) => {
-    step.id = index.toString();
-
     step.position = {
       ...basePosition,
       x: basePosition.x * index,

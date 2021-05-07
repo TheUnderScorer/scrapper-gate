@@ -8,7 +8,11 @@ import {
   NodeContentComponent,
 } from '@scrapper-gate/frontend/ui';
 import { v4 as uuid } from 'uuid';
-import { validatorsPipe } from '@scrapper-gate/frontend/form';
+import {
+  joiValidationResolver,
+  useDebouncedValidator,
+  validatorsPipe,
+} from '@scrapper-gate/frontend/form';
 import { createScrapperNodeSelection } from './scrapperNodeSelection';
 import {
   ScrapperBuilderNodeProperties,
@@ -27,6 +31,11 @@ import {
 import { nodesToScrapperSteps } from './nodesToScrapperSteps';
 import { useUpdateScrapperMutation } from '@scrapper-gate/frontend/schema';
 import { scrapperStepsToNodes } from './scrapperStepsToNodes';
+import {
+  ScrapperBuilderDto,
+  ScrapperInputDto,
+} from '@scrapper-gate/shared/validation';
+import { logger } from '@scrapper-gate/frontend/logger';
 
 const initialNodes = [
   flowBuilderUtils.createStartNode({
@@ -42,10 +51,6 @@ const ensureCorrectSourcesCount = flowBuilderValidation.makeEnsureCorrectSources
     allowedCount: 1,
     onConnect: handleConnect,
   }
-);
-
-const validate = validatorsPipe(
-  flowBuilderValidation.ensureAllNodesAreConnected
 );
 
 const selection = createScrapperNodeSelection();
@@ -119,6 +124,17 @@ export const ScrapperBuilder = ({
     []
   );
 
+  const validate = useMemo(
+    () =>
+      validatorsPipe<FlowBuilderFormState<ScrapperBuilderNodeProperties>>(
+        flowBuilderValidation.ensureAllNodesAreConnected,
+        joiValidationResolver(ScrapperBuilderDto, {
+          allowUnknown: true,
+        })
+      ),
+    []
+  );
+
   const handleSubmit = useCallback(
     async (values: FlowBuilderFormState<ScrapperBuilderNodeProperties>) => {
       try {
@@ -135,6 +151,8 @@ export const ScrapperBuilder = ({
 
         snackbarOnSuccess('Scrapper updated.');
       } catch (error) {
+        logger.error(error);
+
         snackbarOnError(error);
       }
     },
@@ -148,7 +166,6 @@ export const ScrapperBuilder = ({
       initialValues={{
         items: initialNodes,
       }}
-      validateOnBlur={false}
       destroyOnUnregister={false}
       render={(props) => (
         <form className={classes.form} onSubmit={props.handleSubmit}>
