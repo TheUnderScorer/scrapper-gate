@@ -146,7 +146,7 @@ Object {
                     </span>
                   </span>
                   <button
-                    class="MuiButtonBase-root MuiFab-root MuiFab-extended MuiFab-sizeSmall MuiFab-primary makeStyles-fab-6 css-in04kj-MuiButtonBase-root-MuiFab-root"
+                    class="MuiButtonBase-root MuiFab-root MuiFab-extended MuiFab-sizeSmall MuiFab-primary makeStyles-fab-6 flow-builder-submit-btn css-in04kj-MuiButtonBase-root-MuiFab-root"
                     tabindex="0"
                     type="submit"
                   >
@@ -1117,7 +1117,7 @@ Object {
                   </span>
                 </span>
                 <button
-                  class="MuiButtonBase-root MuiFab-root MuiFab-extended MuiFab-sizeSmall MuiFab-primary makeStyles-fab-6 css-in04kj-MuiButtonBase-root-MuiFab-root"
+                  class="MuiButtonBase-root MuiFab-root MuiFab-extended MuiFab-sizeSmall MuiFab-primary makeStyles-fab-6 flow-builder-submit-btn css-in04kj-MuiButtonBase-root-MuiFab-root"
                   tabindex="0"
                   type="submit"
                 >
