@@ -7,6 +7,7 @@ import {
 import { extractScrapperIdFromRoute } from '@scrapper-gate/shared/routing';
 import { getContentRoute } from '../../../extension/background/getContentRoute';
 import { getActiveTab } from '../../../extension/browser/tabsQuery/getActiveTab';
+import { getTabId } from '../../../extension/browser/getTabId';
 
 export const useActiveScrapperInContent = () => {
   const [scrapperId, setScrapperId] = useState<null | string>(null);
@@ -19,7 +20,7 @@ export const useActiveScrapperInContent = () => {
     initialValue: async () => {
       const tab = await getActiveTab();
 
-      return getContentRoute(tab.id);
+      return getContentRoute(getTabId(tab));
     },
   });
 

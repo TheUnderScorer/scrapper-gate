@@ -1,5 +1,6 @@
 import { browser } from 'webextension-polyfill-ts';
 import { cleanupStoresForTab } from './cleanupStoresForTab';
+import { getTabId } from '../browser/getTabId';
 
 export const cleanupOnInit = async () => {
   const {
@@ -12,7 +13,7 @@ export const cleanupOnInit = async () => {
   await Promise.all(
     tabs.map((tab) =>
       cleanupStoresForTab({
-        tabId: tab.id,
+        tabId: getTabId(tab),
         activeOverlays,
         contentRoutes,
       })

@@ -3,7 +3,7 @@ import { browser } from 'webextension-polyfill-ts';
 import { logger } from '@scrapper-gate/frontend/logger';
 
 interface CleanupStoresForTabParams {
-  tabId: number;
+  tabId: number | string;
   contentRoutes: StoredRoutes;
   activeOverlays: number[];
 }
