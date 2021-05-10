@@ -1,6 +1,7 @@
-import { Button, ButtonProps, Fab, styled } from '@material-ui/core';
+import { Button, Fab, styled } from '@material-ui/core';
 
-const defaultProps: Partial<Pick<ButtonProps, 'color'>> = {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const defaultProps: any = {
   color: 'primary',
 };
 

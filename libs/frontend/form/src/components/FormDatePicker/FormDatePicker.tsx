@@ -29,11 +29,6 @@ export const FormDatePicker = <T extends ParsableDate>({
       {...rest}
       error={hasError}
       helperText={hasError ? meta.error.message : rest.helperText}
-      defaultValue={
-        fieldProps.initialValue
-          ? format(new Date(fieldProps.initialValue as string), rest.format)
-          : undefined
-      }
       {...input}
     />
   );

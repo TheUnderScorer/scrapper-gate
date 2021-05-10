@@ -20,6 +20,8 @@ import {
 import { FormSelect, useFieldArray } from '@scrapper-gate/frontend/form';
 import { makeStyles } from '@material-ui/core/styles';
 import { ConditionalRulesSelectionDropdown } from '../SelectionDropdown/ConditionalRulesSelectionDropdown';
+import { Centered, Emoji } from '@scrapper-gate/frontend/ui';
+import classNames from 'classnames';
 
 export interface ConditionalRulesGroupProps
   extends Pick<
@@ -78,12 +80,19 @@ const BaseConditionalRulesGroup = ({
 
   return (
     <Accordion
+      className="conditional-rules-group"
       expanded={open}
       onChange={(event, expanded) => (expanded ? onOpen?.() : onClose?.())}
       variant="outlined"
       key={index}
     >
-      <AccordionSummary expandIcon={<ExpandMore />}>
+      <AccordionSummary
+        expandIcon={
+          <IconButton size="small">
+            <ExpandMore />
+          </IconButton>
+        }
+      >
         <Stack
           className={classes.summaryStack}
           direction="row"
@@ -93,7 +102,7 @@ const BaseConditionalRulesGroup = ({
           <IconButton
             size="small"
             onClick={() => onRemove(index)}
-            className={classes.btn}
+            className={classNames(classes.btn, 'remove-rules-group')}
           >
             <Delete />
           </IconButton>
@@ -115,6 +124,13 @@ const BaseConditionalRulesGroup = ({
           <Typography>of the rules must be true.</Typography>
         </Stack>
         <Stack alignItems="center" spacing={2}>
+          {!rules.length && (
+            <Centered>
+              <Typography variant="body2">
+                No rules for this group <Emoji>😯</Emoji>
+              </Typography>
+            </Centered>
+          )}
           {rules.map((rule, rowIndex) => (
             <ConditionalRulesRule
               isEdit={activeRowId === rule.id}

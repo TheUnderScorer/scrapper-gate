@@ -12,13 +12,18 @@ export const baseRulesSelection: ConditionalRulesSelection[] = [
     value: {
       Component: DateRule,
       type: BaseConditionalRuleTypes.Date,
-      createTitle: (rule) =>
-        `${toDisplayText(rule.type)} ${toDisplayText(
-          rule.when
-        ).toLowerCase()} ${format(
-          new Date(rule.value as string),
-          DateFormat.Date
-        )}`,
+      createTitle: (rule) => {
+        try {
+          return `${toDisplayText(rule.type)} ${toDisplayText(
+            rule.when
+          ).toLowerCase()} ${format(
+            new Date(rule.value as string),
+            DateFormat.Date
+          )}`;
+        } catch {
+          return toDisplayText(rule.type);
+        }
+      },
     },
   },
 ];

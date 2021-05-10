@@ -17,6 +17,7 @@ import { Centered } from '@scrapper-gate/frontend/ui';
 import { makeStyles } from '@material-ui/core/styles';
 import { ConditionalRulesSelection } from '../../types';
 import { Add } from '@material-ui/icons';
+import classNames from 'classnames';
 
 export interface ConditionalRulesProps
   extends FieldProps<ConditionalRuleGroupInput[]>,
@@ -103,7 +104,7 @@ export const ConditionalRules = ({
       </Box>
       <Centered className={classes.btn}>
         <Fab
-          className={classes.fab}
+          className={classNames(classes.fab, 'add-rules-group')}
           color="primary"
           size="small"
           variant="extended"

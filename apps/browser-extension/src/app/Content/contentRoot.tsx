@@ -21,6 +21,8 @@ import 'react-flow-renderer/dist/style.css';
 import { Global } from '@emotion/react';
 import tinycolor from 'tinycolor2';
 import { Palette } from '@material-ui/core/styles/createPalette';
+import DateFnsUtils from '@date-io/date-fns';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 
 logger.debug('Starting content script... ;)');
 
@@ -40,22 +42,24 @@ ReactDOM.render(
     <Scoped>
       {(shadowRoot, container) => (
         <ContentErrorBoundary>
-          <ContentRouter>
-            <QueryParamProvider>
-              <ThemeProvider isContent container={container}>
-                <Global
-                  styles={[reactFlowBuilderStyles, hiddenNumericArrows]}
-                />
-                <ApiClientProvider>
-                  <SnackbarProvider
-                    action={(key) => <SnackbarActions key={key} />}
-                  >
-                    <Content />
-                  </SnackbarProvider>
-                </ApiClientProvider>
-              </ThemeProvider>
-            </QueryParamProvider>
-          </ContentRouter>
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <ContentRouter>
+              <QueryParamProvider>
+                <ThemeProvider isContent container={container}>
+                  <Global
+                    styles={[reactFlowBuilderStyles, hiddenNumericArrows]}
+                  />
+                  <ApiClientProvider>
+                    <SnackbarProvider
+                      action={(key) => <SnackbarActions key={key} />}
+                    >
+                      <Content />
+                    </SnackbarProvider>
+                  </ApiClientProvider>
+                </ThemeProvider>
+              </QueryParamProvider>
+            </ContentRouter>
+          </MuiPickersUtilsProvider>
         </ContentErrorBoundary>
       )}
     </Scoped>

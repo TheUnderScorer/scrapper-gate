@@ -14,6 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Delete, Edit } from '@material-ui/icons';
 import { toDisplayText } from '@scrapper-gate/shared/common';
 import { ConditionalRulesSelection } from '@scrapper-gate/frontend/domain/conditional-rules';
+import classNames from 'classnames';
 
 export interface ConditionalRulesRuleProps {
   fieldVariant?: TextFieldProps['variant'];
@@ -100,7 +101,7 @@ const BaseConditionalRulesRule = ({
 
   return (
     <Accordion
-      className={classes.content}
+      className={classNames(classes.content, 'conditional-rules-rule')}
       elevation={2}
       onChange={(event, expanded) =>
         expanded ? onEdit(value.id) : onEditClose(value.id)
@@ -108,7 +109,11 @@ const BaseConditionalRulesRule = ({
       expanded={isEdit}
     >
       <AccordionSummary
-        expandIcon={<Edit />}
+        expandIcon={
+          <IconButton size="small">
+            <Edit />
+          </IconButton>
+        }
         className={classes.accordionSummary}
       >
         <Stack
@@ -124,7 +129,7 @@ const BaseConditionalRulesRule = ({
           <IconButton
             size="small"
             onClick={onRowRemove}
-            className={classes.delete}
+            className={classNames(classes.delete, 'remove-rules-rule')}
           >
             <Delete />
           </IconButton>

@@ -24,6 +24,7 @@ export const DateRule = ({
     <Stack alignItems="center" spacing={spacing} direction="row">
       <Typography>Current date</Typography>
       <FormSelect
+        className="date-rule-select"
         defaultValue={BaseConditionalRuleWhen.Equal}
         variant={fieldVariant}
         name={getName('when')}
