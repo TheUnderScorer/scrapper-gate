@@ -15,6 +15,7 @@ export interface FormTextFieldProps<T>
       | 'size'
       | 'disabled'
       | 'InputProps'
+      | 'placeholder'
     >,
     FieldProps<T> {
   name: string;
@@ -30,6 +31,7 @@ export const FormTextField = <T extends unknown>({
   id,
   size,
   disabled,
+  placeholder,
   showErrorOnlyOnTouched,
   ...rest
 }: FormTextFieldProps<T>) => {
@@ -45,6 +47,7 @@ export const FormTextField = <T extends unknown>({
   return (
     <TextField
       {...rest}
+      placeholder={placeholder}
       label={label}
       fullWidth={fullWidth}
       variant={variant}

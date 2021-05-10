@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
+import '@material-ui/core';
 import { PaletteColorOptions } from '@material-ui/core';
 import { Palette, PaletteColor } from '@material-ui/core/styles/createPalette';
 import { Theme } from '@material-ui/core/styles';
@@ -41,4 +42,13 @@ declare module '@material-ui/core/styles/createMixins' {
   }
 
   interface MixinsOptions extends Partial<Mixins> {}
+}
+
+declare module '@material-ui/core/Button/Button' {
+  interface ButtonPropsColorOverrides {
+    error: true;
+    info: true;
+    success: true;
+    warning: true;
+  }
 }

@@ -62,7 +62,15 @@ export const Dropdown = ({
         {...rest}
       >
         {items.map((item) => (
-          <GenericMenuItem {...item} key={item.id} />
+          <GenericMenuItem
+            {...item}
+            key={item.id}
+            onClick={(event) => {
+              item.onClick?.(event);
+
+              handleClose();
+            }}
+          />
         ))}
       </Menu>
     </>

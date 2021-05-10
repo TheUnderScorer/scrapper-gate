@@ -8,3 +8,6 @@ export * from './components/FormSwitch/FormSwitch';
 export * from './hooks/useFormFieldValue';
 export * from './components/FormSelect/FormSelect';
 export * from './providers/FormUndo.provider';
+export * from './hooks/useFieldHasError';
+export * from './hooks/useFieldArray';
+export * from './components/FormDatePicker/FormDatePicker';

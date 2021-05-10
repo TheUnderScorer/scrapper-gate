@@ -12,7 +12,7 @@ import { useField } from 'react-final-form';
 export interface FormSelectProps
   extends Pick<
       SelectProps,
-      'multiple' | 'variant' | 'fullWidth' | 'defaultValue'
+      'multiple' | 'variant' | 'fullWidth' | 'defaultValue' | 'className'
     >,
     Pick<TextFieldProps, 'label' | 'helperText'> {
   name: string;
@@ -33,6 +33,7 @@ export const FormSelect = ({
     meta: { error },
   } = useField(name, {
     multiple,
+    initialValue: defaultValue,
   });
 
   return (

@@ -47,6 +47,7 @@ export const scrapperSchema = gql`
     clickTimes: Int
     position: NodePosition
     key: String
+    conditionalRules: [ConditionalRuleGroup!]
   }
 
   input ScrapperStepInput {
@@ -66,6 +67,7 @@ export const scrapperSchema = gql`
     stepIdOnTrue: ID
     stepIdOnFalse: ID
     key: String
+    conditionalRules: [ConditionalRuleGroupInput!]
   }
 
   enum ScrapperAction {

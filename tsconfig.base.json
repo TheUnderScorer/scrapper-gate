@@ -86,6 +86,12 @@
       ],
       "@scrapper-gate/shared/constructor": [
         "libs/shared/constructor/src/index.ts"
+      ],
+      "@scrapper-gate/shared/domain/conditional-rules": [
+        "libs/shared/domain/conditional-rules/src/index.ts"
+      ],
+      "@scrapper-gate/frontend/domain/conditional-rules": [
+        "libs/frontend/domain/conditional-rules/src/index.ts"
       ]
     }
   },

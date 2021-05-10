@@ -3,6 +3,7 @@ import {
   GraphQLScalarType,
   GraphQLScalarTypeConfig,
 } from 'graphql';
+import { WhatValue, ConditionalRuleValue } from './scalars';
 export type Maybe<T> = T | undefined;
 export type Exact<T extends { [key: string]: unknown }> = {
   [K in keyof T]: T[K];
@@ -22,8 +23,11 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  Date: any;
+  ConditionalMetaData: any;
+  ConditionalRuleValue: ConditionalRuleValue;
+  Date: Date;
   Url: any;
+  WhatValue: WhatValue;
 };
 
 export type AuthTokens = {
@@ -36,6 +40,37 @@ export type BaseEntity = {
   createdAt: Scalars['Date'];
   updatedAt: Scalars['Date'];
   deletedAt?: Maybe<Scalars['Date']>;
+};
+
+export type ConditionalRule = {
+  when?: Maybe<Scalars['String']>;
+  whatValue?: Maybe<Scalars['WhatValue']>;
+  value?: Maybe<Scalars['ConditionalRuleValue']>;
+  meta?: Maybe<Scalars['ConditionalMetaData']>;
+  type?: Maybe<Scalars['String']>;
+};
+
+export type ConditionalRuleGroup = {
+  rules: Array<ConditionalRule>;
+  type: ConditionalRuleGroupType;
+};
+
+export type ConditionalRuleGroupInput = {
+  rules: Array<ConditionalRuleInput>;
+  type: ConditionalRuleGroupType;
+};
+
+export enum ConditionalRuleGroupType {
+  Any = 'Any',
+  All = 'All',
+}
+
+export type ConditionalRuleInput = {
+  when?: Maybe<Scalars['String']>;
+  whatValue?: Maybe<Scalars['WhatValue']>;
+  value?: Maybe<Scalars['ConditionalRuleValue']>;
+  meta?: Maybe<Scalars['ConditionalMetaData']>;
+  type?: Maybe<Scalars['String']>;
 };
 
 export type CreateScrapperInput = {
@@ -238,6 +273,7 @@ export type ScrapperStep = BaseEntity &
     clickTimes?: Maybe<Scalars['Int']>;
     position?: Maybe<NodePosition>;
     key?: Maybe<Scalars['String']>;
+    conditionalRules?: Maybe<Array<ConditionalRuleGroup>>;
   };
 
 export type ScrapperStepInput = {
@@ -257,6 +293,7 @@ export type ScrapperStepInput = {
   stepIdOnTrue?: Maybe<Scalars['ID']>;
   stepIdOnFalse?: Maybe<Scalars['ID']>;
   key?: Maybe<Scalars['String']>;
+  conditionalRules?: Maybe<Array<ConditionalRuleGroupInput>>;
 };
 
 export type Selector = {
@@ -511,6 +548,13 @@ export type ResolversTypes = ResolversObject<{
     | ResolversTypes['ScrapperStep']
     | ResolversTypes['User'];
   ID: ResolverTypeWrapper<Scalars['ID']>;
+  ConditionalMetaData: ResolverTypeWrapper<Scalars['ConditionalMetaData']>;
+  ConditionalRule: ResolverTypeWrapper<ConditionalRule>;
+  ConditionalRuleGroup: ResolverTypeWrapper<ConditionalRuleGroup>;
+  ConditionalRuleGroupInput: ConditionalRuleGroupInput;
+  ConditionalRuleGroupType: ConditionalRuleGroupType;
+  ConditionalRuleInput: ConditionalRuleInput;
+  ConditionalRuleValue: ResolverTypeWrapper<Scalars['ConditionalRuleValue']>;
   CreateScrapperInput: CreateScrapperInput;
   CreateUserInput: CreateUserInput;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
@@ -547,6 +591,7 @@ export type ResolversTypes = ResolversObject<{
   Subscription: ResolverTypeWrapper<{}>;
   Url: ResolverTypeWrapper<Scalars['Url']>;
   User: ResolverTypeWrapper<User>;
+  WhatValue: ResolverTypeWrapper<Scalars['WhatValue']>;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -558,6 +603,12 @@ export type ResolversParentTypes = ResolversObject<{
     | ResolversParentTypes['ScrapperStep']
     | ResolversParentTypes['User'];
   ID: Scalars['ID'];
+  ConditionalMetaData: Scalars['ConditionalMetaData'];
+  ConditionalRule: ConditionalRule;
+  ConditionalRuleGroup: ConditionalRuleGroup;
+  ConditionalRuleGroupInput: ConditionalRuleGroupInput;
+  ConditionalRuleInput: ConditionalRuleInput;
+  ConditionalRuleValue: Scalars['ConditionalRuleValue'];
   CreateScrapperInput: CreateScrapperInput;
   CreateUserInput: CreateUserInput;
   Boolean: Scalars['Boolean'];
@@ -591,6 +642,7 @@ export type ResolversParentTypes = ResolversObject<{
   Subscription: {};
   Url: Scalars['Url'];
   User: User;
+  WhatValue: Scalars['WhatValue'];
 }>;
 
 export type AuthDirectiveArgs = {};
@@ -639,6 +691,57 @@ export type BaseEntityResolvers<
   updatedAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   deletedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 }>;
+
+export interface ConditionalMetaDataScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes['ConditionalMetaData'], any> {
+  name: 'ConditionalMetaData';
+}
+
+export type ConditionalRuleResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['ConditionalRule'] = ResolversParentTypes['ConditionalRule']
+> = ResolversObject<{
+  when?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  whatValue?: Resolver<
+    Maybe<ResolversTypes['WhatValue']>,
+    ParentType,
+    ContextType
+  >;
+  value?: Resolver<
+    Maybe<ResolversTypes['ConditionalRuleValue']>,
+    ParentType,
+    ContextType
+  >;
+  meta?: Resolver<
+    Maybe<ResolversTypes['ConditionalMetaData']>,
+    ParentType,
+    ContextType
+  >;
+  type?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type ConditionalRuleGroupResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['ConditionalRuleGroup'] = ResolversParentTypes['ConditionalRuleGroup']
+> = ResolversObject<{
+  rules?: Resolver<
+    Array<ResolversTypes['ConditionalRule']>,
+    ParentType,
+    ContextType
+  >;
+  type?: Resolver<
+    ResolversTypes['ConditionalRuleGroupType'],
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export interface ConditionalRuleValueScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes['ConditionalRuleValue'], any> {
+  name: 'ConditionalRuleValue';
+}
 
 export type CreateUserResultResolvers<
   ContextType = any,
@@ -893,6 +996,11 @@ export type ScrapperStepResolvers<
     ContextType
   >;
   key?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  conditionalRules?: Resolver<
+    Maybe<Array<ResolversTypes['ConditionalRuleGroup']>>,
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -945,9 +1053,18 @@ export type UserResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export interface WhatValueScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes['WhatValue'], any> {
+  name: 'WhatValue';
+}
+
 export type Resolvers<ContextType = any> = ResolversObject<{
   AuthTokens?: AuthTokensResolvers<ContextType>;
   BaseEntity?: BaseEntityResolvers<ContextType>;
+  ConditionalMetaData?: GraphQLScalarType;
+  ConditionalRule?: ConditionalRuleResolvers<ContextType>;
+  ConditionalRuleGroup?: ConditionalRuleGroupResolvers<ContextType>;
+  ConditionalRuleValue?: GraphQLScalarType;
   CreateUserResult?: CreateUserResultResolvers<ContextType>;
   CreatedBy?: CreatedByResolvers<ContextType>;
   Date?: GraphQLScalarType;
@@ -965,6 +1082,7 @@ export type Resolvers<ContextType = any> = ResolversObject<{
   Subscription?: SubscriptionResolvers<ContextType>;
   Url?: GraphQLScalarType;
   User?: UserResolvers<ContextType>;
+  WhatValue?: GraphQLScalarType;
 }>;
 
 /**

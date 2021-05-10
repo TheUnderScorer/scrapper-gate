@@ -60,6 +60,8 @@
     "shared-domain-scrapper": { "tags": [] },
     "frontend-keyboard-shortcuts": { "tags": [] },
     "frontend-html-picker": { "tags": [] },
-    "shared-constructor": { "tags": [] }
+    "shared-constructor": { "tags": [] },
+    "shared-domain-conditional-rules": { "tags": [] },
+    "frontend-domain-conditional-rules": { "tags": [] }
   }
 }

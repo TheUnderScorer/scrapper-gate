@@ -19,3 +19,5 @@ export * from './firstLast';
 export * from './keysEnum';
 export * from './stringifyCircular';
 export * from './repeatUntil';
+export * from './toDisplayText';
+export * from './DateFormat';

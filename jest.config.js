@@ -33,5 +33,7 @@ module.exports = {
     '<rootDir>/libs/frontend/keyboard-shortcuts',
     '<rootDir>/libs/frontend/html-picker',
     '<rootDir>/libs/shared/constructor',
+    '<rootDir>/libs/shared/domain/conditional-rules',
+    '<rootDir>/libs/frontend/domain/conditional-rules',
   ],
 };
