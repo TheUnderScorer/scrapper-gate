@@ -39,6 +39,7 @@ export const GetScrapperForBuilderDocument = gql`
           value
         }
         url
+        typeDelay
         useUrlFromPreviousStep
         position {
           x

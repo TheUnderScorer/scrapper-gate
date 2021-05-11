@@ -12,6 +12,7 @@ import {
   Stack,
   Tooltip,
   Typography,
+  useTheme,
 } from '@material-ui/core';
 import { Delete, ExpandMore } from '@material-ui/icons';
 import {
@@ -23,6 +24,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { ConditionalRulesSelectionDropdown } from '../SelectionDropdown/ConditionalRulesSelectionDropdown';
 import { Centered, Emoji } from '@scrapper-gate/frontend/ui';
 import classNames from 'classnames';
+import { AppTheme } from '@scrapper-gate/frontend/theme';
 
 export interface ConditionalRulesGroupProps
   extends Pick<
@@ -72,6 +74,8 @@ const BaseConditionalRulesGroup = ({
   ...rest
 }: ConditionalRulesGroupProps) => {
   const classes = useStyles();
+
+  const theme = useTheme() as AppTheme;
 
   const {
     append,
@@ -130,7 +134,7 @@ const BaseConditionalRulesGroup = ({
           {!rules.length && (
             <Centered>
               <Typography variant="body2">
-                No rules for this group <Emoji>😯</Emoji>
+                No rules for this group <Emoji>{theme.emojis.empty}</Emoji>
               </Typography>
             </Centered>
           )}

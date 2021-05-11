@@ -1,7 +1,6 @@
 import { getActiveTab } from '../browser/tabsQuery/getActiveTab';
 import { browser, Tabs } from 'webextension-polyfill-ts';
 import { StoredRoute } from '../browser/communication/types';
-import { getTabId } from '../browser/getTabId';
 
 export const updateContentRoute = async (
   route: StoredRoute,
@@ -16,7 +15,7 @@ export const updateContentRoute = async (
     return;
   }
 
-  const tabId = getTabId(targetTab);
+  const tabId = tab.id;
 
   contentRoutes[tabId] = route;
 

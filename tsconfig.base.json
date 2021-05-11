@@ -92,6 +92,9 @@
       ],
       "@scrapper-gate/frontend/domain/conditional-rules": [
         "libs/frontend/domain/conditional-rules/src/index.ts"
+      ],
+      "@scrapper-gate/frontend/snackbars": [
+        "libs/frontend/snackbars/src/index.ts"
       ]
     }
   },

@@ -1,5 +1,6 @@
 import React, { PropsWithChildren } from 'react';
 import emoji from 'react-easy-emoji';
+import classNames from 'classnames';
 
 export interface EmojiProps {
   className?: string;
@@ -10,7 +11,7 @@ export const Emoji = ({
   children,
 }: PropsWithChildren<EmojiProps>) => {
   return (
-    <span className={className}>
+    <span className={classNames(className, 'emoji')}>
       {emoji(children, {
         baseUrl: 'https://twemoji.maxcdn.com/2/svg/',
         ext: '.svg',

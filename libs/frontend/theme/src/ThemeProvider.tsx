@@ -2,13 +2,13 @@ import './typings/material-ui';
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/styles';
 import { createMuiTheme, CssBaseline } from '@material-ui/core';
 import React, { PropsWithChildren, useMemo } from 'react';
-import { ThemeProvider as EmotionThemeProvider } from '@emotion/react';
+import { Global, ThemeProvider as EmotionThemeProvider } from '@emotion/react';
 import { palette } from './palette';
 import {
   stopPropagation,
   useContainerStore,
 } from '@scrapper-gate/frontend/common';
-import { shadeColor } from '@scrapper-gate/shared/common';
+import { themeStyles } from './themeStyles';
 
 export interface ThemeProviderProps {
   htmlFontSize?: number;
@@ -120,14 +120,22 @@ export const ThemeProvider = ({
         zIndex: {
           modal: 1400,
         },
+        emojis: {
+          empty: '😯',
+          error: '😵',
+          success: '😁',
+        },
       }),
     [container, htmlFontSize, isContent, rest.htmlFontSize]
   );
+
+  const styles = useMemo(() => themeStyles(theme), [theme]);
 
   return (
     <EmotionThemeProvider theme={theme}>
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
+        <Global styles={styles} />
         {children}
       </MuiThemeProvider>
     </EmotionThemeProvider>

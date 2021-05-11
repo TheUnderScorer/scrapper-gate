@@ -12,6 +12,10 @@ export const primary = {
 export const palette: PaletteOptions = {
   ...defaultTheme.palette,
   primary,
+  success: {
+    ...defaultTheme.palette.success,
+    contrastText: defaultTheme.palette.common.white,
+  },
   greyVariant: colors.grey,
   flowBuilderColors: {
     condition: colors.orange['500'],

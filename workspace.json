@@ -418,7 +418,8 @@
           "outputs": ["{options.outputPath}"],
           "options": {
             "buildTarget": "browser-extension:build",
-            "maxWorkers": 2
+            "maxWorkers": 2,
+            "outputPath": "dist/apps/browser-extension"
           },
           "configurations": {
             "production": {
@@ -937,6 +938,27 @@
             }
           },
           "configurations": { "ci": { "quiet": true } }
+        }
+      }
+    },
+    "frontend-snackbars": {
+      "root": "libs/frontend/snackbars",
+      "sourceRoot": "libs/frontend/snackbars/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/frontend/snackbars/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/frontend/snackbars"],
+          "options": {
+            "jestConfig": "libs/frontend/snackbars/jest.config.js",
+            "passWithNoTests": true
+          }
         }
       }
     }

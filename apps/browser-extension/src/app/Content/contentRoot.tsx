@@ -52,6 +52,10 @@ ReactDOM.render(
                   <ApiClientProvider>
                     <SnackbarProvider
                       action={(key) => <SnackbarActions key={key} />}
+                      anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'center',
+                      }}
                     >
                       <Content />
                     </SnackbarProvider>

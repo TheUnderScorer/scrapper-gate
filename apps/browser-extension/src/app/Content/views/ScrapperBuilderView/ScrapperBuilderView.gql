@@ -32,6 +32,7 @@ query GetScrapperForBuilder($id: ID!) {
         value
       }
       url
+      typeDelay
       useUrlFromPreviousStep
       position {
         x

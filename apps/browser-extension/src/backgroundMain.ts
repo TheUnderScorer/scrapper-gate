@@ -29,14 +29,14 @@ cleanupOnInit()
   .then(() => logger.debug('Cleanup on init done.'))
   .catch((err) => logger.error('Cleanup on init failed:', err));
 
-browser.tabs.onRemoved.addListener(async (tabId, removeInfo) => {
+browser.tabs.onRemoved.addListener(async (tabId) => {
   const {
     contentRoutes = {},
     activeOverlays = [],
   } = await browser.storage.local.get(['contentRoutes', 'activeOverlays']);
 
   await cleanupStoresForTab({
-    tabId: `${tabId}-${removeInfo.windowId}`,
+    tabId,
     contentRoutes,
     activeOverlays,
   });

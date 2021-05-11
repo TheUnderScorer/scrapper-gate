@@ -6,7 +6,7 @@ import { ContentDrawer } from '../../components/ContentDrawer/ContentDrawer';
 import { ScrapperBuilder } from '@scrapper-gate/frontend/domain/scrapper';
 import { ScrapperElementPicker } from '../../components/ScrapperElementPicker/ScrapperElementPicker';
 import { useLocation } from 'react-use';
-import { useSnackbarOnError } from '@scrapper-gate/frontend/common';
+import { useSnackbarOnError } from '@scrapper-gate/frontend/snackbars';
 
 export const ScrapperBuilderView = () => {
   const match = useRouteMatch<Pick<ContentScrapperRouteParams, 'scrapperId'>>();

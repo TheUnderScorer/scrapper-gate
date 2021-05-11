@@ -26,8 +26,25 @@ export interface BasePalette<TOption> {
   gradients: Gradients;
 }
 
+export interface Emojis {
+  empty: string;
+  success: string;
+  error: string;
+}
+
 export interface AppTheme extends Theme {
   palette: Palette & BasePalette<PaletteColor> & FlowBuilderColors;
+  emojis: Emojis;
+}
+
+declare module '@material-ui/core' {
+  interface ThemeOptions {
+    emojis: Emojis;
+  }
+
+  interface Theme {
+    emojis: Emojis;
+  }
 }
 
 declare module '@material-ui/core/styles/createPalette' {

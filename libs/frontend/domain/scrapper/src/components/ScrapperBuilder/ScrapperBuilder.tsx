@@ -10,7 +10,6 @@ import {
 import { v4 as uuid } from 'uuid';
 import {
   joiValidationResolver,
-  useDebouncedValidator,
   validatorsPipe,
 } from '@scrapper-gate/frontend/form';
 import { createScrapperNodeSelection } from './scrapperNodeSelection';
@@ -19,23 +18,19 @@ import {
   ScrapperBuilderProps,
 } from './ScrapperBuilder.types';
 import { Node } from 'react-flow-renderer';
-import { MouseButton } from '@scrapper-gate/shared/schema';
 import { makeStyles } from '@material-ui/core/styles';
 import { Form } from 'react-final-form';
 import { ScrapperBuilderNodeContent } from './NodeContent/ScrapperBuilderNodeContent';
-import {
-  useIsUsingElementPicker,
-  useSnackbarOnError,
-  useSnackbarOnSuccess,
-} from '@scrapper-gate/frontend/common';
+import { useIsUsingElementPicker } from '@scrapper-gate/frontend/common';
 import { nodesToScrapperSteps } from './nodesToScrapperSteps';
 import { useUpdateScrapperMutation } from '@scrapper-gate/frontend/schema';
 import { scrapperStepsToNodes } from './scrapperStepsToNodes';
-import {
-  ScrapperBuilderDto,
-  ScrapperInputDto,
-} from '@scrapper-gate/shared/validation';
+import { ScrapperBuilderDto } from '@scrapper-gate/shared/validation';
 import { logger } from '@scrapper-gate/frontend/logger';
+import {
+  useSnackbarOnError,
+  useSnackbarOnSuccess,
+} from '@scrapper-gate/frontend/snackbars';
 
 const initialNodes = [
   flowBuilderUtils.createStartNode({

@@ -37,6 +37,9 @@ export const FormTextField = <T extends unknown>({
 }: FormTextFieldProps<T>) => {
   const { input, meta } = useField(name, {
     ...rest,
+    parse: (value) => {
+      return rest.type === 'number' ? parseFloat(value) : value;
+    },
   });
 
   const hasError = useFieldHasError({

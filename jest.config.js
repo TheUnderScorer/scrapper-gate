@@ -35,5 +35,6 @@ module.exports = {
     '<rootDir>/libs/shared/constructor',
     '<rootDir>/libs/shared/domain/conditional-rules',
     '<rootDir>/libs/frontend/domain/conditional-rules',
+    '<rootDir>/libs/frontend/snackbars',
   ],
 };

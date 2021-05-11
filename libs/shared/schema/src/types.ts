@@ -349,6 +349,7 @@ export type GetScrapperForBuilderQuery = {
           | 'navigateToUrl'
           | 'reloadDelay'
           | 'url'
+          | 'typeDelay'
           | 'useUrlFromPreviousStep'
         > & {
           nextStep?: Maybe<Pick<ScrapperStep, 'id'>>;

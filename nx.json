@@ -62,6 +62,7 @@
     "frontend-html-picker": { "tags": [] },
     "shared-constructor": { "tags": [] },
     "shared-domain-conditional-rules": { "tags": [] },
-    "frontend-domain-conditional-rules": { "tags": [] }
+    "frontend-domain-conditional-rules": { "tags": [] },
+    "frontend-snackbars": { "tags": [] }
   }
 }
