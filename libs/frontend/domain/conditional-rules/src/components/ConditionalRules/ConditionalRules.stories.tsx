@@ -26,7 +26,6 @@ export const Component = () => {
           <ConditionalRules
             helperText="Configure rules that happen when various stuff happens."
             label="Rules"
-            fieldVariant="outlined"
             definitions={rules}
             name="conditionalRules"
           />

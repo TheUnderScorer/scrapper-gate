@@ -4,11 +4,12 @@ import { MenuItem, Stack, Typography } from '@material-ui/core';
 import { FormDatePicker, FormSelect } from '@scrapper-gate/frontend/form';
 import { DateFormat, toDisplayText } from '@scrapper-gate/shared/common';
 import { ConditionalRuleDefinitionsProps } from '../../types';
+import { ruleLabels } from '../../labels';
 
 const supportedWhen = [
   BaseConditionalRuleWhen.MoreThan,
   BaseConditionalRuleWhen.MoreThanOrEqual,
-  BaseConditionalRuleWhen.Equal,
+  BaseConditionalRuleWhen.Equals,
   BaseConditionalRuleWhen.LessThan,
   BaseConditionalRuleWhen.LessThanOrEqual,
 ];
@@ -21,11 +22,12 @@ export const DateRule = ({
   fieldVariant,
 }: ConditionalRuleDefinitionsProps) => {
   return (
-    <Stack alignItems="center" spacing={spacing} direction="row">
+    <Stack alignItems="baseline" spacing={spacing} direction="row">
       <Typography>Current date</Typography>
       <FormSelect
+        label={ruleLabels.when}
         className="date-rule-select"
-        defaultValue={BaseConditionalRuleWhen.Equal}
+        defaultValue={BaseConditionalRuleWhen.Equals}
         variant={fieldVariant}
         name={getName('when')}
       >
@@ -39,7 +41,7 @@ export const DateRule = ({
         inputVariant={fieldVariant}
         disableToolbar
         name={getName('value')}
-        label="Value"
+        label={ruleLabels.value}
         format={DateFormat.Date}
         margin="normal"
         variant="inline"

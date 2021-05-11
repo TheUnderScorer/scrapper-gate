@@ -6,6 +6,7 @@ import {
   ListItemSecondaryAction,
   ListItemText,
   ListSubheader,
+  Tooltip,
 } from '@material-ui/core';
 import { Remove } from '@material-ui/icons';
 import classNames from 'classnames';
@@ -78,15 +79,17 @@ export const SelectorsList: FC<SelectorsListProps> = ({
             primary={`${selector.value} (${selector.elements.length})`}
           />
           <ListItemSecondaryAction>
-            <IconButton
-              onClick={() => {
-                if (onDelete) {
-                  onDelete(index);
-                }
-              }}
-            >
-              <Remove />
-            </IconButton>
+            <Tooltip title="Remove selector">
+              <IconButton
+                onClick={() => {
+                  if (onDelete) {
+                    onDelete(index);
+                  }
+                }}
+              >
+                <Remove />
+              </IconButton>
+            </Tooltip>
           </ListItemSecondaryAction>
         </ListItem>
       ))}

@@ -65,6 +65,7 @@ const waitForListItem = async (container: HTMLElement) => {
 
 const mockTab = {
   id: 1,
+  windowId: 1,
 };
 
 const tokens = {
@@ -86,6 +87,13 @@ describe('Popup scrappers view', () => {
   beforeEach(() => {
     onMessage = mockEvent(mockBrowser.runtime.onMessage);
     mockBrowser.tabs.query.mock(async () => [mockTab as Tabs.Tab]);
+    mockBrowser.windows.getCurrent.mock(
+      async () =>
+        ({
+          id: 1,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } as any)
+    );
 
     useTokensStore.setState({
       tokens,
@@ -137,7 +145,7 @@ describe('Popup scrappers view', () => {
 
     mockBrowser.storage.local.get.mock(async () => ({
       contentRoutes: {
-        [mockTab.id]: {
+        [`1-1`]: {
           pathname: browserExtensionRoutes.content.scrapper({
             scrapperId: scrapper.id,
             drawerOpen: true,

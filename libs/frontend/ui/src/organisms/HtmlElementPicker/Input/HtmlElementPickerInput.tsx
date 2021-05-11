@@ -10,6 +10,7 @@ import {
   Stack,
   TextField,
   TextFieldProps,
+  Tooltip,
 } from '@material-ui/core';
 import { Add, Code } from '@material-ui/icons';
 import { Key } from 'ts-key-enum';
@@ -99,14 +100,18 @@ export const HtmlElementPickerInput = ({
           ),
         }}
       />
-      <IconButton
-        className="add-selector"
-        disabled={!value}
-        onClick={onAdd}
-        size="small"
-      >
-        <Add />
-      </IconButton>
+      <Tooltip title="Add selector">
+        <span>
+          <IconButton
+            className="add-selector"
+            disabled={!value}
+            onClick={onAdd}
+            size="small"
+          >
+            <Add />
+          </IconButton>
+        </span>
+      </Tooltip>
     </Stack>
   );
 };

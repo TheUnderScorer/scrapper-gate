@@ -27,7 +27,7 @@ export const useActiveTabUrl = () => {
     });
 
     browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-      if (!tab.active) {
+      if (!tab?.active) {
         return;
       }
 

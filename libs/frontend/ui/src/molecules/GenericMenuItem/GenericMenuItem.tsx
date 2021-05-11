@@ -12,7 +12,7 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
   header: {
     lineHeight: 'inherit',
-    marginBottom: theme.spacing(1),
+    marginBottom: theme.spacing(0.3),
   },
   divider: {
     padding: 0,

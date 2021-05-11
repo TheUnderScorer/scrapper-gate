@@ -10,6 +10,7 @@ import {
   IconButton,
   MenuItem,
   Stack,
+  Tooltip,
   Typography,
 } from '@material-ui/core';
 import { Delete, ExpandMore } from '@material-ui/icons';
@@ -99,13 +100,15 @@ const BaseConditionalRulesGroup = ({
           justifyContent="space-between"
         >
           <Typography>Group {index + 1}</Typography>
-          <IconButton
-            size="small"
-            onClick={() => onRemove(index)}
-            className={classNames(classes.btn, 'remove-rules-group')}
-          >
-            <Delete />
-          </IconButton>
+          <Tooltip title="Remove group">
+            <IconButton
+              size="small"
+              onClick={() => onRemove(index)}
+              className={classNames(classes.btn, 'remove-rules-group')}
+            >
+              <Delete />
+            </IconButton>
+          </Tooltip>
         </Stack>
       </AccordionSummary>
       <AccordionDetails>
@@ -115,7 +118,7 @@ const BaseConditionalRulesGroup = ({
           alignItems="center"
           direction="row"
         >
-          <FormSelect name={`${name}.type`}>
+          <FormSelect variant={fieldVariant} name={`${name}.type`}>
             <MenuItem value={ConditionalRuleGroupType.Any}>
               At least one
             </MenuItem>

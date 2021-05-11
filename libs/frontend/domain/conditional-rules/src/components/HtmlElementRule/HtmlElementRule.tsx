@@ -7,7 +7,7 @@ import {
   HtmlElementPicker,
   HtmlElementPickerProps,
 } from '@scrapper-gate/frontend/ui';
-import { Divider, MenuItem, Stack, Typography } from '@material-ui/core';
+import { MenuItem, Stack, Typography } from '@material-ui/core';
 import {
   EnumSelect,
   FormSelect,
@@ -19,7 +19,11 @@ import { makeStyles } from '@material-ui/core/styles';
 import { useField } from 'react-final-form';
 import { valueSupportedWhen } from '../../valueSupportedWhen';
 import { isHtmlAttribute } from '@scrapper-gate/shared/validation';
-import { ConditionalRuleGroupType } from '@scrapper-gate/shared/schema';
+import {
+  ConditionalRuleGroupType,
+  Selector,
+} from '@scrapper-gate/shared/schema';
+import { ruleLabels } from '../../labels';
 
 export interface HtmlElementRuleProps
   extends ConditionalRuleDefinitionsProps,
@@ -29,11 +33,8 @@ const useStyles = makeStyles((theme) => ({
   select: {
     minWidth: '150px',
   },
-  divider: {
-    '&.MuiDivider-root': {
-      marginTop: theme.spacing(3),
-      marginBottom: theme.spacing(2),
-    },
+  htmlPicker: {
+    marginTop: `${theme.spacing(4)} !important`,
   },
 }));
 
@@ -46,6 +47,7 @@ export const HtmlElementRule = ({
 }: HtmlElementRuleProps) => {
   const classes = useStyles();
 
+  const selectors = useFormFieldValue<Selector[]>(getName('meta.selectors'));
   const whatValue = useFormFieldValue(getName('what'));
 
   const {
@@ -79,7 +81,7 @@ export const HtmlElementRule = ({
         <Typography>Element</Typography>
         <EnumSelect
           className={classes.select}
-          label="Type"
+          label={ruleLabels.what}
           emptyOptionLabel="None"
           defaultValue=""
           variant={fieldVariant}
@@ -102,7 +104,7 @@ export const HtmlElementRule = ({
 
         <EnumSelect
           className={classes.select}
-          label="Condition"
+          label={ruleLabels.when}
           defaultValue={BaseConditionalRuleWhen.Exists}
           variant={fieldVariant}
           enumObj={whenOptions}
@@ -112,28 +114,32 @@ export const HtmlElementRule = ({
           <FormTextField
             variant={fieldVariant}
             name={getName('value')}
-            placeholder="Enter value..."
+            label={ruleLabels.value}
           />
         )}
       </Stack>
-      <Stack spacing={spacing} direction="row" alignItems="center">
-        <FormSelect
-          defaultValue={ConditionalRuleGroupType.Any}
-          variant={fieldVariant}
-          className={classes.select}
-          name={getName('meta.type')}
-        >
-          <MenuItem value={ConditionalRuleGroupType.Any}>At least one</MenuItem>
-          <MenuItem value={ConditionalRuleGroupType.All}>All</MenuItem>
-        </FormSelect>
-        <Typography>elements must match this condition.</Typography>
-      </Stack>
-      <Divider className={classes.divider} />
       <HtmlElementPicker
+        className={classes.htmlPicker}
         variant={fieldVariant}
         name={getName('meta.selectors')}
         {...rest}
       />
+      {Boolean(selectors.length) && (
+        <Stack spacing={spacing} direction="row" alignItems="center">
+          <FormSelect
+            defaultValue={ConditionalRuleGroupType.Any}
+            variant={fieldVariant}
+            className={classes.select}
+            name={getName('meta.type')}
+          >
+            <MenuItem value={ConditionalRuleGroupType.Any}>
+              At least one
+            </MenuItem>
+            <MenuItem value={ConditionalRuleGroupType.All}>All</MenuItem>
+          </FormSelect>
+          <Typography>elements must match this condition.</Typography>
+        </Stack>
+      )}
     </Stack>
   );
 };

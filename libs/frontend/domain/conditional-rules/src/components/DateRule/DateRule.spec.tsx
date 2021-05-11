@@ -12,6 +12,7 @@ import React from 'react';
 import userEvent from '@testing-library/user-event';
 import { format } from 'date-fns';
 import { DateFormat } from '@scrapper-gate/shared/common';
+import { addGroupAndRule, assertTitle } from '../ConditionalRules/testUtils';
 
 const renderCmp = (props: Partial<ConditionalRulesProps> = {}) => {
   return render(
@@ -37,14 +38,7 @@ describe('<DateRule />', () => {
   it('should render correct title', () => {
     const cmp = renderCmp();
 
-    act(() => {
-      userEvent.click(cmp.getByText('Add rules group'));
-    });
-
-    act(() => {
-      userEvent.click(cmp.getByText('Add rule'));
-      userEvent.click(cmp.getByText('Date'));
-    });
+    addGroupAndRule(cmp, 'Date');
 
     act(() => {
       userEvent.type(
@@ -53,10 +47,6 @@ describe('<DateRule />', () => {
       );
     });
 
-    const title = cmp.container.querySelector('.conditional-rules-rule-title');
-
-    expect(title).toHaveTextContent(
-      `Date equal "${format(now, DateFormat.Date)}"`
-    );
+    assertTitle(cmp.container, `Date equals "${format(now, DateFormat.Date)}"`);
   });
 });

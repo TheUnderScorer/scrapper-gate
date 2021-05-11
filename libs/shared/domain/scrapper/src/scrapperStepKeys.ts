@@ -19,6 +19,7 @@ export const scrapperStepInputKeys = getAllObjectKeys<ScrapperStepInput>({
   typeDelay: true,
   url: true,
   useUrlFromPreviousStep: true,
+  conditionalRules: true,
 });
 
 export const pickScrapperInput = pick<

@@ -8,6 +8,7 @@ import {
   IconButton,
   Stack,
   TextFieldProps,
+  Tooltip,
   Typography,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -132,13 +133,15 @@ const BaseConditionalRulesRule = ({
               {title}
             </Typography>
           </Stack>
-          <IconButton
-            size="small"
-            onClick={onRowRemove}
-            className={classNames(classes.delete, 'remove-rules-rule')}
-          >
-            <Delete />
-          </IconButton>
+          <Tooltip title="Remove rule">
+            <IconButton
+              size="small"
+              onClick={onRowRemove}
+              className={classNames(classes.delete, 'remove-rules-rule')}
+            >
+              <Delete />
+            </IconButton>
+          </Tooltip>
         </Stack>
       </AccordionSummary>
       <AccordionDetails>

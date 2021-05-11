@@ -6,7 +6,7 @@ export enum ConditionalRuleTypes {
 export enum BaseConditionalRuleWhen {
   Exists = 'Exists',
   NotExists = 'NotExists',
-  Equal = 'Equal',
+  Equals = 'Equals',
   NotEqual = 'NotEqual',
   LessThan = 'LessThan',
   LessThanOrEqual = 'LessThanOrEqual',

@@ -60,9 +60,8 @@ const defaultValue = [];
 export const ConditionalRules = ({
   definitions,
   name,
-
   label,
-  fieldVariant,
+  fieldVariant = 'standard',
   helperText,
   ...rest
 }: ConditionalRulesProps) => {
