@@ -2,12 +2,12 @@ import {
   FlowBuilderNodeTypes,
   flowBuilderUtils,
 } from '@scrapper-gate/frontend/ui';
+import { scrapperActionNodeTypeMap } from './scrapperActionNodeTypeMap';
+import { Selection } from '@scrapper-gate/frontend/common';
 import {
   ScrapperBuilderNodeSelection,
   ScrapperBuilderStep,
-} from '@scrapper-gate/frontend/domain/scrapper';
-import { scrapperActionNodeTypeMap } from './scrapperActionNodeTypeMap';
-import { Selection } from '@scrapper-gate/frontend/common';
+} from './ScrapperBuilder.types';
 
 export const scrapperStepsToNodes = (
   steps: ScrapperBuilderStep[],
