@@ -3,7 +3,7 @@ import {
   ConditionalRules,
   ConditionalRulesProps,
 } from '@scrapper-gate/frontend/domain/conditional-rules';
-import { act, render, screen } from '@testing-library/react';
+import { act, render } from '@testing-library/react';
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
@@ -53,8 +53,10 @@ describe('<DateRule />', () => {
       );
     });
 
-    expect(
-      cmp.getByText(`Date equal ${format(now, DateFormat.Date)}`)
-    ).toBeInTheDocument();
+    const title = cmp.container.querySelector('.conditional-rules-rule-title');
+
+    expect(title).toHaveTextContent(
+      `Date equal "${format(now, DateFormat.Date)}"`
+    );
   });
 });

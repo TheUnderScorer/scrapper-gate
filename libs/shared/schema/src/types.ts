@@ -48,6 +48,7 @@ export type ConditionalRule = {
   value?: Maybe<Scalars['ConditionalRuleValue']>;
   meta?: Maybe<Scalars['ConditionalMetaData']>;
   type?: Maybe<Scalars['String']>;
+  what?: Maybe<Scalars['String']>;
 };
 
 export type ConditionalRuleGroup = {
@@ -718,6 +719,7 @@ export type ConditionalRuleResolvers<
     ContextType
   >;
   type?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  what?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 

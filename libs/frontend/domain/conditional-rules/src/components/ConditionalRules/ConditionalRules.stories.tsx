@@ -1,15 +1,23 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Form, FormSpy } from 'react-final-form';
-import {
-  baseRulesSelection,
-  ConditionalRules,
-} from '@scrapper-gate/frontend/domain/conditional-rules';
+import { dateRule, makeHtmlElementRule } from '../../baseRules';
+import { ConditionalRules } from './ConditionalRules';
 
 export default {
   title: 'Conditional Rules',
 };
 
 export const Component = () => {
+  const rules = useMemo(
+    () => [
+      dateRule,
+      makeHtmlElementRule({
+        highlightId: 'highlight',
+      }),
+    ],
+    []
+  );
+
   return (
     <Form
       onSubmit={console.log}
@@ -19,7 +27,7 @@ export const Component = () => {
             helperText="Configure rules that happen when various stuff happens."
             label="Rules"
             fieldVariant="outlined"
-            definitions={baseRulesSelection}
+            definitions={rules}
             name="conditionalRules"
           />
           <FormSpy

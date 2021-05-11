@@ -11,6 +11,7 @@ export const conditionalRulesSchema = gql`
     value: ConditionalRuleValue
     meta: ConditionalMetaData
     type: String
+    what: String
   }
 
   enum ConditionalRuleGroupType {

@@ -8,3 +8,4 @@ export * from './inputs/ScrapperStepInputDto';
 export * from './inputs/SelectorDto';
 export * from './inputs/ScrapperInputDto';
 export * from './inputs/ScrapperBuilderDto';
+export * from './common/isHtmlAttribute';

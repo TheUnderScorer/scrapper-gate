@@ -1,5 +1,6 @@
-export enum BaseConditionalRuleTypes {
+export enum ConditionalRuleTypes {
   Date = 'Date',
+  HtmlElement = 'HtmlElement',
 }
 
 export enum BaseConditionalRuleWhen {
@@ -13,4 +14,6 @@ export enum BaseConditionalRuleWhen {
   MoreThanOrEqual = 'MoreThanOrEqual',
   Empty = 'Empty',
   NotEmpty = 'NotEmpty',
+  Includes = 'Includes',
+  NotIncludes = 'NotIncludes',
 }

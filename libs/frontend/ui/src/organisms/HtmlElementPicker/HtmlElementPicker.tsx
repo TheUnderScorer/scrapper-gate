@@ -87,6 +87,7 @@ export const HtmlElementPicker = ({
   } = useField<Selector[]>(name, {
     validate,
     initialValue,
+    defaultValue: initialValue,
   });
 
   const getValueByMode = useCallback(
@@ -197,7 +198,6 @@ export const HtmlElementPicker = ({
   const elementDropdownRef = useRef<HTMLDivElement>();
 
   const {
-    hoveredElement,
     pickerRef,
     selectedElement,
     selectedElementSelector,

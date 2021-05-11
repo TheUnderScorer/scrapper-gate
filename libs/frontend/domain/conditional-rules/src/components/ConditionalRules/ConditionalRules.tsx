@@ -8,7 +8,15 @@ import {
   useFieldArray,
   useFieldHasError,
 } from '@scrapper-gate/frontend/form';
-import { Box, Fab, FormHelperText, FormLabel } from '@material-ui/core';
+import {
+  Box,
+  Divider,
+  Fab,
+  FormHelperText,
+  FormLabel,
+  Stack,
+  Typography,
+} from '@material-ui/core';
 import {
   ConditionalRulesGroup,
   ConditionalRulesGroupProps,
@@ -34,6 +42,16 @@ const useStyles = makeStyles((theme) => ({
   },
   fab: {
     boxShadow: 'none',
+  },
+  divider: {
+    alignSelf: 'center',
+    margin: `${theme.spacing(1)} 0`,
+    height: '40px',
+  },
+  dividerText: {
+    position: 'absolute',
+    top: '19px',
+    background: theme.palette.background.paper,
   },
 }));
 
@@ -85,22 +103,39 @@ export const ConditionalRules = ({
       {label && <FormLabel error={hasError}>{label}</FormLabel>}
       {helperText && <FormHelperText>{helperText}</FormHelperText>}
       <Box mt={2}>
-        {value.map((group, index) => (
-          <ConditionalRulesGroup
-            open={group.id === activeGroupId}
-            onClose={() => setActiveGroupId(undefined)}
-            onOpen={() => setActiveGroupId(group.id)}
-            activeRowId={activeRole}
-            onEdit={setActiveRole}
-            onEditClose={() => setActiveRole(undefined)}
-            onRemove={remove}
-            name={getFieldName(`[${index}]`)}
-            key={group.id}
-            fieldVariant={fieldVariant}
-            index={index}
-            definitions={definitions}
-          />
-        ))}
+        {value.map((group, index) => {
+          const hasNext = Boolean(value[index + 1]);
+
+          return (
+            <Stack direction="column" key={group.id}>
+              <ConditionalRulesGroup
+                open={group.id === activeGroupId}
+                onClose={() => setActiveGroupId(undefined)}
+                onOpen={() => setActiveGroupId(group.id)}
+                activeRowId={activeRole}
+                onEdit={setActiveRole}
+                onEditClose={() => setActiveRole(undefined)}
+                onRemove={remove}
+                name={getFieldName(`[${index}]`)}
+                fieldVariant={fieldVariant}
+                index={index}
+                definitions={definitions}
+              />
+              {hasNext && (
+                <Box display="flex" justifyContent="center" position="relative">
+                  <Divider
+                    className={classes.divider}
+                    orientation="vertical"
+                    flexItem
+                  />
+                  <Typography className={classes.dividerText} variant="caption">
+                    OR
+                  </Typography>
+                </Box>
+              )}
+            </Stack>
+          );
+        })}
       </Box>
       <Centered className={classes.btn}>
         <Fab

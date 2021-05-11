@@ -88,12 +88,16 @@ const BaseConditionalRulesRule = ({
   const Component = definition?.Component;
 
   const title = useMemo(() => {
-    if (!value?.when || !value?.value) {
-      return toDisplayText(definition.type);
+    if (!value?.type) {
+      return '';
     }
 
     if (definition?.createTitle) {
       return definition.createTitle(value);
+    }
+
+    if (!value?.when || !value?.value) {
+      return toDisplayText(definition.type);
     }
 
     return [value.type, value.when, value.value].map(toDisplayText).join(' ');
@@ -124,7 +128,9 @@ const BaseConditionalRulesRule = ({
         >
           <Stack direction="row" spacing={2}>
             {definitionSelection?.icon}
-            <Typography>{title}</Typography>
+            <Typography className="conditional-rules-rule-title">
+              {title}
+            </Typography>
           </Stack>
           <IconButton
             size="small"
