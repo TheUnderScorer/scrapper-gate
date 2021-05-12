@@ -10,6 +10,7 @@ import {
 import { v4 as uuid } from 'uuid';
 import {
   joiValidationResolver,
+  useDebouncedValidator,
   validatorsPipe,
 } from '@scrapper-gate/frontend/form';
 import { createScrapperNodeSelection } from './scrapperNodeSelection';
@@ -130,6 +131,11 @@ export const ScrapperBuilder = ({
     []
   );
 
+  const debouncedValidate = useDebouncedValidator({
+    validate,
+    ms: 1000,
+  });
+
   const handleSubmit = useCallback(
     async (values: FlowBuilderFormState<ScrapperBuilderNodeProperties>) => {
       try {
@@ -156,7 +162,7 @@ export const ScrapperBuilder = ({
 
   return (
     <Form
-      validate={validate}
+      validate={debouncedValidate}
       onSubmit={handleSubmit}
       initialValues={{
         items: initialNodes,

@@ -7,6 +7,7 @@ import { ScrapperAction } from '@scrapper-gate/shared/schema';
 import { ScrapperStepFormProps } from './ScrapperBuilder.types';
 import { GoBackSections } from './stepSections/GoBackSections';
 import { NavigateToSections } from './stepSections/NavigateToSections';
+import { ConditionalSections } from './stepSections/ConditionalSections';
 
 export type Sections = {
   [Key in ScrapperAction]?: ComponentType<ScrapperStepFormProps>;
@@ -19,4 +20,5 @@ export const sections: Sections = {
   [ScrapperAction.Type]: TypeSections,
   [ScrapperAction.GoBack]: GoBackSections,
   [ScrapperAction.ReloadPage]: ReloadSections,
+  [ScrapperAction.Condition]: ConditionalSections,
 };

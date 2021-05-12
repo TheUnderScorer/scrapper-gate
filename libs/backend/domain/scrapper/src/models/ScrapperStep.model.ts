@@ -1,4 +1,5 @@
 import {
+  ConditionalRuleGroup,
   MouseButton,
   NodePosition,
   ScrapperAction,
@@ -109,4 +110,10 @@ export class ScrapperStepModel
     nullable: true,
   })
   typeValue?: string;
+
+  @Column({
+    nullable: true,
+    type: 'jsonb',
+  })
+  conditionalRules?: ConditionalRuleGroup[];
 }

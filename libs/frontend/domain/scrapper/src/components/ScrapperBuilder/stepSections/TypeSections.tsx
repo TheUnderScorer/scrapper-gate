@@ -25,13 +25,15 @@ export const TypeSections = ({
       isEditable(element as HTMLElement)
     );
 
-    return areAllElementsEditable
-      ? undefined
-      : wordFormByNumber(
+    if (!areAllElementsEditable) {
+      return new Error(
+        wordFormByNumber(
           'Selected element is not editable.',
           'Some of the selected elements are not editable.',
           elements.length
-        );
+        )
+      );
+    }
   }, []);
 
   return (

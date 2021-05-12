@@ -38,6 +38,19 @@ query GetScrapperForBuilder($id: ID!) {
         x
         y
       }
+      conditionalRules {
+        id
+        type
+        rules {
+          id
+          meta
+          type
+          value
+          what
+          whatValue
+          when
+        }
+      }
     }
   }
 }

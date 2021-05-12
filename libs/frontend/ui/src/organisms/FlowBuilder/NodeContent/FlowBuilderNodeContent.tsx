@@ -27,10 +27,15 @@ interface DialogStyleProps {
 const useStyles = makeStyles((theme) => ({
   content: {
     minWidth: '400px',
+    maxWidth: '900px',
   },
   dialog: (props: DialogStyleProps) => {
     const defaults = {
       transition: theme.transitions.create('opacity'),
+
+      '& .MuiPaper-root': {
+        maxWidth: '900px',
+      },
     };
 
     if (!props.isUsingElementPicker) {
@@ -117,12 +122,7 @@ export const FlowBuilderNodeContent = () => {
   );
 
   return (
-    <Dialog
-      fullWidth
-      className={classes.dialog}
-      onClose={handleClose}
-      open={contentOpen}
-    >
+    <Dialog className={classes.dialog} onClose={handleClose} open={contentOpen}>
       <DialogTitle>Edit step</DialogTitle>
       <DialogContent className={classNames(classes.content, 'node-content')}>
         {ContentComponent && (
@@ -139,7 +139,12 @@ export const FlowBuilderNodeContent = () => {
         )}
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose} color="primary" autoFocus>
+        <Button
+          variant="outlined"
+          onClick={handleClose}
+          color="primary"
+          autoFocus
+        >
           Close
         </Button>
       </DialogActions>

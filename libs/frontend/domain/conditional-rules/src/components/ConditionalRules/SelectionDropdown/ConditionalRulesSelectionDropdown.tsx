@@ -2,12 +2,12 @@ import React, { useMemo } from 'react';
 import { ConditionalRule } from '@scrapper-gate/shared/schema';
 import { Button, makeStyles } from '@material-ui/core';
 import { Centered, Dropdown } from '@scrapper-gate/frontend/ui';
-import { ConditionalRulesSelection } from '@scrapper-gate/frontend/domain/conditional-rules';
 import { Add } from '@material-ui/icons';
 import { MenuItemProperties } from '@scrapper-gate/frontend/common';
+import { ConditionalRulesSelection } from '../../../types';
 
 export interface ConditionalRulesSelectionDropdownProps {
-  onAdd: (rule: ConditionalRule) => unknown;
+  onAdd: (rule: Omit<ConditionalRule, 'id'>) => unknown;
   definitions: ConditionalRulesSelection[];
 }
 

@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react';
 import { Form, FormSpy } from 'react-final-form';
-import { dateRule, makeHtmlElementRule } from '../../baseRules';
 import { ConditionalRules } from './ConditionalRules';
+import { makeHtmlElementRule } from '../../rules/htmlRule';
+import { dateRule } from '../../rules/dateRule';
 
 export default {
   title: 'Conditional Rules',

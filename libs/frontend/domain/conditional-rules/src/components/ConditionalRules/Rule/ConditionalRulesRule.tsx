@@ -14,8 +14,8 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import { Delete, Edit } from '@material-ui/icons';
 import { toDisplayText } from '@scrapper-gate/shared/common';
-import { ConditionalRulesSelection } from '@scrapper-gate/frontend/domain/conditional-rules';
 import classNames from 'classnames';
+import { ConditionalRulesSelection } from '../../../types';
 
 export interface ConditionalRulesRuleProps {
   fieldVariant?: TextFieldProps['variant'];
@@ -136,7 +136,11 @@ const BaseConditionalRulesRule = ({
           <Tooltip title="Remove rule">
             <IconButton
               size="small"
-              onClick={onRowRemove}
+              onClick={(event) => {
+                event.stopPropagation();
+
+                onRowRemove?.();
+              }}
               className={classNames(classes.delete, 'remove-rules-rule')}
             >
               <Delete />

@@ -1,13 +1,10 @@
-import React, { useEffect, useMemo } from 'react';
-import {
-  ConditionalRuleDefinitionsProps,
-  HtmlElementWhat,
-} from '@scrapper-gate/frontend/domain/conditional-rules';
+import React, { ReactNode, useEffect, useMemo } from 'react';
+
 import {
   HtmlElementPicker,
   HtmlElementPickerProps,
 } from '@scrapper-gate/frontend/ui';
-import { MenuItem, Stack, Typography } from '@material-ui/core';
+import { Box, MenuItem, Stack, Typography } from '@material-ui/core';
 import {
   EnumSelect,
   FormSelect,
@@ -24,16 +21,19 @@ import {
   Selector,
 } from '@scrapper-gate/shared/schema';
 import { ruleLabels } from '../../labels';
+import { ConditionalRuleDefinitionsProps, HtmlElementWhat } from '../../types';
 
 export interface HtmlElementRuleProps
   extends ConditionalRuleDefinitionsProps,
-    Omit<HtmlElementPickerProps, 'name'> {}
+    Omit<HtmlElementPickerProps, 'name'> {
+  picker?: ReactNode;
+}
 
 const useStyles = makeStyles((theme) => ({
   select: {
     minWidth: '150px',
   },
-  htmlPicker: {
+  box: {
     marginTop: `${theme.spacing(4)} !important`,
   },
 }));
@@ -43,6 +43,7 @@ export const HtmlElementRule = ({
   getName,
   spacing,
   fieldVariant,
+  picker,
   ...rest
 }: HtmlElementRuleProps) => {
   const classes = useStyles();
@@ -118,12 +119,15 @@ export const HtmlElementRule = ({
           />
         )}
       </Stack>
-      <HtmlElementPicker
-        className={classes.htmlPicker}
-        variant={fieldVariant}
-        name={getName('meta.selectors')}
-        {...rest}
-      />
+      <Box width="100%" className={classes.box}>
+        {picker ?? (
+          <HtmlElementPicker
+            variant={fieldVariant}
+            name={getName('meta.selectors')}
+            {...rest}
+          />
+        )}
+      </Box>
       {Boolean(selectors.length) && (
         <Stack spacing={spacing} direction="row" alignItems="center">
           <FormSelect

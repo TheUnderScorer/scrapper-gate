@@ -9,7 +9,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import { useFormState } from 'react-final-form';
 import { CheckSharp, ErrorSharp } from '@material-ui/icons';
-import { TooltipText } from '@scrapper-gate/frontend/ui';
+import { TooltipText } from '../../atoms/TooltipText/TooltipText';
 
 export type FormStateIconProps = IconButtonProps;
 
@@ -33,6 +33,7 @@ export const FormStateIcon = (props: FormStateIconProps) => {
       hasSubmitErrors: true,
       submitErrors: true,
       submitting: true,
+      validating: true,
     },
   });
 
@@ -76,7 +77,11 @@ export const FormStateIcon = (props: FormStateIconProps) => {
             props.className
           )}
         >
-          {formState.submitting ? <CircularProgress size={20} /> : stateIcon}
+          {formState.submitting || formState.validating ? (
+            <CircularProgress size={20} />
+          ) : (
+            stateIcon
+          )}
         </IconButton>
       </span>
     </Tooltip>

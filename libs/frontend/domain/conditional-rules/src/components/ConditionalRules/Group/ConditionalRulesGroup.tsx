@@ -107,7 +107,11 @@ const BaseConditionalRulesGroup = ({
           <Tooltip title="Remove group">
             <IconButton
               size="small"
-              onClick={() => onRemove(index)}
+              onClick={(event) => {
+                event.stopPropagation();
+
+                onRemove(index);
+              }}
               className={classNames(classes.btn, 'remove-rules-group')}
             >
               <Delete />

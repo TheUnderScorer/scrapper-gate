@@ -6,6 +6,7 @@ export const conditionalRulesSchema = gql`
   scalar ConditionalMetaData
 
   type ConditionalRule {
+    id: ID!
     when: String
     whatValue: WhatValue
     value: ConditionalRuleValue
@@ -20,19 +21,23 @@ export const conditionalRulesSchema = gql`
   }
 
   type ConditionalRuleGroup {
+    id: ID!
     rules: [ConditionalRule!]!
     type: ConditionalRuleGroupType!
   }
 
   input ConditionalRuleInput {
+    id: ID!
     when: String
     whatValue: WhatValue
     value: ConditionalRuleValue
     meta: ConditionalMetaData
+    what: String
     type: String
   }
 
   input ConditionalRuleGroupInput {
+    id: ID!
     rules: [ConditionalRuleInput!]!
     type: ConditionalRuleGroupType!
   }

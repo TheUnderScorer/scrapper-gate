@@ -16,6 +16,7 @@ export interface ScrapperElementPickerProps
   elementsValidator?: HtmlElementPickerProps['elementsValidator'];
   fieldNameCreator: FieldNameCreator;
   label?: string;
+  name?: string;
 }
 
 export type ScrapperBuilderNode = Node<ScrapperBuilderNodeProperties>;
@@ -48,13 +49,15 @@ export interface ScrapperBuilderScrapper
   steps?: ScrapperBuilderStep[];
 }
 
+export type ScrapperElementPicker = ComponentType<ScrapperElementPickerProps>;
+
 export interface ScrapperBuilderProps
   extends Pick<
     FlowBuilderProps,
     'onClose' | 'renderItemsInDataAttribute' | 'onChange'
   > {
   initialScrapper?: ScrapperBuilderScrapper;
-  ElementPicker: ComponentType<ScrapperElementPickerProps>;
+  ElementPicker: ScrapperElementPicker;
   loading?: boolean;
   browserUrl: string;
 }

@@ -43,6 +43,7 @@ export type BaseEntity = {
 };
 
 export type ConditionalRule = {
+  id: Scalars['ID'];
   when?: Maybe<Scalars['String']>;
   whatValue?: Maybe<Scalars['WhatValue']>;
   value?: Maybe<Scalars['ConditionalRuleValue']>;
@@ -52,11 +53,13 @@ export type ConditionalRule = {
 };
 
 export type ConditionalRuleGroup = {
+  id: Scalars['ID'];
   rules: Array<ConditionalRule>;
   type: ConditionalRuleGroupType;
 };
 
 export type ConditionalRuleGroupInput = {
+  id: Scalars['ID'];
   rules: Array<ConditionalRuleInput>;
   type: ConditionalRuleGroupType;
 };
@@ -67,10 +70,12 @@ export enum ConditionalRuleGroupType {
 }
 
 export type ConditionalRuleInput = {
+  id: Scalars['ID'];
   when?: Maybe<Scalars['String']>;
   whatValue?: Maybe<Scalars['WhatValue']>;
   value?: Maybe<Scalars['ConditionalRuleValue']>;
   meta?: Maybe<Scalars['ConditionalMetaData']>;
+  what?: Maybe<Scalars['String']>;
   type?: Maybe<Scalars['String']>;
 };
 
@@ -358,6 +363,24 @@ export type GetScrapperForBuilderQuery = {
           stepOnFalse?: Maybe<Pick<ScrapperStep, 'id'>>;
           selectors?: Maybe<Array<Pick<Selector, 'type' | 'value'>>>;
           position?: Maybe<Pick<NodePosition, 'x' | 'y'>>;
+          conditionalRules?: Maybe<
+            Array<
+              Pick<ConditionalRuleGroup, 'id' | 'type'> & {
+                rules: Array<
+                  Pick<
+                    ConditionalRule,
+                    | 'id'
+                    | 'meta'
+                    | 'type'
+                    | 'value'
+                    | 'what'
+                    | 'whatValue'
+                    | 'when'
+                  >
+                >;
+              }
+            >
+          >;
         }
       >
     >;
@@ -703,6 +726,7 @@ export type ConditionalRuleResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['ConditionalRule'] = ResolversParentTypes['ConditionalRule']
 > = ResolversObject<{
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   when?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   whatValue?: Resolver<
     Maybe<ResolversTypes['WhatValue']>,
@@ -728,6 +752,7 @@ export type ConditionalRuleGroupResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['ConditionalRuleGroup'] = ResolversParentTypes['ConditionalRuleGroup']
 > = ResolversObject<{
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   rules?: Resolver<
     Array<ResolversTypes['ConditionalRule']>,
     ParentType,

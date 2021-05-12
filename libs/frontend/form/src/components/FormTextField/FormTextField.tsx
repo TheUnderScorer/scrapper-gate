@@ -49,7 +49,6 @@ export const FormTextField = <T extends unknown>({
 
   return (
     <TextField
-      {...rest}
       placeholder={placeholder}
       label={label}
       fullWidth={fullWidth}

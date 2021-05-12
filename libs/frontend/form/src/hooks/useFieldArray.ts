@@ -24,7 +24,7 @@ export const useFieldArray = <T extends Record<string, unknown>>(
   } = field;
 
   const append = useCallback(
-    (item: T) => {
+    (item: Omit<T, 'id'>) => {
       const result = {
         ...item,
         id: item?.id ?? v4(),

@@ -4,30 +4,28 @@ const CopyPlugin = require('copy-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const webpack = require('webpack');
 
-module.exports = (config) => {
-  const preppedConfig = createConfig(config);
+module.exports = (baseConfig) => {
+  const config = createConfig(baseConfig);
 
-  preppedConfig.entry.main = [path.resolve(__dirname, './src/popup.tsx')];
-  preppedConfig.entry.content = [path.resolve(__dirname, './src/content.tsx')];
-  preppedConfig.entry.contentRoot = [
+  config.entry.main = [path.resolve(__dirname, './src/popup.tsx')];
+  config.entry.content = [path.resolve(__dirname, './src/content.tsx')];
+  config.entry.contentRoot = [
     path.resolve(__dirname, './src/app/Content/contentRoot.tsx'),
   ];
-  preppedConfig.entry.background = [
-    path.resolve(__dirname, './src/background.ts'),
-  ];
-  preppedConfig.entry.backgroundMain = [
+  config.entry.background = [path.resolve(__dirname, './src/background.ts')];
+  config.entry.backgroundMain = [
     path.resolve(__dirname, './src/backgroundMain.ts'),
   ];
 
-  delete preppedConfig.entry.styles;
+  delete config.entry.styles;
 
-  preppedConfig.output.filename = '[name].js';
-  preppedConfig.output.chunkFilename = '[name].js';
+  config.output.filename = '[name].js';
+  config.output.chunkFilename = '[name].js';
 
-  delete preppedConfig.optimization.runtimeChunk;
-  preppedConfig.optimization.splitChunks.automaticNameDelimiter = '-';
+  delete config.optimization.runtimeChunk;
+  config.optimization.splitChunks.automaticNameDelimiter = '-';
 
-  preppedConfig.plugins.push(
+  config.plugins.push(
     new CopyPlugin({
       patterns: [
         {
@@ -38,14 +36,14 @@ module.exports = (config) => {
     })
   );
 
-  if (preppedConfig.devServer) {
-    // preppedConfig.devServer.hot = true;
-    preppedConfig.devServer.writeToDisk = true;
-    preppedConfig.devServer.disableHostCheck = true;
-    preppedConfig.devServer.injectClient = false;
+  if (config.devServer) {
+    // config.devServer.hot = true;
+    config.devServer.writeToDisk = true;
+    config.devServer.disableHostCheck = true;
+    config.devServer.injectClient = false;
   }
 
-  config.plugins.push(
+  baseConfig.plugins.push(
     new webpack.NormalModuleReplacementPlugin(/faker/, (resource) => {
       const srcPath = path.resolve(path.join(__dirname, '../../tools/shim.js'));
 
@@ -53,29 +51,30 @@ module.exports = (config) => {
     })
   );
 
-  if (preppedConfig.mode === 'development') {
-    preppedConfig.optimization.removeAvailableModules = false;
-    preppedConfig.optimization.removeEmptyChunks = false;
+  if (config.mode === 'development') {
+    config.devtool = 'cheap-module-source-map';
+    config.optimization.removeAvailableModules = false;
+    config.optimization.removeEmptyChunks = false;
 
-    delete preppedConfig.optimization.minimizer;
+    delete config.optimization.minimizer;
 
-    preppedConfig.resolve.symlinks = false;
-    preppedConfig.output.pathinfo = false;
+    config.resolve.symlinks = false;
+    config.output.pathinfo = false;
   } else {
     if (process.env.ANALYZE_BUNDLE === 'true') {
-      preppedConfig.plugins.push(
+      config.plugins.push(
         new BundleAnalyzerPlugin({
           analyzerMode: 'static',
         })
       );
     }
 
-    preppedConfig.plugins.push(
+    config.plugins.push(
       new webpack.DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify('production'),
       })
     );
   }
 
-  return preppedConfig;
+  return config;
 };

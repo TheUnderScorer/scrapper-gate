@@ -45,6 +45,19 @@ export const GetScrapperForBuilderDocument = gql`
           x
           y
         }
+        conditionalRules {
+          id
+          type
+          rules {
+            id
+            meta
+            type
+            value
+            what
+            whatValue
+            when
+          }
+        }
       }
     }
   }

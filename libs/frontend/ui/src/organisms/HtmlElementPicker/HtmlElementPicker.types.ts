@@ -21,7 +21,7 @@ export interface HtmlElementPickerProps {
   pickerDisabled?: boolean;
   pickerDisabledTooltip?: ReactNode;
   disabled?: boolean;
-  elementsValidator?: (elements: Element[]) => string | undefined;
+  elementsValidator?: (elements: Element[]) => Error | undefined;
   defaultMode?: SelectorType;
   validationRules?: HtmlElementPickerValidationRules[];
   highlightId?: string;
