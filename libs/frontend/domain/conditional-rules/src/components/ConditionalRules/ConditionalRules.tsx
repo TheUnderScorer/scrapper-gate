@@ -28,7 +28,7 @@ import { Add } from '@material-ui/icons';
 import classNames from 'classnames';
 
 export interface ConditionalRulesProps
-  extends FieldProps<ConditionalRuleGroupInput[]>,
+  extends FieldProps<Omit<ConditionalRuleGroupInput, 'id'>[]>,
     Pick<ConditionalRulesGroupProps, 'fieldVariant'> {
   definitions: ConditionalRulesSelection[];
   name: string;
@@ -70,12 +70,9 @@ export const ConditionalRules = ({
   const [activeRole, setActiveRole] = useState<string | undefined>();
   const [activeGroupId, setActiveGroupId] = useState<string | undefined>();
 
-  const {
-    input,
-    meta,
-    append,
-    remove,
-  } = useFieldArray<ConditionalRuleGroupInput>(name, {
+  const { input, meta, append, remove } = useFieldArray<
+    Omit<ConditionalRuleGroupInput, 'id'>
+  >(name, {
     ...rest,
     initialValue: rest.initialValue ?? defaultValue,
   });
