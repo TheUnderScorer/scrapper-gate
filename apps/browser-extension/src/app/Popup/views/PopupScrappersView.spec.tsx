@@ -17,6 +17,7 @@ import {
   MessageTypes,
   StoredRoute,
 } from '../../../extension/browser/communication/types';
+import { ThemeProvider } from '@scrapper-gate/frontend/theme';
 
 const scrapper = createMockScrapper();
 scrapper.name = 'Test';
@@ -44,7 +45,9 @@ const defaultMocks: MockedResponse[] = [
 const mountCmp = (mocks = defaultMocks) => {
   return render(
     <MockedProvider mocks={mocks}>
-      <PopupScrappersView fetchPolicy="network-only" />
+      <ThemeProvider>
+        <PopupScrappersView fetchPolicy="network-only" />
+      </ThemeProvider>
     </MockedProvider>
   );
 };

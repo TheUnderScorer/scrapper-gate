@@ -21,7 +21,7 @@ Object {
             >
               <div
                 aria-disabled="false"
-                class="MuiButtonBase-root MuiListItem-root MuiListItem-gutters MuiListItem-button MuiListItem-secondaryAction scrapper-list-item css-1cdun9u-MuiButtonBase-root-MuiListItem-root"
+                class="MuiButtonBase-root MuiListItem-root MuiListItem-gutters MuiListItem-button MuiListItem-secondaryAction scrapper-list-item css-te20g0-MuiButtonBase-root-MuiListItem-root"
                 role="button"
                 tabindex="0"
               >
@@ -29,7 +29,7 @@ Object {
                   class="MuiListItemText-root css-tlelie-MuiListItemText-root"
                 >
                   <span
-                    class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-10hburv-MuiTypography-root"
+                    class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-18fn6n9-MuiTypography-root"
                   >
                     Test
                   </span>
@@ -42,7 +42,7 @@ Object {
                 class="MuiListItemSecondaryAction-root css-518kzi-MuiListItemSecondaryAction-root"
               >
                 <button
-                  class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1uaxfgw-MuiButtonBase-root-MuiIconButton-root"
+                  class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-14yxx0d-MuiButtonBase-root-MuiIconButton-root"
                   tabindex="0"
                   type="button"
                 >
@@ -51,7 +51,7 @@ Object {
                   >
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-egrpcv-MuiSvgIcon-root"
                       data-testid="MoreVertSharpIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
@@ -73,7 +73,7 @@ Object {
     </div>
     <div
       aria-hidden="true"
-      class="MuiModal-root MuiModal-hidden MuiPopover-root MuiMenu-root css-6f6ff7-MuiModal-root-MuiPopover-root-MuiMenu-root"
+      class="MuiModal-root MuiModal-hidden MuiPopover-root MuiMenu-root css-o0tztt-MuiModal-root-MuiPopover-root-MuiMenu-root"
       role="presentation"
       style="pointer-events: all;"
     >
@@ -98,7 +98,7 @@ Object {
         >
           <li
             aria-disabled="false"
-            class="MuiButtonBase-root MuiListItem-root MuiListItem-gutters MuiListItem-button MuiMenuItem-root css-4ssu7w-MuiButtonBase-root-MuiListItem-root-MuiMenuItem-root"
+            class="MuiButtonBase-root MuiListItem-root MuiListItem-gutters MuiListItem-button MuiMenuItem-root css-1x5hx7h-MuiButtonBase-root-MuiListItem-root-MuiMenuItem-root"
             id="delete_scrapper"
             role="menuitem"
             tabindex="-1"
@@ -108,7 +108,7 @@ Object {
             >
               <svg
                 aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-egrpcv-MuiSvgIcon-root"
                 data-testid="DeleteIcon"
                 focusable="false"
                 viewBox="0 0 24 24"
@@ -122,7 +122,7 @@ Object {
               class="MuiListItemText-root css-tlelie-MuiListItemText-root"
             >
               <span
-                class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-10hburv-MuiTypography-root"
+                class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-18fn6n9-MuiTypography-root"
               >
                 Delete scrapper
               </span>
@@ -156,7 +156,7 @@ Object {
           >
             <div
               aria-disabled="false"
-              class="MuiButtonBase-root MuiListItem-root MuiListItem-gutters MuiListItem-button MuiListItem-secondaryAction scrapper-list-item css-1cdun9u-MuiButtonBase-root-MuiListItem-root"
+              class="MuiButtonBase-root MuiListItem-root MuiListItem-gutters MuiListItem-button MuiListItem-secondaryAction scrapper-list-item css-te20g0-MuiButtonBase-root-MuiListItem-root"
               role="button"
               tabindex="0"
             >
@@ -164,7 +164,7 @@ Object {
                 class="MuiListItemText-root css-tlelie-MuiListItemText-root"
               >
                 <span
-                  class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-10hburv-MuiTypography-root"
+                  class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-18fn6n9-MuiTypography-root"
                 >
                   Test
                 </span>
@@ -177,7 +177,7 @@ Object {
               class="MuiListItemSecondaryAction-root css-518kzi-MuiListItemSecondaryAction-root"
             >
               <button
-                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-1uaxfgw-MuiButtonBase-root-MuiIconButton-root"
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-14yxx0d-MuiButtonBase-root-MuiIconButton-root"
                 tabindex="0"
                 type="button"
               >
@@ -186,7 +186,7 @@ Object {
                 >
                   <svg
                     aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-egrpcv-MuiSvgIcon-root"
                     data-testid="MoreVertSharpIcon"
                     focusable="false"
                     viewBox="0 0 24 24"
