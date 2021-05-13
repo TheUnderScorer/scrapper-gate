@@ -1,10 +1,8 @@
 import { commandHandler, EventsBus } from 'functional-cqrs';
 import { CreateScrapperCommand } from '../commands/CreateScrapper.command';
-import {
-  ScrapperModel,
-  ScrapperRepository,
-} from '@scrapper-gate/backend/domain/scrapper';
 import { ScrapperCreatedEvent } from '../events/ScrapperCreated.event';
+import { ScrapperModel } from '../models/Scrapper.model';
+import { ScrapperRepository } from '../repositories/Scrapper.repository';
 
 export interface CreateScrapperHandlerDependencies {
   scrapperRepository: ScrapperRepository;

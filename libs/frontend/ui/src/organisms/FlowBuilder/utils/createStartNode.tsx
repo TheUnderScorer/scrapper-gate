@@ -1,10 +1,7 @@
 import { Node, XYPosition } from 'react-flow-renderer';
-import {
-  BaseNodeProperties,
-  FlowBuilderNodeTypes,
-} from '@scrapper-gate/frontend/ui';
 import { PlayArrowSharp } from '@material-ui/icons';
 import React from 'react';
+import { BaseNodeProperties, FlowBuilderNodeTypes } from '../FlowBuilder.types';
 
 export const createStartNode = (
   position: XYPosition

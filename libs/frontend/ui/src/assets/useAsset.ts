@@ -1,8 +1,8 @@
 import { AssetReturnType, Assets } from './assets.types';
 import { useState } from 'react';
 import { useMount } from 'react-use';
-import { getAsset } from '@scrapper-gate/frontend/ui';
 import { SvgComponent } from '@scrapper-gate/frontend/common';
+import { getAsset } from './getAsset';
 
 export interface UseAssetResult<T> {
   loading: boolean;

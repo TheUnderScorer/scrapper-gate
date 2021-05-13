@@ -1,12 +1,10 @@
 import { commandHandler, EventsBus } from 'functional-cqrs';
 import { UpdateScrapperCommand } from '../commands/UpdateScrapper.command';
-import {
-  ScrapperRepository,
-  ScrapperStepModel,
-  ScrapperStepRepository,
-} from '@scrapper-gate/backend/domain/scrapper';
 import { ScrapperUpdatedEvent } from '../events/ScrapperUpdated.event';
 import { ScrapperStepInput } from '@scrapper-gate/shared/schema';
+import { ScrapperRepository } from '../repositories/Scrapper.repository';
+import { ScrapperStepRepository } from '../repositories/ScrapperStep.repository';
+import { ScrapperStepModel } from '../models/ScrapperStep.model';
 
 export interface UpdateScrapperHandlerDependencies {
   scrapperRepository: ScrapperRepository;

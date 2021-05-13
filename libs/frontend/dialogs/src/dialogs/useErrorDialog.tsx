@@ -1,8 +1,8 @@
 import { AppError } from '@scrapper-gate/shared/errors';
 import { useHistory } from 'react-router-dom';
-import { useDialogStore } from '@scrapper-gate/frontend/dialogs';
 import { useCallback } from 'react';
 import { Typography } from '@material-ui/core';
+import { useDialogStore } from '../useDialogStore';
 
 export interface UseErrorDialogProps {
   onClose?: 'goBack' | 'close';
@@ -25,7 +25,11 @@ export const useErrorDialog = ({ error, onClose }: UseErrorDialogProps) => {
           onClick: () => {
             if (onClose === 'goBack') {
               history.goBack();
+
+              return;
             }
+
+            bag.handleClose();
           },
         },
       ],

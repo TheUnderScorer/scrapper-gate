@@ -14,13 +14,15 @@ import { makeStyles } from '@material-ui/core/styles';
 import { MenuItemProperties } from '@scrapper-gate/frontend/common';
 import { useFlowBuilderItemsSelector } from '../providers/FlowBuilderItems.provider';
 import { FormStateIcon } from '../../../molecules/FormStateIcon/FormStateIcon';
-import { Dropdown, TooltipText, UndoButtons } from '@scrapper-gate/frontend/ui';
 import { buildBasicGraph } from '../utils/graph';
 import { useFormState } from 'react-final-form';
 import { useFlowBuilderContextSelector } from '../providers/FlowBuilderProps.provider';
 import { SkeletonComponentOrIcon } from '../../../molecules/Skeleton/ComponentOrIcon/SkeletonComponentOrIcon';
 import { Skeleton } from '@material-ui/lab';
 import classNames from 'classnames';
+import { TooltipText } from '../../../atoms/TooltipText/TooltipText';
+import { UndoButtons } from '../../../molecules/UndoButtons/UndoButtons';
+import { Dropdown } from '../../../molecules/Dropdown/Dropdown';
 
 export interface FlowBuilderHeaderProps {
   title?: string;

@@ -1,4 +1,4 @@
-import { Order, Pagination } from '@scrapper-gate/shared/schema';
+import { Order, Pagination } from './types';
 
 export interface BaseQueryVariables {
   pagination?: Pagination;

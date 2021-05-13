@@ -12,13 +12,7 @@ import {
 import { Form } from 'react-final-form';
 import { FORM_ERROR } from 'final-form';
 import { Box, Typography } from '@material-ui/core';
-import {
-  FlowBuilder,
-  FlowBuilderNodeTypes,
-  FlowBuilderPlaceholderProperties,
-  NodeContentComponent,
-  PrimaryLightIconButton,
-} from '@scrapper-gate/frontend/ui';
+import { PrimaryLightIconButton } from '../../atoms/Buttons/Buttons';
 import {
   basicHandleAddNode,
   basicHandleConnect,
@@ -26,6 +20,11 @@ import {
 } from './utils';
 import { wait } from '@scrapper-gate/shared/common';
 import { FormTextField } from '@scrapper-gate/frontend/form';
+import { FlowBuilder } from './FlowBuilder';
+import {
+  FlowBuilderNodeTypes,
+  FlowBuilderPlaceholderProperties,
+} from './FlowBuilder.types';
 
 export default {
   title: 'UI/Flow Builder',

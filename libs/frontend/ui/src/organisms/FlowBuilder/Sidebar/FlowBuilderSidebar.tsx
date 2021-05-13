@@ -3,17 +3,16 @@ import { Box, List, Stack, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { FlowBuilderSidebarItem } from './Item/FlowBuilderSidebarItem';
 import { useFlowBuilderSelection } from '../providers/FlowBuilderSelection.provider';
-import {
-  BaseNodeSelectionProperties,
-  Centered,
-  FilterTextField,
-  ResizablePanel,
-} from '@scrapper-gate/frontend/ui';
+
 import { Selection } from '@scrapper-gate/frontend/common';
 import { useFlowBuilderContextSelector } from '../providers/FlowBuilderProps.provider';
 import { Skeleton } from '@material-ui/lab';
 import { range } from 'remeda';
 import { SkeletonListItem } from '../../../molecules/Skeleton/ListItem/SkeletonListItem';
+import { ResizablePanel } from '../../../molecules/ResizablePanel/ResizablePanel';
+import { FilterTextField } from '../../../molecules/FilterTextField/FilterTextField';
+import { BaseNodeSelectionProperties } from '../FlowBuilder.types';
+import { Centered } from '../../../atoms/Centered/Centered';
 
 const useStyles = makeStyles((theme) => ({
   paper: {

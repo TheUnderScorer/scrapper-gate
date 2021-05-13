@@ -1,6 +1,6 @@
-import { act, render, waitFor } from '@testing-library/react';
-import { ResizablePanel } from '@scrapper-gate/frontend/ui';
+import { act, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { ResizablePanel } from './ResizablePanel';
 
 describe('<ResizablePanel />', () => {
   it('should render without crashing', () => {

@@ -1,10 +1,7 @@
 import { ScrapperInput } from '@scrapper-gate/shared/schema';
 import { uuid } from '../decorators/uuid';
 import * as jf from 'joiful';
-import {
-  BaseSchema,
-  ScrapperStepInputDto,
-} from '@scrapper-gate/shared/validation';
+import { BaseSchema } from '../BaseSchema';
 
 export class ScrapperInputDto
   extends BaseSchema<ScrapperInput>

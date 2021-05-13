@@ -1,4 +1,4 @@
-import { AppError } from '@scrapper-gate/shared/errors';
+import { AppError } from '../AppError';
 
 export class InvalidSelectorProvidedError extends AppError {
   constructor() {

@@ -2,7 +2,7 @@ import React from 'react';
 import { ButtonGroup, IconButton, Tooltip } from '@material-ui/core';
 import { RedoSharp, UndoSharp } from '@material-ui/icons';
 import { useKeyboardShortcuts } from '@scrapper-gate/frontend/keyboard-shortcuts';
-import { TextWithKeyHint } from '@scrapper-gate/frontend/ui';
+import { TextWithKeyHint } from '../TextWithKeyHint/TextWithKeyHint';
 import { useFormUndo } from '@scrapper-gate/frontend/form';
 
 export const UndoButtons = () => {

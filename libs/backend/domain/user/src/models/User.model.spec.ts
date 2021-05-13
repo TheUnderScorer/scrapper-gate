@@ -1,5 +1,5 @@
-import { UserModel } from '@scrapper-gate/backend/domain/user';
 import '../../../../../../typings/global';
+import { UserModel } from './User.model';
 
 describe('UserModel', () => {
   it('should persist in db', async () => {

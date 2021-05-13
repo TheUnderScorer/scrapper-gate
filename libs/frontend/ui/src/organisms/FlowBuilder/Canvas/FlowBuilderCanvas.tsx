@@ -33,10 +33,11 @@ import { useHandleDragEnd } from '../hooks/useHandleDragEnd';
 import { AppTheme } from '@scrapper-gate/frontend/theme';
 import { DropTargetMonitor, useDrop } from 'react-dnd';
 import { Selection } from '@scrapper-gate/frontend/common';
-import { Centered, ContextMenu } from '@scrapper-gate/frontend/ui';
 import { useCanvasContextMenu } from '../hooks/useCanvasContextMenu';
 import { Key } from 'ts-key-enum';
 import { stringifyCircular } from '@scrapper-gate/shared/common';
+import { Centered } from '../../../atoms/Centered/Centered';
+import { ContextMenu } from '../../../molecules/ContextMenu/ContextMenu';
 
 const useStyles = makeStyles((theme: AppTheme) => ({
   paper: {

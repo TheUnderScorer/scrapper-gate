@@ -3,14 +3,14 @@ import React, { ReactNode, useCallback, useEffect, useState } from 'react';
 import { useTimeoutFn } from 'react-use';
 import { useField, useForm } from 'react-final-form';
 import { createContext, useContextSelector } from 'use-context-selector';
+import { throwError } from '@scrapper-gate/shared/common';
+import { useFlowBuilderContextSelector } from './FlowBuilderProps.provider';
 import {
   BaseNodeProperties,
   ConnectionSource,
   FlowBuilderFormState,
   FlowBuilderItem,
-} from '@scrapper-gate/frontend/ui';
-import { throwError } from '@scrapper-gate/shared/common';
-import { useFlowBuilderContextSelector } from './FlowBuilderProps.provider';
+} from '../FlowBuilder.types';
 
 export interface FlowBuilderItemsContext<T extends BaseNodeProperties> {
   items: FlowBuilderItem<T>[];

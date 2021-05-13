@@ -1,5 +1,5 @@
 import { Event } from 'functional-cqrs';
-import { ScrapperModel } from '@scrapper-gate/backend/domain/scrapper';
+import { ScrapperModel } from '../models/Scrapper.model';
 
 export interface ScrapperCreatedEventPayload {
   scrapper: ScrapperModel;

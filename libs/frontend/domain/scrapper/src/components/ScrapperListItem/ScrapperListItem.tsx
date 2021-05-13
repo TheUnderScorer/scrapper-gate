@@ -1,5 +1,4 @@
 import React from 'react';
-import { ScrapperListItemProps } from '@scrapper-gate/frontend/domain/scrapper';
 import {
   ListItem,
   ListItemSecondaryAction,
@@ -7,6 +6,7 @@ import {
 } from '@material-ui/core';
 import { Dropdown } from '@scrapper-gate/frontend/ui';
 import { Delete } from '@material-ui/icons';
+import { ScrapperListItemProps } from './ScrapperListItem.types';
 
 export const ScrapperListItem = ({
   scrapper,

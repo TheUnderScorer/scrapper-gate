@@ -1,5 +1,5 @@
 import { EntityRepository, Repository } from 'typeorm';
-import { UserModel } from '@scrapper-gate/backend/domain/user';
+import { UserModel } from '../models/User.model';
 
 @EntityRepository(UserModel)
 export class UserRepository extends Repository<UserModel> {

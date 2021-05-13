@@ -1,8 +1,3 @@
-import {
-  ConditionalRules,
-  ConditionalRulesProps,
-  makeHtmlElementRule,
-} from '@scrapper-gate/frontend/domain/conditional-rules';
 import { act, render, RenderResult } from '@testing-library/react';
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
@@ -12,6 +7,11 @@ import React from 'react';
 import { addGroupAndRule, assertTitle } from '../ConditionalRules/testUtils';
 import { logger } from '@scrapper-gate/frontend/logger';
 import userEvent from '@testing-library/user-event';
+import { makeHtmlElementRule } from '../../rules/htmlRule';
+import {
+  ConditionalRules,
+  ConditionalRulesProps,
+} from '../ConditionalRules/ConditionalRules';
 
 const rules = [
   makeHtmlElementRule({

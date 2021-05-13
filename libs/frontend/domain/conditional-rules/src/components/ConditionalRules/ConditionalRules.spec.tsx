@@ -1,13 +1,13 @@
 import React from 'react';
 import { Form } from 'react-final-form';
 import { ConditionalRules, ConditionalRulesProps } from './ConditionalRules';
-import { baseRulesSelection } from '@scrapper-gate/frontend/domain/conditional-rules';
 import { act, render } from '@testing-library/react';
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
 import '@scrapper-gate/frontend/theme';
 import userEvent from '@testing-library/user-event';
 import DateFnsUtils from '@date-io/date-fns';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import { baseRulesSelection } from '../../baseRules';
 
 const renderCmp = (props: Partial<ConditionalRulesProps> = {}) => {
   return render(

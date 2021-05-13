@@ -26,7 +26,8 @@ import {
 } from '@scrapper-gate/shared/schema';
 import { FetchPolicyProps } from '@scrapper-gate/frontend/common';
 import { QueryResult } from '@scrapper-gate/shared/common';
-import { Centered, Layout } from '@scrapper-gate/frontend/ui';
+import { Centered } from '../../atoms/Centered/Centered';
+import { Layout } from '../../molecules/Layout/Layout';
 import { useNormalPagination } from './useNormalPagination';
 import { useInfiniteScrollPagination } from './useInfiniteScrollPagination';
 

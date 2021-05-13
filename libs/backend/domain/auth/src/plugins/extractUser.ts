@@ -1,11 +1,8 @@
 import { UserRepository } from '@scrapper-gate/backend/domain/user';
 import { FastifyInstance } from 'fastify';
-import {
-  isTokenUserData,
-  TokenDecoder,
-} from '@scrapper-gate/backend/domain/auth';
 import { HttpError } from '@scrapper-gate/shared/errors';
 import { StatusCodes } from 'http-status-codes';
+import { isTokenUserData, TokenDecoder } from '../types';
 
 export interface ExtractUserDependencies {
   userRepository: UserRepository;

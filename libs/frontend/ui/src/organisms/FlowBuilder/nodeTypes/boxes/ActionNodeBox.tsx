@@ -3,7 +3,7 @@ import { Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
 import { NodeIconBoxProps } from '../../FlowBuilder.types';
-import { Centered } from '@scrapper-gate/frontend/ui';
+import { Centered } from '../../../../atoms/Centered/Centered';
 
 export type ActionNodeBoxProps = NodeIconBoxProps;
 

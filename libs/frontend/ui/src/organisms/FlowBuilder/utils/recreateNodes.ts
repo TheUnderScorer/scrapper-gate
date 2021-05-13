@@ -1,15 +1,15 @@
 import { NodeLikeItem } from '@scrapper-gate/shared/schema';
+import { Node, Position } from 'react-flow-renderer';
+import { Selection } from '@scrapper-gate/frontend/common';
+import { createStartNode } from './createStartNode';
+import { defaultNodeSize } from '../nodeTypes/constants';
 import {
   BaseNodeProperties,
   BaseNodeSelectionProperties,
   FlowBuilderItem,
   FlowBuilderNodeTypes,
   NodesCreatorApi,
-} from '@scrapper-gate/frontend/ui';
-import { Node, Position } from 'react-flow-renderer';
-import { Selection } from '@scrapper-gate/frontend/common';
-import { createStartNode } from './createStartNode';
-import { defaultNodeSize } from '../nodeTypes/constants';
+} from '../FlowBuilder.types';
 
 export interface RecreateNodesParams<
   T extends NodeLikeItem,

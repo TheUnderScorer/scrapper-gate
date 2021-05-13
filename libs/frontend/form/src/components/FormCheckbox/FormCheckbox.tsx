@@ -7,9 +7,9 @@ import {
   FormControlLabelProps,
   FormHelperText,
 } from '@material-ui/core';
-import { FieldProps } from '@scrapper-gate/frontend/form';
 import { useField } from 'react-final-form';
 import { useFieldHasError } from '../../hooks/useFieldHasError';
+import { FieldProps } from '../../types';
 
 export interface FormCheckboxProps<T>
   extends Pick<FormControlLabelProps, 'label'>,

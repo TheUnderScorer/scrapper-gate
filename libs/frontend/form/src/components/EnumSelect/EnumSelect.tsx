@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
-import { FormSelect, FormSelectProps } from '@scrapper-gate/frontend/form';
 import { toDisplayText } from '@scrapper-gate/shared/common';
 import { MenuItem } from '@material-ui/core';
+import { FormSelect, FormSelectProps } from '../FormSelect/FormSelect';
 
 export interface EnumSelectProps extends FormSelectProps {
   enumObj: Record<string, number | string> | Array<number | string>;

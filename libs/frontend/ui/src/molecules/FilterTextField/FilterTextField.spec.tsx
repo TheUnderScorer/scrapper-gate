@@ -1,9 +1,9 @@
 import { range } from 'remeda';
 import { useState } from 'react';
-import { FilterTextField } from '@scrapper-gate/frontend/ui';
 import { List, ListItem } from '@material-ui/core';
 import { act, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { FilterTextField } from '../FilterTextField/FilterTextField';
 
 interface TestItem {
   title: string;

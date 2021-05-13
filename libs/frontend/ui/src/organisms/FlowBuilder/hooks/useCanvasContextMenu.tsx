@@ -8,15 +8,13 @@ import React, {
 } from 'react';
 import { MenuItemProperties, Selection } from '@scrapper-gate/frontend/common';
 import { Sort } from '@material-ui/icons';
-import {
-  BaseNodeSelectionProperties,
-  FilterTextField,
-  OpenCloseContextMenuBag,
-} from '@scrapper-gate/frontend/ui';
 import { useFlowBuilderInstanceContext } from '../providers/FlowBuilderInstance.provider';
 import { useAddItem } from './useAddItem';
 import { useFlowBuilderContextSelector } from '../providers/FlowBuilderProps.provider';
 import { PopoverPosition } from '@material-ui/core';
+import { FilterTextField } from '../../../molecules/FilterTextField/FilterTextField';
+import { BaseNodeSelectionProperties } from '../FlowBuilder.types';
+import { OpenCloseContextMenuBag } from '../../../molecules/ContextMenu/ContextMenu.types';
 
 export interface UseCanvasContextMenuProps {
   containerRef: MutableRefObject<HTMLElement>;

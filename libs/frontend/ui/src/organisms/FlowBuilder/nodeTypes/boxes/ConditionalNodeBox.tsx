@@ -3,7 +3,7 @@ import { Paper } from '@material-ui/core';
 import React from 'react';
 import classNames from 'classnames';
 import { NodeIconBoxProps } from '../../FlowBuilder.types';
-import { Centered } from '@scrapper-gate/frontend/ui';
+import { Centered } from '../../../../atoms/Centered/Centered';
 
 export type ConditionalNodeBoxProps = NodeIconBoxProps;
 

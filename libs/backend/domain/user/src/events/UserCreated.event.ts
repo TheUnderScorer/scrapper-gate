@@ -1,5 +1,5 @@
-import { UserModel } from '@scrapper-gate/backend/domain/user';
 import { Event } from 'functional-cqrs';
+import { UserModel } from '../models/User.model';
 
 export interface UserCreatedEventPayload {
   user: UserModel;

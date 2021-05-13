@@ -1,8 +1,3 @@
-import {
-  baseRulesSelection,
-  ConditionalRules,
-  ConditionalRulesProps,
-} from '@scrapper-gate/frontend/domain/conditional-rules';
 import { act, render } from '@testing-library/react';
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
@@ -13,6 +8,11 @@ import userEvent from '@testing-library/user-event';
 import { format } from 'date-fns';
 import { DateFormat } from '@scrapper-gate/shared/common';
 import { addGroupAndRule, assertTitle } from '../ConditionalRules/testUtils';
+import {
+  ConditionalRules,
+  ConditionalRulesProps,
+} from '../ConditionalRules/ConditionalRules';
+import { baseRulesSelection } from '../../baseRules';
 
 const renderCmp = (props: Partial<ConditionalRulesProps> = {}) => {
   return render(

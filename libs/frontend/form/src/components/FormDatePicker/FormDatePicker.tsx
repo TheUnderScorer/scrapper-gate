@@ -1,9 +1,9 @@
 import React from 'react';
-import { FieldProps, useFieldHasError } from '@scrapper-gate/frontend/form';
 import { DatePickerProps, KeyboardDatePicker } from '@material-ui/pickers';
 import { useField } from 'react-final-form';
 import { ParsableDate } from '@material-ui/pickers/constants/prop-types';
-import { format } from 'date-fns';
+import { FieldProps } from '../../types';
+import { useFieldHasError } from '../../hooks/useFieldHasError';
 
 export interface FormDatePickerProps<T>
   extends Omit<DatePickerProps, 'name' | 'value' | 'onChange'> {

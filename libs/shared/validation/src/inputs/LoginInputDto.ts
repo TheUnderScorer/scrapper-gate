@@ -1,6 +1,6 @@
 import { LoginInput } from '@scrapper-gate/shared/schema';
 import * as jf from 'joiful';
-import { BaseSchema } from '@scrapper-gate/shared/validation';
+import { BaseSchema } from '../BaseSchema';
 
 export class LoginInputDto
   extends BaseSchema<LoginInput>

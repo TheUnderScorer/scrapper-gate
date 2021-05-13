@@ -1,5 +1,5 @@
-import { HttpError } from '@scrapper-gate/shared/errors';
 import { StatusCodes } from 'http-status-codes';
+import { HttpError } from '../HttpError';
 
 export class ScrapperNotFoundError extends HttpError {
   constructor() {

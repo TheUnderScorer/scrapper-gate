@@ -4,7 +4,6 @@ import {
   FlowBuilderNodeTypes,
   flowBuilderUtils,
 } from '@scrapper-gate/frontend/ui';
-import { ScrapperBuilderNodeProperties } from '@scrapper-gate/frontend/domain/scrapper';
 import {
   ScrapperAction,
   ScrapperStepInput,
@@ -12,6 +11,7 @@ import {
 import { getById } from '@scrapper-gate/shared/common';
 import { getOutgoers, isNode, Node } from 'react-flow-renderer';
 import { pickScrapperInput } from '@scrapper-gate/shared/domain/scrapper';
+import { ScrapperBuilderNodeProperties } from './ScrapperBuilder.types';
 
 const allowedNodeTypes = [
   FlowBuilderNodeTypes.Action,

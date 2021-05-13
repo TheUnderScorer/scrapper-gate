@@ -1,7 +1,6 @@
 import React, { forwardRef, memo, useMemo } from 'react';
 import { NodeProps } from 'react-flow-renderer';
 import { Box, Tooltip, Typography } from '@material-ui/core';
-import { Dropdown, TooltipText } from '@scrapper-gate/frontend/ui';
 import { DeleteSharp, ErrorSharp } from '@material-ui/icons';
 import { defaultNodeSize } from '../nodeTypes/constants';
 import { useNodeError } from '../hooks/useNodeError';
@@ -14,6 +13,8 @@ import {
   stopPropagation,
 } from '@scrapper-gate/frontend/common';
 import { useRemoveItems } from '../hooks/useRemoveItems';
+import { TooltipText } from '../../../atoms/TooltipText/TooltipText';
+import { Dropdown } from '../../../molecules/Dropdown/Dropdown';
 
 export type FlowBuilderNodeProps = NodeProps<BaseNodeProperties>;
 

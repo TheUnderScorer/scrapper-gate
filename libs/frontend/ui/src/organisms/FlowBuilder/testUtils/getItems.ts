@@ -1,7 +1,4 @@
-import {
-  BaseNodeProperties,
-  FlowBuilderItem,
-} from '@scrapper-gate/frontend/ui';
+import { BaseNodeProperties, FlowBuilderItem } from '../FlowBuilder.types';
 
 export const getItems = <T extends BaseNodeProperties>(
   container?: HTMLElement

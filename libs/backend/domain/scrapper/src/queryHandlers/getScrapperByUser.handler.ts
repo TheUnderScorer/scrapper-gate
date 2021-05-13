@@ -1,6 +1,6 @@
 import { queryHandler } from 'functional-cqrs';
 import { GetScrapperByUserQuery } from '../queries/GetScrapperByUser.query';
-import { ScrapperRepository } from '@scrapper-gate/backend/domain/scrapper';
+import { ScrapperRepository } from '../repositories/Scrapper.repository';
 
 export interface GetScrapperByUserHandlerDependencies {
   scrapperRepository: ScrapperRepository;

@@ -9,18 +9,15 @@ import {
   LoginMutation,
   LoginMutationVariables,
 } from '@scrapper-gate/shared/schema';
-import {
-  LoginForm,
-  LoginFormProps,
-  LoginFormType,
-  useTokensStore,
-} from '@scrapper-gate/frontend/domain/auth';
 import { act, render, RenderResult, waitFor } from '@testing-library/react';
 import fireEvent from '@testing-library/user-event';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { createMockUser } from '@scrapper-gate/shared/domain/user';
 import { wait } from '@scrapper-gate/shared/common';
+import { LoginForm } from './LoginForm';
+import { LoginFormProps, LoginFormType } from './LoginForm.types';
+import { useTokensStore } from '../../store/useTokensStore';
 
 const user = createMockUser();
 

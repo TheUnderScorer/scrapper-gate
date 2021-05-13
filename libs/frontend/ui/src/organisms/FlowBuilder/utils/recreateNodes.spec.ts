@@ -1,8 +1,8 @@
 import { NodeLikeItem } from '@scrapper-gate/shared/schema';
-import { FlowBuilderNodeTypes } from '@scrapper-gate/frontend/ui';
 import { recreateNodes } from './recreateNodes';
-import { createEdge, generateEdgeId } from './createEdge';
+import { createEdge } from './createEdge';
 import { createNodeFromSelection } from './createNodeFromSelection';
+import { FlowBuilderNodeTypes } from '../FlowBuilder.types';
 
 describe('Recreate nodes', () => {
   const baseItems: NodeLikeItem[] = [

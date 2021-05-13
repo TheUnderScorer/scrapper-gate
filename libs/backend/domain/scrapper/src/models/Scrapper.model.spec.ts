@@ -1,12 +1,10 @@
 import { UserModel } from '@scrapper-gate/backend/domain/user';
 import { createMockUser } from '@scrapper-gate/shared/domain/user';
 import '../../../../../../typings/global';
-import {
-  ScrapperModel,
-  ScrapperStepModel,
-} from '@scrapper-gate/backend/domain/scrapper';
 import * as faker from 'faker';
 import { MouseButton, ScrapperAction } from '@scrapper-gate/shared/schema';
+import { ScrapperModel } from './Scrapper.model';
+import { ScrapperStepModel } from './ScrapperStep.model';
 
 describe('ScrapperModel', () => {
   let user: UserModel;

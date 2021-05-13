@@ -14,21 +14,20 @@ import {
   screen,
   waitFor,
 } from '@testing-library/react';
-import {
-  BaseNodeProperties,
-  BaseNodeSelectionProperties,
-  FlowBuilder,
-  FlowBuilderItem,
-  FlowBuilderNodeTypes,
-  FlowBuilderProps,
-  NodeContentComponent,
-} from '@scrapper-gate/frontend/ui';
 import userEvent from '@testing-library/user-event';
 import { Selection } from '@scrapper-gate/frontend/common';
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
 import { createNodeFromSelection } from './utils/createNodeFromSelection';
 import { wait } from '@scrapper-gate/shared/common';
 import { dragSelectionIntoCanvas } from './testUtils';
+import { FlowBuilder, FlowBuilderProps } from './FlowBuilder';
+import {
+  BaseNodeProperties,
+  BaseNodeSelectionProperties,
+  FlowBuilderItem,
+  FlowBuilderNodeTypes,
+  NodeContentComponent,
+} from './FlowBuilder.types';
 
 const offset = 50;
 

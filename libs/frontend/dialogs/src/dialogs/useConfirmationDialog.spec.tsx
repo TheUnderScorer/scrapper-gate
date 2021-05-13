@@ -1,12 +1,10 @@
 import { renderHook } from '@testing-library/react-hooks';
-import {
-  DialogController,
-  useConfirmationDialog,
-} from '@scrapper-gate/frontend/dialogs';
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
 import React from 'react';
 import { act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { useConfirmationDialog } from '../dialogs/useConfirmationDialog';
+import { DialogController } from '../DialogController';
 
 describe('useConfirmationDialog', () => {
   it('should handle confirm action', async () => {

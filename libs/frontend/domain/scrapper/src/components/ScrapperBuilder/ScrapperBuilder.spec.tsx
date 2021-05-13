@@ -1,9 +1,4 @@
 import { act, render, waitFor } from '@testing-library/react';
-import {
-  ScrapperBuilder,
-  ScrapperBuilderNodeProperties,
-  ScrapperBuilderProps,
-} from '@scrapper-gate/frontend/domain/scrapper';
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
 import { QueryParamProvider } from '@scrapper-gate/frontend/common';
@@ -20,6 +15,11 @@ import { SnackbarProvider } from 'notistack';
 import { Box } from '@material-ui/core';
 import { isEdge, isNode, Node, XYPosition } from 'react-flow-renderer';
 import { FlowBuilderItem, flowBuilderUtils } from '@scrapper-gate/frontend/ui';
+import { ScrapperBuilder } from './ScrapperBuilder';
+import {
+  ScrapperBuilderNodeProperties,
+  ScrapperBuilderProps,
+} from './ScrapperBuilder.types';
 
 jest.mock('@scrapper-gate/frontend/schema', () => {
   const mock = jest.fn();
