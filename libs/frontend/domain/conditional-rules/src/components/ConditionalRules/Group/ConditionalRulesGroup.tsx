@@ -19,7 +19,11 @@ import {
   ConditionalRulesRule,
   ConditionalRulesRuleProps,
 } from '../Rule/ConditionalRulesRule';
-import { FormSelect, useFieldArray } from '@scrapper-gate/frontend/form';
+import {
+  FormSelect,
+  useFieldArray,
+  useFieldHasError,
+} from '@scrapper-gate/frontend/form';
 import { makeStyles } from '@material-ui/core/styles';
 import { ConditionalRulesSelectionDropdown } from '../SelectionDropdown/ConditionalRulesSelectionDropdown';
 import { Centered, Emoji } from '@scrapper-gate/frontend/ui';
@@ -59,6 +63,11 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     paddingRight: theme.spacing(2),
   },
+  accordion: {
+    '&.hasError': {
+      borderColor: theme.palette.error.main,
+    },
+  },
 }));
 
 const BaseConditionalRulesGroup = ({
@@ -81,11 +90,21 @@ const BaseConditionalRulesGroup = ({
     append,
     remove,
     input: { value: rules },
+    meta,
   } = useFieldArray<ConditionalRule>(`${name}.rules`);
+
+  const hasError = useFieldHasError({
+    meta,
+    showErrorOnlyOnTouched: false,
+  });
 
   return (
     <Accordion
-      className="conditional-rules-group"
+      className={classNames(
+        'conditional-rules-group',
+        { hasError },
+        classes.accordion
+      )}
       expanded={open}
       onChange={(event, expanded) => (expanded ? onOpen?.() : onClose?.())}
       variant="outlined"
@@ -144,6 +163,7 @@ const BaseConditionalRulesGroup = ({
           )}
           {rules.map((rule, rowIndex) => (
             <ConditionalRulesRule
+              hasError={Boolean(meta.error?.[rowIndex])}
               isEdit={activeRowId === rule.id}
               name={`${name}.rules[${rowIndex}]`}
               key={rule.id}

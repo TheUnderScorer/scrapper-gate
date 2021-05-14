@@ -47,8 +47,7 @@ const useStyles = makeStyles(() => ({
     height: '30px',
   },
   fab: {
-    maxWidth: '120px !important',
-    minWidth: '80px',
+    width: '90px !important',
     boxShadow: 'none',
   },
 }));
@@ -140,7 +139,7 @@ export const FlowBuilderHeader = ({
                 type="submit"
               >
                 {formState.validating
-                  ? 'Validating...'
+                  ? 'Checking...'
                   : formState.submitting
                   ? 'Saving...'
                   : 'Save'}

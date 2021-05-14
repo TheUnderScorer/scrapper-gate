@@ -26,6 +26,7 @@ export interface ConditionalRulesRuleProps {
   isEdit?: boolean;
   onEdit?: (rowId: string) => void;
   onEditClose?: (rowId: string) => void;
+  hasError?: boolean;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -54,6 +55,10 @@ const useStyles = makeStyles((theme) => ({
   summaryStack: {
     width: '100%',
     paddingRight: theme.spacing(2),
+
+    '&.hasError': {
+      color: theme.palette.error.main,
+    },
   },
   accordionSummary: {
     '& .MuiAccordionSummary-expandIconWrapper': {
@@ -78,6 +83,7 @@ const BaseConditionalRulesRule = ({
   isEdit,
   onEdit,
   onEditClose,
+  hasError,
 }: ConditionalRulesRuleProps) => {
   const classes = useStyles();
 
@@ -125,7 +131,7 @@ const BaseConditionalRulesRule = ({
           alignItems="center"
           direction="row"
           justifyContent="space-between"
-          className={classes.summaryStack}
+          className={classNames(classes.summaryStack, { hasError })}
         >
           <Stack direction="row" spacing={2}>
             {definitionSelection?.icon}
