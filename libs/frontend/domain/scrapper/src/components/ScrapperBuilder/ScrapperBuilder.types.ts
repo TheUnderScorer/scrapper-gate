@@ -3,6 +3,7 @@ import { ComponentType } from 'react';
 import {
   BaseNodeProperties,
   BaseNodeSelectionProperties,
+  FlowBuilderFormState,
   FlowBuilderProps,
   HtmlElementPickerProps,
   NodeContentProps,
@@ -66,4 +67,9 @@ export interface ScrapperStepFormProps
   extends Pick<ScrapperBuilderProps, 'ElementPicker'>,
     Pick<NodeContentProps, 'nodeIndex'> {
   fieldNameCreator: FieldNameCreator;
+}
+
+export interface ScrapperBuilderFormState
+  extends FlowBuilderFormState<ScrapperBuilderNodeProperties> {
+  name: string;
 }

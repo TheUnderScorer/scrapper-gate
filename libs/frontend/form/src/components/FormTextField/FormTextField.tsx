@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Ref } from 'react';
 import { TextField, TextFieldProps } from '@material-ui/core';
 import { FieldProps } from '../../types';
 import { useField } from 'react-final-form';
@@ -16,9 +16,14 @@ export interface FormTextFieldProps<T>
       | 'disabled'
       | 'InputProps'
       | 'placeholder'
+      | 'onKeyUp'
+      | 'onKeyDown'
+      | 'onKeyPress'
+      | 'inputProps'
     >,
     FieldProps<T> {
   name: string;
+  inputRef?: Ref<HTMLInputElement>;
 }
 
 export const FormTextField = <T extends unknown>({
@@ -33,6 +38,11 @@ export const FormTextField = <T extends unknown>({
   disabled,
   placeholder,
   showErrorOnlyOnTouched,
+  inputRef,
+  onKeyUp,
+  onKeyDown,
+  onKeyPress,
+  inputProps,
   ...rest
 }: FormTextFieldProps<T>) => {
   const { input, meta } = useField(name, {
@@ -49,6 +59,7 @@ export const FormTextField = <T extends unknown>({
 
   return (
     <TextField
+      ref={inputRef}
       placeholder={placeholder}
       label={label}
       fullWidth={fullWidth}
@@ -59,6 +70,10 @@ export const FormTextField = <T extends unknown>({
       id={id ?? input.name}
       disabled={disabled}
       InputProps={rest.InputProps}
+      onKeyUp={onKeyUp}
+      onKeyDown={onKeyDown}
+      onKeyPress={onKeyPress}
+      inputProps={inputProps}
       {...input}
     />
   );

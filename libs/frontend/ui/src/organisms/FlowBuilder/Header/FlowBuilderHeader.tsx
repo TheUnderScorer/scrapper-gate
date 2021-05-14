@@ -1,4 +1,3 @@
-import React, { ReactNode, useCallback } from 'react';
 import {
   AppBar,
   Divider,
@@ -7,25 +6,25 @@ import {
   Stack,
   Toolbar,
   Tooltip,
-  Typography,
 } from '@material-ui/core';
-import { CloseSharp, SortSharp } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
-import { MenuItemProperties } from '@scrapper-gate/frontend/common';
-import { useFlowBuilderItemsSelector } from '../providers/FlowBuilderItems.provider';
-import { FormStateIcon } from '../../../molecules/FormStateIcon/FormStateIcon';
-import { buildBasicGraph } from '../utils/graph';
-import { useFormState } from 'react-final-form';
-import { useFlowBuilderContextSelector } from '../providers/FlowBuilderProps.provider';
-import { SkeletonComponentOrIcon } from '../../../molecules/Skeleton/ComponentOrIcon/SkeletonComponentOrIcon';
+import { CloseSharp, SortSharp } from '@material-ui/icons';
 import { Skeleton } from '@material-ui/lab';
+import { MenuItemProperties } from '@scrapper-gate/frontend/common';
 import classNames from 'classnames';
+import React, { ReactNode, useCallback } from 'react';
+import { useFormState } from 'react-final-form';
 import { TooltipText } from '../../../atoms/TooltipText/TooltipText';
-import { UndoButtons } from '../../../molecules/UndoButtons/UndoButtons';
 import { Dropdown } from '../../../molecules/Dropdown/Dropdown';
+import { FormStateIcon } from '../../../molecules/FormStateIcon/FormStateIcon';
+import { SkeletonComponentOrIcon } from '../../../molecules/Skeleton/ComponentOrIcon/SkeletonComponentOrIcon';
+import { UndoButtons } from '../../../molecules/UndoButtons/UndoButtons';
+import { useFlowBuilderItemsSelector } from '../providers/FlowBuilderItems.provider';
+import { useFlowBuilderContextSelector } from '../providers/FlowBuilderProps.provider';
+import { buildBasicGraph } from '../utils/graph';
 
 export interface FlowBuilderHeaderProps {
-  title?: string;
+  title?: ReactNode;
   onClose?: () => unknown;
   onSave?: () => unknown;
   additionalActions?: ReactNode;
@@ -98,7 +97,7 @@ export const FlowBuilderHeader = ({
                     <CloseSharp />
                   </IconButton>
                 )}
-                {title && <Typography variant="h5">{title}</Typography>}
+                {title}
               </>
             )}
             {loading && (

@@ -340,51 +340,7 @@ export type GetScrapperForBuilderQuery = {
   getMyScrapper: Pick<
     Scrapper,
     'id' | 'createdAt' | 'isRunning' | 'name' | 'state' | 'updatedAt'
-  > & {
-    steps?: Maybe<
-      Array<
-        Pick<
-          ScrapperStep,
-          | 'id'
-          | 'action'
-          | 'key'
-          | 'createdAt'
-          | 'updatedAt'
-          | 'mouseButton'
-          | 'navigateToUrl'
-          | 'reloadDelay'
-          | 'url'
-          | 'typeDelay'
-          | 'useUrlFromPreviousStep'
-        > & {
-          nextStep?: Maybe<Pick<ScrapperStep, 'id'>>;
-          previousSteps?: Maybe<Array<Pick<ScrapperStep, 'id'>>>;
-          stepOnTrue?: Maybe<Pick<ScrapperStep, 'id'>>;
-          stepOnFalse?: Maybe<Pick<ScrapperStep, 'id'>>;
-          selectors?: Maybe<Array<Pick<Selector, 'type' | 'value'>>>;
-          position?: Maybe<Pick<NodePosition, 'x' | 'y'>>;
-          conditionalRules?: Maybe<
-            Array<
-              Pick<ConditionalRuleGroup, 'id' | 'type'> & {
-                rules: Array<
-                  Pick<
-                    ConditionalRule,
-                    | 'id'
-                    | 'meta'
-                    | 'type'
-                    | 'value'
-                    | 'what'
-                    | 'whatValue'
-                    | 'when'
-                  >
-                >;
-              }
-            >
-          >;
-        }
-      >
-    >;
-  };
+  > & { steps?: Maybe<Array<ScrapperBuilderStepFragment>> };
 };
 
 export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never }>;
@@ -432,8 +388,40 @@ export type UpdateScrapperMutationVariables = Exact<{
   input: ScrapperInput;
 }>;
 
-export type UpdateScrapperMutation = {
-  updateScrapper: Pick<Scrapper, 'id' | 'name'>;
+export type UpdateScrapperMutation = { updateScrapper: Pick<Scrapper, 'id'> };
+
+export type ScrapperBuilderStepFragment = Pick<
+  ScrapperStep,
+  | 'id'
+  | 'action'
+  | 'key'
+  | 'createdAt'
+  | 'updatedAt'
+  | 'mouseButton'
+  | 'navigateToUrl'
+  | 'reloadDelay'
+  | 'url'
+  | 'typeDelay'
+  | 'useUrlFromPreviousStep'
+> & {
+  nextStep?: Maybe<Pick<ScrapperStep, 'id'>>;
+  previousSteps?: Maybe<Array<Pick<ScrapperStep, 'id'>>>;
+  stepOnTrue?: Maybe<Pick<ScrapperStep, 'id'>>;
+  stepOnFalse?: Maybe<Pick<ScrapperStep, 'id'>>;
+  selectors?: Maybe<Array<Pick<Selector, 'type' | 'value'>>>;
+  position?: Maybe<Pick<NodePosition, 'x' | 'y'>>;
+  conditionalRules?: Maybe<
+    Array<
+      Pick<ConditionalRuleGroup, 'id' | 'type'> & {
+        rules: Array<
+          Pick<
+            ConditionalRule,
+            'id' | 'meta' | 'type' | 'value' | 'what' | 'whatValue' | 'when'
+          >
+        >;
+      }
+    >
+  >;
 };
 
 export type CreateScrapperMutationVariables = Exact<{

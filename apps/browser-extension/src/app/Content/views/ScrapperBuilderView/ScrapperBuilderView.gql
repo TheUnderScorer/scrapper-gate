@@ -7,50 +7,7 @@ query GetScrapperForBuilder($id: ID!) {
     state
     updatedAt
     steps {
-      id
-      action
-      key
-      createdAt
-      updatedAt
-      mouseButton
-      navigateToUrl
-      nextStep {
-        id
-      }
-      previousSteps {
-        id
-      }
-      stepOnTrue {
-        id
-      }
-      stepOnFalse {
-        id
-      }
-      reloadDelay
-      selectors {
-        type
-        value
-      }
-      url
-      typeDelay
-      useUrlFromPreviousStep
-      position {
-        x
-        y
-      }
-      conditionalRules {
-        id
-        type
-        rules {
-          id
-          meta
-          type
-          value
-          what
-          whatValue
-          when
-        }
-      }
+      ...ScrapperBuilderStep
     }
   }
 }

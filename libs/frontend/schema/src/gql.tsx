@@ -3,7 +3,54 @@ import * as Types from '@scrapper-gate/shared/schema';
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 const defaultOptions = {};
-
+export const ScrapperBuilderStepFragmentDoc = gql`
+  fragment ScrapperBuilderStep on ScrapperStep {
+    id
+    action
+    key
+    createdAt
+    updatedAt
+    mouseButton
+    navigateToUrl
+    nextStep {
+      id
+    }
+    previousSteps {
+      id
+    }
+    stepOnTrue {
+      id
+    }
+    stepOnFalse {
+      id
+    }
+    reloadDelay
+    selectors {
+      type
+      value
+    }
+    url
+    typeDelay
+    useUrlFromPreviousStep
+    position {
+      x
+      y
+    }
+    conditionalRules {
+      id
+      type
+      rules {
+        id
+        meta
+        type
+        value
+        what
+        whatValue
+        when
+      }
+    }
+  }
+`;
 export const GetScrapperForBuilderDocument = gql`
   query GetScrapperForBuilder($id: ID!) {
     getMyScrapper(id: $id) {
@@ -14,53 +61,11 @@ export const GetScrapperForBuilderDocument = gql`
       state
       updatedAt
       steps {
-        id
-        action
-        key
-        createdAt
-        updatedAt
-        mouseButton
-        navigateToUrl
-        nextStep {
-          id
-        }
-        previousSteps {
-          id
-        }
-        stepOnTrue {
-          id
-        }
-        stepOnFalse {
-          id
-        }
-        reloadDelay
-        selectors {
-          type
-          value
-        }
-        url
-        typeDelay
-        useUrlFromPreviousStep
-        position {
-          x
-          y
-        }
-        conditionalRules {
-          id
-          type
-          rules {
-            id
-            meta
-            type
-            value
-            what
-            whatValue
-            when
-          }
-        }
+        ...ScrapperBuilderStep
       }
     }
   }
+  ${ScrapperBuilderStepFragmentDoc}
 `;
 
 /**
@@ -354,7 +359,6 @@ export const UpdateScrapperDocument = gql`
   mutation UpdateScrapper($input: ScrapperInput!) {
     updateScrapper(input: $input) {
       id
-      name
     }
   }
 `;

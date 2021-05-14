@@ -9,12 +9,14 @@ import {
 } from '@scrapper-gate/frontend/ui';
 import { v4 as uuid } from 'uuid';
 import {
+  FormEditableText,
   joiValidationResolver,
   useDebouncedValidator,
   validatorsPipe,
 } from '@scrapper-gate/frontend/form';
 import { createScrapperNodeSelection } from './scrapperNodeSelection';
 import {
+  ScrapperBuilderFormState,
   ScrapperBuilderNodeProperties,
   ScrapperBuilderProps,
 } from './ScrapperBuilder.types';
@@ -138,7 +140,7 @@ export const ScrapperBuilder = ({
   });
 
   const handleSubmit = useCallback(
-    async (values: FlowBuilderFormState<ScrapperBuilderNodeProperties>) => {
+    async (values: ScrapperBuilderFormState) => {
       try {
         const steps = nodesToScrapperSteps(values.items);
 
@@ -147,6 +149,7 @@ export const ScrapperBuilder = ({
             input: {
               id: initialScrapper.id,
               steps,
+              name: values.name,
             },
           },
         });
@@ -167,6 +170,7 @@ export const ScrapperBuilder = ({
       onSubmit={handleSubmit}
       initialValues={{
         items: initialNodes,
+        name: initialScrapper?.name,
       }}
       destroyOnUnregister={false}
       render={(props) => (
@@ -180,7 +184,23 @@ export const ScrapperBuilder = ({
             onConnect={handleConnect}
             loading={loading}
             nodesSelection={selection}
-            title={initialScrapper?.name ?? 'Unnamed scrapper'}
+            title={
+              <FormEditableText
+                variant="standard"
+                name="name"
+                textProps={{ variant: 'h6' }}
+                onEditFinish={async (name) => {
+                  await updateScrapper({
+                    variables: {
+                      input: {
+                        id: initialScrapper.id,
+                        name,
+                      },
+                    },
+                  });
+                }}
+              />
+            }
             nodesCreator={scrapperStepsToNodes(
               initialScrapper?.steps ?? [],
               selection

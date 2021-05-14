@@ -158,7 +158,9 @@ export const FormUndoProvider = ({
   useHotkeys(shortcuts.redo, redo, [redo]);
 
   useFormState({
-    subscription: { values: true, initialValues: true },
+    subscription: {
+      values: true,
+    },
     onChange: (state) => setLastFormState(state.values),
   });
 

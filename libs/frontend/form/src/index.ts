@@ -12,3 +12,4 @@ export * from './hooks/useFieldHasError';
 export * from './hooks/useFieldArray';
 export * from './components/FormDatePicker/FormDatePicker';
 export * from './components/EnumSelect/EnumSelect';
+export * from './components/FormEditableText/FormEditableText';
