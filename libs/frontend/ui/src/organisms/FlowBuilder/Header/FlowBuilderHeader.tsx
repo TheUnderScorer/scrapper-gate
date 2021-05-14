@@ -47,7 +47,8 @@ const useStyles = makeStyles(() => ({
     height: '30px',
   },
   fab: {
-    width: '90px !important',
+    maxWidth: '120px !important',
+    minWidth: '80px',
     boxShadow: 'none',
   },
 }));
@@ -64,6 +65,7 @@ export const FlowBuilderHeader = ({
       submitting: true,
       errors: true,
       hasValidationErrors: true,
+      validating: true,
     },
   });
 
@@ -137,7 +139,11 @@ export const FlowBuilderHeader = ({
                 color="primary"
                 type="submit"
               >
-                {formState.submitting ? 'Saving...' : 'Save'}
+                {formState.validating
+                  ? 'Validating...'
+                  : formState.submitting
+                  ? 'Saving...'
+                  : 'Save'}
               </Fab>
             </SkeletonComponentOrIcon>
             {menu && (

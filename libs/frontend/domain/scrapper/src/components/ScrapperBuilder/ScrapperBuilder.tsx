@@ -126,6 +126,7 @@ export const ScrapperBuilder = ({
         flowBuilderValidation.ensureAllNodesAreConnected,
         joiValidationResolver(ScrapperBuilderDto, {
           allowUnknown: true,
+          presence: 'optional',
         })
       ),
     []

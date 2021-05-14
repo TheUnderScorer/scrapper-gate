@@ -1,5 +1,5 @@
 import * as jf from 'joiful';
-import { BaseSchema } from '../BaseSchema';
+import { BaseSchema } from '../../BaseSchema';
 import { ScrapperStepInputDto } from './ScrapperStepInputDto';
 
 export class ScrapperStepNodeDto extends BaseSchema<ScrapperStepNodeDto> {

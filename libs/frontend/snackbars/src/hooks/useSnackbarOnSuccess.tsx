@@ -29,6 +29,7 @@ export const useSnackbarOnSuccess = () => {
           title: 'Success',
           preventDuplicate: true,
           persist: false,
+          key: 'success',
         }
       );
     },

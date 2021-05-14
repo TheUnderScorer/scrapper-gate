@@ -1,27 +1,28 @@
-import React, { ReactNode, useEffect, useMemo } from 'react';
-
-import {
-  HtmlElementPicker,
-  HtmlElementPickerProps,
-} from '@scrapper-gate/frontend/ui';
 import { Box, MenuItem, Stack, Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import {
   EnumSelect,
   FormSelect,
   FormTextField,
   useFormFieldValue,
 } from '@scrapper-gate/frontend/form';
-import { BaseConditionalRuleWhen } from '@scrapper-gate/shared/domain/conditional-rules';
-import { makeStyles } from '@material-ui/core/styles';
-import { useField } from 'react-final-form';
-import { valueSupportedWhen } from '../../valueSupportedWhen';
-import { isHtmlAttribute } from '@scrapper-gate/shared/validation';
+import {
+  HtmlElementPicker,
+  HtmlElementPickerProps,
+} from '@scrapper-gate/frontend/ui';
+import {
+  BaseConditionalRuleWhen,
+  HtmlElementWhat,
+} from '@scrapper-gate/shared/domain/conditional-rules';
 import {
   ConditionalRuleGroupType,
   Selector,
 } from '@scrapper-gate/shared/schema';
+import React, { ReactNode, useEffect, useMemo } from 'react';
+import { useField } from 'react-final-form';
 import { ruleLabels } from '../../labels';
-import { ConditionalRuleDefinitionsProps, HtmlElementWhat } from '../../types';
+import { ConditionalRuleDefinitionsProps } from '../../types';
+import { valueSupportedWhen } from '../../valueSupportedWhen';
 
 export interface HtmlElementRuleProps
   extends ConditionalRuleDefinitionsProps,
@@ -95,11 +96,6 @@ export const HtmlElementRule = ({
             variant={fieldVariant}
             name={getName('meta.attribute')}
             label="Attribute"
-            validate={(value) => {
-              if (value && !isHtmlAttribute(value)) {
-                return new Error('Invalid attribute provided.');
-              }
-            }}
           />
         )}
 

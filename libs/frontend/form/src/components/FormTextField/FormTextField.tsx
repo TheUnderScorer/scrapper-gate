@@ -58,6 +58,7 @@ export const FormTextField = <T extends unknown>({
       helperText={hasError ? meta.error.message : helperText}
       id={id ?? input.name}
       disabled={disabled}
+      InputProps={rest.InputProps}
       {...input}
     />
   );

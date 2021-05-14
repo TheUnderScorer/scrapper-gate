@@ -15,6 +15,7 @@ export const validate = <T>(
       [JoiMessages.Required]: 'This field is required.',
       [JoiMessages.Email]: 'Must be a valid e-mail.',
       [JoiMessages.Uri]: 'Must be a valid url.',
+      [JoiMessages.HtmlAttribute]: 'Invalid attribute.',
     },
     ...joiOptions,
   });

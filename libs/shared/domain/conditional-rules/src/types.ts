@@ -1,3 +1,5 @@
+import { Selector } from '@scrapper-gate/shared/schema';
+
 export enum ConditionalRuleTypes {
   Date = 'Date',
   HtmlElement = 'HtmlElement',
@@ -16,4 +18,15 @@ export enum BaseConditionalRuleWhen {
   NotEmpty = 'NotEmpty',
   Includes = 'Includes',
   NotIncludes = 'NotIncludes',
+}
+
+export interface HtmlElementRuleMeta {
+  selectors: Selector[];
+  attribute?: string;
+  tag?: string;
+}
+
+export enum HtmlElementWhat {
+  Attribute = 'Attribute',
+  Tag = 'Tag',
 }

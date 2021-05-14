@@ -29,6 +29,8 @@ export const useSnackbarOnError = () => {
           title: error.name,
           className: classes.snackbar,
           persist: false,
+          preventDuplicate: true,
+          key: 'error',
         }
       );
     },

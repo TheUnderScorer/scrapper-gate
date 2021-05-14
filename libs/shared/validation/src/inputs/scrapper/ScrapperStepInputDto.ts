@@ -4,10 +4,11 @@ import {
   ScrapperStepInput,
 } from '@scrapper-gate/shared/schema';
 import * as jf from 'joiful';
-import { optionalEnum } from '../decorators/enum';
-import { uuid } from '../decorators/uuid';
-import { SelectorDto } from './SelectorDto';
-import { BaseSchema } from '../BaseSchema';
+import { BaseSchema } from '../../BaseSchema';
+import { optionalEnum } from '../../decorators/enum';
+import { uuid } from '../../decorators/uuid';
+import { SelectorDto } from '../SelectorDto';
+import { ScrapperConditionalRuleGroupInputDto } from './ScrapperConditionalRuleGroupInputDto';
 
 export class ScrapperStepInputDto
   extends BaseSchema<ScrapperStepInput>
@@ -56,4 +57,9 @@ export class ScrapperStepInputDto
 
   @(jf.array({ elementClass: SelectorDto }).allow(null))
   selectors?: SelectorDto[];
+
+  @(jf
+    .array({ elementClass: ScrapperConditionalRuleGroupInputDto })
+    .allow(null))
+  conditionalRules?: ScrapperConditionalRuleGroupInputDto[];
 }

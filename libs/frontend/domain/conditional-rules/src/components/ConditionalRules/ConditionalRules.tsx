@@ -97,7 +97,9 @@ export const ConditionalRules = ({
   return (
     <Box>
       {label && <FormLabel error={hasError}>{label}</FormLabel>}
-      {helperText && <FormHelperText>{helperText}</FormHelperText>}
+      {helperText && (
+        <FormHelperText error={hasError}>{helperText}</FormHelperText>
+      )}
       <Box mt={2}>
         {value.map((group, index) => {
           const hasNext = Boolean(value[index + 1]);
