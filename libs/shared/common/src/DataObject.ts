@@ -1,6 +1,6 @@
 import { DeepPartial } from 'typeorm';
 import { Dictionary, Jsonable, OmitFunctions } from './types';
-import { Constructor } from './constructor';
+import { Constructor } from '@scrapper-gate/shared/constructor';
 
 export abstract class DataObject<Entity> implements Jsonable {
   fill(payload: Partial<Entity>): this {

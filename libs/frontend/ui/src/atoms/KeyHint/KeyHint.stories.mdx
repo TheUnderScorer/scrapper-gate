@@ -1,0 +1,28 @@
+import { Props, Canvas, Meta, Story } from '@storybook/addon-docs/blocks';
+import { KeyHint } from './KeyHint';
+
+<Meta title="UI/KeyHint" component={KeyHint} />
+
+# KeyHint
+
+## Props
+
+<Props of={KeyHint} />
+
+## Examples
+
+### Single key
+
+<Canvas>
+  <Story name="Single key">
+    <KeyHint>W</KeyHint>
+  </Story>
+</Canvas>
+
+### Multiple keys
+
+<Canvas>
+  <Story name="Multiple keys">
+    <KeyHint>Ctrl+A+D</KeyHint>
+  </Story>
+</Canvas>

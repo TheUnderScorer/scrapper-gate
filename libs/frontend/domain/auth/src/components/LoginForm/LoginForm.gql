@@ -1,0 +1,27 @@
+mutation Login($input: LoginInput!) {
+  login(input: $input) @rest(
+    type: "LoginResponse"
+    path: "/api/public/auth/login"
+    method: "POST"
+    endpoint: "default"
+  ) {
+    accessToken
+    refreshToken
+  }
+}
+
+mutation CreateUser($input: CreateUserInput!) {
+  createUser(input: $input) {
+    tokens {
+      accessToken
+      refreshToken
+    }
+    user {
+      id
+      email
+      createdAt
+      updatedAt
+      acceptTerms
+    }
+  }
+}

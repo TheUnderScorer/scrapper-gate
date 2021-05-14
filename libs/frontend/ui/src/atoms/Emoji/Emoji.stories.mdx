@@ -1,0 +1,28 @@
+import { ArgsTable, Canvas, Meta, Story } from '@storybook/addon-docs/blocks';
+import { Emoji } from './Emoji';
+import { Typography } from '@material-ui/core';
+
+<Meta title="UI/Emoji" component={Emoji} />
+
+# Emoji
+
+## Props
+
+<ArgsTable of={Emoji} />
+
+## Examples
+
+<Canvas>
+  <Story name="Emoji" args={{}}>
+    <Emoji>😎</Emoji>
+    <Emoji>😭</Emoji>
+  </Story>
+</Canvas>
+
+<Canvas>
+  <Story name="With text">
+    <Typography>
+      I'm a duck <Emoji>🦆</Emoji>
+    </Typography>
+  </Story>
+</Canvas>

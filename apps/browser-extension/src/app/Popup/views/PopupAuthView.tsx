@@ -1,5 +1,5 @@
 import React from 'react';
-import { Auth } from '@scrapper-gate/shared-frontend/domain/auth';
+import { Auth } from '@scrapper-gate/frontend/domain/auth';
 import { Box } from '@material-ui/core';
 
 export const PopupAuthView = () => {

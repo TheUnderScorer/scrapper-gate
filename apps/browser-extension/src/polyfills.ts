@@ -6,5 +6,8 @@
  */
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
+import 'webextension-polyfill';
+import { browser } from 'webextension-polyfill-ts';
 
+(window as any).browser = browser;
 (window as any).global = window;

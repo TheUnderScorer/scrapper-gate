@@ -1,21 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { ApiClientProvider } from '@scrapper-gate/shared-frontend/common';
 import { Popup } from './app/Popup/Popup';
-import { ThemeProvider } from '@scrapper-gate/shared-frontend/theme';
+import { ThemeProvider } from '@scrapper-gate/frontend/theme';
 import { HashRouter } from 'react-router-dom';
+import { ApiClientProvider } from '@scrapper-gate/frontend/api-client';
+import { QueryParamProvider } from '@scrapper-gate/frontend/common';
 
 ReactDOM.render(
   <React.StrictMode>
     <HashRouter>
-      <ThemeProvider>
-        <ApiClientProvider>
-          <Popup />
-        </ApiClientProvider>
-      </ThemeProvider>
+      <QueryParamProvider>
+        <ThemeProvider>
+          <ApiClientProvider>
+            <Popup />
+          </ApiClientProvider>
+        </ThemeProvider>
+      </QueryParamProvider>
     </HashRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );
-
-console.log('test');

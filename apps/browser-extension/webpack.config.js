@@ -1,27 +1,31 @@
 const createConfig = require('@nrwl/react/plugins/webpack');
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
-const ExtensionReloader = require('webpack-extension-reloader');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const webpack = require('webpack');
 
-module.exports = (config) => {
-  const preppedConfig = createConfig(config);
+module.exports = (baseConfig) => {
+  const config = createConfig(baseConfig);
 
-  preppedConfig.entry.main = [path.resolve(__dirname, './src/popup.tsx')];
-  preppedConfig.entry.content = [path.resolve(__dirname, './src/content.tsx')];
-  preppedConfig.entry.background = [
-    path.resolve(__dirname, './src/background.ts'),
+  config.entry.main = [path.resolve(__dirname, './src/popup.tsx')];
+  config.entry.content = [path.resolve(__dirname, './src/content.tsx')];
+  config.entry.contentRoot = [
+    path.resolve(__dirname, './src/app/Content/contentRoot.tsx'),
+  ];
+  config.entry.background = [path.resolve(__dirname, './src/background.ts')];
+  config.entry.backgroundMain = [
+    path.resolve(__dirname, './src/backgroundMain.ts'),
   ];
 
-  delete preppedConfig.entry.styles;
+  delete config.entry.styles;
 
-  preppedConfig.output.filename = '[name].js';
-  preppedConfig.output.chunkFilename = '[name].js';
+  config.output.filename = '[name].js';
+  config.output.chunkFilename = '[name].js';
 
-  // Don't use runtime chunks
-  delete preppedConfig.optimization.runtimeChunk;
-  delete preppedConfig.optimization.splitChunks;
+  delete config.optimization.runtimeChunk;
+  config.optimization.splitChunks.automaticNameDelimiter = '-';
 
-  preppedConfig.plugins.push(
+  config.plugins.push(
     new CopyPlugin({
       patterns: [
         {
@@ -32,22 +36,45 @@ module.exports = (config) => {
     })
   );
 
-  preppedConfig.plugins.push(
-    new ExtensionReloader({
-      manifest: path.resolve(__dirname, 'manifest.json'),
-      port: 4200,
-      entries: {
-        contentScript: 'content',
-        background: 'background',
-        extensionPage: 'main',
-      },
+  if (config.devServer) {
+    // config.devServer.hot = true;
+    config.devServer.writeToDisk = true;
+    config.devServer.disableHostCheck = true;
+    config.devServer.injectClient = false;
+  }
+
+  baseConfig.plugins.push(
+    new webpack.NormalModuleReplacementPlugin(/faker/, (resource) => {
+      const srcPath = path.resolve(path.join(__dirname, '../../tools/shim.js'));
+
+      resource.request = resource.request.replace(/faker/, srcPath);
     })
   );
 
-  if (preppedConfig.devServer) {
-    preppedConfig.devServer.hot = false;
-    preppedConfig.devServer.writeToDisk = true;
+  if (config.mode === 'development') {
+    config.devtool = 'cheap-module-source-map';
+    config.optimization.removeAvailableModules = false;
+    config.optimization.removeEmptyChunks = false;
+
+    delete config.optimization.minimizer;
+
+    config.resolve.symlinks = false;
+    config.output.pathinfo = false;
+  } else {
+    if (process.env.ANALYZE_BUNDLE === 'true') {
+      config.plugins.push(
+        new BundleAnalyzerPlugin({
+          analyzerMode: 'static',
+        })
+      );
+    }
+
+    config.plugins.push(
+      new webpack.DefinePlugin({
+        'process.env.NODE_ENV': JSON.stringify('production'),
+      })
+    );
   }
 
-  return preppedConfig;
+  return config;
 };

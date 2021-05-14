@@ -2,7 +2,8 @@ import { ApolloServer } from 'apollo-server-fastify';
 import { Resolvers, typeDefs } from '@scrapper-gate/shared/schema';
 import { AwilixContainer } from 'awilix';
 import { Logger } from '@scrapper-gate/shared/logger';
-import { BaseApolloContext } from '@scrapper-gate/shared-backend/server';
+import { BaseApolloContext } from '@scrapper-gate/backend/server';
+import { AuthDirective } from '@scrapper-gate/backend/domain/auth';
 
 export interface ApolloServerFactoryParams {
   resolvers: Resolvers;
@@ -23,6 +24,9 @@ export const apolloServerFactory = ({
       unitOfWork: container.resolve('unitOfWork'),
       user: request?.user,
     }),
+    schemaDirectives: {
+      auth: AuthDirective,
+    },
     introspection: true,
     formatError: (error) => {
       logger.error('Graphql error:', error);

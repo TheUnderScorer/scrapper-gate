@@ -1,3 +1,3 @@
 export interface Disposable {
-  dispose: () => Promise<void>;
+  dispose: () => Promise<void> | void;
 }

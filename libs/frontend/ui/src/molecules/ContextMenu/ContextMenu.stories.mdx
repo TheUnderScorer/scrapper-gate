@@ -1,0 +1,51 @@
+import { Canvas, Meta, Props, Story } from '@storybook/addon-docs/blocks';
+import { ContextMenu } from './ContextMenu';
+import { Box, Typography } from '@material-ui/core';
+import { action } from '@storybook/addon-actions';
+
+<Meta title="UI/ContextMenu" component={ContextMenu} />
+
+# ContextMenu
+
+## Props
+
+<Props of={ContextMenu} />
+
+## Examples
+
+### Use right click to see the menu
+
+<Canvas>
+  <Story name="Context Menu">
+    <ContextMenu
+      menuItems={[
+        {
+          content: 'First item',
+          id: '1',
+          onClick: action('First item clicked'),
+        },
+        {
+          content: 'Second item',
+          id: '2',
+          onClick: action('Second item clicked'),
+        },
+      ]}
+    >
+      {(bag) => {
+        return (
+          <Box onContextMenu={bag.onContextMenu}>
+            <Typography>
+              Error eaque ex odit et autem ipsum facere. Quas omnis explicabo
+              est labore mollitia aperiam tenetur. Similique et eum et error. Et
+              enim facilis ut odio commodi laudantium. Ipsa architecto ipsum
+              consequatur totam veniam sit vitae qui. Beatae natus et
+              perferendis ducimus et maxime iste consequatur sed. Id rem nostrum
+              voluptas est non modi recusandae libero. Quisquam provident ut
+              numquam consequatur.
+            </Typography>
+          </Box>
+        );
+      }}
+    </ContextMenu>
+  </Story>
+</Canvas>

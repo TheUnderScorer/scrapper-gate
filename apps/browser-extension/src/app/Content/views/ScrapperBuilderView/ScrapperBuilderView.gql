@@ -1,0 +1,13 @@
+query GetScrapperForBuilder($id: ID!) {
+  getMyScrapper(id: $id) {
+    id
+    createdAt
+    isRunning
+    name
+    state
+    updatedAt
+    steps {
+      ...ScrapperBuilderStep
+    }
+  }
+}

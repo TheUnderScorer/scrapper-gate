@@ -1,0 +1,29 @@
+import { Canvas, Meta, Props, Story } from '@storybook/addon-docs/blocks';
+import { CollapsableCard } from './CollapsableCard';
+import { Grid, TextField } from '@material-ui/core';
+
+<Meta title="UI/CollapsableCard" component={CollapsableCard} />
+
+# CollapsableCard
+
+Card that can be collapsed in order to hide it's content.
+
+## Props
+
+<Props of={CollapsableCard} />
+
+## Examples
+
+<Canvas>
+  <Story name="Collapsable Card">
+    <CollapsableCard
+      closable
+      title="Awesome card"
+      subTitle="Hides something amazing"
+    >
+      <Grid item>
+        <TextField variant="standard" label="Fill me" />
+      </Grid>
+    </CollapsableCard>
+  </Story>
+</Canvas>

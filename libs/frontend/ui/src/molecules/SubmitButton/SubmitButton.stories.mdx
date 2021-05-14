@@ -1,0 +1,47 @@
+import { Canvas, Meta, Props, Story } from '@storybook/addon-docs/blocks';
+import { SubmitButton } from './SubmitButton';
+import { SaveSharp } from '@material-ui/icons';
+
+<Meta title="UI/SubmitButton" component={SubmitButton} />
+
+# SubmitButton
+
+## Props
+
+<Props of={SubmitButton} />
+
+## Examples
+
+### As button
+
+<Canvas>
+  <Story name="Submit Button">
+    <SubmitButton>Save</SubmitButton>
+  </Story>
+  <Story name="Submit Button - did submit">
+    <SubmitButton didSubmit>Save</SubmitButton>
+  </Story>
+  <Story name="Submit Button - loading">
+    <SubmitButton loading>Save</SubmitButton>
+  </Story>
+</Canvas>
+
+### As icon button
+
+<Canvas>
+  <Story name="Submit Button as icon button">
+    <SubmitButton type="icon">
+      <SaveSharp />
+    </SubmitButton>
+  </Story>
+  <Story name="Submit Button as icon button - did submit">
+    <SubmitButton didSubmit type="icon">
+      Save
+    </SubmitButton>
+  </Story>
+  <Story name="Submit Button as icon button - loading">
+    <SubmitButton loading type="icon">
+      Save
+    </SubmitButton>
+  </Story>
+</Canvas>

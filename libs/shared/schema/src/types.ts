@@ -3,6 +3,7 @@ import {
   GraphQLScalarType,
   GraphQLScalarTypeConfig,
 } from 'graphql';
+import { WhatValue, ConditionalRuleValue } from './scalars';
 export type Maybe<T> = T | undefined;
 export type Exact<T extends { [key: string]: unknown }> = {
   [K in keyof T]: T[K];
@@ -22,7 +23,11 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  Date: any;
+  ConditionalMetaData: any;
+  ConditionalRuleValue: ConditionalRuleValue;
+  Date: Date;
+  Url: any;
+  WhatValue: WhatValue;
 };
 
 export type AuthTokens = {
@@ -34,16 +39,63 @@ export type BaseEntity = {
   id: Scalars['ID'];
   createdAt: Scalars['Date'];
   updatedAt: Scalars['Date'];
+  deletedAt?: Maybe<Scalars['Date']>;
+};
+
+export type ConditionalRule = {
+  id: Scalars['ID'];
+  when?: Maybe<Scalars['String']>;
+  whatValue?: Maybe<Scalars['WhatValue']>;
+  value?: Maybe<Scalars['ConditionalRuleValue']>;
+  meta?: Maybe<Scalars['ConditionalMetaData']>;
+  type?: Maybe<Scalars['String']>;
+  what?: Maybe<Scalars['String']>;
+};
+
+export type ConditionalRuleGroup = {
+  id: Scalars['ID'];
+  rules: Array<ConditionalRule>;
+  type: ConditionalRuleGroupType;
+};
+
+export type ConditionalRuleGroupInput = {
+  id: Scalars['ID'];
+  rules: Array<ConditionalRuleInput>;
+  type: ConditionalRuleGroupType;
+};
+
+export enum ConditionalRuleGroupType {
+  Any = 'Any',
+  All = 'All',
+}
+
+export type ConditionalRuleInput = {
+  id: Scalars['ID'];
+  when?: Maybe<Scalars['String']>;
+  whatValue?: Maybe<Scalars['WhatValue']>;
+  value?: Maybe<Scalars['ConditionalRuleValue']>;
+  meta?: Maybe<Scalars['ConditionalMetaData']>;
+  what?: Maybe<Scalars['String']>;
+  type?: Maybe<Scalars['String']>;
+};
+
+export type CreateScrapperInput = {
+  name?: Maybe<Scalars['String']>;
 };
 
 export type CreateUserInput = {
   email: Scalars['String'];
   password: Scalars['String'];
+  acceptTerms: Scalars['Boolean'];
 };
 
 export type CreateUserResult = {
   user: User;
   tokens: AuthTokens;
+};
+
+export type CreatedBy = {
+  createdBy?: Maybe<User>;
 };
 
 export type ForgotPasswordInput = {
@@ -69,12 +121,24 @@ export type LoginResponse = {
   refreshToken: Scalars['String'];
 };
 
+export enum MouseButton {
+  Left = 'Left',
+  Right = 'Right',
+  Middle = 'Middle',
+}
+
 export type Mutation = {
   _?: Maybe<Scalars['Boolean']>;
+  createScrapper: Scrapper;
   createUser: CreateUserResult;
   forgotPassword?: Maybe<ForgotPasswordResponse>;
   login?: Maybe<LoginResponse>;
   resetPassword?: Maybe<ResetPasswordResponse>;
+  updateScrapper: Scrapper;
+};
+
+export type MutationCreateScrapperArgs = {
+  input?: Maybe<CreateScrapperInput>;
 };
 
 export type MutationCreateUserArgs = {
@@ -94,10 +158,50 @@ export type MutationResetPasswordArgs = {
   token: Scalars['String'];
 };
 
+export type MutationUpdateScrapperArgs = {
+  input: ScrapperInput;
+};
+
+export type NodePosition = {
+  y: Scalars['Float'];
+  x: Scalars['Float'];
+};
+
+export type NodePositionInput = {
+  x: Scalars['Float'];
+  y: Scalars['Float'];
+};
+
+export type Order = {
+  direction: OrderDirection;
+  column: Scalars['String'];
+};
+
+export enum OrderDirection {
+  Asc = 'Asc',
+  Desc = 'Desc',
+}
+
+export type Pagination = {
+  take: Scalars['Int'];
+  skip: Scalars['Int'];
+};
+
 export type Query = {
   _?: Maybe<Scalars['Boolean']>;
+  getMyScrapper: Scrapper;
+  getMyScrappers: ScrapperQueryResult;
   isAutenthicated?: Maybe<IsAutenthicatedResponse>;
   me?: Maybe<User>;
+};
+
+export type QueryGetMyScrapperArgs = {
+  id: Scalars['ID'];
+};
+
+export type QueryGetMyScrappersArgs = {
+  pagination?: Maybe<Pagination>;
+  order?: Maybe<Order>;
 };
 
 export type ResetPasswordInput = {
@@ -108,6 +212,110 @@ export type ResetPasswordResponse = {
   error?: Maybe<Scalars['String']>;
   stack?: Maybe<Scalars['String']>;
 };
+
+export enum RunState {
+  Completed = 'Completed',
+  Error = 'Error',
+  InProgress = 'InProgress',
+  Pending = 'Pending',
+  Stopped = 'Stopped',
+}
+
+export type Scrapper = BaseEntity &
+  CreatedBy & {
+    id: Scalars['ID'];
+    createdAt: Scalars['Date'];
+    updatedAt: Scalars['Date'];
+    isRunning?: Maybe<Scalars['Boolean']>;
+    name?: Maybe<Scalars['String']>;
+    state?: Maybe<RunState>;
+    createdBy?: Maybe<User>;
+    deletedAt?: Maybe<Scalars['Date']>;
+    steps?: Maybe<Array<ScrapperStep>>;
+  };
+
+export enum ScrapperAction {
+  Click = 'Click',
+  Condition = 'Condition',
+  GoBack = 'GoBack',
+  NavigateTo = 'NavigateTo',
+  ReadText = 'ReadText',
+  ReloadPage = 'ReloadPage',
+  Type = 'Type',
+}
+
+export type ScrapperInput = {
+  id: Scalars['ID'];
+  name?: Maybe<Scalars['String']>;
+  steps?: Maybe<Array<ScrapperStepInput>>;
+};
+
+export type ScrapperQueryResult = {
+  total: Scalars['Int'];
+  items?: Maybe<Array<Scrapper>>;
+};
+
+export type ScrapperStep = BaseEntity &
+  CreatedBy & {
+    id: Scalars['ID'];
+    createdAt: Scalars['Date'];
+    updatedAt: Scalars['Date'];
+    deletedAt?: Maybe<Scalars['Date']>;
+    createdBy?: Maybe<User>;
+    goBackSteps?: Maybe<Scalars['Int']>;
+    nextStep?: Maybe<ScrapperStep>;
+    previousSteps?: Maybe<Array<ScrapperStep>>;
+    stepOnTrue?: Maybe<ScrapperStep>;
+    stepOnFalse?: Maybe<ScrapperStep>;
+    mouseButton?: Maybe<MouseButton>;
+    url?: Maybe<Scalars['Url']>;
+    navigateToUrl?: Maybe<Scalars['Url']>;
+    reloadDelay?: Maybe<Scalars['Float']>;
+    typeDelay?: Maybe<Scalars['Float']>;
+    typeValue?: Maybe<Scalars['String']>;
+    useUrlFromPreviousStep?: Maybe<Scalars['Boolean']>;
+    action?: Maybe<ScrapperAction>;
+    selectors?: Maybe<Array<Selector>>;
+    clickTimes?: Maybe<Scalars['Int']>;
+    position?: Maybe<NodePosition>;
+    key?: Maybe<Scalars['String']>;
+    conditionalRules?: Maybe<Array<ConditionalRuleGroup>>;
+  };
+
+export type ScrapperStepInput = {
+  id: Scalars['ID'];
+  goBackSteps?: Maybe<Scalars['Int']>;
+  nextStepId?: Maybe<Scalars['ID']>;
+  mouseButton?: Maybe<MouseButton>;
+  url?: Maybe<Scalars['Url']>;
+  navigateToUrl?: Maybe<Scalars['Url']>;
+  reloadDelay?: Maybe<Scalars['Float']>;
+  typeDelay?: Maybe<Scalars['Float']>;
+  useUrlFromPreviousStep?: Maybe<Scalars['Boolean']>;
+  action?: Maybe<ScrapperAction>;
+  selectors?: Maybe<Array<SelectorInput>>;
+  clickTimes?: Maybe<Scalars['Int']>;
+  position?: Maybe<NodePositionInput>;
+  stepIdOnTrue?: Maybe<Scalars['ID']>;
+  stepIdOnFalse?: Maybe<Scalars['ID']>;
+  key?: Maybe<Scalars['String']>;
+  conditionalRules?: Maybe<Array<ConditionalRuleGroupInput>>;
+};
+
+export type Selector = {
+  type?: Maybe<SelectorType>;
+  value: Scalars['String'];
+};
+
+export type SelectorInput = {
+  type?: Maybe<SelectorType>;
+  value: Scalars['String'];
+};
+
+export enum SelectorType {
+  Selector = 'Selector',
+  TextContent = 'TextContent',
+}
 
 export type Subscription = {
   _?: Maybe<Scalars['Boolean']>;
@@ -120,6 +328,19 @@ export type User = BaseEntity & {
   firstName?: Maybe<Scalars['String']>;
   lastName?: Maybe<Scalars['String']>;
   email: Scalars['String'];
+  deletedAt?: Maybe<Scalars['Date']>;
+  acceptTerms: Scalars['Boolean'];
+};
+
+export type GetScrapperForBuilderQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+export type GetScrapperForBuilderQuery = {
+  getMyScrapper: Pick<
+    Scrapper,
+    'id' | 'createdAt' | 'isRunning' | 'name' | 'state' | 'updatedAt'
+  > & { steps?: Maybe<Array<ScrapperBuilderStepFragment>> };
 };
 
 export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never }>;
@@ -142,12 +363,76 @@ export type CreateUserMutationVariables = Exact<{
 
 export type CreateUserMutation = {
   createUser: {
+    tokens: Pick<AuthTokens, 'accessToken' | 'refreshToken'>;
     user: Pick<
       User,
-      'id' | 'email' | 'firstName' | 'lastName' | 'createdAt' | 'updatedAt'
+      'id' | 'email' | 'createdAt' | 'updatedAt' | 'acceptTerms'
     >;
-    tokens: Pick<AuthTokens, 'accessToken' | 'refreshToken'>;
   };
+};
+
+export type MyScrappersQueryVariables = Exact<{
+  pagination?: Maybe<Pagination>;
+  order?: Maybe<Order>;
+}>;
+
+export type MyScrappersQuery = {
+  getMyScrappers: Pick<ScrapperQueryResult, 'total'> & {
+    items?: Maybe<
+      Array<Pick<Scrapper, 'id' | 'name' | 'state' | 'isRunning' | 'createdAt'>>
+    >;
+  };
+};
+
+export type UpdateScrapperMutationVariables = Exact<{
+  input: ScrapperInput;
+}>;
+
+export type UpdateScrapperMutation = { updateScrapper: Pick<Scrapper, 'id'> };
+
+export type ScrapperBuilderStepFragment = Pick<
+  ScrapperStep,
+  | 'id'
+  | 'action'
+  | 'key'
+  | 'createdAt'
+  | 'updatedAt'
+  | 'mouseButton'
+  | 'navigateToUrl'
+  | 'reloadDelay'
+  | 'url'
+  | 'typeDelay'
+  | 'useUrlFromPreviousStep'
+> & {
+  nextStep?: Maybe<Pick<ScrapperStep, 'id'>>;
+  previousSteps?: Maybe<Array<Pick<ScrapperStep, 'id'>>>;
+  stepOnTrue?: Maybe<Pick<ScrapperStep, 'id'>>;
+  stepOnFalse?: Maybe<Pick<ScrapperStep, 'id'>>;
+  selectors?: Maybe<Array<Pick<Selector, 'type' | 'value'>>>;
+  position?: Maybe<Pick<NodePosition, 'x' | 'y'>>;
+  conditionalRules?: Maybe<
+    Array<
+      Pick<ConditionalRuleGroup, 'id' | 'type'> & {
+        rules: Array<
+          Pick<
+            ConditionalRule,
+            'id' | 'meta' | 'type' | 'value' | 'what' | 'whatValue' | 'when'
+          >
+        >;
+      }
+    >
+  >;
+};
+
+export type CreateScrapperMutationVariables = Exact<{
+  input?: Maybe<CreateScrapperInput>;
+}>;
+
+export type CreateScrapperMutation = {
+  createScrapper: Pick<
+    Scrapper,
+    'id' | 'name' | 'createdAt' | 'updatedAt' | 'isRunning' | 'state'
+  >;
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -271,47 +556,116 @@ export type DirectiveResolverFn<
 export type ResolversTypes = ResolversObject<{
   AuthTokens: ResolverTypeWrapper<AuthTokens>;
   String: ResolverTypeWrapper<Scalars['String']>;
-  BaseEntity: ResolversTypes['User'];
+  BaseEntity:
+    | ResolversTypes['Scrapper']
+    | ResolversTypes['ScrapperStep']
+    | ResolversTypes['User'];
   ID: ResolverTypeWrapper<Scalars['ID']>;
+  ConditionalMetaData: ResolverTypeWrapper<Scalars['ConditionalMetaData']>;
+  ConditionalRule: ResolverTypeWrapper<ConditionalRule>;
+  ConditionalRuleGroup: ResolverTypeWrapper<ConditionalRuleGroup>;
+  ConditionalRuleGroupInput: ConditionalRuleGroupInput;
+  ConditionalRuleGroupType: ConditionalRuleGroupType;
+  ConditionalRuleInput: ConditionalRuleInput;
+  ConditionalRuleValue: ResolverTypeWrapper<Scalars['ConditionalRuleValue']>;
+  CreateScrapperInput: CreateScrapperInput;
   CreateUserInput: CreateUserInput;
+  Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   CreateUserResult: ResolverTypeWrapper<CreateUserResult>;
+  CreatedBy: ResolversTypes['Scrapper'] | ResolversTypes['ScrapperStep'];
   Date: ResolverTypeWrapper<Scalars['Date']>;
   ForgotPasswordInput: ForgotPasswordInput;
   ForgotPasswordResponse: ResolverTypeWrapper<ForgotPasswordResponse>;
   IsAutenthicatedResponse: ResolverTypeWrapper<IsAutenthicatedResponse>;
-  Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   LoginInput: LoginInput;
   LoginResponse: ResolverTypeWrapper<LoginResponse>;
+  MouseButton: MouseButton;
   Mutation: ResolverTypeWrapper<{}>;
+  NodePosition: ResolverTypeWrapper<NodePosition>;
+  Float: ResolverTypeWrapper<Scalars['Float']>;
+  NodePositionInput: NodePositionInput;
+  Order: Order;
+  OrderDirection: OrderDirection;
+  Pagination: Pagination;
+  Int: ResolverTypeWrapper<Scalars['Int']>;
   Query: ResolverTypeWrapper<{}>;
   ResetPasswordInput: ResetPasswordInput;
   ResetPasswordResponse: ResolverTypeWrapper<ResetPasswordResponse>;
+  RunState: RunState;
+  Scrapper: ResolverTypeWrapper<Scrapper>;
+  ScrapperAction: ScrapperAction;
+  ScrapperInput: ScrapperInput;
+  ScrapperQueryResult: ResolverTypeWrapper<ScrapperQueryResult>;
+  ScrapperStep: ResolverTypeWrapper<ScrapperStep>;
+  ScrapperStepInput: ScrapperStepInput;
+  Selector: ResolverTypeWrapper<Selector>;
+  SelectorInput: SelectorInput;
+  SelectorType: SelectorType;
   Subscription: ResolverTypeWrapper<{}>;
+  Url: ResolverTypeWrapper<Scalars['Url']>;
   User: ResolverTypeWrapper<User>;
+  WhatValue: ResolverTypeWrapper<Scalars['WhatValue']>;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
   AuthTokens: AuthTokens;
   String: Scalars['String'];
-  BaseEntity: ResolversParentTypes['User'];
+  BaseEntity:
+    | ResolversParentTypes['Scrapper']
+    | ResolversParentTypes['ScrapperStep']
+    | ResolversParentTypes['User'];
   ID: Scalars['ID'];
+  ConditionalMetaData: Scalars['ConditionalMetaData'];
+  ConditionalRule: ConditionalRule;
+  ConditionalRuleGroup: ConditionalRuleGroup;
+  ConditionalRuleGroupInput: ConditionalRuleGroupInput;
+  ConditionalRuleInput: ConditionalRuleInput;
+  ConditionalRuleValue: Scalars['ConditionalRuleValue'];
+  CreateScrapperInput: CreateScrapperInput;
   CreateUserInput: CreateUserInput;
+  Boolean: Scalars['Boolean'];
   CreateUserResult: CreateUserResult;
+  CreatedBy:
+    | ResolversParentTypes['Scrapper']
+    | ResolversParentTypes['ScrapperStep'];
   Date: Scalars['Date'];
   ForgotPasswordInput: ForgotPasswordInput;
   ForgotPasswordResponse: ForgotPasswordResponse;
   IsAutenthicatedResponse: IsAutenthicatedResponse;
-  Boolean: Scalars['Boolean'];
   LoginInput: LoginInput;
   LoginResponse: LoginResponse;
   Mutation: {};
+  NodePosition: NodePosition;
+  Float: Scalars['Float'];
+  NodePositionInput: NodePositionInput;
+  Order: Order;
+  Pagination: Pagination;
+  Int: Scalars['Int'];
   Query: {};
   ResetPasswordInput: ResetPasswordInput;
   ResetPasswordResponse: ResetPasswordResponse;
+  Scrapper: Scrapper;
+  ScrapperInput: ScrapperInput;
+  ScrapperQueryResult: ScrapperQueryResult;
+  ScrapperStep: ScrapperStep;
+  ScrapperStepInput: ScrapperStepInput;
+  Selector: Selector;
+  SelectorInput: SelectorInput;
   Subscription: {};
+  Url: Scalars['Url'];
   User: User;
+  WhatValue: Scalars['WhatValue'];
 }>;
+
+export type AuthDirectiveArgs = {};
+
+export type AuthDirectiveResolver<
+  Result,
+  Parent,
+  ContextType = any,
+  Args = AuthDirectiveArgs
+> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type RestDirectiveArgs = {
   type?: Maybe<Scalars['String']>;
@@ -340,11 +694,70 @@ export type BaseEntityResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['BaseEntity'] = ResolversParentTypes['BaseEntity']
 > = ResolversObject<{
-  __resolveType: TypeResolveFn<'User', ParentType, ContextType>;
+  __resolveType: TypeResolveFn<
+    'Scrapper' | 'ScrapperStep' | 'User',
+    ParentType,
+    ContextType
+  >;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  deletedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 }>;
+
+export interface ConditionalMetaDataScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes['ConditionalMetaData'], any> {
+  name: 'ConditionalMetaData';
+}
+
+export type ConditionalRuleResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['ConditionalRule'] = ResolversParentTypes['ConditionalRule']
+> = ResolversObject<{
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  when?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  whatValue?: Resolver<
+    Maybe<ResolversTypes['WhatValue']>,
+    ParentType,
+    ContextType
+  >;
+  value?: Resolver<
+    Maybe<ResolversTypes['ConditionalRuleValue']>,
+    ParentType,
+    ContextType
+  >;
+  meta?: Resolver<
+    Maybe<ResolversTypes['ConditionalMetaData']>,
+    ParentType,
+    ContextType
+  >;
+  type?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  what?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type ConditionalRuleGroupResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['ConditionalRuleGroup'] = ResolversParentTypes['ConditionalRuleGroup']
+> = ResolversObject<{
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  rules?: Resolver<
+    Array<ResolversTypes['ConditionalRule']>,
+    ParentType,
+    ContextType
+  >;
+  type?: Resolver<
+    ResolversTypes['ConditionalRuleGroupType'],
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export interface ConditionalRuleValueScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes['ConditionalRuleValue'], any> {
+  name: 'ConditionalRuleValue';
+}
 
 export type CreateUserResultResolvers<
   ContextType = any,
@@ -353,6 +766,18 @@ export type CreateUserResultResolvers<
   user?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   tokens?: Resolver<ResolversTypes['AuthTokens'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type CreatedByResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['CreatedBy'] = ResolversParentTypes['CreatedBy']
+> = ResolversObject<{
+  __resolveType: TypeResolveFn<
+    'Scrapper' | 'ScrapperStep',
+    ParentType,
+    ContextType
+  >;
+  createdBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
 }>;
 
 export interface DateScalarConfig
@@ -395,6 +820,12 @@ export type MutationResolvers<
   ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']
 > = ResolversObject<{
   _?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  createScrapper?: Resolver<
+    ResolversTypes['Scrapper'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationCreateScrapperArgs, never>
+  >;
   createUser?: Resolver<
     ResolversTypes['CreateUserResult'],
     ParentType,
@@ -419,6 +850,21 @@ export type MutationResolvers<
     ContextType,
     RequireFields<MutationResetPasswordArgs, 'token'>
   >;
+  updateScrapper?: Resolver<
+    ResolversTypes['Scrapper'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationUpdateScrapperArgs, 'input'>
+  >;
+}>;
+
+export type NodePositionResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['NodePosition'] = ResolversParentTypes['NodePosition']
+> = ResolversObject<{
+  y?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  x?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type QueryResolvers<
@@ -426,6 +872,18 @@ export type QueryResolvers<
   ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']
 > = ResolversObject<{
   _?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  getMyScrapper?: Resolver<
+    ResolversTypes['Scrapper'],
+    ParentType,
+    ContextType,
+    RequireFields<QueryGetMyScrapperArgs, 'id'>
+  >;
+  getMyScrappers?: Resolver<
+    ResolversTypes['ScrapperQueryResult'],
+    ParentType,
+    ContextType,
+    RequireFields<QueryGetMyScrappersArgs, never>
+  >;
   isAutenthicated?: Resolver<
     Maybe<ResolversTypes['IsAutenthicatedResponse']>,
     ParentType,
@@ -443,6 +901,138 @@ export type ResetPasswordResponseResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type ScrapperResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['Scrapper'] = ResolversParentTypes['Scrapper']
+> = ResolversObject<{
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  isRunning?: Resolver<
+    Maybe<ResolversTypes['Boolean']>,
+    ParentType,
+    ContextType
+  >;
+  name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  state?: Resolver<Maybe<ResolversTypes['RunState']>, ParentType, ContextType>;
+  createdBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  deletedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
+  steps?: Resolver<
+    Maybe<Array<ResolversTypes['ScrapperStep']>>,
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type ScrapperQueryResultResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['ScrapperQueryResult'] = ResolversParentTypes['ScrapperQueryResult']
+> = ResolversObject<{
+  total?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  items?: Resolver<
+    Maybe<Array<ResolversTypes['Scrapper']>>,
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type ScrapperStepResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['ScrapperStep'] = ResolversParentTypes['ScrapperStep']
+> = ResolversObject<{
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  deletedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
+  createdBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  goBackSteps?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  nextStep?: Resolver<
+    Maybe<ResolversTypes['ScrapperStep']>,
+    ParentType,
+    ContextType
+  >;
+  previousSteps?: Resolver<
+    Maybe<Array<ResolversTypes['ScrapperStep']>>,
+    ParentType,
+    ContextType
+  >;
+  stepOnTrue?: Resolver<
+    Maybe<ResolversTypes['ScrapperStep']>,
+    ParentType,
+    ContextType
+  >;
+  stepOnFalse?: Resolver<
+    Maybe<ResolversTypes['ScrapperStep']>,
+    ParentType,
+    ContextType
+  >;
+  mouseButton?: Resolver<
+    Maybe<ResolversTypes['MouseButton']>,
+    ParentType,
+    ContextType
+  >;
+  url?: Resolver<Maybe<ResolversTypes['Url']>, ParentType, ContextType>;
+  navigateToUrl?: Resolver<
+    Maybe<ResolversTypes['Url']>,
+    ParentType,
+    ContextType
+  >;
+  reloadDelay?: Resolver<
+    Maybe<ResolversTypes['Float']>,
+    ParentType,
+    ContextType
+  >;
+  typeDelay?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  typeValue?: Resolver<
+    Maybe<ResolversTypes['String']>,
+    ParentType,
+    ContextType
+  >;
+  useUrlFromPreviousStep?: Resolver<
+    Maybe<ResolversTypes['Boolean']>,
+    ParentType,
+    ContextType
+  >;
+  action?: Resolver<
+    Maybe<ResolversTypes['ScrapperAction']>,
+    ParentType,
+    ContextType
+  >;
+  selectors?: Resolver<
+    Maybe<Array<ResolversTypes['Selector']>>,
+    ParentType,
+    ContextType
+  >;
+  clickTimes?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
+  position?: Resolver<
+    Maybe<ResolversTypes['NodePosition']>,
+    ParentType,
+    ContextType
+  >;
+  key?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  conditionalRules?: Resolver<
+    Maybe<Array<ResolversTypes['ConditionalRuleGroup']>>,
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type SelectorResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['Selector'] = ResolversParentTypes['Selector']
+> = ResolversObject<{
+  type?: Resolver<
+    Maybe<ResolversTypes['SelectorType']>,
+    ParentType,
+    ContextType
+  >;
+  value?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export type SubscriptionResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['Subscription'] = ResolversParentTypes['Subscription']
@@ -454,6 +1044,11 @@ export type SubscriptionResolvers<
     ContextType
   >;
 }>;
+
+export interface UrlScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes['Url'], any> {
+  name: 'Url';
+}
 
 export type UserResolvers<
   ContextType = any,
@@ -469,22 +1064,41 @@ export type UserResolvers<
   >;
   lastName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   email?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  deletedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
+  acceptTerms?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
+
+export interface WhatValueScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes['WhatValue'], any> {
+  name: 'WhatValue';
+}
 
 export type Resolvers<ContextType = any> = ResolversObject<{
   AuthTokens?: AuthTokensResolvers<ContextType>;
   BaseEntity?: BaseEntityResolvers<ContextType>;
+  ConditionalMetaData?: GraphQLScalarType;
+  ConditionalRule?: ConditionalRuleResolvers<ContextType>;
+  ConditionalRuleGroup?: ConditionalRuleGroupResolvers<ContextType>;
+  ConditionalRuleValue?: GraphQLScalarType;
   CreateUserResult?: CreateUserResultResolvers<ContextType>;
+  CreatedBy?: CreatedByResolvers<ContextType>;
   Date?: GraphQLScalarType;
   ForgotPasswordResponse?: ForgotPasswordResponseResolvers<ContextType>;
   IsAutenthicatedResponse?: IsAutenthicatedResponseResolvers<ContextType>;
   LoginResponse?: LoginResponseResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
+  NodePosition?: NodePositionResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   ResetPasswordResponse?: ResetPasswordResponseResolvers<ContextType>;
+  Scrapper?: ScrapperResolvers<ContextType>;
+  ScrapperQueryResult?: ScrapperQueryResultResolvers<ContextType>;
+  ScrapperStep?: ScrapperStepResolvers<ContextType>;
+  Selector?: SelectorResolvers<ContextType>;
   Subscription?: SubscriptionResolvers<ContextType>;
+  Url?: GraphQLScalarType;
   User?: UserResolvers<ContextType>;
+  WhatValue?: GraphQLScalarType;
 }>;
 
 /**
@@ -493,6 +1107,7 @@ export type Resolvers<ContextType = any> = ResolversObject<{
  */
 export type IResolvers<ContextType = any> = Resolvers<ContextType>;
 export type DirectiveResolvers<ContextType = any> = ResolversObject<{
+  auth?: AuthDirectiveResolver<any, any, ContextType>;
   rest?: RestDirectiveResolver<any, any, ContextType>;
 }>;
 

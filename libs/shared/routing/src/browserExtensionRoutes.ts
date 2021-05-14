@@ -1,9 +1,23 @@
+import { paramRoute } from './route';
+
+export interface ContentScrapperRouteParams {
+  scrapperId?: string;
+  drawerOpen?: boolean;
+
+  [key: string]: string | number | boolean;
+}
+
 export const browserExtensionRoutes = {
   popup: {
     login: '/login',
     signUp: '/sign-up',
     welcome: '/',
     scrappers: '/scrappers/',
-    scrapperResults: '/scrapper-results',
+    scrapperResults: '/scrapper-results/',
+  },
+  content: {
+    scrapper: paramRoute<ContentScrapperRouteParams>(
+      '/scrapper/:scrapperId?drawerOpen=:drawerOpen'
+    ),
   },
 };

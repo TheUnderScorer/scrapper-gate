@@ -24,6 +24,10 @@ generates:
     config:
       skipTypename: true
       maybeValue: T | undefined
+      scalars:
+        Date: Date
+        WhatValue: WhatValue
+        ConditionalRuleValue: ConditionalRuleValue
     hooks:
       afterOneFileWrite:
         - prettier --write
@@ -31,8 +35,10 @@ generates:
       - typescript
       - typescript-operations
       - typescript-resolvers
+      - add:
+          content: "import {WhatValue, ConditionalRuleValue} from './scalars'"
 
-  ./libs/shared-frontend/schema/src/gql.tsx:
+  ./libs/frontend/schema/src/gql.tsx:
     preset: import-types
     presetConfig:
       typesPath: '@scrapper-gate/shared/schema'
