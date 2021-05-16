@@ -1,4 +1,4 @@
-import { Disposable } from '@scrapper-gate/shared/common';
+import { Disposable, wait } from '@scrapper-gate/shared/common';
 import {
   performance,
   PerformanceEntry,
@@ -10,6 +10,7 @@ export class PerformanceManager implements Disposable {
   private readonly observer = new PerformanceObserver(this.getCallback());
   private items: PerformanceEntry[] = [];
 
+  // Stores are measured performance marks. Used during dispose
   private readonly marks = new Set<string>();
 
   constructor() {
@@ -33,15 +34,20 @@ export class PerformanceManager implements Disposable {
     this.marks.clear();
   }
 
+  // Registers callback for performance observer
   private getCallback(): PerformanceObserverCallback {
-    return (list, observer) => {
+    return (list) => {
       const items = list.getEntries();
 
       this.items.push(...items);
     };
   }
 
-  getEntry(name: string) {
+  // Returns performance entry by name
+  async getEntry(name: string): Promise<PerformanceEntry | undefined> {
+    // Await just in case if entry is not present, if it should be it will be available after this delay
+    await wait(500);
+
     return this.items.find((item) => item.name === name);
   }
 

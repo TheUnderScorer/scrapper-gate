@@ -10,6 +10,7 @@ import {
   ScrapperStepHandlers,
 } from '@scrapper-gate/shared/domain/scrapper';
 import { ScrapperRunError } from '@scrapper-gate/shared/errors';
+import { Logger } from '@scrapper-gate/shared/logger';
 import {
   RunnerPerformanceEntry,
   ScrapperRunValue,
@@ -24,6 +25,7 @@ import { mouseButtonMap } from './mouseButtonMap';
 export interface PlayWrightScrapperRunnerDependencies {
   browser: Browser;
   traceId: string;
+  logger: Logger;
 }
 
 interface AfterRunResult {
@@ -35,17 +37,29 @@ export class PlayWrightScrapperRunner implements ScrapperStepHandlers {
   private context: BrowserContext;
   private page: Page;
   private initialPage: Page;
+
   private readonly browser: Browser;
+  private readonly logger: Logger;
   private readonly traceId: string;
   private readonly performanceManager = new PerformanceManager();
 
-  constructor({ browser, traceId }: PlayWrightScrapperRunnerDependencies) {
+  constructor({
+    browser,
+    traceId,
+    logger,
+  }: PlayWrightScrapperRunnerDependencies) {
     this.browser = browser;
     this.traceId = traceId;
+    this.logger = logger;
   }
 
-  // TODO Better handle popups
   async initialize() {
+    if (this.context) {
+      this.logger.error('Runner already initialized.');
+
+      return;
+    }
+
     this.context = await this.browser.newContext({
       // TODO Support downloads with size limit?
       acceptDownloads: false,
@@ -283,11 +297,13 @@ export class PlayWrightScrapperRunner implements ScrapperStepHandlers {
       `${this.traceId}-${step.id}-end`
     );
 
+    const entry = await this.performanceManager.getEntry(
+      `${this.traceId}-${step.id}-end`
+    );
+
     return {
       performance: {
-        duration:
-          this.performanceManager.getEntry(`${this.traceId}-${step.id}-end`)
-            ?.duration ?? 0,
+        duration: entry?.duration ?? 0,
       },
     };
   }
