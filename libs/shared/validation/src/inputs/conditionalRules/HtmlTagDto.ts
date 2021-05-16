@@ -5,10 +5,7 @@ import { SelectorDto } from '../SelectorDto';
 
 export class HtmlTagDto
   extends BaseSchema<HtmlTagDto>
-  implements Pick<HtmlElementRuleMeta, 'tag' | 'selectors'> {
+  implements Pick<HtmlElementRuleMeta, 'selectors'> {
   @jf.array({ elementClass: SelectorDto })
   selectors: SelectorDto[];
-
-  @(jf.string().allow(null))
-  tag?: string;
 }

@@ -95,6 +95,12 @@
       ],
       "@scrapper-gate/frontend/snackbars": [
         "libs/frontend/snackbars/src/index.ts"
+      ],
+      "@scrapper-gate/backend/domain/scrapper/playwright-runner": [
+        "libs/backend/domain/scrapper/playwright-runner/src/index.ts"
+      ],
+      "@scrapper-gate/backend/perf-hooks-utils": [
+        "libs/backend/perf-hooks-utils/src/index.ts"
       ]
     }
   },

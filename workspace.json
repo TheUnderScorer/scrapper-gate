@@ -1,12 +1,23 @@
 {
   "version": 2,
-  "cli": { "defaultCollection": "@nrwl/react" },
+  "cli": {
+    "defaultCollection": "@nrwl/react"
+  },
   "defaultProject": "browser-extension",
   "generators": {
     "@nrwl/react": {
-      "application": { "style": "css", "linter": "eslint", "babel": true },
-      "component": { "style": "css" },
-      "library": { "style": "css", "linter": "eslint" }
+      "application": {
+        "style": "css",
+        "linter": "eslint",
+        "babel": true
+      },
+      "component": {
+        "style": "css"
+      },
+      "library": {
+        "style": "css",
+        "linter": "eslint"
+      }
     }
   },
   "projects": {
@@ -73,7 +84,9 @@
         },
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "options": { "lintFilePatterns": ["apps/api/**/*.ts"] }
+          "options": {
+            "lintFilePatterns": ["apps/api/**/*.ts"]
+          }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -92,7 +105,9 @@
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "options": { "lintFilePatterns": ["libs/shared/schema/**/*.ts"] }
+          "options": {
+            "lintFilePatterns": ["libs/shared/schema/**/*.ts"]
+          }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -111,7 +126,9 @@
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "options": { "lintFilePatterns": ["libs/shared/routing/**/*.ts"] }
+          "options": {
+            "lintFilePatterns": ["libs/shared/routing/**/*.ts"]
+          }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -130,7 +147,9 @@
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "options": { "lintFilePatterns": ["libs/shared/common/**/*.ts"] }
+          "options": {
+            "lintFilePatterns": ["libs/shared/common/**/*.ts"]
+          }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -149,7 +168,9 @@
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "options": { "lintFilePatterns": ["libs/shared/logger/**/*.ts"] }
+          "options": {
+            "lintFilePatterns": ["libs/shared/logger/**/*.ts"]
+          }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -168,7 +189,9 @@
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "options": { "lintFilePatterns": ["libs/backend/awilix/**/*.ts"] }
+          "options": {
+            "lintFilePatterns": ["libs/backend/awilix/**/*.ts"]
+          }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -187,7 +210,9 @@
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "options": { "lintFilePatterns": ["libs/backend/server/**/*.ts"] }
+          "options": {
+            "lintFilePatterns": ["libs/backend/server/**/*.ts"]
+          }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -227,7 +252,9 @@
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "options": { "lintFilePatterns": ["libs/backend/cqrs/**/*.ts"] }
+          "options": {
+            "lintFilePatterns": ["libs/backend/cqrs/**/*.ts"]
+          }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -246,7 +273,9 @@
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "options": { "lintFilePatterns": ["libs/backend/database/**/*.ts"] }
+          "options": {
+            "lintFilePatterns": ["libs/backend/database/**/*.ts"]
+          }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -286,7 +315,9 @@
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "options": { "lintFilePatterns": ["libs/shared/domain/auth/**/*.ts"] }
+          "options": {
+            "lintFilePatterns": ["libs/shared/domain/auth/**/*.ts"]
+          }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -467,9 +498,15 @@
           "options": {
             "uiFramework": "@storybook/react",
             "port": 4400,
-            "config": { "configFolder": "libs/frontend/ui/.storybook" }
+            "config": {
+              "configFolder": "libs/frontend/ui/.storybook"
+            }
           },
-          "configurations": { "ci": { "quiet": true } }
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
         },
         "build-storybook": {
           "executor": "@nrwl/storybook:build",
@@ -477,9 +514,15 @@
           "options": {
             "uiFramework": "@storybook/react",
             "outputPath": "dist/storybook/frontend-ui",
-            "config": { "configFolder": "libs/frontend/ui/.storybook" }
+            "config": {
+              "configFolder": "libs/frontend/ui/.storybook"
+            }
           },
-          "configurations": { "ci": { "quiet": true } }
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
         }
       }
     },
@@ -490,7 +533,9 @@
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "options": { "lintFilePatterns": ["libs/shared/validation/**/*.ts"] }
+          "options": {
+            "lintFilePatterns": ["libs/shared/validation/**/*.ts"]
+          }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -551,7 +596,9 @@
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "options": { "lintFilePatterns": ["libs/shared/errors/**/*.ts"] }
+          "options": {
+            "lintFilePatterns": ["libs/shared/errors/**/*.ts"]
+          }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -591,7 +638,9 @@
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "options": { "lintFilePatterns": ["libs/backend/base-model/**/*.ts"] }
+          "options": {
+            "lintFilePatterns": ["libs/backend/base-model/**/*.ts"]
+          }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -610,7 +659,9 @@
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "options": { "lintFilePatterns": ["libs/shared/domain/user/**/*.ts"] }
+          "options": {
+            "lintFilePatterns": ["libs/shared/domain/user/**/*.ts"]
+          }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -717,7 +768,9 @@
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "options": { "lintFilePatterns": ["libs/shared/run-states/**/*.ts"] }
+          "options": {
+            "lintFilePatterns": ["libs/shared/run-states/**/*.ts"]
+          }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -736,7 +789,9 @@
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "options": { "lintFilePatterns": ["libs/backend/db-utils/**/*.ts"] }
+          "options": {
+            "lintFilePatterns": ["libs/backend/db-utils/**/*.ts"]
+          }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -778,7 +833,9 @@
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "options": { "lintFilePatterns": ["libs/frontend/logger/**/*.ts"] }
+          "options": {
+            "lintFilePatterns": ["libs/frontend/logger/**/*.ts"]
+          }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -862,7 +919,9 @@
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
-          "options": { "lintFilePatterns": ["libs/shared/constructor/**/*.ts"] }
+          "options": {
+            "lintFilePatterns": ["libs/shared/constructor/**/*.ts"]
+          }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -925,7 +984,11 @@
               "configFolder": "libs/frontend/domain/conditional-rules/.storybook"
             }
           },
-          "configurations": { "ci": { "quiet": true } }
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
         },
         "build-storybook": {
           "executor": "@nrwl/storybook:build",
@@ -937,7 +1000,11 @@
               "configFolder": "libs/frontend/domain/conditional-rules/.storybook"
             }
           },
-          "configurations": { "ci": { "quiet": true } }
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
         }
       }
     },
@@ -957,6 +1024,52 @@
           "outputs": ["coverage/libs/frontend/snackbars"],
           "options": {
             "jestConfig": "libs/frontend/snackbars/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "backend-domain-scrapper-playwright-runner": {
+      "root": "libs/backend/domain/scrapper/playwright-runner",
+      "sourceRoot": "libs/backend/domain/scrapper/playwright-runner/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/backend/domain/scrapper/playwright-runner/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/libs/backend/domain/scrapper/playwright-runner"
+          ],
+          "options": {
+            "jestConfig": "libs/backend/domain/scrapper/playwright-runner/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "backend-perf-hooks-utils": {
+      "root": "libs/backend/perf-hooks-utils",
+      "sourceRoot": "libs/backend/perf-hooks-utils/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/backend/perf-hooks-utils/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/backend/perf-hooks-utils"],
+          "options": {
+            "jestConfig": "libs/backend/perf-hooks-utils/jest.config.js",
             "passWithNoTests": true
           }
         }

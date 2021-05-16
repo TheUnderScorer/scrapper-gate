@@ -1,4 +1,6 @@
+import { errorSchema } from './schema/error';
 import { rootSchema } from './schema/root';
+import { runnerSchema } from './schema/runner';
 import { userSchema } from './schema/user';
 import { authSchema } from './schema/auth';
 import { scrapperSchema } from './schema/scrapper';
@@ -14,4 +16,6 @@ export const typeDefs = [
   scrapperSchema,
   selectorSchema,
   conditionalRulesSchema,
+  runnerSchema,
+  errorSchema,
 ];
