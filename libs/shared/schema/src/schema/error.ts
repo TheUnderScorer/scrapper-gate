@@ -1,7 +1,13 @@
 import gql from 'graphql-tag';
 
 export const errorSchema = gql`
-  type ErrorObject {
+  interface ErrorObjectInterface {
+    name: String!
+    message: String
+    date: Date!
+  }
+
+  type ErrorObject implements ErrorObjectInterface {
     name: String!
     message: String
     date: Date!

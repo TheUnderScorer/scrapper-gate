@@ -105,7 +105,13 @@ export type CreatedBy = {
   createdBy?: Maybe<User>;
 };
 
-export type ErrorObject = {
+export type ErrorObject = ErrorObjectInterface & {
+  name: Scalars['String'];
+  message?: Maybe<Scalars['String']>;
+  date: Scalars['Date'];
+};
+
+export type ErrorObjectInterface = {
   name: Scalars['String'];
   message?: Maybe<Scalars['String']>;
   date: Scalars['Date'];
@@ -238,7 +244,14 @@ export type Runnable = {
   startedAt?: Maybe<Scalars['Date']>;
   endedAt?: Maybe<Scalars['Date']>;
   progress?: Maybe<Scalars['Float']>;
-  error?: Maybe<ErrorObject>;
+  error?: Maybe<RunnerError>;
+};
+
+export type RunnerError = ErrorObjectInterface & {
+  name: Scalars['String'];
+  message?: Maybe<Scalars['String']>;
+  date: Scalars['Date'];
+  stepId: Scalars['ID'];
 };
 
 export type RunnerPerformanceEntry = {
@@ -291,7 +304,7 @@ export type ScrapperRun = BaseEntity &
     startedAt?: Maybe<Scalars['Date']>;
     progress?: Maybe<Scalars['Float']>;
     results?: Maybe<Array<ScrapperRunStepResult>>;
-    error?: Maybe<ErrorObject>;
+    error?: Maybe<RunnerError>;
     key?: Maybe<Scalars['String']>;
   };
 
@@ -656,6 +669,9 @@ export type ResolversTypes = ResolversObject<{
   CreatedBy: ResolversTypes['Scrapper'] | ResolversTypes['ScrapperStep'];
   Date: ResolverTypeWrapper<Scalars['Date']>;
   ErrorObject: ResolverTypeWrapper<ErrorObject>;
+  ErrorObjectInterface:
+    | ResolversTypes['ErrorObject']
+    | ResolversTypes['RunnerError'];
   ForgotPasswordInput: ForgotPasswordInput;
   ForgotPasswordResponse: ResolverTypeWrapper<ForgotPasswordResponse>;
   IsAutenthicatedResponse: ResolverTypeWrapper<IsAutenthicatedResponse>;
@@ -675,6 +691,7 @@ export type ResolversTypes = ResolversObject<{
   ResetPasswordResponse: ResolverTypeWrapper<ResetPasswordResponse>;
   RunState: RunState;
   Runnable: ResolversTypes['ScrapperRun'];
+  RunnerError: ResolverTypeWrapper<RunnerError>;
   RunnerPerformanceEntry: ResolverTypeWrapper<RunnerPerformanceEntry>;
   Scrapper: ResolverTypeWrapper<Scrapper>;
   ScrapperAction: ScrapperAction;
@@ -724,6 +741,9 @@ export type ResolversParentTypes = ResolversObject<{
     | ResolversParentTypes['ScrapperStep'];
   Date: Scalars['Date'];
   ErrorObject: ErrorObject;
+  ErrorObjectInterface:
+    | ResolversParentTypes['ErrorObject']
+    | ResolversParentTypes['RunnerError'];
   ForgotPasswordInput: ForgotPasswordInput;
   ForgotPasswordResponse: ForgotPasswordResponse;
   IsAutenthicatedResponse: IsAutenthicatedResponse;
@@ -740,6 +760,7 @@ export type ResolversParentTypes = ResolversObject<{
   ResetPasswordInput: ResetPasswordInput;
   ResetPasswordResponse: ResetPasswordResponse;
   Runnable: ResolversParentTypes['ScrapperRun'];
+  RunnerError: RunnerError;
   RunnerPerformanceEntry: RunnerPerformanceEntry;
   Scrapper: Scrapper;
   ScrapperInput: ScrapperInput;
@@ -902,6 +923,20 @@ export type ErrorObjectResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type ErrorObjectInterfaceResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['ErrorObjectInterface'] = ResolversParentTypes['ErrorObjectInterface']
+> = ResolversObject<{
+  __resolveType: TypeResolveFn<
+    'ErrorObject' | 'RunnerError',
+    ParentType,
+    ContextType
+  >;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  message?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  date?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+}>;
+
 export type ForgotPasswordResponseResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['ForgotPasswordResponse'] = ResolversParentTypes['ForgotPasswordResponse']
@@ -1027,10 +1062,21 @@ export type RunnableResolvers<
   endedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   progress?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   error?: Resolver<
-    Maybe<ResolversTypes['ErrorObject']>,
+    Maybe<ResolversTypes['RunnerError']>,
     ParentType,
     ContextType
   >;
+}>;
+
+export type RunnerErrorResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['RunnerError'] = ResolversParentTypes['RunnerError']
+> = ResolversObject<{
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  message?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  date?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  stepId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type RunnerPerformanceEntryResolvers<
@@ -1101,7 +1147,7 @@ export type ScrapperRunResolvers<
     ContextType
   >;
   error?: Resolver<
-    Maybe<ResolversTypes['ErrorObject']>,
+    Maybe<ResolversTypes['RunnerError']>,
     ParentType,
     ContextType
   >;
@@ -1342,6 +1388,7 @@ export type Resolvers<ContextType = any> = ResolversObject<{
   CreatedBy?: CreatedByResolvers<ContextType>;
   Date?: GraphQLScalarType;
   ErrorObject?: ErrorObjectResolvers<ContextType>;
+  ErrorObjectInterface?: ErrorObjectInterfaceResolvers<ContextType>;
   ForgotPasswordResponse?: ForgotPasswordResponseResolvers<ContextType>;
   IsAutenthicatedResponse?: IsAutenthicatedResponseResolvers<ContextType>;
   LoginResponse?: LoginResponseResolvers<ContextType>;
@@ -1350,6 +1397,7 @@ export type Resolvers<ContextType = any> = ResolversObject<{
   Query?: QueryResolvers<ContextType>;
   ResetPasswordResponse?: ResetPasswordResponseResolvers<ContextType>;
   Runnable?: RunnableResolvers<ContextType>;
+  RunnerError?: RunnerErrorResolvers<ContextType>;
   RunnerPerformanceEntry?: RunnerPerformanceEntryResolvers<ContextType>;
   Scrapper?: ScrapperResolvers<ContextType>;
   ScrapperQueryResult?: ScrapperQueryResultResolvers<ContextType>;

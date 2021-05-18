@@ -121,7 +121,7 @@ export const scrapperSchema = gql`
     startedAt: Date
     progress: Float
     results: [ScrapperRunStepResult!]
-    error: ErrorObject
+    error: RunnerError
     key: String
   }
 

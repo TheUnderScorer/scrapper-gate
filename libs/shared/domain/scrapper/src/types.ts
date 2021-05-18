@@ -35,11 +35,13 @@ export interface ConditionalRunScrapperStepResult
   result: boolean;
 }
 
-export type ScrapperStepHandlers = {
+type BaseStepHandlers = {
   [Key in ScrapperAction]: (
     params: ScrapperStepHandlerParams
   ) => MaybePromise<RunScrapperStepResult>;
-} & {
+};
+
+export type ScrapperStepHandlers = BaseStepHandlers & {
   [ScrapperAction.Condition]: (
     params: ScrapperStepHandlerParams
   ) => MaybePromise<ConditionalRunScrapperStepResult>;

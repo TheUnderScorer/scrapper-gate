@@ -1,6 +1,7 @@
 import { Disposable, findFirstNode } from '@scrapper-gate/shared/common';
-import { ScrapperRunError } from '@scrapper-gate/shared/errors';
+import { AppError, ScrapperRunError } from '@scrapper-gate/shared/errors';
 import {
+  ErrorObject,
   RunState,
   ScrapperAction,
   ScrapperRun,
@@ -46,15 +47,22 @@ export class ScrapperRunProcessor implements Disposable {
     let step = findFirstNode(scrapperRun.steps);
 
     try {
-      do {
+      while (step) {
         const { nextStep } = await this.runStep(step, scrapperRun);
 
         step = nextStep;
-      } while (step);
+      }
     } catch (error) {
-      scrapperRun.results.push(
-        ScrapperRunProcessor.createStepResultFromError(error, step)
-      );
+      const {
+        error: errorObject,
+        stepResult,
+      } = ScrapperRunProcessor.createStepResultFromError(error, step);
+
+      scrapperRun.results.push(stepResult);
+      scrapperRun.error = {
+        ...errorObject,
+        stepId: step.id,
+      };
 
       await this.events.emit('onError', {
         step,
@@ -63,6 +71,9 @@ export class ScrapperRunProcessor implements Disposable {
     }
 
     scrapperRun.endedAt = new Date();
+    scrapperRun.state = RunState.Completed;
+
+    await this.events.emit('onScrapperRunChange', scrapperRun);
 
     return {
       scrapperRun,
@@ -106,18 +117,17 @@ export class ScrapperRunProcessor implements Disposable {
     };
   }
 
-  private static createStepResultFromError(
-    error: Error,
-    step: ScrapperStep
-  ): ScrapperRunStepResult {
-    return {
+  private static createStepResultFromError(error: Error, step: ScrapperStep) {
+    const errorObject: ErrorObject = {
+      name: error.name,
+      message: error.message,
+      date: error instanceof AppError ? error.date : new Date(),
+    };
+
+    const stepResult: ScrapperRunStepResult = {
       step,
       id: v4(),
-      error: {
-        name: error.name,
-        message: error.message,
-        date: new Date(),
-      },
+      error: errorObject,
       performance:
         error instanceof ScrapperRunError
           ? error.performance
@@ -126,6 +136,11 @@ export class ScrapperRunProcessor implements Disposable {
             },
       createdAt: new Date(),
       updatedAt: new Date(),
+    };
+
+    return {
+      error: errorObject,
+      stepResult,
     };
   }
 
