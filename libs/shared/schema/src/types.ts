@@ -43,6 +43,12 @@ export type BaseEntity = {
   deletedAt?: Maybe<Scalars['Date']>;
 };
 
+export enum BrowserType {
+  Firefox = 'Firefox',
+  Chrome = 'Chrome',
+  Safari = 'Safari',
+}
+
 export type ConditionalRule = {
   id: Scalars['ID'];
   when?: Maybe<Scalars['String']>;
@@ -632,6 +638,7 @@ export type ResolversTypes = ResolversObject<{
     | ResolversTypes['ScrapperStep']
     | ResolversTypes['User'];
   ID: ResolverTypeWrapper<Scalars['ID']>;
+  BrowserType: BrowserType;
   ConditionalMetaData: ResolverTypeWrapper<Scalars['ConditionalMetaData']>;
   ConditionalRule: ResolverTypeWrapper<ConditionalRule>;
   ConditionalRuleGroup: ResolverTypeWrapper<ConditionalRuleGroup>;

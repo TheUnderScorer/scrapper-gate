@@ -17,8 +17,12 @@ export interface RunScrapperResult {
   durationMs: number;
 }
 
+export interface InitialiseScrapperRunnerParams {
+  initialUrl?: string;
+}
+
 export interface ScrapperRunner extends ScrapperStepHandlers, Disposable {
-  initialize?: () => Promise<void>;
+  initialize?: (params?: InitialiseScrapperRunnerParams) => Promise<void>;
 }
 
 export type RunScrapperStepResult = Pick<

@@ -90,5 +90,12 @@ services:
     environment:
       - MH_HOSTNAME=mailhog
 
+  test-sites:
+    image: nginx:latest
+    ports:
+      - 8080:80
+    volumes:
+      - ./test-sites:/usr/share/nginx/html
+
 networks:
   app:

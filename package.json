@@ -186,6 +186,7 @@
     "eslint-plugin-react-hooks": "4.2.0",
     "faker": "^5.5.2",
     "jest": "26.2.2",
+    "jest-mock-proxy": "^3.0.0",
     "mockzilla": "^0.9.0",
     "mockzilla-webextension": "^0.9.0",
     "prettier": "2.2.1",

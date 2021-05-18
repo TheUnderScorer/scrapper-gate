@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Popup</title>
+  </head>
+  <body>
+    <main>
+      <button id="popup_trigger">Open popup window</button>
+    </main>
+  </body>
+  <script>
+    const trigger = document.querySelector('#popup_trigger');
+    const main = document.querySelector('main');
+
+    trigger.addEventListener('click', () => {
+      const newWindow = window.open('?popup=1', '_blank');
+
+      newWindow.addEventListener('beforeunload', () => {
+        const element = document.createElement('div');
+
+        element.id = 'popup_closed';
+        element.textContent = 'Popup was closed.';
+
+        main.appendChild(element);
+      });
+    });
+
+    if (location.search.includes('popup')) {
+      const element = document.createElement('button');
+
+      element.id = 'close_popup';
+      element.textContent = 'Close popup.';
+      element.addEventListener('click', () => {
+        window.close();
+      });
+
+      main.appendChild(element);
+    }
+  </script>
+</html>

@@ -5,13 +5,15 @@ import {
   mapSelectorsToXpathExpression,
 } from '@scrapper-gate/shared/common';
 import {
+  InitialiseScrapperRunnerParams,
   resolveScrapperStepRules,
+  ScrapperRunner,
   ScrapperStepHandlerParams,
-  ScrapperStepHandlers,
 } from '@scrapper-gate/shared/domain/scrapper';
 import { ScrapperRunError } from '@scrapper-gate/shared/errors';
 import { Logger } from '@scrapper-gate/shared/logger';
 import {
+  BrowserType,
   RunnerPerformanceEntry,
   ScrapperRunValue,
   Selector,
@@ -26,6 +28,7 @@ export interface PlayWrightScrapperRunnerDependencies {
   browser: Browser;
   traceId: string;
   logger: Logger;
+  browserType: BrowserType;
 }
 
 interface AfterRunResult {
@@ -33,11 +36,12 @@ interface AfterRunResult {
 }
 
 // TODO Extract common logic + performance logic
-export class PlayWrightScrapperRunner implements ScrapperStepHandlers {
+export class PlayWrightScrapperRunner implements ScrapperRunner {
   private context: BrowserContext;
   private page: Page;
   private initialPage: Page;
 
+  private readonly browserType: BrowserType;
   private readonly browser: Browser;
   private readonly logger: Logger;
   private readonly traceId: string;
@@ -47,13 +51,15 @@ export class PlayWrightScrapperRunner implements ScrapperStepHandlers {
     browser,
     traceId,
     logger,
+    browserType,
   }: PlayWrightScrapperRunnerDependencies) {
     this.browser = browser;
     this.traceId = traceId;
     this.logger = logger;
+    this.browserType = browserType;
   }
 
-  async initialize() {
+  async initialize({ initialUrl }: InitialiseScrapperRunnerParams = {}) {
     if (this.context) {
       this.logger.error('Runner already initialized.');
 
@@ -67,23 +73,43 @@ export class PlayWrightScrapperRunner implements ScrapperStepHandlers {
     this.page = await this.context.newPage();
     this.initialPage = this.page;
 
-    this.setupPage();
+    if (initialUrl) {
+      await this.page.goto(initialUrl, {
+        waitUntil: 'networkidle',
+      });
+    }
+
+    await this.setupPage();
+
+    this.logger.debug('PlayWrightRunner initialized:', {
+      browserVersion: this.browserVersion,
+    });
   }
 
-  // TODO Support all kind of dialogs
   // Performs setup of given page, registering necessary event listeners
-  private setupPage() {
+  private async setupPage() {
+    await this.page.waitForLoadState('networkidle');
+
+    // TODO Support all kind of dialogs
     this.page.on('dialog', async (dialog) => {
       await dialog.accept();
     });
 
-    this.page.on('popup', (page) => {
+    this.page.on('popup', async (page) => {
+      this.logger.info('Popup opened', {
+        url: await page.url(),
+        pages: this.context.pages().length,
+      });
+
       this.page = page;
 
-      this.setupPage();
+      await this.setupPage();
     });
 
     this.page.once('close', () => {
+      this.logger.debug('Page closed', this.context.pages().length);
+      console.trace();
+
       this.page = last(this.context.pages());
     });
   }
@@ -241,15 +267,26 @@ export class PlayWrightScrapperRunner implements ScrapperStepHandlers {
 
     const waitPromises = [];
 
-    if (querySelector.length) {
-      waitPromises.push(this.page.waitForSelector(querySelector));
+    if (querySelector) {
+      waitPromises.push(
+        this.page.waitForSelector(querySelector, {
+          state: 'visible',
+          timeout: 40000,
+        })
+      );
     }
 
-    if (xpathSelector.length) {
+    if (xpathSelector) {
       waitPromises.push(this.page.waitForSelector(xpathSelector));
     }
 
-    await Promise.all(waitPromises);
+    // TODO Option to either fail or continue if no elements were found
+    try {
+      await Promise.all(waitPromises);
+    } catch (e) {
+      this.logger.error(e);
+    }
+
     const elementsByQuerySelector = querySelector
       ? await target.$$(querySelector)
       : [];
@@ -263,14 +300,28 @@ export class PlayWrightScrapperRunner implements ScrapperStepHandlers {
       throw new Error('Page was closed or was not initialized properly.');
     }
 
+    this.logger.debug('Pre run:', step);
+
     this.performanceManager.mark(`${this.traceId}-${step.id}-start`);
 
     const currentUrl = await this.page.url();
 
-    if (!step.useUrlFromPreviousStep && !areUrlsEqual(step.url, currentUrl)) {
+    const urlsEqual = areUrlsEqual(step.url, currentUrl);
+
+    this.logger.debug('Urls:', {
+      currentUrl,
+      stepUrl: step.url,
+      urlsEqual,
+    });
+
+    if (!step.useUrlFromPreviousStep && !urlsEqual) {
       await this.page.goto(step.url, {
         waitUntil: 'networkidle',
       });
+
+      this.logger.debug('Navigated to step url:', await this.page.url());
+    } else {
+      this.logger.debug('Not navigating to other page.', await this.page.url());
     }
 
     const elements = await this.getElements(step.selectors ?? []);
@@ -278,13 +329,28 @@ export class PlayWrightScrapperRunner implements ScrapperStepHandlers {
     return { elements };
   }
 
+  // TODO Screenshot on error?
   private async onError(error: Error, params: ScrapperStepHandlerParams) {
     const { performance } = await this.afterRun(params);
 
     return new ScrapperRunError({
       performance,
       message: error.message,
+      url: await this.page.url(),
+      browserVersion: this.browserVersion,
     });
+  }
+
+  get currentPage() {
+    return this.page;
+  }
+
+  get currentContext() {
+    return this.context;
+  }
+
+  get browserVersion() {
+    return `${this.browserType} ${this.browser.version()}`;
   }
 
   private async afterRun({
@@ -298,7 +364,7 @@ export class PlayWrightScrapperRunner implements ScrapperStepHandlers {
     );
 
     const entry = await this.performanceManager.getEntry(
-      `${this.traceId}-${step.id}-end`
+      `${this.traceId}-${step.id}`
     );
 
     return {

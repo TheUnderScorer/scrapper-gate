@@ -89,6 +89,12 @@ export const scrapperSchema = gql`
 
   scalar ScrapperRunValueType
 
+  enum BrowserType {
+    Firefox
+    Chrome
+    Safari
+  }
+
   type ScrapperRunValueElement {
     classNames: [String!]
     id: String
