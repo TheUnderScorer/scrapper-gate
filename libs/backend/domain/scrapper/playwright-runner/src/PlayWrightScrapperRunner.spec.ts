@@ -11,10 +11,12 @@ import playwright, { Browser, LaunchOptions } from 'playwright';
 import { v4 } from 'uuid';
 import { PlayWrightScrapperRunner } from './PlayWrightScrapperRunner';
 
-describe('PlayWright scrapper runner', () => {
-  let runners: PlayWrightScrapperRunner[] = [];
-  let browsers: Browser[] = [];
+const timeout = 900000;
 
+let runners: PlayWrightScrapperRunner[] = [];
+let browsers: Browser[] = [];
+
+describe('PlayWright scrapper runner', () => {
   const ignoredBrowserTypes =
     process.env.IGNORED_BROWSER_TYPES?.split(',') ?? [];
   const browserTypes = Object.values(BrowserType).filter(
@@ -54,6 +56,8 @@ describe('PlayWright scrapper runner', () => {
 
     await runner.initialize();
 
+    runners.push(runner);
+
     return runner;
   };
 
@@ -79,98 +83,129 @@ describe('PlayWright scrapper runner', () => {
         await cleanup();
       });
 
-      it('should read text from popup and text that shows after closing it', async () => {
-        const runner = await bootstrapRunner(type);
+      const scrapperRun: ScrapperRun = {
+        id: v4(),
+        steps: [],
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        state: RunState.InProgress,
+      };
 
-        const scrapperRun: ScrapperRun = {
-          id: v4(),
-          steps: [],
-          createdAt: new Date(),
-          updatedAt: new Date(),
-          state: RunState.InProgress,
-        };
+      it(
+        'should handle dynamic elements',
+        async () => {
+          const runner = await bootstrapRunner(type);
 
-        const clickStep = await createMockScrapperStep({});
-        clickStep.url = 'http://localhost:8080/popup.html';
-        clickStep.action = ScrapperAction.Click;
-        clickStep.selectors = [
-          {
-            value: '#popup_trigger',
-          },
-        ];
-        clickStep.clickTimes = 1;
-        clickStep.key = 'Trigger popup';
-        clickStep.useUrlFromPreviousStep = false;
+          const { values } = await runner.ReadText({
+            scrapperRun,
+            variables: {},
+            step: {
+              ...(await createMockScrapperStep({})),
+              action: ScrapperAction.Click,
+              useUrlFromPreviousStep: false,
+              url: 'http://localhost:8080/dynamic-elements.html',
+              selectors: [
+                {
+                  value: '#result',
+                },
+              ],
+            },
+          });
 
-        const { performance } = await runner.Click({
-          scrapperRun,
-          step: clickStep,
-          variables: {},
-        });
+          expect(values).toHaveLength(1);
+          expect(values[0].value).toEqual('Loaded successfully.');
+        },
+        timeout
+      );
 
-        expect(performance.duration).toBeGreaterThan(0);
+      it(
+        'should read text from popup and text that shows after closing it',
+        async () => {
+          const runner = await bootstrapRunner(type);
 
-        const { values } = await runner.ReadText({
-          scrapperRun,
-          variables: {},
-          step: {
-            ...(await createMockScrapperStep({})),
-            useUrlFromPreviousStep: true,
-            action: ScrapperAction.ReadText,
-            key: 'Read close popup',
-            selectors: [
-              {
-                value: '#close_popup',
-              },
-            ],
-          },
-        });
+          const clickStep = await createMockScrapperStep({});
+          clickStep.url = 'http://localhost:8080/popup.html';
+          clickStep.action = ScrapperAction.Click;
+          clickStep.selectors = [
+            {
+              value: '#popup_trigger',
+            },
+          ];
+          clickStep.clickTimes = 1;
+          clickStep.key = 'Trigger popup';
+          clickStep.useUrlFromPreviousStep = false;
 
-        expect(values).toHaveLength(1);
-        expect(values[0].value).toEqual('Close popup.');
+          const { performance } = await runner.Click({
+            scrapperRun,
+            step: clickStep,
+            variables: {},
+          });
 
-        expect(runner.currentContext.pages()).toHaveLength(2);
-        expect(await runner.currentPage.url()).toEqual(
-          'http://localhost:8080/popup.html?popup=1'
-        );
+          expect(performance.duration).toBeGreaterThan(0);
 
-        await runner.Click({
-          variables: {},
-          scrapperRun,
-          step: {
-            ...(await createMockScrapperStep({})),
-            clickTimes: 1,
-            useUrlFromPreviousStep: true,
-            action: ScrapperAction.Click,
-            key: 'Click close popup',
-            selectors: [
-              {
-                value: '#close_popup',
-              },
-            ],
-          },
-        });
+          const { values } = await runner.ReadText({
+            scrapperRun,
+            variables: {},
+            step: {
+              ...(await createMockScrapperStep({})),
+              useUrlFromPreviousStep: true,
+              action: ScrapperAction.ReadText,
+              key: 'Read close popup',
+              selectors: [
+                {
+                  value: '#close_popup',
+                },
+              ],
+            },
+          });
 
-        const { values: secondValues } = await runner.ReadText({
-          scrapperRun,
-          variables: {},
-          step: {
-            ...(await createMockScrapperStep({})),
-            useUrlFromPreviousStep: true,
-            action: ScrapperAction.ReadText,
-            key: 'Read popup closed',
-            selectors: [
-              {
-                value: '#popup_closed',
-              },
-            ],
-          },
-        });
+          expect(values).toHaveLength(1);
+          expect(values[0].value).toEqual('Close popup.');
 
-        expect(secondValues).toHaveLength(1);
-        expect(secondValues[0].value).toEqual('Popup was closed.');
-      }, 900000);
+          expect(runner.currentContext.pages()).toHaveLength(2);
+          expect(await runner.currentPage.url()).toEqual(
+            'http://localhost:8080/popup.html?popup=1'
+          );
+
+          await runner.Click({
+            variables: {},
+            scrapperRun,
+            step: {
+              ...(await createMockScrapperStep({})),
+              clickTimes: 1,
+              useUrlFromPreviousStep: true,
+              action: ScrapperAction.Click,
+              key: 'Click close popup',
+              selectors: [
+                {
+                  value: '#close_popup',
+                },
+              ],
+            },
+          });
+
+          const { values: secondValues } = await runner.ReadText({
+            scrapperRun,
+            variables: {},
+            step: {
+              ...(await createMockScrapperStep({})),
+              useUrlFromPreviousStep: true,
+              action: ScrapperAction.ReadText,
+              key: 'Read popup closed',
+              selectors: [
+                {
+                  value: '#popup_closed',
+                },
+              ],
+            },
+          });
+
+          expect(secondValues).toHaveLength(1);
+          expect(secondValues[0].value).toEqual('Popup was closed.');
+        },
+        timeout
+      );
     },
-    900000
+    timeout
   );
 });
