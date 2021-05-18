@@ -61,7 +61,7 @@ jobs:
         with:
           node-version: 16.x
 
-      - uses: microsoft/playwright-github-action@v1
+      - uses: leonardodino/setup-playwright@main
 
       - name: Start docker
         run: docker-compose up -d
