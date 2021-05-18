@@ -101,7 +101,11 @@ export const scrapperSchema = gql`
     tag: String!
   }
 
-  type ScrapperRunValue {
+  type ScrapperRunValue implements BaseEntity {
+    id: ID!
+    deletedAt: Date
+    updatedAt: Date!
+    createdAt: Date!
     value: ScrapperRunValueType
     sourceElement: ScrapperRunValueElement
   }

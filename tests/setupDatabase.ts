@@ -7,8 +7,18 @@ import {
   ScrapperModel,
   ScrapperStepModel,
 } from '@scrapper-gate/backend/domain/scrapper';
+import { ScrapperRunModel } from '../libs/backend/domain/scrapper/src/models/ScrapperRun.model';
+import { ScrapperRunStepResultModel } from '../libs/backend/domain/scrapper/src/models/ScrapperRunStepResult.model';
+import { ScrapperRunStepValueModel } from '../libs/backend/domain/scrapper/src/models/ScrapperRunStepValue.model';
 
-const entities = [UserModel, ScrapperModel, ScrapperStepModel];
+const entities = [
+  UserModel,
+  ScrapperModel,
+  ScrapperStepModel,
+  ScrapperRunModel,
+  ScrapperRunStepResultModel,
+  ScrapperRunStepValueModel,
+];
 
 let rootConnection: Connection;
 

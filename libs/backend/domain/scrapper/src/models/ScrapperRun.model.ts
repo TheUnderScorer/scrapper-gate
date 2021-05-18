@@ -4,17 +4,16 @@ import {
   ErrorObject,
   RunState,
   ScrapperRun,
-  ScrapperRunStepResult,
   ScrapperStep,
 } from '@scrapper-gate/shared/schema';
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+import { ScrapperModel } from './Scrapper.model';
+import { ScrapperRunStepResultModel } from './ScrapperRunStepResult.model';
 
 @Entity(Entities.ScrapperRun)
 export class ScrapperRunModel
   extends BaseModel<ScrapperRun>
   implements ScrapperRun {
-  results: ScrapperRunStepResult[];
-
   @Column()
   state: RunState;
 
@@ -25,6 +24,7 @@ export class ScrapperRunModel
 
   @Column({
     type: 'jsonb',
+    nullable: true,
   })
   error?: ErrorObject;
 
@@ -43,4 +43,17 @@ export class ScrapperRunModel
     type: 'float',
   })
   progress?: number;
+
+  @Column({
+    nullable: true,
+  })
+  key?: string;
+
+  @OneToMany(() => ScrapperRunStepResultModel, (model) => model.scrapperRun, {
+    cascade: true,
+  })
+  results: ScrapperRunStepResultModel[];
+
+  @ManyToOne(() => ScrapperModel, (model) => model.runs)
+  scrapper: ScrapperModel;
 }

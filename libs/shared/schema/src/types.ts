@@ -311,7 +311,11 @@ export type ScrapperRunStepResult = BaseEntity & {
   step: ScrapperStep;
 };
 
-export type ScrapperRunValue = {
+export type ScrapperRunValue = BaseEntity & {
+  id: Scalars['ID'];
+  deletedAt?: Maybe<Scalars['Date']>;
+  updatedAt: Scalars['Date'];
+  createdAt: Scalars['Date'];
   value?: Maybe<Scalars['ScrapperRunValueType']>;
   sourceElement?: Maybe<ScrapperRunValueElement>;
 };
@@ -633,6 +637,7 @@ export type ResolversTypes = ResolversObject<{
     | ResolversTypes['Scrapper']
     | ResolversTypes['ScrapperRun']
     | ResolversTypes['ScrapperRunStepResult']
+    | ResolversTypes['ScrapperRunValue']
     | ResolversTypes['ScrapperStep']
     | ResolversTypes['User'];
   ID: ResolverTypeWrapper<Scalars['ID']>;
@@ -700,6 +705,7 @@ export type ResolversParentTypes = ResolversObject<{
     | ResolversParentTypes['Scrapper']
     | ResolversParentTypes['ScrapperRun']
     | ResolversParentTypes['ScrapperRunStepResult']
+    | ResolversParentTypes['ScrapperRunValue']
     | ResolversParentTypes['ScrapperStep']
     | ResolversParentTypes['User'];
   ID: Scalars['ID'];
@@ -794,6 +800,7 @@ export type BaseEntityResolvers<
     | 'Scrapper'
     | 'ScrapperRun'
     | 'ScrapperRunStepResult'
+    | 'ScrapperRunValue'
     | 'ScrapperStep'
     | 'User',
     ParentType,
@@ -1146,6 +1153,10 @@ export type ScrapperRunValueResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['ScrapperRunValue'] = ResolversParentTypes['ScrapperRunValue']
 > = ResolversObject<{
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  deletedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   value?: Resolver<
     Maybe<ResolversTypes['ScrapperRunValueType']>,
     ParentType,
