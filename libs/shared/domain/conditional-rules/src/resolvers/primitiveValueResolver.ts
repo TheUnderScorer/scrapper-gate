@@ -1,5 +1,5 @@
-import { BaseConditionalRuleWhen } from '@scrapper-gate/shared/domain/conditional-rules';
 import { ConditionalRule } from '@scrapper-gate/shared/schema';
+import { BaseConditionalRuleWhen } from '../types';
 
 export const primitiveValueResolver = (
   rule: ConditionalRule,

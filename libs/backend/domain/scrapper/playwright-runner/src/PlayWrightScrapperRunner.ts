@@ -108,7 +108,6 @@ export class PlayWrightScrapperRunner implements ScrapperRunner {
 
     this.page.once('close', () => {
       this.logger.debug('Page closed', this.context.pages().length);
-      console.trace();
 
       this.page = last(this.context.pages());
     });

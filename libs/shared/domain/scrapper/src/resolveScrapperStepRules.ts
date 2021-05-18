@@ -1,5 +1,5 @@
+import { resolveRules } from '@scrapper-gate/shared/domain/conditional-rules';
 import { ScrapperStep } from '@scrapper-gate/shared/schema';
-import { resolveRules } from '../../conditional-rules/src/resolveRules';
 import {
   makeScrapperConditionsResolvers,
   ScrapperConditionsResolversParams,

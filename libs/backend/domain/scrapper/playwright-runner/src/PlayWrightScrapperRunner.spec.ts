@@ -12,8 +12,8 @@ import { v4 } from 'uuid';
 import { PlayWrightScrapperRunner } from './PlayWrightScrapperRunner';
 
 describe('PlayWright scrapper runner', () => {
-  let runner: PlayWrightScrapperRunner;
-  let browser: Browser;
+  let runners: PlayWrightScrapperRunner[] = [];
+  let browsers: Browser[] = [];
 
   const ignoredBrowserTypes =
     process.env.IGNORED_BROWSER_TYPES?.split(',') ?? [];
@@ -23,6 +23,8 @@ describe('PlayWright scrapper runner', () => {
 
   const bootstrapRunner = async (browserType: BrowserType) => {
     const options: LaunchOptions = {};
+
+    let browser: Browser;
 
     switch (browserType) {
       case BrowserType.Safari:
@@ -41,38 +43,45 @@ describe('PlayWright scrapper runner', () => {
 
     await wait(1000);
 
-    runner = new PlayWrightScrapperRunner({
+    const runner = new PlayWrightScrapperRunner({
       logger,
       traceId: '#trace_id',
       browser,
       browserType,
     });
 
+    browsers.push(browser);
+
     await runner.initialize();
+
+    return runner;
   };
 
   const cleanup = async () => {
-    if (runner) {
-      await runner.dispose();
+    await wait(1000);
+
+    if (runners.length) {
+      await Promise.all(runners.map((runner) => runner.dispose()));
     }
 
-    if (browser) {
-      await browser.close();
+    if (browsers.length) {
+      await browsers.map((browser) => browser.close());
     }
+
+    runners = [];
+    browsers = [];
   };
 
   describe.each(browserTypes)(
     'Popup test site - %s',
     (type) => {
-      beforeEach(async () => {
-        await bootstrapRunner(type);
-      });
-
       afterEach(async () => {
         await cleanup();
       });
 
       it('should read text from popup and text that shows after closing it', async () => {
+        const runner = await bootstrapRunner(type);
+
         const scrapperRun: ScrapperRun = {
           id: v4(),
           steps: [],

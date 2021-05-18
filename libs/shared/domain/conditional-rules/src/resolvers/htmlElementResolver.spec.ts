@@ -1,14 +1,16 @@
-import {
-  BaseConditionalRuleWhen,
-  ConditionalRuleTypes,
-  HtmlElementResolverElementDefinition,
-  HtmlElementRuleMeta,
-  HtmlElementWhat,
-  makeHtmlElementResolver,
-} from '@scrapper-gate/shared/domain/conditional-rules';
 import { ConditionalRuleGroupType } from '@scrapper-gate/shared/schema';
 import { v4 } from 'uuid';
 import { resolveRules } from '../resolveRules';
+import {
+  BaseConditionalRuleWhen,
+  ConditionalRuleTypes,
+  HtmlElementRuleMeta,
+  HtmlElementWhat,
+} from '../types';
+import {
+  HtmlElementResolverElementDefinition,
+  makeHtmlElementResolver,
+} from './htmlElementResolver';
 
 describe('Html element resolver', () => {
   it.each<

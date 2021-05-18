@@ -1,14 +1,11 @@
 import {
-  BaseConditionalRuleWhen,
-  ConditionalRuleTypes,
-} from '@scrapper-gate/shared/domain/conditional-rules';
-import {
   ConditionalRule,
   ConditionalRuleGroupType,
 } from '@scrapper-gate/shared/schema';
 import { addSeconds, subSeconds } from 'date-fns';
 import { v4 } from 'uuid';
 import { resolveRules } from '../resolveRules';
+import { BaseConditionalRuleWhen, ConditionalRuleTypes } from '../types';
 import { makeDateResolver } from './dateResolver';
 
 const now = new Date();
