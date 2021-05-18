@@ -227,13 +227,11 @@ export type ResetPasswordResponse = {
 };
 
 export enum RunState {
-  Cancelled = 'Cancelled',
-  Completed = 'Completed',
-  Error = 'Error',
-  Failed = 'Failed',
-  InProgress = 'InProgress',
   Pending = 'Pending',
-  Stopped = 'Stopped',
+  InProgress = 'InProgress',
+  Completed = 'Completed',
+  Failed = 'Failed',
+  Cancelled = 'Cancelled',
 }
 
 export type Runnable = {

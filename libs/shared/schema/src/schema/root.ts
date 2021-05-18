@@ -9,14 +9,6 @@ export const rootSchema = gql`
     skip: Int!
   }
 
-  enum RunState {
-    Completed
-    Error
-    InProgress
-    Pending
-    Stopped
-  }
-
   enum OrderDirection {
     Asc
     Desc
