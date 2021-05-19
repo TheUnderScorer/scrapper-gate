@@ -1,7 +1,7 @@
 import { BaseModel } from '@scrapper-gate/backend/base-model';
 import { Entities } from '@scrapper-gate/shared/common';
 import {
-  ErrorObject,
+  RunnerError,
   RunState,
   ScrapperRun,
   ScrapperStep,
@@ -26,7 +26,7 @@ export class ScrapperRunModel
     type: 'jsonb',
     nullable: true,
   })
-  error?: ErrorObject;
+  error?: RunnerError;
 
   @Column({
     nullable: true,

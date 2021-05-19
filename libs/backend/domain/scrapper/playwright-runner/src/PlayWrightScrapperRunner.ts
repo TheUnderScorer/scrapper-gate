@@ -124,19 +124,21 @@ export class PlayWrightScrapperRunner implements ScrapperRunner {
   // TODO Handle popup windows https://playwright.dev/docs/1.0.0/verification#page-events
   async Click(params: ScrapperStepHandlerParams) {
     try {
-      const { elements } = await this.preRun(params);
+      const { querySelector, xpathSelector } = await this.preRun(params);
       const { step } = params;
 
-      await Promise.all(
-        elements.map((element) =>
-          element.click({
-            clickCount: step.clickTimes ?? 1,
-            button: step.mouseButton
-              ? mouseButtonMap[step.mouseButton]
-              : 'left',
-          })
-        )
-      );
+      const options = {
+        clickCount: step.clickTimes ?? 1,
+        button: step.mouseButton ? mouseButtonMap[step.mouseButton] : 'left',
+      };
+
+      if (querySelector) {
+        await this.page.click(querySelector, options);
+      }
+
+      if (xpathSelector) {
+        await this.page.click(xpathSelector, options);
+      }
 
       const { performance } = await this.afterRun(params);
 
@@ -198,7 +200,10 @@ export class PlayWrightScrapperRunner implements ScrapperRunner {
     try {
       const { elements } = await this.preRun(params);
 
-      const values: ScrapperRunValue[] = await Promise.all(
+      const values: Pick<
+        ScrapperRunValue,
+        'value' | 'sourceElement'
+      >[] = await Promise.all(
         elements.map(async (el) => ({
           value: await el.textContent(),
           sourceElement: await handleToSourceElement(el),
@@ -291,7 +296,13 @@ export class PlayWrightScrapperRunner implements ScrapperRunner {
       : [];
     const elementsByXpath = xpathSelector ? await target.$$(xpathSelector) : [];
 
-    return [...elementsByQuerySelector, ...elementsByXpath];
+    const elements = [...elementsByQuerySelector, ...elementsByXpath];
+
+    return {
+      elements,
+      querySelector,
+      xpathSelector,
+    };
   }
 
   private async preRun({ step }: ScrapperStepHandlerParams) {
@@ -323,9 +334,7 @@ export class PlayWrightScrapperRunner implements ScrapperRunner {
       this.logger.debug('Not navigating to other page.', await this.page.url());
     }
 
-    const elements = await this.getElements(step.selectors ?? []);
-
-    return { elements };
+    return this.getElements(step.selectors ?? []);
   }
 
   // TODO Screenshot on error?

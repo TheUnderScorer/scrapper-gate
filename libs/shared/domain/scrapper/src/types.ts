@@ -3,6 +3,7 @@ import {
   ScrapperAction,
   ScrapperRun,
   ScrapperRunStepResult,
+  ScrapperRunValue,
   ScrapperStep,
 } from '@scrapper-gate/shared/schema';
 
@@ -27,8 +28,10 @@ export interface ScrapperRunner extends ScrapperStepHandlers, Disposable {
 
 export type RunScrapperStepResult = Pick<
   ScrapperRunStepResult,
-  'values' | 'performance'
->;
+  'performance'
+> & {
+  values?: Pick<ScrapperRunValue, 'value' | 'sourceElement'>[];
+};
 
 export interface ConditionalRunScrapperStepResult
   extends Pick<RunScrapperStepResult, 'performance'> {

@@ -92,6 +92,36 @@ describe('PlayWright scrapper runner', () => {
       };
 
       it(
+        'should handle clicking multiple links',
+        async () => {
+          const runner = await bootstrapRunner(type);
+
+          await runner.Click({
+            scrapperRun,
+            variables: {},
+            step: {
+              ...(await createMockScrapperStep({})),
+              action: ScrapperAction.Click,
+              useUrlFromPreviousStep: false,
+              url: 'http://localhost:8080/blog/index.html',
+              selectors: [
+                {
+                  value: 'a',
+                },
+              ],
+            },
+          });
+
+          await runner.currentPage.waitForLoadState('networkidle');
+
+          expect(runner.currentPage.url()).toEqual(
+            'http://localhost:8080/blog/article1.html'
+          );
+        },
+        timeout
+      );
+
+      it(
         'should handle dynamic elements',
         async () => {
           const runner = await bootstrapRunner(type);
