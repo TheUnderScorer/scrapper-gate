@@ -147,7 +147,9 @@ export const scrapperSchema = gql`
 
   extend type Mutation {
     createScrapper(input: CreateScrapperInput): Scrapper! @auth
-    updateScrapper(input: ScrapperInput!): Scrapper! @auth
+    updateScrapper(input: ScrapperInput!): Scrapper!
+      @auth
+      @validateDto(dto: "ScrapperInputDto", key: "input")
   }
 
   extend type Query {

@@ -804,6 +804,15 @@ export type RestDirectiveResolver<
   Args = RestDirectiveArgs
 > = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
+export type ValidateDtoDirectiveArgs = { dto: Scalars['String'] };
+
+export type ValidateDtoDirectiveResolver<
+  Result,
+  Parent,
+  ContextType = any,
+  Args = ValidateDtoDirectiveArgs
+> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+
 export type AuthTokensResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['AuthTokens'] = ResolversParentTypes['AuthTokens']
@@ -1423,6 +1432,7 @@ export type IResolvers<ContextType = any> = Resolvers<ContextType>;
 export type DirectiveResolvers<ContextType = any> = ResolversObject<{
   auth?: AuthDirectiveResolver<any, any, ContextType>;
   rest?: RestDirectiveResolver<any, any, ContextType>;
+  validateDto?: ValidateDtoDirectiveResolver<any, any, ContextType>;
 }>;
 
 /**

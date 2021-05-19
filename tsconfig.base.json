@@ -101,6 +101,9 @@
       ],
       "@scrapper-gate/backend/perf-hooks-utils": [
         "libs/backend/perf-hooks-utils/src/index.ts"
+      ],
+      "@scrapper-gate/backend/validation": [
+        "libs/backend/validation/src/index.ts"
       ]
     }
   },

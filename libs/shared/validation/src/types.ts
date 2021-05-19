@@ -3,6 +3,7 @@ export enum JoiMessages {
   Email = 'string.email',
   Only = 'any.only',
   Uri = 'string.uri',
+  NoSpecialChars = 'string.noSpecialChars',
   HtmlAttribute = 'string.htmlAttribute',
   Custom = 'any.custom',
 }

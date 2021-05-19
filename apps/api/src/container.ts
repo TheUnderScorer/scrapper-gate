@@ -7,6 +7,7 @@ import {
 import fastify from 'fastify';
 import { apiRoutes } from '@scrapper-gate/shared/routing';
 import { asArray } from '@scrapper-gate/backend/awilix';
+import { rootResolver } from './resolvers/root.resolver';
 import { userResolver } from './resolvers/user/user.resolver';
 import { apolloServerFactory } from './apolloServer';
 import { ApolloServer } from 'apollo-server-fastify';
@@ -73,6 +74,7 @@ export const createContainer = async ({
     resolvers: asArray([
       asFunction(userResolver),
       asFunction(scrapperResolver),
+      asFunction(rootResolver),
     ]),
     apolloServer: asFunction(apolloServerFactory).singleton(),
     container: asValue(container),
