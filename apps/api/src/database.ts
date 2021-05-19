@@ -1,4 +1,3 @@
-import { userEntity } from '@scrapper-gate/backend/domain/user';
 import { EntityDefinition } from '@scrapper-gate/backend/database';
 import {
   scrapperEntity,
@@ -7,8 +6,9 @@ import {
   scrapperRunStepValueEntity,
   scrapperStepEntity,
 } from '@scrapper-gate/backend/domain/scrapper';
+import { userEntity } from '@scrapper-gate/backend/domain/user';
 
-export const entityDefinitions: EntityDefinition<unknown>[] = [
+export const entityDefinitions: EntityDefinition[] = [
   userEntity,
   scrapperEntity,
   scrapperStepEntity,

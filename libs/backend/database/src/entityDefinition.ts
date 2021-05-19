@@ -4,7 +4,9 @@ import { Constructor } from '@scrapper-gate/shared/constructor';
 import { Repository } from 'typeorm';
 import { RepositoriesProvider } from './types';
 
-export interface EntityDefinition<T extends BaseModel<unknown>> {
+export interface EntityDefinition<
+  T extends BaseModel<unknown> = BaseModel<unknown>
+> {
   // DB Model of given entity.
   model: Constructor<T>;
   // Repository related to this entity.
