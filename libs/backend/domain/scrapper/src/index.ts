@@ -14,3 +14,6 @@ export * from './queryHandlers/getScrapperByUser.handler';
 export * from './commands/UpdateScrapper.command';
 export * from './handlers/updateScrapper.handler';
 export * from './events/ScrapperUpdated.event';
+export * from './scrapperRun.entity';
+export * from './scrapperRunStepResult.entity';
+export * from './scrapperRunStepValue.entity';

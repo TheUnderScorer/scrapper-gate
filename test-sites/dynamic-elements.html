@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Dynamic elements</title>
+  </head>
+  <body>
+    <main>
+      <div id="loading">Loading...</div>
+    </main>
+  </body>
+  <script>
+    const loading = document.querySelector('#loading');
+    const main = document.querySelector('main');
+
+    setTimeout(() => {
+      const element = document.createElement('div');
+
+      element.id = 'result';
+      element.textContent = 'Loaded successfully.';
+
+      loading.remove();
+
+      main.appendChild(element);
+    }, 3000);
+  </script>
+</html>

@@ -1,3 +1,4 @@
+import { findFirstNode } from '@scrapper-gate/shared/common';
 import { NodeLikeItem } from '@scrapper-gate/shared/schema';
 import { Node, Position } from 'react-flow-renderer';
 import { Selection } from '@scrapper-gate/frontend/common';
@@ -38,7 +39,7 @@ export const recreateNodes = <
     return [];
   }
 
-  const firstStep = items.find((step) => !step.previousSteps?.length);
+  const firstStep = findFirstNode(items);
 
   if (!firstStep) {
     throw new Error('Unable to determine which step is first.');

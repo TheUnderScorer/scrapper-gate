@@ -1,10 +1,11 @@
-import { RunState, Scrapper } from '@scrapper-gate/shared/schema';
 import { BaseModel } from '@scrapper-gate/backend/base-model';
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { UserModel } from '@scrapper-gate/backend/domain/user';
-import { ScrapperStepModel } from './ScrapperStep.model';
 import { Entities } from '@scrapper-gate/shared/common';
 import { runStates } from '@scrapper-gate/shared/run-states';
+import { RunState, Scrapper } from '@scrapper-gate/shared/schema';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
+import { ScrapperRunModel } from './ScrapperRun.model';
+import { ScrapperStepModel } from './ScrapperStep.model';
 
 @Entity(Entities.Scrapper)
 export class ScrapperModel
@@ -28,6 +29,11 @@ export class ScrapperModel
     cascade: true,
   })
   steps: ScrapperStepModel[];
+
+  @OneToMany(() => ScrapperRunModel, (model) => model.scrapper, {
+    cascade: true,
+  })
+  runs: ScrapperRunModel[];
 
   get isRunning() {
     return this.state && runStates.includes(this.state);

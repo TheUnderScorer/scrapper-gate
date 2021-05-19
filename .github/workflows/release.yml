@@ -15,10 +15,10 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Set Node.js 15.x
+      - name: Set Node.js 16.x
         uses: actions/setup-node@v2
         with:
-          node-version: 15.x
+          node-version: 16.x
 
       - name: Setup npm
         run: npm install -g npm@7

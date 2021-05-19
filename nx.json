@@ -1,13 +1,18 @@
 {
   "implicitDependencies": {
     "workspace.json": "*",
-    "package.json": { "dependencies": "*", "devDependencies": "*" },
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
+    },
     "tsconfig.base.json": "*",
     "tslint.json": "*",
     ".eslintrc.json": "*",
     "nx.json": "*"
   },
-  "affected": { "defaultBase": "master" },
+  "affected": {
+    "defaultBase": "master"
+  },
   "npmScope": "scrapper-gate",
   "tasksRunnerOptions": {
     "default": {
@@ -25,44 +30,128 @@
       "tags": [],
       "implicitDependencies": ["browser-extension"]
     },
-    "api": { "tags": [] },
-    "shared-schema": { "tags": [] },
-    "shared-routing": { "tags": [] },
-    "shared-common": { "tags": [] },
-    "shared-logger": { "tags": [] },
-    "backend-awilix": { "tags": [] },
-    "backend-server": { "tags": [] },
-    "backend-unit-of-work": { "tags": [] },
-    "backend-cqrs": { "tags": [] },
-    "backend-database": { "tags": [] },
-    "frontend-common": { "tags": [] },
-    "shared-domain-auth": { "tags": [] },
-    "frontend-schema": { "tags": [] },
-    "frontend-domain-auth": { "tags": [] },
-    "frontend-theme": { "tags": [] },
-    "browser-extension": { "tags": [] },
-    "frontend-ui": { "tags": [] },
-    "shared-validation": { "tags": [] },
-    "frontend-form": { "tags": [] },
-    "backend-domain-auth": { "tags": [] },
-    "shared-errors": { "tags": [] },
-    "backend-domain-user": { "tags": [] },
-    "backend-base-model": { "tags": [] },
-    "shared-domain-user": { "tags": [] },
-    "frontend-api-client": { "tags": [] },
-    "frontend-dialogs": { "tags": [] },
-    "frontend-domain-scrapper": { "tags": [] },
-    "backend-domain-scrapper": { "tags": [] },
-    "shared-run-states": { "tags": [] },
-    "backend-db-utils": { "tags": [] },
-    "frontend-domain-user": { "tags": [] },
-    "frontend-logger": { "tags": [] },
-    "shared-domain-scrapper": { "tags": [] },
-    "frontend-keyboard-shortcuts": { "tags": [] },
-    "frontend-html-picker": { "tags": [] },
-    "shared-constructor": { "tags": [] },
-    "shared-domain-conditional-rules": { "tags": [] },
-    "frontend-domain-conditional-rules": { "tags": [] },
-    "frontend-snackbars": { "tags": [] }
+    "api": {
+      "tags": []
+    },
+    "shared-schema": {
+      "tags": []
+    },
+    "shared-routing": {
+      "tags": []
+    },
+    "shared-common": {
+      "tags": []
+    },
+    "shared-logger": {
+      "tags": []
+    },
+    "backend-awilix": {
+      "tags": []
+    },
+    "backend-server": {
+      "tags": []
+    },
+    "backend-unit-of-work": {
+      "tags": []
+    },
+    "backend-cqrs": {
+      "tags": []
+    },
+    "backend-database": {
+      "tags": []
+    },
+    "frontend-common": {
+      "tags": []
+    },
+    "shared-domain-auth": {
+      "tags": []
+    },
+    "frontend-schema": {
+      "tags": []
+    },
+    "frontend-domain-auth": {
+      "tags": []
+    },
+    "frontend-theme": {
+      "tags": []
+    },
+    "browser-extension": {
+      "tags": []
+    },
+    "frontend-ui": {
+      "tags": []
+    },
+    "shared-validation": {
+      "tags": []
+    },
+    "frontend-form": {
+      "tags": []
+    },
+    "backend-domain-auth": {
+      "tags": []
+    },
+    "shared-errors": {
+      "tags": []
+    },
+    "backend-domain-user": {
+      "tags": []
+    },
+    "backend-base-model": {
+      "tags": []
+    },
+    "shared-domain-user": {
+      "tags": []
+    },
+    "frontend-api-client": {
+      "tags": []
+    },
+    "frontend-dialogs": {
+      "tags": []
+    },
+    "frontend-domain-scrapper": {
+      "tags": []
+    },
+    "backend-domain-scrapper": {
+      "tags": []
+    },
+    "shared-run-states": {
+      "tags": []
+    },
+    "backend-db-utils": {
+      "tags": []
+    },
+    "frontend-domain-user": {
+      "tags": []
+    },
+    "frontend-logger": {
+      "tags": []
+    },
+    "shared-domain-scrapper": {
+      "tags": []
+    },
+    "frontend-keyboard-shortcuts": {
+      "tags": []
+    },
+    "frontend-html-picker": {
+      "tags": []
+    },
+    "shared-constructor": {
+      "tags": []
+    },
+    "shared-domain-conditional-rules": {
+      "tags": []
+    },
+    "frontend-domain-conditional-rules": {
+      "tags": []
+    },
+    "frontend-snackbars": {
+      "tags": []
+    },
+    "backend-domain-scrapper-playwright-runner": {
+      "tags": []
+    },
+    "backend-perf-hooks-utils": {
+      "tags": []
+    }
   }
 }

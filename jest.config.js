@@ -36,5 +36,7 @@ module.exports = {
     '<rootDir>/libs/shared/domain/conditional-rules',
     '<rootDir>/libs/frontend/domain/conditional-rules',
     '<rootDir>/libs/frontend/snackbars',
+    '<rootDir>/libs/backend/domain/scrapper/playwright-runner',
+    '<rootDir>/libs/backend/perf-hooks-utils',
   ],
 };

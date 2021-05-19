@@ -24,6 +24,11 @@ export const scrapperSchema = gql`
     items: [Scrapper!]
   }
 
+  type ScrapperRunQueryResult {
+    total: Int!
+    items: [ScrapperRun!]
+  }
+
   type ScrapperStep implements BaseEntity & CreatedBy {
     id: ID!
     createdAt: Date!
@@ -48,6 +53,7 @@ export const scrapperSchema = gql`
     position: NodePosition
     key: String
     conditionalRules: [ConditionalRuleGroup!]
+    runs(pagination: Pagination, order: Order): ScrapperRunQueryResult
   }
 
   input ScrapperStepInput {
@@ -68,6 +74,55 @@ export const scrapperSchema = gql`
     stepIdOnFalse: ID
     key: String
     conditionalRules: [ConditionalRuleGroupInput!]
+  }
+
+  type ScrapperRunStepResult implements BaseEntity {
+    id: ID!
+    createdAt: Date!
+    updatedAt: Date!
+    deletedAt: Date
+    error: ErrorObject
+    values: [ScrapperRunValue!]
+    performance: RunnerPerformanceEntry
+    step: ScrapperStep!
+  }
+
+  scalar ScrapperRunValueType
+
+  enum BrowserType {
+    Firefox
+    Chrome
+    Safari
+  }
+
+  type ScrapperRunValueElement {
+    classNames: [String!]
+    id: String
+    tag: String!
+  }
+
+  type ScrapperRunValue implements BaseEntity {
+    id: ID!
+    deletedAt: Date
+    updatedAt: Date!
+    createdAt: Date!
+    value: ScrapperRunValueType
+    sourceElement: ScrapperRunValueElement
+  }
+
+  type ScrapperRun implements BaseEntity & Runnable {
+    id: ID!
+    deletedAt: Date
+    updatedAt: Date!
+    createdAt: Date!
+    steps: [ScrapperStep!]
+    state: RunState!
+    endedAt: Date
+    startedAt: Date
+    progress: Float
+    results: [ScrapperRunStepResult!]
+    error: RunnerError
+    key: String
   }
 
   enum ScrapperAction {
