@@ -155,6 +155,9 @@
     },
     "backend-validation": {
       "tags": []
+    },
+    "shared-domain-variables": {
+      "tags": []
     }
   }
 }

@@ -39,5 +39,6 @@ module.exports = {
     '<rootDir>/libs/backend/domain/scrapper/playwright-runner',
     '<rootDir>/libs/backend/perf-hooks-utils',
     '<rootDir>/libs/backend/validation',
+    '<rootDir>/libs/shared/domain/variables',
   ],
 };

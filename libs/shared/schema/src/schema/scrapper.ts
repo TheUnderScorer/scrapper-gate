@@ -11,12 +11,14 @@ export const scrapperSchema = gql`
     createdBy: User
     deletedAt: Date
     steps: [ScrapperStep!]
+    variables: [Variable!]
   }
 
   input ScrapperInput {
     id: ID!
     name: String
     steps: [ScrapperStepInput!]
+    variables: [VariableInput!]
   }
 
   type ScrapperQueryResult {
@@ -123,6 +125,7 @@ export const scrapperSchema = gql`
     results: [ScrapperRunStepResult!]
     error: RunnerError
     key: String
+    variables: [Variable!]
   }
 
   enum ScrapperAction {

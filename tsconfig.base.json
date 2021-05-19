@@ -104,6 +104,9 @@
       ],
       "@scrapper-gate/backend/validation": [
         "libs/backend/validation/src/index.ts"
+      ],
+      "@scrapper-gate/shared/domain/variables": [
+        "libs/shared/domain/variables/src/index.ts"
       ]
     }
   },

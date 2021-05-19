@@ -3,12 +3,18 @@ export enum TemplateType {
   Colon = 'Colon',
 }
 
+export type TemplateVariables = Record<string, string | number | boolean>;
+
 export const applyVariablesToText = (
   text: string,
-  variables: Record<string, string | number | boolean>,
+  variables: TemplateVariables,
   type: TemplateType = TemplateType.Braces
 ) => {
   return Object.entries(variables).reduce((currentText, [key, value]) => {
+    if (!value) {
+      return currentText;
+    }
+
     const regExp = getRegexByType(key, type);
 
     return currentText.replace(regExp, convertValue(value));
@@ -25,13 +31,13 @@ const convertValue = (value: unknown) => {
   }
 };
 
-const getRegexByType = (value: unknown, type: TemplateType) => {
+const getRegexByType = (key: unknown, type: TemplateType) => {
   switch (type) {
     case TemplateType.Braces:
-      return new RegExp(`{{${value}}}`, 'g');
+      return new RegExp(`{{${key}}}`, 'g');
 
     case TemplateType.Colon:
-      return new RegExp(`:${value}`, 'g');
+      return new RegExp(`:${key}`, 'g');
 
     default:
       throw new TypeError(`Invalid template type: ${type}`);
