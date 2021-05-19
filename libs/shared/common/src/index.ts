@@ -22,3 +22,4 @@ export * from './repeatUntil';
 export * from './toDisplayText';
 export * from './DateFormat';
 export * from './findFirstNode';
+export * from './baseEntity';

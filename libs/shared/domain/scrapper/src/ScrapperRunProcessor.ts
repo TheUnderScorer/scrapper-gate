@@ -1,4 +1,8 @@
-import { Disposable, findFirstNode } from '@scrapper-gate/shared/common';
+import {
+  createBaseEntity,
+  Disposable,
+  findFirstNode,
+} from '@scrapper-gate/shared/common';
 import { AppError, ScrapperRunError } from '@scrapper-gate/shared/errors';
 import {
   ErrorObject,
@@ -9,7 +13,6 @@ import {
   ScrapperStep,
 } from '@scrapper-gate/shared/schema';
 import { Typed } from 'emittery';
-import { v4 } from 'uuid';
 import {
   ConditionalRunScrapperStepResult,
   RunScrapperStepResult,
@@ -125,8 +128,8 @@ export class ScrapperRunProcessor implements Disposable {
     };
 
     const stepResult: ScrapperRunStepResult = {
+      ...createBaseEntity(),
       step,
-      id: v4(),
       error: errorObject,
       performance:
         error instanceof ScrapperRunError
@@ -134,8 +137,6 @@ export class ScrapperRunProcessor implements Disposable {
           : {
               duration: 0,
             },
-      createdAt: new Date(),
-      updatedAt: new Date(),
     };
 
     return {
@@ -149,11 +150,12 @@ export class ScrapperRunProcessor implements Disposable {
     step: ScrapperStep
   ): ScrapperRunStepResult {
     return {
-      values: result.values,
+      ...createBaseEntity(),
+      values: result.values?.map((value) => ({
+        ...createBaseEntity(),
+        ...value,
+      })),
       performance: result.performance,
-      id: v4(),
-      createdAt: new Date(),
-      updatedAt: new Date(),
       step,
     };
   }
