@@ -1116,6 +1116,48 @@
           }
         }
       }
+    },
+    "backend-domain-variables": {
+      "root": "libs/backend/domain/variables",
+      "sourceRoot": "libs/backend/domain/variables/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/backend/domain/variables/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/backend/domain/variables"],
+          "options": {
+            "jestConfig": "libs/backend/domain/variables/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "backend-crud": {
+      "root": "libs/backend/crud",
+      "sourceRoot": "libs/backend/crud/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/backend/crud/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/backend/crud"],
+          "options": {
+            "jestConfig": "libs/backend/crud/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   }
 }

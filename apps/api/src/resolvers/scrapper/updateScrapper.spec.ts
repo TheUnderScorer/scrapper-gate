@@ -1,16 +1,18 @@
-import gql from 'graphql-tag';
-import { createUser } from '../../tests/createUser';
-import { apiRoutes } from '@scrapper-gate/shared/routing';
+import { ScrapperModel } from '@scrapper-gate/backend/domain/scrapper';
+import { VariableModel } from '@scrapper-gate/backend/domain/variables';
 import { makeGraphqlRequest } from '@scrapper-gate/backend/server';
+import { getById } from '@scrapper-gate/shared/common';
+import { apiRoutes } from '@scrapper-gate/shared/routing';
 import {
   MouseButton,
   ScrapperAction,
   ScrapperInput,
+  VariableInput,
 } from '@scrapper-gate/shared/schema';
-import { createScrapper } from '../../tests/createScrapper';
-import { ScrapperModel } from '@scrapper-gate/backend/domain/scrapper';
+import gql from 'graphql-tag';
 import { v4 as uuid } from 'uuid';
-import { getById } from '@scrapper-gate/shared/common';
+import { createScrapper } from '../../tests/createScrapper';
+import { createUser } from '../../tests/createUser';
 
 const mutation = gql`
   mutation UpdateScrapper($input: ScrapperInput!) {
@@ -117,6 +119,69 @@ describe('Update scrapper', () => {
       .findOneOrFail(scrapper.id);
 
     expect(updatedScrapper.name).toEqual(name);
+  });
+
+  it('should create, update and delete variables', async () => {
+    const {
+      tokens: { accessToken },
+    } = await createUser();
+
+    const scrapper = await createScrapper(accessToken);
+
+    const existingVariable = VariableModel.create({
+      key: 'existing',
+    });
+    const toRemoveVariable = VariableModel.create({
+      key: 'toRemove',
+    });
+
+    scrapper.variables = [existingVariable, toRemoveVariable];
+
+    await global.connection.getRepository(ScrapperModel).save(scrapper);
+
+    const variables: VariableInput[] = [
+      {
+        key: 'test_create',
+        value: 'test',
+        defaultValue: 'default',
+      },
+      {
+        id: existingVariable.id,
+        key: existingVariable.key,
+        value: 'value update',
+      },
+    ];
+
+    await global.server.inject({
+      method: 'POST',
+      path: apiRoutes.graphql,
+      headers: {
+        authorization: `Bearer ${accessToken}`,
+      },
+      payload: makeGraphqlRequest<{ input: ScrapperInput }>(mutation, {
+        input: {
+          name,
+          id: scrapper.id,
+          variables,
+        },
+      }),
+    });
+
+    const updatedScrapper = await global.connection
+      .getRepository(ScrapperModel)
+      .findOneOrFail(scrapper.id, {
+        relations: ['variables'],
+      });
+
+    expect(updatedScrapper.variables).toHaveLength(2);
+    expect(
+      getById(updatedScrapper.variables, existingVariable.id).value
+    ).toEqual('value update');
+    expect(
+      updatedScrapper.variables.find(
+        (variable) => variable.key === 'test_create'
+      )
+    ).toBeDefined();
   });
 
   it('should update scrapper steps', async () => {

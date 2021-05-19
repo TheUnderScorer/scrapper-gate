@@ -107,7 +107,11 @@
       ],
       "@scrapper-gate/shared/domain/variables": [
         "libs/shared/domain/variables/src/index.ts"
-      ]
+      ],
+      "@scrapper-gate/backend/domain/variables": [
+        "libs/backend/domain/variables/src/index.ts"
+      ],
+      "@scrapper-gate/backend/crud": ["libs/backend/crud/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

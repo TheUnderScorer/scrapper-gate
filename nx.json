@@ -158,6 +158,12 @@
     },
     "shared-domain-variables": {
       "tags": []
+    },
+    "backend-domain-variables": {
+      "tags": []
+    },
+    "backend-crud": {
+      "tags": []
     }
   }
 }

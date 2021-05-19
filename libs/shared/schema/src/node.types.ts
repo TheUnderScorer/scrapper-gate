@@ -1,10 +1,18 @@
 import { BaseEntity, NodePosition } from './types';
 
-export interface NodeLikeItem extends Pick<BaseEntity, 'id'> {
-  nextStep?: Pick<BaseEntity, 'id'>;
-  previousSteps?: Pick<BaseEntity, 'id'>[];
-  stepOnTrue?: Pick<BaseEntity, 'id'>;
-  stepOnFalse?: Pick<BaseEntity, 'id'>;
+export interface NodeLikeItem<
+  Step extends Pick<BaseEntity, 'id'> = Pick<BaseEntity, 'id'>
+> extends Pick<BaseEntity, 'id'> {
+  nextStep?: Step;
+  previousSteps?: Step[];
+  stepOnTrue?: Step;
+  stepOnFalse?: Step;
   position?: NodePosition;
   type?: string;
+}
+
+export interface NodeLikeItemInput extends Pick<BaseEntity, 'id'> {
+  stepIdOnTrue?: string;
+  stepIdOnFalse?: string;
+  nextStepId?: string;
 }

@@ -1,24 +1,22 @@
+import { nodeLikeItemsToModels } from '@scrapper-gate/backend/crud';
+import {
+  VariableModel,
+  VariableRepository,
+} from '@scrapper-gate/backend/domain/variables';
+import { findEntitiesToRemove } from '@scrapper-gate/shared/common';
 import { commandHandler, EventsBus } from 'functional-cqrs';
 import { UpdateScrapperCommand } from '../commands/UpdateScrapper.command';
 import { ScrapperUpdatedEvent } from '../events/ScrapperUpdated.event';
-import { ScrapperStepInput } from '@scrapper-gate/shared/schema';
+import { ScrapperStepModel } from '../models/ScrapperStep.model';
 import { ScrapperRepository } from '../repositories/Scrapper.repository';
 import { ScrapperStepRepository } from '../repositories/ScrapperStep.repository';
-import { ScrapperStepModel } from '../models/ScrapperStep.model';
 
 export interface UpdateScrapperHandlerDependencies {
   scrapperRepository: ScrapperRepository;
   scrapperStepRepository: ScrapperStepRepository;
   eventsBus: EventsBus;
+  variableRepository: VariableRepository;
 }
-
-const propertiesToOverwrite: Array<
-  [keyof ScrapperStepInput, 'nextStep' | 'stepOnFalse' | 'stepOnTrue']
-> = [
-  ['nextStepId', 'nextStep'],
-  ['stepIdOnFalse', 'stepOnFalse'],
-  ['stepIdOnTrue', 'stepOnTrue'],
-];
 
 export const updateScrapperHandler = commandHandler.asFunction<
   UpdateScrapperCommand,
@@ -26,7 +24,12 @@ export const updateScrapperHandler = commandHandler.asFunction<
 >(
   UpdateScrapperCommand.name,
   async ({
-    context: { scrapperRepository, eventsBus, scrapperStepRepository },
+    context: {
+      scrapperRepository,
+      eventsBus,
+      scrapperStepRepository,
+      variableRepository,
+    },
     command: {
       payload: { input, userId },
     },
@@ -42,37 +45,34 @@ export const updateScrapperHandler = commandHandler.asFunction<
     }
 
     if ('steps' in input) {
-      await scrapperStepRepository.remove(scrapper.steps);
+      const stepsToRemove = findEntitiesToRemove(input.steps, scrapper.steps);
 
-      scrapper.steps = input.steps
-        .map((step) => {
-          return {
-            model: ScrapperStepModel.create(step),
-            nextStepId: step.nextStepId,
-            stepIdOnTrue: step.stepIdOnTrue,
-            stepIdOnFalse: step.stepIdOnFalse,
-          };
-        })
-        .map(({ model }, index, array) => {
-          const oldId = model.id;
+      await scrapperStepRepository.remove(stepsToRemove);
 
-          // Ensure that we won't use client generated id
-          delete model.id;
-          model.generateId();
+      scrapper.steps = nodeLikeItemsToModels({
+        createModel: (payload) => ScrapperStepModel.create(payload),
+        input: input.steps,
+        existingSteps: scrapper.steps,
+      });
 
-          // Setup relations using this model
-          propertiesToOverwrite.forEach(([key, targetKey]) => {
-            const relatedSteps = array.filter(
-              (arrayItem) => arrayItem[key] === oldId
-            );
+      didUpdate = true;
+    }
 
-            relatedSteps.forEach((item) => {
-              item.model[targetKey] = model;
-            });
-          });
+    if ('variables' in input) {
+      const variablesToRemove = findEntitiesToRemove(
+        input.variables,
+        scrapper.variables
+      );
 
-          return model;
+      await variableRepository.delete(
+        variablesToRemove.map((variable) => variable.id)
+      );
+
+      scrapper.variables = input.variables.map((variable) => {
+        return VariableModel.create({
+          ...variable,
         });
+      });
 
       didUpdate = true;
     }

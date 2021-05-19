@@ -40,5 +40,7 @@ module.exports = {
     '<rootDir>/libs/backend/perf-hooks-utils',
     '<rootDir>/libs/backend/validation',
     '<rootDir>/libs/shared/domain/variables',
+    '<rootDir>/libs/backend/domain/variables',
+    '<rootDir>/libs/backend/crud',
   ],
 };

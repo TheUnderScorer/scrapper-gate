@@ -1,6 +1,10 @@
-import { DeepPartial } from 'typeorm';
-import { Dictionary, Jsonable, OmitFunctions } from './types';
 import { Constructor } from '@scrapper-gate/shared/constructor';
+import { PartialDeep } from 'type-fest';
+import { Dictionary, Jsonable, OmitFunctions } from './types';
+
+export interface DataObjectConstructor<T> {
+  create(payload: PartialDeep<OmitFunctions<T>>): T;
+}
 
 export abstract class DataObject<Entity> implements Jsonable {
   fill(payload: Partial<Entity>): this {
@@ -25,7 +29,7 @@ export abstract class DataObject<Entity> implements Jsonable {
 
   static create<T extends DataObject<unknown>>(
     this: { new (): T },
-    payload: DeepPartial<OmitFunctions<T>>
+    payload: PartialDeep<OmitFunctions<T>>
   ) {
     const entity = new this();
 

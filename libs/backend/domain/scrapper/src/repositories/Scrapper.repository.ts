@@ -36,6 +36,7 @@ export class ScrapperRepository extends Repository<ScrapperModel> {
       relations: [
         'createdBy',
         'steps',
+        'variables',
         'steps.nextStep',
         'steps.stepOnTrue',
         'steps.stepOnFalse',
