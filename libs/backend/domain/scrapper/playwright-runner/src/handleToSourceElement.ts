@@ -3,8 +3,10 @@ import { ElementHandle } from 'playwright';
 
 export const handleToSourceElement = async (
   el: ElementHandle<SVGElement | HTMLElement>
-): Promise<ScrapperRunValueElement> => ({
-  id: await el.evaluate((el) => el.id),
-  tag: await el.evaluate((el) => el.tagName.toLowerCase()),
-  classNames: await el.evaluate((el) => el.classList.toString().split(' ')),
-});
+): Promise<ScrapperRunValueElement> => {
+  return el.evaluate((element) => ({
+    id: element.id,
+    tag: element.tagName.toLowerCase(),
+    classNames: element.classList.toString().split(' '),
+  }));
+};
