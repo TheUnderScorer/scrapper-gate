@@ -1,3 +1,11 @@
+# [1.3.0](https://github.com/TheUnderScorer/scrapper-gate/compare/v1.2.0...v1.3.0) (2021-05-19)
+
+
+### Features
+
+* Add PlayWright scrapper runner ([4aac1db](https://github.com/TheUnderScorer/scrapper-gate/commit/4aac1db7deeaa9389e71e2b97ea13572e2d886b3))
+* Resolve conditional rules ([deb5427](https://github.com/TheUnderScorer/scrapper-gate/commit/deb542739b46ebe36cb3acbb574e69626063f4ce))
+
 # [1.2.0](https://github.com/TheUnderScorer/scrapper-gate/compare/v1.1.0...v1.2.0) (2021-05-14)
 
 
