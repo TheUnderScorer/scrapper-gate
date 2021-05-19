@@ -3,16 +3,19 @@ import {
   Disposable,
   findFirstNode,
 } from '@scrapper-gate/shared/common';
+import { resolveVariables } from '@scrapper-gate/shared/domain/variables';
 import { AppError, ScrapperRunError } from '@scrapper-gate/shared/errors';
 import {
   ErrorObject,
   RunState,
+  Scrapper,
   ScrapperAction,
   ScrapperRun,
   ScrapperRunStepResult,
   ScrapperStep,
 } from '@scrapper-gate/shared/schema';
 import { Typed } from 'emittery';
+import { createScrapperRunVariables } from './createScrapperRunVariables';
 import {
   ConditionalRunScrapperStepResult,
   RunScrapperStepResult,
@@ -21,6 +24,7 @@ import {
 
 export interface ProcessParams {
   scrapperRun: ScrapperRun;
+  scrapper: Scrapper;
 }
 
 export class ScrapperRunProcessor implements Disposable {
@@ -35,7 +39,7 @@ export class ScrapperRunProcessor implements Disposable {
     };
   }>();
 
-  async process({ scrapperRun }: ProcessParams) {
+  async process({ scrapperRun, scrapper }: ProcessParams) {
     await this.runner.initialize?.();
 
     scrapperRun.state = RunState.InProgress;
@@ -51,7 +55,7 @@ export class ScrapperRunProcessor implements Disposable {
 
     try {
       while (step) {
-        const { nextStep } = await this.runStep(step, scrapperRun);
+        const { nextStep } = await this.runStep(step, scrapperRun, scrapper);
 
         step = nextStep;
       }
@@ -83,11 +87,18 @@ export class ScrapperRunProcessor implements Disposable {
     };
   }
 
-  private async runStep(step: ScrapperStep, scrapperRun: ScrapperRun) {
+  private async runStep(
+    step: ScrapperStep,
+    scrapperRun: ScrapperRun,
+    scrapper: Scrapper
+  ) {
+    const variables = createScrapperRunVariables(scrapper, scrapperRun);
+
+    const preparedStep = resolveVariables(step, variables);
     const runResult = await this.runner[step.action]({
       scrapperRun,
-      step,
-      variables: {},
+      step: preparedStep,
+      variables,
     });
 
     scrapperRun.results.push(

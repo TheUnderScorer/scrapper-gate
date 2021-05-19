@@ -11,7 +11,7 @@ export const applyVariablesToText = (
   type: TemplateType = TemplateType.Braces
 ) => {
   return Object.entries(variables).reduce((currentText, [key, value]) => {
-    if (!value) {
+    if (!value || !key) {
       return currentText;
     }
 

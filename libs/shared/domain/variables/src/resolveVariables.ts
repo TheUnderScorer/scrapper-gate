@@ -8,6 +8,7 @@ import { ResolvableVariable } from './types';
 
 export type ResolveVariablesResult<T> = T extends string ? string : T;
 
+// TODO Add option to limit which fields should be resolved (if given object)
 export const resolveVariables = <T = unknown>(
   target: T,
   variables: ResolvableVariable[]

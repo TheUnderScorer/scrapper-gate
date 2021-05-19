@@ -98,7 +98,7 @@ describe('PlayWright scrapper runner', () => {
 
           await runner.Click({
             scrapperRun,
-            variables: {},
+            variables: [],
             step: {
               ...(await createMockScrapperStep({})),
               action: ScrapperAction.Click,
@@ -128,7 +128,7 @@ describe('PlayWright scrapper runner', () => {
 
           const { values } = await runner.ReadText({
             scrapperRun,
-            variables: {},
+            variables: [],
             step: {
               ...(await createMockScrapperStep({})),
               action: ScrapperAction.Click,
@@ -168,14 +168,14 @@ describe('PlayWright scrapper runner', () => {
           const { performance } = await runner.Click({
             scrapperRun,
             step: clickStep,
-            variables: {},
+            variables: [],
           });
 
           expect(performance.duration).toBeGreaterThan(0);
 
           const { values } = await runner.ReadText({
             scrapperRun,
-            variables: {},
+            variables: [],
             step: {
               ...(await createMockScrapperStep({})),
               useUrlFromPreviousStep: true,
@@ -198,7 +198,7 @@ describe('PlayWright scrapper runner', () => {
           );
 
           await runner.Click({
-            variables: {},
+            variables: [],
             scrapperRun,
             step: {
               ...(await createMockScrapperStep({})),
@@ -216,7 +216,7 @@ describe('PlayWright scrapper runner', () => {
 
           const { values: secondValues } = await runner.ReadText({
             scrapperRun,
-            variables: {},
+            variables: [],
             step: {
               ...(await createMockScrapperStep({})),
               useUrlFromPreviousStep: true,
