@@ -1,5 +1,9 @@
 import { createVariable } from '@scrapper-gate/shared/domain/variables';
-import { Scrapper, ScrapperRun } from '@scrapper-gate/shared/schema';
+import {
+  Scrapper,
+  ScrapperRun,
+  VariableScope,
+} from '@scrapper-gate/shared/schema';
 import { uniqBy } from 'remeda';
 
 /**
@@ -13,6 +17,7 @@ export const createScrapperRunVariables = (
     return createVariable({
       key: result.step.key,
       value: result.values?.map((value) => value.value),
+      scope: VariableScope.Scrapper,
     });
   });
 

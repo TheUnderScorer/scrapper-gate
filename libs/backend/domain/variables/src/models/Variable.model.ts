@@ -1,6 +1,6 @@
 import { BaseModel } from '@scrapper-gate/backend/base-model';
 import { Entities } from '@scrapper-gate/shared/common';
-import { Variable } from '@scrapper-gate/shared/schema';
+import { Variable, VariableScope } from '@scrapper-gate/shared/schema';
 import { Column, Entity } from 'typeorm';
 
 const valueTransformer = {
@@ -38,4 +38,7 @@ export class VariableModel extends BaseModel<Variable> implements Variable {
     nullable: true,
   })
   defaultValue: unknown;
+
+  @Column()
+  scope: VariableScope;
 }

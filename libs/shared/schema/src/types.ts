@@ -439,6 +439,8 @@ export type Variable = BaseEntity & {
   value?: Maybe<Scalars['VariableValue']>;
   key: Scalars['String'];
   kind?: Maybe<Scalars['String']>;
+  isBuiltIn?: Maybe<Scalars['Boolean']>;
+  scope: VariableScope;
 };
 
 export type VariableInput = {
@@ -448,6 +450,12 @@ export type VariableInput = {
   key: Scalars['String'];
   kind?: Maybe<Scalars['String']>;
 };
+
+export enum VariableScope {
+  Global = 'Global',
+  Scrapper = 'Scrapper',
+  Workflow = 'Workflow',
+}
 
 export type GetScrapperForBuilderQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -742,6 +750,7 @@ export type ResolversTypes = ResolversObject<{
   User: ResolverTypeWrapper<User>;
   Variable: ResolverTypeWrapper<Variable>;
   VariableInput: VariableInput;
+  VariableScope: VariableScope;
   VariableValue: ResolverTypeWrapper<Scalars['VariableValue']>;
   WhatValue: ResolverTypeWrapper<Scalars['WhatValue']>;
 }>;
@@ -1451,6 +1460,12 @@ export type VariableResolvers<
   >;
   key?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   kind?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  isBuiltIn?: Resolver<
+    Maybe<ResolversTypes['Boolean']>,
+    ParentType,
+    ContextType
+  >;
+  scope?: Resolver<ResolversTypes['VariableScope'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 

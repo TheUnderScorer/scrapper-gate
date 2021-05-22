@@ -1,6 +1,6 @@
 import { Box, TextField, Typography } from '@material-ui/core';
 import { createVariable } from '@scrapper-gate/shared/domain/variables';
-import { Variable } from '@scrapper-gate/shared/schema';
+import { Variable, VariableScope } from '@scrapper-gate/shared/schema';
 import React from 'react';
 import { Form } from 'react-final-form';
 import { VariablesProvider } from '../../providers/VariablesProvider';
@@ -15,10 +15,17 @@ const variables: Variable[] = [
     key: 'Myvariable',
     value: 'Variable test',
     defaultValue: 'Test',
+    scope: VariableScope.Global,
   }),
   createVariable({
     key: 'Testvar',
     defaultValue: 'Def',
+    scope: VariableScope.Global,
+  }),
+  createVariable({
+    key: 'Longvariablename',
+    defaultValue: 'Default',
+    scope: VariableScope.Scrapper,
   }),
 ];
 

@@ -35,17 +35,11 @@ export const VariableStartDecoratorComponent = ({
         hasFocus: true,
       });
 
-      console.log({ variable, selection, start, end });
-
       const newContent = Modifier.replaceText(
         editorState.getCurrentContent(),
         selection,
         getTextVariableTemplate(variable.key, TemplateType.Braces)
       );
-
-      console.log({
-        newContent: newContent.getPlainText(),
-      });
 
       const newState = EditorState.push(
         editorState,

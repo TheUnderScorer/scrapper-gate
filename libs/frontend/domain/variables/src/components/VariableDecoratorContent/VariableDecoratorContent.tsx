@@ -1,14 +1,19 @@
 import { makeStyles } from '@material-ui/core/styles';
 import { TextFieldBlockDecoratorComponentProps } from '@scrapper-gate/frontend/form';
+import { LightTooltip } from '@scrapper-gate/frontend/ui';
 import classNames from 'classnames';
 import React, { memo } from 'react';
 import { useVariablesContextSelector } from '../../providers/VariablesProvider';
+import { VariableDetails } from '../VariableDetails/VariableDetails';
 
 const useStyles = makeStyles((theme) => ({
   variable: {
     '&.resolved': {
       color: theme.palette.primary.dark,
     },
+  },
+  details: {
+    minWidth: '150px',
   },
 }));
 
@@ -25,9 +30,19 @@ const BaseVariableDecoratorContent = ({
   const resolved = Boolean(variable);
 
   return (
-    <span className={classNames(classes.variable, { resolved })}>
-      {children}
-    </span>
+    <LightTooltip
+      arrow
+      open={variable ? undefined : false}
+      title={
+        variable ? (
+          <VariableDetails className={classes.details} variable={variable} />
+        ) : null
+      }
+    >
+      <span className={classNames(classes.variable, { resolved })}>
+        {children}
+      </span>
+    </LightTooltip>
   );
 };
 

@@ -1,9 +1,11 @@
 import {
+  Divider,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
   ListSubheader,
+  Stack,
   useTheme,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -17,6 +19,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { useKey } from 'react-use';
 import { Key } from 'ts-key-enum';
 import { useVariablesContextSelector } from '../../providers/VariablesProvider';
+import { VariableDetails } from '../VariableDetails/VariableDetails';
 
 export interface VariableSuggestionsProps {
   text: string;
@@ -29,6 +32,16 @@ const useStyles = makeStyles((theme) => ({
   },
   item: {
     cursor: 'pointer',
+  },
+  stack: {
+    minWidth: '400px',
+  },
+  stackItem: {
+    width: '49%',
+  },
+  divider: {
+    marginLeft: theme.spacing(2),
+    marginRight: theme.spacing(2),
   },
 }));
 
@@ -60,15 +73,13 @@ export const VariableSuggestions = ({
   }, [rawText, variables]);
 
   const [selectedVariable, setSelectedVariable] = useState(
-    filteredVariables[0]?.id ?? ''
+    filteredVariables[0]
   );
 
   // TODO Make this more generic
   const handleNavigation = useCallback(
     (direction: 'top' | 'bottom') => {
-      const index = filteredVariables.findIndex(
-        (variable) => variable.id === selectedVariable
-      );
+      const index = filteredVariables.indexOf(selectedVariable);
       const lastIndex = getLastIndex(variables);
 
       let newIndex = direction === 'top' ? index - 1 : index + 1;
@@ -81,7 +92,7 @@ export const VariableSuggestions = ({
 
       const newVariable = variables[newIndex];
 
-      setSelectedVariable(newVariable.id);
+      setSelectedVariable(newVariable);
     },
     [filteredVariables, selectedVariable, variables]
   );
@@ -90,7 +101,7 @@ export const VariableSuggestions = ({
     Key.Enter,
     () => {
       const variable = filteredVariables.find(
-        (variable) => variable.id === selectedVariable
+        (variable) => variable.id === selectedVariable.id
       );
 
       if (variable) {
@@ -125,43 +136,61 @@ export const VariableSuggestions = ({
   );
 
   return (
-    <List
-      dense
-      subheader={
-        filteredVariables.length ? (
-          <ListSubheader component="li">Variables</ListSubheader>
-        ) : undefined
-      }
-    >
-      {!filteredVariables.length && (
-        <ListItem component="li" disableGutters>
-          <ListItemText primary={`No variables found ${theme.emojis.empty}`} />
-        </ListItem>
-      )}
+    <Stack className={classes.stack} spacing={0} direction="row">
+      <List
+        className={classes.stackItem}
+        dense
+        subheader={
+          filteredVariables.length ? (
+            <ListSubheader component="li">Variables</ListSubheader>
+          ) : undefined
+        }
+      >
+        {!filteredVariables.length && (
+          <ListItem component="li" disableGutters>
+            <ListItemText
+              primary={`No variables found ${theme.emojis.empty}`}
+            />
+          </ListItem>
+        )}
 
-      {filteredVariables.map((variable) => (
-        <ListItem
-          onMouseDown={(event) => {
-            event.preventDefault();
+        {filteredVariables.map((variable) => (
+          <ListItem
+            onMouseDown={(event) => {
+              event.preventDefault();
 
-            onVariableClick?.(variable);
-          }}
-          className={classes.item}
-          role="button"
-          selected={selectedVariable === variable.id}
-          onMouseOver={() => setSelectedVariable(variable.id)}
-          tabIndex={0}
-          component="li"
-          key={variable.id}
-        >
-          <ListItemIcon className={classes.icon}>
-            <AttachMoney />
-          </ListItemIcon>
-          <ListItemText
-            primary={<Highlight text={variable.key} value={rawText} />}
+              onVariableClick?.(variable);
+            }}
+            className={classes.item}
+            role="button"
+            selected={selectedVariable.id === variable.id}
+            onMouseOver={() => setSelectedVariable(variable)}
+            tabIndex={0}
+            component="li"
+            key={variable.id}
+          >
+            <ListItemIcon className={classes.icon}>
+              <AttachMoney />
+            </ListItemIcon>
+            <ListItemText
+              primary={<Highlight text={variable.key} value={rawText} />}
+            />
+          </ListItem>
+        ))}
+      </List>
+      {selectedVariable && (
+        <>
+          <Divider
+            className={classes.divider}
+            orientation="vertical"
+            flexItem
           />
-        </ListItem>
-      ))}
-    </List>
+          <VariableDetails
+            className={classes.stackItem}
+            variable={selectedVariable}
+          />
+        </>
+      )}
+    </Stack>
   );
 };

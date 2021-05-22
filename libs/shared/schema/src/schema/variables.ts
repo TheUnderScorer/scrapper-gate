@@ -3,6 +3,12 @@ import gql from 'graphql-tag';
 export const variablesSchema = gql`
   scalar VariableValue
 
+  enum VariableScope {
+    Global
+    Scrapper
+    Workflow
+  }
+
   type Variable implements BaseEntity {
     id: ID!
     createdAt: Date!
@@ -12,6 +18,8 @@ export const variablesSchema = gql`
     value: VariableValue
     key: String!
     kind: String
+    isBuiltIn: Boolean
+    scope: VariableScope!
   }
 
   enum BaseVariableKind {
