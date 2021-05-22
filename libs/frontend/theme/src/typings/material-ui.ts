@@ -47,6 +47,10 @@ declare module '@material-ui/core' {
   }
 }
 
+declare module '@material-ui/private-theming/defaultTheme' {
+  export interface DefaultTheme extends AppTheme {}
+}
+
 declare module '@material-ui/core/styles/createPalette' {
   interface PaletteOptions extends BasePalette<PaletteColorOptions> {}
 

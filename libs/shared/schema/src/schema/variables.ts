@@ -11,6 +11,11 @@ export const variablesSchema = gql`
     defaultValue: VariableValue
     value: VariableValue
     key: String!
+    kind: String
+  }
+
+  enum BaseVariableKind {
+    BuiltIn
   }
 
   input VariableInput {
@@ -18,5 +23,6 @@ export const variablesSchema = gql`
     defaultValue: VariableValue
     value: VariableValue
     key: String!
+    kind: String
   }
 `;

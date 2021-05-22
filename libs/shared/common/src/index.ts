@@ -24,3 +24,4 @@ export * from './DateFormat';
 export * from './nodes/findFirstNode';
 export * from './baseEntity';
 export * from './array/findEntitiesToRemove';
+export * from './text/matchAllIndexes';

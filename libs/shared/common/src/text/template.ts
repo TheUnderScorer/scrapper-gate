@@ -31,13 +31,16 @@ const convertValue = (value: unknown) => {
   }
 };
 
-const getRegexByType = (key: unknown, type: TemplateType) => {
+const getRegexByType = (key: unknown, type: TemplateType) =>
+  new RegExp(getTextVariableTemplate(key, type), 'g');
+
+export const getTextVariableTemplate = (key: unknown, type: TemplateType) => {
   switch (type) {
     case TemplateType.Braces:
-      return new RegExp(`{{${key}}}`, 'g');
+      return `{{${key}}}`;
 
     case TemplateType.Colon:
-      return new RegExp(`:${key}`, 'g');
+      return `:${key}`;
 
     default:
       throw new TypeError(`Invalid template type: ${type}`);

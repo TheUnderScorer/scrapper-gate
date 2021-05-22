@@ -30,3 +30,5 @@ export * from './molecules/Incrementator/Incrementator';
 export * from './styles/reactFlowBuilder';
 export * from './styles/hiddenNumericArrows';
 export * from './molecules/SnackbarActions/SnackbarActions';
+export * from './atoms/LightTooltip/LightTooltip';
+export * from './atoms/Highlight/Highlight';

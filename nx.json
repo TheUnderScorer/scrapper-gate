@@ -164,6 +164,9 @@
     },
     "backend-crud": {
       "tags": []
+    },
+    "frontend-domain-variables": {
+      "tags": []
     }
   }
 }

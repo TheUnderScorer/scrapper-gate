@@ -1,14 +1,15 @@
-import './typings/material-ui';
-import { ThemeProvider as MuiThemeProvider } from '@material-ui/styles';
-import { createMuiTheme, CssBaseline } from '@material-ui/core';
-import React, { PropsWithChildren, useMemo } from 'react';
 import { Global, ThemeProvider as EmotionThemeProvider } from '@emotion/react';
-import { palette } from './palette';
+import { CssBaseline } from '@material-ui/core';
+import { createTheme } from '@material-ui/core/styles';
+import { ThemeProvider as MuiThemeProvider } from '@material-ui/styles';
 import {
   stopPropagation,
   useContainerStore,
 } from '@scrapper-gate/frontend/common';
+import React, { PropsWithChildren, useMemo } from 'react';
+import { palette } from './palette';
 import { themeStyles } from './themeStyles';
+import './typings/material-ui';
 
 export interface ThemeProviderProps {
   htmlFontSize?: number;
@@ -33,7 +34,7 @@ export const ThemeProvider = ({
 
   const theme = useMemo(
     () =>
-      createMuiTheme({
+      createTheme({
         palette,
         components: {
           MuiButton: {
