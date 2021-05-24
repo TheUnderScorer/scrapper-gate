@@ -2,11 +2,9 @@ import { Global, ThemeProvider as EmotionThemeProvider } from '@emotion/react';
 import { CssBaseline } from '@material-ui/core';
 import { createTheme } from '@material-ui/core/styles';
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/styles';
-import {
-  stopPropagation,
-  useContainerStore,
-} from '@scrapper-gate/frontend/common';
-import React, { PropsWithChildren, useMemo } from 'react';
+import { useContainerStore } from '@scrapper-gate/frontend/common';
+import React, { PropsWithChildren, useMemo, KeyboardEvent } from 'react';
+import { Key } from 'ts-key-enum';
 import { palette } from './palette';
 import { themeStyles } from './themeStyles';
 import './typings/material-ui';
@@ -16,6 +14,16 @@ export interface ThemeProviderProps {
   isContent?: boolean;
   container?: HTMLElement;
 }
+
+const allowedKeys = [Key.ArrowUp, Key.ArrowDown, Key.Enter];
+
+const conditionalStopPropagation = (event: KeyboardEvent) => {
+  if (allowedKeys.includes(event.key as Key)) {
+    return;
+  }
+
+  event.stopPropagation();
+};
 
 export const ThemeProvider = ({
   isContent,
@@ -101,16 +109,16 @@ export const ThemeProvider = ({
           },
           MuiInput: {
             defaultProps: {
-              onKeyDown: stopPropagation,
-              onKeyUp: stopPropagation,
-              onKeyPress: stopPropagation,
+              onKeyDown: conditionalStopPropagation,
+              onKeyUp: conditionalStopPropagation,
+              onKeyPress: conditionalStopPropagation,
             },
           },
           MuiTextField: {
             defaultProps: {
-              onKeyDown: stopPropagation,
-              onKeyUp: stopPropagation,
-              onKeyPress: stopPropagation,
+              onKeyDown: conditionalStopPropagation,
+              onKeyUp: conditionalStopPropagation,
+              onKeyPress: conditionalStopPropagation,
             },
           },
         },

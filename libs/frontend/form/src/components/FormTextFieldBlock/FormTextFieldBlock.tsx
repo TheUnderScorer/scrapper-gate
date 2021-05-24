@@ -27,6 +27,7 @@ export const FormTextFieldBlock = ({
     <TextFieldBlock
       {...rest}
       {...input}
+      id={name}
       error={hasError}
       helperText={hasError ? meta.error.message : rest.helperText}
     />

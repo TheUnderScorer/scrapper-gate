@@ -1,35 +1,107 @@
-import {
-  FormControl,
-  FormHelperText,
-  InputBase,
-  InputLabel,
-} from '@material-ui/core';
-import NotchedOutline from '@material-ui/core/OutlinedInput/NotchedOutline';
+import { TextField } from '@material-ui/core';
+import { InputBaseComponentProps } from '@material-ui/core/InputBase/InputBase';
 import { makeStyles } from '@material-ui/core/styles';
+import classNames from 'classnames';
 import {
   ContentState,
   Editor,
   EditorState,
   getDefaultKeyBinding,
 } from 'draft-js';
-import React, { forwardRef, useState } from 'react';
+import React, {
+  forwardRef,
+  MutableRefObject,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from 'react';
 import { useMount } from 'react-use';
 import { Key } from 'ts-key-enum';
 import { TextFieldBlockProvider } from './TextFieldBlock.provider';
 import { TextFieldBlockProps } from './TextFieldBlock.types';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   input: {
     '& .public-DraftEditor-content': {
       padding: 18,
       minWidth: 200,
     },
   },
+  textField: {
+    width: '100%',
+    tabSize: 8,
+    fontVariantLigatures: 'none',
+    boxSizing: 'content-box',
+    whiteSpace: 'pre-wrap',
+
+    '& .MuiInputBase-root': {
+      height: 54,
+    },
+
+    '& .DraftEditor-root': {
+      width: '100%',
+      height: '100%',
+      padding: `0 ${theme.spacing(2)}`,
+    },
+
+    '& .public-DraftEditor-content, & .DraftEditor-editorContainer': {
+      width: '100%',
+      height: '100%',
+    },
+
+    '& .public-DraftEditor-content': {
+      display: 'flex',
+      alignItems: 'center',
+      '& > div > div > div': {
+        minWidth: 10,
+      },
+    },
+  },
 }));
+
+const DraftField = forwardRef<
+  HTMLElement,
+  {
+    editorRef: MutableRefObject<HTMLElement>;
+    onStateChange: (state: EditorState) => unknown;
+    state: EditorState;
+  } & InputBaseComponentProps
+>(({ children, editorRef, onStateChange, state, value, ...rest }, ref) => {
+  useImperativeHandle(ref, () => ({
+    focus: () => {
+      editorRef.current?.focus();
+    },
+    ...editorRef.current,
+    value,
+  }));
+
+  return (
+    <Editor
+      {...rest}
+      tabIndex={0}
+      spellCheck={Boolean(rest.spellCheck)}
+      keyBindingFn={(event) => {
+        // Prevent multilines
+        if ([Key.Enter, Key.Tab].includes(event.key as Key)) {
+          return;
+        }
+
+        return getDefaultKeyBinding(event);
+      }}
+      ariaMultiline={false}
+      editorState={state}
+      onChange={(newState) => {
+        onStateChange?.(newState);
+      }}
+    />
+  );
+});
 
 export const TextFieldBlock = forwardRef<HTMLInputElement, TextFieldBlockProps>(
   ({ onChange, value, decorator, onFocus, onBlur, error, ...props }, ref) => {
     const classes = useStyles();
+    const editorRef = useRef<HTMLElement>();
     const [focused, setIsFocused] = useState(false);
 
     const [state, setState] = useState(EditorState.createEmpty());
@@ -46,74 +118,44 @@ export const TextFieldBlock = forwardRef<HTMLInputElement, TextFieldBlockProps>(
       );
     });
 
+    useEffect(() => {
+      onChange?.(state.getCurrentContent().getPlainText());
+    }, [state, onChange]);
+
     return (
       <TextFieldBlockProvider
         editorState={state}
         setEditorState={setState}
         focused={focused}
       >
-        <FormControl
-          error={error}
-          id={props.id}
+        <TextField
+          {...props}
+          ref={ref}
+          className={classNames(classes.textField, props.className)}
           variant={props.variant}
-          className={props.className}
-          focused={focused}
-        >
-          {props.label && (
-            <InputLabel
-              error={error}
-              shrink={Boolean(value) || focused}
-              htmlFor={props.id}
-              variant="outlined"
-            >
-              {props.label}
-            </InputLabel>
-          )}
-          <InputBase
-            onFocus={onFocus}
-            onBlur={onBlur}
-            ref={ref}
-            error={error}
-            className={classes.input}
-            value={value}
-            renderSuffix={() => (
-              <NotchedOutline
-                label={props.label}
-                notched={focused || Boolean(value)}
-                focused={focused}
-              />
-            )}
-            inputComponent={() => (
-              <Editor
-                tabIndex={0}
-                keyBindingFn={(event) => {
-                  // Prevent multilines
-                  if ([Key.Enter, Key.Tab].includes(event.key as Key)) {
-                    return;
-                  }
+          onFocus={(event) => {
+            setIsFocused(true);
 
-                  return getDefaultKeyBinding(event);
-                }}
-                onFocus={() => {
-                  setIsFocused(true);
-                }}
-                onBlur={() => {
-                  setIsFocused(false);
-                }}
-                ariaMultiline={false}
-                editorState={state}
-                onChange={(newState) => {
-                  setState(newState);
+            onFocus?.(event);
+          }}
+          onBlur={(event) => {
+            setIsFocused(false);
 
-                  onChange?.(newState.getCurrentContent().getPlainText());
-                }}
-              />
-            )}
-          />
-          {props.helperText && (
-            <FormHelperText>{props.helperText}</FormHelperText>
-          )}
-        </FormControl>
+            onBlur?.(event);
+          }}
+          error={error}
+          InputProps={{
+            inputProps: {
+              onStateChange: setState,
+              state,
+              editorRef,
+              component: Editor,
+              value,
+            },
+
+            inputComponent: DraftField,
+          }}
+        />
       </TextFieldBlockProvider>
     );
   }

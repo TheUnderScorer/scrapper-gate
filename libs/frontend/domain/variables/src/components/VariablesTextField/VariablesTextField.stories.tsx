@@ -1,5 +1,8 @@
-import { Box, TextField, Typography } from '@material-ui/core';
-import { createVariable } from '@scrapper-gate/shared/domain/variables';
+import { Stack, TextField, Typography } from '@material-ui/core';
+import {
+  createVariable,
+  resolveVariables,
+} from '@scrapper-gate/shared/domain/variables';
 import { Variable, VariableScope } from '@scrapper-gate/shared/schema';
 import React from 'react';
 import { Form } from 'react-final-form';
@@ -36,14 +39,23 @@ export const Component = () => {
         variables,
       }}
       onSubmit={console.log}
-      render={() => (
+      render={(props) => (
         <VariablesProvider name="variables">
-          <Box mb={4}>
-            <Typography variant="h4">Variables text field</Typography>
-          </Box>
-          <VariablesTextField label="Variable" name="variable" />
-          <VariablesTextField label="Variable" name="variable1" />
-          <TextField label="Text field" />
+          <Stack spacing={2}>
+            <VariablesTextField label="Variable" name="variable" />
+            <VariablesTextField label="Variable" name="variable1" />
+            <TextField label="Text field" />
+            <Typography>Values:</Typography>
+            <pre>{JSON.stringify(props.values, null, ' ')}</pre>
+            <Typography>Resolved variables:</Typography>
+            <pre>
+              {JSON.stringify(
+                resolveVariables(props.values, variables),
+                null,
+                ' '
+              )}
+            </pre>
+          </Stack>
         </VariablesProvider>
       )}
     />
