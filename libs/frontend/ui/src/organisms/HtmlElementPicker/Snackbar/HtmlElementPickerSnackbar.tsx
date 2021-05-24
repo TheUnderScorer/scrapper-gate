@@ -13,8 +13,7 @@ import { Close } from '@material-ui/icons';
 import { useKeyboardShortcuts } from '@scrapper-gate/frontend/keyboard-shortcuts';
 import { Selector } from '@scrapper-gate/shared/schema';
 import classNames from 'classnames';
-import { useSnackbar } from 'notistack';
-import React, { ReactNode, useCallback } from 'react';
+import React, { ReactNode } from 'react';
 import Draggable from 'react-draggable';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { KeyHint } from '../../../atoms/KeyHint/KeyHint';
@@ -72,23 +71,14 @@ export const HtmlElementPickerSnackbar = ({
 }: HtmlElementPickerSnackbarProps) => {
   const keyboardShortcuts = useKeyboardShortcuts();
 
-  const snackbar = useSnackbar();
-
   const classes = useStyles();
-
-  const handleEnableClickToggle = useCallback(
-    (toggle?: boolean) => {
-      onEnableClickToggle(toggle);
-    },
-    [onEnableClickToggle, snackbar]
-  );
 
   useHotkeys(
     keyboardShortcuts.elementPicker.toggleElementClicking,
     (event) => {
       event.stopPropagation();
 
-      handleEnableClickToggle(!enableClick);
+      onEnableClickToggle(!enableClick);
     },
     [enableClick]
   );
@@ -146,7 +136,7 @@ export const HtmlElementPickerSnackbar = ({
                   checked={enableClick}
                   onChange={(e) => {
                     e.stopPropagation();
-                    handleEnableClickToggle(e.target.checked);
+                    onEnableClickToggle(e.target.checked);
                   }}
                 />
               }
