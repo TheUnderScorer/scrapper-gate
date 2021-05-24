@@ -15,6 +15,7 @@ import { AppTheme } from '@scrapper-gate/frontend/theme';
 import { Highlight } from '@scrapper-gate/frontend/ui';
 import { getLastIndex } from '@scrapper-gate/shared/common';
 import { Variable } from '@scrapper-gate/shared/schema';
+import classNames from 'classnames';
 import React, { useCallback, useMemo, useState } from 'react';
 import { useKey } from 'react-use';
 import { Key } from 'ts-key-enum';
@@ -136,7 +137,11 @@ export const VariableSuggestions = ({
   );
 
   return (
-    <Stack className={classes.stack} spacing={0} direction="row">
+    <Stack
+      className={classNames(classes.stack, 'variable-suggestions-container')}
+      spacing={0}
+      direction="row"
+    >
       <List
         className={classes.stackItem}
         dense
@@ -161,7 +166,7 @@ export const VariableSuggestions = ({
 
               onVariableClick?.(variable);
             }}
-            className={classes.item}
+            className={classNames(classes.item, 'variable-list-item')}
             role="button"
             selected={selectedVariable.id === variable.id}
             onMouseOver={() => setSelectedVariable(variable)}

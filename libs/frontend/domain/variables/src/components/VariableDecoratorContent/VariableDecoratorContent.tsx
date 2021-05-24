@@ -39,7 +39,13 @@ const BaseVariableDecoratorContent = ({
         ) : null
       }
     >
-      <span className={classNames(classes.variable, { resolved })}>
+      <span
+        className={classNames(
+          classes.variable,
+          { resolved },
+          'variable-content'
+        )}
+      >
         {children}
       </span>
     </LightTooltip>

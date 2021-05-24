@@ -25,3 +25,4 @@ export * from './nodes/findFirstNode';
 export * from './baseEntity';
 export * from './array/findEntitiesToRemove';
 export * from './text/matchAllIndexes';
+export * from './repeat';

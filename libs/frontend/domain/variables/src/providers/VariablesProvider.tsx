@@ -18,7 +18,7 @@ export interface VariablesProviderContext {
 }
 
 export interface VariableProviderProps {
-  // Name of form field under which variable are stored
+  // Name of form field under which variables are stored
   name: string;
 }
 

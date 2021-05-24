@@ -1,15 +1,16 @@
+import { castAsArray } from '@scrapper-gate/shared/common';
 import { findAll } from 'highlight-words-core';
 import React, { useMemo } from 'react';
 
 export interface HighlightProps {
   text: string;
-  value: string;
+  value: string | string[];
 }
 
 export const Highlight = ({ text, value }: HighlightProps) => {
   const chunks = useMemo(() => {
     return findAll({
-      searchWords: [value],
+      searchWords: castAsArray(value),
       textToHighlight: text,
       caseSensitive: false,
     });
