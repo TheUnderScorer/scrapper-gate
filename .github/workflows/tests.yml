@@ -72,9 +72,9 @@ jobs:
 
       - name: Test
         run: |
-          PROJECTS=$(npm run gather-projects -- --filter="shared-*")
+          PROJECTS=$(TS_NODE_PROJECT=tsconfig.node.json ts-node tools/scripts/gatherProjects.ts --filter="shared-*")
           echo "$PROJECTS"
-          nx run-many --target=test --projects=$PROJECTS --parallel --maxParallel=2
+          npx nx run-many --target=test --projects=$PROJECTS --parallel --maxParallel=2
 
 
   test-backend:
@@ -107,9 +107,9 @@ jobs:
 
       - name: Test
         run: |
-          PROJECTS=$(npm run gather-projects -- --filter="backend-*")
+          PROJECTS=$(TS_NODE_PROJECT=tsconfig.node.json ts-node tools/scripts/gatherProjects.ts --filter="backend-*")
           echo "$PROJECTS"
-          nx run-many --target=test --projects=$PROJECTS --parallel --maxParallel=2
+          npx nx run-many --target=test --projects=$PROJECTS --parallel --maxParallel=2
 
   test-frontend:
     name: Run frontend tests
@@ -133,8 +133,8 @@ jobs:
 
       - name: Test
         run: |
-          PROJECTS=$(npm run gather-projects -- --filter="backend-*")
+          PROJECTS=$(TS_NODE_PROJECT=tsconfig.node.json ts-node tools/scripts/gatherProjects.ts --filter="frontend-*")
           echo "$PROJECTS"
-          nx run-many --target=test --projects=$PROJECTS --parallel --maxParallel=2
+          npx nx run-many --target=test --projects=$PROJECTS --parallel --maxParallel=2
 
 
