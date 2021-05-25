@@ -1,6 +1,6 @@
+import { ScrapperCreatedEvent } from '@scrapper-gate/shared/domain/scrapper';
 import { commandHandler, EventsBus } from 'functional-cqrs';
 import { CreateScrapperCommand } from '../commands/CreateScrapper.command';
-import { ScrapperCreatedEvent } from '../events/ScrapperCreated.event';
 import { ScrapperModel } from '../models/Scrapper.model';
 import { ScrapperRepository } from '../repositories/Scrapper.repository';
 

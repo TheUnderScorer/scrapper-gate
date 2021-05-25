@@ -12,11 +12,11 @@ Object {
           class="css-x2y2x3-Stack-root"
         >
           <div
-            class="makeStyles-alert-2 css-1a8w37c"
+            class="makeStyles-alert-2 MuiBox-root css-1a8w37c"
             style="opacity: 0; visibility: hidden;"
           />
           <div
-            class="MuiFormControl-root MuiFormControl-marginNone MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
+            class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
           >
             <label
               class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-filled MuiFormLabel-root MuiFormLabel-colorPrimary css-i7psbh-MuiFormLabel-root-MuiInputLabel-root"
@@ -40,7 +40,7 @@ Object {
             </div>
           </div>
           <div
-            class="MuiFormControl-root MuiFormControl-marginNone MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
+            class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
           >
             <label
               class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-filled MuiFormLabel-root MuiFormLabel-colorPrimary css-i7psbh-MuiFormLabel-root-MuiInputLabel-root"
@@ -67,7 +67,7 @@ Object {
             class="makeStyles-action-3 css-jno3rv-Stack-root"
           >
             <button
-              class="MuiButtonBase-root MuiFab-root MuiFab-extended MuiFab-sizeLarge MuiFab-primary makeStyles-fab-4 css-ikidz8-MuiButtonBase-root-MuiFab-root"
+              class="MuiButtonBase-root MuiFab-root MuiFab-extended MuiFab-sizeLarge MuiFab-primary makeStyles-fab-4 css-y01z3x-MuiButtonBase-root-MuiFab-root"
               id="login"
               tabindex="0"
               type="submit"
@@ -94,11 +94,11 @@ Object {
         class="css-x2y2x3-Stack-root"
       >
         <div
-          class="makeStyles-alert-2 css-1a8w37c"
+          class="makeStyles-alert-2 MuiBox-root css-1a8w37c"
           style="opacity: 0; visibility: hidden;"
         />
         <div
-          class="MuiFormControl-root MuiFormControl-marginNone MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
+          class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
         >
           <label
             class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-filled MuiFormLabel-root MuiFormLabel-colorPrimary css-i7psbh-MuiFormLabel-root-MuiInputLabel-root"
@@ -122,7 +122,7 @@ Object {
           </div>
         </div>
         <div
-          class="MuiFormControl-root MuiFormControl-marginNone MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
+          class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
         >
           <label
             class="MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-sizeSmall MuiInputLabel-filled MuiFormLabel-root MuiFormLabel-colorPrimary css-i7psbh-MuiFormLabel-root-MuiInputLabel-root"
@@ -149,7 +149,7 @@ Object {
           class="makeStyles-action-3 css-jno3rv-Stack-root"
         >
           <button
-            class="MuiButtonBase-root MuiFab-root MuiFab-extended MuiFab-sizeLarge MuiFab-primary makeStyles-fab-4 css-ikidz8-MuiButtonBase-root-MuiFab-root"
+            class="MuiButtonBase-root MuiFab-root MuiFab-extended MuiFab-sizeLarge MuiFab-primary makeStyles-fab-4 css-y01z3x-MuiButtonBase-root-MuiFab-root"
             id="login"
             tabindex="0"
             type="submit"

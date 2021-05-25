@@ -449,6 +449,7 @@ export type VariableInput = {
   value?: Maybe<Scalars['VariableValue']>;
   key: Scalars['String'];
   kind?: Maybe<Scalars['String']>;
+  scope: VariableScope;
 };
 
 export enum VariableScope {

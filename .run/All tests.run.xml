@@ -2,10 +2,10 @@
   <configuration default="false" name="All tests" type="JavaScriptTestRunnerJest">
     <config-file value="$PROJECT_DIR$/jest.config.js" />
     <node-interpreter value="project" />
-    <node-options value="" />
+    <node-options value="--expose-gc" />
     <jest-package value="$PROJECT_DIR$/node_modules/jest" />
     <working-dir value="$PROJECT_DIR$" />
-    <jest-options value="--runInBand" />
+    <jest-options value="--runInBand --forceExit --logHeapUsage" />
     <envs />
     <scope-kind value="ALL" />
     <method v="2" />

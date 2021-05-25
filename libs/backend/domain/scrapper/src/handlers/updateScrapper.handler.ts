@@ -4,9 +4,10 @@ import {
   VariableRepository,
 } from '@scrapper-gate/backend/domain/variables';
 import { findEntitiesToRemove } from '@scrapper-gate/shared/common';
+import { ScrapperUpdatedEvent } from '@scrapper-gate/shared/domain/scrapper';
+import { VariableScope } from '@scrapper-gate/shared/schema';
 import { commandHandler, EventsBus } from 'functional-cqrs';
 import { UpdateScrapperCommand } from '../commands/UpdateScrapper.command';
-import { ScrapperUpdatedEvent } from '../events/ScrapperUpdated.event';
 import { ScrapperStepModel } from '../models/ScrapperStep.model';
 import { ScrapperRepository } from '../repositories/Scrapper.repository';
 import { ScrapperStepRepository } from '../repositories/ScrapperStep.repository';
@@ -35,6 +36,7 @@ export const updateScrapperHandler = commandHandler.asFunction<
     },
   }) => {
     let didUpdate = false;
+    let variableModels: VariableModel[] = [];
 
     const scrapper = await scrapperRepository.getOneByUser(input.id, userId);
 
@@ -59,8 +61,12 @@ export const updateScrapperHandler = commandHandler.asFunction<
     }
 
     if ('variables' in input) {
+      const variables = input.variables.filter(
+        (variable) => variable.scope === VariableScope.Scrapper
+      );
+
       const variablesToRemove = findEntitiesToRemove(
-        input.variables,
+        variables,
         scrapper.variables
       );
 
@@ -68,11 +74,15 @@ export const updateScrapperHandler = commandHandler.asFunction<
         variablesToRemove.map((variable) => variable.id)
       );
 
-      scrapper.variables = input.variables.map((variable) => {
+      variableModels = variables.map((variable) => {
         return VariableModel.create({
           ...variable,
         });
       });
+
+      scrapper.variables = variableModels.filter(
+        (variable) => variable.scope === VariableScope.Scrapper
+      );
 
       didUpdate = true;
     }
@@ -84,6 +94,7 @@ export const updateScrapperHandler = commandHandler.asFunction<
         new ScrapperUpdatedEvent({
           scrapper,
           userId,
+          variables: variableModels,
         })
       );
     }

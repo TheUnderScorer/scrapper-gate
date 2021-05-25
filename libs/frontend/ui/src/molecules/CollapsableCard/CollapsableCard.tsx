@@ -4,6 +4,7 @@ import React, {
   MutableRefObject,
   ReactNode,
   useCallback,
+  useEffect,
   useRef,
   useState,
 } from 'react';
@@ -83,9 +84,21 @@ export const CollapsableCard = forwardRef<HTMLElement, CollapsableCardProps>(
       [onChange]
     );
 
+    useEffect(() => {
+      if (!ref) {
+        return;
+      }
+
+      if (typeof ref === 'function') {
+        ref(panelRef.current);
+      } else {
+        ref.current = panelRef.current;
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [panelRef]);
+
     return (
       <Accordion
-        innerRef={ref}
         className={className}
         ref={panelRef as MutableRefObject<HTMLDivElement>}
         expanded={expanded}

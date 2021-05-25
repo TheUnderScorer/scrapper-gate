@@ -8,6 +8,7 @@ import {
   ScrapperAction,
   ScrapperInput,
   VariableInput,
+  VariableScope,
 } from '@scrapper-gate/shared/schema';
 import gql from 'graphql-tag';
 import { v4 as uuid } from 'uuid';
@@ -130,9 +131,11 @@ describe('Update scrapper', () => {
 
     const existingVariable = VariableModel.create({
       key: 'existing',
+      scope: VariableScope.Scrapper,
     });
     const toRemoveVariable = VariableModel.create({
       key: 'toRemove',
+      scope: VariableScope.Scrapper,
     });
 
     scrapper.variables = [existingVariable, toRemoveVariable];
@@ -144,11 +147,13 @@ describe('Update scrapper', () => {
         key: 'test_create',
         value: 'test',
         defaultValue: 'default',
+        scope: VariableScope.Scrapper,
       },
       {
         id: existingVariable.id,
         key: existingVariable.key,
         value: 'value update',
+        scope: VariableScope.Scrapper,
       },
     ];
 

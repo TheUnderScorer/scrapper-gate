@@ -32,5 +32,6 @@ export const variablesSchema = gql`
     value: VariableValue
     key: String!
     kind: String
+    scope: VariableScope!
   }
 `;

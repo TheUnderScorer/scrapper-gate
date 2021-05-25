@@ -10,7 +10,7 @@ Object {
         style="position: relative; user-select: auto; width: 300px; height: 100%; max-width: 500px; min-width: 100px; box-sizing: border-box; flex-shrink: 0;"
       >
         <button
-          class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeSmall makeStyles-iconBtn-4 toggle-panel css-142za5v-MuiButtonBase-root-MuiFab-root"
+          class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeSmall makeStyles-iconBtn-4 toggle-panel css-8c9wxy-MuiButtonBase-root-MuiFab-root"
           data-mui-internal-clone-element="true"
           tabindex="0"
           type="button"
@@ -26,7 +26,7 @@ Object {
               viewBox="0 0 24 24"
             >
               <path
-                d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"
+                d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"
               />
             </svg>
           </span>
@@ -84,7 +84,7 @@ Object {
       style="position: relative; user-select: auto; width: 300px; height: 100%; max-width: 500px; min-width: 100px; box-sizing: border-box; flex-shrink: 0;"
     >
       <button
-        class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeSmall makeStyles-iconBtn-4 toggle-panel css-142za5v-MuiButtonBase-root-MuiFab-root"
+        class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeSmall makeStyles-iconBtn-4 toggle-panel css-8c9wxy-MuiButtonBase-root-MuiFab-root"
         data-mui-internal-clone-element="true"
         tabindex="0"
         type="button"
@@ -100,7 +100,7 @@ Object {
             viewBox="0 0 24 24"
           >
             <path
-              d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"
+              d="M15.41 7.41 14 6l-6 6 6 6 1.41-1.41L10.83 12z"
             />
           </svg>
         </span>

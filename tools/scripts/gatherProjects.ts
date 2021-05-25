@@ -10,4 +10,5 @@ const result = argv.filter
   ? matcher(projectsArray, argv.filter)
   : projectsArray;
 
-process.stdout.write(result.join(','));
+console.clear();
+console.log(result.join(','));

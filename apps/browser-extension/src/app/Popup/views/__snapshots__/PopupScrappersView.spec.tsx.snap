@@ -20,7 +20,6 @@ Object {
               class="MuiListItem-container css-oyakqy-MuiListItem-container"
             >
               <div
-                aria-disabled="false"
                 class="MuiButtonBase-root MuiListItem-root MuiListItem-gutters MuiListItem-button MuiListItem-secondaryAction scrapper-list-item css-te20g0-MuiButtonBase-root-MuiListItem-root"
                 role="button"
                 tabindex="0"
@@ -87,7 +86,7 @@ Object {
         tabindex="0"
       />
       <div
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiPopover-paper css-1poimk-MuiPaper-root-MuiMenu-paper-MuiPaper-root-MuiPopover-paper"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiMenu-paper MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiPopover-paper css-1poimk-MuiPaper-root-MuiMenu-paper-MuiPaper-root-MuiPopover-paper"
         style="opacity: 0; transform: scale(0.75, 0.5625); visibility: hidden;"
         tabindex="-1"
       >
@@ -97,7 +96,6 @@ Object {
           tabindex="-1"
         >
           <li
-            aria-disabled="false"
             class="MuiButtonBase-root MuiListItem-root MuiListItem-gutters MuiListItem-button MuiMenuItem-root css-1x5hx7h-MuiButtonBase-root-MuiListItem-root-MuiMenuItem-root"
             id="delete_scrapper"
             role="menuitem"
@@ -155,7 +153,6 @@ Object {
             class="MuiListItem-container css-oyakqy-MuiListItem-container"
           >
             <div
-              aria-disabled="false"
               class="MuiButtonBase-root MuiListItem-root MuiListItem-gutters MuiListItem-button MuiListItem-secondaryAction scrapper-list-item css-te20g0-MuiButtonBase-root-MuiListItem-root"
               role="button"
               tabindex="0"
