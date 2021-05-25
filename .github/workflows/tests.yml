@@ -50,8 +50,35 @@ jobs:
       - name: Lint
         run: npm run format:check -- --base=origin/master && npm run lint
 
-  test:
-    name: Run tests
+  test-shared:
+    name: Run shared tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set Node.js 16.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+
+      - name: Start docker
+        run: docker-compose up -d
+
+      - name: Setup env
+        run: cp .local.env.dist .local.env
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Test
+        run: |
+          PROJECTS=$(npm run gather-projects -- --filter="shared-*")
+          echo "$PROJECTS"
+          nx run-many --target=test --projects=$PROJECTS --parallel --maxParallel=2
+
+
+  test-backend:
+    name: Run backend tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -79,6 +106,35 @@ jobs:
         run: npm ci --legacy-peer-deps
 
       - name: Test
-        run: npm run test
+        run: |
+          PROJECTS=$(npm run gather-projects -- --filter="backend-*")
+          echo "$PROJECTS"
+          nx run-many --target=test --projects=$PROJECTS --parallel --maxParallel=2
+
+  test-frontend:
+    name: Run frontend tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set Node.js 16.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+
+      - name: Start docker
+        run: docker-compose up -d
+
+      - name: Setup env
+        run: cp .local.env.dist .local.env
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Test
+        run: |
+          PROJECTS=$(npm run gather-projects -- --filter="backend-*")
+          echo "$PROJECTS"
+          nx run-many --target=test --projects=$PROJECTS --parallel --maxParallel=2
 
 
