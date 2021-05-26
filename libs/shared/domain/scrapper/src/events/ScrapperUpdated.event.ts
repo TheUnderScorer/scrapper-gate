@@ -1,13 +1,18 @@
-import { VariableModel } from '@scrapper-gate/backend/domain/variables';
+import { Scrapper, Variable } from '@scrapper-gate/shared/schema';
 import { Event } from 'functional-cqrs';
-import { ScrapperModel } from '../../../../../backend/domain/scrapper/src/models/Scrapper.model';
 
-export interface ScrapperUpdatedEventPayload {
-  scrapper: ScrapperModel;
+export interface ScrapperUpdatedEventPayload<
+  T extends Scrapper = Scrapper,
+  V extends Variable = Variable
+> {
+  scrapper: T;
   userId: string;
-  variables: VariableModel[];
+  variables: V[];
 }
 
-export class ScrapperUpdatedEvent implements Event {
-  constructor(public readonly payload: ScrapperUpdatedEventPayload) {}
+export class ScrapperUpdatedEvent<
+  T extends Scrapper = Scrapper,
+  V extends Variable = Variable
+> implements Event {
+  constructor(public readonly payload: ScrapperUpdatedEventPayload<T, V>) {}
 }

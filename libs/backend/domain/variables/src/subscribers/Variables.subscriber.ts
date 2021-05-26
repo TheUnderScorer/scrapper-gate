@@ -1,7 +1,8 @@
-import { VariableRepository } from '@scrapper-gate/backend/domain/variables';
 import { ScrapperUpdatedEvent } from '@scrapper-gate/shared/domain/scrapper';
 import { VariableScope } from '@scrapper-gate/shared/schema';
 import { eventHandler } from 'functional-cqrs';
+import { VariableModel } from '../models/Variable.model';
+import { VariableRepository } from '../repositories/Variable.repository';
 
 export interface VariablesSubscriberDependencies {
   variableRepository: VariableRepository;
@@ -23,9 +24,9 @@ export class VariablesSubscriber {
       return;
     }
 
-    const globalVariables = variables.filter(
-      (variable) => variable.scope === VariableScope.Global
-    );
+    const globalVariables = variables
+      .filter((variable) => variable.scope === VariableScope.Global)
+      .map((variable) => VariableModel.create(variable));
 
     await this.dependencies.variableRepository.save(globalVariables);
   }

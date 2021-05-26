@@ -1,10 +1,11 @@
+import { Scrapper } from '@scrapper-gate/shared/schema';
 import { Event } from 'functional-cqrs';
-import { ScrapperModel } from '../../../../../backend/domain/scrapper/src/models/Scrapper.model';
 
-export interface ScrapperCreatedEventPayload {
-  scrapper: ScrapperModel;
+export interface ScrapperCreatedEventPayload<T extends Scrapper = Scrapper> {
+  scrapper: T;
 }
 
-export class ScrapperCreatedEvent implements Event {
-  constructor(public readonly payload: ScrapperCreatedEventPayload) {}
+export class ScrapperCreatedEvent<T extends Scrapper = Scrapper>
+  implements Event {
+  constructor(public readonly payload: ScrapperCreatedEventPayload<T>) {}
 }
