@@ -1,4 +1,3 @@
-import React, { ReactNode, useCallback, useMemo, useState } from 'react';
 import {
   AppBar,
   FormControlLabel,
@@ -10,18 +9,18 @@ import {
   Typography,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { Close } from '@material-ui/icons';
+import { useKeyboardShortcuts } from '@scrapper-gate/frontend/keyboard-shortcuts';
+import { Selector } from '@scrapper-gate/shared/schema';
+import classNames from 'classnames';
+import React, { ReactNode } from 'react';
+import Draggable from 'react-draggable';
+import { useHotkeys } from 'react-hotkeys-hook';
+import { KeyHint } from '../../../atoms/KeyHint/KeyHint';
 import {
   SelectorsList,
   SelectorsListProps,
 } from '../../../molecules/SelectorsList/SelectorsList';
-import { KeyHint } from '../../../atoms/KeyHint/KeyHint';
-import { Selector } from '@scrapper-gate/shared/schema';
-import { useKeyboardShortcuts } from '@scrapper-gate/frontend/keyboard-shortcuts';
-import { useHotkeys } from 'react-hotkeys-hook';
-import { useSnackbar } from 'notistack';
-import Draggable from 'react-draggable';
-import { Close } from '@material-ui/icons';
-import classNames from 'classnames';
 
 export interface HtmlElementPickerSnackbarProps {
   open?: boolean;
@@ -72,37 +71,14 @@ export const HtmlElementPickerSnackbar = ({
 }: HtmlElementPickerSnackbarProps) => {
   const keyboardShortcuts = useKeyboardShortcuts();
 
-  const snackbar = useSnackbar();
-
-  const [expanded, setExpanded] = useState(true);
   const classes = useStyles();
-
-  const handleEnableClickToggle = useCallback(
-    (toggle?: boolean) => {
-      onEnableClickToggle(toggle);
-
-      if (!expanded) {
-        snackbar.enqueueSnackbar(
-          toggle ? 'Element clicking enabled' : 'Element clicking disabled',
-          {
-            anchorOrigin: {
-              horizontal: 'right',
-              vertical: 'top',
-            },
-            variant: 'info',
-          }
-        );
-      }
-    },
-    [expanded, onEnableClickToggle, snackbar]
-  );
 
   useHotkeys(
     keyboardShortcuts.elementPicker.toggleElementClicking,
     (event) => {
       event.stopPropagation();
 
-      handleEnableClickToggle(!enableClick);
+      onEnableClickToggle(!enableClick);
     },
     [enableClick]
   );
@@ -158,9 +134,9 @@ export const HtmlElementPickerSnackbar = ({
               control={
                 <Switch
                   checked={enableClick}
-                  onChange={(e, checked) => {
+                  onChange={(e) => {
                     e.stopPropagation();
-                    handleEnableClickToggle(checked);
+                    onEnableClickToggle(e.target.checked);
                   }}
                 />
               }
@@ -176,9 +152,9 @@ export const HtmlElementPickerSnackbar = ({
               control={
                 <Switch
                   checked={multiselect}
-                  onChange={(e, checked) => {
+                  onChange={(e) => {
                     e.stopPropagation();
-                    onMultiSelect(checked);
+                    onMultiSelect(e.target.checked);
                   }}
                 />
               }

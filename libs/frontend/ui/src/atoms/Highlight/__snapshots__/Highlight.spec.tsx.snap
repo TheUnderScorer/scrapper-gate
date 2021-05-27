@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Highlight /> should highlight array of text 1`] = `"<div><span>Lorem </span><span style=\\"font-weight: 700;\\">ipsum</span><span> </span><span style=\\"font-weight: 700;\\">ipsum</span><span> Lorem </span><span style=\\"font-weight: 700;\\">test</span></div>"`;
+
+exports[`<Highlight /> should highlight text 1`] = `"<div><span>Cool </span><span style=\\"font-weight: 700;\\">text</span></div>"`;

@@ -6,6 +6,7 @@ import {
 import * as jf from 'joiful';
 import { BaseSchema } from '../../BaseSchema';
 import { optionalEnum } from '../../decorators/enum';
+import { noSpecialChars } from '../../decorators/noSpecialChars';
 import { uuid } from '../../decorators/uuid';
 import { SelectorDto } from '../SelectorDto';
 import { ScrapperConditionalRuleGroupInputDto } from './ScrapperConditionalRuleGroupInputDto';
@@ -31,7 +32,7 @@ export class ScrapperStepInputDto
   @optionalEnum(ScrapperAction)
   action?: ScrapperAction;
 
-  @(jf.string().max(50).allow(null))
+  @(noSpecialChars().max(50).allow(null))
   key?: string;
 
   @(jf.number().allow(null))

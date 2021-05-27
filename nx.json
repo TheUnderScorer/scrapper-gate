@@ -152,6 +152,21 @@
     },
     "backend-perf-hooks-utils": {
       "tags": []
+    },
+    "backend-validation": {
+      "tags": []
+    },
+    "shared-domain-variables": {
+      "tags": []
+    },
+    "backend-domain-variables": {
+      "tags": []
+    },
+    "backend-crud": {
+      "tags": []
+    },
+    "frontend-domain-variables": {
+      "tags": []
     }
   }
 }

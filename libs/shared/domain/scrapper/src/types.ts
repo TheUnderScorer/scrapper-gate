@@ -5,6 +5,7 @@ import {
   ScrapperRunStepResult,
   ScrapperRunValue,
   ScrapperStep,
+  Variable,
 } from '@scrapper-gate/shared/schema';
 
 export interface RunScrapperParams {
@@ -53,5 +54,5 @@ export type ScrapperStepHandlers = BaseStepHandlers & {
 export interface ScrapperStepHandlerParams {
   scrapperRun: ScrapperRun;
   step: ScrapperStep;
-  variables: unknown;
+  variables: Variable[];
 }

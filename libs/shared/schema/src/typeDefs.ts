@@ -7,6 +7,7 @@ import { scrapperSchema } from './schema/scrapper';
 import { selectorSchema } from './schema/selector';
 import { nodesSchema } from './schema/nodes';
 import { conditionalRulesSchema } from './schema/conditionalRules';
+import { variablesSchema } from './schema/variables';
 
 export const typeDefs = [
   rootSchema,
@@ -18,4 +19,5 @@ export const typeDefs = [
   conditionalRulesSchema,
   runnerSchema,
   errorSchema,
+  variablesSchema,
 ];

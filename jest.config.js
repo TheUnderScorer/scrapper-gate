@@ -38,5 +38,10 @@ module.exports = {
     '<rootDir>/libs/frontend/snackbars',
     '<rootDir>/libs/backend/domain/scrapper/playwright-runner',
     '<rootDir>/libs/backend/perf-hooks-utils',
+    '<rootDir>/libs/backend/validation',
+    '<rootDir>/libs/shared/domain/variables',
+    '<rootDir>/libs/backend/domain/variables',
+    '<rootDir>/libs/backend/crud',
+    '<rootDir>/libs/frontend/domain/variables',
   ],
 };

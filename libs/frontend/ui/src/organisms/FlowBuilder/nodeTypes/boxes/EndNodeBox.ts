@@ -1,5 +1,5 @@
+import { styled } from '@material-ui/styles';
 import { RoundNodeBox } from '../RoundNodeBox';
-import { styled } from '@material-ui/core';
 
 export const EndNodeBox = styled(RoundNodeBox)(({ theme }) => ({
   '&.action-node-box': {

@@ -6,6 +6,7 @@ import {
 } from '@scrapper-gate/shared/schema';
 import { createMockProxy } from 'jest-mock-proxy';
 import { v4 } from 'uuid';
+import { createMockScrapper } from './mockScrapper';
 import { createMockScrapperStep } from './mockScrapperStep';
 import { ScrapperRunProcessor } from './ScrapperRunProcessor';
 import { ScrapperRunner } from './types';
@@ -43,7 +44,11 @@ async function setupRun() {
       stepOnFalse,
     ],
   };
-  return { stepOnTrue, stepOnFalse, initialScrapperRun };
+
+  const scrapper = createMockScrapper();
+  scrapper.steps = initialScrapperRun.steps;
+
+  return { stepOnTrue, stepOnFalse, initialScrapperRun, scrapper };
 }
 
 describe('Scrapper run processor', () => {
@@ -51,7 +56,12 @@ describe('Scrapper run processor', () => {
     const runner = createMockProxy<ScrapperRunner>();
 
     const processor = new ScrapperRunProcessor(runner);
-    const { stepOnTrue, stepOnFalse, initialScrapperRun } = await setupRun();
+    const {
+      stepOnTrue,
+      stepOnFalse,
+      initialScrapperRun,
+      scrapper,
+    } = await setupRun();
 
     runner.Click.mockResolvedValue({
       values: [],
@@ -69,27 +79,30 @@ describe('Scrapper run processor', () => {
 
     const { scrapperRun } = await processor.process({
       scrapperRun: initialScrapperRun,
+      scrapper,
     });
 
     expect(scrapperRun).toBeDefined();
     expect(scrapperRun.state).toEqual(RunState.Completed);
-    expect(runner.Click).toHaveBeenCalledWith({
-      step: stepOnTrue,
-      scrapperRun,
-      variables: {},
-    });
-    expect(runner.Click).not.toHaveBeenCalledWith({
-      step: stepOnFalse,
-      scrapperRun,
-      variables: {},
-    });
+    expect(
+      runner.Click.mock.calls.find((call) => call[0].step.id === stepOnTrue.id)
+    ).toBeDefined();
+
+    expect(
+      runner.Click.mock.calls.find((call) => call[0].step.id === stepOnFalse.id)
+    ).toBeUndefined();
   });
 
   it('should process run - false condition', async () => {
     const runner = createMockProxy<ScrapperRunner>();
 
     const processor = new ScrapperRunProcessor(runner);
-    const { stepOnTrue, stepOnFalse, initialScrapperRun } = await setupRun();
+    const {
+      stepOnTrue,
+      stepOnFalse,
+      initialScrapperRun,
+      scrapper,
+    } = await setupRun();
 
     runner.Click.mockResolvedValue({
       values: [],
@@ -105,27 +118,25 @@ describe('Scrapper run processor', () => {
       },
     });
 
-    const { scrapperRun } = await processor.process({
+    await processor.process({
       scrapperRun: initialScrapperRun,
+      scrapper,
     });
 
-    expect(runner.Click).not.toHaveBeenCalledWith({
-      step: stepOnTrue,
-      scrapperRun,
-      variables: {},
-    });
-    expect(runner.Click).toHaveBeenCalledWith({
-      step: stepOnFalse,
-      scrapperRun,
-      variables: {},
-    });
+    expect(
+      runner.Click.mock.calls.find((call) => call[0].step.id === stepOnTrue.id)
+    ).toBeUndefined();
+
+    expect(
+      runner.Click.mock.calls.find((call) => call[0].step.id === stepOnFalse.id)
+    ).toBeDefined();
   });
 
   it('should handle errors', async () => {
     const runner = createMockProxy<ScrapperRunner>();
 
     const processor = new ScrapperRunProcessor(runner);
-    const { initialScrapperRun } = await setupRun();
+    const { initialScrapperRun, scrapper } = await setupRun();
 
     runner.Click.mockImplementation(async () => {
       throw new ScrapperRunError({
@@ -140,8 +151,88 @@ describe('Scrapper run processor', () => {
 
     const { scrapperRun } = await processor.process({
       scrapperRun: initialScrapperRun,
+      scrapper,
     });
 
     expect(scrapperRun.error).toBeDefined();
+  });
+
+  it('should handle variables', async () => {
+    const typeStep: ScrapperStep = {
+      ...(await createMockScrapperStep({})),
+      action: ScrapperAction.Type,
+      key: 'readText',
+      typeValue: '{{readText}}',
+    };
+    const clickStep: ScrapperStep = {
+      ...(await createMockScrapperStep({})),
+      action: ScrapperAction.Click,
+      selectors: [
+        {
+          value: '{{readText}}',
+        },
+      ],
+      nextStep: typeStep,
+    };
+    const readStep: ScrapperStep = {
+      ...(await createMockScrapperStep({})),
+      action: ScrapperAction.ReadText,
+      key: 'readText',
+      nextStep: clickStep,
+    };
+
+    const steps = [readStep, clickStep, typeStep];
+
+    const runner = createMockProxy<ScrapperRunner>();
+
+    const processor = new ScrapperRunProcessor(runner);
+    const { initialScrapperRun, scrapper } = await setupRun();
+
+    scrapper.steps = steps;
+    initialScrapperRun.steps = steps;
+
+    runner.ReadText.mockResolvedValue({
+      performance: {
+        duration: 0,
+      },
+      values: [
+        {
+          value: '#div',
+        },
+        {
+          value: 'span',
+        },
+      ],
+    });
+
+    runner.Click.mockResolvedValue({
+      performance: {
+        duration: 5,
+      },
+      values: [],
+    });
+
+    runner.Type.mockResolvedValue({
+      performance: {
+        duration: 5,
+      },
+      values: [],
+    });
+
+    await processor.process({
+      scrapper,
+      scrapperRun: initialScrapperRun,
+    });
+
+    const clickCall = runner.Click.mock.calls[0];
+    const typeCall = runner.Type.mock.calls[0];
+
+    expect(clickCall[0].step.selectors).toEqual([
+      {
+        value: '#div,span',
+      },
+    ]);
+
+    expect(typeCall[0].step.typeValue).toEqual('#div,span');
   });
 });

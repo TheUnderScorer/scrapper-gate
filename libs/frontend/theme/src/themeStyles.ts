@@ -7,4 +7,8 @@ export const themeStyles = (theme: Theme) => css`
     height: 23px !important;
     margin-left: ${theme.spacing(1)} !important;
   }
+
+  .MuiPickersBasePicker-pickerView {
+    pointer-events: all;
+  }
 `;

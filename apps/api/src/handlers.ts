@@ -6,6 +6,7 @@ import {
   getScrappersByUserHandler,
   updateScrapperHandler,
 } from '@scrapper-gate/backend/domain/scrapper';
+import { VariablesSubscriber } from '@scrapper-gate/backend/domain/variables';
 
 export const handlers: Handlers = {
   commandHandlers: [
@@ -13,6 +14,6 @@ export const handlers: Handlers = {
     createScrapperHandler,
     updateScrapperHandler,
   ],
-  eventHandlers: [],
+  eventHandlers: [VariablesSubscriber],
   queryHandlers: [getScrappersByUserHandler, getScrapperByUserHandler],
 };

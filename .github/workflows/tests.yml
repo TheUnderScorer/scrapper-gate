@@ -50,8 +50,35 @@ jobs:
       - name: Lint
         run: npm run format:check -- --base=origin/master && npm run lint
 
-  test:
-    name: Run tests
+  test-shared:
+    name: Run shared tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set Node.js 16.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+
+      - name: Start docker
+        run: docker-compose up -d
+
+      - name: Setup env
+        run: cp .local.env.dist .local.env
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps && npm i ts-node -g
+
+      - name: Test
+        run: |
+          PROJECTS=$(TS_NODE_PROJECT=tsconfig.node.json ts-node tools/scripts/gatherProjects.ts --filter="shared-*")
+          echo "$PROJECTS"
+          npx nx run-many --target=test --projects=$PROJECTS --parallel --maxParallel=2
+
+
+  test-backend:
+    name: Run backend tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -76,9 +103,61 @@ jobs:
         run: cp .local.env.dist .local.env
 
       - name: Install dependencies
-        run: npm ci --legacy-peer-deps
+        run: npm ci --legacy-peer-deps && npm i ts-node -g
 
       - name: Test
-        run: npm run test
+        run: |
+          PROJECTS=$(TS_NODE_PROJECT=tsconfig.node.json ts-node tools/scripts/gatherProjects.ts --filter="backend-*")
+          echo "$PROJECTS"
+          npx nx run-many --target=test --projects=$PROJECTS --parallel --maxParallel=2
+
+  test-frontend:
+    name: Run frontend tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set Node.js 16.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+
+      - name: Start docker
+        run: docker-compose up -d
+
+      - name: Setup env
+        run: cp .local.env.dist .local.env
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps && npm i ts-node -g
+
+      - name: Test
+        run: |
+          PROJECTS=$(TS_NODE_PROJECT=tsconfig.node.json ts-node tools/scripts/gatherProjects.ts --filter="frontend-*")
+          echo "$PROJECTS"
+          npx nx run-many --target=test --projects=$PROJECTS --parallel --maxParallel=2
+
+  test-apps:
+    name: Run apps tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set Node.js 16.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+
+      - name: Start docker
+        run: docker-compose up -d
+
+      - name: Setup env
+        run: cp .local.env.dist .local.env
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps && npm i ts-node -g
+
+      - name: Test
+        run: npx nx run-many --target=test --projects=api,browser-extension --parallel --maxParallel=2
 
 

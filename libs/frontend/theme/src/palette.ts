@@ -1,7 +1,8 @@
-import { colors, createMuiTheme, PaletteOptions } from '@material-ui/core';
+import { colors, PaletteOptions } from '@material-ui/core';
+import { createTheme } from '@material-ui/core/styles';
 import { getContrast } from '@scrapper-gate/shared/common';
 
-const defaultTheme = createMuiTheme();
+const defaultTheme = createTheme();
 
 export const primary = {
   dark: colors.deepPurple['800'],

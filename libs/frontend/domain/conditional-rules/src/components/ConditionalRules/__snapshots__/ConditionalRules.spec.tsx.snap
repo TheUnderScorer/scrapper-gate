@@ -6,16 +6,16 @@ Object {
   "baseElement": <body>
     <div>
       <div
-        class="css-1a8w37c"
+        class="MuiBox-root css-1a8w37c"
       >
         <div
-          class="css-1icgf7x"
+          class="MuiBox-root css-1icgf7x"
         />
         <div
-          class="centered makeStyles-btn-1 css-1rr92ez"
+          class="centered makeStyles-btn-1 MuiBox-root css-1rr92ez"
         >
           <button
-            class="MuiButtonBase-root MuiFab-root MuiFab-extended MuiFab-sizeSmall MuiFab-primary makeStyles-fab-2 add-rules-group css-in04kj-MuiButtonBase-root-MuiFab-root"
+            class="MuiButtonBase-root MuiFab-root MuiFab-extended MuiFab-sizeSmall MuiFab-primary makeStyles-fab-2 add-rules-group css-y2dn85-MuiButtonBase-root-MuiFab-root"
             tabindex="0"
             type="button"
           >
@@ -45,16 +45,16 @@ Object {
   </body>,
   "container": <div>
     <div
-      class="css-1a8w37c"
+      class="MuiBox-root css-1a8w37c"
     >
       <div
-        class="css-1icgf7x"
+        class="MuiBox-root css-1icgf7x"
       />
       <div
-        class="centered makeStyles-btn-1 css-1rr92ez"
+        class="centered makeStyles-btn-1 MuiBox-root css-1rr92ez"
       >
         <button
-          class="MuiButtonBase-root MuiFab-root MuiFab-extended MuiFab-sizeSmall MuiFab-primary makeStyles-fab-2 add-rules-group css-in04kj-MuiButtonBase-root-MuiFab-root"
+          class="MuiButtonBase-root MuiFab-root MuiFab-extended MuiFab-sizeSmall MuiFab-primary makeStyles-fab-2 add-rules-group css-y2dn85-MuiButtonBase-root-MuiFab-root"
           tabindex="0"
           type="button"
         >

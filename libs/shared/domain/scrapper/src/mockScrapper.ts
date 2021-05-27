@@ -9,4 +9,5 @@ export const createMockScrapper = (createdBy = createMockUser()): Scrapper => ({
   createdAt: new Date(),
   updatedAt: new Date(),
   steps: [],
+  variables: [],
 });

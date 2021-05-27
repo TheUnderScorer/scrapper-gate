@@ -1,8 +1,8 @@
-import { validateAsClass } from 'joiful';
-import { ValidationError } from './ValidationError';
 import { Constructor } from '@scrapper-gate/shared/constructor';
-import { JoiMessages } from './types';
+import { validateAsClass } from 'joiful';
 import { ValidationOptions } from 'joiful/validation';
+import { ValidationError } from './ValidationError';
+import { validationMessages } from './validationMessages';
 
 export const validate = <T>(
   input: Partial<unknown>,
@@ -11,12 +11,7 @@ export const validate = <T>(
 ) => {
   const result = validateAsClass(input, classConstructor, {
     abortEarly: false,
-    messages: {
-      [JoiMessages.Required]: 'This field is required.',
-      [JoiMessages.Email]: 'Must be a valid e-mail.',
-      [JoiMessages.Uri]: 'Must be a valid url.',
-      [JoiMessages.HtmlAttribute]: 'Invalid attribute.',
-    },
+    messages: validationMessages,
     ...joiOptions,
   });
 

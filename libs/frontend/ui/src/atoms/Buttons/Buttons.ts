@@ -1,9 +1,5 @@
-import { Button, Fab, styled } from '@material-ui/core';
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const defaultProps: any = {
-  color: 'primary',
-};
+import { Button, Fab } from '@material-ui/core';
+import { styled } from '@material-ui/styles';
 
 export const PrimaryLightButton = styled(Button)(({ theme }) => ({
   '&, &:hover': {
@@ -12,7 +8,7 @@ export const PrimaryLightButton = styled(Button)(({ theme }) => ({
   },
 }));
 
-PrimaryLightButton.defaultProps = defaultProps;
+//PrimaryLightButton.defaultProps = defaultProps;
 
 export const PrimaryLightIconButton = styled(Fab)(({ theme }) => ({
   '&.MuiFab-root, &.MuiFab-root:hover': {
@@ -21,7 +17,7 @@ export const PrimaryLightIconButton = styled(Fab)(({ theme }) => ({
     boxShadow: 'none',
   },
 }));
-PrimaryLightIconButton.defaultProps = defaultProps;
+//PrimaryLightIconButton.defaultProps = defaultProps;
 
 export const PrimaryIconButton = styled(Fab)(({ theme }) => ({
   backgroundColor: theme.palette.primary.main,
@@ -33,4 +29,4 @@ export const PrimaryIconButton = styled(Fab)(({ theme }) => ({
     color: theme.palette.primary.main,
   },
 }));
-PrimaryIconButton.defaultProps = defaultProps;
+//PrimaryIconButton.defaultProps = defaultProps;

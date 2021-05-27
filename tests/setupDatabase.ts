@@ -1,15 +1,16 @@
-import '../typings/global';
-import { Connection, createConnection } from 'typeorm';
-import { UserModel } from '@scrapper-gate/backend/domain/user';
-import { snakeCase } from 'lodash';
-import { Constructor } from '@scrapper-gate/shared/constructor';
 import {
   ScrapperModel,
   ScrapperStepModel,
 } from '@scrapper-gate/backend/domain/scrapper';
+import { UserModel } from '@scrapper-gate/backend/domain/user';
+import { VariableModel } from '@scrapper-gate/backend/domain/variables';
+import { Constructor } from '@scrapper-gate/shared/constructor';
+import { snakeCase } from 'lodash';
+import { Connection, createConnection } from 'typeorm';
 import { ScrapperRunModel } from '../libs/backend/domain/scrapper/src/models/ScrapperRun.model';
 import { ScrapperRunStepResultModel } from '../libs/backend/domain/scrapper/src/models/ScrapperRunStepResult.model';
 import { ScrapperRunStepValueModel } from '../libs/backend/domain/scrapper/src/models/ScrapperRunStepValue.model';
+import '../typings/global';
 
 const entities = [
   UserModel,
@@ -18,6 +19,7 @@ const entities = [
   ScrapperRunModel,
   ScrapperRunStepResultModel,
   ScrapperRunStepValueModel,
+  VariableModel,
 ];
 
 let rootConnection: Connection;

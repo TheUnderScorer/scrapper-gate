@@ -1,3 +1,4 @@
+import { ValidateDtoDirective } from '@scrapper-gate/backend/validation';
 import { ApolloServer } from 'apollo-server-fastify';
 import { Resolvers, typeDefs } from '@scrapper-gate/shared/schema';
 import { AwilixContainer } from 'awilix';
@@ -26,6 +27,7 @@ export const apolloServerFactory = ({
     }),
     schemaDirectives: {
       auth: AuthDirective,
+      validateDto: ValidateDtoDirective,
     },
     introspection: true,
     formatError: (error) => {

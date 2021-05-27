@@ -28,6 +28,7 @@ export type Scalars = {
   Date: Date;
   ScrapperRunValueType: any;
   Url: any;
+  VariableValue: any;
   WhatValue: WhatValue;
 };
 
@@ -42,6 +43,10 @@ export type BaseEntity = {
   updatedAt: Scalars['Date'];
   deletedAt?: Maybe<Scalars['Date']>;
 };
+
+export enum BaseVariableKind {
+  BuiltIn = 'BuiltIn',
+}
 
 export enum BrowserType {
   Firefox = 'Firefox',
@@ -269,6 +274,7 @@ export type Scrapper = BaseEntity &
     createdBy?: Maybe<User>;
     deletedAt?: Maybe<Scalars['Date']>;
     steps?: Maybe<Array<ScrapperStep>>;
+    variables?: Maybe<Array<Variable>>;
   };
 
 export enum ScrapperAction {
@@ -285,6 +291,7 @@ export type ScrapperInput = {
   id: Scalars['ID'];
   name?: Maybe<Scalars['String']>;
   steps?: Maybe<Array<ScrapperStepInput>>;
+  variables?: Maybe<Array<VariableInput>>;
 };
 
 export type ScrapperQueryResult = {
@@ -306,6 +313,7 @@ export type ScrapperRun = BaseEntity &
     results?: Maybe<Array<ScrapperRunStepResult>>;
     error?: Maybe<RunnerError>;
     key?: Maybe<Scalars['String']>;
+    variables?: Maybe<Array<Variable>>;
   };
 
 export type ScrapperRunQueryResult = {
@@ -421,6 +429,34 @@ export type User = BaseEntity & {
   deletedAt?: Maybe<Scalars['Date']>;
   acceptTerms: Scalars['Boolean'];
 };
+
+export type Variable = BaseEntity & {
+  id: Scalars['ID'];
+  createdAt: Scalars['Date'];
+  updatedAt: Scalars['Date'];
+  deletedAt?: Maybe<Scalars['Date']>;
+  defaultValue?: Maybe<Scalars['VariableValue']>;
+  value?: Maybe<Scalars['VariableValue']>;
+  key: Scalars['String'];
+  kind?: Maybe<Scalars['String']>;
+  isBuiltIn?: Maybe<Scalars['Boolean']>;
+  scope: VariableScope;
+};
+
+export type VariableInput = {
+  id?: Maybe<Scalars['ID']>;
+  defaultValue?: Maybe<Scalars['VariableValue']>;
+  value?: Maybe<Scalars['VariableValue']>;
+  key: Scalars['String'];
+  kind?: Maybe<Scalars['String']>;
+  scope: VariableScope;
+};
+
+export enum VariableScope {
+  Global = 'Global',
+  Scrapper = 'Scrapper',
+  Workflow = 'Workflow',
+}
 
 export type GetScrapperForBuilderQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -652,8 +688,10 @@ export type ResolversTypes = ResolversObject<{
     | ResolversTypes['ScrapperRunStepResult']
     | ResolversTypes['ScrapperRunValue']
     | ResolversTypes['ScrapperStep']
-    | ResolversTypes['User'];
+    | ResolversTypes['User']
+    | ResolversTypes['Variable'];
   ID: ResolverTypeWrapper<Scalars['ID']>;
+  BaseVariableKind: BaseVariableKind;
   BrowserType: BrowserType;
   ConditionalMetaData: ResolverTypeWrapper<Scalars['ConditionalMetaData']>;
   ConditionalRule: ResolverTypeWrapper<ConditionalRule>;
@@ -711,6 +749,10 @@ export type ResolversTypes = ResolversObject<{
   Subscription: ResolverTypeWrapper<{}>;
   Url: ResolverTypeWrapper<Scalars['Url']>;
   User: ResolverTypeWrapper<User>;
+  Variable: ResolverTypeWrapper<Variable>;
+  VariableInput: VariableInput;
+  VariableScope: VariableScope;
+  VariableValue: ResolverTypeWrapper<Scalars['VariableValue']>;
   WhatValue: ResolverTypeWrapper<Scalars['WhatValue']>;
 }>;
 
@@ -724,7 +766,8 @@ export type ResolversParentTypes = ResolversObject<{
     | ResolversParentTypes['ScrapperRunStepResult']
     | ResolversParentTypes['ScrapperRunValue']
     | ResolversParentTypes['ScrapperStep']
-    | ResolversParentTypes['User'];
+    | ResolversParentTypes['User']
+    | ResolversParentTypes['Variable'];
   ID: Scalars['ID'];
   ConditionalMetaData: Scalars['ConditionalMetaData'];
   ConditionalRule: ConditionalRule;
@@ -778,6 +821,9 @@ export type ResolversParentTypes = ResolversObject<{
   Subscription: {};
   Url: Scalars['Url'];
   User: User;
+  Variable: Variable;
+  VariableInput: VariableInput;
+  VariableValue: Scalars['VariableValue'];
   WhatValue: Scalars['WhatValue'];
 }>;
 
@@ -804,6 +850,18 @@ export type RestDirectiveResolver<
   Args = RestDirectiveArgs
 > = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
+export type ValidateDtoDirectiveArgs = {
+  dto: Scalars['String'];
+  key: Scalars['String'];
+};
+
+export type ValidateDtoDirectiveResolver<
+  Result,
+  Parent,
+  ContextType = any,
+  Args = ValidateDtoDirectiveArgs
+> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+
 export type AuthTokensResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['AuthTokens'] = ResolversParentTypes['AuthTokens']
@@ -823,7 +881,8 @@ export type BaseEntityResolvers<
     | 'ScrapperRunStepResult'
     | 'ScrapperRunValue'
     | 'ScrapperStep'
-    | 'User',
+    | 'User'
+    | 'Variable',
     ParentType,
     ContextType
   >;
@@ -1108,6 +1167,11 @@ export type ScrapperResolvers<
     ParentType,
     ContextType
   >;
+  variables?: Resolver<
+    Maybe<Array<ResolversTypes['Variable']>>,
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -1152,6 +1216,11 @@ export type ScrapperRunResolvers<
     ContextType
   >;
   key?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  variables?: Resolver<
+    Maybe<Array<ResolversTypes['Variable']>>,
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -1372,6 +1441,40 @@ export type UserResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type VariableResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['Variable'] = ResolversParentTypes['Variable']
+> = ResolversObject<{
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  deletedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
+  defaultValue?: Resolver<
+    Maybe<ResolversTypes['VariableValue']>,
+    ParentType,
+    ContextType
+  >;
+  value?: Resolver<
+    Maybe<ResolversTypes['VariableValue']>,
+    ParentType,
+    ContextType
+  >;
+  key?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  kind?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  isBuiltIn?: Resolver<
+    Maybe<ResolversTypes['Boolean']>,
+    ParentType,
+    ContextType
+  >;
+  scope?: Resolver<ResolversTypes['VariableScope'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export interface VariableValueScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes['VariableValue'], any> {
+  name: 'VariableValue';
+}
+
 export interface WhatValueScalarConfig
   extends GraphQLScalarTypeConfig<ResolversTypes['WhatValue'], any> {
   name: 'WhatValue';
@@ -1412,6 +1515,8 @@ export type Resolvers<ContextType = any> = ResolversObject<{
   Subscription?: SubscriptionResolvers<ContextType>;
   Url?: GraphQLScalarType;
   User?: UserResolvers<ContextType>;
+  Variable?: VariableResolvers<ContextType>;
+  VariableValue?: GraphQLScalarType;
   WhatValue?: GraphQLScalarType;
 }>;
 
@@ -1423,6 +1528,7 @@ export type IResolvers<ContextType = any> = Resolvers<ContextType>;
 export type DirectiveResolvers<ContextType = any> = ResolversObject<{
   auth?: AuthDirectiveResolver<any, any, ContextType>;
   rest?: RestDirectiveResolver<any, any, ContextType>;
+  validateDto?: ValidateDtoDirectiveResolver<any, any, ContextType>;
 }>;
 
 /**
