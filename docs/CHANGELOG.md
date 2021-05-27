@@ -1,3 +1,13 @@
+# [1.4.0](https://github.com/TheUnderScorer/scrapper-gate/compare/v1.3.0...v1.4.0) (2021-05-27)
+
+
+### Features
+
+* Add variable text field component ([9910e08](https://github.com/TheUnderScorer/scrapper-gate/commit/9910e08eec354ee6b00c67a86e167b5dcaf030e7))
+* Resolve variables ([f440774](https://github.com/TheUnderScorer/scrapper-gate/commit/f440774083eadff4fbc795765561a1b234bcf281))
+* Resolve variables in scrapper run ([1e38c0b](https://github.com/TheUnderScorer/scrapper-gate/commit/1e38c0be1bebea35680f134c755ea924f9015592))
+* Store variables in scrapper ([b6fa067](https://github.com/TheUnderScorer/scrapper-gate/commit/b6fa0674c3b99da248de0d07c836fc5ee6c2548f))
+
 # [1.3.0](https://github.com/TheUnderScorer/scrapper-gate/compare/v1.2.0...v1.3.0) (2021-05-19)
 
 
