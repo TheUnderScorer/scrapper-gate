@@ -77,6 +77,7 @@ export const updateScrapperHandler = commandHandler.asFunction<
       variableModels = variables.map((variable) => {
         return VariableModel.create({
           ...variable,
+          createdBy: scrapper.createdBy,
         });
       });
 

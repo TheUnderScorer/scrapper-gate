@@ -1,7 +1,12 @@
 import { BaseModel } from '@scrapper-gate/backend/base-model';
+import { UserModel } from '@scrapper-gate/backend/domain/user';
 import { Entities } from '@scrapper-gate/shared/common';
-import { Variable, VariableScope } from '@scrapper-gate/shared/schema';
-import { Column, Entity } from 'typeorm';
+import {
+  CreatedBy,
+  Variable,
+  VariableScope,
+} from '@scrapper-gate/shared/schema';
+import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 
 const valueTransformer = {
   from: (value: unknown) => {
@@ -21,7 +26,9 @@ const valueTransformer = {
 };
 
 @Entity(Entities.Variable)
-export class VariableModel extends BaseModel<Variable> implements Variable {
+export class VariableModel
+  extends BaseModel<Variable>
+  implements Variable, CreatedBy {
   @Column({
     type: 'text',
     transformer: valueTransformer,
@@ -41,4 +48,8 @@ export class VariableModel extends BaseModel<Variable> implements Variable {
 
   @Column()
   scope: VariableScope;
+
+  @ManyToOne(() => UserModel)
+  @JoinColumn()
+  createdBy: UserModel;
 }
