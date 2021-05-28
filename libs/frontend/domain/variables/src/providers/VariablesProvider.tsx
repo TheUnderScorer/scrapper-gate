@@ -15,6 +15,9 @@ export interface VariablesProviderContext {
   variables: Variable[];
   // Record with mapped keys and matching variable. Key is formatted with template brackets, ex. {{My Variable}}: Variable
   mappedVariables: Record<string, Variable>;
+
+  // Filtered variable, here every variable must have a key
+  filteredVariables: Variable[];
 }
 
 export interface VariableProviderProps {
@@ -25,6 +28,7 @@ export interface VariableProviderProps {
 const Context = createContext<VariablesProviderContext>({
   variables: [],
   mappedVariables: {},
+  filteredVariables: [],
 });
 
 export const useVariablesContext = () => useContext(Context);
@@ -37,7 +41,7 @@ export const VariablesProvider = ({
   name,
   children,
 }: PropsWithChildren<VariableProviderProps>) => {
-  const variables = useFormFieldValue<Variable[]>(name);
+  const variables = useFormFieldValue<Variable[]>(name, []);
 
   const mappedVariables = useMemo(
     () =>
@@ -52,8 +56,13 @@ export const VariablesProvider = ({
     [variables]
   );
 
+  const filteredVariables = useMemo(
+    () => variables.filter((variable) => Boolean(variable.key)),
+    [variables]
+  );
+
   return (
-    <Context.Provider value={{ variables, mappedVariables }}>
+    <Context.Provider value={{ variables, mappedVariables, filteredVariables }}>
       {children}
     </Context.Provider>
   );

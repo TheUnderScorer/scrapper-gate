@@ -5,6 +5,7 @@ import {
   CreatedBy,
   Variable,
   VariableScope,
+  VariableType,
 } from '@scrapper-gate/shared/schema';
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 
@@ -52,4 +53,9 @@ export class VariableModel
   @ManyToOne(() => UserModel)
   @JoinColumn()
   createdBy: UserModel;
+
+  @Column({
+    nullable: true,
+  })
+  type?: VariableType;
 }

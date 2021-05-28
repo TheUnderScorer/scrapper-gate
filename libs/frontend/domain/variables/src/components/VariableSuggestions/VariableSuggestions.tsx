@@ -1,4 +1,5 @@
 import {
+  createFilterOptions,
   Divider,
   List,
   ListItem,
@@ -10,13 +11,12 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { AttachMoney } from '@material-ui/icons';
-import { createFilterOptions } from '@material-ui/lab';
 import { AppTheme } from '@scrapper-gate/frontend/theme';
-import { Highlight } from '@scrapper-gate/frontend/ui';
-import { getLastIndex } from '@scrapper-gate/shared/common';
+import { Emoji, Highlight } from '@scrapper-gate/frontend/ui';
+import { first, getLastIndex } from '@scrapper-gate/shared/common';
 import { Variable } from '@scrapper-gate/shared/schema';
 import classNames from 'classnames';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useKey } from 'react-use';
 import { Key } from 'ts-key-enum';
 import { useVariablesContextSelector } from '../../providers/VariablesProvider';
@@ -51,7 +51,7 @@ export const VariableSuggestions = ({
   onVariableClick,
 }: VariableSuggestionsProps) => {
   const classes = useStyles();
-  const variables = useVariablesContextSelector((ctx) => ctx.variables);
+  const variables = useVariablesContextSelector((ctx) => ctx.filteredVariables);
 
   const theme = useTheme() as AppTheme;
 
@@ -74,14 +74,14 @@ export const VariableSuggestions = ({
   }, [rawText, variables]);
 
   const [selectedVariable, setSelectedVariable] = useState(
-    filteredVariables[0]
+    first(filteredVariables)
   );
 
   // TODO Make this more generic
   const handleNavigation = useCallback(
     (direction: 'top' | 'bottom') => {
       const index = filteredVariables.indexOf(selectedVariable);
-      const lastIndex = getLastIndex(variables);
+      const lastIndex = getLastIndex(filteredVariables);
 
       let newIndex = direction === 'top' ? index - 1 : index + 1;
 
@@ -91,11 +91,11 @@ export const VariableSuggestions = ({
         newIndex = 0;
       }
 
-      const newVariable = variables[newIndex];
+      const newVariable = filteredVariables[newIndex];
 
-      setSelectedVariable(newVariable);
+      setSelectedVariable(newVariable ?? first(filteredVariables));
     },
-    [filteredVariables, selectedVariable, variables]
+    [filteredVariables, selectedVariable]
   );
 
   useKey(
@@ -136,6 +136,12 @@ export const VariableSuggestions = ({
     [handleNavigation]
   );
 
+  useEffect(() => {
+    if (!filteredVariables.includes(selectedVariable)) {
+      setSelectedVariable(first(filteredVariables));
+    }
+  }, [filteredVariables, selectedVariable]);
+
   return (
     <Stack
       className={classNames(classes.stack, 'variable-suggestions-container')}
@@ -154,7 +160,11 @@ export const VariableSuggestions = ({
         {!filteredVariables.length && (
           <ListItem component="li" disableGutters>
             <ListItemText
-              primary={`No variables found ${theme.emojis.empty}`}
+              primary={
+                <>
+                  No variables found <Emoji>{theme.emojis.empty}</Emoji>
+                </>
+              }
             />
           </ListItem>
         )}
@@ -168,7 +178,7 @@ export const VariableSuggestions = ({
             }}
             className={classNames(classes.item, 'variable-list-item')}
             role="button"
-            selected={selectedVariable.id === variable.id}
+            selected={selectedVariable?.id === variable.id}
             onMouseOver={() => setSelectedVariable(variable)}
             tabIndex={0}
             component="li"

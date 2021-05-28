@@ -102,7 +102,7 @@ export const FlowBuilderHeader = ({
             )}
             {loading && (
               <>
-                <Skeleton variant="circle" width={30} height={30} />
+                <Skeleton variant="circular" width={30} height={30} />
                 <Skeleton variant="text" width={60} height={10} />
               </>
             )}
@@ -124,7 +124,7 @@ export const FlowBuilderHeader = ({
               <FormStateIcon className={classes.iconButton} />
             </SkeletonComponentOrIcon>
             <SkeletonComponentOrIcon
-              variant="rect"
+              variant="rectangular"
               loading={loading}
               width={60}
               height={30}

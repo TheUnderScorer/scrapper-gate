@@ -43,5 +43,6 @@ module.exports = {
     '<rootDir>/libs/backend/domain/variables',
     '<rootDir>/libs/backend/crud',
     '<rootDir>/libs/frontend/domain/variables',
+    '<rootDir>/libs/frontend/data-grid',
   ],
 };

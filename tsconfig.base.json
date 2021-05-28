@@ -114,6 +114,9 @@
       "@scrapper-gate/backend/crud": ["libs/backend/crud/src/index.ts"],
       "@scrapper-gate/frontend/domain/variables": [
         "libs/frontend/domain/variables/src/index.ts"
+      ],
+      "@scrapper-gate/frontend/data-grid": [
+        "libs/frontend/data-grid/src/index.ts"
       ]
     }
   },

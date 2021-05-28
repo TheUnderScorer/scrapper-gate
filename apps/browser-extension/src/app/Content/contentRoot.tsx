@@ -1,7 +1,11 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { palette, ThemeProvider } from '@scrapper-gate/frontend/theme';
+import { Global } from '@emotion/react';
+import { Palette } from '@material-ui/core/styles/createPalette';
+import { LocalizationProvider } from '@material-ui/lab';
+import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import { ApiClientProvider } from '@scrapper-gate/frontend/api-client';
+import { QueryParamProvider } from '@scrapper-gate/frontend/common';
+import { logger } from '@scrapper-gate/frontend/logger';
+import { palette, ThemeProvider } from '@scrapper-gate/frontend/theme';
 import {
   hiddenNumericArrows,
   highlight,
@@ -10,19 +14,15 @@ import {
   SnackbarActions,
 } from '@scrapper-gate/frontend/ui';
 import { SnackbarProvider } from 'notistack';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import 'react-flow-renderer/dist/style.css';
+import tinycolor from 'tinycolor2';
+import '../../content.css';
 import { ContentRouter } from '../../extension/contentScript/components/ContentRouter';
 import { contentContainer } from '../../extension/contentScript/contentContainer';
-import '../../content.css';
-import { ContentErrorBoundary } from './ContentErrorBoundary';
 import { Content } from './Content';
-import { logger } from '@scrapper-gate/frontend/logger';
-import { QueryParamProvider } from '@scrapper-gate/frontend/common';
-import 'react-flow-renderer/dist/style.css';
-import { Global } from '@emotion/react';
-import tinycolor from 'tinycolor2';
-import { Palette } from '@material-ui/core/styles/createPalette';
-import DateFnsUtils from '@date-io/date-fns';
-import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import { ContentErrorBoundary } from './ContentErrorBoundary';
 
 logger.debug('Starting content script... ;)');
 
@@ -42,7 +42,7 @@ ReactDOM.render(
     <Scoped>
       {(shadowRoot, container) => (
         <ContentErrorBoundary>
-          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
             <ContentRouter>
               <QueryParamProvider>
                 <ThemeProvider isContent container={container}>
@@ -63,7 +63,7 @@ ReactDOM.render(
                 </ThemeProvider>
               </QueryParamProvider>
             </ContentRouter>
-          </MuiPickersUtilsProvider>
+          </LocalizationProvider>
         </ContentErrorBoundary>
       )}
     </Scoped>

@@ -1,13 +1,21 @@
-import { FieldRenderProps, useField, UseFieldConfig } from 'react-final-form';
-import { useCallback } from 'react';
+import {
+  FieldRenderProps,
+  useField,
+  UseFieldConfig,
+  useForm,
+} from 'react-final-form';
+import { useCallback, useMemo } from 'react';
 import { removeAtIndex } from '@scrapper-gate/shared/common';
 import { v4 } from 'uuid';
 import { BaseEntity } from '@scrapper-gate/shared/schema';
+import get from 'lodash.get';
 
 export const useFieldArray = <T extends Record<string, unknown>>(
   name: string,
   props?: UseFieldConfig<T[]>
 ) => {
+  const form = useForm();
+
   const field = useField(name, {
     ...props,
     format: (value) =>
@@ -39,16 +47,20 @@ export const useFieldArray = <T extends Record<string, unknown>>(
 
   const remove = useCallback(
     (index: number) => {
+      const value = get(form.getState().values, name);
       const newValue = removeAtIndex(value, index);
 
       onChange(newValue);
     },
-    [onChange, value]
+    [form, name, onChange]
   );
 
-  return {
-    ...(field as FieldRenderProps<Array<T & Pick<BaseEntity, 'id'>>>),
-    append,
-    remove,
-  };
+  return useMemo(
+    () => ({
+      ...(field as FieldRenderProps<Array<T & Pick<BaseEntity, 'id'>>>),
+      append,
+      remove,
+    }),
+    [field, append, remove]
+  );
 };

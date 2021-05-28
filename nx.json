@@ -167,6 +167,9 @@
     },
     "frontend-domain-variables": {
       "tags": []
+    },
+    "frontend-data-grid": {
+      "tags": []
     }
   }
 }

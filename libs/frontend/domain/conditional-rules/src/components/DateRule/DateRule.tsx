@@ -38,13 +38,10 @@ export const DateRule = ({
         ))}
       </FormSelect>
       <FormDatePicker
-        inputVariant={fieldVariant}
-        disableToolbar
+        variant={fieldVariant}
         name={getName('value')}
         label={ruleLabels.value}
-        format={DateFormat.Date}
-        margin="normal"
-        variant="inline"
+        inputFormat={DateFormat.Date}
         fieldProps={{
           initialValue: now,
         }}

@@ -1212,6 +1212,27 @@
           }
         }
       }
+    },
+    "frontend-data-grid": {
+      "root": "libs/frontend/data-grid",
+      "sourceRoot": "libs/frontend/data-grid/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/frontend/data-grid/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/frontend/data-grid"],
+          "options": {
+            "jestConfig": "libs/frontend/data-grid/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   }
 }

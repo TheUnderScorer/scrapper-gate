@@ -44,10 +44,6 @@ export type BaseEntity = {
   deletedAt?: Maybe<Scalars['Date']>;
 };
 
-export enum BaseVariableKind {
-  BuiltIn = 'BuiltIn',
-}
-
 export enum BrowserType {
   Firefox = 'Firefox',
   Chrome = 'Chrome',
@@ -438,9 +434,9 @@ export type Variable = BaseEntity & {
   defaultValue?: Maybe<Scalars['VariableValue']>;
   value?: Maybe<Scalars['VariableValue']>;
   key: Scalars['String'];
-  kind?: Maybe<Scalars['String']>;
   isBuiltIn?: Maybe<Scalars['Boolean']>;
   scope: VariableScope;
+  type?: Maybe<VariableType>;
 };
 
 export type VariableInput = {
@@ -448,14 +444,19 @@ export type VariableInput = {
   defaultValue?: Maybe<Scalars['VariableValue']>;
   value?: Maybe<Scalars['VariableValue']>;
   key: Scalars['String'];
-  kind?: Maybe<Scalars['String']>;
   scope: VariableScope;
+  type?: Maybe<VariableType>;
 };
 
 export enum VariableScope {
   Global = 'Global',
   Scrapper = 'Scrapper',
-  Workflow = 'Workflow',
+}
+
+export enum VariableType {
+  Text = 'Text',
+  Number = 'Number',
+  Date = 'Date',
 }
 
 export type GetScrapperForBuilderQueryVariables = Exact<{
@@ -691,7 +692,6 @@ export type ResolversTypes = ResolversObject<{
     | ResolversTypes['User']
     | ResolversTypes['Variable'];
   ID: ResolverTypeWrapper<Scalars['ID']>;
-  BaseVariableKind: BaseVariableKind;
   BrowserType: BrowserType;
   ConditionalMetaData: ResolverTypeWrapper<Scalars['ConditionalMetaData']>;
   ConditionalRule: ResolverTypeWrapper<ConditionalRule>;
@@ -752,6 +752,7 @@ export type ResolversTypes = ResolversObject<{
   Variable: ResolverTypeWrapper<Variable>;
   VariableInput: VariableInput;
   VariableScope: VariableScope;
+  VariableType: VariableType;
   VariableValue: ResolverTypeWrapper<Scalars['VariableValue']>;
   WhatValue: ResolverTypeWrapper<Scalars['WhatValue']>;
 }>;
@@ -1460,13 +1461,17 @@ export type VariableResolvers<
     ContextType
   >;
   key?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  kind?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   isBuiltIn?: Resolver<
     Maybe<ResolversTypes['Boolean']>,
     ParentType,
     ContextType
   >;
   scope?: Resolver<ResolversTypes['VariableScope'], ParentType, ContextType>;
+  type?: Resolver<
+    Maybe<ResolversTypes['VariableType']>,
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 

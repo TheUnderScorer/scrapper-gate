@@ -1,23 +1,23 @@
-import { act, render } from '@testing-library/react';
+import { LocalizationProvider } from '@material-ui/lab';
+import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
-import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns';
-import { Form } from 'react-final-form';
-import React from 'react';
+import { DateFormat } from '@scrapper-gate/shared/common';
+import { act, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { format } from 'date-fns';
-import { DateFormat } from '@scrapper-gate/shared/common';
-import { addGroupAndRule, assertTitle } from '../ConditionalRules/testUtils';
+import React from 'react';
+import { Form } from 'react-final-form';
+import { baseRulesSelection } from '../../baseRules';
 import {
   ConditionalRules,
   ConditionalRulesProps,
 } from '../ConditionalRules/ConditionalRules';
-import { baseRulesSelection } from '../../baseRules';
+import { addGroupAndRule, assertTitle } from '../ConditionalRules/testUtils';
 
 const renderCmp = (props: Partial<ConditionalRulesProps> = {}) => {
   return render(
     <ThemeProvider>
-      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
         <Form
           onSubmit={jest.fn()}
           render={() => (
@@ -27,7 +27,7 @@ const renderCmp = (props: Partial<ConditionalRulesProps> = {}) => {
             />
           )}
         />
-      </MuiPickersUtilsProvider>
+      </LocalizationProvider>
     </ThemeProvider>
   );
 };

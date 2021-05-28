@@ -85,6 +85,7 @@ export const HtmlElementPickerInput = ({
           endAdornment: (
             <InputAdornment position="end">
               <Select
+                variant="standard"
                 className="html-element-picker-input-select"
                 onChange={onSelectChange}
                 value={mode}
