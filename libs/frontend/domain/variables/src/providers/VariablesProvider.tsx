@@ -37,11 +37,13 @@ export const useVariablesContextSelector = <Value extends unknown>(
   selector: (ctx: VariablesProviderContext) => Value
 ) => useContextSelector(Context, selector);
 
+const defaultValue = [];
+
 export const VariablesProvider = ({
   name,
   children,
 }: PropsWithChildren<VariableProviderProps>) => {
-  const variables = useFormFieldValue<Variable[]>(name, []);
+  const variables = useFormFieldValue<Variable[]>(name, defaultValue);
 
   const mappedVariables = useMemo(
     () =>
@@ -61,9 +63,10 @@ export const VariablesProvider = ({
     [variables]
   );
 
-  return (
-    <Context.Provider value={{ variables, mappedVariables, filteredVariables }}>
-      {children}
-    </Context.Provider>
+  const value = useMemo(
+    () => ({ variables, mappedVariables, filteredVariables }),
+    [filteredVariables, mappedVariables, variables]
   );
+
+  return <Context.Provider value={value}>{children}</Context.Provider>;
 };

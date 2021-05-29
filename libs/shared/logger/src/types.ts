@@ -1,4 +1,4 @@
-export type LoggerFn = (msg: string, ...args: unknown[]) => unknown;
+export type LoggerFn = (...args: unknown[]) => unknown;
 
 export interface Logger {
   info: LoggerFn;

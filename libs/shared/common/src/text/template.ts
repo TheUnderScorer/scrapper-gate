@@ -15,7 +15,7 @@ export const applyVariablesToText = (
       return currentText;
     }
 
-    const regExp = getRegexByType(key, type);
+    const regExp = getTemplateRegexByType(key, type);
 
     return currentText.replace(regExp, convertValue(value));
   }, text);
@@ -31,7 +31,7 @@ const convertValue = (value: unknown) => {
   }
 };
 
-const getRegexByType = (key: unknown, type: TemplateType) =>
+export const getTemplateRegexByType = (key: unknown, type: TemplateType) =>
   new RegExp(getTextVariableTemplate(key, type), 'g');
 
 export const getTextVariableTemplate = (key: unknown, type: TemplateType) => {

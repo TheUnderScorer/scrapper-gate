@@ -2,11 +2,7 @@ import { IconButton, Tooltip } from '@material-ui/core';
 import { GridCellParams, GridColumns } from '@material-ui/data-grid';
 import { Delete } from '@material-ui/icons';
 import { stopPropagation } from '@scrapper-gate/frontend/common';
-import {
-  EditRow,
-  RowTextField,
-  RowValue,
-} from '@scrapper-gate/frontend/data-grid';
+import { EditRow, RowTextField } from '@scrapper-gate/frontend/data-grid';
 import { EnumSelect } from '@scrapper-gate/frontend/form';
 import { VariableScope, VariableType } from '@scrapper-gate/shared/schema';
 import classNames from 'classnames';
@@ -30,8 +26,7 @@ export const makeColumns = ({
     editable: true,
     width: 160,
     cellClassName: classes.cell,
-    renderEditCell: (params) => <RowTextField {...params} name={name} />,
-    renderCell: (params) => <RowValue {...params} />,
+    renderCell: (params) => <RowTextField {...params} name={name} />,
   },
   {
     field: 'defaultValue',
@@ -39,8 +34,7 @@ export const makeColumns = ({
     editable: true,
     width: 160,
     cellClassName: classes.cell,
-    renderEditCell: renderValueField('defaultValue', name),
-    renderCell: (params) => <RowValue {...params} />,
+    renderCell: renderValueField('defaultValue', name),
   },
   {
     field: 'value',
@@ -48,20 +42,18 @@ export const makeColumns = ({
     editable: true,
     width: 160,
     cellClassName: classes.cell,
-    renderEditCell: renderValueField('value', name),
-    renderCell: (params) => <RowValue {...params} />,
+    renderCell: renderValueField('value', name),
   },
   {
     field: 'scope',
     headerName: 'Scope',
     editable: true,
-    width: 120,
+    width: 160,
     cellClassName: classes.cell,
-    renderEditCell: (params) => (
+    renderCell: (params) => (
       <EditRow {...params} name={name}>
         {({ name }) => (
           <EnumSelect
-            initialOpen
             MenuProps={{
               onMouseDown: stopPropagation,
               onClick: stopPropagation,
@@ -74,7 +66,6 @@ export const makeColumns = ({
         )}
       </EditRow>
     ),
-    renderCell: (params) => <RowValue {...params} />,
   },
 
   {
@@ -83,11 +74,10 @@ export const makeColumns = ({
     editable: true,
     width: 120,
     cellClassName: classes.cell,
-    renderEditCell: (params) => (
+    renderCell: (params) => (
       <EditRow {...params} name={name}>
         {({ name }) => (
           <EnumSelect
-            initialOpen
             MenuProps={{
               onMouseDown: stopPropagation,
             }}
@@ -99,10 +89,9 @@ export const makeColumns = ({
         )}
       </EditRow>
     ),
-    renderCell: (params) => <RowValue {...params} />,
   },
   {
-    field: '',
+    field: '__actions__',
     headerName: 'Actions',
     sortable: false,
     filterable: false,

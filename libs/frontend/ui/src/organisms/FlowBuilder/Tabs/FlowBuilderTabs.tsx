@@ -6,7 +6,7 @@ import { Selection } from '@scrapper-gate/frontend/common';
 export interface FlowBuilderTabsProps {
   value: unknown;
   onChange: (value: unknown) => unknown;
-  tabs?: Array<Selection & { content?: ReactNode }>;
+  tabs?: Array<Selection<string> & { content?: ReactNode }>;
   mainTabLabel?: string;
 }
 
@@ -32,7 +32,7 @@ export const FlowBuilderTabs = ({
   const classes = useStyles();
 
   return (
-    <Paper square variant="outlined" elevation={0} className={classes.paper}>
+    <Paper square variant="outlined" className={classes.paper}>
       <Tabs
         indicatorColor="primary"
         value={value}
@@ -41,7 +41,7 @@ export const FlowBuilderTabs = ({
       >
         <Tab label={mainTabLabel} value={mainTab} />
         {tabs?.map((tab) => (
-          <Tab label={tab.label} value={tab.value} key={tab.value.toString()} />
+          <Tab label={tab.label} value={tab.value} key={tab.value} />
         ))}
       </Tabs>
     </Paper>

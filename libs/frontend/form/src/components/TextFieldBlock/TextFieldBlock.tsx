@@ -1,4 +1,4 @@
-import { TextField } from '@material-ui/core';
+import { Box, TextField } from '@material-ui/core';
 import { InputBaseComponentProps } from '@material-ui/core/InputBase/InputBase';
 import { makeStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
@@ -119,7 +119,9 @@ export const TextFieldBlock = forwardRef<HTMLInputElement, TextFieldBlockProps>(
     });
 
     useEffect(() => {
-      onChange?.(state.getCurrentContent().getPlainText());
+      const plainText = state.getCurrentContent().getPlainText();
+
+      onChange?.(plainText);
     }, [state, onChange]);
 
     return (

@@ -41,6 +41,9 @@ module.exports = (baseConfig) => {
     config.devServer.writeToDisk = true;
     config.devServer.disableHostCheck = true;
     config.devServer.injectClient = false;
+    config.devServer.watchOptions = {
+      ignored: /node_modules/,
+    };
   }
 
   baseConfig.plugins.push(

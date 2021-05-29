@@ -1,4 +1,4 @@
-import { Scrapper, ScrapperStep } from '@scrapper-gate/shared/schema';
+import { Scrapper, ScrapperStep, Variable } from '@scrapper-gate/shared/schema';
 import { ComponentType } from 'react';
 import {
   BaseNodeProperties,
@@ -72,4 +72,5 @@ export interface ScrapperStepFormProps
 export interface ScrapperBuilderFormState
   extends FlowBuilderFormState<ScrapperBuilderNodeProperties> {
   name: string;
+  variables: Variable[];
 }

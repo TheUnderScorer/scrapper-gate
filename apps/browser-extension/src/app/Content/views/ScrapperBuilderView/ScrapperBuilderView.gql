@@ -9,5 +9,16 @@ query GetScrapperForBuilder($id: ID!) {
     steps {
       ...ScrapperBuilderStep
     }
+    variables {
+      id
+      createdAt
+      defaultValue
+      updatedAt
+      isBuiltIn
+      key
+      scope
+      type
+      value
+    }
   }
 }

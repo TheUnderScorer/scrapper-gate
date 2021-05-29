@@ -20,6 +20,8 @@ export interface FlowBuilderItemsContext<T extends BaseNodeProperties> {
   recentlyCreatedNodeIds?: string[];
   connectionSource?: ConnectionSource;
   setConnectionSource: (source: ConnectionSource) => unknown;
+  nodesRecreated: boolean;
+  setNodesRecreated: (recreated: boolean) => unknown;
   afterCreate: (
     values: string[],
     items: FlowBuilderItem<T>[],
@@ -34,6 +36,8 @@ const Context = createContext<FlowBuilderItemsContext<unknown>>({
   recentlyCreatedNodeIds: [],
   afterCreate: throwError(),
   setConnectionSource: throwError(),
+  nodesRecreated: false,
+  setNodesRecreated: throwError(),
 });
 
 export const useFlowBuilderItemsSelector = <Value extends unknown>(
@@ -43,6 +47,8 @@ export const useFlowBuilderItemsSelector = <Value extends unknown>(
 export const FlowBuilderItemsProvider = <T extends BaseNodeProperties>(props: {
   children: ReactNode;
 }) => {
+  const [nodesRecreated, setNodesRecreated] = useState(false);
+
   const onChange = useFlowBuilderContextSelector((ctx) => ctx.onChange);
 
   const {
@@ -108,6 +114,8 @@ export const FlowBuilderItemsProvider = <T extends BaseNodeProperties>(props: {
         afterCreate,
         setConnectionSource,
         connectionSource,
+        nodesRecreated,
+        setNodesRecreated,
       }}
     >
       {props.children}

@@ -1,7 +1,6 @@
 import { TextFieldProps } from '@material-ui/core';
-import { EditRow } from '../EditRow/EditRow';
 import { FormTextField } from '@scrapper-gate/frontend/form';
-import React from 'react';
+import { EditRow } from '../EditRow/EditRow';
 import { EditRowProps } from '../EditRow/EditRow.types';
 
 export interface RowTextFieldProps
@@ -14,9 +13,7 @@ export const RowTextField = ({
 }: RowTextFieldProps) => {
   return (
     <EditRow {...rest}>
-      {(props) => (
-        <FormTextField name={props.name} variant={variant} focusOnMount />
-      )}
+      {(props) => <FormTextField name={props.name} variant={variant} />}
     </EditRow>
   );
 };

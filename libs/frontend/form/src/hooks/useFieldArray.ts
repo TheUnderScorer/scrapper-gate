@@ -1,20 +1,23 @@
+import { logger } from '@scrapper-gate/frontend/logger';
+import { removeAtIndex } from '@scrapper-gate/shared/common';
+import { BaseEntity } from '@scrapper-gate/shared/schema';
+import get from 'lodash.get';
+import { useCallback, useMemo } from 'react';
 import {
   FieldRenderProps,
   useField,
   UseFieldConfig,
   useForm,
 } from 'react-final-form';
-import { useCallback, useMemo } from 'react';
-import { removeAtIndex } from '@scrapper-gate/shared/common';
 import { v4 } from 'uuid';
-import { BaseEntity } from '@scrapper-gate/shared/schema';
-import get from 'lodash.get';
+
+const defaultValue = [];
 
 export const useFieldArray = <T extends Record<string, unknown>>(
   name: string,
   props?: UseFieldConfig<T[]>
 ) => {
-  const form = useForm();
+  const { getState } = useForm();
 
   const field = useField(name, {
     ...props,
@@ -25,7 +28,7 @@ export const useFieldArray = <T extends Record<string, unknown>>(
         }
 
         return value;
-      }) ?? [],
+      }) ?? defaultValue,
   });
   const {
     input: { onChange, value },
@@ -47,12 +50,17 @@ export const useFieldArray = <T extends Record<string, unknown>>(
 
   const remove = useCallback(
     (index: number) => {
-      const value = get(form.getState().values, name);
+      const value = get(getState().values, name);
       const newValue = removeAtIndex(value, index);
+
+      logger.debug('After remove:', {
+        newValue,
+        oldValue: value,
+      });
 
       onChange(newValue);
     },
-    [form, name, onChange]
+    [getState, name, onChange]
   );
 
   return useMemo(

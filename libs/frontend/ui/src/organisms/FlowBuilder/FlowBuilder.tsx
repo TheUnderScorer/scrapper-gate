@@ -123,11 +123,7 @@ export const FlowBuilder = <
                 <FlowBuilderSelectionProvider selection={nodesSelection}>
                   <FlowBuilderActiveNodeProvider>
                     <FlowBuilderDragStateProvider>
-                      <Paper
-                        elevation={0}
-                        variant="outlined"
-                        className={classes.paper}
-                      >
+                      <Paper variant="outlined" className={classes.paper}>
                         <FlowBuilderHeader {...props} />
                         <FlowBuilderTabs
                           value={activeTab}

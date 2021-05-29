@@ -31,21 +31,12 @@ export interface FormTextFieldProps<T>
 export const FormTextField = <T extends unknown>({
   defaultValue,
   name,
-  helperText,
   variant,
-  label,
-  fullWidth,
   id,
-  size,
-  disabled,
-  placeholder,
   showErrorOnlyOnTouched,
   inputRef,
-  onKeyUp,
-  onKeyDown,
-  onKeyPress,
-  inputProps,
   focusOnMount,
+  helperText,
   ...rest
 }: FormTextFieldProps<T>) => {
   const [didFocus, setDidFocus] = useState(false);
@@ -73,20 +64,12 @@ export const FormTextField = <T extends unknown>({
 
         setRefValue(inputRef, element);
       }}
-      placeholder={placeholder}
-      label={label}
-      fullWidth={fullWidth}
       variant={variant}
-      size={size}
       error={hasError}
       helperText={hasError ? meta.error.message : helperText}
       id={id ?? input.name}
-      disabled={disabled}
       InputProps={rest.InputProps}
-      onKeyUp={onKeyUp}
-      onKeyDown={onKeyDown}
-      onKeyPress={onKeyPress}
-      inputProps={inputProps}
+      {...rest}
       {...input}
     />
   );

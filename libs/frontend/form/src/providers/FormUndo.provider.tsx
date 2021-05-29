@@ -2,6 +2,7 @@ import React, {
   PropsWithChildren,
   SyntheticEvent,
   useCallback,
+  useEffect,
   useMemo,
   useRef,
   useState,
@@ -179,6 +180,10 @@ export const FormUndoProvider = ({
     }),
     [canRedo, canUndo, redo, reset, undo]
   );
+
+  useEffect(() => {
+    console.log(state);
+  }, [state]);
 
   return <Context.Provider value={value}>{children}</Context.Provider>;
 };

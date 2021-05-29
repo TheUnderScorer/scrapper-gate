@@ -10,6 +10,10 @@ export const getValue = ({
   value,
   dateFormat = DateFormat.Date,
 }: GetValueParams) => {
+  if (!value) {
+    return value;
+  }
+
   switch (typeof value) {
     case 'boolean':
       return value ? 'Yes' : 'No';
@@ -23,6 +27,15 @@ export const getValue = ({
 
     case 'function':
       throw new TypeError('Cannot render function as value.');
+
+    case 'string':
+      try {
+        const date = new Date(value);
+
+        return format(date, dateFormat);
+      } catch {
+        return value;
+      }
 
     default:
       return value;

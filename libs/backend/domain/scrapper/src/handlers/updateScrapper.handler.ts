@@ -49,7 +49,9 @@ export const updateScrapperHandler = commandHandler.asFunction<
     if ('steps' in input) {
       const stepsToRemove = findEntitiesToRemove(input.steps, scrapper.steps);
 
-      await scrapperStepRepository.remove(stepsToRemove);
+      if (stepsToRemove.length) {
+        await scrapperStepRepository.remove(stepsToRemove);
+      }
 
       scrapper.steps = nodeLikeItemsToModels({
         createModel: (payload) => ScrapperStepModel.create(payload),
@@ -70,9 +72,11 @@ export const updateScrapperHandler = commandHandler.asFunction<
         scrapper.variables
       );
 
-      await variableRepository.delete(
-        variablesToRemove.map((variable) => variable.id)
-      );
+      if (variablesToRemove.length) {
+        await variableRepository.delete(
+          variablesToRemove.map((variable) => variable.id)
+        );
+      }
 
       variableModels = variables.map((variable) => {
         return VariableModel.create({

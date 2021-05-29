@@ -63,6 +63,17 @@ export const GetScrapperForBuilderDocument = gql`
       steps {
         ...ScrapperBuilderStep
       }
+      variables {
+        id
+        createdAt
+        defaultValue
+        updatedAt
+        isBuiltIn
+        key
+        scope
+        type
+        value
+      }
     }
   }
   ${ScrapperBuilderStepFragmentDoc}

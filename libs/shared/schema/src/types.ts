@@ -467,7 +467,25 @@ export type GetScrapperForBuilderQuery = {
   getMyScrapper: Pick<
     Scrapper,
     'id' | 'createdAt' | 'isRunning' | 'name' | 'state' | 'updatedAt'
-  > & { steps?: Maybe<Array<ScrapperBuilderStepFragment>> };
+  > & {
+    steps?: Maybe<Array<ScrapperBuilderStepFragment>>;
+    variables?: Maybe<
+      Array<
+        Pick<
+          Variable,
+          | 'id'
+          | 'createdAt'
+          | 'defaultValue'
+          | 'updatedAt'
+          | 'isBuiltIn'
+          | 'key'
+          | 'scope'
+          | 'type'
+          | 'value'
+        >
+      >
+    >;
+  };
 };
 
 export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never }>;

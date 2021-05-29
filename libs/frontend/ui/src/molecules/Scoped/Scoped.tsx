@@ -58,6 +58,10 @@ export const Scoped = ({ children }: ScopedProps) => {
               <div
                 className="scoped-root"
                 ref={(element) => {
+                  if (!element) {
+                    return;
+                  }
+
                   setContainer(element ?? undefined);
                   setShadowRoot(element.getRootNode() as ShadowRoot);
 
