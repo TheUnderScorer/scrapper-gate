@@ -122,6 +122,45 @@ describe('Update scrapper', () => {
     expect(updatedScrapper.name).toEqual(name);
   });
 
+  it('should disallow sending global variables', async () => {
+    const {
+      tokens: { accessToken },
+    } = await createUser();
+
+    const scrapper = await createScrapper(accessToken);
+
+    const variables: VariableInput[] = [
+      {
+        key: 'test_create',
+        value: 'test',
+        defaultValue: 'default',
+        scope: VariableScope.Global,
+      },
+    ];
+
+    const response = await global.server.inject({
+      method: 'POST',
+      path: apiRoutes.graphql,
+      headers: {
+        authorization: `Bearer ${accessToken}`,
+      },
+      payload: makeGraphqlRequest<{ input: ScrapperInput }>(mutation, {
+        input: {
+          name,
+          id: scrapper.id,
+          variables,
+        },
+      }),
+    });
+
+    const body = JSON.parse(response.body);
+
+    expect(body.errors).toBeDefined();
+    expect(body.errors[0].message).toEqual(
+      '"variables[0].scope" must be [Scrapper]'
+    );
+  });
+
   it('should create, update and delete variables', async () => {
     const {
       tokens: { accessToken },

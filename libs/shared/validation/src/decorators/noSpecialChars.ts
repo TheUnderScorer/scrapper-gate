@@ -5,13 +5,17 @@ import { validationMessages } from '../validationMessages';
 
 export interface NoSpecialCharsParams {
   // Using .max() from joiful causes the validation to always fail
-  max?: number;
+  max: number;
+  supportsVariables?: boolean;
 }
 
-export const noSpecialChars = ({ max }: NoSpecialCharsParams = {}) =>
+export const noSpecialChars = ({
+  max,
+  supportsVariables,
+}: NoSpecialCharsParams) =>
   jf.string().custom(({ joi }) => {
     return joi.string().custom((value) => {
-      if (isVariableKey(value)) {
+      if (supportsVariables && isVariableKey(value)) {
         return value;
       }
 

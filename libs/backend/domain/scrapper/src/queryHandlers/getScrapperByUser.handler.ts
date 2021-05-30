@@ -11,7 +11,7 @@ export const getScrapperByUserHandler = queryHandler.asFunction<
   GetScrapperByUserHandlerDependencies
 >(
   GetScrapperByUserQuery.name,
-  ({
+  async ({
     context: { scrapperRepository },
     query: {
       payload: { scrapperId, userId },

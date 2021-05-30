@@ -1,12 +1,11 @@
 import { Handlers } from '@scrapper-gate/backend/cqrs';
-import { createUserHandler } from '@scrapper-gate/backend/domain/user';
 import {
   createScrapperHandler,
   getScrapperByUserHandler,
   getScrappersByUserHandler,
   updateScrapperHandler,
 } from '@scrapper-gate/backend/domain/scrapper';
-import { VariablesSubscriber } from '@scrapper-gate/backend/domain/variables';
+import { createUserHandler } from '@scrapper-gate/backend/domain/user';
 
 export const handlers: Handlers = {
   commandHandlers: [
@@ -14,6 +13,6 @@ export const handlers: Handlers = {
     createScrapperHandler,
     updateScrapperHandler,
   ],
-  eventHandlers: [VariablesSubscriber],
+  eventHandlers: [],
   queryHandlers: [getScrappersByUserHandler, getScrapperByUserHandler],
 };

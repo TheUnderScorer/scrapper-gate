@@ -1,46 +1,45 @@
+import { makeStyles } from '@material-ui/core/styles';
+import { useIsUsingElementPicker } from '@scrapper-gate/frontend/common';
 import {
   VariablesProvider,
   VariablesTable,
 } from '@scrapper-gate/frontend/domain/variables';
-import { serializeValue } from '@scrapper-gate/shared/common';
-import React, { useCallback, useMemo } from 'react';
-import {
-  FlowBuilder,
-  FlowBuilderFormState,
-  flowBuilderUtils,
-  flowBuilderValidation,
-  IsValidConnectionParams,
-  NodeContentComponent,
-} from '@scrapper-gate/frontend/ui';
-import { omit } from 'remeda';
-import { v4 as uuid } from 'uuid';
 import {
   FormEditableText,
   joiValidationResolver,
   useDebouncedValidator,
   validatorsPipe,
 } from '@scrapper-gate/frontend/form';
-import { createScrapperNodeSelection } from './scrapperNodeSelection';
+import { logger } from '@scrapper-gate/frontend/logger';
+import { useUpdateScrapperMutation } from '@scrapper-gate/frontend/schema';
+import {
+  useSnackbarOnError,
+  useSnackbarOnSuccess,
+} from '@scrapper-gate/frontend/snackbars';
+import {
+  FlowBuilder,
+  flowBuilderUtils,
+  flowBuilderValidation,
+  IsValidConnectionParams,
+  NodeContentComponent,
+} from '@scrapper-gate/frontend/ui';
+import { serializeValue } from '@scrapper-gate/shared/common';
+import { ScrapperBuilderDto } from '@scrapper-gate/shared/validation';
+import React, { useCallback, useMemo } from 'react';
+import { Form } from 'react-final-form';
+import { Node } from 'react-flow-renderer';
+import { omit } from 'remeda';
+import { v4 as uuid } from 'uuid';
+import { ScrapperBuilderNodeContent } from './NodeContent/ScrapperBuilderNodeContent';
+import { nodesToScrapperSteps } from './nodesToScrapperSteps';
 import {
   ScrapperBuilderFormState,
   ScrapperBuilderNode,
   ScrapperBuilderNodeProperties,
   ScrapperBuilderProps,
 } from './ScrapperBuilder.types';
-import { Node } from 'react-flow-renderer';
-import { makeStyles } from '@material-ui/core/styles';
-import { Form } from 'react-final-form';
-import { ScrapperBuilderNodeContent } from './NodeContent/ScrapperBuilderNodeContent';
-import { useIsUsingElementPicker } from '@scrapper-gate/frontend/common';
-import { nodesToScrapperSteps } from './nodesToScrapperSteps';
-import { useUpdateScrapperMutation } from '@scrapper-gate/frontend/schema';
+import { createScrapperNodeSelection } from './scrapperNodeSelection';
 import { scrapperStepsToNodes } from './scrapperStepsToNodes';
-import { ScrapperBuilderDto } from '@scrapper-gate/shared/validation';
-import { logger } from '@scrapper-gate/frontend/logger';
-import {
-  useSnackbarOnError,
-  useSnackbarOnSuccess,
-} from '@scrapper-gate/frontend/snackbars';
 
 const initialNodes = [
   flowBuilderUtils.createStartNode({
@@ -141,7 +140,7 @@ export const ScrapperBuilder = ({
 
   const validate = useMemo(
     () =>
-      validatorsPipe<FlowBuilderFormState<ScrapperBuilderNodeProperties>>(
+      validatorsPipe<ScrapperBuilderFormState>(
         flowBuilderValidation.ensureAllNodesAreConnected,
         joiValidationResolver(ScrapperBuilderDto, {
           allowUnknown: true,

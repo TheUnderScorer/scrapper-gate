@@ -32,7 +32,7 @@ export class ScrapperStepInputDto
   @optionalEnum(ScrapperAction)
   action?: ScrapperAction;
 
-  @(noSpecialChars({ max: 50 }).allow(null))
+  @(noSpecialChars({ max: 50, supportsVariables: true }).allow(null))
   key?: string;
 
   @(jf.number().allow(null))

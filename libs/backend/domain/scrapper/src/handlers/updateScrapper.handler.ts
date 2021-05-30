@@ -1,9 +1,11 @@
-import { nodeLikeItemsToModels } from '@scrapper-gate/backend/crud';
+import {
+  findEntitiesToRemove,
+  nodeLikeItemsToModels,
+} from '@scrapper-gate/backend/crud';
 import {
   VariableModel,
   VariableRepository,
 } from '@scrapper-gate/backend/domain/variables';
-import { findEntitiesToRemove } from '@scrapper-gate/shared/common';
 import { ScrapperUpdatedEvent } from '@scrapper-gate/shared/domain/scrapper';
 import { VariableScope } from '@scrapper-gate/shared/schema';
 import { commandHandler, EventsBus } from 'functional-cqrs';
@@ -63,12 +65,8 @@ export const updateScrapperHandler = commandHandler.asFunction<
     }
 
     if ('variables' in input) {
-      const variables = input.variables.filter(
-        (variable) => variable.scope === VariableScope.Scrapper
-      );
-
       const variablesToRemove = findEntitiesToRemove(
-        variables,
+        input.variables,
         scrapper.variables
       );
 
@@ -78,7 +76,7 @@ export const updateScrapperHandler = commandHandler.asFunction<
         );
       }
 
-      variableModels = variables.map((variable) => {
+      variableModels = input.variables.map((variable) => {
         return VariableModel.create({
           ...variable,
           createdBy: scrapper.createdBy,
@@ -99,7 +97,6 @@ export const updateScrapperHandler = commandHandler.asFunction<
         new ScrapperUpdatedEvent({
           scrapper,
           userId,
-          variables: variableModels,
         })
       );
     }
