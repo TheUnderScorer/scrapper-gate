@@ -1,4 +1,5 @@
-import '@testing-library/jest-dom';
+import { LocalizationProvider } from '@material-ui/lab';
+import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
 import { DateFormat, wait } from '@scrapper-gate/shared/common';
 import { createVariable } from '@scrapper-gate/shared/domain/variables';
@@ -7,6 +8,7 @@ import {
   VariableScope,
   VariableType,
 } from '@scrapper-gate/shared/schema';
+import '@testing-library/jest-dom';
 import { act, render, RenderResult } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { format } from 'date-fns';
@@ -37,19 +39,21 @@ const variables: Variable[] = [
 ];
 
 const getUi = (defaultVariables: Variable[]) => (
-  <ThemeProvider>
-    <Form
-      initialValues={{
-        variables: defaultVariables,
-      }}
-      onSubmit={jest.fn()}
-      render={() => (
-        <VariablesProvider name="variables">
-          <VariablesTable name="variables" />
-        </VariablesProvider>
-      )}
-    />
-  </ThemeProvider>
+  <LocalizationProvider dateAdapter={AdapterDateFns}>
+    <ThemeProvider>
+      <Form
+        initialValues={{
+          variables: defaultVariables,
+        }}
+        onSubmit={jest.fn()}
+        render={() => (
+          <VariablesProvider name="variables">
+            <VariablesTable scope={VariableScope.Global} name="variables" />
+          </VariablesProvider>
+        )}
+      />
+    </ThemeProvider>
+  </LocalizationProvider>
 );
 
 const renderComponent = async (defaultVariables = variables) => {

@@ -9,6 +9,9 @@ export interface NoSpecialCharsParams {
   supportsVariables?: boolean;
 }
 
+// TODO What's left - add variable support to remaining scrapper fields (especially conditional ones)
+// Note: in date group we should validate if selected variable type is "Date"
+// Also probably some tests will need to be adjusted ;)
 export const noSpecialChars = ({
   max,
   supportsVariables,

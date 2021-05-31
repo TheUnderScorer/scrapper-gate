@@ -37,7 +37,7 @@ const BaseVariablesTableRow = ({
   const classes = useStyles();
 
   return (
-    <TableRow>
+    <TableRow className="variable-row">
       <TableCell>
         <FormTextField
           fullWidth
