@@ -21,7 +21,7 @@ export const variablesSchema = gql`
     deletedAt: Date
     defaultValue: VariableValue
     value: VariableValue
-    key: String!
+    key: String
     isBuiltIn: Boolean
     scope: VariableScope!
     type: VariableType
@@ -31,7 +31,7 @@ export const variablesSchema = gql`
     id: ID
     defaultValue: VariableValue
     value: VariableValue
-    key: String!
+    key: String
     scope: VariableScope!
     type: VariableType
   }

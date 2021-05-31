@@ -12,7 +12,7 @@ export const ScrapperKey = ({
   fieldNameCreator,
 }: ScrapperKeyProps) => (
   <VariablesTextField
-    helperText="Helpful in identifying steps."
+    helperText="Will be used as value key."
     disabled={disabled}
     label="Step name"
     name={fieldNameCreator('key')}

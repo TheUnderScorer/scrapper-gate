@@ -1,5 +1,5 @@
 import { format } from 'date-fns';
-import { DateFormat } from './DateFormat';
+import { DateFormat } from './date/DateFormat';
 
 export interface GetValueParams {
   value: unknown;

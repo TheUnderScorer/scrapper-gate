@@ -24,6 +24,7 @@ import {
   NodeContentComponent,
 } from '@scrapper-gate/frontend/ui';
 import { serializeValue } from '@scrapper-gate/shared/common';
+import { VariableScope } from '@scrapper-gate/shared/schema';
 import { ScrapperBuilderDto } from '@scrapper-gate/shared/validation';
 import React, { useCallback, useMemo } from 'react';
 import { Form } from 'react-final-form';
@@ -72,7 +73,7 @@ const tabs = [
   {
     label: 'Variables',
     value: 'variables',
-    content: <VariablesTable name="variables" />,
+    content: <VariablesTable scope={VariableScope.Scrapper} name="variables" />,
   },
 ];
 

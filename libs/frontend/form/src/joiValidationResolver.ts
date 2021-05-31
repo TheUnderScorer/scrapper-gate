@@ -38,6 +38,7 @@ export const joiValidationResolver = <T>(
 
     logger.debug(`Validation error:`, error);
     logger.debug('Result:', result);
+    logger.debug('Values:', data);
 
     return result;
   }

@@ -433,7 +433,7 @@ export type Variable = BaseEntity & {
   deletedAt?: Maybe<Scalars['Date']>;
   defaultValue?: Maybe<Scalars['VariableValue']>;
   value?: Maybe<Scalars['VariableValue']>;
-  key: Scalars['String'];
+  key?: Maybe<Scalars['String']>;
   isBuiltIn?: Maybe<Scalars['Boolean']>;
   scope: VariableScope;
   type?: Maybe<VariableType>;
@@ -443,7 +443,7 @@ export type VariableInput = {
   id?: Maybe<Scalars['ID']>;
   defaultValue?: Maybe<Scalars['VariableValue']>;
   value?: Maybe<Scalars['VariableValue']>;
-  key: Scalars['String'];
+  key?: Maybe<Scalars['String']>;
   scope: VariableScope;
   type?: Maybe<VariableType>;
 };
@@ -1478,7 +1478,7 @@ export type VariableResolvers<
     ParentType,
     ContextType
   >;
-  key?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  key?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   isBuiltIn?: Resolver<
     Maybe<ResolversTypes['Boolean']>,
     ParentType,

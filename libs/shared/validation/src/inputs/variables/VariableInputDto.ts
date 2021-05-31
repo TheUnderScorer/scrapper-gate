@@ -3,19 +3,19 @@ import {
   VariableScope,
   VariableType,
 } from '@scrapper-gate/shared/schema';
-import { BaseSchema } from '@scrapper-gate/shared/validation';
-import * as jf from 'joiful';
+import { BaseSchema } from '../../BaseSchema';
 import { optionalEnum, requiredEnum } from '../../decorators/enum';
 import { noSpecialChars } from '../../decorators/noSpecialChars';
 import { uuid } from '../../decorators/uuid';
+import { variableValue } from '../../decorators/variableValue';
 
 export class VariableInputDto
   extends BaseSchema<VariableInputDto>
   implements VariableInput {
-  @jf.any()
+  @variableValue()
   value?: unknown;
 
-  @jf.any()
+  @variableValue()
   defaultValue?: unknown;
 
   @uuid()
@@ -27,6 +27,6 @@ export class VariableInputDto
   @requiredEnum(VariableScope)
   scope: VariableScope;
 
-  @noSpecialChars({ max: 40 })
-  key: string;
+  @(noSpecialChars({ max: 40 }).allow(null, ''))
+  key?: string;
 }

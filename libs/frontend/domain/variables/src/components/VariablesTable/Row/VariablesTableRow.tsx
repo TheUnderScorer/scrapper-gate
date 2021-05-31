@@ -1,4 +1,10 @@
-import { IconButton, TableCell, TableRow, Tooltip } from '@material-ui/core';
+import {
+  IconButton,
+  TableCell,
+  TableRow,
+  Tooltip,
+  Typography,
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Delete } from '@material-ui/icons';
 import { EnumSelect, FormTextField } from '@scrapper-gate/frontend/form';
@@ -12,6 +18,7 @@ export interface VariablesTableRowProps {
   onDelete?: (index: number) => unknown;
   name: string;
   type: VariableType;
+  scope: VariableScope;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -25,6 +32,7 @@ const BaseVariablesTableRow = ({
   index,
   name,
   type,
+  scope,
 }: VariablesTableRowProps) => {
   const classes = useStyles();
 
@@ -42,7 +50,7 @@ const BaseVariablesTableRow = ({
         <VariableValueField
           placeholder="Initial value..."
           type={type}
-          name={`${name}.initialValue`}
+          name={`${name}.defaultValue`}
         />
       </TableCell>
       <TableCell>
@@ -53,12 +61,7 @@ const BaseVariablesTableRow = ({
         />
       </TableCell>
       <TableCell>
-        <EnumSelect
-          fullWidth
-          variant="standard"
-          enumObj={VariableScope}
-          name={`${name}.scope`}
-        />
+        <Typography>{scope}</Typography>
       </TableCell>
       <TableCell>
         <EnumSelect

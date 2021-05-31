@@ -46,7 +46,7 @@ const useStyles = makeStyles(() => ({
     height: '30px',
   },
   fab: {
-    width: '90px !important',
+    width: '100px !important',
     boxShadow: 'none',
   },
 }));

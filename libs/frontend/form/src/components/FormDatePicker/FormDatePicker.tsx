@@ -59,18 +59,25 @@ export const FormDatePicker = <T extends unknown>({
           pointerEvents: 'all',
         },
       }}
-      renderInput={(props) => (
-        <TextField
-          {...props}
-          id={name}
-          name={name}
-          error={hasError}
-          helperText={hasError ? meta.error.message : rest.helperText}
-          variant={variant ?? props.variant}
-          placeholder={placeholder ?? props.placeholder}
-          fullWidth={fullWidth}
-        />
-      )}
+      renderInput={(props) => {
+        return (
+          <TextField
+            {...props}
+            id={name}
+            name={name}
+            error={hasError}
+            helperText={hasError ? meta.error.message : rest.helperText}
+            variant={variant ?? props.variant}
+            placeholder={placeholder ?? props.placeholder}
+            fullWidth={fullWidth}
+            inputProps={{
+              ...props.inputProps,
+              // By default mui provides us value with today date, we don't want that
+              value: input.value ? props.inputProps.value : null,
+            }}
+          />
+        );
+      }}
     />
   );
 };

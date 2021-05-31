@@ -37,8 +37,10 @@ export class VariableModel
   })
   value: unknown;
 
-  @Column()
-  key: string;
+  @Column({
+    nullable: true,
+  })
+  key?: string;
 
   @Column({
     type: 'text',

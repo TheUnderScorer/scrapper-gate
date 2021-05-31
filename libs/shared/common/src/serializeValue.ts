@@ -1,4 +1,8 @@
 export const serializeValue = (value: unknown) => {
+  if (!value) {
+    return value;
+  }
+
   switch (typeof value) {
     case 'function':
       return value.toString();

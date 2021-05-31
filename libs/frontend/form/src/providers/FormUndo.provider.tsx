@@ -1,20 +1,19 @@
+import { useKeyboardShortcuts } from '@scrapper-gate/frontend/keyboard-shortcuts';
+
+import { throwError } from '@scrapper-gate/shared/common';
 import React, {
   PropsWithChildren,
   SyntheticEvent,
   useCallback,
-  useEffect,
   useMemo,
   useRef,
   useState,
 } from 'react';
-import { createContext, useContext } from 'use-context-selector';
-
-import { throwError } from '@scrapper-gate/shared/common';
-import { useKeyboardShortcuts } from '@scrapper-gate/frontend/keyboard-shortcuts';
 import { useForm, useFormState } from 'react-final-form';
-import { equals } from 'remeda';
 import { useHotkeys } from 'react-hotkeys-hook';
 import { useDebounce } from 'react-use';
+import { equals } from 'remeda';
+import { createContext, useContext } from 'use-context-selector';
 
 export interface FormUndoContext {
   redo: (e?: Event | SyntheticEvent) => void;
@@ -180,10 +179,6 @@ export const FormUndoProvider = ({
     }),
     [canRedo, canUndo, redo, reset, undo]
   );
-
-  useEffect(() => {
-    console.log(state);
-  }, [state]);
 
   return <Context.Provider value={value}>{children}</Context.Provider>;
 };

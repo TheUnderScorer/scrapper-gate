@@ -25,6 +25,7 @@ import { VariablesTableRow } from './Row/VariablesTableRow';
 
 export interface VariablesTableProps {
   name: string;
+  scope: VariableScope;
 }
 
 const useStyles = makeStyles(() => ({
@@ -37,7 +38,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export const VariablesTable = ({ name }: VariablesTableProps) => {
+export const VariablesTable = ({ name, scope }: VariablesTableProps) => {
   const theme = useTheme();
 
   const {
@@ -51,15 +52,16 @@ export const VariablesTable = ({ name }: VariablesTableProps) => {
   const addVariable = useCallback(() => {
     append(
       createVariable({
-        scope: VariableScope.Global,
+        scope,
         key: '',
         type: VariableType.Text,
       })
     );
-  }, [append]);
+  }, [append, scope]);
 
   const fab = (
     <Fab
+      size="small"
       variant="extended"
       className="add-variable"
       onClick={addVariable}
@@ -104,6 +106,7 @@ export const VariablesTable = ({ name }: VariablesTableProps) => {
         <TableBody>
           {variables.map((variable, index) => (
             <VariablesTableRow
+              scope={variable.scope}
               type={variable.type}
               name={`${name}[${index}]`}
               index={index}
