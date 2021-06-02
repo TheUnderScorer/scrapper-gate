@@ -1,6 +1,7 @@
-import { Box, TextField } from '@material-ui/core';
+import { Box, InputProps, TextField } from '@material-ui/core';
 import { InputBaseComponentProps } from '@material-ui/core/InputBase/InputBase';
 import { makeStyles } from '@material-ui/core/styles';
+import { getValue } from '@scrapper-gate/shared/common';
 import classNames from 'classnames';
 import {
   ContentState,
@@ -16,7 +17,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { useMount } from 'react-use';
+import { useMount, usePrevious } from 'react-use';
 import { Key } from 'ts-key-enum';
 import { TextFieldBlockProvider } from './TextFieldBlock.provider';
 import { TextFieldBlockProps } from './TextFieldBlock.types';
@@ -99,18 +100,36 @@ const DraftField = forwardRef<
 });
 
 export const TextFieldBlock = forwardRef<HTMLInputElement, TextFieldBlockProps>(
-  ({ onChange, value, decorator, onFocus, onBlur, error, ...props }, ref) => {
+  (
+    {
+      onChange,
+      value,
+      decorator,
+      onFocus,
+      onBlur,
+      error,
+      dateFormat,
+      ...props
+    },
+    ref
+  ) => {
     const classes = useStyles();
     const editorRef = useRef<HTMLElement>();
     const [focused, setIsFocused] = useState(false);
 
     const [state, setState] = useState(EditorState.createEmpty());
+    const prevState = usePrevious(state);
+
+    useEffect(() => {
+      const plainText = state.getCurrentContent().getPlainText();
+      const prevText = prevState?.getCurrentContent().getPlainText();
+
+      if (plainText !== prevText) {
+        onChange?.(plainText);
+      }
+    }, [state, onChange, prevState]);
 
     useMount(() => {
-      const state = EditorState.createWithContent(
-        ContentState.createFromText(value)
-      );
-
       setState(
         EditorState.set(state, {
           decorator,
@@ -119,10 +138,26 @@ export const TextFieldBlock = forwardRef<HTMLInputElement, TextFieldBlockProps>(
     });
 
     useEffect(() => {
-      const plainText = state.getCurrentContent().getPlainText();
+      const parsedValue = getValue({
+        value,
+        dateFormat,
+      });
 
-      onChange?.(plainText);
-    }, [state, onChange]);
+      // TODO Investigate this loop
+      if (value === prevState?.getCurrentContent().getPlainText()) {
+        return;
+      }
+
+      const state = EditorState.createWithContent(
+        ContentState.createFromText(parsedValue?.toString() ?? '')
+      );
+
+      setState(
+        EditorState.set(state, {
+          decorator,
+        })
+      );
+    }, [value, decorator, dateFormat, prevState]);
 
     return (
       <TextFieldBlockProvider
@@ -147,6 +182,7 @@ export const TextFieldBlock = forwardRef<HTMLInputElement, TextFieldBlockProps>(
           }}
           error={error}
           InputProps={{
+            ...props.InputProps,
             inputProps: {
               onStateChange: setState,
               state,

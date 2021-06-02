@@ -94,7 +94,10 @@ export class ScrapperRunProcessor implements Disposable {
   ) {
     const variables = createScrapperRunVariables(scrapper, scrapperRun);
 
-    const preparedStep = resolveVariables(step, variables);
+    const preparedStep = resolveVariables({
+      target: step,
+      variables: variables,
+    });
     const runResult = await this.runner[step.action]({
       scrapperRun,
       step: preparedStep,

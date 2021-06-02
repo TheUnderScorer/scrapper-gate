@@ -9,9 +9,9 @@ export interface GetValueParams {
 export const getValue = ({
   value,
   dateFormat = DateFormat.Date,
-}: GetValueParams) => {
+}: GetValueParams): string | number | null => {
   if (!value) {
-    return value;
+    return null;
   }
 
   switch (typeof value) {
@@ -37,7 +37,10 @@ export const getValue = ({
         return value;
       }
 
-    default:
+    case 'number':
       return value;
+
+    default:
+      return null;
   }
 };

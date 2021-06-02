@@ -1,5 +1,6 @@
 import {
   applyVariablesToText,
+  DateFormat,
   TemplateType,
   TemplateVariables,
 } from '@scrapper-gate/shared/common';
@@ -8,15 +9,22 @@ import { ResolvableVariable } from './types';
 
 export type ResolveVariablesResult<T> = T extends string ? string : T;
 
+interface ResolveVariablesParams<T = unknown> {
+  target: T;
+  variables: ResolvableVariable[];
+  dateFormat?: string;
+}
+
 // TODO Add option to limit which fields should be resolved (if given object)
-export const resolveVariables = <T = unknown>(
-  target: T,
-  variables: ResolvableVariable[]
-): ResolveVariablesResult<T> => {
+export const resolveVariables = <T = unknown>({
+  target,
+  variables,
+  dateFormat = DateFormat.Date,
+}: ResolveVariablesParams<T>): ResolveVariablesResult<T> => {
   const mappedVariables = variables.reduce((acc, variable) => {
     return {
       ...acc,
-      [variable.key]: getVariableValue(variable),
+      [variable.key]: getVariableValue(variable, dateFormat),
     };
   }, {});
 

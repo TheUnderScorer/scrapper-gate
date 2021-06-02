@@ -1,3 +1,4 @@
+import { useVariablesContextSelector } from '@scrapper-gate/frontend/domain/variables';
 import React, { memo, useMemo } from 'react';
 import { BaseEntity, ConditionalRuleInput } from '@scrapper-gate/shared/schema';
 import {
@@ -87,6 +88,8 @@ const BaseConditionalRulesRule = ({
 }: ConditionalRulesRuleProps) => {
   const classes = useStyles();
 
+  const variables = useVariablesContextSelector((ctx) => ctx.variables);
+
   const definitionSelection = useMemo(() => {
     return definitions.find((def) => def.value.type === value.type);
   }, [definitions, value.type]);
@@ -100,7 +103,7 @@ const BaseConditionalRulesRule = ({
     }
 
     if (definition?.createTitle) {
-      return definition.createTitle(value);
+      return definition.createTitle(value, { variables });
     }
 
     if (!value?.when || !value?.value) {
@@ -108,7 +111,7 @@ const BaseConditionalRulesRule = ({
     }
 
     return [value.type, value.when, value.value].map(toDisplayText).join(' ');
-  }, [definition, value]);
+  }, [definition, value, variables]);
 
   return (
     <Accordion

@@ -17,10 +17,10 @@ const variables: ResolvableVariable[] = [
 
 describe('Resolve variables', () => {
   it('should resolve variable for text', () => {
-    const result = resolveVariables(
-      'Test text {{value}} {{value}} {{anotherValue}}',
-      variables
-    );
+    const result = resolveVariables({
+      target: 'Test text {{value}} {{value}} {{anotherValue}}',
+      variables: variables,
+    });
 
     expect(result).toEqual('Test text 123 123 345');
   });
@@ -35,7 +35,7 @@ describe('Resolve variables', () => {
       },
     };
 
-    const result = resolveVariables(obj, variables);
+    const result = resolveVariables({ target: obj, variables: variables });
 
     expect(result.prop).toEqual('123');
     expect(result.nested.nestedValue).toEqual('123');
@@ -52,7 +52,7 @@ describe('Resolve variables', () => {
       ['{{anotherValue}}'],
     ];
 
-    const result = resolveVariables(array, variables);
+    const result = resolveVariables({ target: array, variables: variables });
 
     expect(result).toEqual([
       '123',

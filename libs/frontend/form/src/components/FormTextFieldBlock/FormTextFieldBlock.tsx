@@ -6,7 +6,7 @@ import { TextFieldBlock } from '../TextFieldBlock/TextFieldBlock';
 import { TextFieldBlockProps } from '../TextFieldBlock/TextFieldBlock.types';
 
 export interface FormTextFieldBlockProps
-  extends Omit<TextFieldBlockProps, 'value' | 'onChange'> {
+  extends Omit<TextFieldBlockProps, 'value'> {
   name: string;
   fieldProps?: FieldProps<string>;
 }
@@ -14,6 +14,7 @@ export interface FormTextFieldBlockProps
 export const FormTextFieldBlock = ({
   name,
   fieldProps,
+  onChange,
   ...rest
 }: FormTextFieldBlockProps) => {
   const { input, meta } = useField(name, fieldProps);
@@ -27,6 +28,10 @@ export const FormTextFieldBlock = ({
     <TextFieldBlock
       {...rest}
       {...input}
+      onChange={(text) => {
+        input.onChange(text);
+        onChange?.(text);
+      }}
       id={name}
       error={hasError}
       helperText={hasError ? meta.error.message : rest.helperText}

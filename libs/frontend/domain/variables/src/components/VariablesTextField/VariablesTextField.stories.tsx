@@ -52,7 +52,10 @@ export const Component = () => {
             <Typography>Resolved variables:</Typography>
             <pre>
               {JSON.stringify(
-                resolveVariables(props.values, variables),
+                resolveVariables({
+                  target: props.values,
+                  variables: variables,
+                }),
                 null,
                 ' '
               )}

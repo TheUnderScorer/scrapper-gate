@@ -36,4 +36,7 @@ export interface TextFieldBlockProps
   onChange?: (text: string) => unknown;
   decorator?: CompositeDecorator;
   value?: string;
+  // Used in case if value was passed as date
+  // Ex. use case - <VariablesDateField />
+  dateFormat?: string;
 }

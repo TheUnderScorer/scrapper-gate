@@ -27,3 +27,4 @@ export * from './text/matchAllIndexes';
 export * from './repeat';
 export * from './getValue';
 export * from './serializeValue';
+export * from './date/tryDateCast';

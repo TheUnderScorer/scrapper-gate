@@ -4,5 +4,5 @@ export type VariableTemplate = `{{${string}}}`;
 
 export type ResolvableVariable = Pick<
   Variable,
-  'key' | 'value' | 'defaultValue'
+  'key' | 'value' | 'defaultValue' | 'type'
 >;
