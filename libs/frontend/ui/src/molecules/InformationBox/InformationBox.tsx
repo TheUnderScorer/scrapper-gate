@@ -19,11 +19,7 @@ export const InformationBox = ({
   return (
     <Stack spacing={spacing} className={className} alignItems="center">
       {title && <Typography variant="h6">{title}</Typography>}
-      {subTitle && (
-        <Typography variant="subtitle2">
-          Variables lets you re-use values in multiple places.
-        </Typography>
-      )}
+      {subTitle && <Typography variant="subtitle2">{subTitle}</Typography>}
       {action}
     </Stack>
   );

@@ -7,6 +7,7 @@ import {
 } from '@scrapper-gate/frontend/form';
 import { getValue } from '@scrapper-gate/shared/common';
 import { Variable, VariableType } from '@scrapper-gate/shared/schema';
+import classNames from 'classnames';
 import React, { useCallback } from 'react';
 import { useField } from 'react-final-form';
 import {
@@ -59,6 +60,7 @@ export const VariablesDateField = (props: VariablesDateFieldProps) => {
       <VariablesTextField
         name={props.name}
         {...fieldProps}
+        className={classNames(fieldProps.className, props.className)}
         value={value?.toString()}
         onChange={(text) => {
           const formattedText = getValue({

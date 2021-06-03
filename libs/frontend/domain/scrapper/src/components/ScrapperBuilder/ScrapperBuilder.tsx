@@ -7,8 +7,8 @@ import {
 import {
   FormEditableText,
   joiValidationResolver,
+  mergeValidators,
   useDebouncedValidator,
-  validatorsPipe,
 } from '@scrapper-gate/frontend/form';
 import { logger } from '@scrapper-gate/frontend/logger';
 import { useUpdateScrapperMutation } from '@scrapper-gate/frontend/schema';
@@ -23,13 +23,12 @@ import {
   IsValidConnectionParams,
   NodeContentComponent,
 } from '@scrapper-gate/frontend/ui';
-import { serializeValue } from '@scrapper-gate/shared/common';
+import { extractVariableInput } from '@scrapper-gate/shared/domain/variables';
 import { VariableScope } from '@scrapper-gate/shared/schema';
 import { ScrapperBuilderDto } from '@scrapper-gate/shared/validation';
 import React, { useCallback, useMemo } from 'react';
 import { Form } from 'react-final-form';
 import { Node } from 'react-flow-renderer';
-import { omit } from 'remeda';
 import { v4 as uuid } from 'uuid';
 import { ScrapperBuilderNodeContent } from './NodeContent/ScrapperBuilderNodeContent';
 import { nodesToScrapperSteps } from './nodesToScrapperSteps';
@@ -141,7 +140,7 @@ export const ScrapperBuilder = ({
 
   const validate = useMemo(
     () =>
-      validatorsPipe<ScrapperBuilderFormState>(
+      mergeValidators<ScrapperBuilderFormState>(
         flowBuilderValidation.ensureAllNodesAreConnected,
         joiValidationResolver(ScrapperBuilderDto, {
           allowUnknown: true,
@@ -167,11 +166,7 @@ export const ScrapperBuilder = ({
               id: initialScrapper.id,
               steps,
               name: values.name,
-              variables: values.variables.map((variable) => ({
-                ...omit(variable, ['createdAt', 'updatedAt', 'isBuiltIn']),
-                value: serializeValue(variable.value),
-                defaultValue: serializeValue(variable.defaultValue),
-              })),
+              variables: values.variables.map(extractVariableInput),
             },
           },
         });

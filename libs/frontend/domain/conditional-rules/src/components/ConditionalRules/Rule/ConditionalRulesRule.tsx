@@ -1,11 +1,7 @@
-import { useVariablesContextSelector } from '@scrapper-gate/frontend/domain/variables';
-import React, { memo, useMemo } from 'react';
-import { BaseEntity, ConditionalRuleInput } from '@scrapper-gate/shared/schema';
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Button,
   IconButton,
   Stack,
   TextFieldProps,
@@ -14,8 +10,11 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Delete, Edit } from '@material-ui/icons';
+import { useVariablesContextSelector } from '@scrapper-gate/frontend/domain/variables';
 import { toDisplayText } from '@scrapper-gate/shared/common';
+import { BaseEntity, ConditionalRuleInput } from '@scrapper-gate/shared/schema';
 import classNames from 'classnames';
+import React, { memo, useMemo } from 'react';
 import { ConditionalRulesSelection } from '../../../types';
 
 export interface ConditionalRulesRuleProps {
@@ -166,14 +165,6 @@ const BaseConditionalRulesRule = ({
             getName={(path = '') => name + path}
           />
         )}
-        <Stack
-          justifyContent="flex-end"
-          className={classes.btnSection}
-          direction="row"
-          spacing={2}
-        >
-          <Button onClick={() => onEditClose(value.id)}>Close</Button>
-        </Stack>
       </AccordionDetails>
     </Accordion>
   );

@@ -9,8 +9,8 @@ import { HtmlAttributeDto } from '../conditionalRules/HtmlAttributeDto';
 import { HtmlTagDto } from '../conditionalRules/HtmlTagDto';
 
 export class ScrapperConditionalRuleInputDto extends ConditionalRuleInputDto {
-  @(jf.object().custom(({ joi }) => {
-    return joi
+  @(jf.object().custom(({ joi }) =>
+    joi
       .object()
       .allow(null)
       .when('type', {
@@ -31,7 +31,7 @@ export class ScrapperConditionalRuleInputDto extends ConditionalRuleInputDto {
             }),
           },
         ],
-      });
-  }))
+      })
+  ))
   meta?: HtmlElementRuleMeta;
 }

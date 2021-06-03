@@ -1,6 +1,9 @@
 import { TextField, TextFieldProps } from '@material-ui/core';
 import { DesktopDatePicker, DesktopDatePickerProps } from '@material-ui/lab';
 import { useContainerStore } from '@scrapper-gate/frontend/common';
+import { DateFormat, tryDateCast } from '@scrapper-gate/shared/common';
+import classNames from 'classnames';
+import { format } from 'date-fns';
 import React from 'react';
 import { useField } from 'react-final-form';
 import { useFieldHasError } from '../../hooks/useFieldHasError';
@@ -43,11 +46,7 @@ export const FormDatePicker = <T extends unknown>({
       }
 
       if (typeof value === 'string') {
-        try {
-          return new Date(value);
-        } catch {
-          return null;
-        }
+        return tryDateCast(value);
       }
 
       return value;
@@ -73,7 +72,12 @@ export const FormDatePicker = <T extends unknown>({
         },
       }}
       renderInput={(props) => {
-        const value = input.value ?? props.inputProps.value;
+        const date = tryDateCast(input.value);
+
+        const inputValue =
+          date instanceof Date
+            ? format(date, rest.inputFormat ?? DateFormat.Date)
+            : date;
 
         const additionalProps = {
           helperText: hasError ? meta.error.message : rest.helperText,
@@ -87,8 +91,8 @@ export const FormDatePicker = <T extends unknown>({
             ...props.inputProps,
             // By default mui provides us value with today date, we don't want that
             value: formatTextFieldValue
-              ? formatTextFieldValue(value ?? props.inputProps)
-              : value,
+              ? formatTextFieldValue(inputValue as string)
+              : inputValue,
           },
         };
 
@@ -99,7 +103,13 @@ export const FormDatePicker = <T extends unknown>({
           });
         }
 
-        return <TextField {...props} {...additionalProps} />;
+        return (
+          <TextField
+            {...props}
+            className={classNames(props.className, rest.className)}
+            {...additionalProps}
+          />
+        );
       }}
     />
   );

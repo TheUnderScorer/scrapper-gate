@@ -3,7 +3,7 @@ export * from './components/FormTextField/FormTextField';
 export * from './components/FormCheckbox/FormCheckbox';
 export * from './types';
 export * from './hooks/useDebouncedValidator';
-export * from './validatorsPipe';
+export * from './mergeValidators';
 export * from './components/FormSwitch/FormSwitch';
 export * from './hooks/useFormFieldValue';
 export * from './components/FormSelect/FormSelect';

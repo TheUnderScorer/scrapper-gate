@@ -113,6 +113,7 @@ export const FlowBuilder = <
         <FormUndoProvider>
           <FlowBuilderPropsProvider
             {...rest}
+            activeTab={activeTab}
             nodeTypes={{
               ...(rest.nodeTypes ?? defaultNodeTypes),
               ...nodeTypes,

@@ -2,7 +2,7 @@ import { ValidationErrors } from 'final-form';
 import pLimit from 'p-limit';
 import deepmerge from 'deepmerge';
 
-export const validatorsPipe = <S>(
+export const mergeValidators = <S>(
   ...validators: Array<
     (values: S) => ValidationErrors | Promise<ValidationErrors>
   >

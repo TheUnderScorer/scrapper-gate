@@ -2,10 +2,10 @@ import React, { FC } from 'react';
 import { createContext, useContextSelector } from 'use-context-selector';
 import { FlowBuilderProps } from '../FlowBuilder';
 
-export type FlowBuilderPropsContext = Omit<
-  FlowBuilderProps,
-  'initialItems' | 'nodesSelection' | 'graph'
->;
+export interface FlowBuilderPropsContext
+  extends Omit<FlowBuilderProps, 'initialItems' | 'nodesSelection' | 'graph'> {
+  activeTab?: string;
+}
 
 const Context = createContext<FlowBuilderPropsContext>({} as never);
 

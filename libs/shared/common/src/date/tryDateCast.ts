@@ -1,6 +1,13 @@
 import { isValid } from 'date-fns';
 
-export const tryDateCast = (value: string) => {
+const returnDateResult = <T>(date: Date, value: T) =>
+  isValid(date) ? date : value;
+
+export const tryDateCast = <T>(value: T): T | Date | string => {
+  if (value instanceof Date) {
+    return returnDateResult(value, '');
+  }
+
   if (!value) {
     return value;
   }
@@ -10,7 +17,7 @@ export const tryDateCast = (value: string) => {
   try {
     const date = new Date(trim);
 
-    return isValid(date) ? date : value;
+    return returnDateResult(date, value);
   } catch {
     return value;
   }
