@@ -193,7 +193,6 @@
     "eslint-plugin-react": "7.21.5",
     "eslint-plugin-react-hooks": "4.2.0",
     "faker": "^5.5.2",
-    "fsevents": "^2.3.2",
     "jest": "26.2.2",
     "jest-mock-proxy": "^3.0.0",
     "matcher": "^4.0.0",
