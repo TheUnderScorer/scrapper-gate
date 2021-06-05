@@ -1,3 +1,4 @@
+import { first } from '@scrapper-gate/shared/common';
 import { getTabs } from './getTabs';
 import { Tabs } from 'webextension-polyfill-ts';
 import { logger } from '@scrapper-gate/frontend/logger';
@@ -10,5 +11,5 @@ export const getActiveTab = async (): Promise<Tabs.Tab> => {
 
   logger.debug('Active tabs:', tabs);
 
-  return tabs[0];
+  return first(tabs);
 };
