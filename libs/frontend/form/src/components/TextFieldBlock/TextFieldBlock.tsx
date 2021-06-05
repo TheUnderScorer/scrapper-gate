@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
       minWidth: 200,
     },
   },
-  textField: {
+  textField: (props: Pick<TextFieldBlockProps, 'InputProps'>) => ({
     width: '100%',
     tabSize: 8,
     fontVariantLigatures: 'none',
@@ -44,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
       width: '100%',
       height: '100%',
       padding: `0 ${theme.spacing(2)}`,
+      paddingLeft: props.InputProps?.startAdornment ? 0 : theme.spacing(2),
     },
 
     '& .public-DraftEditor-content, & .DraftEditor-editorContainer': {
@@ -58,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
         minWidth: 10,
       },
     },
-  },
+  }),
 }));
 
 const DraftField = forwardRef<
@@ -100,8 +101,8 @@ const DraftField = forwardRef<
 });
 
 export const TextFieldBlock = forwardRef<HTMLInputElement, TextFieldBlockProps>(
-  (
-    {
+  (props, ref) => {
+    const {
       onChange,
       value,
       decorator,
@@ -109,11 +110,12 @@ export const TextFieldBlock = forwardRef<HTMLInputElement, TextFieldBlockProps>(
       onBlur,
       error,
       dateFormat,
-      ...props
-    },
-    ref
-  ) => {
-    const classes = useStyles();
+      ...restProps
+    } = props;
+
+    const classes = useStyles({
+      InputProps: props.InputProps,
+    });
     const editorRef = useRef<HTMLElement>();
     const [focused, setIsFocused] = useState(false);
 
@@ -166,10 +168,10 @@ export const TextFieldBlock = forwardRef<HTMLInputElement, TextFieldBlockProps>(
         focused={focused}
       >
         <TextField
-          {...props}
+          {...restProps}
           ref={ref}
-          className={classNames(classes.textField, props.className)}
-          variant={props.variant}
+          className={classNames(classes.textField, restProps.className)}
+          variant={restProps.variant}
           onFocus={(event) => {
             setIsFocused(true);
 
@@ -182,7 +184,7 @@ export const TextFieldBlock = forwardRef<HTMLInputElement, TextFieldBlockProps>(
           }}
           error={error}
           InputProps={{
-            ...props.InputProps,
+            ...restProps.InputProps,
             inputProps: {
               onStateChange: setState,
               state,

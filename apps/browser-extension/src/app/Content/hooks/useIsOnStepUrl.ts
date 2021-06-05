@@ -1,3 +1,4 @@
+import { containsVariableKey } from '@scrapper-gate/shared/domain/variables';
 import { useMemo } from 'react';
 import { useActiveTabUrl } from '../../../extension/browser/hooks/useActiveTabUrl';
 import { areUrlsEqual } from '@scrapper-gate/shared/common';
@@ -10,7 +11,10 @@ export const useIsOnStepUrl = ({
   const activeTabUrl = useActiveTabUrl();
 
   return useMemo(
-    () => useUrlFromPreviousStep || areUrlsEqual(url, activeTabUrl),
+    () =>
+      useUrlFromPreviousStep ||
+      containsVariableKey(url) ||
+      areUrlsEqual(url, activeTabUrl),
     [url, useUrlFromPreviousStep, activeTabUrl]
   );
 };
