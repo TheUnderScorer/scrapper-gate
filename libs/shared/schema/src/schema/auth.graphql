@@ -38,7 +38,10 @@ extend type Mutation {
   #REST don't remove
   login(input: LoginInput!): LoginResponse
   forgotPassword(input: ForgotPasswordInput): ForgotPasswordResponse
-  resetPassword(input: ResetPasswordInput, token: String!): ResetPasswordResponse
+  resetPassword(
+    input: ResetPasswordInput
+    token: String!
+  ): ResetPasswordResponse
   #END REST
 }
 
