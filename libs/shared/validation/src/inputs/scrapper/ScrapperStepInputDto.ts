@@ -7,6 +7,7 @@ import * as jf from 'joiful';
 import { BaseSchema } from '../../BaseSchema';
 import { optionalEnum } from '../../decorators/enum';
 import { noSpecialChars } from '../../decorators/noSpecialChars';
+import { supportsVariables } from '../../decorators/supportsVariables';
 import { uuid } from '../../decorators/uuid';
 import { SelectorDto } from '../SelectorDto';
 import { ScrapperConditionalRuleGroupInputDto } from './ScrapperConditionalRuleGroupInputDto';
@@ -17,7 +18,11 @@ export class ScrapperStepInputDto
   @uuid()
   id: string;
 
-  @(jf.string().uri().allow(null))
+  @supportsVariables({
+    baseSchema: jf.string(),
+    onNotIncludesVariableKey: (joi) => joi.string().uri().allow(null),
+    onIncludesVariableKey: (joi) => joi.string().allow(null),
+  })
   url: string;
 
   @(jf.number().allow(null))
