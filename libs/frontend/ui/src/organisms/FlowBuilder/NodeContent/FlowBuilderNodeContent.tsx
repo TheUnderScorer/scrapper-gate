@@ -1,41 +1,53 @@
 import {
+  Box,
   Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
+  Divider,
+  Slide,
+  Stack,
+  Typography,
 } from '@material-ui/core';
-import React, { useCallback, useEffect, useMemo } from 'react';
-
 import { makeStyles } from '@material-ui/core/styles';
+import { getById } from '@scrapper-gate/shared/common';
 import classNames from 'classnames';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { Node } from 'react-flow-renderer';
 import { useDebounce, usePrevious } from 'react-use';
+import { Layout } from '../../../molecules/Layout/Layout';
+import { ResizablePanel } from '../../../molecules/ResizablePanel/ResizablePanel';
+import { BaseNodeProperties } from '../FlowBuilder.types';
+import { useFlowBuilderActiveNode } from '../providers/FlowBuilderActiveNode.provider';
 import {
   FlowBuilderItemsContext,
   useFlowBuilderItemsSelector,
 } from '../providers/FlowBuilderItems.provider';
-import { BaseNodeProperties } from '../FlowBuilder.types';
-import { getById } from '@scrapper-gate/shared/common';
 import { useFlowBuilderContextSelector } from '../providers/FlowBuilderProps.provider';
-import { useFlowBuilderActiveNode } from '../providers/FlowBuilderActiveNode.provider';
 
-interface DialogStyleProps {
+interface StyleProps {
   isUsingElementPicker: boolean;
+  open: boolean;
 }
 
 const useStyles = makeStyles((theme) => ({
   content: {
-    minWidth: '400px',
-    maxWidth: '900px',
+    padding: `0 ${theme.spacing(2)}`,
   },
-  dialog: (props: DialogStyleProps) => {
+  btnDivider: {
+    marginBottom: theme.spacing(1),
+  },
+  drawer: {
+    position: 'absolute !important' as 'absolute',
+    top: 0,
+    right: 0,
+    height: '100%',
+    zIndex: 4,
+  },
+  title: {
+    marginBottom: theme.spacing(2),
+  },
+  paper: (props: StyleProps) => {
     const defaults = {
       transition: theme.transitions.create('opacity'),
-
-      '& .MuiPaper-root': {
-        maxWidth: '900px',
-      },
+      borderRadius: 0,
     };
 
     if (!props.isUsingElementPicker) {
@@ -48,6 +60,13 @@ const useStyles = makeStyles((theme) => ({
       visibility: 'hidden',
     };
   },
+  slide: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    height: '100%',
+    zIndex: theme.zIndex.drawer,
+  },
 }));
 
 export const FlowBuilderNodeContent = () => {
@@ -55,14 +74,14 @@ export const FlowBuilderNodeContent = () => {
     (ctx) => ctx.isUsingElementPicker
   );
 
-  const classes = useStyles({ isUsingElementPicker });
-
   const {
     activeNodeId,
     contentOpen,
     setContentOpen,
     setActiveNodeId,
   } = useFlowBuilderActiveNode();
+
+  const classes = useStyles({ isUsingElementPicker, open: contentOpen });
 
   const getItems = useFlowBuilderItemsSelector((ctx) => ctx.getItems);
 
@@ -106,9 +125,7 @@ export const FlowBuilderNodeContent = () => {
   }, [setContentOpen]);
 
   useEffect(() => {
-    if (activeNodeId && ContentComponent) {
-      setContentOpen(true);
-    }
+    setContentOpen(Boolean(activeNodeId && ContentComponent));
   }, [ContentComponent, setContentOpen, activeNodeId]);
 
   useDebounce(
@@ -122,32 +139,63 @@ export const FlowBuilderNodeContent = () => {
   );
 
   return (
-    <Dialog className={classes.dialog} onClose={handleClose} open={contentOpen}>
-      <DialogTitle>Edit step</DialogTitle>
-      <DialogContent className={classNames(classes.content, 'node-content')}>
-        {ContentComponent && (
-          <ContentComponent
-            nodeIndex={activeNodeIndex}
-            getFieldName={getFieldName}
-          />
+    <Slide direction="left" in={contentOpen}>
+      <ResizablePanel
+        disableKeyShortcut
+        hideArrow
+        paperProps={{
+          className: classes.paper,
+        }}
+        initialWidth="20%"
+        minWidth="500px"
+        maxWidth="900px"
+        className={classNames(
+          classes.drawer,
+          `node-content-${contentOpen ? 'open' : 'closed'}`
         )}
-        {PrevContentComponent && !ContentComponent && (
-          <PrevContentComponent
-            nodeIndex={activeNodeIndex}
-            getFieldName={getFieldName}
-          />
-        )}
-      </DialogContent>
-      <DialogActions>
-        <Button
-          variant="outlined"
-          onClick={handleClose}
-          color="primary"
-          autoFocus
-        >
-          Close
-        </Button>
-      </DialogActions>
-    </Dialog>
+        enable={{
+          left: true,
+        }}
+      >
+        <Layout
+          body={
+            <Stack
+              spacing={3}
+              className={classNames(classes.content, 'node-content')}
+            >
+              <Typography variant="h6">Edit step</Typography>
+              {ContentComponent && (
+                <ContentComponent
+                  nodeIndex={activeNodeIndex}
+                  getFieldName={getFieldName}
+                />
+              )}
+              {PrevContentComponent && !ContentComponent && (
+                <PrevContentComponent
+                  nodeIndex={activeNodeIndex}
+                  getFieldName={getFieldName}
+                />
+              )}
+            </Stack>
+          }
+          footerHeight={50}
+          footer={
+            <>
+              <Divider className={classes.btnDivider} variant="fullWidth" />
+              <Box paddingLeft={2}>
+                <Button
+                  variant="outlined"
+                  onClick={handleClose}
+                  color="primary"
+                  autoFocus
+                >
+                  Close
+                </Button>
+              </Box>
+            </>
+          }
+        />
+      </ResizablePanel>
+    </Slide>
   );
 };

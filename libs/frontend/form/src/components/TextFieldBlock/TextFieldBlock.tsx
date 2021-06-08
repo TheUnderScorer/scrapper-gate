@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
   input: {
     '& .public-DraftEditor-content': {
       padding: 18,
-      minWidth: 200,
+      minWidth: 50,
     },
   },
   textField: (props: Pick<TextFieldBlockProps, 'InputProps'>) => ({

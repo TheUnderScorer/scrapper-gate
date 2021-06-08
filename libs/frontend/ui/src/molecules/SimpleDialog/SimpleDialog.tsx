@@ -40,7 +40,7 @@ export const SimpleDialog: FC<SimpleDialogProps> = ({
   const classes = useStyles();
 
   return (
-    <Dialog className={classes.dialog} open={open} onClose={onClose} {...props}>
+    <Dialog className={classes.paper} open={open} onClose={onClose} {...props}>
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         <DialogContentText>{children}</DialogContentText>

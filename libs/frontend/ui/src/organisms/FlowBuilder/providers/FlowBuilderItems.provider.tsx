@@ -64,7 +64,7 @@ export const FlowBuilderItemsProvider = <T extends BaseNodeProperties>(props: {
     [change]
   );
 
-  const getItems = useCallback(() => getState().values.items, [getState]);
+  const getItems = useCallback(() => getState().values.items ?? [], [getState]);
 
   const zoomHelper = useZoomPanHelper();
 
