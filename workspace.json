@@ -27,11 +27,11 @@
       "projectType": "application",
       "targets": {
         "e2e": {
-          "executor": "@nrwl/cypress:cypress",
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/browser-extension-e2e"],
           "options": {
-            "cypressConfig": "apps/browser-extension-e2e/cypress.json",
-            "tsConfig": "apps/browser-extension-e2e/tsconfig.e2e.json",
-            "devServerTarget": "browser-extension:serve"
+            "jestConfig": "apps/browser-extension-e2e/jest.config.js",
+            "passWithNoTests": true
           },
           "configurations": {
             "production": {

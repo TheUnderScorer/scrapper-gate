@@ -100,7 +100,10 @@ export const VariableSuggestions = ({
 
   useKey(
     Key.Enter,
-    () => {
+    (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+
       const variable = filteredVariables.find(
         (variable) => variable.id === selectedVariable.id
       );

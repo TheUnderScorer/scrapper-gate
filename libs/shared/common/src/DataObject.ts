@@ -1,5 +1,5 @@
 import { Constructor } from '@scrapper-gate/shared/constructor';
-import { PartialDeep } from 'type-fest';
+import type { PartialDeep } from 'type-fest';
 import { Dictionary, Jsonable, OmitFunctions } from './types';
 
 export interface DataObjectConstructor<T> {

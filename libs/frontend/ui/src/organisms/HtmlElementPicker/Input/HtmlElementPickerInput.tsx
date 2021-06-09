@@ -1,6 +1,3 @@
-import { selectorModeMap } from '../selectorModeMap';
-import { SelectorType } from '@scrapper-gate/shared/schema';
-import React from 'react';
 import {
   IconButton,
   InputAdornment,
@@ -13,27 +10,30 @@ import {
   Tooltip,
 } from '@material-ui/core';
 import { Add, Code } from '@material-ui/icons';
+import { SelectorType } from '@scrapper-gate/shared/schema';
+import React from 'react';
 import { Key } from 'ts-key-enum';
+import { HtmlElementPickerProps } from '../HtmlElementPicker.types';
+import { selectorModeMap } from '../selectorModeMap';
 
 const selectionModes = Object.entries(selectorModeMap);
 
 export interface HtmlElementPickerInputProps
-  extends Pick<
-    TextFieldProps,
-    'name' | 'variant' | 'onChange' | 'helperText' | 'label'
-  > {
+  extends Pick<TextFieldProps, 'variant' | 'helperText' | 'label'>,
+    Pick<HtmlElementPickerProps, 'shouldAddSelectorOnEnter'> {
   mode: SelectorType.Selector | SelectorType.TextContent;
   value: string;
   onSelectChange: SelectProps['onChange'];
   onEnter?: () => unknown;
   error?: string;
   onAdd?: () => unknown;
+  onChange?: (text: string) => unknown;
 }
 
+// TODO Option to pass custom text field component
 export const HtmlElementPickerInput = ({
   helperText,
   mode,
-  name,
   onChange,
   onSelectChange,
   value,
@@ -42,6 +42,7 @@ export const HtmlElementPickerInput = ({
   error,
   label,
   onAdd,
+  shouldAddSelectorOnEnter,
 }: HtmlElementPickerInputProps) => {
   return (
     <Stack
@@ -54,23 +55,19 @@ export const HtmlElementPickerInput = ({
     >
       <TextField
         label={label}
-        name={name}
-        placeholder={
-          mode === SelectorType.Selector
-            ? 'Enter query selector'
-            : 'Enter text content'
-        }
         fullWidth
         error={Boolean(error)}
         helperText={error ?? helperText}
         variant={variant}
         className="html-element-picker-input"
-        onChange={onChange}
+        onChange={(event) => onChange?.(event.target.value)}
         value={value}
         onKeyDown={(event) => {
-          event.stopPropagation();
-
-          if (event.key === Key.Enter) {
+          if (
+            event.key === Key.Enter &&
+            (!shouldAddSelectorOnEnter || shouldAddSelectorOnEnter(event))
+          ) {
+            event.stopPropagation();
             event.preventDefault();
 
             onEnter?.();

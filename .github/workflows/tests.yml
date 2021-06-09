@@ -158,3 +158,33 @@ jobs:
 
       - name: Test
         run: npx nx run-many --target=test --projects=api,browser-extension --parallel --maxParallel=2
+
+  test-e2e:
+    name: Run e2e tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: microsoft/playwright-github-action@v1
+
+      - name: Run XVFB
+        run: |
+          export DISPLAY=:99.0
+          sh -e /etc/init.d/xvfb start
+
+      - name: Set Node.js 16.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+
+      - name: Start docker
+        run: docker-compose up -d
+
+      - name: Setup env
+        run: cp .local.env.dist .local.env
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps && npm i ts-node -g
+
+      - name: Test
+        run: npx nx run-many --target=test --projects=api,browser-extension --parallel --maxParallel=2
