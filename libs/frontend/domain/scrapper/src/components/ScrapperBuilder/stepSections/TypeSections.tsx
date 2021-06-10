@@ -1,13 +1,14 @@
-import { isEditable } from '@testing-library/user-event/dist/utils';
-import { Input, Timer } from '@material-ui/icons';
-import { useCallback } from 'react';
-import { ScrapperKey } from '../commonFields/ScrapperKey';
 import { InputAdornment } from '@material-ui/core';
-import { ScrapperStepFormProps } from '../ScrapperBuilder.types';
-import { useFormState } from 'react-final-form';
-import { Url } from '../commonFields/Url';
-import { wordFormByNumber } from '@scrapper-gate/shared/common';
+import { Input, Timer } from '@material-ui/icons';
+import { VariablesTextField } from '@scrapper-gate/frontend/domain/variables';
 import { FormTextField } from '@scrapper-gate/frontend/form';
+import { wordFormByNumber } from '@scrapper-gate/shared/common';
+import { isEditable } from '@testing-library/user-event/dist/utils';
+import { useCallback } from 'react';
+import { useFormState } from 'react-final-form';
+import { ScrapperKey } from '../commonFields/ScrapperKey';
+import { Url } from '../commonFields/Url';
+import { ScrapperStepFormProps } from '../ScrapperBuilder.types';
 
 export const TypeSections = ({
   ElementPicker,
@@ -52,7 +53,7 @@ export const TypeSections = ({
         nodeIndex={nodeIndex}
         disabled={formState.submitting}
       />
-      <FormTextField
+      <VariablesTextField
         disabled={formState.submitting}
         InputProps={{
           startAdornment: (
