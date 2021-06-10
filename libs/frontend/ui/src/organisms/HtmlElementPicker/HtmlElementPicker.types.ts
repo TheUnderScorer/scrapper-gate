@@ -1,5 +1,5 @@
 import { TextFieldProps } from '@material-ui/core';
-import { ReactNode, KeyboardEvent } from 'react';
+import { ReactNode, KeyboardEvent, ComponentType } from 'react';
 import { Selector, SelectorType } from '@scrapper-gate/shared/schema';
 
 export enum HtmlElementPickerValidationRules {
@@ -27,4 +27,5 @@ export interface HtmlElementPickerProps {
   highlightId?: string;
   filterSelectorsForValidation?: (selectors: Selector[]) => Selector[];
   shouldAddSelectorOnEnter?: (event: KeyboardEvent<HTMLElement>) => boolean;
+  TextFieldComponent?: ComponentType<TextFieldProps>;
 }

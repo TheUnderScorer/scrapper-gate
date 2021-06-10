@@ -52,6 +52,7 @@ export const HtmlElementPicker = ({
   portal = container,
   filterSelectorsForValidation,
   shouldAddSelectorOnEnter,
+  TextFieldComponent,
 }: HtmlElementPickerProps) => {
   const [open, toggleOpen] = useToggle(false);
   const [clickEnabled, toggleClickEnabled] = useToggle(false);
@@ -274,6 +275,7 @@ export const HtmlElementPicker = ({
 
   const input = (
     <HtmlElementPickerInput
+      TextFieldComponent={TextFieldComponent}
       shouldAddSelectorOnEnter={shouldAddSelectorOnEnter}
       onAdd={handleAdd}
       label={label}

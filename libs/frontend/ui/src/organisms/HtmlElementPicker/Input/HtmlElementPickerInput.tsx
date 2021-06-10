@@ -20,7 +20,10 @@ const selectionModes = Object.entries(selectorModeMap);
 
 export interface HtmlElementPickerInputProps
   extends Pick<TextFieldProps, 'variant' | 'helperText' | 'label'>,
-    Pick<HtmlElementPickerProps, 'shouldAddSelectorOnEnter'> {
+    Pick<
+      HtmlElementPickerProps,
+      'shouldAddSelectorOnEnter' | 'TextFieldComponent'
+    > {
   mode: SelectorType.Selector | SelectorType.TextContent;
   value: string;
   onSelectChange: SelectProps['onChange'];
@@ -30,7 +33,6 @@ export interface HtmlElementPickerInputProps
   onChange?: (text: string) => unknown;
 }
 
-// TODO Option to pass custom text field component
 export const HtmlElementPickerInput = ({
   helperText,
   mode,
@@ -43,17 +45,20 @@ export const HtmlElementPickerInput = ({
   label,
   onAdd,
   shouldAddSelectorOnEnter,
+  TextFieldComponent,
 }: HtmlElementPickerInputProps) => {
+  const Component = TextFieldComponent ?? TextField;
+
   return (
     <Stack
-      alignItems="center"
+      alignItems="baseline"
       direction="row"
       spacing={1}
       style={{
         width: '100%',
       }}
     >
-      <TextField
+      <Component
         label={label}
         fullWidth
         error={Boolean(error)}
