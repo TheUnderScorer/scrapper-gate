@@ -165,18 +165,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: microsoft/playwright-github-action@v1
-
-      - name: Run XVFB
-        run: |
-          export DISPLAY=:99.0
-          Xvfb :99 -ac &
-          sleep 5
-
       - name: Set Node.js 16.x
         uses: actions/setup-node@v2
         with:
           node-version: 16.x
+
+      - name: Setup deps
+        run: npx playwright install-deps
 
       - name: Start docker
         run: docker-compose up -d
@@ -191,4 +186,4 @@ jobs:
         run: npx nx build browser-extension --prod
 
       - name: Test
-        run: npx nx run browser-extension-e2e:e2e
+        run: xvfb-run --auto-servernum -- npx nx run browser-extension-e2e:e2e
