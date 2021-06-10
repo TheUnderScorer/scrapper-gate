@@ -7,4 +7,5 @@ export enum JoiMessages {
   HtmlAttribute = 'string.htmlAttribute',
   Custom = 'any.custom',
   Number = 'number.base',
+  Empty = 'string.empty',
 }

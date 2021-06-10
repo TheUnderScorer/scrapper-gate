@@ -46,6 +46,9 @@ const conditionalRules = [
         type: ConditionalRuleTypes.Date,
         id: '#id',
       },
+      {
+        type: ConditionalRuleTypes.HtmlElement,
+      },
     ],
   },
 ];
@@ -72,6 +75,7 @@ export const Component = () => {
         <VariablesProvider name="variables">
           <form>
             <ConditionalRules
+              fieldVariant="outlined"
               helperText="Configure rules that happen when various stuff happens."
               label="Rules"
               definitions={rules}

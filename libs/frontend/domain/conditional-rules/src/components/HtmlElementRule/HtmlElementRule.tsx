@@ -1,12 +1,13 @@
-import { Box, MenuItem, Stack, Typography } from '@material-ui/core';
+import { Box, Link, MenuItem, Stack, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { VariablesTextField } from '@scrapper-gate/frontend/domain/variables';
 import {
   EnumSelect,
   FormSelect,
-  FormTextField,
   useFormFieldValue,
 } from '@scrapper-gate/frontend/form';
 import {
+  ExternalLink,
   HtmlElementPicker,
   HtmlElementPickerProps,
 } from '@scrapper-gate/frontend/ui';
@@ -30,12 +31,9 @@ export interface HtmlElementRuleProps
   picker?: ReactNode;
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   select: {
     minWidth: '150px',
-  },
-  box: {
-    marginTop: `${theme.spacing(4)} !important`,
   },
 }));
 
@@ -79,45 +77,56 @@ export const HtmlElementRule = ({
 
   return (
     <Stack direction="column" spacing={spacing}>
-      <Stack direction="row" alignItems="baseline" spacing={spacing}>
-        <Typography>Element</Typography>
-        <EnumSelect
-          className={classes.select}
-          label={ruleLabels.what}
-          emptyOptionLabel="None"
-          defaultValue=""
+      <EnumSelect
+        helperText={
+          <>
+            You can check if selected elements have a given attribute or tag
+            name. <Link>Learn more</Link>
+          </>
+        }
+        className={classes.select}
+        label={ruleLabels.what}
+        emptyOptionLabel="None"
+        defaultValue=""
+        variant={fieldVariant}
+        enumObj={HtmlElementWhat}
+        name={getName('what')}
+      />
+      {whatValue === HtmlElementWhat.Attribute && (
+        <VariablesTextField
+          helperText={
+            <>
+              Element attribute to check. For example: class or id.
+              <ExternalLink href="https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes">
+                Learn more about attributes
+              </ExternalLink>
+            </>
+          }
           variant={fieldVariant}
-          enumObj={HtmlElementWhat}
-          name={getName('what')}
+          name={getName('meta.attribute')}
+          label="Attribute"
         />
-        {whatValue === HtmlElementWhat.Attribute && (
-          <FormTextField
-            helperText="For example: class"
-            variant={fieldVariant}
-            name={getName('meta.attribute')}
-            label="Attribute"
-          />
-        )}
+      )}
 
-        <EnumSelect
-          className={classes.select}
-          label={ruleLabels.when}
-          defaultValue={BaseConditionalRuleWhen.Exists}
+      <EnumSelect
+        className={classes.select}
+        label={ruleLabels.when}
+        defaultValue={BaseConditionalRuleWhen.Exists}
+        variant={fieldVariant}
+        enumObj={whenOptions}
+        name={getName('when')}
+      />
+      {supportsValue && (
+        <VariablesTextField
           variant={fieldVariant}
-          enumObj={whenOptions}
-          name={getName('when')}
+          name={getName('value')}
+          label={ruleLabels.value}
         />
-        {supportsValue && (
-          <FormTextField
-            variant={fieldVariant}
-            name={getName('value')}
-            label={ruleLabels.value}
-          />
-        )}
-      </Stack>
-      <Box width="100%" className={classes.box}>
+      )}
+      <Box width="100%">
         {picker ?? (
           <HtmlElementPicker
+            label="Selectors"
             variant={fieldVariant}
             name={getName('meta.selectors')}
             {...rest}
@@ -127,6 +136,7 @@ export const HtmlElementRule = ({
       {Boolean(selectors.length) && (
         <Stack spacing={spacing} direction="row" alignItems="center">
           <FormSelect
+            size="small"
             defaultValue={ConditionalRuleGroupType.Any}
             variant={fieldVariant}
             className={classes.select}

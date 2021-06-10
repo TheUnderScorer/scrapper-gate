@@ -145,7 +145,7 @@ const BaseConditionalRulesGroup = ({
           alignItems="center"
           direction="row"
         >
-          <FormSelect variant={fieldVariant} name={`${name}.type`}>
+          <FormSelect size="small" variant={fieldVariant} name={`${name}.type`}>
             <MenuItem value={ConditionalRuleGroupType.Any}>
               At least one
             </MenuItem>

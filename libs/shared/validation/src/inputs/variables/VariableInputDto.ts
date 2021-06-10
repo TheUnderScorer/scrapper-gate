@@ -27,6 +27,6 @@ export class VariableInputDto
   @requiredEnum(VariableScope)
   scope: VariableScope;
 
-  @(noSpecialChars({ max: 40 }).allow(null, ''))
+  @(noSpecialChars({ max: 40 }).required())
   key?: string;
 }

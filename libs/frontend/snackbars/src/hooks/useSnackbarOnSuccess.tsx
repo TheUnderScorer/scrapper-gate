@@ -27,7 +27,6 @@ export const useSnackbarOnSuccess = () => {
         {
           className: classes.snackbar,
           title: 'Success',
-          preventDuplicate: true,
           persist: false,
           key: 'success',
         }

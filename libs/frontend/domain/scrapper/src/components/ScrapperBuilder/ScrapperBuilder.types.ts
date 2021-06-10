@@ -1,3 +1,4 @@
+import { TextFieldProps } from '@material-ui/core';
 import { Scrapper, ScrapperStep, Variable } from '@scrapper-gate/shared/schema';
 import { ComponentType } from 'react';
 import {
@@ -18,6 +19,7 @@ export interface ScrapperElementPickerProps
   fieldNameCreator: FieldNameCreator;
   label?: string;
   name?: string;
+  variant?: TextFieldProps['variant'];
 }
 
 export type ScrapperBuilderNode = Node<ScrapperBuilderNodeProperties>;

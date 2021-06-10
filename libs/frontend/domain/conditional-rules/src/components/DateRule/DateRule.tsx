@@ -1,4 +1,4 @@
-import { MenuItem, Stack, Typography } from '@material-ui/core';
+import { MenuItem, Stack } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { VariablesDateField } from '@scrapper-gate/frontend/domain/variables';
 import { FormSelect, useFormFieldValue } from '@scrapper-gate/frontend/form';
@@ -40,8 +40,7 @@ export const DateRule = ({
   const classes = useStyles();
 
   return (
-    <Stack alignItems="center" spacing={spacing} direction="row">
-      <Typography>Current date</Typography>
+    <Stack spacing={spacing}>
       <FormSelect
         label={ruleLabels.when}
         className={classNames('date-rule-select', classes.select)}

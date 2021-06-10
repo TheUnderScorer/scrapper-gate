@@ -12,10 +12,20 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Delete, Edit } from '@material-ui/icons';
 import { useVariablesContextSelector } from '@scrapper-gate/frontend/domain/variables';
 import { toDisplayText } from '@scrapper-gate/shared/common';
-import { BaseEntity, ConditionalRuleInput } from '@scrapper-gate/shared/schema';
+import {
+  BaseEntity,
+  ConditionalRuleInput,
+  Variable,
+} from '@scrapper-gate/shared/schema';
 import classNames from 'classnames';
-import React, { memo, useMemo } from 'react';
-import { ConditionalRulesSelection } from '../../../types';
+import React, { memo, useMemo, useState } from 'react';
+import { useDebounce } from 'react-use';
+import {
+  ConditionalRuleDefinition,
+  ConditionalRulesSelection,
+  RuleTitleDefinitionType,
+} from '../../../types';
+import { ConditionalRulesRuleTitle } from './Title/ConditionalRulesRuleTitle';
 
 export interface ConditionalRulesRuleProps {
   fieldVariant?: TextFieldProps['variant'];
@@ -41,6 +51,9 @@ const useStyles = makeStyles((theme) => ({
     '&, & svg': {
       color: theme.palette.error.main,
     },
+  },
+  title: {
+    width: '100%',
   },
   paper: {
     padding: `${theme.spacing(1)} ${theme.spacing(2)}`,
@@ -72,7 +85,41 @@ const useStyles = makeStyles((theme) => ({
   btnSection: {
     marginTop: theme.spacing(2),
   },
+  summaryContent: {
+    width: '100%',
+  },
+  innerStack: {
+    width: '100%',
+  },
 }));
+
+const getTitle = (
+  value: ConditionalRuleInput & Pick<BaseEntity, 'id'>,
+  definition: ConditionalRuleDefinition,
+  variables: Variable[]
+) => {
+  if (!value?.type) {
+    return [];
+  }
+
+  if (definition?.createTitle) {
+    return definition.createTitle(value, { variables });
+  }
+
+  if (!value?.when || !value?.value) {
+    return [
+      {
+        type: RuleTitleDefinitionType.Text,
+        text: toDisplayText(definition.type),
+      },
+    ];
+  }
+
+  return [value.type, value.when, value.value].map((text) => ({
+    type: RuleTitleDefinitionType.Text,
+    text: toDisplayText(text?.toString() ?? ''),
+  }));
+};
 
 const BaseConditionalRulesRule = ({
   definitions,
@@ -96,21 +143,13 @@ const BaseConditionalRulesRule = ({
 
   const Component = definition?.Component;
 
-  const title = useMemo(() => {
-    if (!value?.type) {
-      return '';
-    }
+  const [title, setTitle] = useState(getTitle(value, definition, variables));
 
-    if (definition?.createTitle) {
-      return definition.createTitle(value, { variables });
-    }
-
-    if (!value?.when || !value?.value) {
-      return toDisplayText(definition.type);
-    }
-
-    return [value.type, value.when, value.value].map(toDisplayText).join(' ');
-  }, [definition, value, variables]);
+  useDebounce(() => setTitle(getTitle(value, definition, variables)), 750, [
+    value,
+    definition,
+    variables,
+  ]);
 
   return (
     <Accordion
@@ -122,6 +161,9 @@ const BaseConditionalRulesRule = ({
       expanded={isEdit}
     >
       <AccordionSummary
+        classes={{
+          content: classes.content,
+        }}
         expandIcon={
           <IconButton size="small">
             <Edit />
@@ -135,10 +177,16 @@ const BaseConditionalRulesRule = ({
           justifyContent="space-between"
           className={classNames(classes.summaryStack, { hasError })}
         >
-          <Stack direction="row" spacing={2}>
+          <Stack className={classes.innerStack} direction="row" spacing={2}>
             {definitionSelection?.icon}
-            <Typography className="conditional-rules-rule-title">
-              {title}
+            <Typography
+              component="div"
+              className={classNames(
+                'conditional-rules-rule-title',
+                classes.title
+              )}
+            >
+              <ConditionalRulesRuleTitle definitions={title} rule={value} />
             </Typography>
           </Stack>
           <Tooltip title="Remove rule">

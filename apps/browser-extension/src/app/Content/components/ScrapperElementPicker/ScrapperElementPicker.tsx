@@ -41,6 +41,7 @@ export const ScrapperElementPicker = ({
   fieldNameCreator,
   label = 'HTML Elements',
   name,
+  variant,
 }: ScrapperElementPickerProps) => {
   const {
     root,
@@ -75,6 +76,7 @@ export const ScrapperElementPicker = ({
 
   return (
     <HtmlElementPicker
+      variant={variant}
       shouldAddSelectorOnEnter={shouldAddSelectorOnEnter}
       filterSelectorsForValidation={filterSelectorsForValidation}
       TextFieldComponent={TextFieldComponent}

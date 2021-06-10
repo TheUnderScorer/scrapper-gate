@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
       minWidth: 50,
     },
   },
-  textField: (props: Pick<TextFieldBlockProps, 'InputProps'>) => ({
+  textField: (props: Pick<TextFieldBlockProps, 'InputProps' | 'variant'>) => ({
     width: '100%',
     tabSize: 8,
     fontVariantLigatures: 'none',
@@ -37,14 +37,17 @@ const useStyles = makeStyles((theme) => ({
     whiteSpace: 'pre-wrap',
 
     '& .MuiInputBase-root': {
-      height: 54,
+      minHeight: props.variant === 'outlined' ? '52px' : '32px',
     },
 
     '& .DraftEditor-root': {
       width: '100%',
       height: '100%',
       padding: `0 ${theme.spacing(2)}`,
-      paddingLeft: props.InputProps?.startAdornment ? 0 : theme.spacing(2),
+      paddingLeft:
+        props.InputProps?.startAdornment || props.variant !== 'outlined'
+          ? 0
+          : theme.spacing(2),
     },
 
     '& .public-DraftEditor-content, & .DraftEditor-editorContainer': {
@@ -115,6 +118,7 @@ export const TextFieldBlock = forwardRef<HTMLInputElement, TextFieldBlockProps>(
 
     const classes = useStyles({
       InputProps: props.InputProps,
+      variant: props.variant ?? 'outlined',
     });
     const editorRef = useRef<HTMLElement>();
     const [focused, setIsFocused] = useState(false);
