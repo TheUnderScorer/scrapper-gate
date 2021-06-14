@@ -1,4 +1,4 @@
-import { BaseSchema } from '@scrapper-gate/shared/validation';
+import { BaseSchema } from '../BaseSchema';
 import { validateAsClass } from 'joiful';
 import { noSpecialChars } from './noSpecialChars';
 
