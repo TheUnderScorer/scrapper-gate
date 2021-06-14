@@ -1,5 +1,5 @@
 import { Stack } from '@material-ui/core';
-import { PrimaryLightButton } from '@scrapper-gate/frontend/ui';
+import { PrimaryLightChip } from '@scrapper-gate/frontend/ui';
 import { ConditionalRuleWhen } from '@scrapper-gate/shared/domain/conditional-rules';
 import { ConditionalRule } from '@scrapper-gate/shared/schema';
 import React, { memo } from 'react';
@@ -33,7 +33,11 @@ const getComponent = (
 
     case RuleTitleDefinitionType.Highlight:
       return (
-        <PrimaryLightButton size="small">{definition.text}</PrimaryLightButton>
+        <PrimaryLightChip
+          size="small"
+          label={definition.text}
+          color="primary"
+        />
       );
 
     default:
