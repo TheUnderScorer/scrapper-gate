@@ -1,6 +1,7 @@
 import { TextFieldProps } from '@material-ui/core';
 import { Selection } from '@scrapper-gate/frontend/common';
 import { FieldNameCreator } from '@scrapper-gate/frontend/form';
+import { ConditionalRuleWhen } from '@scrapper-gate/shared/domain/conditional-rules';
 import { ConditionalRule, Variable } from '@scrapper-gate/shared/schema';
 import { ComponentType, ReactNode } from 'react';
 
@@ -12,6 +13,7 @@ interface RuleTitleContext {
 
 export interface ConditionalRuleDefinition {
   Component: ComponentType<ConditionalRuleDefinitionsProps>;
+  defaultWhen?: ConditionalRuleWhen;
   type: string;
   createTitle?: (
     rule: ConditionalRule,

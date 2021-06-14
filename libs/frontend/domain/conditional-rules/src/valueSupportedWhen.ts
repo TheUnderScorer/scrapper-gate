@@ -1,12 +1,12 @@
-import { BaseConditionalRuleWhen } from '@scrapper-gate/shared/domain/conditional-rules';
+import { ConditionalRuleWhen } from '@scrapper-gate/shared/domain/conditional-rules';
 
 export const valueSupportedWhen = [
-  BaseConditionalRuleWhen.Equals,
-  BaseConditionalRuleWhen.NotEqual,
-  BaseConditionalRuleWhen.LessThanOrEqual,
-  BaseConditionalRuleWhen.MoreThan,
-  BaseConditionalRuleWhen.MoreThanOrEqual,
-  BaseConditionalRuleWhen.LessThan,
-  BaseConditionalRuleWhen.Includes,
-  BaseConditionalRuleWhen.NotIncludes,
+  ConditionalRuleWhen.Equals,
+  ConditionalRuleWhen.NotEqual,
+  ConditionalRuleWhen.LessThanOrEqual,
+  ConditionalRuleWhen.MoreThan,
+  ConditionalRuleWhen.MoreThanOrEqual,
+  ConditionalRuleWhen.LessThan,
+  ConditionalRuleWhen.Includes,
+  ConditionalRuleWhen.NotIncludes,
 ];

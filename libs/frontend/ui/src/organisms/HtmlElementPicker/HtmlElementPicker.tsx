@@ -275,6 +275,7 @@ export const HtmlElementPicker = ({
 
   const input = (
     <HtmlElementPickerInput
+      name={name}
       TextFieldComponent={TextFieldComponent}
       shouldAddSelectorOnEnter={shouldAddSelectorOnEnter}
       onAdd={handleAdd}

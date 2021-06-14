@@ -3,18 +3,18 @@ import { makeStyles } from '@material-ui/core/styles';
 import { VariablesDateField } from '@scrapper-gate/frontend/domain/variables';
 import { FormSelect, useFormFieldValue } from '@scrapper-gate/frontend/form';
 import { DateFormat, toDisplayText } from '@scrapper-gate/shared/common';
-import { BaseConditionalRuleWhen } from '@scrapper-gate/shared/domain/conditional-rules';
+import { ConditionalRuleWhen } from '@scrapper-gate/shared/domain/conditional-rules';
 import classNames from 'classnames';
 import React, { useMemo } from 'react';
 import { ruleLabels } from '../../labels';
 import { ConditionalRuleDefinitionsProps } from '../../types';
 
 const supportedWhen = [
-  BaseConditionalRuleWhen.MoreThan,
-  BaseConditionalRuleWhen.MoreThanOrEqual,
-  BaseConditionalRuleWhen.Equals,
-  BaseConditionalRuleWhen.LessThan,
-  BaseConditionalRuleWhen.LessThanOrEqual,
+  ConditionalRuleWhen.MoreThan,
+  ConditionalRuleWhen.MoreThanOrEqual,
+  ConditionalRuleWhen.Equals,
+  ConditionalRuleWhen.LessThan,
+  ConditionalRuleWhen.LessThanOrEqual,
 ];
 
 const now = new Date();
@@ -44,7 +44,7 @@ export const DateRule = ({
       <FormSelect
         label={ruleLabels.when}
         className={classNames('date-rule-select', classes.select)}
-        defaultValue={BaseConditionalRuleWhen.Equals}
+        defaultValue={ConditionalRuleWhen.Equals}
         variant={fieldVariant}
         name={getName('when')}
       >

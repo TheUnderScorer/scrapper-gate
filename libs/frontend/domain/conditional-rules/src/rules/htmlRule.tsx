@@ -4,6 +4,7 @@ import { HtmlElementPickerProps } from '@scrapper-gate/frontend/ui';
 import { toDisplayText } from '@scrapper-gate/shared/common';
 import {
   ConditionalRuleTypes,
+  ConditionalRuleWhen,
   HtmlElementRuleMeta,
   HtmlElementWhat,
 } from '@scrapper-gate/shared/domain/conditional-rules';
@@ -118,6 +119,7 @@ export const makeHtmlElementRule = (
     Component: (props) => <HtmlElementRule {...props} {...htmlElementProps} />,
     type: ConditionalRuleTypes.HtmlElement,
     createTitle: createTitle,
+    defaultWhen: ConditionalRuleWhen.Exists,
   },
 });
 

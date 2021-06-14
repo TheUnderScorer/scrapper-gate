@@ -1,5 +1,5 @@
 import { ConditionalRule } from '@scrapper-gate/shared/schema';
-import { BaseConditionalRuleWhen } from '../types';
+import { ConditionalRuleWhen } from '../types';
 
 export const primitiveValueResolver = (
   rule: ConditionalRule,
@@ -8,36 +8,36 @@ export const primitiveValueResolver = (
   const actualValue = value?.valueOf();
 
   switch (rule.when) {
-    case BaseConditionalRuleWhen.NotEqual:
+    case ConditionalRuleWhen.NotEqual:
       return actualValue?.toString() !== rule.value?.toString();
 
-    case BaseConditionalRuleWhen.Equals:
+    case ConditionalRuleWhen.Equals:
       return actualValue?.toString() === rule.value?.toString();
 
-    case BaseConditionalRuleWhen.Includes:
+    case ConditionalRuleWhen.Includes:
       return actualValue?.toString()?.includes(rule.value?.toString());
 
-    case BaseConditionalRuleWhen.NotIncludes:
+    case ConditionalRuleWhen.NotIncludes:
       return !actualValue?.toString()?.includes(rule.value?.toString());
 
-    case BaseConditionalRuleWhen.LessThan:
+    case ConditionalRuleWhen.LessThan:
       return Number(actualValue) < Number(rule.value);
 
-    case BaseConditionalRuleWhen.LessThanOrEqual:
+    case ConditionalRuleWhen.LessThanOrEqual:
       return Number(actualValue) <= Number(rule.value);
 
-    case BaseConditionalRuleWhen.MoreThan:
+    case ConditionalRuleWhen.MoreThan:
       return Number(actualValue) > Number(rule.value);
 
-    case BaseConditionalRuleWhen.MoreThanOrEqual:
+    case ConditionalRuleWhen.MoreThanOrEqual:
       return Number(actualValue) >= Number(rule.value);
 
-    case BaseConditionalRuleWhen.Empty:
-    case BaseConditionalRuleWhen.NotExists:
+    case ConditionalRuleWhen.Empty:
+    case ConditionalRuleWhen.NotExists:
       return !actualValue;
 
-    case BaseConditionalRuleWhen.NotEmpty:
-    case BaseConditionalRuleWhen.Exists:
+    case ConditionalRuleWhen.NotEmpty:
+    case ConditionalRuleWhen.Exists:
       return Boolean(actualValue);
 
     default:

@@ -1,6 +1,6 @@
 import { Stack } from '@material-ui/core';
 import { PrimaryLightButton } from '@scrapper-gate/frontend/ui';
-import { BaseConditionalRuleWhen } from '@scrapper-gate/shared/domain/conditional-rules';
+import { ConditionalRuleWhen } from '@scrapper-gate/shared/domain/conditional-rules';
 import { ConditionalRule } from '@scrapper-gate/shared/schema';
 import React, { memo } from 'react';
 import TruncateMarkup from 'react-truncate-markup';
@@ -25,7 +25,7 @@ const getComponent = (
 
   switch (definition.type) {
     case RuleTitleDefinitionType.Value:
-      if (!valueSupportedWhen.includes(rule.when as BaseConditionalRuleWhen)) {
+      if (!valueSupportedWhen.includes(rule.when as ConditionalRuleWhen)) {
         return null;
       }
 

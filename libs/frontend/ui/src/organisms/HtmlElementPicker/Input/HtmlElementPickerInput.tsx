@@ -19,7 +19,7 @@ import { selectorModeMap } from '../selectorModeMap';
 const selectionModes = Object.entries(selectorModeMap);
 
 export interface HtmlElementPickerInputProps
-  extends Pick<TextFieldProps, 'variant' | 'helperText' | 'label'>,
+  extends Pick<TextFieldProps, 'variant' | 'helperText' | 'label' | 'name'>,
     Pick<
       HtmlElementPickerProps,
       'shouldAddSelectorOnEnter' | 'TextFieldComponent'
@@ -46,6 +46,7 @@ export const HtmlElementPickerInput = ({
   onAdd,
   shouldAddSelectorOnEnter,
   TextFieldComponent,
+  name,
 }: HtmlElementPickerInputProps) => {
   const Component = TextFieldComponent ?? TextField;
 
@@ -59,6 +60,7 @@ export const HtmlElementPickerInput = ({
       }}
     >
       <Component
+        name={name}
         label={label}
         fullWidth
         error={Boolean(error)}

@@ -12,7 +12,7 @@ import {
   HtmlElementPickerProps,
 } from '@scrapper-gate/frontend/ui';
 import {
-  BaseConditionalRuleWhen,
+  ConditionalRuleWhen,
   HtmlElementWhat,
 } from '@scrapper-gate/shared/domain/conditional-rules';
 import {
@@ -56,13 +56,10 @@ export const HtmlElementRule = ({
 
   const whenOptions = useMemo(() => {
     if (!whatValue) {
-      return [
-        BaseConditionalRuleWhen.Exists,
-        BaseConditionalRuleWhen.NotExists,
-      ];
+      return [ConditionalRuleWhen.Exists, ConditionalRuleWhen.NotExists];
     }
 
-    return Object.values(BaseConditionalRuleWhen);
+    return Object.values(ConditionalRuleWhen);
   }, [whatValue]);
 
   const supportsValue = useMemo(() => {
@@ -71,7 +68,7 @@ export const HtmlElementRule = ({
 
   useEffect(() => {
     if (!whatValue && !whenOptions.includes(whenValue)) {
-      onChangeWhen(BaseConditionalRuleWhen.Exists);
+      onChangeWhen(ConditionalRuleWhen.Exists);
     }
   }, [onChangeWhen, whatValue, whenOptions, whenValue]);
 
@@ -111,7 +108,7 @@ export const HtmlElementRule = ({
       <EnumSelect
         className={classes.select}
         label={ruleLabels.when}
-        defaultValue={BaseConditionalRuleWhen.Exists}
+        defaultValue={ConditionalRuleWhen.Exists}
         variant={fieldVariant}
         enumObj={whenOptions}
         name={getName('when')}

@@ -45,6 +45,7 @@ export const ConditionalRulesSelectionDropdown = ({
         onClick: () =>
           onAdd({
             type: definition.value.type,
+            when: definition.value.defaultWhen,
           }),
       })),
     ],

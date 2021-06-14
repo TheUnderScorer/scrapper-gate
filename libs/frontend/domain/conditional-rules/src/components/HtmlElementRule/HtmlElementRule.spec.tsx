@@ -1,11 +1,15 @@
+import { Box } from '@material-ui/core';
 import { LocalizationProvider } from '@material-ui/lab';
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import { logger } from '@scrapper-gate/frontend/logger';
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
+import { wait } from '@scrapper-gate/shared/common';
+import '@testing-library/jest-dom';
 import { act, render, RenderResult } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 import { Form } from 'react-final-form';
+import { mockDraftJs } from '../../../../../../../tests/mocks/mockDraftJs';
 import { makeHtmlElementRule } from '../../rules/htmlRule';
 import {
   ConditionalRules,
@@ -19,6 +23,14 @@ const rules = [
   }),
 ];
 
+jest.mock('react-truncate-markup', () => {
+  const Component = (props: PropsWithChildren<unknown>) => props.children;
+
+  Component.Atom = Component;
+
+  return Component;
+});
+
 const renderCmp = (props: Partial<ConditionalRulesProps> = {}) => {
   return render(
     <ThemeProvider>
@@ -26,10 +38,12 @@ const renderCmp = (props: Partial<ConditionalRulesProps> = {}) => {
         <Form
           onSubmit={jest.fn()}
           render={() => (
-            <ConditionalRules
-              definitions={props.definitions ?? rules}
-              name="rules"
-            />
+            <Box width="1500px" height="1500px">
+              <ConditionalRules
+                definitions={props.definitions ?? rules}
+                name="rules"
+              />
+            </Box>
           )}
         />
       </LocalizationProvider>
@@ -43,7 +57,7 @@ type TestCase = [Handler, string];
 
 const handlers = {
   onlyExists: (cmp: RenderResult) => {
-    assertTitle(cmp.container, 'Html element exists');
+    assertTitle(cmp.container, 'Html elementexists');
   },
   validAttributeWithValue: async (cmp: RenderResult) => {
     act(() => {
@@ -73,21 +87,19 @@ const handlers = {
     await act(async () => {
       await userEvent.type(
         cmp.container.querySelector('[name="rules[0].rules[0]meta.attribute"]'),
-        'test-id',
-        {
-          delay: 10,
-        }
+        'test-id'
       );
+
+      await wait(1000);
     });
 
     await act(async () => {
       await userEvent.type(
         cmp.container.querySelector('[name="rules[0].rules[0]value"]'),
-        '123',
-        {
-          delay: 10,
-        }
+        '123'
       );
+
+      await wait(1000);
     });
   },
   validTagWithAttribute: async (cmp: RenderResult) => {
@@ -118,11 +130,10 @@ const handlers = {
     await act(async () => {
       await userEvent.type(
         cmp.container.querySelector('[name="rules[0].rules[0]value"]'),
-        'DIV',
-        {
-          delay: 10,
-        }
+        'DIV'
       );
+
+      await wait(1000);
     });
   },
 };
@@ -138,22 +149,30 @@ describe('<HtmlElementRule />', () => {
     });
   });
 
+  beforeEach(() => {
+    mockDraftJs();
+  });
+
   it.each<TestCase>([
-    [handlers.onlyExists, 'Html element exists'],
+    [handlers.onlyExists, 'Html elementexists'],
     [
       handlers.validAttributeWithValue,
-      'Html element attribute "test-id" equals "123"',
+      'Html elementattributetest-idequals"123"',
     ],
-    [handlers.validTagWithAttribute, 'Html element tag name equals "DIV"'],
-  ])('should render correct title', async (handler, expectedTitle) => {
-    const cmp = renderCmp();
+    [handlers.validTagWithAttribute, 'Html elementtag nameequals"DIV"'],
+  ])(
+    'should render correct title',
+    async (handler, expectedTitle) => {
+      const cmp = renderCmp();
 
-    addGroupAndRule(cmp, 'HTML Element');
+      addGroupAndRule(cmp, 'HTML Element');
 
-    await handler(cmp);
+      await handler(cmp);
 
-    assertTitle(cmp.container, expectedTitle);
-  });
+      assertTitle(cmp.container, expectedTitle);
+    },
+    50000
+  );
 
   it('should show logic dropdown if selectors are provided', async () => {
     const cmp = renderCmp();
@@ -163,10 +182,7 @@ describe('<HtmlElementRule />', () => {
     await act(async () => {
       await userEvent.type(
         cmp.container.querySelector('[name="rules[0].rules[0]meta.selectors"]'),
-        'span',
-        {
-          delay: 10,
-        }
+        'span'
       );
     });
 

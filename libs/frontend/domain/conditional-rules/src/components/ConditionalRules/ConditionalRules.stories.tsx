@@ -1,6 +1,6 @@
 import { VariablesProvider } from '@scrapper-gate/frontend/domain/variables';
 import {
-  BaseConditionalRuleWhen,
+  ConditionalRuleWhen,
   ConditionalRuleTypes,
 } from '@scrapper-gate/shared/domain/conditional-rules';
 import { createVariable } from '@scrapper-gate/shared/domain/variables';
@@ -42,7 +42,7 @@ const conditionalRules = [
     rules: [
       {
         value: '{{Date}}',
-        when: BaseConditionalRuleWhen.Equals,
+        when: ConditionalRuleWhen.Equals,
         type: ConditionalRuleTypes.Date,
         id: '#id',
       },

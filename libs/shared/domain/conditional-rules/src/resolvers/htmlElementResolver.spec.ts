@@ -2,7 +2,7 @@ import { ConditionalRuleGroupType } from '@scrapper-gate/shared/schema';
 import { v4 } from 'uuid';
 import { resolveRules } from '../resolveRules';
 import {
-  BaseConditionalRuleWhen,
+  ConditionalRuleWhen,
   ConditionalRuleTypes,
   HtmlElementRuleMeta,
   HtmlElementWhat,
@@ -16,7 +16,7 @@ describe('Html element resolver', () => {
   it.each<
     [
       elements: HtmlElementResolverElementDefinition[],
-      when: BaseConditionalRuleWhen,
+      when: ConditionalRuleWhen,
       expectedResult: boolean
     ]
   >([
@@ -28,7 +28,7 @@ describe('Html element resolver', () => {
           textContent: '',
         },
       ],
-      BaseConditionalRuleWhen.NotEmpty,
+      ConditionalRuleWhen.NotEmpty,
       true,
     ],
     [
@@ -39,11 +39,11 @@ describe('Html element resolver', () => {
           textContent: '',
         },
       ],
-      BaseConditionalRuleWhen.Empty,
+      ConditionalRuleWhen.Empty,
       false,
     ],
-    [[], BaseConditionalRuleWhen.Empty, true],
-    [[], BaseConditionalRuleWhen.NotEmpty, false],
+    [[], ConditionalRuleWhen.Empty, true],
+    [[], ConditionalRuleWhen.NotEmpty, false],
   ])(
     'should return correct result without "what"',
     async (elements, when, expectedResult) => {
@@ -78,7 +78,7 @@ describe('Html element resolver', () => {
   it.each<
     [
       elements: HtmlElementResolverElementDefinition[],
-      when: BaseConditionalRuleWhen,
+      when: ConditionalRuleWhen,
       attribute: string,
       expectedResult: boolean,
       expectedAttributeValue?: string
@@ -94,7 +94,7 @@ describe('Html element resolver', () => {
           textContent: '',
         },
       ],
-      BaseConditionalRuleWhen.Equals,
+      ConditionalRuleWhen.Equals,
       'data-id',
       true,
       '#test',
@@ -109,7 +109,7 @@ describe('Html element resolver', () => {
           textContent: '',
         },
       ],
-      BaseConditionalRuleWhen.NotEqual,
+      ConditionalRuleWhen.NotEqual,
       'data-id',
       false,
       '#test',
@@ -124,7 +124,7 @@ describe('Html element resolver', () => {
           textContent: '',
         },
       ],
-      BaseConditionalRuleWhen.LessThan,
+      ConditionalRuleWhen.LessThan,
       'data-id',
       true,
       '2',
@@ -139,7 +139,7 @@ describe('Html element resolver', () => {
           textContent: '',
         },
       ],
-      BaseConditionalRuleWhen.MoreThan,
+      ConditionalRuleWhen.MoreThan,
       'data-id',
       false,
       '2',
@@ -181,7 +181,7 @@ describe('Html element resolver', () => {
   it.each<
     [
       elements: HtmlElementResolverElementDefinition[],
-      when: BaseConditionalRuleWhen,
+      when: ConditionalRuleWhen,
       expectedResult: boolean,
       expectedTagValue?: string
     ]
@@ -196,7 +196,7 @@ describe('Html element resolver', () => {
           textContent: '',
         },
       ],
-      BaseConditionalRuleWhen.Equals,
+      ConditionalRuleWhen.Equals,
       true,
       'div',
     ],
@@ -210,7 +210,7 @@ describe('Html element resolver', () => {
           textContent: '',
         },
       ],
-      BaseConditionalRuleWhen.Equals,
+      ConditionalRuleWhen.Equals,
       false,
       'span',
     ],
@@ -224,7 +224,7 @@ describe('Html element resolver', () => {
           textContent: '',
         },
       ],
-      BaseConditionalRuleWhen.NotEqual,
+      ConditionalRuleWhen.NotEqual,
       true,
       'span',
     ],

@@ -4,7 +4,7 @@ import { VariablesProvider } from '@scrapper-gate/frontend/domain/variables';
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
 import { DateFormat } from '@scrapper-gate/shared/common';
 import {
-  BaseConditionalRuleWhen,
+  ConditionalRuleWhen,
   ConditionalRuleTypes,
 } from '@scrapper-gate/shared/domain/conditional-rules';
 import { createVariable } from '@scrapper-gate/shared/domain/variables';
@@ -106,7 +106,7 @@ describe('<DateRule />', () => {
           rules: [
             {
               value: '{{Date}}',
-              when: BaseConditionalRuleWhen.Equals,
+              when: ConditionalRuleWhen.Equals,
               type: ConditionalRuleTypes.Date,
               id: '#id',
             },

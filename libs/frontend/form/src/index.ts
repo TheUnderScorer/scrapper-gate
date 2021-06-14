@@ -14,7 +14,5 @@ export * from './components/FormDatePicker/FormDatePicker';
 export * from './components/EnumSelect/EnumSelect';
 export * from './components/FormEditableText/FormEditableText';
 export * from './components/FormTextFieldBlock/FormTextFieldBlock';
-export * from './components/TextFieldBlock/TextFieldBlock';
-export * from './components/TextFieldBlock/TextFieldBlock.types';
-export * from './components/TextFieldBlock/TextFieldBlock.provider';
+export * from './components/TextFieldBlock';
 export { regexDecoratorStrategy } from './components/TextFieldBlock/utils';
