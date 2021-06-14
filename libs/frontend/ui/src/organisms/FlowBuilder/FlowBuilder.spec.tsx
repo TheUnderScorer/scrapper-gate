@@ -20,7 +20,7 @@ import { Selection } from '@scrapper-gate/frontend/common';
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
 import { createNodeFromSelection } from './utils/createNodeFromSelection';
 import { wait } from '@scrapper-gate/shared/common';
-import { dragSelectionIntoCanvas } from './testUtils';
+import { dragSelectionIntoCanvas } from '../../../../../../tests/ui/flowBuilder/dragSelectionIntoCanvas';
 import { FlowBuilder, FlowBuilderProps } from './FlowBuilder';
 import {
   BaseNodeProperties,
