@@ -15,7 +15,10 @@ import {
   ConditionalRules,
   ConditionalRulesProps,
 } from '../ConditionalRules/ConditionalRules';
-import { addGroupAndRule, assertTitle } from '../ConditionalRules/testUtils';
+import {
+  addGroupAndRule,
+  assertTitle,
+} from '../../../../../../../tests/domain/conditionalRules/testUtils';
 
 const rules = [
   makeHtmlElementRule({

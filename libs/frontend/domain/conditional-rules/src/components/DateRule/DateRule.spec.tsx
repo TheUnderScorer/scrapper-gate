@@ -1,8 +1,9 @@
+import { Box } from '@material-ui/core';
 import { LocalizationProvider } from '@material-ui/lab';
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import { VariablesProvider } from '@scrapper-gate/frontend/domain/variables';
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
-import { DateFormat } from '@scrapper-gate/shared/common';
+import { DateFormat, wait } from '@scrapper-gate/shared/common';
 import {
   ConditionalRuleWhen,
   ConditionalRuleTypes,
@@ -17,14 +18,26 @@ import {
 import { act, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { format, subDays } from 'date-fns';
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 import { Form } from 'react-final-form';
+import { mockDraftJs } from '../../../../../../../tests/mocks/mockDraftJs';
 import { baseRulesSelection } from '../../baseRules';
 import {
   ConditionalRules,
   ConditionalRulesProps,
 } from '../ConditionalRules/ConditionalRules';
-import { addGroupAndRule, assertTitle } from '../ConditionalRules/testUtils';
+import {
+  addGroupAndRule,
+  assertTitle,
+} from '../../../../../../../tests/domain/conditionalRules/testUtils';
+
+jest.mock('react-truncate-markup', () => {
+  const Component = (props: PropsWithChildren<unknown>) => props.children;
+
+  Component.Atom = Component;
+
+  return Component;
+});
 
 const variables: Variable[] = [
   createVariable({
@@ -48,10 +61,12 @@ const renderCmp = (props: Partial<ConditionalRulesProps> = {}) => {
         <Form
           onSubmit={jest.fn()}
           render={() => (
-            <ConditionalRules
-              definitions={props.definitions ?? baseRulesSelection}
-              name="rules"
-            />
+            <Box width="1500px" height="1000px">
+              <ConditionalRules
+                definitions={props.definitions ?? baseRulesSelection}
+                name="rules"
+              />
+            </Box>
           )}
         />
       </LocalizationProvider>
@@ -67,12 +82,14 @@ const renderCmpWithVariables = (props: Partial<ConditionalRulesProps> = {}) => {
           initialValues={{ variables, rules: props.value }}
           onSubmit={jest.fn()}
           render={() => (
-            <VariablesProvider name="variables">
-              <ConditionalRules
-                definitions={props.definitions ?? baseRulesSelection}
-                name="rules"
-              />
-            </VariablesProvider>
+            <Box width="1000px" height="1000px">
+              <VariablesProvider name="variables">
+                <ConditionalRules
+                  definitions={props.definitions ?? baseRulesSelection}
+                  name="rules"
+                />
+              </VariablesProvider>
+            </Box>
           )}
         />
       </LocalizationProvider>
@@ -83,22 +100,28 @@ const renderCmpWithVariables = (props: Partial<ConditionalRulesProps> = {}) => {
 const now = new Date();
 
 describe('<DateRule />', () => {
-  it('should render correct title', () => {
+  beforeEach(() => {
+    mockDraftJs();
+  });
+
+  it('should render correct title', async () => {
     const cmp = renderCmp();
 
     addGroupAndRule(cmp, 'Date');
 
-    act(() => {
+    await act(async () => {
       userEvent.type(
         cmp.container.querySelector('[name="rules[0].rules[0]value"]'),
         format(now, DateFormat.Date)
       );
+
+      await wait(1000);
     });
 
-    assertTitle(cmp.container, `Date equals "${format(now, DateFormat.Date)}"`);
+    assertTitle(cmp.container, `Dateequals"${format(now, DateFormat.Date)}"`);
   });
 
-  it('should support variables', () => {
+  it('should support variables', async () => {
     const cmp = renderCmpWithVariables({
       value: [
         {
@@ -114,11 +137,9 @@ describe('<DateRule />', () => {
         },
       ],
     });
-    const date = new Date(variables[1].defaultValue);
 
-    assertTitle(
-      cmp.container,
-      `Date equals "${format(date, DateFormat.Date)}"`
-    );
+    await wait(1000);
+
+    assertTitle(cmp.container, `Dateequals"{{Date}}"`);
   });
 });
