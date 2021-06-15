@@ -24,6 +24,7 @@ import { FlowBuilder } from './FlowBuilder';
 import {
   FlowBuilderNodeTypes,
   FlowBuilderPlaceholderProperties,
+  NodeContentComponent,
 } from './FlowBuilder.types';
 
 export default {

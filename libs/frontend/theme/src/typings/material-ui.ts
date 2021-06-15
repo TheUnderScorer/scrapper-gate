@@ -20,7 +20,7 @@ interface Gradients {
 }
 
 export interface BasePalette<TOption> {
-  primaryLight?: TOption;
+  primaryLight: string;
   greyVariant: TOption;
   flowBuilderColors: FlowBuilderColors;
   gradients: Gradients;

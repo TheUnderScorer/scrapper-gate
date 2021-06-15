@@ -30,7 +30,8 @@
     "ts-node": "TS_NODE_PROJECT=tsconfig.node.json ts-node -r tsconfig-paths/register",
     "gather-projects": "npm run ts-node tools/scripts/gatherProjects.ts --",
     "release": "npx semantic-release",
-    "release:dry": "npx semantic-release -d"
+    "release:dry": "npx semantic-release -d",
+    "typecheck": "tsc --noEmit -p tsconfig.base.json"
   },
   "private": true,
   "dependencies": {

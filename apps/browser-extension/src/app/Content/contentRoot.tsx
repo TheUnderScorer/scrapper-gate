@@ -1,5 +1,4 @@
 import { Global } from '@emotion/react';
-import { Palette } from '@material-ui/core/styles/createPalette';
 import { LocalizationProvider } from '@material-ui/lab';
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import { ApiClientProvider } from '@scrapper-gate/frontend/api-client';
@@ -17,7 +16,6 @@ import { SnackbarProvider } from 'notistack';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import 'react-flow-renderer/dist/style.css';
-import tinycolor from 'tinycolor2';
 import '../../content.css';
 import { ContentRouter } from '../../extension/contentScript/components/ContentRouter';
 import { contentContainer } from '../../extension/contentScript/contentContainer';
@@ -30,15 +28,7 @@ document.body.appendChild(contentContainer);
 
 ReactDOM.render(
   <React.StrictMode>
-    <Global
-      styles={[
-        highlight(
-          tinycolor((palette as Palette).primary.dark)
-            .setAlpha(0.5)
-            .toRgbString()
-        ),
-      ]}
-    />
+    <Global styles={[highlight(palette.primaryLight)]} />
     <Scoped>
       {(shadowRoot, container) => (
         <ContentErrorBoundary>

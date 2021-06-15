@@ -19,7 +19,7 @@ export const Picker = () => {
       onSubmit={console.log}
       render={() => (
         <>
-          <GlobalStyles styles={highlight} />
+          <GlobalStyles styles={highlight('')} />
           <Stack
             direction="row"
             spacing={2}

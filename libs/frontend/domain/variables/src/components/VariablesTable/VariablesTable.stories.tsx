@@ -1,6 +1,7 @@
 import { Box } from '@material-ui/core';
 import { LocalizationProvider } from '@material-ui/lab';
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
+import { VariableScope } from '@scrapper-gate/shared/schema';
 import React from 'react';
 import { Form } from 'react-final-form';
 import { VariablesProvider } from '../../providers/VariablesProvider';
@@ -22,7 +23,7 @@ export const Component = () => {
         render={(props) => (
           <VariablesProvider name="variables">
             <Box width="100%" height="400px">
-              <VariablesTable name="variables" />
+              <VariablesTable scope={VariableScope.Global} name="variables" />
               <VariablesTextField name="variable" />
               <pre>{JSON.stringify(props.values, null, ' ')}</pre>
             </Box>
