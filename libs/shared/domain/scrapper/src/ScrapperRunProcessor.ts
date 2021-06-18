@@ -3,6 +3,7 @@ import {
   createBaseEntity,
   Disposable,
   findFirstNode,
+  Maybe,
 } from '@scrapper-gate/shared/common';
 import { resolveVariables } from '@scrapper-gate/shared/domain/variables';
 import { AppError, ScrapperRunError } from '@scrapper-gate/shared/errors';
@@ -103,7 +104,7 @@ export class ScrapperRunProcessor implements Disposable {
 
     const preparedStep = resolveVariables({
       target: step,
-      variables: variables,
+      variables,
     });
     const runResult = await this.runner[step.action!]({
       scrapperRun,
@@ -120,7 +121,7 @@ export class ScrapperRunProcessor implements Disposable {
       this.events.emit('onScrapperRunChange', scrapperRun),
     ]);
 
-    let nextStepId: string | null | undefined = null;
+    let nextStepId: Maybe<string> = null;
 
     if (step.action !== ScrapperAction.Condition) {
       nextStepId = step.nextStep?.id;
