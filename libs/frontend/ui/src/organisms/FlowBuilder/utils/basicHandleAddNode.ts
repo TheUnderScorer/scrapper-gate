@@ -12,7 +12,7 @@ export const basicHandleAddNode = <T extends BaseNodeProperties>(
   }
 
   const node = createNodeFromSelection(
-    selection.value?.id ?? idGenerator(),
+    selection.value?.id || idGenerator(),
     selection,
     position
   ) as Node<T>;

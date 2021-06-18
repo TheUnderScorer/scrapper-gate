@@ -15,7 +15,7 @@ import { ScrapperConditionalRuleGroupInputDto } from './ScrapperConditionalRuleG
 export class ScrapperStepInputDto
   extends BaseSchema<ScrapperStepInput>
   implements ScrapperStepInput {
-  @uuid()
+  @(uuid().allow(null, ''))
   id: string;
 
   @supportsVariables({

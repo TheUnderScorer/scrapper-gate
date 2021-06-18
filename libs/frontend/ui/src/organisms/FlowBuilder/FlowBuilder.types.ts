@@ -113,7 +113,7 @@ export interface NodeIconBoxProps {
   icon?: ReactNode;
   width?: number;
   height?: number;
-  onClick?: (event: MouseEvent) => unknown;
+  onDoubleClick?: (event: MouseEvent) => unknown;
   iconClassName?: string;
   handles?: ReactNode;
 }

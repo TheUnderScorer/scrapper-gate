@@ -1,13 +1,15 @@
+import { Maybe } from '@scrapper-gate/shared/common';
 import React, { PropsWithChildren, useState } from 'react';
 import {
   createContext,
   useContext,
   useContextSelector,
 } from 'use-context-selector';
+import { StringParam, useQueryParam } from 'use-query-params';
 
 export interface FlowBuilderActiveNodeContext {
-  activeNodeId?: string;
-  setActiveNodeId: (node: string | undefined) => unknown;
+  activeNodeId?: Maybe<string>;
+  setActiveNodeId: (node?: Maybe<string>) => unknown;
   contentOpen: boolean;
   setContentOpen: (open: boolean) => void;
 }
@@ -23,7 +25,10 @@ export const useFlowBuilderActiveNodeSelector = <Value extends unknown>(
 export const FlowBuilderActiveNodeProvider = ({
   children,
 }: PropsWithChildren<unknown>) => {
-  const [activeNodeId, setActiveNodeId] = useState<string | undefined>();
+  const [activeNodeId, setActiveNodeId] = useQueryParam(
+    'activeNode',
+    StringParam
+  );
   const [contentOpen, setContentOpen] = useState(false);
 
   return (

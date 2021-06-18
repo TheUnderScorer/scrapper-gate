@@ -12,11 +12,7 @@ export const ContentRouter = ({ children }: PropsWithChildren<unknown>) => {
   useMount(() => {
     getLatestContentRoute().then((route) => {
       if (route) {
-        setInitialEntries([
-          {
-            ...route,
-          },
-        ]);
+        setInitialEntries([route]);
       } else {
         setInitialEntries(null);
       }

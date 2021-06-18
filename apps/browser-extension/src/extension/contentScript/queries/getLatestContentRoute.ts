@@ -19,5 +19,9 @@ export const getLatestContentRoute = async (): Promise<
     return undefined;
   }
 
-  return contentRoutes[activeTab.id];
+  const route = contentRoutes[activeTab.id];
+
+  logger.debug('Initial content route:', route);
+
+  return route;
 };

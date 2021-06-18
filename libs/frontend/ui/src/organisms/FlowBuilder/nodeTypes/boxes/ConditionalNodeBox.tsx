@@ -35,13 +35,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const ConditionalNodeBox = (props: ConditionalNodeBoxProps) => {
-  const { className, handles, icon, iconClassName, onClick } = props;
+  const { className, handles, icon, iconClassName, onDoubleClick } = props;
 
   const classes = useStyles(props);
 
   return (
     <Paper
-      onClick={onClick}
+      onDoubleClick={onDoubleClick}
       variant="outlined"
       className={classNames(classes.diamond, className, 'conditional-node')}
     >

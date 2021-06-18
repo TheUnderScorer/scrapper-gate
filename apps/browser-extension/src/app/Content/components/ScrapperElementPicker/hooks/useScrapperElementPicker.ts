@@ -1,14 +1,14 @@
-import { useMemo } from 'react';
 import {
   useContainerStore,
+  useCurrentUrl,
   useIsUsingElementPicker,
 } from '@scrapper-gate/frontend/common';
+import { useIsOnStepUrl } from '@scrapper-gate/frontend/domain/scrapper';
 import {
   FieldNameCreator,
   useFormFieldValue,
 } from '@scrapper-gate/frontend/form';
-import { useIsOnStepUrl } from '../../../hooks/useIsOnStepUrl';
-import { useActiveTabUrl } from '../../../../../extension/browser/hooks/useActiveTabUrl';
+import { useMemo } from 'react';
 
 export interface UseScrapperElementPickerProps {
   fieldNameCreator: FieldNameCreator;
@@ -36,7 +36,7 @@ export function useScrapperElementPicker({
     url,
     useUrlFromPreviousStep,
   });
-  const activeTabUrl = useActiveTabUrl();
+  const activeTabUrl = useCurrentUrl((store) => store.currentUrl);
 
   const pickerDisabledTooltip = useMemo(() => {
     if (!activeTabUrl) {
