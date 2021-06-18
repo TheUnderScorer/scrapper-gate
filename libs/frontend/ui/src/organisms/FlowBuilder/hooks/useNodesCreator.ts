@@ -30,7 +30,8 @@ export const useNodesCreator = () => {
 
     nodesCreator({
       handleConnect: (params, items) =>
-        connect(params, { setItemsAfter: false, items }),
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        connect(params, { setItemsAfter: false, items })!,
       createNode: (selection) =>
         addItem(selection, {
           setItemsAfter: false,

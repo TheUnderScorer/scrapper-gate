@@ -5,7 +5,7 @@ import {
   FormDatePicker,
   FormDatePickerProps,
 } from '@scrapper-gate/frontend/form';
-import { getValue } from '@scrapper-gate/shared/common';
+import { getDisplayValue } from '@scrapper-gate/shared/common';
 import { Variable, VariableType } from '@scrapper-gate/shared/schema';
 import classNames from 'classnames';
 import React, { useCallback } from 'react';
@@ -21,7 +21,7 @@ export type VariablesDateFieldProps = Omit<
   'formatTextFieldValue'
 >;
 
-const defaultArray = [];
+const defaultArray: any[] = [];
 
 export const VariablesDateField = (props: VariablesDateFieldProps) => {
   const variablesName = useVariablesContextSelector((ctx) => ctx.name);
@@ -39,7 +39,7 @@ export const VariablesDateField = (props: VariablesDateFieldProps) => {
   const formatValue = useCallback(
     (value: unknown) => {
       if (!value) {
-        return null;
+        return '';
       }
 
       if (value instanceof Date) {
@@ -47,9 +47,9 @@ export const VariablesDateField = (props: VariablesDateFieldProps) => {
       }
 
       try {
-        return new Date(value.toString());
+        return new Date(value as any);
       } catch {
-        return fieldValue;
+        return fieldValue as string;
       }
     },
     [fieldValue]
@@ -61,9 +61,9 @@ export const VariablesDateField = (props: VariablesDateFieldProps) => {
         name={props.name}
         {...fieldProps}
         className={classNames(fieldProps.className, props.className)}
-        value={value?.toString()}
+        value={value as any}
         onChange={(text) => {
-          const formattedText = getValue({
+          const formattedText = getDisplayValue({
             value: text,
             dateFormat: props.inputFormat,
           });

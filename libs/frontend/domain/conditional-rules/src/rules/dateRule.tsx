@@ -16,6 +16,10 @@ export const dateRule: ConditionalRulesSelection = {
     Component: DateRule,
     type: ConditionalRuleTypes.Date,
     createTitle: (rule) => {
+      if (!rule.type) {
+        return [];
+      }
+
       if (!rule?.when || !rule?.value) {
         return [
           {

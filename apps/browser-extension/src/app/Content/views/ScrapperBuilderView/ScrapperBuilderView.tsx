@@ -16,7 +16,7 @@ export const ScrapperBuilderView = () => {
 
   const { data, loading } = useGetScrapperForBuilderQuery({
     variables: {
-      id: match.params.scrapperId,
+      id: match.params.scrapperId ?? '',
     },
     onError: (error) => {
       snackbarOnError(error);

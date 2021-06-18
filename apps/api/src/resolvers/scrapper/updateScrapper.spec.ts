@@ -84,9 +84,9 @@ const updateSteps = async (accessToken: string, scrapper: ScrapperModel) => {
 
   expect(firstStep).toBeDefined();
 
-  const nextStep = getById(updatedScrapper.steps, firstStep.nextStep.id);
+  const nextStep = getById(updatedScrapper.steps, firstStep!.nextStep!.id);
 
-  expect(nextStep.nextStep).toBeNull();
+  expect(nextStep?.nextStep).toBeNull();
 };
 
 describe('Update scrapper', () => {
@@ -219,7 +219,7 @@ describe('Update scrapper', () => {
 
     expect(updatedScrapper.variables).toHaveLength(2);
     expect(
-      getById(updatedScrapper.variables, existingVariable.id).value
+      getById(updatedScrapper.variables, existingVariable.id)?.value
     ).toEqual('value update');
     expect(
       updatedScrapper.variables.find(
@@ -356,10 +356,10 @@ describe('Update scrapper', () => {
       (step) => step.action === ScrapperAction.Condition
     );
 
-    expect(firstStep.stepOnTrue).toBeDefined();
-    expect(firstStep.stepOnFalse).toBeDefined();
+    expect(firstStep?.stepOnTrue).toBeDefined();
+    expect(firstStep?.stepOnFalse).toBeDefined();
 
-    expect(firstStep.stepOnTrue.action).toEqual(ScrapperAction.ReadText);
-    expect(firstStep.stepOnFalse.action).toEqual(ScrapperAction.Click);
+    expect(firstStep?.stepOnTrue?.action).toEqual(ScrapperAction.ReadText);
+    expect(firstStep?.stepOnFalse?.action).toEqual(ScrapperAction.Click);
   });
 });

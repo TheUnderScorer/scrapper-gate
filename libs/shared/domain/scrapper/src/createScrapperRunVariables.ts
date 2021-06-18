@@ -13,6 +13,10 @@ export const createScrapperRunVariables = (
   scrapper: Scrapper,
   scrapperRun: ScrapperRun
 ) => {
+  if (!scrapperRun.results?.length) {
+    return [];
+  }
+
   const variablesFromRun = scrapperRun.results.map((result) => {
     return createVariable({
       key: result.step.key,
@@ -22,7 +26,7 @@ export const createScrapperRunVariables = (
   });
 
   return uniqBy(
-    [...variablesFromRun, ...scrapper.variables],
+    [...variablesFromRun, ...(scrapper.variables ?? [])],
     (variable) => variable.key
   );
 };

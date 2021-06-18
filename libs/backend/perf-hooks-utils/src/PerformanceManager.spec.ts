@@ -14,7 +14,7 @@ describe('PerformanceManager', () => {
 
     const entry = await manager.getEntry('test');
     expect(entry).toBeDefined();
-    expect(entry.duration).toBeGreaterThan(999);
-    expect(entry.duration).toBeLessThan(1200);
+    expect(entry?.duration).toBeGreaterThan(999);
+    expect(entry?.duration).toBeLessThan(1200);
   });
 });

@@ -3,7 +3,7 @@ import React, { ReactNode, useCallback, useEffect, useState } from 'react';
 import { useTimeoutFn } from 'react-use';
 import { useField, useForm } from 'react-final-form';
 import { createContext, useContextSelector } from 'use-context-selector';
-import { throwError } from '@scrapper-gate/shared/common';
+import { Maybe, throwError } from '@scrapper-gate/shared/common';
 import { useFlowBuilderContextSelector } from './FlowBuilderProps.provider';
 import {
   BaseNodeProperties,
@@ -18,8 +18,8 @@ export interface FlowBuilderItemsContext<T extends BaseNodeProperties> {
   getItems: () => FlowBuilderItem<T>[];
   setItems: (items: FlowBuilderItem<T>[]) => unknown;
   recentlyCreatedNodeIds?: string[];
-  connectionSource?: ConnectionSource;
-  setConnectionSource: (source: ConnectionSource) => unknown;
+  connectionSource?: Maybe<ConnectionSource>;
+  setConnectionSource: (source: Maybe<ConnectionSource>) => unknown;
   nodesRecreated: boolean;
   setNodesRecreated: (recreated: boolean) => unknown;
   afterCreate: (
@@ -29,7 +29,8 @@ export interface FlowBuilderItemsContext<T extends BaseNodeProperties> {
   ) => unknown;
 }
 
-const Context = createContext<FlowBuilderItemsContext<unknown>>({
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const Context = createContext<FlowBuilderItemsContext<any>>({
   items: [],
   getItems: throwError(),
   setItems: throwError(),
@@ -68,9 +69,11 @@ export const FlowBuilderItemsProvider = <T extends BaseNodeProperties>(props: {
 
   const zoomHelper = useZoomPanHelper();
 
-  const [recentlyCreatedNodeIds, setRecentlyCreatedNodeIds] = useState([]);
+  const [recentlyCreatedNodeIds, setRecentlyCreatedNodeIds] = useState<
+    string[]
+  >([]);
   const [connectionSource, setConnectionSource] = useState<
-    ConnectionSource | undefined
+    Maybe<ConnectionSource>
   >();
 
   const [, , resetTimeout] = useTimeoutFn(

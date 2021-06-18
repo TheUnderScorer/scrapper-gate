@@ -55,7 +55,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const defaultValue = [];
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const defaultValue: any[] = [];
 
 export const ConditionalRules = ({
   definitions,

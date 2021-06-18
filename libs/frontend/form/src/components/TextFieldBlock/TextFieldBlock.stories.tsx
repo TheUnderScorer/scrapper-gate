@@ -1,7 +1,7 @@
 import { Box, Button, TextField } from '@material-ui/core';
 import { matchAllIndexes } from '@scrapper-gate/shared/common';
 import { CompositeDecorator } from 'draft-js';
-import React, { useState } from 'react';
+import React, { PropsWithChildren, useState } from 'react';
 import { TextFieldBlock } from './TextFieldBlock';
 
 export default {
@@ -21,7 +21,7 @@ const decorator = new CompositeDecorator([
         callback(startIndex, endIndex);
       });
     },
-    component: (props) => {
+    component: (props: PropsWithChildren<unknown>) => {
       return (
         <span>
           <Button

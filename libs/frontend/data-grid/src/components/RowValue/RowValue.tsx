@@ -1,6 +1,6 @@
 import { Tooltip, Typography } from '@material-ui/core';
 import { GridCellParams } from '@material-ui/data-grid';
-import { getValue } from '@scrapper-gate/shared/common';
+import { getDisplayValue } from '@scrapper-gate/shared/common';
 import React, { useMemo } from 'react';
 
 export interface RowValueProps extends GridCellParams {
@@ -15,7 +15,7 @@ export const RowValue = ({
 }: RowValueProps) => {
   const displayValue = useMemo(
     () =>
-      getValue({
+      getDisplayValue({
         value,
         dateFormat,
       }),

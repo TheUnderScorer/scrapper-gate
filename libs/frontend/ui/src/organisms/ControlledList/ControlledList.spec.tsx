@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 import gql from 'graphql-tag';
-import { range } from 'ramda';
+import { range } from 'remeda';
 import { List, ListItemText } from '@material-ui/core';
 import React from 'react';
 import {
@@ -60,8 +61,8 @@ const initialPagination: Pagination = {
 const mockItems: TestItem[] = range(0, initialPagination.take * 4).map(
   (_, index) => ({
     id: index.toString(),
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
+    createdAt: new Date(),
+    updatedAt: new Date(),
     __typename: 'TestItem',
   })
 );
@@ -178,7 +179,7 @@ describe('<ControlledList />', () => {
     const list = cmp.container.querySelector('.controlled-list');
 
     act(() => {
-      fireEvent.scroll(list, {
+      fireEvent.scroll(list!, {
         scrollY: 400,
       });
     });
@@ -205,7 +206,7 @@ describe('<ControlledList />', () => {
     );
 
     act(() => {
-      userEvent.click(paginationItem);
+      userEvent.click(paginationItem!);
     });
 
     const newTake = 5;

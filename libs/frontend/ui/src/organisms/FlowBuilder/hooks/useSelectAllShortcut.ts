@@ -10,7 +10,8 @@ export const useSelectAllShortcut = () => {
   const hotkeys = useKeyboardShortcuts();
 
   return useHotkeys(
-    hotkeys.selectAll,
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    hotkeys!.selectAll,
     (event) => {
       event.preventDefault();
 

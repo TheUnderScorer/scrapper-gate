@@ -20,12 +20,18 @@ import {
 const createTitle = (rule: ConditionalRule): RuleTitleDefinition[] => {
   const meta = rule.meta as HtmlElementRuleMeta;
 
+  const base = {
+    type: RuleTitleDefinitionType.Text,
+    text: 'Html element',
+  };
+
+  if (!rule.when) {
+    return [base];
+  }
+
   if (!rule.what) {
     return [
-      {
-        type: RuleTitleDefinitionType.Text,
-        text: 'Html element',
-      },
+      base,
       {
         type: RuleTitleDefinitionType.Highlight,
         text: toDisplayText(rule.when).toLowerCase(),
@@ -49,10 +55,7 @@ const createTitle = (rule: ConditionalRule): RuleTitleDefinition[] => {
       }
 
       return [
-        {
-          type: RuleTitleDefinitionType.Text,
-          text: 'Html element',
-        },
+        base,
         {
           type: RuleTitleDefinitionType.Highlight,
           text: 'tag name',
@@ -69,19 +72,11 @@ const createTitle = (rule: ConditionalRule): RuleTitleDefinition[] => {
 
     case HtmlElementWhat.Attribute:
       if (!meta?.attribute) {
-        return [
-          {
-            type: RuleTitleDefinitionType.Text,
-            text: 'Html element',
-          },
-        ];
+        return [base];
       }
 
       return [
-        {
-          type: RuleTitleDefinitionType.Text,
-          text: 'Html element',
-        },
+        base,
         {
           type: RuleTitleDefinitionType.Highlight,
           text: 'attribute',
@@ -101,12 +96,7 @@ const createTitle = (rule: ConditionalRule): RuleTitleDefinition[] => {
       ];
 
     default:
-      return [
-        {
-          type: RuleTitleDefinitionType.Text,
-          text: 'Html element',
-        },
-      ];
+      return [base];
   }
 };
 

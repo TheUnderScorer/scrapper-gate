@@ -4,7 +4,7 @@ import { KeyHint } from '../../atoms/KeyHint/KeyHint';
 import { TooltipText } from '../../atoms/TooltipText/TooltipText';
 
 export interface TextWithKeyHintProps {
-  keyHint: string;
+  keyHint?: string;
 }
 
 export const TextWithKeyHint: FC<TextWithKeyHintProps> = ({
@@ -19,7 +19,7 @@ export const TextWithKeyHint: FC<TextWithKeyHintProps> = ({
       alignItems="center"
     >
       <TooltipText>{children}</TooltipText>
-      <KeyHint>{keyHint}</KeyHint>
+      {keyHint && <KeyHint>{keyHint}</KeyHint>}
     </Stack>
   );
 };

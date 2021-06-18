@@ -9,6 +9,7 @@ import {
 import { InvalidSelectorProvidedError } from '@scrapper-gate/shared/errors';
 import { Selector, SelectorType } from '@scrapper-gate/shared/schema';
 import React, {
+  MutableRefObject,
   useCallback,
   useEffect,
   useMemo,
@@ -32,7 +33,7 @@ import { HtmlElementPickerSnackbar } from './Snackbar/HtmlElementPickerSnackbar'
 import { useHtmlPicker } from './useHtmlPicker';
 import { useHtmlPickerValidator } from './useHtmlPickerValidator';
 
-const initialValue = [];
+const initialValue: Selector[] = [];
 
 export const HtmlElementPicker = ({
   name,
@@ -106,7 +107,7 @@ export const HtmlElementPicker = ({
         case SelectorType.TextContent:
           return {
             type: mode,
-            value: element.textContent,
+            value: element.textContent ?? '',
           };
 
         default:
@@ -177,7 +178,7 @@ export const HtmlElementPicker = ({
   );
 
   const appendElement = useCallback(
-    (target: HTMLElement, event?: Event) => {
+    (target: Element, event?: Event) => {
       if (
         ignoredElementsContainer?.contains(target) ||
         event?.type === 'mousemove'
@@ -347,9 +348,13 @@ export const HtmlElementPicker = ({
         )}
       <HtmlElementPickerElementDropdown
         onSelectedElementChange={setTarget}
-        onSelect={() => appendElement(selectedElement)}
+        onSelect={() => {
+          if (selectedElement) {
+            appendElement(selectedElement);
+          }
+        }}
         selector={selectedElementSelector}
-        ref={elementDropdownRef}
+        ref={elementDropdownRef as MutableRefObject<HTMLDivElement>}
         selectedElement={selectedElement}
       />
     </Grid>

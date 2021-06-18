@@ -9,8 +9,8 @@ import { useTokensStore } from '../../store/useTokensStore';
 
 interface UseLoginFormParams {
   type: LoginFormType;
-  afterLogin: (tokens: AuthTokens) => void;
-  afterCreate: (result: CreateUserResult) => void;
+  afterLogin?: (tokens: AuthTokens) => void;
+  afterCreate?: (result: CreateUserResult) => void;
 }
 
 export function useLoginForm({
@@ -41,7 +41,7 @@ export function useLoginForm({
             },
           });
 
-          if (data.login) {
+          if (data?.login) {
             setTokens(data.login);
 
             afterLogin?.(data.login);
@@ -55,12 +55,12 @@ export function useLoginForm({
             input: {
               password: input.password,
               email: input.username,
-              acceptTerms: input.acceptTerms,
+              acceptTerms: Boolean(input.acceptTerms),
             },
           },
         });
 
-        if (data.createUser) {
+        if (data?.createUser) {
           afterCreate?.(data.createUser);
 
           setTokens(data.createUser.tokens);

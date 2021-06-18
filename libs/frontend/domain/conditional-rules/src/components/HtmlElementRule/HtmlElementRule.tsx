@@ -130,7 +130,7 @@ export const HtmlElementRule = ({
           />
         )}
       </Box>
-      {Boolean(selectors.length) && (
+      {Boolean(selectors?.length) && (
         <Stack spacing={spacing} direction="row" alignItems="center">
           <FormSelect
             size="small"

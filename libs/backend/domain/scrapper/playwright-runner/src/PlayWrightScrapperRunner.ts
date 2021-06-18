@@ -243,7 +243,8 @@ export class PlayWrightScrapperRunner implements ScrapperRunner {
 
       await Promise.all(
         elements.map((el) =>
-          el.type(step.typeValue, {
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          el.type(step.typeValue!, {
             delay: step.typeDelay,
           })
         )

@@ -23,7 +23,7 @@ import {
 import { useFlowBuilderContextSelector } from '../providers/FlowBuilderProps.provider';
 
 interface StyleProps {
-  isUsingElementPicker: boolean;
+  isUsingElementPicker?: boolean;
   open: boolean;
 }
 
@@ -106,7 +106,7 @@ export const FlowBuilderNodeContent = () => {
   );
 
   const getFieldName = useMemo(() => {
-    return (name: string) => `items[${activeNodeIndex}].data.${name}`;
+    return (name?: string) => `items[${activeNodeIndex}].data.${name}`;
   }, [activeNodeIndex]);
 
   const ContentComponent = useMemo(() => {
@@ -114,8 +114,8 @@ export const FlowBuilderNodeContent = () => {
       return undefined;
     }
 
-    return activeNode
-      ? nodeContents?.[activeNode?.type] ?? defaultNodeContent
+    return activeNode?.type
+      ? nodeContents?.[activeNode.type] ?? defaultNodeContent
       : undefined;
   }, [activeNode, defaultNodeContent, nodeContents]);
   const PrevContentComponent = usePrevious(ContentComponent);
@@ -166,13 +166,13 @@ export const FlowBuilderNodeContent = () => {
               <Typography variant="h6">Edit step</Typography>
               {ContentComponent && (
                 <ContentComponent
-                  nodeIndex={activeNodeIndex}
+                  nodeIndex={activeNodeIndex ?? -1}
                   getFieldName={getFieldName}
                 />
               )}
               {PrevContentComponent && !ContentComponent && (
                 <PrevContentComponent
-                  nodeIndex={activeNodeIndex}
+                  nodeIndex={activeNodeIndex ?? -1}
                   getFieldName={getFieldName}
                 />
               )}

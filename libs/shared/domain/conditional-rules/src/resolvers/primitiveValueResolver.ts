@@ -3,7 +3,8 @@ import { ConditionalRuleWhen } from '../types';
 
 export const primitiveValueResolver = (
   rule: ConditionalRule,
-  value: unknown
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  value: any
 ) => {
   const actualValue = value?.valueOf();
 

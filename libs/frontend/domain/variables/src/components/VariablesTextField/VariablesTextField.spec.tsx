@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
 import {
   createVariable,
@@ -64,7 +65,7 @@ describe('<VariablesTextField />', () => {
     );
 
     act(() => {
-      input.focus();
+      input!.focus();
     });
 
     expect(
@@ -80,7 +81,7 @@ describe('<VariablesTextField />', () => {
     );
 
     act(() => {
-      input.focus();
+      input!.focus();
     });
 
     const listItems = cmp.baseElement.querySelectorAll('.variable-list-item');
@@ -97,7 +98,7 @@ describe('<VariablesTextField />', () => {
   });
 
   it('should display variable component on variable', () => {
-    const cmp = renderCmp(generateVariableKeyTemplate(variables[0].key));
+    const cmp = renderCmp(generateVariableKeyTemplate(variables[0].key!));
     const variable = cmp.container.querySelector('.variable-content');
 
     expect(variable).toBeInTheDocument();

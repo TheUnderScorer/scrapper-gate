@@ -1,7 +1,7 @@
 import { Box, InputProps, TextField } from '@material-ui/core';
 import { InputBaseComponentProps } from '@material-ui/core/InputBase/InputBase';
 import { makeStyles } from '@material-ui/core/styles';
-import { getValue } from '@scrapper-gate/shared/common';
+import { getDisplayValue } from '@scrapper-gate/shared/common';
 import classNames from 'classnames';
 import {
   ContentState,
@@ -74,10 +74,10 @@ const DraftField = forwardRef<
   } & InputBaseComponentProps
 >(({ children, editorRef, onStateChange, state, value, ...rest }, ref) => {
   useImperativeHandle(ref, () => ({
+    ...editorRef.current,
     focus: () => {
       editorRef.current?.focus();
     },
-    ...editorRef.current,
     value,
   }));
 
@@ -89,7 +89,7 @@ const DraftField = forwardRef<
       keyBindingFn={(event) => {
         // Prevent multilines
         if ([Key.Enter, Key.Tab].includes(event.key as Key)) {
-          return;
+          return null;
         }
 
         return getDefaultKeyBinding(event);
@@ -144,7 +144,7 @@ export const TextFieldBlock = forwardRef<HTMLInputElement, TextFieldBlockProps>(
     });
 
     useEffect(() => {
-      const parsedValue = getValue({
+      const parsedValue = getDisplayValue({
         value,
         dateFormat,
       });

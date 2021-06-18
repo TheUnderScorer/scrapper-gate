@@ -8,5 +8,11 @@ export const getItems = <T extends BaseNodeProperties>(
 ) => {
   const element = (container ?? document).querySelector('.flow-builder-canvas');
 
-  return JSON.parse(element.getAttribute('data-items')) as FlowBuilderItem<T>[];
+  if (!element?.getAttribute('data-items')) {
+    return [];
+  }
+
+  return JSON.parse(
+    element.getAttribute('data-items')!
+  ) as FlowBuilderItem<T>[];
 };

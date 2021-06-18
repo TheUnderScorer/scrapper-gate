@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 import '@material-ui/core';
-import { PaletteColorOptions } from '@material-ui/core';
-import { Palette, PaletteColor } from '@material-ui/core/styles/createPalette';
+import { colors } from '@material-ui/core';
 import { Theme } from '@material-ui/core/styles';
+import { Palette } from '@material-ui/core/styles/createPalette';
 
 interface FlowBuilderColors {
   action: string;
@@ -19,9 +19,9 @@ interface Gradients {
   primaryMainToDark: string;
 }
 
-export interface BasePalette<TOption> {
+export interface BasePalette {
   primaryLight: string;
-  greyVariant: TOption;
+  greyVariant: typeof colors.grey;
   flowBuilderColors: FlowBuilderColors;
   gradients: Gradients;
 }
@@ -33,7 +33,7 @@ export interface Emojis {
 }
 
 export interface AppTheme extends Theme {
-  palette: Palette & BasePalette<PaletteColor> & FlowBuilderColors;
+  palette: Palette & BasePalette & FlowBuilderColors;
   emojis: Emojis;
 }
 
@@ -52,9 +52,9 @@ declare module '@material-ui/private-theming/defaultTheme' {
 }
 
 declare module '@material-ui/core/styles/createPalette' {
-  interface PaletteOptions extends BasePalette<PaletteColorOptions> {}
+  interface PaletteOptions extends BasePalette {}
 
-  interface Palette extends BasePalette<PaletteColor> {}
+  interface Palette extends BasePalette {}
 }
 
 declare module '@material-ui/core/styles/createMixins' {

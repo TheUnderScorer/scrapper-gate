@@ -1,11 +1,11 @@
-import { asValue, NameAndRegistrationPair } from 'awilix';
+import { asValue, NameAndRegistrationPair, Resolver } from 'awilix';
 
 export const asValueObject = <T extends Record<string, unknown>>(obj: T) => {
-  const resolvers: NameAndRegistrationPair<unknown> = {};
+  const resolvers: Record<string, Resolver<unknown>> = {};
 
   Object.entries(obj).forEach(([key, value]) => {
     resolvers[key] = asValue(value);
   });
 
-  return resolvers;
+  return resolvers as NameAndRegistrationPair<unknown>;
 };

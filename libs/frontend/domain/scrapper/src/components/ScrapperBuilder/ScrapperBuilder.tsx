@@ -66,7 +66,8 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const initialVariables = [];
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const initialVariables: any[] = [];
 
 const tabs = [
   {
@@ -105,8 +106,9 @@ export const ScrapperBuilder = ({
 
   const nodeCreationInterceptor = useCallback(
     (node: Node<ScrapperBuilderNodeProperties>) => {
-      if (!node.data.url) {
-        node.data.url = browserUrl;
+      if (!node?.data?.url) {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        node!.data!.url = browserUrl;
       }
 
       return node;
@@ -129,8 +131,10 @@ export const ScrapperBuilder = ({
         ensureCorrectSourcesCount.isValidConnectionChecker(params) &&
         flowBuilderValidation.ensureCorrectEdgeSourceTarget(params) &&
         !flowBuilderUtils.isNodeConnectedTo(
-          params.connection.source,
-          params.connection.target,
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          params.connection.source!,
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          params.connection.target!,
           params.items
         )
       );
@@ -150,13 +154,18 @@ export const ScrapperBuilder = ({
     []
   );
 
-  const debouncedValidate = useDebouncedValidator({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const debouncedValidate = useDebouncedValidator<any>({
     validate,
     ms: 500,
   });
 
   const handleSubmit = useCallback(
     async (values: ScrapperBuilderFormState) => {
+      if (!initialScrapper?.id) {
+        return;
+      }
+
       try {
         const steps = nodesToScrapperSteps(values.items);
 
@@ -184,7 +193,7 @@ export const ScrapperBuilder = ({
   const initialValues = useMemo<ScrapperBuilderFormState>(
     () => ({
       items: initialNodes as ScrapperBuilderNode[],
-      name: initialScrapper?.name,
+      name: initialScrapper?.name ?? '',
       variables: initialScrapper?.variables ?? initialVariables,
     }),
     [initialScrapper]
@@ -201,7 +210,7 @@ export const ScrapperBuilder = ({
           <form className={classes.form} onSubmit={props.handleSubmit}>
             <FlowBuilder
               tabs={tabs}
-              isUsingElementPicker={isUsingElementPicker}
+              isUsingElementPicker={Boolean(isUsingElementPicker)}
               defaultNodeContent={ContentComponent}
               isValidConnection={isConnectionValid}
               onAdd={handleAdd}
@@ -215,6 +224,10 @@ export const ScrapperBuilder = ({
                   name="name"
                   textProps={{ variant: 'h6' }}
                   onEditFinish={async (name) => {
+                    if (!initialScrapper?.id) {
+                      return;
+                    }
+
                     await updateScrapper({
                       variables: {
                         input: {

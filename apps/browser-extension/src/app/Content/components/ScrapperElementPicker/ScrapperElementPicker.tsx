@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { TextFieldProps } from '@material-ui/core';
 import { createVariablesDecorator } from '@scrapper-gate/frontend/domain/variables';
 import { TextFieldBlock } from '@scrapper-gate/frontend/form';
@@ -86,7 +87,7 @@ export const ScrapperElementPicker = ({
       pickerDisabledTooltip={pickerDisabledTooltip}
       container={container}
       portal={container}
-      ignoredElementsContainer={root}
+      ignoredElementsContainer={root!}
       onPickerToggle={setUsingElementPicker}
       name={name ?? fieldNameCreator('selectors')}
       label={label}

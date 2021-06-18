@@ -43,7 +43,8 @@ export const RadioGroup: FC<RadioGroupProps> = <ValueType extends unknown>({
         </Grid>
       )}
       {options.map(({ label, icon, value: optionValue }) => (
-        <Grid item key={optionValue.toString()}>
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        <Grid item key={(optionValue as any).toString()}>
           <TileRadio
             title={label}
             icon={icon}

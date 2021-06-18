@@ -74,7 +74,7 @@ export const HtmlElementPickerSnackbar = ({
   const classes = useStyles();
 
   useHotkeys(
-    keyboardShortcuts.elementPicker.toggleElementClicking,
+    keyboardShortcuts?.elementPicker.toggleElementClicking ?? '',
     (event) => {
       event.stopPropagation();
 
@@ -126,7 +126,8 @@ export const HtmlElementPickerSnackbar = ({
                 <Stack alignItems="center" spacing={1} direction="row">
                   <span>Enable element clicking</span>
                   <KeyHint>
-                    {keyboardShortcuts.elementPicker.toggleElementClicking}
+                    {keyboardShortcuts?.elementPicker.toggleElementClicking ??
+                      ''}
                   </KeyHint>
                 </Stack>
               }

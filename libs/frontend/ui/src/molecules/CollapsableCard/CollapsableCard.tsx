@@ -1,3 +1,4 @@
+import { setRefValue } from '@scrapper-gate/frontend/common';
 import React, {
   ChangeEvent,
   forwardRef,
@@ -69,9 +70,9 @@ export const CollapsableCard = forwardRef<HTMLElement, CollapsableCardProps>(
 
     const handleChange = useCallback(
       (event: ChangeEvent<unknown>, isExpanded: boolean) => {
-        const btn = panelRef.current.querySelector('.collapsable-card-btn');
+        const btn = panelRef.current?.querySelector('.collapsable-card-btn');
 
-        if (!btn.contains(event.target as HTMLElement)) {
+        if (!btn?.contains(event.target as HTMLElement)) {
           return;
         }
 
@@ -89,11 +90,8 @@ export const CollapsableCard = forwardRef<HTMLElement, CollapsableCardProps>(
         return;
       }
 
-      if (typeof ref === 'function') {
-        ref(panelRef.current);
-      } else {
-        ref.current = panelRef.current;
-      }
+      setRefValue(ref, panelRef.current ?? undefined);
+
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [panelRef]);
 

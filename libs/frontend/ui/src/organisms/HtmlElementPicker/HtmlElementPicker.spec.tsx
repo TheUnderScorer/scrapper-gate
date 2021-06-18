@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Form } from 'react-final-form';
 import React from 'react';
 import { act, render, RenderResult, waitFor } from '@testing-library/react';
@@ -36,11 +37,11 @@ const addSelector = async (value: string, cmp: RenderResult) => {
   const addBtn = cmp.container.querySelector('.add-selector');
 
   await act(async () => {
-    await userEvent.type(input, value);
+    await userEvent.type(input!, value);
   });
 
   act(() => {
-    userEvent.click(addBtn);
+    userEvent.click(addBtn!);
   });
 };
 
@@ -51,7 +52,7 @@ const selectElement = (
   const togglePicker = component.container.querySelector('.toggle-picker');
 
   act(() => {
-    userEvent.click(togglePicker);
+    userEvent.click(togglePicker!);
   });
 
   act(() => {
@@ -71,7 +72,7 @@ describe('<HtmlElementPicker />', () => {
     component.baseElement.appendChild(targetElement);
 
     act(() => {
-      userEvent.click(togglePicker);
+      userEvent.click(togglePicker!);
     });
 
     act(() => {
@@ -148,7 +149,7 @@ describe('<HtmlElementPicker />', () => {
     container.appendChild(targetElement);
 
     act(() => {
-      userEvent.click(togglePicker);
+      userEvent.click(togglePicker!);
     });
 
     act(() => {
@@ -183,7 +184,7 @@ describe('<HtmlElementPicker />', () => {
     const togglePicker = component.container.querySelector('.toggle-picker');
 
     await act(async () => {
-      userEvent.click(togglePicker);
+      userEvent.click(togglePicker!);
 
       await wait(500);
     });
@@ -229,7 +230,7 @@ describe('<HtmlElementPicker />', () => {
     const togglePicker = component.container.querySelector('.toggle-picker');
 
     act(() => {
-      userEvent.click(togglePicker);
+      userEvent.click(togglePicker!);
     });
 
     act(() => {
@@ -248,7 +249,7 @@ describe('<HtmlElementPicker />', () => {
     expect(event.defaultPrevented).toBeTruthy();
 
     act(() => {
-      userEvent.click(switchEl);
+      userEvent.click(switchEl!);
     });
 
     act(() => {
@@ -281,10 +282,10 @@ describe('<HtmlElementPicker />', () => {
     expect(dropdown).toBeInTheDocument();
     expect(dropdown).toHaveTextContent('div#test_element123');
 
-    const select = dropdown.querySelector('.select-element');
+    const select = dropdown!.querySelector('.select-element');
 
     act(() => {
-      userEvent.click(select);
+      userEvent.click(select!);
     });
 
     await wait(500);

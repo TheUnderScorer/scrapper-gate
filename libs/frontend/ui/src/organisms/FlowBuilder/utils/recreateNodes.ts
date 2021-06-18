@@ -50,7 +50,6 @@ export const recreateNodes = <
 
     const nodes = (await createNode({
       value: {
-        id: item.id,
         ...item,
         type: item.type ?? selection.value.type ?? FlowBuilderNodeTypes.Action,
         position: {
@@ -72,7 +71,8 @@ export const recreateNodes = <
         const edge = handleConnect(
           {
             source: step.id,
-            target: step.nextStep.id,
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            target: step.nextStep!.id,
             sourceHandle: Position.Right,
             targetHandle: null,
           },

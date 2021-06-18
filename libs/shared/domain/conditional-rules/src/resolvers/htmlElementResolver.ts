@@ -1,3 +1,4 @@
+import { ExcludeFalsy } from '@scrapper-gate/shared/common';
 import { ConditionalRule } from '@scrapper-gate/shared/schema';
 import { HtmlElementRuleMeta, HtmlElementWhat, RuleResolver } from '../types';
 import { arrayValueResolver } from './arrayValueResolver';
@@ -19,10 +20,16 @@ const resolveValue = (
 ): unknown[] => {
   switch (rule.what) {
     case HtmlElementWhat.Attribute:
-      return elements.map((el) => el.attributes[meta.attribute]);
+      if (!meta.attribute) {
+        return [];
+      }
+
+      return elements
+        .map((el) => el?.attributes?.[meta.attribute as string])
+        .filter(ExcludeFalsy);
 
     case HtmlElementWhat.Tag:
-      return elements.map((el) => el.tag.toLowerCase());
+      return elements.map((el) => el.tag?.toLowerCase()).filter(ExcludeFalsy);
 
     default:
       return [];
@@ -35,7 +42,7 @@ export const createHtmlElementResolverElementDefinition = (
 ): HtmlElementResolverElementDefinition => {
   return {
     tag: element.tagName,
-    textContent: element.textContent,
+    textContent: element.textContent ?? '',
     attributes: Array.from(element.attributes).reduce((acc, attr) => {
       return {
         ...acc,
@@ -54,7 +61,7 @@ export const makeHtmlElementResolver = ({
     return arrayValueResolver(rule, elements, meta.type);
   }
 
-  const value = resolveValue(rule, elements, meta);
+  const value = resolveValue(rule, elements ?? [], meta);
 
   return arrayValueResolver(
     {

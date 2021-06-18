@@ -1,5 +1,5 @@
 import { getActiveTabFromBackground } from '../../browser/tabsQuery/getActiveTabFromBackground';
-import { StoredRoute } from '../../browser/communication/types';
+import { StoredRoute } from '../../browser/communication/messageResult.types';
 import { browser } from 'webextension-polyfill-ts';
 import { logger } from '@scrapper-gate/frontend/logger';
 

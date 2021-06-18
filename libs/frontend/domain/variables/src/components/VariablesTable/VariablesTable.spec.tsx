@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { LocalizationProvider } from '@material-ui/lab';
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
@@ -67,7 +68,7 @@ const renderComponent = async (defaultVariables = variables) => {
     await wait(500);
   });
 
-  return cmp;
+  return cmp!;
 };
 
 describe('<VariablesTable />', () => {
@@ -87,7 +88,7 @@ describe('<VariablesTable />', () => {
     const cmp = await renderComponent([]);
 
     act(() => {
-      userEvent.click(cmp.container.querySelector('.add-variable'));
+      userEvent.click(cmp.container.querySelector('.add-variable')!);
     });
 
     const rows = cmp.container.querySelectorAll('.variable-row');

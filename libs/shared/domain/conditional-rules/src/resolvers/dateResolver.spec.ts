@@ -11,7 +11,7 @@ import { makeDateResolver } from './dateResolver';
 const now = new Date();
 
 describe('Date resolver', () => {
-  it.each<[rule: ConditionalRule, date: Date, expectedResult: boolean]>([
+  it.each<[rule: ConditionalRule, date: Date | null, expectedResult: boolean]>([
     [
       {
         id: v4(),
@@ -97,7 +97,7 @@ describe('Date resolver', () => {
     async (rule, date, expectedResult) => {
       const { result } = await resolveRules({
         resolvers: {
-          [ConditionalRuleTypes.Date]: makeDateResolver(date),
+          [ConditionalRuleTypes.Date]: makeDateResolver(date ?? new Date()),
         },
         ruleGroups: [
           {

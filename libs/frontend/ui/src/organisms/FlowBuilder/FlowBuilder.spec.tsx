@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import '@testing-library/jest-dom';
 import {
   AccountTreeSharp,
@@ -170,7 +171,7 @@ const withConditionalNode = async () => {
   );
 
   act(() => {
-    userEvent.click(node);
+    userEvent.click(node!);
   });
 
   await wait(450);
@@ -178,7 +179,7 @@ const withConditionalNode = async () => {
   return {
     cmp,
     node,
-    id: node.parentElement.parentElement.id.replace('node-', ''),
+    id: node!.parentElement!.parentElement!.id.replace('node-', ''),
   };
 };
 
@@ -238,7 +239,7 @@ describe('<FlowBuilder />', () => {
       `.item-${FlowBuilderNodeTypes.Action}`
     );
 
-    dragSelectionIntoCanvas(selection, canvas);
+    dragSelectionIntoCanvas(selection!, canvas!);
 
     await waitFor(() => expect(onAdd).toHaveBeenCalledTimes(1));
 
@@ -251,7 +252,7 @@ describe('<FlowBuilder />', () => {
     const undoBtn = cmp.container.querySelector('.undo-btn');
 
     act(() => {
-      userEvent.click(undoBtn);
+      userEvent.click(undoBtn!);
     });
 
     nodes = cmp.container.querySelectorAll('.flow-builder-node');
@@ -263,7 +264,7 @@ describe('<FlowBuilder />', () => {
     await wait(500);
 
     act(() => {
-      userEvent.click(redoBtn);
+      userEvent.click(redoBtn!);
     });
 
     nodes = cmp.container.querySelectorAll('.flow-builder-node');
@@ -284,7 +285,7 @@ describe('<FlowBuilder />', () => {
     const canvas = cmp.container.querySelector('.flow-builder-canvas');
 
     act(() => {
-      fireEvent.contextMenu(canvas, {
+      fireEvent.contextMenu(canvas!, {
         clientY: 50,
         clientX: 50,
       });
@@ -293,11 +294,11 @@ describe('<FlowBuilder />', () => {
     const contextMenu = document.querySelector('.context-menu');
     const [item] = screen
       .getAllByText('Open in browser')
-      .filter((item) => contextMenu.contains(item))
-      .map((item) => item.parentElement.parentElement);
+      .filter((item) => contextMenu!.contains(item))
+      .map((item) => item!.parentElement!.parentElement);
 
     act(() => {
-      userEvent.click(item);
+      userEvent.click(item!);
     });
 
     expect(onAdd).toHaveBeenCalledTimes(1);
@@ -310,14 +311,14 @@ describe('<FlowBuilder />', () => {
 
     act(() => {
       userEvent.click(
-        node.parentElement.querySelector('.node-dropdown-trigger')
+        node!.parentElement!.querySelector('.node-dropdown-trigger')!
       );
     });
 
     await wait(100);
 
     act(() => {
-      userEvent.click(cmp.baseElement.querySelector(`#delete-step-${id}`));
+      userEvent.click(cmp.baseElement.querySelector(`#delete-step-${id}`)!);
     });
 
     await wait(500);

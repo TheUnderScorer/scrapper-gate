@@ -33,8 +33,8 @@ export type Scalars = {
 };
 
 export type AuthTokens = {
-  accessToken: Scalars['String'];
-  refreshToken: Scalars['String'];
+  accessToken?: Maybe<Scalars['String']>;
+  refreshToken?: Maybe<Scalars['String']>;
 };
 
 export type BaseEntity = {
@@ -885,8 +885,16 @@ export type AuthTokensResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['AuthTokens'] = ResolversParentTypes['AuthTokens']
 > = ResolversObject<{
-  accessToken?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  refreshToken?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  accessToken?: Resolver<
+    Maybe<ResolversTypes['String']>,
+    ParentType,
+    ContextType
+  >;
+  refreshToken?: Resolver<
+    Maybe<ResolversTypes['String']>,
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 

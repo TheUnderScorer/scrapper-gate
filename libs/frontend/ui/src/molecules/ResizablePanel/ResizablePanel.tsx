@@ -3,7 +3,13 @@ import { Resizable } from 're-resizable';
 import { makeStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
 import { Fab, Paper, Tooltip } from '@material-ui/core';
-import { forwardRef, useEffect, useRef, useState } from 'react';
+import {
+  forwardRef,
+  MutableRefObject,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { ChevronLeft } from '@material-ui/icons';
 import { usePrevious, useToggle } from 'react-use';
 import { useKeyboardShortcuts } from '@scrapper-gate/frontend/keyboard-shortcuts';
@@ -106,7 +112,7 @@ export const ResizablePanel = forwardRef<HTMLDivElement, ResizablePanelProps>(
     }, [closed, lastWidth, prevOpen, props.maxWidth]);
 
     useHotkeys(
-      keyboardShortcuts.drawer.toggle,
+      keyboardShortcuts?.drawer.toggle ?? '',
       () => {
         if (disableKeyShortcut) {
           return;
@@ -120,7 +126,7 @@ export const ResizablePanel = forwardRef<HTMLDivElement, ResizablePanelProps>(
     return (
       <Resizable
         {...props}
-        ref={instanceRef}
+        ref={instanceRef as MutableRefObject<Resizable>}
         className={classNames(props.className, classes.container, {
           closed,
           isResize,
@@ -144,7 +150,7 @@ export const ResizablePanel = forwardRef<HTMLDivElement, ResizablePanelProps>(
         {!hideArrow && (
           <Tooltip
             title={
-              <TextWithKeyHint keyHint={keyboardShortcuts.drawer.toggle}>
+              <TextWithKeyHint keyHint={keyboardShortcuts?.drawer.toggle}>
                 Toggle panel
               </TextWithKeyHint>
             }

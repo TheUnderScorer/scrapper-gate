@@ -3,7 +3,7 @@ import { useOnMessageListener } from '../../../extension/browser/hooks/useOnMess
 import {
   MessagesPayloadMap,
   MessageTypes,
-} from '../../../extension/browser/communication/types';
+} from '../../../extension/browser/communication/messageResult.types';
 import { extractScrapperIdFromRoute } from '@scrapper-gate/shared/routing';
 import { getContentRoute } from '../../../extension/background/getContentRoute';
 import { getActiveTab } from '../../../extension/browser/tabsQuery/getActiveTab';
@@ -19,7 +19,7 @@ export const useActiveScrapperInContent = () => {
     initialValue: async () => {
       const tab = await getActiveTab();
 
-      return getContentRoute(tab.id);
+      return tab.id ? getContentRoute(tab.id) : null;
     },
   });
 

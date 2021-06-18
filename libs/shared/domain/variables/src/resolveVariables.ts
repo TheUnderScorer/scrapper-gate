@@ -21,12 +21,15 @@ export const resolveVariables = <T = unknown>({
   variables,
   dateFormat = DateFormat.Date,
 }: ResolveVariablesParams<T>): ResolveVariablesResult<T> => {
-  const mappedVariables = variables.reduce((acc, variable) => {
-    return {
-      ...acc,
-      [variable.key]: getVariableValue(variable, dateFormat),
-    };
-  }, {});
+  const mappedVariables = variables
+    .filter((variable) => Boolean(variable.key))
+    .reduce((acc, variable) => {
+      return {
+        ...acc,
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        [variable.key!]: getVariableValue(variable, dateFormat),
+      };
+    }, {});
 
   return resolveMappedVariables(target, mappedVariables);
 };

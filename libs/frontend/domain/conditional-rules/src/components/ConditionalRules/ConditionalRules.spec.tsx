@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { LocalizationProvider } from '@material-ui/lab';
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
@@ -65,7 +66,7 @@ describe('<ConditionalRules />', () => {
     });
 
     act(() => {
-      userEvent.click(cmp.container.querySelector('.remove-rules-group'));
+      userEvent.click(cmp.container.querySelector('.remove-rules-group')!);
     });
 
     const groups = cmp.container.querySelectorAll('.conditional-rules-group');
@@ -86,7 +87,7 @@ describe('<ConditionalRules />', () => {
     });
 
     act(() => {
-      userEvent.click(cmp.container.querySelector('.remove-rules-rule'));
+      userEvent.click(cmp.container.querySelector('.remove-rules-rule')!);
     });
 
     const rules = cmp.container.querySelectorAll('.conditional-rules-rule');

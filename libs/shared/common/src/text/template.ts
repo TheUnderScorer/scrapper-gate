@@ -1,9 +1,14 @@
+import { Maybe } from '../types';
+
 export enum TemplateType {
   Braces = 'Braces',
   Colon = 'Colon',
 }
 
-export type TemplateVariables = Record<string, string | number | boolean>;
+export type TemplateVariables = Record<
+  string,
+  Maybe<string | number | boolean>
+>;
 
 export const applyVariablesToText = (
   text: string,
@@ -26,8 +31,16 @@ const convertValue = (value: unknown) => {
     case 'boolean':
       return value ? '1' : '0';
 
-    default:
+    case 'function':
+    case 'number':
+    case 'string':
       return value.toString();
+
+    case 'object':
+      return JSON.stringify(value);
+
+    default:
+      return '';
   }
 };
 

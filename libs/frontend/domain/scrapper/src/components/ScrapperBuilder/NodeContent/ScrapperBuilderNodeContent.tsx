@@ -16,7 +16,7 @@ const BaseScrapperBuilderNodeContent = (
 
   const action = useFormFieldValue<ScrapperAction>(getFieldName('action'));
 
-  const Section = useMemo(() => sections[action], [action]);
+  const Section = useMemo(() => action && sections[action], [action]);
 
   return (
     <Stack spacing={4} direction="column">

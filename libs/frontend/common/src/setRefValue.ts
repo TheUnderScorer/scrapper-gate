@@ -1,6 +1,7 @@
+import { Maybe } from '@scrapper-gate/shared/common';
 import { Ref } from 'react';
 
-export const setRefValue = <T>(ref: Ref<T>, value?: T) => {
+export const setRefValue = <T>(ref: Ref<Maybe<T>>, value?: Maybe<T>) => {
   if (typeof ref === 'function') {
     ref(value);
   }

@@ -103,12 +103,14 @@ export const PopupDrawer = () => {
         className={classes.layout}
         headerHeight={70}
         header={
-          <UserAvatar
-            className={classes.avatar}
-            alignItems="flex-start"
-            user={data.me}
-            showName
-          />
+          data?.me && (
+            <UserAvatar
+              className={classes.avatar}
+              alignItems="flex-start"
+              user={data.me}
+              showName
+            />
+          )
         }
         body={
           <>

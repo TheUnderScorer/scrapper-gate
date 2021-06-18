@@ -11,7 +11,7 @@ import {
 } from 'react-final-form';
 import { v4 } from 'uuid';
 
-const defaultValue = [];
+const defaultValue: unknown[] = [];
 
 export const useFieldArray = <T extends Record<string, unknown>>(
   name: string,
@@ -28,7 +28,7 @@ export const useFieldArray = <T extends Record<string, unknown>>(
         }
 
         return value;
-      }) ?? defaultValue,
+      }) ?? (defaultValue as T[]),
   });
   const {
     input: { onChange, value },

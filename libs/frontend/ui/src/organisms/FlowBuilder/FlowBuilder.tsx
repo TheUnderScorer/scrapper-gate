@@ -114,10 +114,13 @@ export const FlowBuilder = <
           <FlowBuilderPropsProvider
             {...rest}
             activeTab={activeTab}
-            nodeTypes={{
-              ...(rest.nodeTypes ?? defaultNodeTypes),
-              ...nodeTypes,
-            }}
+            nodeTypes={
+              {
+                ...(rest.nodeTypes ?? defaultNodeTypes),
+                ...(nodeTypes ?? []),
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              } as any
+            }
           >
             <FlowBuilderInstanceProvider>
               <FlowBuilderItemsProvider>

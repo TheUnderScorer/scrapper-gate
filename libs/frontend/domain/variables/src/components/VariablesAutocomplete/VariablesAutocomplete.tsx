@@ -16,7 +16,7 @@ export interface VariablesAutocompleteChildrenBag {
   autoCompleteParams: AutocompleteRenderInputParams;
   meta: FieldMetaState<string>;
   input: FieldInputProps<string>;
-  hasError: boolean;
+  hasError?: boolean;
 }
 
 export interface VariablesAutocompleteProps
@@ -52,7 +52,7 @@ export const VariablesAutocomplete = ({
 
       return createFilterOptions<Variable>({
         matchFrom: 'any',
-        stringify: (option) => option.key,
+        stringify: (option) => option.key ?? option.id,
       })(options, state);
     },
     []
@@ -80,7 +80,9 @@ export const VariablesAutocomplete = ({
       filterOptions={filterOptions}
       options={variables}
       renderOption={(props, variable, state) => {
-        return <Highlight text={variable.key} value={state.inputValue ?? ''} />;
+        return (
+          <Highlight text={variable.key ?? ''} value={state.inputValue ?? ''} />
+        );
       }}
     />
   );

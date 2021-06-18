@@ -1,4 +1,6 @@
-import { Message, MessageResult } from './types';
+import { NoActiveTabFoundError } from '@scrapper-gate/shared/errors';
+import { errorMessageResult } from './messageResult';
+import { Message, MessageResult } from './messageResult.types';
 import { getActiveTab } from '../tabsQuery/getActiveTab';
 import { browser } from 'webextension-polyfill-ts';
 import { logger } from '@scrapper-gate/frontend/logger';
@@ -24,6 +26,10 @@ export const sendMessageToActiveTab = async <Result>(
   message: Message<unknown>
 ) => {
   const activeTab = await getActiveTab();
+
+  if (!activeTab?.id) {
+    return errorMessageResult<Result>(new NoActiveTabFoundError());
+  }
 
   return sendMessageToTab<Result>(activeTab.id, message);
 };

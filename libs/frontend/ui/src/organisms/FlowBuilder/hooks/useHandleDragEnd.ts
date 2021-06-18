@@ -14,7 +14,7 @@ export const useHandleDragEnd = () => {
     (event: MouseEvent, node: Node) => {
       event.preventDefault();
 
-      setTimeout(() => setDraggedNode(undefined), 250);
+      setTimeout(() => setDraggedNode(null), 250);
 
       const newNodes = getItems().map((item) => {
         if (isNode(item) && item.id === node.id) {

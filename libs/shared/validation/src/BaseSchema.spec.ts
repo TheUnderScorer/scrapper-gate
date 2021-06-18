@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
+/* eslint-disable @typescript-eslint/ban-ts-comment,@typescript-eslint/no-non-null-assertion */
 import * as jf from 'joiful';
 import 'reflect-metadata';
 import { BaseSchema } from './BaseSchema';
@@ -51,7 +51,7 @@ describe('BaseSchema', () => {
     const nestedObj = new Obj();
 
     nestedObj.isNested = true;
-    nestedObj.nested.value = 2;
+    nestedObj.nested!.value = 2;
 
     expect(() => Obj.validate(nestedObj)).not.toThrowError(ValidationError);
   });

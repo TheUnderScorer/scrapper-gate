@@ -19,7 +19,7 @@ describe('No special chars', () => {
       const result = await validateAsClass({ value }, Test);
 
       expect(result.error).toBeDefined();
-      expect(result.error.message).toEqual(
+      expect(result.error?.message).toEqual(
         '"value" failed custom validation because Space and special characters (@#$%^&*()/><|[]) are not allowed.'
       );
     }
@@ -37,7 +37,7 @@ describe('No special chars', () => {
 
     if (shouldThrow) {
       expect(result.error).toBeDefined();
-      expect(result.error.message).toEqual(
+      expect(result.error?.message).toEqual(
         '"value" failed custom validation because Space and special characters (@#$%^&*()/><|[]) are not allowed.'
       );
     } else {

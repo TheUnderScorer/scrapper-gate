@@ -6,10 +6,10 @@ export interface GetValueParams {
   dateFormat?: string;
 }
 
-export const getValue = ({
+export const getDisplayValue = ({
   value,
   dateFormat = DateFormat.Date,
-}: GetValueParams): string | number | null => {
+}: GetValueParams): string | number | null | undefined => {
   if (!value) {
     return null;
   }
@@ -23,7 +23,7 @@ export const getValue = ({
         return format(value, dateFormat);
       }
 
-      return value.valueOf().toString();
+      return value?.valueOf()?.toString();
 
     case 'function':
       throw new TypeError('Cannot render function as value.');

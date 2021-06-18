@@ -20,5 +20,6 @@ export const getFurthestNode = <T extends BaseNodeProperties>(
     }
   });
 
-  return currentNode;
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  return currentNode!;
 };

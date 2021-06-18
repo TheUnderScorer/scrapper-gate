@@ -5,7 +5,7 @@ export const makeGraphqlRequest = <Variables>(
   variables?: Variables
 ) => {
   return {
-    query: document.loc.source.body,
+    query: document.loc?.source.body,
     variables,
   };
 };

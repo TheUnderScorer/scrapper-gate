@@ -57,7 +57,7 @@ export class PerformanceManager implements Disposable {
     this.marks.add(mark);
   }
 
-  measure(name: string, start?: string, end?: string) {
+  measure(name: string, start: string, end: string) {
     performance.measure(name, start, end);
   }
 }

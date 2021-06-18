@@ -16,7 +16,13 @@ import { Emoji, Highlight } from '@scrapper-gate/frontend/ui';
 import { first, getLastIndex } from '@scrapper-gate/shared/common';
 import { Variable } from '@scrapper-gate/shared/schema';
 import classNames from 'classnames';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  MouseEvent,
+} from 'react';
 import { useKey } from 'react-use';
 import { Key } from 'ts-key-enum';
 import { useVariablesContextSelector } from '../../providers/VariablesProvider';
@@ -66,10 +72,10 @@ export const VariableSuggestions = ({
 
     return createFilterOptions<Variable>({
       matchFrom: 'any',
-      stringify: (option) => option.key,
+      stringify: (option) => option.key ?? option.id,
     })(variables, {
       inputValue: rawText,
-      getOptionLabel: (option) => option.key,
+      getOptionLabel: (option) => option.key ?? option.id,
     });
   }, [rawText, variables]);
 
@@ -174,7 +180,7 @@ export const VariableSuggestions = ({
 
         {filteredVariables.map((variable) => (
           <ListItem
-            onMouseDown={(event) => {
+            onMouseDown={(event: MouseEvent) => {
               event.preventDefault();
 
               onVariableClick?.(variable);
@@ -191,7 +197,7 @@ export const VariableSuggestions = ({
               <AttachMoney />
             </ListItemIcon>
             <ListItemText
-              primary={<Highlight text={variable.key} value={rawText} />}
+              primary={<Highlight text={variable.key ?? ''} value={rawText} />}
             />
           </ListItem>
         ))}

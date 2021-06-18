@@ -1,3 +1,4 @@
+import { Maybe } from '@scrapper-gate/shared/common';
 import React, { forwardRef, useCallback, useMemo } from 'react';
 import {
   Divider,
@@ -25,8 +26,8 @@ import {
 import classNames from 'classnames';
 
 export interface HtmlElementPickerElementDropdownProps {
-  selectedElement?: HTMLElement;
-  selector?: string;
+  selectedElement?: Maybe<HTMLElement>;
+  selector?: Maybe<string>;
   onSelect?: () => unknown;
   onSelectedElementChange?: (element: HTMLElement) => unknown;
 }

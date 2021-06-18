@@ -129,7 +129,7 @@ const BaseConditionalRulesGroup = ({
               onClick={(event) => {
                 event.stopPropagation();
 
-                onRemove(index);
+                onRemove?.(index);
               }}
               className={classNames(classes.btn, 'remove-rules-group')}
             >

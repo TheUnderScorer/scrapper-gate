@@ -5,7 +5,7 @@ import { Selection } from '@scrapper-gate/frontend/common';
 
 export interface FlowBuilderTabsProps {
   value: unknown;
-  onChange: (value: unknown) => unknown;
+  onChange: (value: string) => unknown;
   tabs?: Array<Selection<string> & { content?: ReactNode }>;
   mainTabLabel?: string;
 }

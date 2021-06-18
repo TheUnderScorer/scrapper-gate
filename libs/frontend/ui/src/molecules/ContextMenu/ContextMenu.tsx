@@ -1,3 +1,4 @@
+import { Maybe } from '@scrapper-gate/shared/common';
 import React, {
   forwardRef,
   MouseEventHandler,
@@ -25,7 +26,7 @@ export const ContextMenu = forwardRef<HTMLDivElement, ContextMenuProps>(
   ({ children, menuItems, onOpen, onClose, ...menuProps }, ref) => {
     const classes = useStyles();
 
-    const [mouseState, setMouseState] = useState<PopoverPosition | null>(null);
+    const [mouseState, setMouseState] = useState<Maybe<PopoverPosition>>(null);
 
     const handleContextMenu: MouseEventHandler = useCallback(
       (event) => {
@@ -47,12 +48,12 @@ export const ContextMenu = forwardRef<HTMLDivElement, ContextMenuProps>(
 
       setMouseState(null);
 
-      onClose?.({ position: lastPos });
+      onClose?.({ position: lastPos as PopoverPosition });
     }, [mouseState, onClose]);
 
     return (
       <>
-        {children({ onContextMenu: handleContextMenu })}
+        {children?.({ onContextMenu: handleContextMenu })}
         {menuItems && (
           <ClickAwayListener onClickAway={handleClose}>
             <Menu
@@ -64,7 +65,7 @@ export const ContextMenu = forwardRef<HTMLDivElement, ContextMenuProps>(
               open={Boolean(mouseState)}
               onClose={handleClose}
               anchorReference="anchorPosition"
-              anchorPosition={mouseState}
+              anchorPosition={mouseState ?? undefined}
               {...menuProps}
             >
               {menuItems.map((item) => (

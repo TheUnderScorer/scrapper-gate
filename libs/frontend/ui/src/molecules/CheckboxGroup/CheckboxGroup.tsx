@@ -54,7 +54,8 @@ export const CheckboxGroup: FC<CheckboxGroupProps> = <
         </Grid>
       )}
       {options.map(({ label, icon, value: itemValue }) => (
-        <Grid item key={itemValue.toString()}>
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        <Grid item key={(itemValue as any).toString()}>
           <TileCheckbox
             title={label}
             icon={icon}

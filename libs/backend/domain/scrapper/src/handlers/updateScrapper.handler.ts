@@ -49,7 +49,10 @@ export const updateScrapperHandler = commandHandler.asFunction<
     }
 
     if ('steps' in input) {
-      const stepsToRemove = findEntitiesToRemove(input.steps, scrapper.steps);
+      const stepsToRemove = findEntitiesToRemove(
+        input.steps ?? [],
+        scrapper.steps
+      );
 
       if (stepsToRemove.length) {
         await scrapperStepRepository.remove(stepsToRemove);
@@ -57,7 +60,7 @@ export const updateScrapperHandler = commandHandler.asFunction<
 
       scrapper.steps = nodeLikeItemsToModels({
         createModel: (payload) => ScrapperStepModel.create(payload),
-        input: input.steps,
+        input: input.steps ?? [],
         existingSteps: scrapper.steps,
       });
 
@@ -66,7 +69,7 @@ export const updateScrapperHandler = commandHandler.asFunction<
 
     if ('variables' in input) {
       const variablesToRemove = findEntitiesToRemove(
-        input.variables,
+        input.variables ?? [],
         scrapper.variables
       );
 
@@ -76,12 +79,13 @@ export const updateScrapperHandler = commandHandler.asFunction<
         );
       }
 
-      variableModels = input.variables.map((variable) => {
-        return VariableModel.create({
-          ...variable,
-          createdBy: scrapper.createdBy,
-        });
-      });
+      variableModels =
+        input.variables?.map((variable) =>
+          VariableModel.create({
+            ...variable,
+            createdBy: scrapper.createdBy,
+          })
+        ) ?? [];
 
       scrapper.variables = variableModels.filter(
         (variable) => variable.scope === VariableScope.Scrapper

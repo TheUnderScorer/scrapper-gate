@@ -21,7 +21,7 @@ export const ApiClientProvider = ({ children }: PropsWithChildren<unknown>) => {
         onErrorLink,
         removeTypenameLink,
         restLink(tokens),
-        httpLink(tokens, setTokens),
+        httpLink({ tokens, setTokens }),
       ]),
       cache: new InMemoryCache(),
     });

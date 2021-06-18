@@ -16,7 +16,10 @@ export class ValidateDtoDirective extends SchemaDirectiveVisitor {
     const { resolve = defaultFieldResolver } = field;
 
     const { dto, key } = this.args;
-    const Schema = validation[dto] as BaseSchemaConstructor<unknown>;
+    const Schema = (validation as Record<
+      string,
+      BaseSchemaConstructor<unknown> | unknown
+    >)[dto] as BaseSchemaConstructor<unknown>;
 
     // eslint-disable-next-line no-prototype-builtins
     if (!validation.BaseSchema.isPrototypeOf(Schema)) {

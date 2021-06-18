@@ -7,6 +7,10 @@ export const basicHandleAddNode = <T extends BaseNodeProperties>(
   idGenerator: () => string,
   interceptor?: (node: Node<T>) => Node<T>
 ): FlowBuilderProps<T>['onAdd'] => (selection, { position, items }) => {
+  if (!position) {
+    throw new TypeError('Position is required.');
+  }
+
   const node = createNodeFromSelection(
     selection.value?.id ?? idGenerator(),
     selection,

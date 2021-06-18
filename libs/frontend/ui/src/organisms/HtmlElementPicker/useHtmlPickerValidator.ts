@@ -22,14 +22,14 @@ export const useHtmlPickerValidator = ({
 }: UseHtmlPickerValidatorProps) => {
   const validateFn = useCallback(
     (fieldValue?: Selector[]) => {
-      if (fieldValue?.length && validationRules.length && !pickerDisabled) {
+      if (fieldValue?.length && validationRules?.length && !pickerDisabled) {
         try {
           const filteredValue = filterSelectorsForValidation(fieldValue ?? []);
           const elements = getElementsBySelectors(filteredValue, document);
 
           if (
             !elements.length &&
-            validationRules.includes(
+            validationRules?.includes(
               HtmlElementPickerValidationRules.ElementsExist
             )
           ) {
@@ -41,7 +41,7 @@ export const useHtmlPickerValidator = ({
           }
         } catch (e) {
           if (
-            !validationRules.includes(
+            !validationRules?.includes(
               HtmlElementPickerValidationRules.ValidSelector
             )
           ) {

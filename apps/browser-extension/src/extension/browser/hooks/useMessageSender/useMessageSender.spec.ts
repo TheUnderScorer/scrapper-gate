@@ -2,7 +2,7 @@
 import 'mockzilla-webextension';
 import { act, renderHook } from '@testing-library/react-hooks';
 import { useMessageSender } from './useMessageSender';
-import { MessageTypes } from '../../communication/types';
+import { MessageTypes } from '../../communication/messageResult.types';
 import { Target } from './useMessageSender.types';
 
 describe('useMessageSender hook', () => {
@@ -43,7 +43,7 @@ describe('useMessageSender hook', () => {
       await send(true);
     });
 
-    expect(hook.result.all[1][1].loading).toEqual(true);
+    expect((hook.result.all as any)[1][1].loading).toEqual(true);
 
     expect(hook.result.current[1].data).toBeTruthy();
     expect(hook.result.current[1].called).toBeTruthy();

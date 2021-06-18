@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, {
   ComponentType,
   ReactNode,
@@ -43,7 +44,7 @@ export const Scoped = ({ children }: ScopedProps) => {
     () =>
       createCache({
         key: 'scrapper-gate-styles',
-        container: target,
+        container: target!,
       }),
     [target]
   );
@@ -68,7 +69,7 @@ export const Scoped = ({ children }: ScopedProps) => {
                   topDivRef.current = element;
                 }}
               >
-                {children(containerRef.current.shadowRoot, topDivRef.current)}
+                {children(containerRef.current.shadowRoot!, topDivRef.current!)}
               </div>
             </div>
           </StylesProvider>

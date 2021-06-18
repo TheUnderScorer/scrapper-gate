@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any,@typescript-eslint/no-non-null-assertion */
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 import { PopupScrappersView } from './PopupScrappersView';
 import { act, render, waitFor } from '@testing-library/react';
@@ -16,7 +17,7 @@ import { browserExtensionRoutes } from '@scrapper-gate/shared/routing';
 import {
   MessageTypes,
   StoredRoute,
-} from '../../../extension/browser/communication/types';
+} from '../../../extension/browser/communication/messageResult.types';
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
 
 const scrapper = createMockScrapper();
@@ -110,7 +111,9 @@ describe('Popup scrappers view', () => {
     defaultStoreMock();
 
     const sendMessage = jest.fn();
-    mockBrowser.runtime.sendMessage.mock((...args) => sendMessage(...args));
+    mockBrowser.runtime.sendMessage.mock((...args: any[]) =>
+      sendMessage(...args)
+    );
 
     const cmp = mountCmp();
 
@@ -119,7 +122,7 @@ describe('Popup scrappers view', () => {
     const listItem = cmp.container.querySelector('.scrapper-list-item');
 
     act(() => {
-      userEvent.click(listItem);
+      userEvent.click(listItem!);
     });
 
     expect(sendMessage).toHaveBeenCalledWith({
@@ -137,7 +140,9 @@ describe('Popup scrappers view', () => {
 
   it('should send message that closes content if user clicks active scrapper', async () => {
     const sendMessage = jest.fn();
-    mockBrowser.runtime.sendMessage.mock((...args) => sendMessage(...args));
+    mockBrowser.runtime.sendMessage.mock((...args: any[]) =>
+      sendMessage(...args)
+    );
 
     mockBrowser.storage.local.get.mock(async () => ({
       contentRoutes: {
@@ -157,7 +162,7 @@ describe('Popup scrappers view', () => {
     const listItem = cmp.container.querySelector('.scrapper-list-item');
 
     act(() => {
-      userEvent.click(listItem);
+      userEvent.click(listItem!);
     });
 
     expect(sendMessage).toHaveBeenCalledWith({

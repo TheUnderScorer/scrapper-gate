@@ -25,6 +25,7 @@ export * from './nodes/findFirstNode';
 export * from './baseEntity';
 export * from './text/matchAllIndexes';
 export * from './repeat';
-export * from './getValue';
+export * from './getDisplayValue';
 export * from './serializeValue';
 export * from './date/tryDateCast';
+export * from './excludesFalsy';

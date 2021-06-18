@@ -9,9 +9,14 @@ import { scrapperActionNodeTypeMap } from './scrapperActionNodeTypeMap';
 export const createScrapperNodeSelection = (): Selection<ScrapperBuilderNodeSelection>[] =>
   Object.values(ScrapperAction).map((action) => ({
     value: {
+      id: '',
       title: scrapperActionTextMap[action],
       action,
-      type: scrapperActionNodeTypeMap[action] ?? FlowBuilderNodeTypes.Action,
+      type:
+        (scrapperActionNodeTypeMap as Record<
+          ScrapperAction,
+          FlowBuilderNodeTypes
+        >)[action] ?? FlowBuilderNodeTypes.Action,
     },
     icon: scrapperActionIcons[action],
     label: scrapperActionTextMap[action],

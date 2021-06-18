@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Box } from '@material-ui/core';
 import { LocalizationProvider } from '@material-ui/lab';
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
@@ -67,7 +68,7 @@ const handlers = {
       userEvent.click(
         cmp.container.querySelector(
           '[aria-labelledby="mui-component-select-rules[0].rules[0]what"]'
-        )
+        )!
       );
     });
 
@@ -79,7 +80,7 @@ const handlers = {
       userEvent.click(
         cmp.container.querySelector(
           '[aria-labelledby="mui-component-select-rules[0].rules[0]when"]'
-        )
+        )!
       );
     });
 
@@ -89,7 +90,9 @@ const handlers = {
 
     await act(async () => {
       await userEvent.type(
-        cmp.container.querySelector('[name="rules[0].rules[0]meta.attribute"]'),
+        cmp.container.querySelector(
+          '[name="rules[0].rules[0]meta.attribute"]'
+        )!,
         'test-id'
       );
 
@@ -98,7 +101,7 @@ const handlers = {
 
     await act(async () => {
       await userEvent.type(
-        cmp.container.querySelector('[name="rules[0].rules[0]value"]'),
+        cmp.container.querySelector('[name="rules[0].rules[0]value"]')!,
         '123'
       );
 
@@ -110,7 +113,7 @@ const handlers = {
       userEvent.click(
         cmp.container.querySelector(
           '[aria-labelledby="mui-component-select-rules[0].rules[0]what"]'
-        )
+        )!
       );
     });
 
@@ -122,7 +125,7 @@ const handlers = {
       userEvent.click(
         cmp.container.querySelector(
           '[aria-labelledby="mui-component-select-rules[0].rules[0]when"]'
-        )
+        )!
       );
     });
 
@@ -132,7 +135,7 @@ const handlers = {
 
     await act(async () => {
       await userEvent.type(
-        cmp.container.querySelector('[name="rules[0].rules[0]value"]'),
+        cmp.container.querySelector('[name="rules[0].rules[0]value"]')!,
         'DIV'
       );
 
@@ -184,13 +187,15 @@ describe('<HtmlElementRule />', () => {
 
     await act(async () => {
       await userEvent.type(
-        cmp.container.querySelector('[name="rules[0].rules[0]meta.selectors"]'),
+        cmp.container.querySelector(
+          '[name="rules[0].rules[0]meta.selectors"]'
+        )!,
         'span'
       );
     });
 
     act(() => {
-      userEvent.click(cmp.container.querySelector('.add-selector'));
+      userEvent.click(cmp.container.querySelector('.add-selector')!);
     });
 
     expect(

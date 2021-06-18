@@ -1,6 +1,5 @@
 import { TextFieldProps } from '@material-ui/core';
-import { Scrapper, ScrapperStep, Variable } from '@scrapper-gate/shared/schema';
-import { ComponentType } from 'react';
+import { FieldNameCreator } from '@scrapper-gate/frontend/form';
 import {
   BaseNodeProperties,
   BaseNodeSelectionProperties,
@@ -9,7 +8,9 @@ import {
   HtmlElementPickerProps,
   NodeContentProps,
 } from '@scrapper-gate/frontend/ui';
-import { FieldNameCreator } from '@scrapper-gate/frontend/form';
+import { Maybe } from '@scrapper-gate/shared/common';
+import { Scrapper, ScrapperStep, Variable } from '@scrapper-gate/shared/schema';
+import { ComponentType } from 'react';
 import { Node } from 'react-flow-renderer';
 
 export interface ScrapperElementPickerProps
@@ -28,7 +29,7 @@ export type ScrapperBuilderNodeSelection = BaseNodeSelectionProperties &
   Omit<ScrapperBuilderStep, 'id'>;
 
 export type ScrapperBuilderNodeProperties = BaseNodeProperties &
-  ScrapperBuilderStep;
+  Omit<ScrapperBuilderStep, 'id'>;
 
 export interface ScrapperBuilderStep
   extends Omit<
@@ -62,7 +63,7 @@ export interface ScrapperBuilderProps
   initialScrapper?: ScrapperBuilderScrapper;
   ElementPicker: ScrapperElementPicker;
   loading?: boolean;
-  browserUrl: string;
+  browserUrl?: Maybe<string>;
 }
 
 export interface ScrapperStepFormProps

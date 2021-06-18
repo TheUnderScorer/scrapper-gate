@@ -4,16 +4,16 @@ import * as jf from 'joiful';
 import { ValidationOptions } from 'joiful/validation';
 import { validate } from './validate';
 
-export interface BaseSchemaConstructor<T extends BaseSchema<unknown>>
-  extends Constructor<T> {
-  validate: (payload: unknown, joiOptions?: ValidationOptions) => T;
+export interface BaseSchemaConstructor<T> extends Constructor<T> {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  validate: (payload: any, joiOptions?: ValidationOptions) => T;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export class BaseSchema<T> {
   static validate<T extends BaseSchema<unknown>>(
     this: { new (): T },
-    payload: unknown,
+    payload: Partial<unknown>,
     joiOptions?: ValidationOptions
   ) {
     return validate(payload, this, joiOptions);

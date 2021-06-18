@@ -1,6 +1,6 @@
 import { useKeyboardShortcuts } from '@scrapper-gate/frontend/keyboard-shortcuts';
 
-import { throwError } from '@scrapper-gate/shared/common';
+import { Maybe, throwError } from '@scrapper-gate/shared/common';
 import React, {
   PropsWithChildren,
   SyntheticEvent,
@@ -23,6 +23,12 @@ export interface FormUndoContext {
   reset: () => void;
 }
 
+interface FormUndoState<T> {
+  past: T[];
+  present: Maybe<T>;
+  future: T[];
+}
+
 export interface FormUndoProviderProps {
   limit?: number;
 }
@@ -37,13 +43,14 @@ const Context = createContext<FormUndoContext>({
 
 export const useFormUndo = () => useContext(Context);
 
-const initial = {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const initial: FormUndoState<any> = {
   past: [],
   present: null,
   future: [],
 };
 
-export const FormUndoProvider = ({
+export const FormUndoProvider = <T extends unknown>({
   children,
   limit,
 }: PropsWithChildren<FormUndoProviderProps>) => {
@@ -51,11 +58,13 @@ export const FormUndoProvider = ({
 
   const shortcuts = useKeyboardShortcuts();
 
-  const formApi = useForm();
+  const formApi = useForm<T>();
 
-  const [lastFormState, setLastFormState] = useState(formApi.getState().values);
+  const [lastFormState, setLastFormState] = useState<T>(
+    formApi.getState().values
+  );
 
-  const [state, setState] = useState({
+  const [state, setState] = useState<FormUndoState<T>>({
     ...initial,
     present: formApi.getState().values,
   });
@@ -68,14 +77,14 @@ export const FormUndoProvider = ({
   }, [formApi]);
 
   const onValuesChange = useCallback(
-    (formValues: Record<string, unknown>) => {
+    (formValues: T) => {
       setState((prevState) => {
         const { past, present } = prevState;
 
         if (!equals(present, formValues) && !doingUndoOrRedoRef.current) {
           const newPast = [...past, present];
 
-          if (newPast.length > limit) {
+          if (limit && newPast.length > limit) {
             newPast.splice(0, 1);
           }
 
@@ -83,7 +92,7 @@ export const FormUndoProvider = ({
             past: newPast,
             present: formValues,
             future: [],
-          };
+          } as FormUndoState<T>;
         } else {
           // doing undo or redo, do not add to the queue
           return prevState;
@@ -117,7 +126,7 @@ export const FormUndoProvider = ({
           past: [...past, present],
           present: next,
           future: newFuture,
-        };
+        } as FormUndoState<T>;
       });
 
       doingUndoOrRedoRef.current = false;
@@ -146,7 +155,7 @@ export const FormUndoProvider = ({
           past: newPast,
           present: previous,
           future: [present, ...future],
-        };
+        } as FormUndoState<T>;
       });
 
       doingUndoOrRedoRef.current = false;
@@ -154,14 +163,14 @@ export const FormUndoProvider = ({
     [canUndo, formApi]
   );
 
-  useHotkeys(shortcuts.undo, undo, [undo]);
-  useHotkeys(shortcuts.redo, redo, [redo]);
+  useHotkeys(shortcuts?.undo ?? '', undo, [undo]);
+  useHotkeys(shortcuts?.redo ?? '', redo, [redo]);
 
   useFormState({
     subscription: {
       values: true,
     },
-    onChange: (state) => setLastFormState(state.values),
+    onChange: (state) => setLastFormState(state.values as T),
   });
 
   useDebounce(() => onValuesChange(lastFormState), 350, [

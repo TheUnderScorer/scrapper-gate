@@ -17,7 +17,7 @@ export const scrapperResolver = (): Resolvers<
         queriesBus.query(
           new GetScrappersByUserQuery({
             ...args,
-            userId: ctx.user.id,
+            userId: ctx.user!.id,
           })
         )
       ),
@@ -26,7 +26,7 @@ export const scrapperResolver = (): Resolvers<
         queriesBus.query(
           new GetScrapperByUserQuery({
             scrapperId: args.id,
-            userId: ctx.user.id,
+            userId: ctx.user!.id,
           })
         )
       ),
@@ -37,7 +37,7 @@ export const scrapperResolver = (): Resolvers<
         commandsBus.execute(
           new CreateScrapperCommand({
             input: args.input,
-            user: ctx.user,
+            user: ctx.user!,
           })
         )
       ),
@@ -46,7 +46,7 @@ export const scrapperResolver = (): Resolvers<
         commandsBus.execute(
           new UpdateScrapperCommand({
             input: args.input,
-            userId: ctx.user.id,
+            userId: ctx.user!.id,
           })
         )
       ),

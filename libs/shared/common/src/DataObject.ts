@@ -33,6 +33,6 @@ export abstract class DataObject<Entity> implements Jsonable {
   ) {
     const entity = new this();
 
-    return entity.fill(payload);
+    return entity.fill(payload as T);
   }
 }

@@ -62,7 +62,8 @@ export const FormTextField = <T extends unknown>({
           setDidFocus(true);
         }
 
-        setRefValue(inputRef, element);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        setRefValue(inputRef!, element);
       }}
       variant={variant}
       error={hasError}

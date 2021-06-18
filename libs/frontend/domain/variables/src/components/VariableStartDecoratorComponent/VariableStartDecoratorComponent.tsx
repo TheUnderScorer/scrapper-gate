@@ -9,7 +9,7 @@ import {
 } from '@scrapper-gate/shared/common';
 import { Variable } from '@scrapper-gate/shared/schema';
 import { EditorState, Modifier, SelectionState } from 'draft-js';
-import React, { useCallback, useMemo, useRef } from 'react';
+import React, { MutableRefObject, useCallback, useMemo, useRef } from 'react';
 import { VariableSuggestions } from '../VariableSuggestions/VariableSuggestions';
 
 export const VariableStartDecoratorComponent = ({
@@ -29,7 +29,8 @@ export const VariableStartDecoratorComponent = ({
 
   const handleVariableClick = useCallback(
     (variable: Variable) => {
-      const selection = SelectionState.createEmpty(blockKey).merge({
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const selection = SelectionState.createEmpty(blockKey!).merge({
         focusOffset: end,
         anchorOffset: start,
         hasFocus: true,
@@ -67,7 +68,9 @@ export const VariableStartDecoratorComponent = ({
         />
       }
     >
-      <span ref={containerRef}>{children}</span>
+      <span ref={containerRef as MutableRefObject<HTMLElement>}>
+        {children}
+      </span>
     </LightTooltip>
   );
 };

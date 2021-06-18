@@ -34,7 +34,12 @@ export const useConnectHandler = () => {
       const items = itemsParam ?? getItems();
 
       const node = getById(items, params.source) as Node;
-      const handlesData = nodeTypes[node.type]?.handlesData;
+
+      if (!node.type) {
+        return;
+      }
+
+      const handlesData = nodeTypes?.[node.type]?.handlesData;
 
       const edge = onConnect(
         {

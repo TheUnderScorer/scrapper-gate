@@ -95,10 +95,10 @@ const useStyles = makeStyles((theme) => ({
 
 const getTitle = (
   value: ConditionalRuleInput & Pick<BaseEntity, 'id'>,
-  definition: ConditionalRuleDefinition,
-  variables: Variable[]
+  variables: Variable[],
+  definition?: ConditionalRuleDefinition
 ) => {
-  if (!value?.type) {
+  if (!value?.type || !definition?.type) {
     return [];
   }
 
@@ -143,9 +143,9 @@ const BaseConditionalRulesRule = ({
 
   const Component = definition?.Component;
 
-  const [title, setTitle] = useState(getTitle(value, definition, variables));
+  const [title, setTitle] = useState(getTitle(value, variables, definition));
 
-  useDebounce(() => setTitle(getTitle(value, definition, variables)), 750, [
+  useDebounce(() => setTitle(getTitle(value, variables, definition)), 750, [
     value,
     definition,
     variables,
@@ -156,7 +156,7 @@ const BaseConditionalRulesRule = ({
       className={classNames(classes.content, 'conditional-rules-rule')}
       elevation={2}
       onChange={(event, expanded) =>
-        expanded ? onEdit(value.id) : onEditClose(value.id)
+        expanded ? onEdit?.(value.id) : onEditClose?.(value.id)
       }
       expanded={isEdit}
     >
@@ -205,7 +205,7 @@ const BaseConditionalRulesRule = ({
         </Stack>
       </AccordionSummary>
       <AccordionDetails>
-        {Component && (
+        {Component && definition && (
           <Component
             fieldVariant={fieldVariant}
             definition={definition}

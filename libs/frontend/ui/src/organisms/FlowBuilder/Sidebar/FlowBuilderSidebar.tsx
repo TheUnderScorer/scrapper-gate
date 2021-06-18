@@ -78,14 +78,14 @@ export const FlowBuilderSidebar = () => {
         <Stack spacing={2} direction="column" className={classes.grid}>
           <Typography variant="h6">List of steps</Typography>
           <FilterTextField<Selection<BaseNodeSelectionProperties>>
-            items={selection}
+            items={selection ?? []}
             onItemsChange={setFilteredSelection}
             filterKeys={['label']}
             placeholder="Search steps..."
           />
           {Boolean(filteredSelection?.length) && (
             <List className={classes.list}>
-              {filteredSelection.map((selection) => (
+              {filteredSelection?.map((selection) => (
                 <FlowBuilderSidebarItem
                   className={`item-${selection.value.type}`}
                   item={selection}

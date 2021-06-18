@@ -10,6 +10,7 @@ import {
   Tooltip,
 } from '@material-ui/core';
 import { Add, Code } from '@material-ui/icons';
+import { Maybe } from '@scrapper-gate/shared/common';
 import { SelectorType } from '@scrapper-gate/shared/schema';
 import React from 'react';
 import { Key } from 'ts-key-enum';
@@ -25,7 +26,7 @@ export interface HtmlElementPickerInputProps
       'shouldAddSelectorOnEnter' | 'TextFieldComponent'
     > {
   mode: SelectorType.Selector | SelectorType.TextContent;
-  value: string;
+  value: Maybe<string>;
   onSelectChange: SelectProps['onChange'];
   onEnter?: () => unknown;
   error?: string;

@@ -1,6 +1,6 @@
 type FirstLast = <T extends unknown[] | string>(item: T) => T[0];
 
-export const first: FirstLast = <T>(item: T) => {
+export const first: FirstLast = <T extends string | unknown[]>(item: T) => {
   return item[0];
 };
 

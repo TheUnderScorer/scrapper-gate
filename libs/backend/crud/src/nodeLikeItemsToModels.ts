@@ -10,7 +10,7 @@ const propertiesToOverwrite: Array<
 ];
 
 export interface NodeLikeItemsParams<
-  Model extends BaseModel<unknown>,
+  Model extends BaseModel<NodeLikeItem> & NodeLikeItem,
   Input extends NodeLikeItemInput
 > {
   input: Input[];
@@ -18,11 +18,15 @@ export interface NodeLikeItemsParams<
   createModel: (input: Input) => Model;
 }
 
+interface MappedItems<T> extends NodeLikeItemInput {
+  model: T;
+}
+
 /**
  * Parses node like items and builds relation from them using given database model
  * */
 export const nodeLikeItemsToModels = <
-  Model extends BaseModel<unknown>,
+  Model extends BaseModel<NodeLikeItem> & NodeLikeItem,
   Input extends NodeLikeItemInput
 >({
   input,
@@ -32,20 +36,20 @@ export const nodeLikeItemsToModels = <
   const existingStepIds = existingSteps.map((step) => step.id);
 
   return input
-    .map((step) => ({
-      model: createModel(step),
-      nextStepId: step.nextStepId,
-      stepIdOnTrue: step.stepIdOnTrue,
-      stepIdOnFalse: step.stepIdOnFalse,
-    }))
+    .map(
+      (step) =>
+        ({
+          model: createModel(step),
+          nextStepId: step.nextStepId,
+          stepIdOnTrue: step.stepIdOnTrue,
+          stepIdOnFalse: step.stepIdOnFalse,
+        } as MappedItems<Model>)
+    )
     .map(({ model }, index, array) => {
       const oldId = model.id;
 
       if (!existingStepIds.includes(model.id)) {
-        // Ensure that we won't use client generated id
-        delete model.id;
-
-        model.generateId();
+        model.generateId(true);
       }
 
       if (oldId) {

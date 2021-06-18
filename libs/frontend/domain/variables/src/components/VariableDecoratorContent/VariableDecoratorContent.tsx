@@ -36,7 +36,9 @@ const BaseVariableDecoratorContent = ({
       title={
         variable ? (
           <VariableDetails className={classes.details} variable={variable} />
-        ) : null
+        ) : (
+          ''
+        )
       }
     >
       <span

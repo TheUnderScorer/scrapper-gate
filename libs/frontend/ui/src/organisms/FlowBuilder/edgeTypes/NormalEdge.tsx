@@ -1,3 +1,7 @@
+import { makeStyles } from '@material-ui/core/styles';
+import { getById } from '@scrapper-gate/shared/common';
+import { elseBranch, when } from '@theunderscorer/when';
+import classNames from 'classnames';
 import React, { useCallback, useMemo } from 'react';
 import {
   Edge,
@@ -6,17 +10,13 @@ import {
   getMarkerEnd,
   getSmoothStepPath,
 } from 'react-flow-renderer';
-import classNames from 'classnames';
-import { makeStyles } from '@material-ui/core/styles';
+import { BaseNodeProperties } from '../FlowBuilder.types';
 import {
   FlowBuilderItemsContext,
   useFlowBuilderItemsSelector,
 } from '../providers/FlowBuilderItems.provider';
-import { BaseNodeProperties } from '../FlowBuilder.types';
-import { getById } from '@scrapper-gate/shared/common';
-import { NormalEdgeVariations } from './NormalEdge.types';
 import { useFlowBuilderContextSelector } from '../providers/FlowBuilderProps.provider';
-import { elseBranch, when } from '@theunderscorer/when';
+import { NormalEdgeVariations } from './NormalEdge.types';
 
 export interface NormalEdgeProps
   extends Pick<
@@ -77,15 +77,13 @@ export const NormalEdge = ({
   const handleData = useMemo<Partial<Edge<BaseNodeProperties>> | null>(() => {
     const handleId = sourceHandleId ?? data?.sourceHandle;
 
-    if (!node || !handleId) {
+    if (!node?.type || !handleId || !nodeTypes?.[node.type]) {
       return null;
     }
 
-    if (!node || !nodeTypes[node.type]) {
-      return null;
-    }
-
-    return nodeTypes[node.type]?.handlesData?.[handleId] ?? null;
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    return nodeTypes?.[node.type]?.handlesData?.[handleId] ?? null;
   }, [sourceHandleId, data, node, nodeTypes]);
 
   const variantValue = variant ?? handleData?.data?.edgeVariation;

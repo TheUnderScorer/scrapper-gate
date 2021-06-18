@@ -74,7 +74,7 @@ const BaseVariablesTableRow = ({
       <TableCell>
         <Tooltip title="Remove variable">
           <IconButton
-            onClick={() => onDelete(index)}
+            onClick={() => onDelete?.(index)}
             className={classNames(classes.delete, 'delete-variable')}
           >
             <Delete />

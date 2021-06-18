@@ -27,7 +27,8 @@ export interface VariableProviderProps {
   filter?: (variables: Variable[]) => Variable[];
 }
 
-const defaultValue = [];
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const defaultValue: any[] = [];
 
 const Context = createContext<VariablesProviderContext>({
   variables: defaultValue,

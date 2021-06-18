@@ -1,3 +1,4 @@
+import { Maybe } from '@scrapper-gate/shared/common';
 import {
   Connection,
   Edge,
@@ -19,7 +20,7 @@ export interface FlowBuilderAddApi<T extends BaseNodeProperties> {
   items: FlowBuilderItem<T>[];
   getNodes: () => Node<T>[];
   getFurthestNode: (pos: 'x' | 'y') => Node<T>;
-  sourceNode: NodeProps<T>;
+  sourceNode?: NodeProps<T>;
   position?: XYPosition;
 }
 
@@ -157,5 +158,5 @@ export interface NodesCreatorApi<
   S extends BaseNodeSelectionProperties
 > {
   handleConnect: (params: Connection, items: FlowBuilderItem<T>[]) => Edge;
-  createNode: (selection: Selection<S>) => Promise<FlowBuilderItem<T>[]>;
+  createNode: (selection: Selection<S>) => Promise<Maybe<FlowBuilderItem<T>[]>>;
 }

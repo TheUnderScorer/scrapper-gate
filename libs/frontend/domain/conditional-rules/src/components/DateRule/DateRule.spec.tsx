@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Box } from '@material-ui/core';
 import { LocalizationProvider } from '@material-ui/lab';
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
@@ -111,7 +112,7 @@ describe('<DateRule />', () => {
 
     await act(async () => {
       userEvent.type(
-        cmp.container.querySelector('[name="rules[0].rules[0]value"]'),
+        cmp.container.querySelector('[name="rules[0].rules[0]value"]')!,
         format(now, DateFormat.Date)
       );
 

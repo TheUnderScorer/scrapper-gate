@@ -1,14 +1,16 @@
-import React, { useCallback, useEffect, useState } from 'react';
 import { Fade } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
-import { Alert } from '@material-ui/lab';
 import { makeStyles } from '@material-ui/core/styles';
+import { Alert } from '@material-ui/lab';
+import { Maybe } from '@scrapper-gate/shared/common';
+import { Nullable } from 'functional-cqrs/build/typings/common';
+import React, { useCallback, useEffect, useState } from 'react';
 
 export interface ErrorAlertProps {
   /**
    * Error to display in alert
    * */
-  error?: Error;
+  error?: Nullable<Error>;
   onClose?: () => void;
   className?: string;
 }
@@ -25,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 export const ErrorAlert = ({ error, onClose, className }: ErrorAlertProps) => {
   const classes = useStyles();
 
-  const [currentError, setCurrentError] = useState(error);
+  const [currentError, setCurrentError] = useState<Maybe<Error>>(error);
 
   useEffect(() => {
     setCurrentError(error);

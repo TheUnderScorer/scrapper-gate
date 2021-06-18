@@ -42,7 +42,7 @@ export const useRemoveItems = () => {
 
       const filteredItems = onRemove?.(
         itemsToDelete.filter(
-          (item) => !getById(items, item.id).data?.cannotBeDeleted
+          (item) => !getById(items, item.id)?.data?.cannotBeDeleted
         ),
         {
           removeElements,

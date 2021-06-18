@@ -107,7 +107,7 @@ export const VariablesTable = ({ name, scope }: VariablesTableProps) => {
           {variables.map((variable, index) => (
             <VariablesTableRow
               scope={variable.scope}
-              type={variable.type}
+              type={variable.type ?? VariableType.Text}
               name={`${name}[${index}]`}
               index={index}
               key={variable.id}

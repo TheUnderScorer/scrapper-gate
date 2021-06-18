@@ -1,4 +1,4 @@
-import { Message, MessageResult } from './types';
+import { Message, MessageResult } from './messageResult.types';
 import { browser } from 'webextension-polyfill-ts';
 import { logger } from '@scrapper-gate/frontend/logger';
 

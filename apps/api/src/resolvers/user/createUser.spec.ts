@@ -46,7 +46,7 @@ describe('Create user', () => {
       .resolve<UserRepository>('userRepository')
       .findOne(result.data.createUser.user.id);
 
-    expect(user.email).toEqual(email);
+    expect(user?.email).toEqual(email);
   });
 
   it('should throw if e-mail is already taken', async () => {

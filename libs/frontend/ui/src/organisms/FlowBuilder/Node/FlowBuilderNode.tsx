@@ -55,7 +55,7 @@ const BaseFlowBuilderNode = forwardRef<HTMLDivElement, FlowBuilderNodeProps>(
 
     const menuItems = useMemo<MenuItemProperties[]>(() => {
       if (node.data.cannotBeDeleted) {
-        return dropdownMenu?.(node);
+        return dropdownMenu?.(node) ?? [];
       }
 
       return [

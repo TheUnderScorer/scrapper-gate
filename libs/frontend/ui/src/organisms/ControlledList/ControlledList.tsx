@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, {
   ElementType,
   ReactElement,
@@ -136,7 +137,7 @@ export const ControlledList = <
     return (
       <List
         id={id}
-        component={component}
+        component={component!}
         className={classNames(classes.list, className, 'controlled-list')}
       >
         {items.map((item) => renderItem({ item, style: {} }))}

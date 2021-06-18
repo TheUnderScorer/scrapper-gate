@@ -41,7 +41,7 @@ export const FormSelect = ({
   initialOpen,
   ...props
 }: PropsWithChildren<FormSelectProps>) => {
-  const [open, toggleOpen] = useToggle(initialOpen);
+  const [open, toggleOpen] = useToggle(Boolean(initialOpen));
 
   const {
     input,

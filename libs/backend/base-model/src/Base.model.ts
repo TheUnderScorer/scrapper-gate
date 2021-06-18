@@ -25,8 +25,8 @@ export class BaseModel<T> extends DataObject<T> implements BaseEntity {
   deletedAt?: Date;
 
   @BeforeInsert()
-  generateId() {
-    if (this.id) {
+  generateId(force?: boolean) {
+    if (this.id && !force) {
       return;
     }
 
