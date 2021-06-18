@@ -1,5 +1,6 @@
+import { VariablesTextField } from '@scrapper-gate/frontend/domain/variables';
+import { FieldNameCreator } from '@scrapper-gate/frontend/form';
 import React from 'react';
-import { FieldNameCreator, FormTextField } from '@scrapper-gate/frontend/form';
 
 interface ScrapperKeyProps {
   disabled?: boolean;
@@ -10,8 +11,8 @@ export const ScrapperKey = ({
   disabled,
   fieldNameCreator,
 }: ScrapperKeyProps) => (
-  <FormTextField
-    helperText="Helpful in identifying steps."
+  <VariablesTextField
+    helperText="Will be used as value key."
     disabled={disabled}
     label="Step name"
     name={fieldNameCreator('key')}

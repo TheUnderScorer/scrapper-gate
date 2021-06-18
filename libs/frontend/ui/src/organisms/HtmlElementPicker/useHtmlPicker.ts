@@ -22,10 +22,10 @@ export interface UseHtmlPickerProps
   > {
   open: boolean;
   getValueByMode: (element: Element) => Selector;
-  appendElement: (target: HTMLElement, event: Event) => void;
+  appendElement: (target: Element, event: Event) => void;
   mode: SelectorType;
   clickEnabled: boolean;
-  elementDropdownRef: MutableRefObject<HTMLDivElement>;
+  elementDropdownRef: MutableRefObject<HTMLDivElement | undefined>;
   uniqueSelector: UniqueSelector;
 }
 
@@ -96,6 +96,10 @@ export const useHtmlPicker = ({
           !elementDropdownRef.current?.contains(element) &&
           !ignoredElementsContainer?.contains(element),
         onElementSelect: (element) => {
+          if (!pickerRef.current) {
+            return;
+          }
+
           const isHighLight = element?.classList?.contains(prefix('highlight'));
 
           if (!element || isHighLight) {
@@ -151,6 +155,8 @@ export const useHtmlPicker = ({
   useEffect(() => {
     if (!selectedElement) {
       setSelectedElementSelector(null);
+
+      return;
     }
 
     setSelectedElementSelector(uniqueSelector(selectedElement));

@@ -6,7 +6,12 @@ export const variablesSchema = gql`
   enum VariableScope {
     Global
     Scrapper
-    Workflow
+  }
+
+  enum VariableType {
+    Text
+    Number
+    Date
   }
 
   type Variable implements BaseEntity {
@@ -16,22 +21,18 @@ export const variablesSchema = gql`
     deletedAt: Date
     defaultValue: VariableValue
     value: VariableValue
-    key: String!
-    kind: String
+    key: String
     isBuiltIn: Boolean
     scope: VariableScope!
-  }
-
-  enum BaseVariableKind {
-    BuiltIn
+    type: VariableType
   }
 
   input VariableInput {
     id: ID
     defaultValue: VariableValue
     value: VariableValue
-    key: String!
-    kind: String
+    key: String
     scope: VariableScope!
+    type: VariableType
   }
 `;

@@ -1,7 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { browser } from 'webextension-polyfill-ts';
 import { handlers } from './extension/background/messageHandlers/handlers';
-import { Message, MessageTypes } from './extension/browser/communication/types';
+import {
+  Message,
+  MessageTypes,
+} from './extension/browser/communication/messageResult.types';
 import { logger } from '@scrapper-gate/frontend/logger';
 import { cleanupStoresForTab } from './extension/background/cleanupStoresForTab';
 import { cleanupOnInit } from './extension/background/cleanupOnInit';
@@ -13,7 +16,8 @@ browser.runtime.onMessage.addListener(
     logger.debug('Received message:', message);
 
     if (handlers[message.type]) {
-      const handler = handlers[message.type];
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      const handler = handlers[message.type]!;
       const response = await handler(message as any, sender);
 
       logger.debug(`Response for message ${message.type}: `, response);
@@ -25,9 +29,11 @@ browser.runtime.onMessage.addListener(
   }
 );
 
-cleanupOnInit()
-  .then(() => logger.debug('Cleanup on init done.'))
-  .catch((err) => logger.error('Cleanup on init failed:', err));
+browser.runtime.onInstalled.addListener(() => {
+  cleanupOnInit()
+    .then(() => logger.debug('Cleanup on init done.'))
+    .catch((err) => logger.error('Cleanup on init failed:', err));
+});
 
 browser.tabs.onRemoved.addListener(async (tabId) => {
   const {

@@ -4,7 +4,7 @@ export const authSchema = gql`
   directive @auth on FIELD_DEFINITION
 
   type AuthTokens {
-    accessToken: String!
-    refreshToken: String!
+    accessToken: String
+    refreshToken: String
   }
 `;

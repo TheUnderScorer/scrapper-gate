@@ -38,3 +38,8 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# E2E stuff
+
+apps/browser-extension-e2e/src/ctx
+test-results

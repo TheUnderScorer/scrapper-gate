@@ -25,12 +25,13 @@ export const ConditionalSections = ({
   const rules = useMemo<ConditionalRulesSelection[]>(
     () => [
       dateRule,
-      makeHtmlElementRuleWithPicker((name) => (
+      makeHtmlElementRuleWithPicker(({ name, variant }) => (
         <ElementPicker
           {...rest}
           name={name}
           fieldNameCreator={fieldNameCreator}
           disabled={formState.submitting}
+          variant={variant}
         />
       )),
     ],
@@ -48,6 +49,7 @@ export const ConditionalSections = ({
         helperText="Configure conditional rules for this step"
         definitions={rules}
         name={fieldNameCreator('conditionalRules')}
+        fieldVariant="standard"
         initialValue={[
           {
             type: ConditionalRuleGroupType.Any,

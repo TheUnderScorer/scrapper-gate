@@ -4,6 +4,16 @@ const CopyPlugin = require('copy-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const webpack = require('webpack');
 
+function makeShim(baseConfig, regex) {
+  baseConfig.plugins.push(
+    new webpack.NormalModuleReplacementPlugin(regex, (resource) => {
+      const srcPath = path.resolve(path.join(__dirname, '../../tools/shim.js'));
+
+      resource.request = resource.request.replace(regex, srcPath);
+    })
+  );
+}
+
 module.exports = (baseConfig) => {
   const config = createConfig(baseConfig);
 
@@ -41,15 +51,13 @@ module.exports = (baseConfig) => {
     config.devServer.writeToDisk = true;
     config.devServer.disableHostCheck = true;
     config.devServer.injectClient = false;
+    config.devServer.watchOptions = {
+      ignored: /node_modules/,
+    };
   }
 
-  baseConfig.plugins.push(
-    new webpack.NormalModuleReplacementPlugin(/faker/, (resource) => {
-      const srcPath = path.resolve(path.join(__dirname, '../../tools/shim.js'));
-
-      resource.request = resource.request.replace(/faker/, srcPath);
-    })
-  );
+  makeShim(baseConfig, /faker/);
+  makeShim(baseConfig, /@testing-library.*/);
 
   if (config.mode === 'development') {
     config.devtool = 'cheap-module-source-map';
@@ -61,6 +69,8 @@ module.exports = (baseConfig) => {
     config.resolve.symlinks = false;
     config.output.pathinfo = false;
   } else {
+    delete config.devtool;
+
     if (process.env.ANALYZE_BUNDLE === 'true') {
       config.plugins.push(
         new BundleAnalyzerPlugin({

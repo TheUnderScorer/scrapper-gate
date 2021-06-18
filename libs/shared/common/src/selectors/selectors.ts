@@ -1,9 +1,9 @@
+import { Selector, SelectorType } from '@scrapper-gate/shared/schema';
 import {
   mapSelectorsToXpathExpression,
   selectorToXpathExpression,
   xpathResultToArray,
 } from './xpath';
-import { Selector, SelectorType } from '@scrapper-gate/shared/schema';
 
 export interface SelectorAggregate extends Selector {
   elements: HTMLElement[];
@@ -13,22 +13,26 @@ export const handleSelector = (
   selector: Selector,
   document: Document
 ): HTMLElement[] => {
-  switch (selector.type) {
-    case SelectorType.TextContent:
-      return xpathResultToArray(
-        document.evaluate(
-          selectorToXpathExpression(selector),
-          document,
-          null,
-          XPathResult.ORDERED_NODE_ITERATOR_TYPE
-        )
-      );
+  try {
+    switch (selector.type) {
+      case SelectorType.TextContent:
+        return xpathResultToArray(
+          document.evaluate(
+            selectorToXpathExpression(selector),
+            document,
+            null,
+            XPathResult.ORDERED_NODE_ITERATOR_TYPE
+          )
+        );
 
-    case SelectorType.Selector:
-    default:
-      return Array.from(
-        document.querySelectorAll(selector.value)
-      ) as HTMLElement[];
+      case SelectorType.Selector:
+      default:
+        return Array.from(
+          document.querySelectorAll(selector.value)
+        ) as HTMLElement[];
+    }
+  } catch {
+    return [];
   }
 };
 
@@ -36,23 +40,14 @@ export const getSelectorWithElementsAggregate = (
   selectors: Selector[],
   document: Document,
   ignoredElementsContainer?: HTMLElement
-): SelectorAggregate[] => {
-  const result = selectors.map((selector) => ({
+): SelectorAggregate[] =>
+  selectors.map((selector) => ({
     ...selector,
-    elements: handleSelector(selector, document),
-  }));
-
-  if (!ignoredElementsContainer) {
-    return result;
-  }
-
-  return result.map((item) => ({
-    ...item,
-    elements: item.elements.filter(
-      (element) => !ignoredElementsContainer.contains(element)
+    elements: handleSelector(selector, document).filter(
+      (element) =>
+        !ignoredElementsContainer || !ignoredElementsContainer.contains(element)
     ),
   }));
-};
 
 export const getElementsBySelectors = (
   selectors: Selector[],

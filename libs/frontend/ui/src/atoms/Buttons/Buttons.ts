@@ -1,14 +1,20 @@
-import { Button, Fab } from '@material-ui/core';
+import { Button, ButtonProps, Fab } from '@material-ui/core';
 import { styled } from '@material-ui/styles';
+import { ComponentType } from 'react';
 
-export const PrimaryLightButton = styled(Button)(({ theme }) => ({
-  '&, &:hover': {
-    backgroundColor: theme.palette.primary.light,
-    color: theme.palette.primary.dark,
-  },
-}));
+export const PrimaryLightButton: ComponentType<ButtonProps> = styled(Button)(
+  ({ theme }) => ({
+    '&, &:hover': {
+      backgroundColor: theme.palette.primary.light,
+      color: theme.palette.primary.dark,
+    },
+  }),
+  {}
+);
 
-//PrimaryLightButton.defaultProps = defaultProps;
+PrimaryLightButton.defaultProps = {
+  variant: 'text',
+};
 
 export const PrimaryLightIconButton = styled(Fab)(({ theme }) => ({
   '&.MuiFab-root, &.MuiFab-root:hover': {

@@ -1,39 +1,39 @@
+import { Box, Button, Divider, Grid, Tooltip } from '@material-ui/core';
+import { Colorize } from '@material-ui/icons';
+import { addHighlight, removeHighlight } from '@scrapper-gate/frontend/common';
+import { makeUniqueSelector } from '@scrapper-gate/frontend/html-picker';
+import {
+  getElementsBySelectors,
+  removeAtIndex,
+} from '@scrapper-gate/shared/common';
+import { InvalidSelectorProvidedError } from '@scrapper-gate/shared/errors';
+import { Selector, SelectorType } from '@scrapper-gate/shared/schema';
 import React, {
-  ChangeEventHandler,
+  MutableRefObject,
   useCallback,
   useEffect,
   useMemo,
   useRef,
   useState,
 } from 'react';
-import { Box, Button, Divider, Grid, Tooltip } from '@material-ui/core';
-import { Colorize } from '@material-ui/icons';
-import { useDebounce, useKey, useToggle, useUnmount } from 'react-use';
 import { createPortal } from 'react-dom';
 import { useField } from 'react-final-form';
-import { HtmlElementPickerSnackbar } from './Snackbar/HtmlElementPickerSnackbar';
+import { useDebounce, useKey, useToggle, useUnmount } from 'react-use';
+import { uniqBy } from 'remeda';
+import { Key } from 'ts-key-enum';
+import { TooltipText } from '../../atoms/TooltipText/TooltipText';
 import { SelectorsList } from '../../molecules/SelectorsList/SelectorsList';
+import { HtmlElementPickerElementDropdown } from './ElementDropdown/HtmlElementPickerElementDropdown';
 import {
   HtmlElementPickerProps,
   HtmlElementPickerValidationRules,
 } from './HtmlElementPicker.types';
-import {
-  getElementsBySelectors,
-  removeAtIndex,
-} from '@scrapper-gate/shared/common';
-import { makeUniqueSelector } from '@scrapper-gate/frontend/html-picker';
-import { Selector, SelectorType } from '@scrapper-gate/shared/schema';
-import { addHighlight, removeHighlight } from '@scrapper-gate/frontend/common';
-import { TooltipText } from '../../atoms/TooltipText/TooltipText';
+import { HtmlElementPickerInput } from './Input/HtmlElementPickerInput';
+import { HtmlElementPickerSnackbar } from './Snackbar/HtmlElementPickerSnackbar';
 import { useHtmlPicker } from './useHtmlPicker';
 import { useHtmlPickerValidator } from './useHtmlPickerValidator';
-import { HtmlElementPickerInput } from './Input/HtmlElementPickerInput';
-import { InvalidSelectorProvidedError } from '@scrapper-gate/shared/errors';
-import { uniqBy } from 'remeda';
-import { HtmlElementPickerElementDropdown } from './ElementDropdown/HtmlElementPickerElementDropdown';
-import { Key } from 'ts-key-enum';
 
-const initialValue = [];
+const initialValue: Selector[] = [];
 
 export const HtmlElementPicker = ({
   name,
@@ -51,19 +51,15 @@ export const HtmlElementPicker = ({
   defaultMode = SelectorType.Selector,
   highlightId,
   portal = container,
+  filterSelectorsForValidation,
+  shouldAddSelectorOnEnter,
+  TextFieldComponent,
 }: HtmlElementPickerProps) => {
   const [open, toggleOpen] = useToggle(false);
   const [clickEnabled, toggleClickEnabled] = useToggle(false);
   const [multiSelect, toggleMultiSelect] = useToggle(true);
 
   const [textFieldValue, setTextFieldValue] = useState<string | null>('');
-  const handleTextFieldValueChange: ChangeEventHandler<HTMLInputElement> = useCallback(
-    (e) => {
-      setTextFieldValue(e.target.value);
-    },
-    []
-  );
-
   const [mode, setMode] = useState(defaultMode);
 
   const id = useMemo(() => `html-element-picker-${highlightId ?? name}`, [
@@ -75,10 +71,19 @@ export const HtmlElementPicker = ({
     [id]
   );
 
+  const getSelectorsForValidation = useCallback(
+    (selectors: Selector[]) =>
+      filterSelectorsForValidation
+        ? filterSelectorsForValidation(selectors)
+        : selectors,
+    [filterSelectorsForValidation]
+  );
+
   const validate = useHtmlPickerValidator({
     pickerDisabled,
     validationRules,
     elementsValidator,
+    filterSelectorsForValidation: getSelectorsForValidation,
   });
 
   const {
@@ -102,7 +107,7 @@ export const HtmlElementPicker = ({
         case SelectorType.TextContent:
           return {
             type: mode,
-            value: element.textContent,
+            value: element.textContent ?? '',
           };
 
         default:
@@ -127,8 +132,13 @@ export const HtmlElementPicker = ({
       type: mode,
     };
 
+    const [filteredSelector] = getSelectorsForValidation([newSelector]);
+
     if (
-      validationRules.includes(HtmlElementPickerValidationRules.ValidSelector)
+      validationRules.includes(
+        HtmlElementPickerValidationRules.ValidSelector
+      ) &&
+      filteredSelector
     ) {
       try {
         getElementsBySelectors([newSelector], document);
@@ -145,7 +155,14 @@ export const HtmlElementPicker = ({
 
     setTextFieldValue('');
     onChange(newValue);
-  }, [textFieldValue, value, mode, validationRules, onChange]);
+  }, [
+    textFieldValue,
+    value,
+    mode,
+    getSelectorsForValidation,
+    validationRules,
+    onChange,
+  ]);
 
   const handleDelete = useCallback(
     (index: number) => {
@@ -161,7 +178,7 @@ export const HtmlElementPicker = ({
   );
 
   const appendElement = useCallback(
-    (target: HTMLElement, event?: Event) => {
+    (target: Element, event?: Event) => {
       if (
         ignoredElementsContainer?.contains(target) ||
         event?.type === 'mousemove'
@@ -231,7 +248,7 @@ export const HtmlElementPicker = ({
       if (value) {
         try {
           const elements = getElementsBySelectors(
-            value,
+            getSelectorsForValidation(value),
             document
           ).filter((element) =>
             ignoredElementsContainer
@@ -249,7 +266,7 @@ export const HtmlElementPicker = ({
       }
     },
     500,
-    [value, id, ignoredElementsContainer]
+    [value, id, ignoredElementsContainer, getSelectorsForValidation]
   );
 
   useUnmount(() => {
@@ -259,14 +276,16 @@ export const HtmlElementPicker = ({
 
   const input = (
     <HtmlElementPickerInput
+      name={name}
+      TextFieldComponent={TextFieldComponent}
+      shouldAddSelectorOnEnter={shouldAddSelectorOnEnter}
       onAdd={handleAdd}
       label={label}
       error={error?.message}
-      name={name}
       mode={mode}
       helperText={helperText}
       variant={variant}
-      onChange={handleTextFieldValueChange}
+      onChange={setTextFieldValue}
       value={textFieldValue}
       onEnter={handleAdd}
       onSelectChange={(event) => setMode(event.target.value as SelectorType)}
@@ -329,9 +348,13 @@ export const HtmlElementPicker = ({
         )}
       <HtmlElementPickerElementDropdown
         onSelectedElementChange={setTarget}
-        onSelect={() => appendElement(selectedElement)}
+        onSelect={() => {
+          if (selectedElement) {
+            appendElement(selectedElement);
+          }
+        }}
         selector={selectedElementSelector}
-        ref={elementDropdownRef}
+        ref={elementDropdownRef as MutableRefObject<HTMLDivElement>}
         selectedElement={selectedElement}
       />
     </Grid>

@@ -5,9 +5,9 @@ import { withActions } from '@storybook/addon-actions';
 
 import { SnackbarProvider } from 'notistack';
 import React from 'react';
-import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns';
 import { ThemeProvider } from '../../../theme/src';
+import { LocalizationProvider } from '@material-ui/lab';
+import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 
 addDecorator(withKnobs);
 
@@ -17,9 +17,9 @@ addDecorator((storyFn) => {
   return (
     <ThemeProvider>
       <SnackbarProvider>
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
           {storyFn()}
-        </MuiPickersUtilsProvider>
+        </LocalizationProvider>
       </SnackbarProvider>
     </ThemeProvider>
   );

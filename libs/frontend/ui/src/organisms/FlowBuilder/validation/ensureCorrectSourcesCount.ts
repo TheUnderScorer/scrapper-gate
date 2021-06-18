@@ -41,9 +41,9 @@ const getInvalidEdges = (
       return false;
     }
 
-    const count = sourcesCount.get(key) + 1;
+    const count = (sourcesCount.get(key) ?? 0) + 1;
     const node = nodeEdges.nodes.get(edge.source);
-    const allowedSourcesCount = getAllowedCountForType(node.type ?? '');
+    const allowedSourcesCount = getAllowedCountForType(node?.type ?? '');
 
     sourcesCount.set(key, count);
 
@@ -70,20 +70,23 @@ export const makeEnsureCorrectSourcesCount = (
 
       if (invalidEdges.length) {
         return {
-          invalidNodes: invalidEdges.reduce((acc, edge) => {
-            const node = nodeEdges.nodes.get(edge.source);
-            const limit = getAllowedCountForType(node.type ?? '');
+          invalidNodes: invalidEdges.reduce<Record<string, Error>>(
+            (acc, edge) => {
+              const node = nodeEdges.nodes.get(edge.source);
+              const limit = getAllowedCountForType(node?.type ?? '');
 
-            acc[edge.source] = new Error(
-              wordFormByNumber(
-                'This node can have only one source connection.',
-                `This node can have only ${limit} source connections.`,
-                limit
-              )
-            );
+              acc[edge.source] = new Error(
+                wordFormByNumber(
+                  'This node can have only one source connection.',
+                  `This node can have only ${limit} source connections.`,
+                  limit
+                )
+              );
 
-            return acc;
-          }, {}),
+              return acc;
+            },
+            {}
+          ),
         };
       }
 
@@ -93,6 +96,10 @@ export const makeEnsureCorrectSourcesCount = (
       connection,
       items,
     }: IsValidConnectionParams<BaseNodeProperties>) => {
+      if (!props.onConnect) {
+        return true;
+      }
+
       const mockEdge = props.onConnect(connection);
 
       const { invalidEdges } = getInvalidEdges([...items, mockEdge], props);

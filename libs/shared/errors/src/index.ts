@@ -5,3 +5,4 @@ export * from './UnauthorizedError';
 export * from './html/InvalidSelectorProvidedError';
 export * from './scrapper/ScrapperNotFoundError';
 export * from './scrapper/ScrapperRunError';
+export * from './browserExtension/NoActiveTabFoundError';

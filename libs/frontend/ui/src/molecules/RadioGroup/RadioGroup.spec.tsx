@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { render, RenderResult, act } from '@testing-library/react';
 import fireEvent from '@testing-library/user-event';
 import { Form } from 'react-final-form';
@@ -37,15 +38,15 @@ describe('<RadioGroup />', () => {
     const item = container.querySelector('.selectable-paper');
 
     act(() => {
-      fireEvent.click(item);
+      fireEvent.click(item!);
     });
 
     let checked: Element | null = container.querySelector('.checked');
     expect(checked).toBeDefined();
-    expect(checked.textContent).toContain('Value 1');
+    expect(checked!.textContent).toContain('Value 1');
 
     act(() => {
-      fireEvent.click(checked);
+      fireEvent.click(checked!);
     });
 
     checked = container.querySelector('.checked');

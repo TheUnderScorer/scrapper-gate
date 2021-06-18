@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { render, fireEvent, act } from '@testing-library/react';
 import React from 'react';
 import { CollapsableCard } from './CollapsableCard';
@@ -10,16 +11,16 @@ describe('<CollapsableCard />', () => {
     const summary = container.querySelector('.MuiAccordionSummary-content');
 
     act(() => {
-      fireEvent.click(summary);
+      fireEvent.click(summary!);
     });
 
-    expect(btn.classList.contains('expanded')).toBeFalsy();
+    expect(btn!.classList.contains('expanded')).toBeFalsy();
 
     act(() => {
-      fireEvent.click(btn);
+      fireEvent.click(btn!);
     });
 
-    expect(btn.classList.contains('expanded')).toBeTruthy();
+    expect(btn!.classList.contains('expanded')).toBeTruthy();
   });
 
   it('should handle close', () => {
@@ -32,7 +33,7 @@ describe('<CollapsableCard />', () => {
     expect(btn).toBeDefined();
 
     act(() => {
-      fireEvent.click(btn);
+      fireEvent.click(btn!);
     });
 
     expect(onClose).toHaveBeenCalledTimes(1);

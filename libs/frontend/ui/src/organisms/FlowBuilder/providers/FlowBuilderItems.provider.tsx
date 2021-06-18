@@ -3,7 +3,7 @@ import React, { ReactNode, useCallback, useEffect, useState } from 'react';
 import { useTimeoutFn } from 'react-use';
 import { useField, useForm } from 'react-final-form';
 import { createContext, useContextSelector } from 'use-context-selector';
-import { throwError } from '@scrapper-gate/shared/common';
+import { Maybe, throwError } from '@scrapper-gate/shared/common';
 import { useFlowBuilderContextSelector } from './FlowBuilderProps.provider';
 import {
   BaseNodeProperties,
@@ -18,8 +18,10 @@ export interface FlowBuilderItemsContext<T extends BaseNodeProperties> {
   getItems: () => FlowBuilderItem<T>[];
   setItems: (items: FlowBuilderItem<T>[]) => unknown;
   recentlyCreatedNodeIds?: string[];
-  connectionSource?: ConnectionSource;
-  setConnectionSource: (source: ConnectionSource) => unknown;
+  connectionSource?: Maybe<ConnectionSource>;
+  setConnectionSource: (source: Maybe<ConnectionSource>) => unknown;
+  nodesRecreated: boolean;
+  setNodesRecreated: (recreated: boolean) => unknown;
   afterCreate: (
     values: string[],
     items: FlowBuilderItem<T>[],
@@ -27,13 +29,16 @@ export interface FlowBuilderItemsContext<T extends BaseNodeProperties> {
   ) => unknown;
 }
 
-const Context = createContext<FlowBuilderItemsContext<unknown>>({
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const Context = createContext<FlowBuilderItemsContext<any>>({
   items: [],
   getItems: throwError(),
   setItems: throwError(),
   recentlyCreatedNodeIds: [],
   afterCreate: throwError(),
   setConnectionSource: throwError(),
+  nodesRecreated: false,
+  setNodesRecreated: throwError(),
 });
 
 export const useFlowBuilderItemsSelector = <Value extends unknown>(
@@ -43,6 +48,8 @@ export const useFlowBuilderItemsSelector = <Value extends unknown>(
 export const FlowBuilderItemsProvider = <T extends BaseNodeProperties>(props: {
   children: ReactNode;
 }) => {
+  const [nodesRecreated, setNodesRecreated] = useState(false);
+
   const onChange = useFlowBuilderContextSelector((ctx) => ctx.onChange);
 
   const {
@@ -58,13 +65,15 @@ export const FlowBuilderItemsProvider = <T extends BaseNodeProperties>(props: {
     [change]
   );
 
-  const getItems = useCallback(() => getState().values.items, [getState]);
+  const getItems = useCallback(() => getState().values.items ?? [], [getState]);
 
   const zoomHelper = useZoomPanHelper();
 
-  const [recentlyCreatedNodeIds, setRecentlyCreatedNodeIds] = useState([]);
+  const [recentlyCreatedNodeIds, setRecentlyCreatedNodeIds] = useState<
+    string[]
+  >([]);
   const [connectionSource, setConnectionSource] = useState<
-    ConnectionSource | undefined
+    Maybe<ConnectionSource>
   >();
 
   const [, , resetTimeout] = useTimeoutFn(
@@ -108,6 +117,8 @@ export const FlowBuilderItemsProvider = <T extends BaseNodeProperties>(props: {
         afterCreate,
         setConnectionSource,
         connectionSource,
+        nodesRecreated,
+        setNodesRecreated,
       }}
     >
       {props.children}

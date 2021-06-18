@@ -6,6 +6,7 @@ import {
   Stack,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { getDisplayValue } from '@scrapper-gate/shared/common';
 import { Variable } from '@scrapper-gate/shared/schema';
 import classNames from 'classnames';
 import React from 'react';
@@ -19,7 +20,7 @@ export interface VariableDetailsProps {
 
 const useStyles = makeStyles((theme) => ({
   header: {
-    background: theme.palette.greyVariant.dark,
+    background: theme.palette.greyVariant.A700,
   },
 }));
 
@@ -49,11 +50,18 @@ export const VariableDetails = ({
       <ListItem disableGutters>
         <ListItemText
           primary="Default value"
-          secondary={variable.defaultValue}
+          secondary={getDisplayValue({ value: variable.defaultValue }) ?? '-'}
         />
       </ListItem>
       <ListItem disableGutters>
-        <ListItemText primary="Current value" secondary={variable.value} />
+        <ListItemText
+          primary="Current value"
+          secondary={
+            getDisplayValue({
+              value: variable.value,
+            }) ?? '-'
+          }
+        />
       </ListItem>
     </List>
   );

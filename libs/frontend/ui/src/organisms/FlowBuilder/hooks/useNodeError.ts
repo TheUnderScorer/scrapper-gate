@@ -1,3 +1,4 @@
+import { FlowBuilderFormState } from '../FlowBuilder.types';
 import { useForm, useFormState } from 'react-final-form';
 import { useState } from 'react';
 import isEmpty from 'lodash.isempty';
@@ -26,7 +27,7 @@ export const useNodeError = (nodeId: string) => {
         return;
       }
 
-      const index = formState.values?.items?.findIndex(
+      const index = (formState.values as FlowBuilderFormState)?.items?.findIndex(
         (item) => item.id === nodeId
       );
 

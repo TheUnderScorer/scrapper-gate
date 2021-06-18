@@ -8,14 +8,26 @@ import {
   TextFieldProps,
 } from '@material-ui/core';
 import { useField } from 'react-final-form';
+import { useToggle } from 'react-use';
 
 export interface FormSelectProps
   extends Pick<
       SelectProps,
-      'multiple' | 'variant' | 'fullWidth' | 'defaultValue' | 'className'
+      | 'multiple'
+      | 'variant'
+      | 'fullWidth'
+      | 'defaultValue'
+      | 'className'
+      | 'onClick'
+      | 'onMouseDown'
+      | 'size'
+      | 'style'
+      | 'MenuProps'
+      | 'open'
     >,
     Pick<TextFieldProps, 'label' | 'helperText'> {
   name: string;
+  initialOpen?: boolean;
 }
 
 export const FormSelect = ({
@@ -26,8 +38,11 @@ export const FormSelect = ({
   children,
   multiple,
   helperText,
+  initialOpen,
   ...props
 }: PropsWithChildren<FormSelectProps>) => {
+  const [open, toggleOpen] = useToggle(Boolean(initialOpen));
+
   const {
     input,
     meta: { error },
@@ -39,7 +54,15 @@ export const FormSelect = ({
   return (
     <FormControl id={name} variant={variant} error={Boolean(error)}>
       {label && <InputLabel htmlFor={name}>{label}</InputLabel>}
-      <Select {...input} label={label} multiple={multiple} {...props}>
+      <Select
+        {...input}
+        open={open}
+        onOpen={() => toggleOpen(true)}
+        onClose={() => toggleOpen(false)}
+        label={label}
+        multiple={multiple}
+        {...props}
+      >
         {children}
       </Select>
       {(helperText || error) && (

@@ -1,7 +1,7 @@
 import { useLocation } from 'react-router';
 import { useMemo } from 'react';
 import { useMessageSender } from '../../browser/hooks/useMessageSender/useMessageSender';
-import { MessageTypes } from '../../browser/communication/types';
+import { MessageTypes } from '../../browser/communication/messageResult.types';
 import { Target } from '../../browser/hooks/useMessageSender/useMessageSender.types';
 import { useOnMessageListener } from '../../browser/hooks/useOnMessageListener/useOnMessageListener';
 import { useDebounce } from 'react-use';

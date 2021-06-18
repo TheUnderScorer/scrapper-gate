@@ -12,4 +12,5 @@ module.exports = {
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   coverageDirectory: '../../../../coverage/libs/backend/domain/scrapper',
   setupFilesAfterEnv: [`${process.cwd()}/tests/setupBackend.ts`],
+  testEnvironment: 'node',
 };

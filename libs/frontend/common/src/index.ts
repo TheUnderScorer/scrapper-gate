@@ -14,3 +14,4 @@ export * from './highlight';
 export * from './hooks/useLongPressValue';
 export * from './hooks/useIsUsingElementPicker';
 export * from './elementNavigator';
+export * from './setRefValue';

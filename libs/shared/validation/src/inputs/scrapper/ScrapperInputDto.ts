@@ -1,8 +1,9 @@
-import { ScrapperInput } from '@scrapper-gate/shared/schema';
-import { uuid } from '../../decorators/uuid';
+import { ScrapperInput, VariableInput } from '@scrapper-gate/shared/schema';
 import * as jf from 'joiful';
 import { BaseSchema } from '../../BaseSchema';
+import { uuid } from '../../decorators/uuid';
 import { ScrapperStepInputDto } from './ScrapperStepInputDto';
+import { ScrapperVariableDto } from './ScrapperVariableDto';
 
 export class ScrapperInputDto
   extends BaseSchema<ScrapperInput>
@@ -15,4 +16,7 @@ export class ScrapperInputDto
 
   @jf.array({ elementClass: ScrapperStepInputDto })
   steps?: ScrapperStepInputDto[];
+
+  @jf.array({ elementClass: ScrapperVariableDto })
+  variables?: VariableInput[];
 }

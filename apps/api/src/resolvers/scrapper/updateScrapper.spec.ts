@@ -84,9 +84,9 @@ const updateSteps = async (accessToken: string, scrapper: ScrapperModel) => {
 
   expect(firstStep).toBeDefined();
 
-  const nextStep = getById(updatedScrapper.steps, firstStep.nextStep.id);
+  const nextStep = getById(updatedScrapper.steps, firstStep!.nextStep!.id);
 
-  expect(nextStep.nextStep).toBeNull();
+  expect(nextStep?.nextStep).toBeNull();
 };
 
 describe('Update scrapper', () => {
@@ -120,6 +120,45 @@ describe('Update scrapper', () => {
       .findOneOrFail(scrapper.id);
 
     expect(updatedScrapper.name).toEqual(name);
+  });
+
+  it('should disallow sending global variables', async () => {
+    const {
+      tokens: { accessToken },
+    } = await createUser();
+
+    const scrapper = await createScrapper(accessToken);
+
+    const variables: VariableInput[] = [
+      {
+        key: 'test_create',
+        value: 'test',
+        defaultValue: 'default',
+        scope: VariableScope.Global,
+      },
+    ];
+
+    const response = await global.server.inject({
+      method: 'POST',
+      path: apiRoutes.graphql,
+      headers: {
+        authorization: `Bearer ${accessToken}`,
+      },
+      payload: makeGraphqlRequest<{ input: ScrapperInput }>(mutation, {
+        input: {
+          name,
+          id: scrapper.id,
+          variables,
+        },
+      }),
+    });
+
+    const body = JSON.parse(response.body);
+
+    expect(body.errors).toBeDefined();
+    expect(body.errors[0].message).toEqual(
+      '"variables[0].scope" must be [Scrapper]'
+    );
   });
 
   it('should create, update and delete variables', async () => {
@@ -180,7 +219,7 @@ describe('Update scrapper', () => {
 
     expect(updatedScrapper.variables).toHaveLength(2);
     expect(
-      getById(updatedScrapper.variables, existingVariable.id).value
+      getById(updatedScrapper.variables, existingVariable.id)?.value
     ).toEqual('value update');
     expect(
       updatedScrapper.variables.find(
@@ -317,10 +356,10 @@ describe('Update scrapper', () => {
       (step) => step.action === ScrapperAction.Condition
     );
 
-    expect(firstStep.stepOnTrue).toBeDefined();
-    expect(firstStep.stepOnFalse).toBeDefined();
+    expect(firstStep?.stepOnTrue).toBeDefined();
+    expect(firstStep?.stepOnFalse).toBeDefined();
 
-    expect(firstStep.stepOnTrue.action).toEqual(ScrapperAction.ReadText);
-    expect(firstStep.stepOnFalse.action).toEqual(ScrapperAction.Click);
+    expect(firstStep?.stepOnTrue?.action).toEqual(ScrapperAction.ReadText);
+    expect(firstStep?.stepOnFalse?.action).toEqual(ScrapperAction.Click);
   });
 });

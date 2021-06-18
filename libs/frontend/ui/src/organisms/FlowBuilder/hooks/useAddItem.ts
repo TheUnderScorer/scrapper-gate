@@ -44,7 +44,7 @@ export const useAddItem = () => {
       );
 
       if (setItemsAfter) {
-        setItems([...items, ...createdNodes]);
+        setItems([...items, ...(createdNodes ?? [])]);
 
         afterCreate(
           createdNodes?.map((node) => node.id) ?? [],

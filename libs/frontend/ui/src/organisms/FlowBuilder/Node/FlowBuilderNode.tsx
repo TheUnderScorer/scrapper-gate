@@ -55,14 +55,14 @@ const BaseFlowBuilderNode = forwardRef<HTMLDivElement, FlowBuilderNodeProps>(
 
     const menuItems = useMemo<MenuItemProperties[]>(() => {
       if (node.data.cannotBeDeleted) {
-        return dropdownMenu?.(node);
+        return dropdownMenu?.(node) ?? [];
       }
 
       return [
         ...(dropdownMenu?.(node) ?? []),
         {
           className: classes.deleteStep,
-          id: 'delete_step',
+          id: `delete-step-${node.id}`,
           icon: <DeleteSharp />,
           content: 'Delete step',
           onClick: () => removeItems([node]),
@@ -89,7 +89,10 @@ const BaseFlowBuilderNode = forwardRef<HTMLDivElement, FlowBuilderNodeProps>(
           {(dropdownMenu || !node.data?.cannotBeDeleted) && (
             <Dropdown
               iconButtonProps={{
-                className: classes.dropdownIcon,
+                className: classNames(
+                  classes.dropdownIcon,
+                  'node-dropdown-trigger'
+                ),
                 size: 'small',
               }}
               items={menuItems}

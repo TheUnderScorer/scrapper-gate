@@ -1,5 +1,5 @@
 export const matchAllIndexes = (text: string, regex: RegExp) => {
-  let match: RegExpExecArray;
+  let match: RegExpExecArray | null;
 
   const matches: [startIndex: number, endIndex: number][] = [];
 

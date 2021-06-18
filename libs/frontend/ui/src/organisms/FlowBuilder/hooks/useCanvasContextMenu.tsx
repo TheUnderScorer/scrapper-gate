@@ -1,3 +1,4 @@
+import { Maybe } from '@scrapper-gate/shared/common';
 import { useFlowBuilderSelection } from '../providers/FlowBuilderSelection.provider';
 import React, {
   MutableRefObject,
@@ -17,7 +18,7 @@ import { BaseNodeSelectionProperties } from '../FlowBuilder.types';
 import { OpenCloseContextMenuBag } from '../../../molecules/ContextMenu/ContextMenu.types';
 
 export interface UseCanvasContextMenuProps {
-  containerRef: MutableRefObject<HTMLElement>;
+  containerRef: MutableRefObject<HTMLElement | undefined>;
 }
 
 export const useCanvasContextMenu = ({
@@ -25,7 +26,7 @@ export const useCanvasContextMenu = ({
 }: UseCanvasContextMenuProps) => {
   const { selection } = useFlowBuilderSelection();
   const [filteredSelection, setFilteredSelection] = useState(selection);
-  const [menuPos, setMenuPos] = useState<PopoverPosition | null>(null);
+  const [menuPos, setMenuPos] = useState<Maybe<PopoverPosition>>(null);
 
   const { flowInstance } = useFlowBuilderInstanceContext();
   const addItem = useAddItem();
@@ -35,7 +36,7 @@ export const useCanvasContextMenu = ({
 
   const handleAdd = useCallback(
     (item: Selection<BaseNodeSelectionProperties>) => async () => {
-      if (!flowInstance || !containerRef.current) {
+      if (!flowInstance || !containerRef.current || !menuPos) {
         return;
       }
 
@@ -67,7 +68,7 @@ export const useCanvasContextMenu = ({
   }, []);
 
   const menuItems = useMemo<MenuItemProperties[]>(() => {
-    const nodeTypesItems: MenuItemProperties[] = filteredSelection.map(
+    const nodeTypesItems: Maybe<MenuItemProperties[]> = filteredSelection?.map(
       (item) => {
         const { icon, label } = item;
 
@@ -94,13 +95,13 @@ export const useCanvasContextMenu = ({
             id="nodes_filter_context_menu"
             size="small"
             placeholder="Search steps..."
-            items={selection}
+            items={selection ?? []}
             onItemsChange={setFilteredSelection}
             filterKeys={['label']}
           />
         ),
       },
-      ...nodeTypesItems,
+      ...(nodeTypesItems ?? []),
       {
         id: 'sort_divider',
         type: 'divider',

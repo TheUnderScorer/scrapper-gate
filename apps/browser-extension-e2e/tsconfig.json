@@ -1,10 +1,10 @@
 {
   "extends": "../../tsconfig.base.json",
-  "files": [],
+  "files": ["./src/typings/global.d.ts"],
   "include": [],
   "references": [
     {
-      "path": "./tsconfig.e2e.json"
+      "path": "./tsconfig.spec.json"
     }
   ]
 }

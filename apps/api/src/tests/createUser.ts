@@ -45,7 +45,7 @@ export const createUser = async () => {
     .findOne(result.data.createUser.user.id);
 
   return {
-    tokens: result.data.createUser.tokens as AuthTokens,
+    tokens: result.data.createUser.tokens as Required<AuthTokens>,
     user,
   };
 };

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React from 'react';
 import {
   ArrowHeadType,
@@ -32,9 +33,9 @@ export const FlowBuilderConnectionLine = ({
           ? undefined
           : ArrowHeadType.ArrowClosed
       }
-      sourcePosition={sourcePosition}
-      targetPosition={targetPosition}
-      source={connectionSource?.nodeId}
+      sourcePosition={sourcePosition!}
+      targetPosition={targetPosition!}
+      source={connectionSource?.nodeId ?? ''}
       target=""
       sourceHandleId={connectionSource?.handleId}
     />

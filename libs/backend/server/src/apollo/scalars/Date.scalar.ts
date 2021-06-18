@@ -5,7 +5,7 @@ const supportedKinds: string[] = [Kind.STRING, Kind.INT, Kind.FLOAT];
 
 export const DateScalar = new GraphQLScalarType({
   name: 'Date',
-  serialize: (value?: Date) => (isDate(value) ? value.toISOString() : value),
+  serialize: (value?: Date) => (isDate(value) ? value?.toISOString() : value),
   parseValue: (value) => (value ? new Date(value) : value),
   parseLiteral: (ast) => {
     if (supportedKinds.includes(ast.kind)) {

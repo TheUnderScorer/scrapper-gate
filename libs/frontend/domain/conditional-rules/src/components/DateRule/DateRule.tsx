@@ -1,33 +1,50 @@
-import React from 'react';
-import { BaseConditionalRuleWhen } from '@scrapper-gate/shared/domain/conditional-rules';
-import { MenuItem, Stack, Typography } from '@material-ui/core';
-import { FormDatePicker, FormSelect } from '@scrapper-gate/frontend/form';
+import { MenuItem, Stack } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import { VariablesDateField } from '@scrapper-gate/frontend/domain/variables';
+import { FormSelect, useFormFieldValue } from '@scrapper-gate/frontend/form';
 import { DateFormat, toDisplayText } from '@scrapper-gate/shared/common';
-import { ConditionalRuleDefinitionsProps } from '../../types';
+import { ConditionalRuleWhen } from '@scrapper-gate/shared/domain/conditional-rules';
+import classNames from 'classnames';
+import React, { useMemo } from 'react';
 import { ruleLabels } from '../../labels';
+import { ConditionalRuleDefinitionsProps } from '../../types';
 
 const supportedWhen = [
-  BaseConditionalRuleWhen.MoreThan,
-  BaseConditionalRuleWhen.MoreThanOrEqual,
-  BaseConditionalRuleWhen.Equals,
-  BaseConditionalRuleWhen.LessThan,
-  BaseConditionalRuleWhen.LessThanOrEqual,
+  ConditionalRuleWhen.MoreThan,
+  ConditionalRuleWhen.MoreThanOrEqual,
+  ConditionalRuleWhen.Equals,
+  ConditionalRuleWhen.LessThan,
+  ConditionalRuleWhen.LessThanOrEqual,
 ];
 
 const now = new Date();
+
+const useStyles = makeStyles(() => ({
+  select: {
+    minWidth: 100,
+  },
+  date: {
+    flex: 1,
+  },
+}));
 
 export const DateRule = ({
   getName,
   spacing,
   fieldVariant,
 }: ConditionalRuleDefinitionsProps) => {
+  const value = useFormFieldValue(getName('value'));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const initialValue = useMemo(() => (value ? undefined : now), []);
+
+  const classes = useStyles();
+
   return (
-    <Stack alignItems="baseline" spacing={spacing} direction="row">
-      <Typography>Current date</Typography>
+    <Stack spacing={spacing}>
       <FormSelect
         label={ruleLabels.when}
-        className="date-rule-select"
-        defaultValue={BaseConditionalRuleWhen.Equals}
+        className={classNames('date-rule-select', classes.select)}
+        defaultValue={ConditionalRuleWhen.Equals}
         variant={fieldVariant}
         name={getName('when')}
       >
@@ -37,16 +54,15 @@ export const DateRule = ({
           </MenuItem>
         ))}
       </FormSelect>
-      <FormDatePicker
-        inputVariant={fieldVariant}
-        disableToolbar
+      <VariablesDateField
+        fullWidth
+        className={classes.date}
+        variant={fieldVariant}
         name={getName('value')}
         label={ruleLabels.value}
-        format={DateFormat.Date}
-        margin="normal"
-        variant="inline"
+        inputFormat={DateFormat.Date}
         fieldProps={{
-          initialValue: now,
+          initialValue,
         }}
       />
     </Stack>

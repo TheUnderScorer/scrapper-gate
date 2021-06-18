@@ -1,5 +1,8 @@
 import { useCallback, useState } from 'react';
-import { MessagesPayloadMap, MessageTypes } from '../../communication/types';
+import {
+  MessagesPayloadMap,
+  MessageTypes,
+} from '../../communication/messageResult.types';
 import {
   MessageSenderHookProps,
   MessageSenderResult,

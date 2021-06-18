@@ -1,5 +1,6 @@
-import { Node } from 'react-flow-renderer';
+import { Maybe, throwError } from '@scrapper-gate/shared/common';
 import React, { PropsWithChildren, useState } from 'react';
+import { Node } from 'react-flow-renderer';
 import {
   createContext,
   useContext,
@@ -8,18 +9,22 @@ import {
 import { BaseNodeProperties } from '../FlowBuilder.types';
 
 export interface FlowBuilderDragStateContext<T extends BaseNodeProperties> {
-  draggedNode?: Node<T>;
+  draggedNode?: Maybe<Node<T>>;
   setDraggedNode: (node: Node<T> | null) => unknown;
 }
 
-const Context = createContext<FlowBuilderDragStateContext<BaseNodeProperties>>(
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  {} as any
-);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const Context = createContext<FlowBuilderDragStateContext<any>>({
+  draggedNode: null,
+  setDraggedNode: throwError(),
+});
 
 export const useFlowBuilderDragState = () => useContext(Context);
-export const useFlowBuilderDragStateSelector = <Value extends unknown>(
-  selector: (ctx: FlowBuilderDragStateContext<unknown>) => Value
+export const useFlowBuilderDragStateSelector = <
+  Value extends unknown,
+  T extends BaseNodeProperties
+>(
+  selector: (ctx: FlowBuilderDragStateContext<T>) => Value
 ) => useContextSelector(Context, selector);
 
 export const FlowBuilderDragStateProvider = ({

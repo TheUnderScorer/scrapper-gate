@@ -1,3 +1,4 @@
+import { Maybe } from '@scrapper-gate/shared/common';
 import React from 'react';
 import {
   ControlledList,
@@ -17,7 +18,7 @@ export interface MyScrappersListProps
     FetchPolicyProps {
   fabLoading?: boolean;
   onCreate?: () => unknown;
-  activeScrapperId?: string;
+  activeScrapperId?: Maybe<string>;
 }
 
 export const MyScrappersList = ({

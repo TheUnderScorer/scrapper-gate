@@ -7,4 +7,6 @@ export const validationMessages = {
   [JoiMessages.HtmlAttribute]: 'Invalid attribute.',
   [JoiMessages.NoSpecialChars]:
     'Space and special characters (@#$%^&*()/><|[]) are not allowed.',
+  [JoiMessages.Number]: 'Must be a number.',
+  [JoiMessages.Empty]: 'This field cannot be empty.',
 };

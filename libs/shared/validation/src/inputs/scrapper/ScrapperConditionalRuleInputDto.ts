@@ -9,26 +9,29 @@ import { HtmlAttributeDto } from '../conditionalRules/HtmlAttributeDto';
 import { HtmlTagDto } from '../conditionalRules/HtmlTagDto';
 
 export class ScrapperConditionalRuleInputDto extends ConditionalRuleInputDto {
-  @(jf.object().custom(({ joi }) => {
-    return joi.object().when('type', {
-      switch: [
-        {
-          is: ConditionalRuleTypes.HtmlElement,
-          then: joi.object().when('what', {
-            switch: [
-              {
-                is: HtmlElementWhat.Attribute,
-                then: HtmlAttributeDto.toJoi(),
-              },
-              {
-                is: HtmlElementWhat.Tag,
-                then: HtmlTagDto.toJoi(),
-              },
-            ],
-          }),
-        },
-      ],
-    });
-  }))
+  @(jf.object().custom(({ joi }) =>
+    joi
+      .object()
+      .allow(null)
+      .when('type', {
+        switch: [
+          {
+            is: ConditionalRuleTypes.HtmlElement,
+            then: joi.object().when('what', {
+              switch: [
+                {
+                  is: HtmlElementWhat.Attribute,
+                  then: HtmlAttributeDto.toJoi(),
+                },
+                {
+                  is: HtmlElementWhat.Tag,
+                  then: HtmlTagDto.toJoi(),
+                },
+              ],
+            }),
+          },
+        ],
+      })
+  ))
   meta?: HtmlElementRuleMeta;
 }

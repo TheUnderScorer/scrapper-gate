@@ -1,6 +1,9 @@
 import { renderHook } from '@testing-library/react-hooks';
 import { useOnMessageListener } from './useOnMessageListener';
-import { MessagesPayloadMap, MessageTypes } from '../../communication/types';
+import {
+  MessagesPayloadMap,
+  MessageTypes,
+} from '../../communication/messageResult.types';
 
 describe('useOnMessageListener hook', () => {
   beforeEach(() => {

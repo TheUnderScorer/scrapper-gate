@@ -1,4 +1,6 @@
-import { Stack, TextField, Typography } from '@material-ui/core';
+import { Box, Stack, TextField, Typography } from '@material-ui/core';
+import { ThemeProvider } from '@scrapper-gate/frontend/theme';
+import { Scoped } from '@scrapper-gate/frontend/ui';
 import {
   createVariable,
   resolveVariables,
@@ -50,7 +52,10 @@ export const Component = () => {
             <Typography>Resolved variables:</Typography>
             <pre>
               {JSON.stringify(
-                resolveVariables(props.values, variables),
+                resolveVariables({
+                  target: props.values,
+                  variables: variables,
+                }),
                 null,
                 ' '
               )}
@@ -59,5 +64,21 @@ export const Component = () => {
         </VariablesProvider>
       )}
     />
+  );
+};
+
+export const InShadowRoot = () => {
+  return (
+    <div>
+      <Scoped>
+        {(shadowRoot, container) => (
+          <ThemeProvider isContent container={container}>
+            <Box overflow="scroll">
+              <Component />
+            </Box>
+          </ThemeProvider>
+        )}
+      </Scoped>
+    </div>
   );
 };

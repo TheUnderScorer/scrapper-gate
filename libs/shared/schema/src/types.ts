@@ -33,8 +33,8 @@ export type Scalars = {
 };
 
 export type AuthTokens = {
-  accessToken: Scalars['String'];
-  refreshToken: Scalars['String'];
+  accessToken?: Maybe<Scalars['String']>;
+  refreshToken?: Maybe<Scalars['String']>;
 };
 
 export type BaseEntity = {
@@ -43,10 +43,6 @@ export type BaseEntity = {
   updatedAt: Scalars['Date'];
   deletedAt?: Maybe<Scalars['Date']>;
 };
-
-export enum BaseVariableKind {
-  BuiltIn = 'BuiltIn',
-}
 
 export enum BrowserType {
   Firefox = 'Firefox',
@@ -437,25 +433,30 @@ export type Variable = BaseEntity & {
   deletedAt?: Maybe<Scalars['Date']>;
   defaultValue?: Maybe<Scalars['VariableValue']>;
   value?: Maybe<Scalars['VariableValue']>;
-  key: Scalars['String'];
-  kind?: Maybe<Scalars['String']>;
+  key?: Maybe<Scalars['String']>;
   isBuiltIn?: Maybe<Scalars['Boolean']>;
   scope: VariableScope;
+  type?: Maybe<VariableType>;
 };
 
 export type VariableInput = {
   id?: Maybe<Scalars['ID']>;
   defaultValue?: Maybe<Scalars['VariableValue']>;
   value?: Maybe<Scalars['VariableValue']>;
-  key: Scalars['String'];
-  kind?: Maybe<Scalars['String']>;
+  key?: Maybe<Scalars['String']>;
   scope: VariableScope;
+  type?: Maybe<VariableType>;
 };
 
 export enum VariableScope {
   Global = 'Global',
   Scrapper = 'Scrapper',
-  Workflow = 'Workflow',
+}
+
+export enum VariableType {
+  Text = 'Text',
+  Number = 'Number',
+  Date = 'Date',
 }
 
 export type GetScrapperForBuilderQueryVariables = Exact<{
@@ -466,7 +467,25 @@ export type GetScrapperForBuilderQuery = {
   getMyScrapper: Pick<
     Scrapper,
     'id' | 'createdAt' | 'isRunning' | 'name' | 'state' | 'updatedAt'
-  > & { steps?: Maybe<Array<ScrapperBuilderStepFragment>> };
+  > & {
+    steps?: Maybe<Array<ScrapperBuilderStepFragment>>;
+    variables?: Maybe<
+      Array<
+        Pick<
+          Variable,
+          | 'id'
+          | 'createdAt'
+          | 'defaultValue'
+          | 'updatedAt'
+          | 'isBuiltIn'
+          | 'key'
+          | 'scope'
+          | 'type'
+          | 'value'
+        >
+      >
+    >;
+  };
 };
 
 export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never }>;
@@ -691,7 +710,6 @@ export type ResolversTypes = ResolversObject<{
     | ResolversTypes['User']
     | ResolversTypes['Variable'];
   ID: ResolverTypeWrapper<Scalars['ID']>;
-  BaseVariableKind: BaseVariableKind;
   BrowserType: BrowserType;
   ConditionalMetaData: ResolverTypeWrapper<Scalars['ConditionalMetaData']>;
   ConditionalRule: ResolverTypeWrapper<ConditionalRule>;
@@ -752,6 +770,7 @@ export type ResolversTypes = ResolversObject<{
   Variable: ResolverTypeWrapper<Variable>;
   VariableInput: VariableInput;
   VariableScope: VariableScope;
+  VariableType: VariableType;
   VariableValue: ResolverTypeWrapper<Scalars['VariableValue']>;
   WhatValue: ResolverTypeWrapper<Scalars['WhatValue']>;
 }>;
@@ -866,8 +885,16 @@ export type AuthTokensResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['AuthTokens'] = ResolversParentTypes['AuthTokens']
 > = ResolversObject<{
-  accessToken?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  refreshToken?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  accessToken?: Resolver<
+    Maybe<ResolversTypes['String']>,
+    ParentType,
+    ContextType
+  >;
+  refreshToken?: Resolver<
+    Maybe<ResolversTypes['String']>,
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -1459,14 +1486,18 @@ export type VariableResolvers<
     ParentType,
     ContextType
   >;
-  key?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  kind?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  key?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   isBuiltIn?: Resolver<
     Maybe<ResolversTypes['Boolean']>,
     ParentType,
     ContextType
   >;
   scope?: Resolver<ResolversTypes['VariableScope'], ParentType, ContextType>;
+  type?: Resolver<
+    Maybe<ResolversTypes['VariableType']>,
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 

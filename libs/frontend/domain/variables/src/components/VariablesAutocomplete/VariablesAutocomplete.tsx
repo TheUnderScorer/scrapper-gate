@@ -3,8 +3,8 @@ import {
   AutocompleteProps,
   AutocompleteRenderInputParams,
   createFilterOptions,
-} from '@material-ui/lab';
-import { FilterOptionsState } from '@material-ui/lab/useAutocomplete/useAutocomplete';
+  FilterOptionsState,
+} from '@material-ui/core';
 import { FieldProps, useFieldHasError } from '@scrapper-gate/frontend/form';
 import { Highlight } from '@scrapper-gate/frontend/ui';
 import { Variable } from '@scrapper-gate/shared/schema';
@@ -16,7 +16,7 @@ export interface VariablesAutocompleteChildrenBag {
   autoCompleteParams: AutocompleteRenderInputParams;
   meta: FieldMetaState<string>;
   input: FieldInputProps<string>;
-  hasError: boolean;
+  hasError?: boolean;
 }
 
 export interface VariablesAutocompleteProps
@@ -52,7 +52,7 @@ export const VariablesAutocomplete = ({
 
       return createFilterOptions<Variable>({
         matchFrom: 'any',
-        stringify: (option) => option.key,
+        stringify: (option) => option.key ?? option.id,
       })(options, state);
     },
     []
@@ -64,9 +64,6 @@ export const VariablesAutocomplete = ({
       {...input}
       onChange={(event, newValue) => input.onChange(newValue)}
       id={input.name}
-      getOptionSelected={(option, value) => {
-        return option.key === value.key;
-      }}
       freeSolo
       disableClearable
       renderInput={(params) =>
@@ -78,14 +75,14 @@ export const VariablesAutocomplete = ({
         })
       }
       getOptionLabel={(option) => {
-        console.log({ optionForLabel: option });
-
         return option?.key ?? '';
       }}
       filterOptions={filterOptions}
       options={variables}
-      renderOption={(option, { inputValue }) => {
-        return <Highlight text={option.key} value={inputValue ?? ''} />;
+      renderOption={(props, variable, state) => {
+        return (
+          <Highlight text={variable.key ?? ''} value={state.inputValue ?? ''} />
+        );
       }}
     />
   );

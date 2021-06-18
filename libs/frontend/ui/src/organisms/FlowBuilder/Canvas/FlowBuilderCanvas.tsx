@@ -17,6 +17,7 @@ import classNames from 'classnames';
 import { useFlowBuilderInstanceContext } from '../providers/FlowBuilderInstance.provider';
 import { useFlowBuilderDragState } from '../providers/FlowBuilderDragState.provider';
 import {
+  BaseNodeProperties,
   BaseNodeSelectionProperties,
   FlowBuilderDropTypes,
   FlowBuilderItem,
@@ -105,15 +106,20 @@ export const FlowBuilderCanvas = () => {
 
   const nodeTypes = useFlowBuilderContextSelector((ctx) => ctx.nodeTypes);
 
-  const mappedNodeTypes = useMemo(
-    () =>
-      Object.keys(nodeTypes).reduce<Record<string, ReactNode>>((acc, key) => {
+  const mappedNodeTypes = useMemo(() => {
+    if (!nodeTypes) {
+      return {};
+    }
+
+    return Object.keys(nodeTypes).reduce<Record<string, ReactNode>>(
+      (acc, key) => {
         acc[key] = FlowBuilderNode;
 
         return acc;
-      }, {}),
-    [nodeTypes]
-  );
+      },
+      {}
+    );
+  }, [nodeTypes]);
 
   const addItem = useAddItem();
   const connect = useConnectHandler();
@@ -140,7 +146,13 @@ export const FlowBuilderCanvas = () => {
       item: Selection<BaseNodeSelectionProperties>,
       monitor: DropTargetMonitor
     ) => {
-      const { x, y } = monitor.getClientOffset();
+      const offset = monitor.getClientOffset();
+
+      if (!offset || !containerRef.current || !flowInstance) {
+        return;
+      }
+
+      const { x, y } = offset;
 
       const flowBounds = containerRef.current.getBoundingClientRect();
 
@@ -155,7 +167,7 @@ export const FlowBuilderCanvas = () => {
   );
 
   const handleConnectionEnd = useCallback(() => {
-    setConnectionSource(undefined);
+    setConnectionSource(null);
   }, [setConnectionSource]);
 
   const [{ canDrop }, drop] = useDrop({
@@ -176,7 +188,9 @@ export const FlowBuilderCanvas = () => {
   });
 
   useEffect(() => {
-    drop(containerRef.current);
+    if (containerRef.current) {
+      drop(containerRef.current);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [drop, containerRef.current]);
 
@@ -193,16 +207,16 @@ export const FlowBuilderCanvas = () => {
 
   return (
     <ContextMenu
-      ref={menuRef}
+      ref={menuRef as MutableRefObject<HTMLDivElement>}
       onOpen={handleContextMenuOpen}
       onClose={handleContextMenuClose}
       menuItems={menuItems}
     >
       {({ onContextMenu }) => (
         <div
-          data-items={stringifyCircular(
-            renderItemsInDataAttribute ? items : []
-          )}
+          data-items={
+            renderItemsInDataAttribute ? stringifyCircular(items) : undefined
+          }
           onContextMenu={onContextMenu}
           ref={containerRef as MutableRefObject<HTMLDivElement>}
           className={classNames(classes.paper, 'flow-builder-canvas', {
@@ -215,12 +229,14 @@ export const FlowBuilderCanvas = () => {
             onLoad={(instance) => {
               instance.fitView();
 
-              setFlowInstance(instance);
+              setFlowInstance?.(instance);
             }}
             elements={items}
             nodeTypes={mappedNodeTypes}
             onElementsRemove={
-              removeItems as (items: FlowBuilderItem<unknown>[]) => unknown
+              removeItems as (
+                items: FlowBuilderItem<BaseNodeProperties>[]
+              ) => unknown
             }
             onConnect={(connection) => connect(connection as Connection)}
             onNodeDragStop={handleDragEnd}

@@ -10,7 +10,7 @@ export interface SkeletonComponentOrIconProps
 export const SkeletonComponentOrIcon = ({
   children,
   loading,
-  variant = 'circle',
+  variant = 'circular',
   ...props
 }: PropsWithChildren<SkeletonComponentOrIconProps>) => {
   return !loading ? <>{children}</> : <Skeleton variant={variant} {...props} />;

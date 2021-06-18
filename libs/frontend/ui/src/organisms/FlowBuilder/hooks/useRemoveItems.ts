@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 import { EdgeProps, NodeProps, removeElements } from 'react-flow-renderer';
+import { useFlowBuilderActiveNodeSelector } from '../providers/FlowBuilderActiveNode.provider';
 import { useFlowBuilderItemsSelector } from '../providers/FlowBuilderItems.provider';
 import { BaseNodeProperties } from '../FlowBuilder.types';
 import { getById } from '@scrapper-gate/shared/common';
@@ -9,6 +10,14 @@ export const useRemoveItems = () => {
   const setItems = useFlowBuilderItemsSelector((ctx) => ctx.setItems);
   const getItems = useFlowBuilderItemsSelector((ctx) => ctx.getItems);
   const onRemove = useFlowBuilderContextSelector((ctx) => ctx.onRemove);
+
+  const [
+    activeNodeId,
+    setActiveNodeId,
+  ] = useFlowBuilderActiveNodeSelector((ctx) => [
+    ctx.activeNodeId,
+    ctx.setActiveNodeId,
+  ]);
 
   return useCallback(
     (
@@ -21,10 +30,19 @@ export const useRemoveItems = () => {
       }
 
       const items = getItems();
+      const includesActiveNode = activeNodeId
+        ? Boolean(itemsToDelete.find((item) => item.id === activeNodeId))
+        : false;
+
+      console.log({
+        activeNodeId,
+        itemsToDelete,
+        includesActiveNode,
+      });
 
       const filteredItems = onRemove?.(
         itemsToDelete.filter(
-          (item) => !getById(items, item.id).data?.cannotBeDeleted
+          (item) => !getById(items, item.id)?.data?.cannotBeDeleted
         ),
         {
           removeElements,
@@ -32,8 +50,12 @@ export const useRemoveItems = () => {
         }
       );
 
+      if (includesActiveNode) {
+        setActiveNodeId(undefined);
+      }
+
       setItems(filteredItems);
     },
-    [getItems, onRemove, setItems]
+    [activeNodeId, getItems, onRemove, setActiveNodeId, setItems]
   );
 };

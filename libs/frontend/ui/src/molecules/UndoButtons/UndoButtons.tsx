@@ -1,9 +1,9 @@
-import React from 'react';
 import { ButtonGroup, IconButton, Tooltip } from '@material-ui/core';
 import { RedoSharp, UndoSharp } from '@material-ui/icons';
-import { useKeyboardShortcuts } from '@scrapper-gate/frontend/keyboard-shortcuts';
-import { TextWithKeyHint } from '../TextWithKeyHint/TextWithKeyHint';
 import { useFormUndo } from '@scrapper-gate/frontend/form';
+import { useKeyboardShortcuts } from '@scrapper-gate/frontend/keyboard-shortcuts';
+import React from 'react';
+import { TextWithKeyHint } from '../TextWithKeyHint/TextWithKeyHint';
 
 export const UndoButtons = () => {
   const shortcuts = useKeyboardShortcuts();
@@ -13,7 +13,11 @@ export const UndoButtons = () => {
   return (
     <ButtonGroup variant="outlined">
       <Tooltip
-        title={<TextWithKeyHint keyHint={shortcuts.undo}>Undo</TextWithKeyHint>}
+        title={
+          <TextWithKeyHint keyHint={shortcuts?.undo ?? ''}>
+            Undo
+          </TextWithKeyHint>
+        }
       >
         <span>
           <IconButton
@@ -26,7 +30,11 @@ export const UndoButtons = () => {
         </span>
       </Tooltip>
       <Tooltip
-        title={<TextWithKeyHint keyHint={shortcuts.redo}>Redo</TextWithKeyHint>}
+        title={
+          <TextWithKeyHint keyHint={shortcuts?.redo ?? ''}>
+            Redo
+          </TextWithKeyHint>
+        }
       >
         <span>
           <IconButton

@@ -33,11 +33,16 @@ export const ensureAllNodesAreConnected = ({ items }: FlowBuilderFormState) => {
 
   if (nodesWithoutEdges.length) {
     return {
-      invalidNodes: nodesWithoutEdges.reduce((acc, node) => {
-        acc[node.id] = new Error('This step must be connected to other step.');
+      invalidNodes: nodesWithoutEdges.reduce<Record<string, Error>>(
+        (acc, node) => {
+          acc[node.id] = new Error(
+            'This step must be connected to other step.'
+          );
 
-        return acc;
-      }, {}),
+          return acc;
+        },
+        {}
+      ),
     };
   }
 

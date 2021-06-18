@@ -33,7 +33,7 @@ export const FormCheckbox = <T extends unknown>({
 
   const hasError = useFieldHasError({
     meta,
-    showErrorOnlyOnTouched: fieldProps.showErrorOnlyOnTouched,
+    showErrorOnlyOnTouched: fieldProps?.showErrorOnlyOnTouched,
   });
 
   return (

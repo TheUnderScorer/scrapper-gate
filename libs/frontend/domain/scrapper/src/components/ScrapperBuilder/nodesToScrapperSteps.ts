@@ -25,10 +25,10 @@ const handleConditionalNodes = (
   const edges = flowBuilderUtils.getNodeEdges(nodes, step.id);
 
   step.stepIdOnTrue = edges.find(
-    (edge) => edge.data.conditionalType === ConditionalNodeEdgeType.True
+    (edge) => edge.data?.conditionalType === ConditionalNodeEdgeType.True
   )?.target;
   step.stepIdOnFalse = edges.find(
-    (edge) => edge.data.conditionalType === ConditionalNodeEdgeType.False
+    (edge) => edge.data?.conditionalType === ConditionalNodeEdgeType.False
   )?.target;
 
   return step;
@@ -43,10 +43,10 @@ export const nodesToScrapperSteps = (
         isNode(item) &&
         allowedNodeTypes.includes(item.type as FlowBuilderNodeTypes)
     )
-    .map((node: Node<ScrapperBuilderNodeProperties>) => {
+    .map((node) => {
       return pickScrapperInput({
         ...node.data,
-        position: node.position,
+        position: (node as Node<ScrapperBuilderNodeProperties>).position,
         id: node.id,
       });
     });
@@ -60,7 +60,7 @@ export const nodesToScrapperSteps = (
       return step;
     }
 
-    if (node.data.action !== ScrapperAction.Condition) {
+    if (node?.data?.action !== ScrapperAction.Condition) {
       step.nextStepId = outgoers[0].id;
 
       return step;

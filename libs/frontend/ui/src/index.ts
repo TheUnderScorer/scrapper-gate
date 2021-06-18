@@ -32,3 +32,6 @@ export * from './styles/hiddenNumericArrows';
 export * from './molecules/SnackbarActions/SnackbarActions';
 export * from './atoms/LightTooltip/LightTooltip';
 export * from './atoms/Highlight/Highlight';
+export * from './molecules/InformationBox/InformationBox';
+export * from './molecules/ExternalLink/ExternalLink';
+export * from './atoms/Chips/Chips';

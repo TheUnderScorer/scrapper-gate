@@ -1,39 +1,45 @@
-import React, { useCallback, useMemo } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
+import { useIsUsingElementPicker } from '@scrapper-gate/frontend/common';
+import {
+  VariablesProvider,
+  VariablesTable,
+} from '@scrapper-gate/frontend/domain/variables';
+import {
+  FormEditableText,
+  joiValidationResolver,
+  mergeValidators,
+  useDebouncedValidator,
+} from '@scrapper-gate/frontend/form';
+import { logger } from '@scrapper-gate/frontend/logger';
+import { useUpdateScrapperMutation } from '@scrapper-gate/frontend/schema';
+import {
+  useSnackbarOnError,
+  useSnackbarOnSuccess,
+} from '@scrapper-gate/frontend/snackbars';
 import {
   FlowBuilder,
-  FlowBuilderFormState,
   flowBuilderUtils,
   flowBuilderValidation,
   IsValidConnectionParams,
   NodeContentComponent,
 } from '@scrapper-gate/frontend/ui';
+import { extractVariableInput } from '@scrapper-gate/shared/domain/variables';
+import { VariableScope } from '@scrapper-gate/shared/schema';
+import { ScrapperBuilderDto } from '@scrapper-gate/shared/validation';
+import React, { useCallback, useMemo } from 'react';
+import { Form } from 'react-final-form';
+import { Node } from 'react-flow-renderer';
 import { v4 as uuid } from 'uuid';
-import {
-  FormEditableText,
-  joiValidationResolver,
-  useDebouncedValidator,
-  validatorsPipe,
-} from '@scrapper-gate/frontend/form';
-import { createScrapperNodeSelection } from './scrapperNodeSelection';
+import { ScrapperBuilderNodeContent } from './NodeContent/ScrapperBuilderNodeContent';
+import { nodesToScrapperSteps } from './nodesToScrapperSteps';
 import {
   ScrapperBuilderFormState,
+  ScrapperBuilderNode,
   ScrapperBuilderNodeProperties,
   ScrapperBuilderProps,
 } from './ScrapperBuilder.types';
-import { Node } from 'react-flow-renderer';
-import { makeStyles } from '@material-ui/core/styles';
-import { Form } from 'react-final-form';
-import { ScrapperBuilderNodeContent } from './NodeContent/ScrapperBuilderNodeContent';
-import { useIsUsingElementPicker } from '@scrapper-gate/frontend/common';
-import { nodesToScrapperSteps } from './nodesToScrapperSteps';
-import { useUpdateScrapperMutation } from '@scrapper-gate/frontend/schema';
+import { createScrapperNodeSelection } from './scrapperNodeSelection';
 import { scrapperStepsToNodes } from './scrapperStepsToNodes';
-import { ScrapperBuilderDto } from '@scrapper-gate/shared/validation';
-import { logger } from '@scrapper-gate/frontend/logger';
-import {
-  useSnackbarOnError,
-  useSnackbarOnSuccess,
-} from '@scrapper-gate/frontend/snackbars';
 
 const initialNodes = [
   flowBuilderUtils.createStartNode({
@@ -59,6 +65,17 @@ const useStyles = makeStyles(() => ({
     height: '100%',
   },
 }));
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const initialVariables: any[] = [];
+
+const tabs = [
+  {
+    label: 'Variables',
+    value: 'variables',
+    content: <VariablesTable scope={VariableScope.Scrapper} name="variables" />,
+  },
+];
 
 export const ScrapperBuilder = ({
   browserUrl,
@@ -89,8 +106,9 @@ export const ScrapperBuilder = ({
 
   const nodeCreationInterceptor = useCallback(
     (node: Node<ScrapperBuilderNodeProperties>) => {
-      if (!node.data.url) {
-        node.data.url = browserUrl;
+      if (!node?.data?.url) {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        node!.data!.url = browserUrl;
       }
 
       return node;
@@ -113,8 +131,10 @@ export const ScrapperBuilder = ({
         ensureCorrectSourcesCount.isValidConnectionChecker(params) &&
         flowBuilderValidation.ensureCorrectEdgeSourceTarget(params) &&
         !flowBuilderUtils.isNodeConnectedTo(
-          params.connection.source,
-          params.connection.target,
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          params.connection.source!,
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          params.connection.target!,
           params.items
         )
       );
@@ -124,7 +144,7 @@ export const ScrapperBuilder = ({
 
   const validate = useMemo(
     () =>
-      validatorsPipe<FlowBuilderFormState<ScrapperBuilderNodeProperties>>(
+      mergeValidators<ScrapperBuilderFormState>(
         flowBuilderValidation.ensureAllNodesAreConnected,
         joiValidationResolver(ScrapperBuilderDto, {
           allowUnknown: true,
@@ -134,13 +154,18 @@ export const ScrapperBuilder = ({
     []
   );
 
-  const debouncedValidate = useDebouncedValidator({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const debouncedValidate = useDebouncedValidator<any>({
     validate,
-    ms: 1000,
+    ms: 500,
   });
 
   const handleSubmit = useCallback(
     async (values: ScrapperBuilderFormState) => {
+      if (!initialScrapper?.id) {
+        return;
+      }
+
       try {
         const steps = nodesToScrapperSteps(values.items);
 
@@ -150,6 +175,7 @@ export const ScrapperBuilder = ({
               id: initialScrapper.id,
               steps,
               name: values.name,
+              variables: values.variables.map(extractVariableInput),
             },
           },
         });
@@ -164,50 +190,63 @@ export const ScrapperBuilder = ({
     [initialScrapper, snackbarOnError, snackbarOnSuccess, updateScrapper]
   );
 
+  const initialValues = useMemo<ScrapperBuilderFormState>(
+    () => ({
+      items: initialNodes as ScrapperBuilderNode[],
+      name: initialScrapper?.name ?? '',
+      variables: initialScrapper?.variables ?? initialVariables,
+    }),
+    [initialScrapper]
+  );
+
   return (
     <Form
       validate={debouncedValidate}
       onSubmit={handleSubmit}
-      initialValues={{
-        items: initialNodes,
-        name: initialScrapper?.name,
-      }}
+      initialValues={initialValues}
       destroyOnUnregister={false}
       render={(props) => (
-        <form className={classes.form} onSubmit={props.handleSubmit}>
-          <FlowBuilder
-            isUsingElementPicker={isUsingElementPicker}
-            defaultNodeContent={ContentComponent}
-            isValidConnection={isConnectionValid}
-            onAdd={handleAdd}
-            onRemove={handleNodeRemoval}
-            onConnect={handleConnect}
-            loading={loading}
-            nodesSelection={selection}
-            title={
-              <FormEditableText
-                variant="standard"
-                name="name"
-                textProps={{ variant: 'h6' }}
-                onEditFinish={async (name) => {
-                  await updateScrapper({
-                    variables: {
-                      input: {
-                        id: initialScrapper.id,
-                        name,
+        <VariablesProvider name="variables">
+          <form className={classes.form} onSubmit={props.handleSubmit}>
+            <FlowBuilder
+              tabs={tabs}
+              isUsingElementPicker={Boolean(isUsingElementPicker)}
+              defaultNodeContent={ContentComponent}
+              isValidConnection={isConnectionValid}
+              onAdd={handleAdd}
+              onRemove={handleNodeRemoval}
+              onConnect={handleConnect}
+              loading={loading}
+              nodesSelection={selection}
+              title={
+                <FormEditableText
+                  variant="standard"
+                  name="name"
+                  textProps={{ variant: 'h6' }}
+                  onEditFinish={async (name) => {
+                    if (!initialScrapper?.id) {
+                      return;
+                    }
+
+                    await updateScrapper({
+                      variables: {
+                        input: {
+                          id: initialScrapper.id,
+                          name,
+                        },
                       },
-                    },
-                  });
-                }}
-              />
-            }
-            nodesCreator={scrapperStepsToNodes(
-              initialScrapper?.steps ?? [],
-              selection
-            )}
-            {...rest}
-          />
-        </form>
+                    });
+                  }}
+                />
+              }
+              nodesCreator={scrapperStepsToNodes(
+                initialScrapper?.steps ?? [],
+                selection
+              )}
+              {...rest}
+            />
+          </form>
+        </VariablesProvider>
       )}
     />
   );

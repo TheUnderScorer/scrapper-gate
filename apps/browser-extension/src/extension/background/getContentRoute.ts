@@ -1,5 +1,5 @@
 import { browser } from 'webextension-polyfill-ts';
-import { StoredRoute } from '../browser/communication/types';
+import { StoredRoute } from '../browser/communication/messageResult.types';
 
 export const getContentRoute = async (
   tabId: number | string

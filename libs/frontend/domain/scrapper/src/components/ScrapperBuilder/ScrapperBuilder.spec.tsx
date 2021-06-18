@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { act, render, waitFor } from '@testing-library/react';
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
@@ -138,7 +139,7 @@ describe('ScrapperBuilder', () => {
 
         items = call;
 
-        expect(items).toHaveLength(scrapper.steps.length * 2 + 1);
+        expect(items).toHaveLength(scrapper.steps!.length * 2 + 1);
       },
       {
         interval: 250,
@@ -147,10 +148,10 @@ describe('ScrapperBuilder', () => {
     );
 
     const edgesMap = [
-      ['start', scrapper.steps[0].id],
-      [scrapper.steps[0].id, scrapper.steps[1].id],
-      [scrapper.steps[1].id, scrapper.steps[2].id],
-      [scrapper.steps[2].id, scrapper.steps[3].id],
+      ['start', scrapper.steps![0].id],
+      [scrapper.steps![0].id, scrapper.steps![1].id],
+      [scrapper.steps![1].id, scrapper.steps![2].id],
+      [scrapper.steps![2].id, scrapper.steps![3].id],
     ];
 
     edgesMap.forEach(([source, target]) => {
@@ -160,10 +161,10 @@ describe('ScrapperBuilder', () => {
       );
 
       expect(edge).toBeDefined();
-      expect(isEdge(edge)).toEqual(true);
+      expect(isEdge(edge!)).toEqual(true);
     });
 
-    scrapper.steps.forEach((step) => {
+    scrapper.steps!.forEach((step) => {
       const node = getById(items, step.id) as Node;
 
       expect(isNode(node)).toEqual(true);
@@ -190,7 +191,7 @@ describe('ScrapperBuilder', () => {
     const submitBtn = cmp.container.querySelector('.flow-builder-submit-btn');
 
     act(() => {
-      userEvent.click(submitBtn);
+      userEvent.click(submitBtn!);
     });
 
     await act(async () => {
@@ -201,15 +202,15 @@ describe('ScrapperBuilder', () => {
 
     const { variables } = mockFn.mock.calls[0][0];
 
-    scrapper.steps
-      .map((step) => pickScrapperInput(step))
+    scrapper
+      .steps!.map((step) => pickScrapperInput(step))
       .forEach((stepInput) => {
         const stepVariable = getById(variables.input.steps, stepInput.id);
-        const step = getById(scrapper.steps, stepInput.id);
+        const step = getById(scrapper.steps!, stepInput.id);
 
         expect(stepVariable).toEqual({
           ...stepInput,
-          nextStepId: step.nextStep?.id,
+          nextStepId: step!.nextStep?.id,
         });
       });
   });

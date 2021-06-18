@@ -1,9 +1,14 @@
+import { Maybe } from '../types';
+
 export enum TemplateType {
   Braces = 'Braces',
   Colon = 'Colon',
 }
 
-export type TemplateVariables = Record<string, string | number | boolean>;
+export type TemplateVariables = Record<
+  string,
+  Maybe<string | number | boolean>
+>;
 
 export const applyVariablesToText = (
   text: string,
@@ -15,7 +20,7 @@ export const applyVariablesToText = (
       return currentText;
     }
 
-    const regExp = getRegexByType(key, type);
+    const regExp = getTemplateRegexByType(key, type);
 
     return currentText.replace(regExp, convertValue(value));
   }, text);
@@ -26,12 +31,24 @@ const convertValue = (value: unknown) => {
     case 'boolean':
       return value ? '1' : '0';
 
-    default:
+    case 'function':
+    case 'number':
+    case 'string':
       return value.toString();
+
+    case 'object':
+      if (Array.isArray(value)) {
+        return value.join(',');
+      }
+
+      return JSON.stringify(value);
+
+    default:
+      return '';
   }
 };
 
-const getRegexByType = (key: unknown, type: TemplateType) =>
+export const getTemplateRegexByType = (key: unknown, type: TemplateType) =>
   new RegExp(getTextVariableTemplate(key, type), 'g');
 
 export const getTextVariableTemplate = (key: unknown, type: TemplateType) => {

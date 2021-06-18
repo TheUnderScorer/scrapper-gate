@@ -3,7 +3,13 @@ import { Resizable } from 're-resizable';
 import { makeStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
 import { Fab, Paper, Tooltip } from '@material-ui/core';
-import { useEffect, useRef, useState } from 'react';
+import {
+  forwardRef,
+  MutableRefObject,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { ChevronLeft } from '@material-ui/icons';
 import { usePrevious, useToggle } from 'react-use';
 import { useKeyboardShortcuts } from '@scrapper-gate/frontend/keyboard-shortcuts';
@@ -11,19 +17,20 @@ import { useHotkeys } from 'react-hotkeys-hook';
 import { TextWithKeyHint } from '../TextWithKeyHint/TextWithKeyHint';
 
 const useStyles = makeStyles((theme) => ({
-  handle: {
+  handle: (props: Pick<ResizablePanelProps, 'enable'>) => ({
     '&:hover > div, &:active > div': {
       backgroundColor: theme.palette.primary.main,
       transition: theme.transitions.create('all'),
     },
     '& > div': {
       width: '6px !important',
-      right: '0 !important',
+      right: props.enable?.right ? '0 !important' : undefined,
+      left: props.enable?.left ? '0 !important' : undefined,
     },
     '&.closed > div': {
       pointerEvents: 'none',
     },
-  },
+  }),
   container: {
     '&:not(.isResize)': {
       transition: theme.transitions.create('all'),
@@ -55,97 +62,127 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const ResizablePanel = ({
-  children,
-  paperProps,
-  initialWidth,
-  ...props
-}: ResizablePanelProps) => {
-  const classes = useStyles();
+export const ResizablePanel = forwardRef<HTMLDivElement, ResizablePanelProps>(
+  (
+    {
+      children,
+      paperProps,
+      disableKeyShortcut,
+      initialWidth,
+      hideArrow,
+      ...props
+    },
+    ref
+  ) => {
+    const classes = useStyles({
+      enable: props.enable,
+    });
 
-  const [open, toggleOpen] = useToggle(true);
+    const [open, toggleOpen] = useToggle(true);
 
-  const [isResize, setIsResize] = useState(false);
+    const [isResize, setIsResize] = useState(false);
 
-  const [lastWidth, setLastWidth] = useState<string | number>(initialWidth);
+    const [lastWidth, setLastWidth] = useState<string | number>(initialWidth);
 
-  const instanceRef = useRef<Resizable>();
+    const instanceRef = useRef<Resizable>();
 
-  const closed = !open;
-  const prevOpen = usePrevious(closed);
+    const closed = !open;
+    const prevOpen = usePrevious(closed);
 
-  const keyboardShortcuts = useKeyboardShortcuts();
+    const keyboardShortcuts = useKeyboardShortcuts();
 
-  useEffect(() => {
-    if (prevOpen === closed) {
-      return;
-    }
+    useEffect(() => {
+      if (prevOpen === closed) {
+        return;
+      }
 
-    if (closed) {
+      if (closed) {
+        instanceRef.current?.updateSize({
+          width: '5px',
+          height: '100%',
+        });
+
+        return;
+      }
+
       instanceRef.current?.updateSize({
-        width: '5px',
+        width: lastWidth ?? props.maxWidth ?? '300px',
         height: '100%',
       });
+    }, [closed, lastWidth, prevOpen, props.maxWidth]);
 
-      return;
-    }
-
-    instanceRef.current?.updateSize({
-      width: lastWidth ?? props.maxWidth ?? '300px',
-      height: '100%',
-    });
-  }, [closed, lastWidth, prevOpen, props.maxWidth]);
-
-  useHotkeys(keyboardShortcuts.drawer.toggle, () => toggleOpen(), [toggleOpen]);
-
-  return (
-    <Resizable
-      {...props}
-      ref={instanceRef}
-      className={classNames(props.className, classes.container, {
-        closed,
-        isResize,
-      })}
-      handleWrapperClass={classNames(props.handleWrapperClass, classes.handle, {
-        closed,
-      })}
-      onResizeStart={() => setIsResize(true)}
-      onResizeStop={() => {
-        setIsResize(false);
-      }}
-      onResize={(event, direction, elementRef) => {
-        setLastWidth(elementRef.clientWidth);
-      }}
-      minWidth={open ? props.minWidth : 1}
-    >
-      <Tooltip
-        title={
-          <TextWithKeyHint keyHint={keyboardShortcuts.drawer.toggle}>
-            Toggle panel
-          </TextWithKeyHint>
+    useHotkeys(
+      keyboardShortcuts?.drawer.toggle ?? '',
+      () => {
+        if (disableKeyShortcut) {
+          return;
         }
-      >
-        <Fab
-          onClick={() => toggleOpen()}
-          size="small"
-          className={classNames(classes.iconBtn, { closed }, 'toggle-panel')}
-        >
-          <ChevronLeft />
-        </Fab>
-      </Tooltip>
-      <Paper
-        {...paperProps}
-        className={classNames(
-          paperProps?.className,
-          classes.content,
-          'resizable-panel-content',
+
+        toggleOpen();
+      },
+      [toggleOpen, disableKeyShortcut]
+    );
+
+    return (
+      <Resizable
+        {...props}
+        ref={instanceRef as MutableRefObject<Resizable>}
+        className={classNames(props.className, classes.container, {
+          closed,
+          isResize,
+        })}
+        handleWrapperClass={classNames(
+          props.handleWrapperClass,
+          classes.handle,
           {
             closed,
           }
         )}
+        onResizeStart={() => setIsResize(true)}
+        onResizeStop={() => {
+          setIsResize(false);
+        }}
+        onResize={(event, direction, elementRef) => {
+          setLastWidth(elementRef.clientWidth);
+        }}
+        minWidth={open ? props.minWidth : 1}
       >
-        {open && children}
-      </Paper>
-    </Resizable>
-  );
-};
+        {!hideArrow && (
+          <Tooltip
+            title={
+              <TextWithKeyHint keyHint={keyboardShortcuts?.drawer.toggle}>
+                Toggle panel
+              </TextWithKeyHint>
+            }
+          >
+            <Fab
+              onClick={() => toggleOpen()}
+              size="small"
+              className={classNames(
+                classes.iconBtn,
+                { closed },
+                'toggle-panel'
+              )}
+            >
+              <ChevronLeft />
+            </Fab>
+          </Tooltip>
+        )}
+        <Paper
+          {...paperProps}
+          ref={ref}
+          className={classNames(
+            paperProps?.className,
+            classes.content,
+            'resizable-panel-content',
+            {
+              closed,
+            }
+          )}
+        >
+          {open && children}
+        </Paper>
+      </Resizable>
+    );
+  }
+);

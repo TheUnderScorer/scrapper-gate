@@ -17,7 +17,7 @@ export const QueryDrawer = ({
   return (
     <Drawer
       {...rest}
-      open={open}
+      open={Boolean(open)}
       onClose={(event, reason) => {
         setOpen(false);
 

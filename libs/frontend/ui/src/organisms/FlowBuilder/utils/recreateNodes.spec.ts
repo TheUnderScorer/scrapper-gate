@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { NodeLikeItem } from '@scrapper-gate/shared/schema';
+import { Node } from 'react-flow-renderer';
 import { recreateNodes } from './recreateNodes';
 import { createEdge } from './createEdge';
 import { createNodeFromSelection } from './createNodeFromSelection';
-import { FlowBuilderNodeTypes } from '../FlowBuilder.types';
+import { BaseNodeProperties, FlowBuilderNodeTypes } from '../FlowBuilder.types';
 
 describe('Recreate nodes', () => {
   const baseItems: NodeLikeItem[] = [
@@ -61,21 +63,21 @@ describe('Recreate nodes', () => {
       findSelectionForItem: (item) => ({
         label: `Test item label ${item.id}`,
         value: {
-          type: item.type,
+          type: item.type!,
         },
       }),
     })({
       handleConnect: (params) =>
         createEdge({
-          sourceId: params.source,
-          targetId: params.target,
+          sourceId: params.source!,
+          targetId: params.target!,
         }),
       createNode: async (selection) => [
         createNodeFromSelection(
-          selection.value.id,
+          selection.value.id!,
           selection,
-          selection.value.position
-        ),
+          selection.value.position!
+        ) as Node<BaseNodeProperties>,
       ],
     });
 

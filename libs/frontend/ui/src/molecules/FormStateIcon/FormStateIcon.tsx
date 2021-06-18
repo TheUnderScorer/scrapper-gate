@@ -1,5 +1,3 @@
-import React, { useMemo } from 'react';
-import classNames from 'classnames';
 import {
   CircularProgress,
   IconButton,
@@ -7,8 +5,10 @@ import {
   Tooltip,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { CheckSharp, ErrorSharp, InfoSharp } from '@material-ui/icons';
+import classNames from 'classnames';
+import React, { useMemo } from 'react';
 import { useFormState } from 'react-final-form';
-import { CheckSharp, ErrorSharp } from '@material-ui/icons';
 import { TooltipText } from '../../atoms/TooltipText/TooltipText';
 
 export type FormStateIconProps = IconButtonProps;
@@ -55,10 +55,13 @@ export const FormStateIcon = (props: FormStateIconProps) => {
     return formState.hasValidationErrors ? 'Validation error' : null;
   }, [formState]);
 
-  const stateIcon = useMemo(
-    () => (hasError ? <ErrorSharp /> : <CheckSharp />),
-    [hasError]
-  );
+  const stateIcon = useMemo(() => {
+    if (formState.validating) {
+      return <InfoSharp />;
+    }
+
+    return hasError ? <ErrorSharp /> : <CheckSharp />;
+  }, [formState.validating, hasError]);
 
   const classes = useStyles();
 
@@ -73,15 +76,15 @@ export const FormStateIcon = (props: FormStateIconProps) => {
           {...props}
           className={classNames(
             classes.icon,
-            hasError ? 'error' : 'success',
+            hasError
+              ? 'error'
+              : formState.validating
+              ? 'validating'
+              : 'success',
             props.className
           )}
         >
-          {formState.submitting || formState.validating ? (
-            <CircularProgress size={20} />
-          ) : (
-            stateIcon
-          )}
+          {formState.submitting ? <CircularProgress size={20} /> : stateIcon}
         </IconButton>
       </span>
     </Tooltip>

@@ -1,4 +1,7 @@
-import { MessagesPayloadMap, MessageTypes } from '../../communication/types';
+import {
+  MessagesPayloadMap,
+  MessageTypes,
+} from '../../communication/messageResult.types';
 
 export enum Target {
   activeTab = 'activeTab',

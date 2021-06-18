@@ -2,7 +2,7 @@ import {
   HandlersMap,
   MessageTypes,
   StoredRoute,
-} from '../../browser/communication/types';
+} from '../../browser/communication/messageResult.types';
 import { getActiveTab } from '../../browser/tabsQuery/getActiveTab';
 import { toggleContentOverlay } from '../toggleContentOverlay';
 import { updateContentRoute } from '../updateContentRoute';

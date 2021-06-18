@@ -1,12 +1,12 @@
 {
   "extends": ["../../.eslintrc.json"],
   "ignorePatterns": ["!**/*"],
+  "rules": {
+    "@typescript-eslint/no-non-null-assertion": "off"
+  },
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
-      "parserOptions": {
-        "project": ["apps/api/tsconfig.*?.json"]
-      },
       "rules": {}
     },
     {

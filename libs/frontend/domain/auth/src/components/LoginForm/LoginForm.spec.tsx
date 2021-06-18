@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import {
   CreateUserDocument,
   LoginDocument,
@@ -88,11 +89,11 @@ const fillFields = async (container: HTMLElement) => {
   const password = container.querySelector('#password');
 
   await act(async () => {
-    await fireEvent.type(username, 'test@test.com', {
+    await fireEvent.type(username!, 'test@test.com', {
       delay: 10,
     });
 
-    await fireEvent.type(password, 'password', {
+    await fireEvent.type(password!, 'password', {
       delay: 10,
     });
   });
@@ -116,7 +117,7 @@ describe('<LoginForm />', () => {
     await fillFields(container);
 
     await act(async () => {
-      userEvent.click(loginBtn);
+      userEvent.click(loginBtn!);
     });
 
     await waitFor(() => expect(handleLogin).toHaveBeenCalledTimes(1));
@@ -135,7 +136,7 @@ describe('<LoginForm />', () => {
     const acceptTerms = container.querySelector('#acceptTerms');
 
     act(() => {
-      userEvent.click(acceptTerms);
+      userEvent.click(acceptTerms!);
     });
 
     await wait(50);
@@ -143,7 +144,7 @@ describe('<LoginForm />', () => {
     const signupBtn = container.querySelector('#signup');
 
     act(() => {
-      userEvent.click(signupBtn);
+      userEvent.click(signupBtn!);
     });
 
     await waitFor(() => expect(handleCreate).toHaveBeenCalledTimes(1), {

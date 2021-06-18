@@ -2,7 +2,7 @@ import { useCallback, useRef } from 'react';
 import { ValidationErrors } from 'final-form';
 
 interface DebouncedValidatorHookProps<Value> {
-  validate: (value?: Value) => ValidationErrors | string;
+  validate: (value?: Value) => ValidationErrors | string | undefined;
   ms?: number;
 }
 

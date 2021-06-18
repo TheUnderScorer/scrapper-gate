@@ -1,8 +1,9 @@
-import React, { Ref } from 'react';
 import { TextField, TextFieldProps } from '@material-ui/core';
-import { FieldProps } from '../../types';
+import { setRefValue } from '@scrapper-gate/frontend/common';
+import React, { Ref, useState } from 'react';
 import { useField } from 'react-final-form';
 import { useFieldHasError } from '../../hooks/useFieldHasError';
+import { FieldProps } from '../../types';
 
 export interface FormTextFieldProps<T>
   extends Pick<
@@ -24,27 +25,22 @@ export interface FormTextFieldProps<T>
     FieldProps<T> {
   name: string;
   inputRef?: Ref<HTMLInputElement>;
+  focusOnMount?: boolean;
 }
 
 export const FormTextField = <T extends unknown>({
   defaultValue,
   name,
-  helperText,
   variant,
-  label,
-  fullWidth,
   id,
-  size,
-  disabled,
-  placeholder,
   showErrorOnlyOnTouched,
   inputRef,
-  onKeyUp,
-  onKeyDown,
-  onKeyPress,
-  inputProps,
+  focusOnMount,
+  helperText,
   ...rest
 }: FormTextFieldProps<T>) => {
+  const [didFocus, setDidFocus] = useState(false);
+
   const { input, meta } = useField(name, {
     ...rest,
     parse: (value) => {
@@ -59,21 +55,22 @@ export const FormTextField = <T extends unknown>({
 
   return (
     <TextField
-      ref={inputRef}
-      placeholder={placeholder}
-      label={label}
-      fullWidth={fullWidth}
+      ref={(element) => {
+        if (focusOnMount && !didFocus && element) {
+          element.querySelector('input')?.focus();
+
+          setDidFocus(true);
+        }
+
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        setRefValue(inputRef!, element);
+      }}
       variant={variant}
-      size={size}
       error={hasError}
       helperText={hasError ? meta.error.message : helperText}
       id={id ?? input.name}
-      disabled={disabled}
       InputProps={rest.InputProps}
-      onKeyUp={onKeyUp}
-      onKeyDown={onKeyDown}
-      onKeyPress={onKeyPress}
-      inputProps={inputProps}
+      {...rest}
       {...input}
     />
   );

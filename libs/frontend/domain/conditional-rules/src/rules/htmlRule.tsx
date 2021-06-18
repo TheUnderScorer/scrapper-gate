@@ -1,61 +1,102 @@
-import { ReactNode } from 'react';
-import { ConditionalRulesSelection } from '../types';
+import { TextFieldProps } from '@material-ui/core';
 import { Code } from '@material-ui/icons';
 import { HtmlElementPickerProps } from '@scrapper-gate/frontend/ui';
-import { HtmlElementRule } from '../components/HtmlElementRule/HtmlElementRule';
+import { toDisplayText } from '@scrapper-gate/shared/common';
 import {
   ConditionalRuleTypes,
+  ConditionalRuleWhen,
   HtmlElementRuleMeta,
   HtmlElementWhat,
 } from '@scrapper-gate/shared/domain/conditional-rules';
 import { ConditionalRule } from '@scrapper-gate/shared/schema';
-import { toDisplayText } from '@scrapper-gate/shared/common';
+import { ReactNode } from 'react';
+import { HtmlElementRule } from '../components/HtmlElementRule/HtmlElementRule';
+import {
+  ConditionalRulesSelection,
+  RuleTitleDefinition,
+  RuleTitleDefinitionType,
+} from '../types';
 
-const createTitle = (rule: ConditionalRule) => {
+const createTitle = (rule: ConditionalRule): RuleTitleDefinition[] => {
   const meta = rule.meta as HtmlElementRuleMeta;
 
+  const base = {
+    type: RuleTitleDefinitionType.Text,
+    text: 'Html element',
+  };
+
+  if (!rule.when) {
+    return [base];
+  }
+
   if (!rule.what) {
-    return (
-      <>
-        Html element <strong>{toDisplayText(rule.when).toLowerCase()}</strong>
-      </>
-    );
+    return [
+      base,
+      {
+        type: RuleTitleDefinitionType.Highlight,
+        text: toDisplayText(rule.when).toLowerCase(),
+      },
+    ];
   }
 
   switch (rule.what) {
     case HtmlElementWhat.Tag:
       if (!rule.value) {
-        return (
-          <>
-            Html element tag name{' '}
-            <strong>{toDisplayText(rule.when).toLowerCase()}</strong>
-          </>
-        );
+        return [
+          {
+            type: RuleTitleDefinitionType.Text,
+            text: 'Html element tag name',
+          },
+          {
+            type: RuleTitleDefinitionType.Highlight,
+            text: toDisplayText(rule.when).toLowerCase(),
+          },
+        ];
       }
 
-      return (
-        <>
-          Html element tag name{' '}
-          <strong>{toDisplayText(rule.when).toLowerCase()}</strong>{' '}
-          {rule.value ? `"${rule.value}"` : ''}
-        </>
-      );
+      return [
+        base,
+        {
+          type: RuleTitleDefinitionType.Highlight,
+          text: 'tag name',
+        },
+        {
+          type: RuleTitleDefinitionType.Highlight,
+          text: toDisplayText(rule.when).toLowerCase(),
+        },
+        {
+          type: RuleTitleDefinitionType.Value,
+          text: rule.value?.toString() ?? '',
+        },
+      ];
 
     case HtmlElementWhat.Attribute:
       if (!meta?.attribute) {
-        return 'Html element';
+        return [base];
       }
 
-      return (
-        <>
-          Html element attribute "{meta.attribute}"{' '}
-          <strong>{toDisplayText(rule.when).toLowerCase()}</strong>{' '}
-          {rule.value ? `"${rule.value}"` : ''}
-        </>
-      );
+      return [
+        base,
+        {
+          type: RuleTitleDefinitionType.Highlight,
+          text: 'attribute',
+        },
+        {
+          type: RuleTitleDefinitionType.Text,
+          text: rule.meta?.attribute,
+        },
+        {
+          type: RuleTitleDefinitionType.Highlight,
+          text: toDisplayText(rule.when).toLowerCase(),
+        },
+        {
+          type: RuleTitleDefinitionType.Value,
+          text: rule.value?.toString() ?? '',
+        },
+      ];
 
     default:
-      return 'Html element';
+      return [base];
   }
 };
 
@@ -68,11 +109,17 @@ export const makeHtmlElementRule = (
     Component: (props) => <HtmlElementRule {...props} {...htmlElementProps} />,
     type: ConditionalRuleTypes.HtmlElement,
     createTitle: createTitle,
+    defaultWhen: ConditionalRuleWhen.Exists,
   },
 });
 
+export interface HtmlRulePickerProps {
+  name: string;
+  variant?: TextFieldProps['variant'];
+}
+
 export const makeHtmlElementRuleWithPicker = (
-  pickerFactory: (name: string) => ReactNode
+  pickerFactory: (props: HtmlRulePickerProps) => ReactNode
 ): ConditionalRulesSelection => ({
   label: 'HTML Element',
   icon: <Code />,
@@ -82,7 +129,10 @@ export const makeHtmlElementRuleWithPicker = (
     Component: (props) => (
       <HtmlElementRule
         {...props}
-        picker={pickerFactory(props.getName('meta.selectors'))}
+        picker={pickerFactory({
+          name: props.getName('meta.selectors'),
+          variant: props.fieldVariant,
+        })}
       />
     ),
   },

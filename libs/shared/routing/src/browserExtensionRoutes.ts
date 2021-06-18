@@ -4,7 +4,7 @@ export interface ContentScrapperRouteParams {
   scrapperId?: string;
   drawerOpen?: boolean;
 
-  [key: string]: string | number | boolean;
+  [key: string]: string | number | boolean | undefined;
 }
 
 export const browserExtensionRoutes = {

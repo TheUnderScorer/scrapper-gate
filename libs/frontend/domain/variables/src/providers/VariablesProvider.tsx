@@ -11,20 +11,30 @@ import {
   useContextSelector,
 } from 'use-context-selector';
 
-export interface VariablesProviderContext {
+export interface VariablesProviderContext
+  extends Pick<VariableProviderProps, 'name'> {
   variables: Variable[];
   // Record with mapped keys and matching variable. Key is formatted with template brackets, ex. {{My Variable}}: Variable
   mappedVariables: Record<string, Variable>;
+
+  // Filtered variable, here every variable must have a key
+  filteredVariables: Variable[];
 }
 
 export interface VariableProviderProps {
   // Name of form field under which variables are stored
   name: string;
+  filter?: (variables: Variable[]) => Variable[];
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const defaultValue: any[] = [];
+
 const Context = createContext<VariablesProviderContext>({
-  variables: [],
+  variables: defaultValue,
   mappedVariables: {},
+  filteredVariables: defaultValue,
+  name: '',
 });
 
 export const useVariablesContext = () => useContext(Context);
@@ -36,12 +46,18 @@ export const useVariablesContextSelector = <Value extends unknown>(
 export const VariablesProvider = ({
   name,
   children,
+  filter,
 }: PropsWithChildren<VariableProviderProps>) => {
-  const variables = useFormFieldValue<Variable[]>(name);
+  const variables = useFormFieldValue<Variable[]>(name, defaultValue);
+  const filteredVariables = useMemo(() => {
+    const variablesArray = Array.isArray(variables) ? variables : defaultValue;
+
+    return filter ? filter(variablesArray) : variablesArray;
+  }, [filter, variables]);
 
   const mappedVariables = useMemo(
     () =>
-      variables.reduce((acc, variable) => {
+      filteredVariables.reduce((acc, variable) => {
         const key = getTextVariableTemplate(variable.key, TemplateType.Braces);
 
         return {
@@ -49,12 +65,23 @@ export const VariablesProvider = ({
           [key]: variable,
         };
       }, {}),
-    [variables]
+    [filteredVariables]
   );
 
-  return (
-    <Context.Provider value={{ variables, mappedVariables }}>
-      {children}
-    </Context.Provider>
+  const variablesWithKeys = useMemo(
+    () => filteredVariables.filter((variable) => Boolean(variable.key)),
+    [filteredVariables]
   );
+
+  const value = useMemo(
+    () => ({
+      variables: filteredVariables,
+      mappedVariables,
+      filteredVariables: variablesWithKeys,
+      name,
+    }),
+    [filteredVariables, mappedVariables, name, variablesWithKeys]
+  );
+
+  return <Context.Provider value={value}>{children}</Context.Provider>;
 };

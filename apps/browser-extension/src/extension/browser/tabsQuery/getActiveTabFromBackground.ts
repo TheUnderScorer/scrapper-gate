@@ -1,5 +1,5 @@
 import { sendMessageToBackground } from '../communication/sendMessageToBackground';
-import { MessageTypes } from '../communication/types';
+import { MessageTypes } from '../communication/messageResult.types';
 import { Tabs } from 'webextension-polyfill-ts';
 
 export const getActiveTabFromBackground = async () => {

@@ -1,9 +1,10 @@
+import { Maybe } from '@scrapper-gate/shared/common';
 import { useEffect, useState } from 'react';
 import {
   Message,
   MessageResult,
   MessageTypes,
-} from '../../communication/types';
+} from '../../communication/messageResult.types';
 import { browser, Runtime } from 'webextension-polyfill-ts';
 import { logger } from '@scrapper-gate/frontend/logger';
 
@@ -12,7 +13,7 @@ interface OnMessageListenerHookProps<
   TypesMap extends Record<string, unknown>
 > {
   type: MessageTypes;
-  initialValue?: () => Promise<TypesMap[Type] | null>;
+  initialValue?: () => Promise<Maybe<TypesMap[Type]>>;
   sendResponse?: (
     message: Message<Type, TypesMap[Type]>,
     sender: Runtime.MessageSender
@@ -28,10 +29,10 @@ export const useOnMessageListener = <
   initialValue,
   sendResponse: responseSender,
   onMessage,
-}: OnMessageListenerHookProps<Type, TypesMap>): TypesMap[Type] | null => {
+}: OnMessageListenerHookProps<Type, TypesMap>): Maybe<TypesMap[Type]> => {
   const [initialValueResolved, setInitialValueResolved] = useState(false);
 
-  const [value, setValue] = useState<TypesMap[Type] | null>(null);
+  const [value, setValue] = useState<Maybe<TypesMap[Type]>>(null);
 
   useEffect(() => {
     if (initialValue && !initialValueResolved) {

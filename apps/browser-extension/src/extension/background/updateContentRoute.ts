@@ -1,9 +1,9 @@
-import { getActiveTab } from '../browser/tabsQuery/getActiveTab';
 import { browser, Tabs } from 'webextension-polyfill-ts';
-import { StoredRoute } from '../browser/communication/types';
+import { StoredRoute } from '../browser/communication/messageResult.types';
+import { getActiveTab } from '../browser/tabsQuery/getActiveTab';
 
 export const updateContentRoute = async (
-  route: StoredRoute,
+  route?: StoredRoute,
   tab?: Tabs.Tab
 ) => {
   const targetTab = tab ?? (await getActiveTab());
@@ -11,13 +11,11 @@ export const updateContentRoute = async (
     'contentRoutes',
   ]);
 
-  if (typeof contentRoutes !== 'object' || !targetTab) {
+  if (typeof contentRoutes !== 'object' || !targetTab || !targetTab?.id) {
     return;
   }
 
-  const tabId = tab.id;
-
-  contentRoutes[tabId] = route;
+  contentRoutes[targetTab.id] = route;
 
   await browser.storage.local.set({
     contentRoutes,

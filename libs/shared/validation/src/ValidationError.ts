@@ -17,7 +17,8 @@ export class ValidationError extends Error {
           detail.type === JoiMessages.Custom &&
           detail.context?.error?.details
         ) {
-          const actualDetails = detail.context.error.details;
+          const actualDetails = detail.context.error
+            .details as ValidationErrorItem[];
 
           return actualDetails.map((actualDetail) => ({
             ...actualDetail,

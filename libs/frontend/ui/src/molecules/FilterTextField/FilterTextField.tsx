@@ -46,7 +46,10 @@ export const FilterTextField = <T extends unknown>({
             return false;
           }
 
-          return item[key].toString().toLowerCase().includes(search);
+          return ((item[key] as unknown) as string)
+            .toString()
+            .toLowerCase()
+            .includes(search.toLowerCase());
         });
       });
 

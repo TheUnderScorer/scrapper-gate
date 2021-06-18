@@ -7,5 +7,6 @@ export interface TokenUserData {
 export type TokenDecoder = (token: string) => Dictionary;
 
 export const isTokenUserData = (data: unknown): data is TokenUserData => {
-  return typeof data === 'object' && 'userId' in data;
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  return typeof data === 'object' && 'userId' in data!;
 };

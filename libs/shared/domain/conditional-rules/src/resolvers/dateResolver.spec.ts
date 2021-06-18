@@ -5,18 +5,18 @@ import {
 import { addSeconds, subSeconds } from 'date-fns';
 import { v4 } from 'uuid';
 import { resolveRules } from '../resolveRules';
-import { BaseConditionalRuleWhen, ConditionalRuleTypes } from '../types';
+import { ConditionalRuleWhen, ConditionalRuleTypes } from '../types';
 import { makeDateResolver } from './dateResolver';
 
 const now = new Date();
 
 describe('Date resolver', () => {
-  it.each<[rule: ConditionalRule, date: Date, expectedResult: boolean]>([
+  it.each<[rule: ConditionalRule, date: Date | null, expectedResult: boolean]>([
     [
       {
         id: v4(),
         type: ConditionalRuleTypes.Date,
-        when: BaseConditionalRuleWhen.Equals,
+        when: ConditionalRuleWhen.Equals,
         value: now.valueOf(),
       },
       now,
@@ -26,7 +26,7 @@ describe('Date resolver', () => {
       {
         id: v4(),
         type: ConditionalRuleTypes.Date,
-        when: BaseConditionalRuleWhen.Equals,
+        when: ConditionalRuleWhen.Equals,
         value: addSeconds(now, 30).valueOf(),
       },
       now,
@@ -36,7 +36,7 @@ describe('Date resolver', () => {
       {
         id: v4(),
         type: ConditionalRuleTypes.Date,
-        when: BaseConditionalRuleWhen.LessThan,
+        when: ConditionalRuleWhen.LessThan,
         value: addSeconds(now, 30).valueOf(),
       },
       now,
@@ -46,7 +46,7 @@ describe('Date resolver', () => {
       {
         id: v4(),
         type: ConditionalRuleTypes.Date,
-        when: BaseConditionalRuleWhen.LessThan,
+        when: ConditionalRuleWhen.LessThan,
         value: subSeconds(now, 30).valueOf(),
       },
       now,
@@ -56,7 +56,7 @@ describe('Date resolver', () => {
       {
         id: v4(),
         type: ConditionalRuleTypes.Date,
-        when: BaseConditionalRuleWhen.MoreThan,
+        when: ConditionalRuleWhen.MoreThan,
         value: now.valueOf(),
       },
       subSeconds(now, 30),
@@ -66,7 +66,7 @@ describe('Date resolver', () => {
       {
         id: v4(),
         type: ConditionalRuleTypes.Date,
-        when: BaseConditionalRuleWhen.MoreThan,
+        when: ConditionalRuleWhen.MoreThan,
         value: now.valueOf(),
       },
       addSeconds(now, 30),
@@ -76,7 +76,7 @@ describe('Date resolver', () => {
       {
         id: v4(),
         type: ConditionalRuleTypes.Date,
-        when: BaseConditionalRuleWhen.Exists,
+        when: ConditionalRuleWhen.Exists,
         value: now.valueOf(),
       },
       null,
@@ -86,7 +86,7 @@ describe('Date resolver', () => {
       {
         id: v4(),
         type: ConditionalRuleTypes.Date,
-        when: BaseConditionalRuleWhen.NotEmpty,
+        when: ConditionalRuleWhen.NotEmpty,
         value: now.valueOf(),
       },
       null,

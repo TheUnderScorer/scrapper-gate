@@ -113,21 +113,21 @@ export const FlowBuilder = <
         <FormUndoProvider>
           <FlowBuilderPropsProvider
             {...rest}
-            nodeTypes={{
-              ...(rest.nodeTypes ?? defaultNodeTypes),
-              ...nodeTypes,
-            }}
+            activeTab={activeTab}
+            nodeTypes={
+              {
+                ...(rest.nodeTypes ?? defaultNodeTypes),
+                ...(nodeTypes ?? []),
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              } as any
+            }
           >
             <FlowBuilderInstanceProvider>
               <FlowBuilderItemsProvider>
                 <FlowBuilderSelectionProvider selection={nodesSelection}>
                   <FlowBuilderActiveNodeProvider>
                     <FlowBuilderDragStateProvider>
-                      <Paper
-                        elevation={0}
-                        variant="outlined"
-                        className={classes.paper}
-                      >
+                      <Paper variant="outlined" className={classes.paper}>
                         <FlowBuilderHeader {...props} />
                         <FlowBuilderTabs
                           value={activeTab}

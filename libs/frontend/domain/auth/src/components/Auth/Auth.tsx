@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React from 'react';
 import { Emoji } from '@scrapper-gate/frontend/ui';
 import {
@@ -51,7 +52,11 @@ export const Auth = ({ afterLogin, afterCreate }: AuthProps) => {
   const signupUrl = `${match.path}/sign-up`;
 
   return (
-    <Grid className={classes.container} direction="column" container>
+    <Grid
+      className={classNames(classes.container, 'auth')}
+      direction="column"
+      container
+    >
       <Stack justifyContent="center" direction="row" className={classes.box}>
         <Route path={match.path} exact>
           <Typography variant="h5">

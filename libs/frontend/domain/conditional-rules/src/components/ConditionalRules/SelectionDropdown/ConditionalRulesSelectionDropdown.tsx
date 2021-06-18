@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
       borderColor: theme.palette.grey.A400,
     },
     padding: theme.spacing(1),
-    color: theme.palette.grey.A400,
+    color: theme.palette.common.black,
   },
   menuItem: {
     minWidth: '200px',
@@ -45,6 +45,7 @@ export const ConditionalRulesSelectionDropdown = ({
         onClick: () =>
           onAdd({
             type: definition.value.type,
+            when: definition.value.defaultWhen,
           }),
       })),
     ],
@@ -56,12 +57,7 @@ export const ConditionalRulesSelectionDropdown = ({
       items={items}
       activator={({ onClick }) => (
         <Centered>
-          <Button
-            startIcon={<Add />}
-            onClick={onClick}
-            className={classes.btn}
-            variant="outlined"
-          >
+          <Button startIcon={<Add />} onClick={onClick} variant="outlined">
             Add rule
           </Button>
         </Centered>

@@ -1,13 +1,12 @@
-import { useConnectHandler } from './useConnectHandler';
-import { useFlowBuilderContextSelector } from '../providers/FlowBuilderProps.provider';
-import { useEffect, useState } from 'react';
-import { useFlowBuilderItemsSelector } from '../providers/FlowBuilderItems.provider';
-import { useAddItem } from './useAddItem';
-import { logger } from '@scrapper-gate/frontend/logger';
 import { useFormUndo } from '@scrapper-gate/frontend/form';
+import { logger } from '@scrapper-gate/frontend/logger';
+import { useEffect } from 'react';
+import { useFlowBuilderItemsSelector } from '../providers/FlowBuilderItems.provider';
+import { useFlowBuilderContextSelector } from '../providers/FlowBuilderProps.provider';
+import { useAddItem } from './useAddItem';
+import { useConnectHandler } from './useConnectHandler';
 
 export const useNodesCreator = () => {
-  const [done, setDone] = useState(false);
   const connect = useConnectHandler();
   const addItem = useAddItem();
 
@@ -16,15 +15,23 @@ export const useNodesCreator = () => {
   const loading = useFlowBuilderContextSelector((ctx) => ctx.loading);
   const nodesCreator = useFlowBuilderContextSelector((ctx) => ctx.nodesCreator);
   const setItems = useFlowBuilderItemsSelector((ctx) => ctx.setItems);
+  const [
+    nodesRecreated,
+    setNodesRecreated,
+  ] = useFlowBuilderItemsSelector((ctx) => [
+    ctx.nodesRecreated,
+    ctx.setNodesRecreated,
+  ]);
 
   useEffect(() => {
-    if (loading || done || !nodesCreator) {
+    if (loading || !nodesCreator || nodesRecreated) {
       return;
     }
 
     nodesCreator({
       handleConnect: (params, items) =>
-        connect(params, { setItemsAfter: false, items }),
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        connect(params, { setItemsAfter: false, items })!,
       createNode: (selection) =>
         addItem(selection, {
           setItemsAfter: false,
@@ -39,6 +46,15 @@ export const useNodesCreator = () => {
       })
       .catch(logger.error);
 
-    setDone(true);
-  }, [addItem, connect, done, loading, nodesCreator, reset, setItems]);
+    setNodesRecreated(true);
+  }, [
+    addItem,
+    connect,
+    loading,
+    nodesCreator,
+    reset,
+    setItems,
+    nodesRecreated,
+    setNodesRecreated,
+  ]);
 };

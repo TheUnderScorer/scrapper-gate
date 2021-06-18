@@ -4,7 +4,7 @@ import {
 } from '@scrapper-gate/shared/common';
 
 export const paramRoute = <
-  Params extends Record<string, string | number | boolean>
+  Params extends Record<string, string | number | boolean | undefined>
 >(
   route: string
 ) => (params?: Params) => {

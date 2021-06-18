@@ -1,32 +1,35 @@
-import { useCallback } from 'react';
-import { Selector } from '@scrapper-gate/shared/schema';
+import { useDebouncedValidator } from '@scrapper-gate/frontend/form';
 import { getElementsBySelectors } from '@scrapper-gate/shared/common';
+import { InvalidSelectorProvidedError } from '@scrapper-gate/shared/errors';
+import { Selector } from '@scrapper-gate/shared/schema';
+import { useCallback } from 'react';
 import {
   HtmlElementPickerProps,
   HtmlElementPickerValidationRules,
 } from './HtmlElementPicker.types';
-import { useDebouncedValidator } from '@scrapper-gate/frontend/form';
-import { InvalidSelectorProvidedError } from '@scrapper-gate/shared/errors';
 
 export type UseHtmlPickerValidatorProps = Pick<
   HtmlElementPickerProps,
   'validationRules' | 'pickerDisabled' | 'elementsValidator'
->;
+> &
+  Pick<Required<HtmlElementPickerProps>, 'filterSelectorsForValidation'>;
 
 export const useHtmlPickerValidator = ({
   elementsValidator,
   pickerDisabled,
   validationRules,
+  filterSelectorsForValidation,
 }: UseHtmlPickerValidatorProps) => {
   const validateFn = useCallback(
     (fieldValue?: Selector[]) => {
-      if (fieldValue?.length && validationRules.length && !pickerDisabled) {
+      if (fieldValue?.length && validationRules?.length && !pickerDisabled) {
         try {
-          const elements = getElementsBySelectors(fieldValue ?? [], document);
+          const filteredValue = filterSelectorsForValidation(fieldValue ?? []);
+          const elements = getElementsBySelectors(filteredValue, document);
 
           if (
             !elements.length &&
-            validationRules.includes(
+            validationRules?.includes(
               HtmlElementPickerValidationRules.ElementsExist
             )
           ) {
@@ -38,7 +41,7 @@ export const useHtmlPickerValidator = ({
           }
         } catch (e) {
           if (
-            !validationRules.includes(
+            !validationRules?.includes(
               HtmlElementPickerValidationRules.ValidSelector
             )
           ) {
@@ -51,7 +54,12 @@ export const useHtmlPickerValidator = ({
 
       return undefined;
     },
-    [validationRules, pickerDisabled, elementsValidator]
+    [
+      validationRules,
+      pickerDisabled,
+      filterSelectorsForValidation,
+      elementsValidator,
+    ]
   );
 
   return useDebouncedValidator<Selector[]>({

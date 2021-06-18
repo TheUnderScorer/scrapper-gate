@@ -1,9 +1,11 @@
-import { nodeLikeItemsToModels } from '@scrapper-gate/backend/crud';
+import {
+  findEntitiesToRemove,
+  nodeLikeItemsToModels,
+} from '@scrapper-gate/backend/crud';
 import {
   VariableModel,
   VariableRepository,
 } from '@scrapper-gate/backend/domain/variables';
-import { findEntitiesToRemove } from '@scrapper-gate/shared/common';
 import { ScrapperUpdatedEvent } from '@scrapper-gate/shared/domain/scrapper';
 import { VariableScope } from '@scrapper-gate/shared/schema';
 import { commandHandler, EventsBus } from 'functional-cqrs';
@@ -47,13 +49,18 @@ export const updateScrapperHandler = commandHandler.asFunction<
     }
 
     if ('steps' in input) {
-      const stepsToRemove = findEntitiesToRemove(input.steps, scrapper.steps);
+      const stepsToRemove = findEntitiesToRemove(
+        input.steps ?? [],
+        scrapper.steps
+      );
 
-      await scrapperStepRepository.remove(stepsToRemove);
+      if (stepsToRemove.length) {
+        await scrapperStepRepository.remove(stepsToRemove);
+      }
 
       scrapper.steps = nodeLikeItemsToModels({
         createModel: (payload) => ScrapperStepModel.create(payload),
-        input: input.steps,
+        input: input.steps ?? [],
         existingSteps: scrapper.steps,
       });
 
@@ -61,24 +68,24 @@ export const updateScrapperHandler = commandHandler.asFunction<
     }
 
     if ('variables' in input) {
-      const variables = input.variables.filter(
-        (variable) => variable.scope === VariableScope.Scrapper
-      );
-
       const variablesToRemove = findEntitiesToRemove(
-        variables,
+        input.variables ?? [],
         scrapper.variables
       );
 
-      await variableRepository.delete(
-        variablesToRemove.map((variable) => variable.id)
-      );
+      if (variablesToRemove.length) {
+        await variableRepository.delete(
+          variablesToRemove.map((variable) => variable.id)
+        );
+      }
 
-      variableModels = variables.map((variable) => {
-        return VariableModel.create({
-          ...variable,
-        });
-      });
+      variableModels =
+        input.variables?.map((variable) =>
+          VariableModel.create({
+            ...variable,
+            createdBy: scrapper.createdBy,
+          })
+        ) ?? [];
 
       scrapper.variables = variableModels.filter(
         (variable) => variable.scope === VariableScope.Scrapper
@@ -94,7 +101,6 @@ export const updateScrapperHandler = commandHandler.asFunction<
         new ScrapperUpdatedEvent({
           scrapper,
           userId,
-          variables: variableModels,
         })
       );
     }

@@ -1,18 +1,19 @@
-import React from 'react';
-import { Form } from 'react-final-form';
-import { ConditionalRules, ConditionalRulesProps } from './ConditionalRules';
-import { act, render } from '@testing-library/react';
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { LocalizationProvider } from '@material-ui/lab';
+import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
 import '@scrapper-gate/frontend/theme';
+import { act, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import DateFnsUtils from '@date-io/date-fns';
-import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import React from 'react';
+import { Form } from 'react-final-form';
 import { baseRulesSelection } from '../../baseRules';
+import { ConditionalRules, ConditionalRulesProps } from './ConditionalRules';
 
 const renderCmp = (props: Partial<ConditionalRulesProps> = {}) => {
   return render(
     <ThemeProvider>
-      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
         <Form
           onSubmit={jest.fn()}
           render={() => (
@@ -22,7 +23,7 @@ const renderCmp = (props: Partial<ConditionalRulesProps> = {}) => {
             />
           )}
         />
-      </MuiPickersUtilsProvider>
+      </LocalizationProvider>
     </ThemeProvider>
   );
 };
@@ -65,7 +66,7 @@ describe('<ConditionalRules />', () => {
     });
 
     act(() => {
-      userEvent.click(cmp.container.querySelector('.remove-rules-group'));
+      userEvent.click(cmp.container.querySelector('.remove-rules-group')!);
     });
 
     const groups = cmp.container.querySelectorAll('.conditional-rules-group');
@@ -86,7 +87,7 @@ describe('<ConditionalRules />', () => {
     });
 
     act(() => {
-      userEvent.click(cmp.container.querySelector('.remove-rules-rule'));
+      userEvent.click(cmp.container.querySelector('.remove-rules-rule')!);
     });
 
     const rules = cmp.container.querySelectorAll('.conditional-rules-rule');

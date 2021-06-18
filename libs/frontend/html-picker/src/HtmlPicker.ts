@@ -1,4 +1,5 @@
-import { Disposable, prefix } from '@scrapper-gate/shared/common';
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { Disposable, Maybe, prefix } from '@scrapper-gate/shared/common';
 import { logger } from '@scrapper-gate/frontend/logger';
 
 interface ElementPickerProps {
@@ -40,7 +41,7 @@ export class HtmlPicker implements ElementPickerProps, Disposable {
 
   private triggerListener?: () => unknown;
 
-  private selectedElementInternal?: HTMLElement;
+  private selectedElementInternal?: Maybe<HTMLElement>;
 
   private handleClick = (event: Event) => {
     if (!this.preventClick) {
@@ -60,7 +61,7 @@ export class HtmlPicker implements ElementPickerProps, Disposable {
       return;
     }
 
-    if (this.action?.trigger === 'click') {
+    if (this.action?.trigger === 'click' && this.currentTarget) {
       this.action.callback(this.currentTarget, event);
 
       this.selectedElement = undefined;
@@ -104,8 +105,8 @@ export class HtmlPicker implements ElementPickerProps, Disposable {
     hoverBox.style.pointerEvents = 'none';
     hoverBox.style.zIndex = this.zIndex?.toString() ?? '99999';
     hoverBox.style.maxWidth = '100%';
-    hoverBox.style.background = this.background;
-    hoverBox.style.transition = this.transition;
+    hoverBox.style.background = this.background!;
+    hoverBox.style.transition = this.transition!;
 
     hoverBox.classList.add(prefix('hover-box'));
 
@@ -198,14 +199,14 @@ export class HtmlPicker implements ElementPickerProps, Disposable {
 
     target.addEventListener('click', this.handleClick);
 
-    this.hoverBox.style.width = `${targetWidth + this.borderWidth * 2}px`;
-    this.hoverBox.style.height = `${targetHeight + this.borderWidth * 2}px`;
+    this.hoverBox.style.width = `${targetWidth + this.borderWidth! * 2}px`;
+    this.hoverBox.style.height = `${targetHeight + this.borderWidth! * 2}px`;
     // need scrollX and scrollY to account for scrolling
     this.hoverBox.style.top = `${
-      targetOffset.top + window.scrollY - this.borderWidth
+      targetOffset.top + window.scrollY - this.borderWidth!
     }px`;
     this.hoverBox.style.left = `${
-      targetOffset.left + window.scrollX - this.borderWidth
+      targetOffset.left + window.scrollX - this.borderWidth!
     }px`;
 
     return target;
@@ -214,7 +215,7 @@ export class HtmlPicker implements ElementPickerProps, Disposable {
   private isElementValid(target: HTMLElement) {
     return (
       !this.ignoreElements?.includes(target) &&
-      target.matches(this.selectors) &&
+      target.matches(this.selectors!) &&
       this.container?.contains(target) &&
       !this.ignoreElementsContainer?.contains(target)
     );
@@ -242,7 +243,7 @@ export class HtmlPicker implements ElementPickerProps, Disposable {
   set background(value) {
     this.props.background = value;
 
-    this.hoverBox.style.background = this.background;
+    this.hoverBox.style.background = this.background!;
   }
 
   get transition() {
@@ -252,13 +253,13 @@ export class HtmlPicker implements ElementPickerProps, Disposable {
   set transition(value) {
     this.props.transition = value;
 
-    this.hoverBox.style.transition = this.transition;
+    this.hoverBox.style.transition = this.transition!;
   }
 
   set zIndex(value) {
     this.props.zIndex = value;
 
-    this.hoverBox.style.zIndex = value.toString();
+    this.hoverBox.style.zIndex = value?.toString() ?? '';
   }
 
   get zIndex() {
@@ -317,7 +318,7 @@ export class HtmlPicker implements ElementPickerProps, Disposable {
         this.redetectMouseMove();
       };
 
-      document.addEventListener(this.action.trigger, this.triggerListener);
+      document.addEventListener(this.action!.trigger, this.triggerListener);
     }
   }
 
@@ -339,7 +340,7 @@ export class HtmlPicker implements ElementPickerProps, Disposable {
   }
 
   get selectedElement() {
-    return this.selectedElementInternal;
+    return this.selectedElementInternal!;
   }
 
   dispose() {
@@ -347,7 +348,7 @@ export class HtmlPicker implements ElementPickerProps, Disposable {
 
     this.hoverBox.remove();
 
-    if (this.action?.trigger) {
+    if (this.action?.trigger && this.triggerListener) {
       document.removeEventListener(this.action.trigger, this.triggerListener);
     }
 

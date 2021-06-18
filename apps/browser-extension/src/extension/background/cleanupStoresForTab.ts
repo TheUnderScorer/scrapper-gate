@@ -1,4 +1,4 @@
-import { StoredRoutes } from '../browser/communication/types';
+import { StoredRoutes } from '../browser/communication/messageResult.types';
 import { browser } from 'webextension-polyfill-ts';
 import { logger } from '@scrapper-gate/frontend/logger';
 

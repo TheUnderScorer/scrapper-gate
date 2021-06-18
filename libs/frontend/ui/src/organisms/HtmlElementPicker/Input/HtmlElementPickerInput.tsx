@@ -1,6 +1,3 @@
-import { selectorModeMap } from '../selectorModeMap';
-import { SelectorType } from '@scrapper-gate/shared/schema';
-import React from 'react';
 import {
   IconButton,
   InputAdornment,
@@ -13,27 +10,33 @@ import {
   Tooltip,
 } from '@material-ui/core';
 import { Add, Code } from '@material-ui/icons';
+import { Maybe } from '@scrapper-gate/shared/common';
+import { SelectorType } from '@scrapper-gate/shared/schema';
+import React from 'react';
 import { Key } from 'ts-key-enum';
+import { HtmlElementPickerProps } from '../HtmlElementPicker.types';
+import { selectorModeMap } from '../selectorModeMap';
 
 const selectionModes = Object.entries(selectorModeMap);
 
 export interface HtmlElementPickerInputProps
-  extends Pick<
-    TextFieldProps,
-    'name' | 'variant' | 'onChange' | 'helperText' | 'label'
-  > {
+  extends Pick<TextFieldProps, 'variant' | 'helperText' | 'label' | 'name'>,
+    Pick<
+      HtmlElementPickerProps,
+      'shouldAddSelectorOnEnter' | 'TextFieldComponent'
+    > {
   mode: SelectorType.Selector | SelectorType.TextContent;
-  value: string;
+  value: Maybe<string>;
   onSelectChange: SelectProps['onChange'];
   onEnter?: () => unknown;
   error?: string;
   onAdd?: () => unknown;
+  onChange?: (text: string) => unknown;
 }
 
 export const HtmlElementPickerInput = ({
   helperText,
   mode,
-  name,
   onChange,
   onSelectChange,
   value,
@@ -42,35 +45,37 @@ export const HtmlElementPickerInput = ({
   error,
   label,
   onAdd,
+  shouldAddSelectorOnEnter,
+  TextFieldComponent,
+  name,
 }: HtmlElementPickerInputProps) => {
+  const Component = TextFieldComponent ?? TextField;
+
   return (
     <Stack
-      alignItems="center"
+      alignItems="baseline"
       direction="row"
       spacing={1}
       style={{
         width: '100%',
       }}
     >
-      <TextField
-        label={label}
+      <Component
         name={name}
-        placeholder={
-          mode === SelectorType.Selector
-            ? 'Enter query selector'
-            : 'Enter text content'
-        }
+        label={label}
         fullWidth
         error={Boolean(error)}
         helperText={error ?? helperText}
         variant={variant}
         className="html-element-picker-input"
-        onChange={onChange}
+        onChange={(event) => onChange?.(event.target.value)}
         value={value}
         onKeyDown={(event) => {
-          event.stopPropagation();
-
-          if (event.key === Key.Enter) {
+          if (
+            event.key === Key.Enter &&
+            (!shouldAddSelectorOnEnter || shouldAddSelectorOnEnter(event))
+          ) {
+            event.stopPropagation();
             event.preventDefault();
 
             onEnter?.();
@@ -85,6 +90,7 @@ export const HtmlElementPickerInput = ({
           endAdornment: (
             <InputAdornment position="end">
               <Select
+                variant="standard"
                 className="html-element-picker-input-select"
                 onChange={onSelectChange}
                 value={mode}

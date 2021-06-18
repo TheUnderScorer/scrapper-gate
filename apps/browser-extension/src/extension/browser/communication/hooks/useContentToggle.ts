@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { ContentToggleHookPayload, MessageTypes } from '../types';
+import { ContentToggleHookPayload, MessageTypes } from '../messageResult.types';
 import { useMessageSender } from '../../hooks/useMessageSender/useMessageSender';
 import {
   MessageSenderState,

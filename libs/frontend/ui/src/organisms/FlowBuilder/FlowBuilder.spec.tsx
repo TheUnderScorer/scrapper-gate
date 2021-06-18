@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import '@testing-library/jest-dom';
 import {
   AccountTreeSharp,
   OpenInBrowserSharp,
@@ -19,7 +21,7 @@ import { Selection } from '@scrapper-gate/frontend/common';
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
 import { createNodeFromSelection } from './utils/createNodeFromSelection';
 import { wait } from '@scrapper-gate/shared/common';
-import { dragSelectionIntoCanvas } from './testUtils';
+import { dragSelectionIntoCanvas } from '../../../../../../tests/ui/flowBuilder/dragSelectionIntoCanvas';
 import { FlowBuilder, FlowBuilderProps } from './FlowBuilder';
 import {
   BaseNodeProperties,
@@ -137,6 +139,50 @@ const renderComponent = ({
     </ThemeProvider>
   );
 
+const withConditionalNode = async () => {
+  const ContentComponent: NodeContentComponent = ({ nodeIndex }) => {
+    return <span>Test content of node {nodeIndex}</span>;
+  };
+
+  const items: FlowBuilderItem<BaseNodeProperties>[] = [
+    ...defaultInitialItems,
+    {
+      id: 'test',
+      type: FlowBuilderNodeTypes.Conditional,
+      data: {
+        title: 'Test',
+      },
+      position: { x: 100, y: 200 },
+    },
+  ];
+
+  const cmp = renderComponent({
+    initialItems: items,
+    nodeContents: {
+      [FlowBuilderNodeTypes.Conditional]: ContentComponent,
+    },
+    onRemove: jest.fn(),
+  });
+
+  await wait(500);
+
+  const node = cmp.container.querySelector(
+    `.flow-builder-node-${FlowBuilderNodeTypes.Conditional} .conditional-node`
+  );
+
+  act(() => {
+    userEvent.click(node!);
+  });
+
+  await wait(450);
+
+  return {
+    cmp,
+    node,
+    id: node!.parentElement!.parentElement!.id.replace('node-', ''),
+  };
+};
+
 describe('<FlowBuilder />', () => {
   const onAdd = jest.fn((selection, { position, items }) => {
     const node = createNodeFromSelection('#new_node', selection, position);
@@ -193,7 +239,7 @@ describe('<FlowBuilder />', () => {
       `.item-${FlowBuilderNodeTypes.Action}`
     );
 
-    dragSelectionIntoCanvas(selection, canvas);
+    dragSelectionIntoCanvas(selection!, canvas!);
 
     await waitFor(() => expect(onAdd).toHaveBeenCalledTimes(1));
 
@@ -206,7 +252,7 @@ describe('<FlowBuilder />', () => {
     const undoBtn = cmp.container.querySelector('.undo-btn');
 
     act(() => {
-      userEvent.click(undoBtn);
+      userEvent.click(undoBtn!);
     });
 
     nodes = cmp.container.querySelectorAll('.flow-builder-node');
@@ -218,7 +264,7 @@ describe('<FlowBuilder />', () => {
     await wait(500);
 
     act(() => {
-      userEvent.click(redoBtn);
+      userEvent.click(redoBtn!);
     });
 
     nodes = cmp.container.querySelectorAll('.flow-builder-node');
@@ -227,40 +273,7 @@ describe('<FlowBuilder />', () => {
   });
 
   it('should render node content after clicking it', async () => {
-    const ContentComponent: NodeContentComponent = ({ nodeIndex }) => {
-      return <span>Test content of node {nodeIndex}</span>;
-    };
-
-    const items: FlowBuilderItem<BaseNodeProperties>[] = [
-      ...defaultInitialItems,
-      {
-        id: 'test',
-        type: FlowBuilderNodeTypes.Conditional,
-        data: {
-          title: 'Test',
-        },
-        position: { x: 100, y: 200 },
-      },
-    ];
-
-    const cmp = renderComponent({
-      initialItems: items,
-      nodeContents: {
-        [FlowBuilderNodeTypes.Conditional]: ContentComponent,
-      },
-    });
-
-    await wait(500);
-
-    const node = cmp.container.querySelector(
-      `.flow-builder-node-${FlowBuilderNodeTypes.Conditional} .conditional-node`
-    );
-
-    act(() => {
-      userEvent.click(node);
-    });
-
-    await wait(450);
+    await withConditionalNode();
 
     expect(screen.getByText('Test content of node 5')).toBeInTheDocument();
   });
@@ -272,7 +285,7 @@ describe('<FlowBuilder />', () => {
     const canvas = cmp.container.querySelector('.flow-builder-canvas');
 
     act(() => {
-      fireEvent.contextMenu(canvas, {
+      fireEvent.contextMenu(canvas!, {
         clientY: 50,
         clientX: 50,
       });
@@ -281,15 +294,37 @@ describe('<FlowBuilder />', () => {
     const contextMenu = document.querySelector('.context-menu');
     const [item] = screen
       .getAllByText('Open in browser')
-      .filter((item) => contextMenu.contains(item))
-      .map((item) => item.parentElement.parentElement);
+      .filter((item) => contextMenu!.contains(item))
+      .map((item) => item!.parentElement!.parentElement);
 
     act(() => {
-      userEvent.click(item);
+      userEvent.click(item!);
     });
 
     expect(onAdd).toHaveBeenCalledTimes(1);
     expect(onAdd.mock.calls[0][1].position.x).toEqual(49);
     expect(onAdd.mock.calls[0][0].label).toEqual('Open in browser');
+  });
+
+  it('should close active node if it was removed', async () => {
+    const { cmp, node, id } = await withConditionalNode();
+
+    act(() => {
+      userEvent.click(
+        node!.parentElement!.querySelector('.node-dropdown-trigger')!
+      );
+    });
+
+    await wait(100);
+
+    act(() => {
+      userEvent.click(cmp.baseElement.querySelector(`#delete-step-${id}`)!);
+    });
+
+    await wait(500);
+
+    expect(
+      cmp.container.querySelector('.node-content-closed')
+    ).toBeInTheDocument();
   });
 });

@@ -1,6 +1,7 @@
-import { TextField } from '@material-ui/core';
+import { Box, InputProps, TextField } from '@material-ui/core';
 import { InputBaseComponentProps } from '@material-ui/core/InputBase/InputBase';
 import { makeStyles } from '@material-ui/core/styles';
+import { getDisplayValue } from '@scrapper-gate/shared/common';
 import classNames from 'classnames';
 import {
   ContentState,
@@ -16,7 +17,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { useMount } from 'react-use';
+import { useMount, usePrevious } from 'react-use';
 import { Key } from 'ts-key-enum';
 import { TextFieldBlockProvider } from './TextFieldBlock.provider';
 import { TextFieldBlockProps } from './TextFieldBlock.types';
@@ -25,10 +26,10 @@ const useStyles = makeStyles((theme) => ({
   input: {
     '& .public-DraftEditor-content': {
       padding: 18,
-      minWidth: 200,
+      minWidth: 50,
     },
   },
-  textField: {
+  textField: (props: Pick<TextFieldBlockProps, 'InputProps' | 'variant'>) => ({
     width: '100%',
     tabSize: 8,
     fontVariantLigatures: 'none',
@@ -36,13 +37,17 @@ const useStyles = makeStyles((theme) => ({
     whiteSpace: 'pre-wrap',
 
     '& .MuiInputBase-root': {
-      height: 54,
+      minHeight: props.variant === 'outlined' ? '52px' : '32px',
     },
 
     '& .DraftEditor-root': {
       width: '100%',
       height: '100%',
       padding: `0 ${theme.spacing(2)}`,
+      paddingLeft:
+        props.InputProps?.startAdornment || props.variant !== 'outlined'
+          ? 0
+          : theme.spacing(2),
     },
 
     '& .public-DraftEditor-content, & .DraftEditor-editorContainer': {
@@ -57,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
         minWidth: 10,
       },
     },
-  },
+  }),
 }));
 
 const DraftField = forwardRef<
@@ -69,10 +74,10 @@ const DraftField = forwardRef<
   } & InputBaseComponentProps
 >(({ children, editorRef, onStateChange, state, value, ...rest }, ref) => {
   useImperativeHandle(ref, () => ({
+    ...editorRef.current,
     focus: () => {
       editorRef.current?.focus();
     },
-    ...editorRef.current,
     value,
   }));
 
@@ -84,7 +89,7 @@ const DraftField = forwardRef<
       keyBindingFn={(event) => {
         // Prevent multilines
         if ([Key.Enter, Key.Tab].includes(event.key as Key)) {
-          return;
+          return null;
         }
 
         return getDefaultKeyBinding(event);
@@ -99,18 +104,38 @@ const DraftField = forwardRef<
 });
 
 export const TextFieldBlock = forwardRef<HTMLInputElement, TextFieldBlockProps>(
-  ({ onChange, value, decorator, onFocus, onBlur, error, ...props }, ref) => {
-    const classes = useStyles();
+  (props, ref) => {
+    const {
+      onChange,
+      value,
+      decorator,
+      onFocus,
+      onBlur,
+      error,
+      dateFormat,
+      ...restProps
+    } = props;
+
+    const classes = useStyles({
+      InputProps: props.InputProps,
+      variant: props.variant ?? 'outlined',
+    });
     const editorRef = useRef<HTMLElement>();
     const [focused, setIsFocused] = useState(false);
 
     const [state, setState] = useState(EditorState.createEmpty());
+    const prevState = usePrevious(state);
+
+    useEffect(() => {
+      const plainText = state.getCurrentContent().getPlainText();
+      const prevText = prevState?.getCurrentContent().getPlainText();
+
+      if (plainText !== prevText) {
+        onChange?.(plainText);
+      }
+    }, [state, onChange, prevState]);
 
     useMount(() => {
-      const state = EditorState.createWithContent(
-        ContentState.createFromText(value)
-      );
-
       setState(
         EditorState.set(state, {
           decorator,
@@ -119,8 +144,26 @@ export const TextFieldBlock = forwardRef<HTMLInputElement, TextFieldBlockProps>(
     });
 
     useEffect(() => {
-      onChange?.(state.getCurrentContent().getPlainText());
-    }, [state, onChange]);
+      const parsedValue = getDisplayValue({
+        value,
+        dateFormat,
+      });
+
+      // TODO Investigate this loop
+      if (value === prevState?.getCurrentContent().getPlainText()) {
+        return;
+      }
+
+      const state = EditorState.createWithContent(
+        ContentState.createFromText(parsedValue?.toString() ?? '')
+      );
+
+      setState(
+        EditorState.set(state, {
+          decorator,
+        })
+      );
+    }, [value, decorator, dateFormat, prevState]);
 
     return (
       <TextFieldBlockProvider
@@ -129,10 +172,10 @@ export const TextFieldBlock = forwardRef<HTMLInputElement, TextFieldBlockProps>(
         focused={focused}
       >
         <TextField
-          {...props}
+          {...restProps}
           ref={ref}
-          className={classNames(classes.textField, props.className)}
-          variant={props.variant}
+          className={classNames(classes.textField, restProps.className)}
+          variant={restProps.variant}
           onFocus={(event) => {
             setIsFocused(true);
 
@@ -145,6 +188,7 @@ export const TextFieldBlock = forwardRef<HTMLInputElement, TextFieldBlockProps>(
           }}
           error={error}
           InputProps={{
+            ...restProps.InputProps,
             inputProps: {
               onStateChange: setState,
               state,

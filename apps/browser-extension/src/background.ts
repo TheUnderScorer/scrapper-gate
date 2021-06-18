@@ -1,6 +1,6 @@
 import { logger } from '@scrapper-gate/frontend/logger';
 
-declare function importScripts(path: string);
+declare function importScripts(path: string): void;
 
 try {
   logger.info('Booting background...');

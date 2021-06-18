@@ -10,12 +10,15 @@ export const cleanupOnInit = async () => {
   const tabs = await browser.tabs.query({});
 
   await Promise.all(
-    tabs.map((tab) =>
-      cleanupStoresForTab({
-        tabId: tab.id,
-        activeOverlays,
-        contentRoutes,
-      })
-    )
+    tabs
+      .filter((tab) => tab.id)
+      .map((tab) =>
+        cleanupStoresForTab({
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          tabId: tab.id!,
+          activeOverlays,
+          contentRoutes,
+        })
+      )
   );
 };

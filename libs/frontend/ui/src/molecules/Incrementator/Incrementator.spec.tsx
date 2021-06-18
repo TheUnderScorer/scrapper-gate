@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { act, render, fireEvent as fireEventAlt } from '@testing-library/react';
 import fireEvent from '@testing-library/user-event';
 import React from 'react';
@@ -20,24 +21,24 @@ describe('<Incrementator />', () => {
     const decrement = container.querySelector('.incrementator-decrement');
 
     act(() => {
-      fireEvent.click(increment);
+      fireEvent.click(increment!);
     });
 
     let input = container.querySelector<HTMLInputElement>(
       '.incrementator-input .MuiInputBase-input'
     );
 
-    expect(input.value).toEqual('1');
+    expect(input!.value).toEqual('1');
 
     act(() => {
-      fireEvent.click(decrement);
+      fireEvent.click(decrement!);
     });
 
     input = container.querySelector<HTMLInputElement>(
       '.incrementator-input .MuiInputBase-input'
     );
 
-    expect(input.value).toEqual('0');
+    expect(input!.value).toEqual('0');
   });
 
   it('should handle long press on decrementation', async () => {
@@ -49,18 +50,18 @@ describe('<Incrementator />', () => {
     const increment = container.querySelector('.incrementator-decrement');
 
     await act(async () => {
-      fireEventAlt.mouseDown(increment);
+      fireEventAlt.mouseDown(increment!);
 
       await wait(3000);
 
-      fireEventAlt.mouseUp(increment);
+      fireEventAlt.mouseUp(increment!);
     });
 
     const input = container.querySelector<HTMLInputElement>(
       '.incrementator-input .MuiInputBase-input'
     );
 
-    expect(parseInt(input.value, 10)).toBeLessThanOrEqual(90);
+    expect(parseInt(input!.value, 10)).toBeLessThanOrEqual(90);
   });
 
   it('should handle long press on incrementation', async () => {
@@ -72,17 +73,17 @@ describe('<Incrementator />', () => {
     const increment = container.querySelector('.incrementator-increment');
 
     await act(async () => {
-      fireEventAlt.mouseDown(increment);
+      fireEventAlt.mouseDown(increment!);
 
       await wait(3000);
 
-      fireEventAlt.mouseUp(increment);
+      fireEventAlt.mouseUp(increment!);
     });
 
     const input = container.querySelector<HTMLInputElement>(
       '.incrementator-input .MuiInputBase-input'
     );
 
-    expect(parseInt(input.value, 10)).toBeGreaterThanOrEqual(10);
+    expect(parseInt(input!.value, 10)).toBeGreaterThanOrEqual(10);
   });
 });

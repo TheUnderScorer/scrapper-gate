@@ -10,7 +10,7 @@ export enum ConditionalRuleTypes {
   HtmlElement = 'HtmlElement',
 }
 
-export enum BaseConditionalRuleWhen {
+export enum ConditionalRuleWhen {
   Exists = 'Exists',
   NotExists = 'NotExists',
   Equals = 'Equals',

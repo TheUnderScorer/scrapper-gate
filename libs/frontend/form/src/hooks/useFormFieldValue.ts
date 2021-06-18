@@ -1,7 +1,8 @@
 import { useField } from 'react-final-form';
 
 export const useFormFieldValue = <ReturnValue>(
-  name: string
+  name: string,
+  defaultValue?: ReturnValue
 ): ReturnValue | undefined => {
   const field = useField(name, {
     subscription: {
@@ -9,5 +10,5 @@ export const useFormFieldValue = <ReturnValue>(
     },
   });
 
-  return field.input.value as ReturnValue;
+  return (field.input.value as ReturnValue) ?? defaultValue;
 };

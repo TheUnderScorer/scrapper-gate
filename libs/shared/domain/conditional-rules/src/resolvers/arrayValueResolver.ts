@@ -1,4 +1,4 @@
-import { BaseConditionalRuleWhen } from '../types';
+import { ConditionalRuleWhen } from '../types';
 import {
   ConditionalRule,
   ConditionalRuleGroupType,
@@ -16,12 +16,12 @@ export const arrayValueResolver = (
       : value?.some.bind(value);
 
   switch (rule.when) {
-    case BaseConditionalRuleWhen.Empty:
-    case BaseConditionalRuleWhen.NotExists:
+    case ConditionalRuleWhen.Empty:
+    case ConditionalRuleWhen.NotExists:
       return !value.length || matchFn?.((value) => !value);
 
-    case BaseConditionalRuleWhen.NotEmpty:
-    case BaseConditionalRuleWhen.Exists:
+    case ConditionalRuleWhen.NotEmpty:
+    case ConditionalRuleWhen.Exists:
       return value.length > 0 && matchFn?.(Boolean);
 
     default:

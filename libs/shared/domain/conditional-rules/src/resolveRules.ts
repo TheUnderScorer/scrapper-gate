@@ -17,6 +17,10 @@ export const resolveRules = async ({
 
   for (const group of ruleGroups) {
     for (const rule of group.rules) {
+      if (!rule.type) {
+        continue;
+      }
+
       const resolver = resolvers[rule.type];
 
       if (!resolver) {

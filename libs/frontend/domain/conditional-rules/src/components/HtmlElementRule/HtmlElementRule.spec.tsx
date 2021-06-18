@@ -1,17 +1,25 @@
-import { act, render, RenderResult } from '@testing-library/react';
-import { ThemeProvider } from '@scrapper-gate/frontend/theme';
-import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns';
-import { Form } from 'react-final-form';
-import React from 'react';
-import { addGroupAndRule, assertTitle } from '../ConditionalRules/testUtils';
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { Box } from '@material-ui/core';
+import { LocalizationProvider } from '@material-ui/lab';
+import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import { logger } from '@scrapper-gate/frontend/logger';
+import { ThemeProvider } from '@scrapper-gate/frontend/theme';
+import { wait } from '@scrapper-gate/shared/common';
+import '@testing-library/jest-dom';
+import { act, render, RenderResult } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import React, { PropsWithChildren } from 'react';
+import { Form } from 'react-final-form';
+import { mockDraftJs } from '../../../../../../../tests/mocks/mockDraftJs';
 import { makeHtmlElementRule } from '../../rules/htmlRule';
 import {
   ConditionalRules,
   ConditionalRulesProps,
 } from '../ConditionalRules/ConditionalRules';
+import {
+  addGroupAndRule,
+  assertTitle,
+} from '../../../../../../../tests/domain/conditionalRules/testUtils';
 
 const rules = [
   makeHtmlElementRule({
@@ -19,20 +27,30 @@ const rules = [
   }),
 ];
 
+jest.mock('react-truncate-markup', () => {
+  const Component = (props: PropsWithChildren<unknown>) => props.children;
+
+  Component.Atom = Component;
+
+  return Component;
+});
+
 const renderCmp = (props: Partial<ConditionalRulesProps> = {}) => {
   return render(
     <ThemeProvider>
-      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
         <Form
           onSubmit={jest.fn()}
           render={() => (
-            <ConditionalRules
-              definitions={props.definitions ?? rules}
-              name="rules"
-            />
+            <Box width="1500px" height="1500px">
+              <ConditionalRules
+                definitions={props.definitions ?? rules}
+                name="rules"
+              />
+            </Box>
           )}
         />
-      </MuiPickersUtilsProvider>
+      </LocalizationProvider>
     </ThemeProvider>
   );
 };
@@ -43,14 +61,14 @@ type TestCase = [Handler, string];
 
 const handlers = {
   onlyExists: (cmp: RenderResult) => {
-    assertTitle(cmp.container, 'Html element exists');
+    assertTitle(cmp.container, 'Html elementexists');
   },
   validAttributeWithValue: async (cmp: RenderResult) => {
     act(() => {
       userEvent.click(
         cmp.container.querySelector(
           '[aria-labelledby="mui-component-select-rules[0].rules[0]what"]'
-        )
+        )!
       );
     });
 
@@ -62,7 +80,7 @@ const handlers = {
       userEvent.click(
         cmp.container.querySelector(
           '[aria-labelledby="mui-component-select-rules[0].rules[0]when"]'
-        )
+        )!
       );
     });
 
@@ -72,22 +90,22 @@ const handlers = {
 
     await act(async () => {
       await userEvent.type(
-        cmp.container.querySelector('[name="rules[0].rules[0]meta.attribute"]'),
-        'test-id',
-        {
-          delay: 10,
-        }
+        cmp.container.querySelector(
+          '[name="rules[0].rules[0]meta.attribute"]'
+        )!,
+        'test-id'
       );
+
+      await wait(1000);
     });
 
     await act(async () => {
       await userEvent.type(
-        cmp.container.querySelector('[name="rules[0].rules[0]value"]'),
-        '123',
-        {
-          delay: 10,
-        }
+        cmp.container.querySelector('[name="rules[0].rules[0]value"]')!,
+        '123'
       );
+
+      await wait(1000);
     });
   },
   validTagWithAttribute: async (cmp: RenderResult) => {
@@ -95,7 +113,7 @@ const handlers = {
       userEvent.click(
         cmp.container.querySelector(
           '[aria-labelledby="mui-component-select-rules[0].rules[0]what"]'
-        )
+        )!
       );
     });
 
@@ -107,7 +125,7 @@ const handlers = {
       userEvent.click(
         cmp.container.querySelector(
           '[aria-labelledby="mui-component-select-rules[0].rules[0]when"]'
-        )
+        )!
       );
     });
 
@@ -117,12 +135,11 @@ const handlers = {
 
     await act(async () => {
       await userEvent.type(
-        cmp.container.querySelector('[name="rules[0].rules[0]value"]'),
-        'DIV',
-        {
-          delay: 10,
-        }
+        cmp.container.querySelector('[name="rules[0].rules[0]value"]')!,
+        'DIV'
       );
+
+      await wait(1000);
     });
   },
 };
@@ -138,22 +155,30 @@ describe('<HtmlElementRule />', () => {
     });
   });
 
+  beforeEach(() => {
+    mockDraftJs();
+  });
+
   it.each<TestCase>([
-    [handlers.onlyExists, 'Html element exists'],
+    [handlers.onlyExists, 'Html elementexists'],
     [
       handlers.validAttributeWithValue,
-      'Html element attribute "test-id" equals "123"',
+      'Html elementattributetest-idequals"123"',
     ],
-    [handlers.validTagWithAttribute, 'Html element tag name equals "DIV"'],
-  ])('should render correct title', async (handler, expectedTitle) => {
-    const cmp = renderCmp();
+    [handlers.validTagWithAttribute, 'Html elementtag nameequals"DIV"'],
+  ])(
+    'should render correct title',
+    async (handler, expectedTitle) => {
+      const cmp = renderCmp();
 
-    addGroupAndRule(cmp, 'HTML Element');
+      addGroupAndRule(cmp, 'HTML Element');
 
-    await handler(cmp);
+      await handler(cmp);
 
-    assertTitle(cmp.container, expectedTitle);
-  });
+      assertTitle(cmp.container, expectedTitle);
+    },
+    50000
+  );
 
   it('should show logic dropdown if selectors are provided', async () => {
     const cmp = renderCmp();
@@ -162,16 +187,15 @@ describe('<HtmlElementRule />', () => {
 
     await act(async () => {
       await userEvent.type(
-        cmp.container.querySelector('[name="rules[0].rules[0]meta.selectors"]'),
-        'span',
-        {
-          delay: 10,
-        }
+        cmp.container.querySelector(
+          '[name="rules[0].rules[0]meta.selectors"]'
+        )!,
+        'span'
       );
     });
 
     act(() => {
-      userEvent.click(cmp.container.querySelector('.add-selector'));
+      userEvent.click(cmp.container.querySelector('.add-selector')!);
     });
 
     expect(

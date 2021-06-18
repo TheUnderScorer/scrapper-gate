@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import {
   createBaseEntity,
   Disposable,
@@ -40,6 +41,12 @@ export class ScrapperRunProcessor implements Disposable {
   }>();
 
   async process({ scrapperRun, scrapper }: ProcessParams) {
+    if (!scrapperRun.steps?.length) {
+      return {
+        scrapperRun,
+      };
+    }
+
     await this.runner.initialize?.();
 
     scrapperRun.state = RunState.InProgress;
@@ -57,22 +64,22 @@ export class ScrapperRunProcessor implements Disposable {
       while (step) {
         const { nextStep } = await this.runStep(step, scrapperRun, scrapper);
 
-        step = nextStep;
+        step = nextStep!;
       }
     } catch (error) {
       const {
         error: errorObject,
         stepResult,
-      } = ScrapperRunProcessor.createStepResultFromError(error, step);
+      } = ScrapperRunProcessor.createStepResultFromError(error, step!);
 
       scrapperRun.results.push(stepResult);
       scrapperRun.error = {
         ...errorObject,
-        stepId: step.id,
+        stepId: step!.id,
       };
 
       await this.events.emit('onError', {
-        step,
+        step: step!,
         error,
       });
     }
@@ -94,14 +101,17 @@ export class ScrapperRunProcessor implements Disposable {
   ) {
     const variables = createScrapperRunVariables(scrapper, scrapperRun);
 
-    const preparedStep = resolveVariables(step, variables);
-    const runResult = await this.runner[step.action]({
+    const preparedStep = resolveVariables({
+      target: step,
+      variables: variables,
+    });
+    const runResult = await this.runner[step.action!]({
       scrapperRun,
       step: preparedStep,
       variables,
     });
 
-    scrapperRun.results.push(
+    scrapperRun.results!.push(
       ScrapperRunProcessor.createStepResult(runResult, step)
     );
 
@@ -110,7 +120,7 @@ export class ScrapperRunProcessor implements Disposable {
       this.events.emit('onScrapperRunChange', scrapperRun),
     ]);
 
-    let nextStepId: string | null = null;
+    let nextStepId: string | null | undefined = null;
 
     if (step.action !== ScrapperAction.Condition) {
       nextStepId = step.nextStep?.id;
@@ -121,7 +131,7 @@ export class ScrapperRunProcessor implements Disposable {
     }
 
     const nextStep = nextStepId
-      ? scrapperRun.steps.find(
+      ? scrapperRun.steps!.find(
           (scrapperRunStep) => scrapperRunStep.id === nextStepId
         )
       : null;

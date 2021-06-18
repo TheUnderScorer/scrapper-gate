@@ -1,33 +1,99 @@
-import { act, render } from '@testing-library/react';
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { Box } from '@material-ui/core';
+import { LocalizationProvider } from '@material-ui/lab';
+import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
+import { VariablesProvider } from '@scrapper-gate/frontend/domain/variables';
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
-import { MuiPickersUtilsProvider } from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns';
-import { Form } from 'react-final-form';
-import React from 'react';
+import { DateFormat, wait } from '@scrapper-gate/shared/common';
+import {
+  ConditionalRuleWhen,
+  ConditionalRuleTypes,
+} from '@scrapper-gate/shared/domain/conditional-rules';
+import { createVariable } from '@scrapper-gate/shared/domain/variables';
+import {
+  ConditionalRuleGroupType,
+  Variable,
+  VariableScope,
+  VariableType,
+} from '@scrapper-gate/shared/schema';
+import { act, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { format } from 'date-fns';
-import { DateFormat } from '@scrapper-gate/shared/common';
-import { addGroupAndRule, assertTitle } from '../ConditionalRules/testUtils';
+import { format, subDays } from 'date-fns';
+import React, { PropsWithChildren } from 'react';
+import { Form } from 'react-final-form';
+import { mockDraftJs } from '../../../../../../../tests/mocks/mockDraftJs';
+import { baseRulesSelection } from '../../baseRules';
 import {
   ConditionalRules,
   ConditionalRulesProps,
 } from '../ConditionalRules/ConditionalRules';
-import { baseRulesSelection } from '../../baseRules';
+import {
+  addGroupAndRule,
+  assertTitle,
+} from '../../../../../../../tests/domain/conditionalRules/testUtils';
+
+jest.mock('react-truncate-markup', () => {
+  const Component = (props: PropsWithChildren<unknown>) => props.children;
+
+  Component.Atom = Component;
+
+  return Component;
+});
+
+const variables: Variable[] = [
+  createVariable({
+    key: 'Myvariable',
+    value: 'Variable test',
+    defaultValue: 'Test',
+    scope: VariableScope.Global,
+  }),
+  createVariable({
+    key: 'Date',
+    defaultValue: subDays(new Date(), 2).toISOString(),
+    scope: VariableScope.Global,
+    type: VariableType.Date,
+  }),
+];
 
 const renderCmp = (props: Partial<ConditionalRulesProps> = {}) => {
   return render(
     <ThemeProvider>
-      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
         <Form
           onSubmit={jest.fn()}
           render={() => (
-            <ConditionalRules
-              definitions={props.definitions ?? baseRulesSelection}
-              name="rules"
-            />
+            <Box width="1500px" height="1000px">
+              <ConditionalRules
+                definitions={props.definitions ?? baseRulesSelection}
+                name="rules"
+              />
+            </Box>
           )}
         />
-      </MuiPickersUtilsProvider>
+      </LocalizationProvider>
+    </ThemeProvider>
+  );
+};
+
+const renderCmpWithVariables = (props: Partial<ConditionalRulesProps> = {}) => {
+  return render(
+    <ThemeProvider>
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <Form
+          initialValues={{ variables, rules: props.value }}
+          onSubmit={jest.fn()}
+          render={() => (
+            <Box width="1000px" height="1000px">
+              <VariablesProvider name="variables">
+                <ConditionalRules
+                  definitions={props.definitions ?? baseRulesSelection}
+                  name="rules"
+                />
+              </VariablesProvider>
+            </Box>
+          )}
+        />
+      </LocalizationProvider>
     </ThemeProvider>
   );
 };
@@ -35,18 +101,46 @@ const renderCmp = (props: Partial<ConditionalRulesProps> = {}) => {
 const now = new Date();
 
 describe('<DateRule />', () => {
-  it('should render correct title', () => {
+  beforeEach(() => {
+    mockDraftJs();
+  });
+
+  it('should render correct title', async () => {
     const cmp = renderCmp();
 
     addGroupAndRule(cmp, 'Date');
 
-    act(() => {
+    await act(async () => {
       userEvent.type(
-        cmp.container.querySelector('[name="rules[0].rules[0]value"]'),
+        cmp.container.querySelector('[name="rules[0].rules[0]value"]')!,
         format(now, DateFormat.Date)
       );
+
+      await wait(1000);
     });
 
-    assertTitle(cmp.container, `Date equals "${format(now, DateFormat.Date)}"`);
+    assertTitle(cmp.container, `Dateequals"${format(now, DateFormat.Date)}"`);
+  });
+
+  it('should support variables', async () => {
+    const cmp = renderCmpWithVariables({
+      value: [
+        {
+          type: ConditionalRuleGroupType.All,
+          rules: [
+            {
+              value: '{{Date}}',
+              when: ConditionalRuleWhen.Equals,
+              type: ConditionalRuleTypes.Date,
+              id: '#id',
+            },
+          ],
+        },
+      ],
+    });
+
+    await wait(1000);
+
+    assertTitle(cmp.container, `Dateequals"{{Date}}"`);
   });
 });

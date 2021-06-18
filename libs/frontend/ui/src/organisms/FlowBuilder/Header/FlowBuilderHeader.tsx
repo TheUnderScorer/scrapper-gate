@@ -21,6 +21,7 @@ import { SkeletonComponentOrIcon } from '../../../molecules/Skeleton/ComponentOr
 import { UndoButtons } from '../../../molecules/UndoButtons/UndoButtons';
 import { useFlowBuilderItemsSelector } from '../providers/FlowBuilderItems.provider';
 import { useFlowBuilderContextSelector } from '../providers/FlowBuilderProps.provider';
+import { mainTab } from '../Tabs/FlowBuilderTabs';
 import { buildBasicGraph } from '../utils/graph';
 
 export interface FlowBuilderHeaderProps {
@@ -46,7 +47,7 @@ const useStyles = makeStyles(() => ({
     height: '30px',
   },
   fab: {
-    width: '90px !important',
+    width: '100px !important',
     boxShadow: 'none',
   },
 }));
@@ -71,6 +72,8 @@ export const FlowBuilderHeader = ({
 
   const setItems = useFlowBuilderItemsSelector((ctx) => ctx.setItems);
   const getItems = useFlowBuilderItemsSelector((ctx) => ctx.getItems);
+
+  const activeTab = useFlowBuilderContextSelector((ctx) => ctx.activeTab);
 
   const loading = useFlowBuilderContextSelector((ctx) => ctx.loading);
 
@@ -102,19 +105,21 @@ export const FlowBuilderHeader = ({
             )}
             {loading && (
               <>
-                <Skeleton variant="circle" width={30} height={30} />
+                <Skeleton variant="circular" width={30} height={30} />
                 <Skeleton variant="text" width={60} height={10} />
               </>
             )}
           </Stack>
           <Stack direction="row" spacing={2} alignItems="center">
-            <SkeletonComponentOrIcon loading={loading} width={30} height={30}>
-              <Tooltip title={<TooltipText>Sort items</TooltipText>}>
-                <IconButton onClick={handleSort}>
-                  <SortSharp />
-                </IconButton>
-              </Tooltip>
-            </SkeletonComponentOrIcon>
+            {activeTab === mainTab && (
+              <SkeletonComponentOrIcon loading={loading} width={30} height={30}>
+                <Tooltip title={<TooltipText>Sort items</TooltipText>}>
+                  <IconButton onClick={handleSort}>
+                    <SortSharp />
+                  </IconButton>
+                </Tooltip>
+              </SkeletonComponentOrIcon>
+            )}
             <SkeletonComponentOrIcon loading={loading} width={30} height={30}>
               <UndoButtons />
             </SkeletonComponentOrIcon>
@@ -124,7 +129,7 @@ export const FlowBuilderHeader = ({
               <FormStateIcon className={classes.iconButton} />
             </SkeletonComponentOrIcon>
             <SkeletonComponentOrIcon
-              variant="rect"
+              variant="rectangular"
               loading={loading}
               width={60}
               height={30}

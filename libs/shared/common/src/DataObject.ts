@@ -1,5 +1,5 @@
 import { Constructor } from '@scrapper-gate/shared/constructor';
-import { PartialDeep } from 'type-fest';
+import type { PartialDeep } from 'type-fest';
 import { Dictionary, Jsonable, OmitFunctions } from './types';
 
 export interface DataObjectConstructor<T> {
@@ -33,6 +33,6 @@ export abstract class DataObject<Entity> implements Jsonable {
   ) {
     const entity = new this();
 
-    return entity.fill(payload);
+    return entity.fill(payload as T);
   }
 }

@@ -1,6 +1,7 @@
 import { colors, PaletteOptions } from '@material-ui/core';
 import { createTheme } from '@material-ui/core/styles';
 import { getContrast } from '@scrapper-gate/shared/common';
+import tinycolor from 'tinycolor2';
 
 const defaultTheme = createTheme();
 
@@ -13,6 +14,7 @@ export const primary = {
 export const palette: PaletteOptions = {
   ...defaultTheme.palette,
   primary,
+  primaryLight: tinycolor(primary.dark).setAlpha(0.5).toRgbString(),
   success: {
     ...defaultTheme.palette.success,
     contrastText: defaultTheme.palette.common.white,

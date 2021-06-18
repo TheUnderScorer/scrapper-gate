@@ -13,10 +13,12 @@ export const findFirstNodeEdge = <T extends BaseNodeProperties>({
         (otherEdge) => otherEdge.target === edge.source
       );
 
-      if (!target) {
+      const node = nodes.get(edge.source);
+
+      if (!target && node) {
         return {
           edge,
-          node: nodes.get(edge.source),
+          node: node,
         };
       }
 

@@ -1,4 +1,5 @@
 import { regexDecoratorStrategy } from '@scrapper-gate/frontend/form';
+import { variableRegex } from '@scrapper-gate/shared/domain/variables';
 import { CompositeDecorator } from 'draft-js';
 import { VariableDecoratorContent } from './components/VariableDecoratorContent/VariableDecoratorContent';
 import { VariableStartDecoratorComponent } from './components/VariableStartDecoratorComponent/VariableStartDecoratorComponent';
@@ -6,7 +7,7 @@ import { VariableStartDecoratorComponent } from './components/VariableStartDecor
 export const createVariablesDecorator = () =>
   new CompositeDecorator([
     {
-      strategy: regexDecoratorStrategy(/{{([^}]+)}}/g),
+      strategy: regexDecoratorStrategy(variableRegex),
       component: VariableDecoratorContent,
     },
     {

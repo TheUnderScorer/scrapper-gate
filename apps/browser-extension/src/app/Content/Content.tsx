@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { useTokensStore } from '@scrapper-gate/frontend/domain/auth';
 import { useOnMessageListener } from '../../extension/browser/hooks/useOnMessageListener/useOnMessageListener';
 import {
+  ContentToggleHookPayload,
   MessagesPayloadMap,
   MessageTypes,
-} from '../../extension/browser/communication/types';
+} from '../../extension/browser/communication/messageResult.types';
 import { AppType, useAppType } from '@scrapper-gate/frontend/common';
 import { useMount } from 'react-use';
 import { useContentRouteStorage } from '../../extension/contentScript/hooks/useContentRouteStorage';
@@ -13,12 +14,9 @@ import Root from '../../extension/contentScript/components/Root';
 import { browserExtensionRoutes } from '@scrapper-gate/shared/routing';
 import { ScrapperBuilderView } from './views/ScrapperBuilderView/ScrapperBuilderView';
 
-const initialState = {
+const initialState: ContentToggleHookPayload = {
   visible: false,
-  tokens: {
-    accessToken: null,
-    refreshToken: null,
-  },
+  tokens: {},
 };
 const initialValue = async () => initialState;
 
@@ -38,7 +36,7 @@ export const Content = () => {
     type: MessageTypes.ToggleContent,
     initialValue,
     onMessage: ({ payload }) => {
-      if (payload === initialState) {
+      if (!payload || payload === initialState) {
         return;
       }
 

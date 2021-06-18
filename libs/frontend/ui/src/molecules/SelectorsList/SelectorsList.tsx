@@ -1,4 +1,3 @@
-import React, { FC, useMemo } from 'react';
 import {
   IconButton,
   List,
@@ -9,9 +8,10 @@ import {
   Tooltip,
 } from '@material-ui/core';
 import { Remove } from '@material-ui/icons';
-import classNames from 'classnames';
-import { Selector } from '@scrapper-gate/shared/schema';
 import { getSelectorWithElementsAggregate } from '@scrapper-gate/shared/common';
+import { Selector } from '@scrapper-gate/shared/schema';
+import classNames from 'classnames';
+import React, { useMemo } from 'react';
 
 export interface SelectorsListProps {
   value: Selector[];
@@ -21,13 +21,13 @@ export interface SelectorsListProps {
   ignoredElementsContainer?: HTMLElement;
 }
 
-export const SelectorsList: FC<SelectorsListProps> = ({
+export const SelectorsList = ({
   value,
   hideHeader = false,
   onDelete,
   className,
   ignoredElementsContainer,
-}) => {
+}: SelectorsListProps) => {
   const selectorsAggr = useMemo(() => {
     if (!value.length) {
       return [];

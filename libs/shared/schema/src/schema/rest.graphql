@@ -1,1 +1,6 @@
-directive @rest(type: String, path: String, method: String, endpoint: String) on FIELD | FRAGMENT_SPREAD | INLINE_FRAGMENT
+directive @rest(
+  type: String
+  path: String
+  method: String
+  endpoint: String
+) on FIELD | FRAGMENT_SPREAD | INLINE_FRAGMENT

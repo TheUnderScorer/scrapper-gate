@@ -1,16 +1,15 @@
-import React, { useCallback } from 'react';
-
 import { IconButton, InputAdornment, Stack, Tooltip } from '@material-ui/core';
-import { Info, Language, MyLocation } from '@material-ui/icons';
-import { useField } from 'react-final-form';
 import { makeStyles } from '@material-ui/core/styles';
+import { Info, Language, MyLocation } from '@material-ui/icons';
+import { VariablesTextField } from '@scrapper-gate/frontend/domain/variables';
 import {
   FieldNameCreator,
   FormSwitch,
-  FormTextField,
   useFormFieldValue,
 } from '@scrapper-gate/frontend/form';
 import { NodeContentProps, TooltipText } from '@scrapper-gate/frontend/ui';
+import React, { useCallback } from 'react';
+import { useField } from 'react-final-form';
 import { useLocation } from 'react-use';
 
 export interface UrlProps extends Pick<NodeContentProps, 'nodeIndex'> {
@@ -48,7 +47,7 @@ export const Url = ({ disabled, fieldNameCreator }: UrlProps) => {
 
   return (
     <Stack spacing={1} direction="column">
-      <FormTextField
+      <VariablesTextField
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">

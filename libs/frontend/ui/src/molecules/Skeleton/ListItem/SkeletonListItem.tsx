@@ -14,7 +14,7 @@ export const SkeletonListItem = () => {
 
   return (
     <Stack spacing={1} direction="row">
-      <Skeleton width={30} height={30} variant="circle" />
+      <Skeleton width={30} height={30} variant="circular" />
       <Skeleton variant="text" className={classes.text} />
     </Stack>
   );

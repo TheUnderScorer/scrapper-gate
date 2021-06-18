@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import React from 'react';
 import { Form } from 'react-final-form';
-import Incrementator from './Incrementator';
+import { Incrementator } from './Incrementator';
 
 export default {
   title: 'Incrementator',

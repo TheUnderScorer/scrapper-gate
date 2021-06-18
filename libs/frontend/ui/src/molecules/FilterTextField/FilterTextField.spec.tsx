@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { range } from 'remeda';
 import { useState } from 'react';
 import { List, ListItem } from '@material-ui/core';
@@ -54,7 +55,7 @@ describe('<FilterTextField />', () => {
     const field = cmp.container.querySelector('.filter-text-field input');
 
     act(() => {
-      userEvent.type(field, text);
+      userEvent.type(field!, text);
     });
 
     const testItems = cmp.container.querySelectorAll('.test-item');

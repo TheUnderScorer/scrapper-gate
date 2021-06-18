@@ -36,7 +36,8 @@ export const ThemeProvider = ({
 
   const htmlFontSize = useMemo(
     () =>
-      parseInt(getComputedStyle(document.querySelector('html')).fontSize, 10),
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      parseInt(getComputedStyle(document.querySelector('html')!).fontSize, 10),
     []
   );
 
@@ -52,7 +53,7 @@ export const ThemeProvider = ({
             styleOverrides: {
               containedPrimary: {
                 background: palette.gradients.primaryMainToDark,
-                color: palette.text.primary,
+                color: palette.text?.primary,
               },
             },
           },

@@ -129,7 +129,7 @@ const BaseConditionalRulesGroup = ({
               onClick={(event) => {
                 event.stopPropagation();
 
-                onRemove(index);
+                onRemove?.(index);
               }}
               className={classNames(classes.btn, 'remove-rules-group')}
             >
@@ -145,7 +145,7 @@ const BaseConditionalRulesGroup = ({
           alignItems="center"
           direction="row"
         >
-          <FormSelect variant={fieldVariant} name={`${name}.type`}>
+          <FormSelect size="small" variant={fieldVariant} name={`${name}.type`}>
             <MenuItem value={ConditionalRuleGroupType.Any}>
               At least one
             </MenuItem>

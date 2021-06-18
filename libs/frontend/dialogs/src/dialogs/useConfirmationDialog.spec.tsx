@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { renderHook } from '@testing-library/react-hooks';
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
 import React from 'react';
@@ -29,7 +30,7 @@ describe('useConfirmationDialog', () => {
     const confirm = document.querySelector('#confirm');
 
     act(() => {
-      userEvent.click(confirm);
+      userEvent.click(confirm!);
     });
 
     expect(onConfirm).toBeCalledTimes(1);

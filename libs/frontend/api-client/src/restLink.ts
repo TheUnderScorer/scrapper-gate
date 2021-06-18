@@ -5,7 +5,7 @@ export const restLink = (tokens?: AuthTokens) => {
   return new RestLink({
     uri: '',
     endpoints: {
-      default: process.env.NX_SECURITY_URL,
+      default: process.env.NX_SECURITY_URL ?? 'localhost:50050',
     },
     headers: tokens?.accessToken
       ? {
