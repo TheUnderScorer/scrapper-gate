@@ -37,6 +37,10 @@ const convertValue = (value: unknown) => {
       return value.toString();
 
     case 'object':
+      if (Array.isArray(value)) {
+        return value.join(',');
+      }
+
       return JSON.stringify(value);
 
     default:

@@ -1,3 +1,4 @@
+import './typings/unique-selector';
 import baseUniqueSelector from 'unique-selector';
 import { prefix } from '@scrapper-gate/shared/common';
 

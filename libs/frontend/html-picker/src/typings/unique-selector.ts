@@ -4,5 +4,5 @@ declare module 'unique-selector' {
     options?: {
       excludeRegex?: RegExp;
     }
-  );
+  ): string;
 }

@@ -97,7 +97,7 @@ describe('Date resolver', () => {
     async (rule, date, expectedResult) => {
       const { result } = await resolveRules({
         resolvers: {
-          [ConditionalRuleTypes.Date]: makeDateResolver(date ?? new Date()),
+          [ConditionalRuleTypes.Date]: makeDateResolver(date),
         },
         ruleGroups: [
           {
