@@ -443,7 +443,6 @@ Object {
               </div>
               <div
                 class="makeStyles-paper-30 flow-builder-canvas"
-                data-items="[]"
               >
                 <div
                   class="react-flow makeStyles-canvas-31"
@@ -1479,7 +1478,6 @@ Object {
             </div>
             <div
               class="makeStyles-paper-30 flow-builder-canvas"
-              data-items="[]"
             >
               <div
                 class="react-flow makeStyles-canvas-31"
