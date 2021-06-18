@@ -1,4 +1,4 @@
-import { FlowBuilderFormState } from '@scrapper-gate/frontend/ui';
+import { FlowBuilderFormState } from '../FlowBuilder.types';
 import { useForm, useFormState } from 'react-final-form';
 import { useState } from 'react';
 import isEmpty from 'lodash.isempty';

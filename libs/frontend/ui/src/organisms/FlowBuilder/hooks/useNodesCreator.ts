@@ -55,5 +55,6 @@ export const useNodesCreator = () => {
     reset,
     setItems,
     nodesRecreated,
+    setNodesRecreated,
   ]);
 };
