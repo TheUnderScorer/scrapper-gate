@@ -4,12 +4,6 @@
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
-      "parserOptions": {
-        "project": [
-          "libs/frontend/domain/variables/tsconfig.*?.json",
-          "libs/frontend/domain/variables/.storybook/tsconfig.json"
-        ]
-      },
       "rules": {}
     },
     {

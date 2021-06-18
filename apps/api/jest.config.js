@@ -15,4 +15,5 @@ module.exports = {
     `${process.cwd()}/tests/setupBackend.ts`,
     `<rootDir>/src/tests/setupServer.ts`,
   ],
+  testEnvironment: 'node',
 };

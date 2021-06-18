@@ -21,104 +21,104 @@
     "baseUrl": ".",
     "resolveJsonModule": true,
     "paths": {
-      "@scrapper-gate/shared/schema": ["libs/shared/schema/src/index.ts"],
-      "@scrapper-gate/shared/routing": ["libs/shared/routing/src/index.ts"],
-      "@scrapper-gate/shared/common": ["libs/shared/common/src/index.ts"],
-      "@scrapper-gate/shared/logger": ["libs/shared/logger/src/index.ts"],
       "@scrapper-gate/backend/awilix": ["libs/backend/awilix/src/index.ts"],
-      "@scrapper-gate/backend/server": ["libs/backend/server/src/index.ts"],
-      "@scrapper-gate/backend/unit-of-work": [
-        "libs/backend/unit-of-work/src/index.ts"
-      ],
-      "@scrapper-gate/backend/cqrs": ["libs/backend/cqrs/src/index.ts"],
-      "@scrapper-gate/backend/database": ["libs/backend/database/src/index.ts"],
-      "@scrapper-gate/frontend/common": ["libs/frontend/common/src/index.ts"],
-      "@scrapper-gate/shared/domain/auth": [
-        "libs/shared/domain/auth/src/index.ts"
-      ],
-      "@scrapper-gate/frontend/schema": ["libs/frontend/schema/src/index.ts"],
-      "@scrapper-gate/frontend/domain/auth": [
-        "libs/frontend/domain/auth/src/index.ts"
-      ],
-      "@scrapper-gate/frontend/theme": ["libs/frontend/theme/src/index.ts"],
-      "@scrapper-gate/frontend/ui": ["libs/frontend/ui/src/index.ts"],
-      "@scrapper-gate/shared/validation": [
-        "libs/shared/validation/src/index.ts"
-      ],
-      "@scrapper-gate/frontend/form": ["libs/frontend/form/src/index.ts"],
-      "@scrapper-gate/backend/domain/auth": [
-        "libs/backend/domain/auth/src/index.ts"
-      ],
-      "@scrapper-gate/shared/errors": ["libs/shared/errors/src/index.ts"],
-      "@scrapper-gate/backend/domain/user": [
-        "libs/backend/domain/user/src/index.ts"
-      ],
       "@scrapper-gate/backend/base-model": [
         "libs/backend/base-model/src/index.ts"
       ],
-      "@scrapper-gate/shared/domain/user": [
-        "libs/shared/domain/user/src/index.ts"
-      ],
-      "@scrapper-gate/frontend/api-client": [
-        "libs/frontend/api-client/src/index.ts"
-      ],
-      "@scrapper-gate/frontend/dialogs": ["libs/frontend/dialogs/src/index.ts"],
-      "@scrapper-gate/frontend/domain/scrapper": [
-        "libs/frontend/domain/scrapper/src/index.ts"
+      "@scrapper-gate/backend/cqrs": ["libs/backend/cqrs/src/index.ts"],
+      "@scrapper-gate/backend/crud": ["libs/backend/crud/src/index.ts"],
+      "@scrapper-gate/backend/database": ["libs/backend/database/src/index.ts"],
+      "@scrapper-gate/backend/db-utils": ["libs/backend/db-utils/src/index.ts"],
+      "@scrapper-gate/backend/domain/auth": [
+        "libs/backend/domain/auth/src/index.ts"
       ],
       "@scrapper-gate/backend/domain/scrapper": [
         "libs/backend/domain/scrapper/src/index.ts"
       ],
-      "@scrapper-gate/shared/run-states": [
-        "libs/shared/run-states/src/index.ts"
-      ],
-      "@scrapper-gate/backend/db-utils": ["libs/backend/db-utils/src/index.ts"],
-      "@scrapper-gate/frontend/domain/user": [
-        "libs/frontend/domain/user/src/index.ts"
-      ],
-      "@scrapper-gate/frontend/logger": ["libs/frontend/logger/src/index.ts"],
-      "@scrapper-gate/shared/domain/scrapper": [
-        "libs/shared/domain/scrapper/src/index.ts"
-      ],
-      "@scrapper-gate/frontend/keyboard-shortcuts": [
-        "libs/frontend/keyboard-shortcuts/src/index.ts"
-      ],
-      "@scrapper-gate/frontend/html-picker": [
-        "libs/frontend/html-picker/src/index.ts"
-      ],
-      "@scrapper-gate/shared/constructor": [
-        "libs/shared/constructor/src/index.ts"
-      ],
-      "@scrapper-gate/shared/domain/conditional-rules": [
-        "libs/shared/domain/conditional-rules/src/index.ts"
-      ],
-      "@scrapper-gate/frontend/domain/conditional-rules": [
-        "libs/frontend/domain/conditional-rules/src/index.ts"
-      ],
-      "@scrapper-gate/frontend/snackbars": [
-        "libs/frontend/snackbars/src/index.ts"
-      ],
       "@scrapper-gate/backend/domain/scrapper/playwright-runner": [
         "libs/backend/domain/scrapper/playwright-runner/src/index.ts"
       ],
-      "@scrapper-gate/backend/perf-hooks-utils": [
-        "libs/backend/perf-hooks-utils/src/index.ts"
-      ],
-      "@scrapper-gate/backend/validation": [
-        "libs/backend/validation/src/index.ts"
-      ],
-      "@scrapper-gate/shared/domain/variables": [
-        "libs/shared/domain/variables/src/index.ts"
+      "@scrapper-gate/backend/domain/user": [
+        "libs/backend/domain/user/src/index.ts"
       ],
       "@scrapper-gate/backend/domain/variables": [
         "libs/backend/domain/variables/src/index.ts"
       ],
-      "@scrapper-gate/backend/crud": ["libs/backend/crud/src/index.ts"],
+      "@scrapper-gate/backend/perf-hooks-utils": [
+        "libs/backend/perf-hooks-utils/src/index.ts"
+      ],
+      "@scrapper-gate/backend/server": ["libs/backend/server/src/index.ts"],
+      "@scrapper-gate/backend/unit-of-work": [
+        "libs/backend/unit-of-work/src/index.ts"
+      ],
+      "@scrapper-gate/backend/validation": [
+        "libs/backend/validation/src/index.ts"
+      ],
+      "@scrapper-gate/frontend/api-client": [
+        "libs/frontend/api-client/src/index.ts"
+      ],
+      "@scrapper-gate/frontend/common": ["libs/frontend/common/src/index.ts"],
+      "@scrapper-gate/frontend/data-grid": [
+        "libs/frontend/data-grid/src/index.ts"
+      ],
+      "@scrapper-gate/frontend/dialogs": ["libs/frontend/dialogs/src/index.ts"],
+      "@scrapper-gate/frontend/domain/auth": [
+        "libs/frontend/domain/auth/src/index.ts"
+      ],
+      "@scrapper-gate/frontend/domain/conditional-rules": [
+        "libs/frontend/domain/conditional-rules/src/index.ts"
+      ],
+      "@scrapper-gate/frontend/domain/scrapper": [
+        "libs/frontend/domain/scrapper/src/index.ts"
+      ],
+      "@scrapper-gate/frontend/domain/user": [
+        "libs/frontend/domain/user/src/index.ts"
+      ],
       "@scrapper-gate/frontend/domain/variables": [
         "libs/frontend/domain/variables/src/index.ts"
       ],
-      "@scrapper-gate/frontend/data-grid": [
-        "libs/frontend/data-grid/src/index.ts"
+      "@scrapper-gate/frontend/form": ["libs/frontend/form/src/index.ts"],
+      "@scrapper-gate/frontend/html-picker": [
+        "libs/frontend/html-picker/src/index.ts"
+      ],
+      "@scrapper-gate/frontend/keyboard-shortcuts": [
+        "libs/frontend/keyboard-shortcuts/src/index.ts"
+      ],
+      "@scrapper-gate/frontend/logger": ["libs/frontend/logger/src/index.ts"],
+      "@scrapper-gate/frontend/schema": ["libs/frontend/schema/src/index.ts"],
+      "@scrapper-gate/frontend/snackbars": [
+        "libs/frontend/snackbars/src/index.ts"
+      ],
+      "@scrapper-gate/frontend/theme": ["libs/frontend/theme/src/index.ts"],
+      "@scrapper-gate/frontend/ui": ["libs/frontend/ui/src/index.ts"],
+      "@scrapper-gate/shared/common": ["libs/shared/common/src/index.ts"],
+      "@scrapper-gate/shared/constructor": [
+        "libs/shared/constructor/src/index.ts"
+      ],
+      "@scrapper-gate/shared/domain/auth": [
+        "libs/shared/domain/auth/src/index.ts"
+      ],
+      "@scrapper-gate/shared/domain/conditional-rules": [
+        "libs/shared/domain/conditional-rules/src/index.ts"
+      ],
+      "@scrapper-gate/shared/domain/scrapper": [
+        "libs/shared/domain/scrapper/src/index.ts"
+      ],
+      "@scrapper-gate/shared/domain/user": [
+        "libs/shared/domain/user/src/index.ts"
+      ],
+      "@scrapper-gate/shared/domain/variables": [
+        "libs/shared/domain/variables/src/index.ts"
+      ],
+      "@scrapper-gate/shared/errors": ["libs/shared/errors/src/index.ts"],
+      "@scrapper-gate/shared/logger": ["libs/shared/logger/src/index.ts"],
+      "@scrapper-gate/shared/routing": ["libs/shared/routing/src/index.ts"],
+      "@scrapper-gate/shared/run-states": [
+        "libs/shared/run-states/src/index.ts"
+      ],
+      "@scrapper-gate/shared/schema": ["libs/shared/schema/src/index.ts"],
+      "@scrapper-gate/shared/validation": [
+        "libs/shared/validation/src/index.ts"
       ]
     }
   },
