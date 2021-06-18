@@ -69,6 +69,8 @@ module.exports = (baseConfig) => {
     config.resolve.symlinks = false;
     config.output.pathinfo = false;
   } else {
+    delete config.devtool;
+
     if (process.env.ANALYZE_BUNDLE === 'true') {
       config.plugins.push(
         new BundleAnalyzerPlugin({

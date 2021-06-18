@@ -8,6 +8,8 @@ module.exports = {
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   coverageDirectory: '../../../coverage/apps/browser-extension-e2e',
   setupFilesAfterEnv: ['./src/setup.ts'],
+  testTimeout: 99999,
+  testEnvironment: 'node',
   globals: {
     'ts-jest': {
       tsConfig: '<rootDir>/tsconfig.spec.json',
