@@ -65,7 +65,7 @@
     "fastify": "^3.14.1",
     "fastify-cors": "^0.2.0",
     "final-form": "4.20.1",
-    "functional-cqrs": "^1.2.3",
+    "functional-cqrs": "^1.3.0",
     "graphql": "^15.5.0",
     "graphql-anywhere": "^4.2.7",
     "graphql-tag": "^2.12.3",

@@ -6,6 +6,10 @@ export interface UpdateScrapperPayload {
   userId: string;
 }
 
+export const UpdateScrapper = 'UpdateScrapper' as const;
+
 export class UpdateScrapperCommand implements Command {
+  name = UpdateScrapper;
+
   constructor(public readonly payload: UpdateScrapperPayload) {}
 }
