@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/TheUnderScorer/scrapper-gate/compare/v1.4.0...v1.5.0) (2021-06-21)
+
+
+### Features
+
+* Support navigating to step url ([0bfba4a](https://github.com/TheUnderScorer/scrapper-gate/commit/0bfba4adfb321de60d2c754104d9ff286a9d58e8))
+
 # [1.4.0](https://github.com/TheUnderScorer/scrapper-gate/compare/v1.3.0...v1.4.0) (2021-05-27)
 
 
