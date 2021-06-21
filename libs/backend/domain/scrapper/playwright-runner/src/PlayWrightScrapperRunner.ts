@@ -332,6 +332,8 @@ export class PlayWrightScrapperRunner implements ScrapperRunner {
 
       this.logger.debug('Navigated to step url:', await this.page.url());
     } else {
+      await this.page.waitForLoadState('networkidle');
+
       this.logger.debug('Not navigating to other page.', await this.page.url());
     }
 
