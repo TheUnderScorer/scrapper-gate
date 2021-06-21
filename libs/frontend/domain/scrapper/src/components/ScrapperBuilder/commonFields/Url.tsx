@@ -1,6 +1,13 @@
-import { IconButton, InputAdornment, Stack, Tooltip } from '@material-ui/core';
+import {
+  Button,
+  IconButton,
+  InputAdornment,
+  Stack,
+  Tooltip,
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { Info, Language, MyLocation } from '@material-ui/icons';
+import { useIsOnStepUrl } from '../../../hooks/useIsOnStepUrl';
 import { VariablesTextField } from '@scrapper-gate/frontend/domain/variables';
 import {
   FieldNameCreator,
@@ -34,7 +41,7 @@ export const Url = ({ disabled, fieldNameCreator }: UrlProps) => {
   );
 
   const {
-    input: { onChange },
+    input: { onChange, value },
   } = useField<string>(fieldNameCreator('url'));
 
   const location = useLocation();
@@ -44,6 +51,11 @@ export const Url = ({ disabled, fieldNameCreator }: UrlProps) => {
   }, [location, onChange]);
 
   const urlDisabled = disabled || useUrlFromPreviousStep;
+
+  const isOnStepUrl = useIsOnStepUrl({
+    url: value,
+    useUrlFromPreviousStep,
+  });
 
   return (
     <Stack spacing={1} direction="column">
@@ -74,18 +86,23 @@ export const Url = ({ disabled, fieldNameCreator }: UrlProps) => {
         name={fieldNameCreator('url')}
         disabled={urlDisabled}
       />
-      <Stack direction="row" spacing={1}>
-        <FormSwitch
-          labelProps={{
-            className: classes.label,
-          }}
-          name={fieldNameCreator('useUrlFromPreviousStep')}
-          label="Stay on page from previous step"
-          disabled={disabled}
-        />
-        <IconButton className={classes.infoBtn} size="small">
-          <Info />
-        </IconButton>
+      <Stack alignItems="center" direction="row" justifyContent="space-between">
+        <Stack direction="row" spacing={1}>
+          <FormSwitch
+            labelProps={{
+              className: classes.label,
+            }}
+            name={fieldNameCreator('useUrlFromPreviousStep')}
+            label="Stay on page from previous step"
+            disabled={disabled}
+          />
+          <IconButton className={classes.infoBtn} size="small">
+            <Info />
+          </IconButton>
+        </Stack>
+        {!isOnStepUrl && !disabled && (
+          <Button href={value}>Open step URL</Button>
+        )}
       </Stack>
     </Stack>
   );

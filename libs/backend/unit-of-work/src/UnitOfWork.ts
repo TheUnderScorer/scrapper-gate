@@ -1,38 +1,41 @@
-import { UnitOfWorkCallback } from './types';
-import { asValue, AwilixContainer } from 'awilix';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { asValueObject } from '@scrapper-gate/backend/awilix';
-import { Connection } from 'typeorm';
-import { Handlers } from '@scrapper-gate/backend/cqrs';
-import { createCqrs } from 'functional-cqrs';
-import { Logger } from '@scrapper-gate/shared/logger';
-import { Typed } from 'emittery';
 import { RepositoriesProvider } from '@scrapper-gate/backend/database';
-import { Buses } from 'functional-cqrs/build/typings/buses';
+import { Logger } from '@scrapper-gate/shared/logger';
+import { asValue, AwilixContainer } from 'awilix';
+import { Typed } from 'emittery';
+import { CqrsResult } from 'functional-cqrs';
+
+import { Connection } from 'typeorm';
+import { UnitOfWorkCallback } from './types';
 
 export interface UnitOfWorkDependencies {
   connection: Connection;
-  handlers: Handlers;
+
   // Note - container passed to unit of work should not be scoped
   container: AwilixContainer;
   logger: Logger;
   repositoriesProvider: RepositoriesProvider;
 }
 
-export class UnitOfWork {
+export class UnitOfWork<
+  Cqrs extends CqrsResult<any, any> = CqrsResult<any, any>
+> {
   readonly events = new Typed<{
-    finished: UnitOfWork;
+    finished: UnitOfWork<Cqrs>;
     failed: {
       error: Error;
-      service: UnitOfWork;
+      service: UnitOfWork<Cqrs>;
     };
   }>();
 
   constructor(private readonly dependencies: UnitOfWorkDependencies) {}
 
-  async run<ReturnType>(callback: UnitOfWorkCallback<ReturnType>) {
+  async run<ReturnType>(
+    callback: UnitOfWorkCallback<ReturnType, Cqrs['buses']>
+  ) {
     const {
       connection,
-      handlers,
       container,
       logger,
       repositoriesProvider,
@@ -40,39 +43,29 @@ export class UnitOfWork {
 
     const scopedContainer = container.createScope();
 
-    // const messageQueue = scopedContainer.resolve<MessageQueue>('messageQueue');
-
     try {
       const result = await connection.transaction(async (t) => {
-        const scopedContainer = container.createScope();
-
         scopedContainer.register(asValueObject(repositoriesProvider(t)));
 
         const {
           buses: { eventsBus, commandsBus, queriesBus },
-        } = await createCqrs({
-          context: (buses) => {
-            scopedContainer.register({
-              eventsBus: asValue(buses.eventsBus),
-              commandsBus: asValue(buses.commandsBus),
-              queriesBus: asValue(buses.queriesBus),
-            });
+        } = scopedContainer.resolve<Cqrs>('cqrsFactory');
 
-            return scopedContainer.cradle;
-          },
-          ...handlers,
+        scopedContainer.register({
+          eventsBus: asValue(eventsBus),
+          commandsBus: asValue(commandsBus),
+          queriesBus: asValue(queriesBus),
         });
 
-        const callbackContext: Buses = {
+        const callbackContext = {
           eventsBus,
           queriesBus,
           commandsBus,
+          container: scopedContainer,
         };
 
         return callback(callbackContext);
       });
-
-      // await messageQueue.commit();
 
       await this.events.emit('finished', this);
 

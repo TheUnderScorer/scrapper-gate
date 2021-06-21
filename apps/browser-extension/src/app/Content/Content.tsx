@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useTokensStore } from '@scrapper-gate/frontend/domain/auth';
+import { useCurrentUrlUpdater } from '../../extension/browser/hooks/useCurrentUrlUpdater';
 import { useOnMessageListener } from '../../extension/browser/hooks/useOnMessageListener/useOnMessageListener';
 import {
   ContentToggleHookPayload,
@@ -55,6 +56,7 @@ export const Content = () => {
   });
 
   useContentRouteStorage();
+  useCurrentUrlUpdater();
 
   if (!visible) {
     return null;

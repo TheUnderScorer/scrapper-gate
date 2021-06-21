@@ -17,8 +17,9 @@ import {
   waitFor,
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Selection } from '@scrapper-gate/frontend/common';
+import { QueryParamProvider, Selection } from '@scrapper-gate/frontend/common';
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
+import { MemoryRouter } from 'react-router';
 import { createNodeFromSelection } from './utils/createNodeFromSelection';
 import { wait } from '@scrapper-gate/shared/common';
 import { dragSelectionIntoCanvas } from '../../../../../../tests/ui/flowBuilder/dragSelectionIntoCanvas';
@@ -116,26 +117,30 @@ const renderComponent = ({
 } = {}) =>
   render(
     <ThemeProvider>
-      <Form
-        onSubmit={handleSubmit}
-        initialValues={{
-          items: initialItems,
-        }}
-        render={(props) => (
-          <form
-            style={{
-              width: 500,
-              height: 500,
+      <MemoryRouter>
+        <QueryParamProvider>
+          <Form
+            onSubmit={handleSubmit}
+            initialValues={{
+              items: initialItems,
             }}
-            onSubmit={props.handleSubmit}
-          >
-            <FlowBuilder
-              nodesSelection={nodesSelection}
-              {...flowBuilderProps}
-            />
-          </form>
-        )}
-      />
+            render={(props) => (
+              <form
+                style={{
+                  width: 500,
+                  height: 500,
+                }}
+                onSubmit={props.handleSubmit}
+              >
+                <FlowBuilder
+                  nodesSelection={nodesSelection}
+                  {...flowBuilderProps}
+                />
+              </form>
+            )}
+          />
+        </QueryParamProvider>
+      </MemoryRouter>
     </ThemeProvider>
   );
 
@@ -171,7 +176,7 @@ const withConditionalNode = async () => {
   );
 
   act(() => {
-    userEvent.click(node!);
+    userEvent.dblClick(node!);
   });
 
   await wait(450);

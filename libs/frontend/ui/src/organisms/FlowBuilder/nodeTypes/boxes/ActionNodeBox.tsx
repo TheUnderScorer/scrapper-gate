@@ -24,7 +24,7 @@ export const ActionNodeBox = ({
   className,
   width,
   height,
-  onClick,
+  onDoubleClick,
   iconClassName,
   handles,
 }: ActionNodeBoxProps) => {
@@ -33,7 +33,7 @@ export const ActionNodeBox = ({
   return (
     <Paper
       className={classNames(className, classes.paper, 'action-node-box')}
-      onClick={onClick}
+      onDoubleClick={onDoubleClick}
       variant="outlined"
       style={{
         width,

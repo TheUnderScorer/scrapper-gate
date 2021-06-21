@@ -1,11 +1,16 @@
-import { useEffect, useState } from 'react';
-import { getActiveTab } from '../tabsQuery/getActiveTab';
-import { AppType, useAppType } from '@scrapper-gate/frontend/common';
+import {
+  AppType,
+  useAppType,
+  useCurrentUrl,
+} from '@scrapper-gate/frontend/common';
+import { useEffect } from 'react';
 import { browser } from 'webextension-polyfill-ts';
+import { getActiveTab } from '../tabsQuery/getActiveTab';
 
-export const useActiveTabUrl = () => {
+export const useCurrentUrlUpdater = () => {
   const appType = useAppType((store) => store.appType);
-  const [url, setUrl] = useState('');
+
+  const setUrl = useCurrentUrl((store) => store.setCurrentUrl);
 
   useEffect(() => {
     if (!appType || appType === AppType.ExtensionContentScript) {
@@ -33,7 +38,5 @@ export const useActiveTabUrl = () => {
 
       setUrl(tab.url ?? '');
     });
-  }, [appType]);
-
-  return url;
+  }, [appType, setUrl]);
 };

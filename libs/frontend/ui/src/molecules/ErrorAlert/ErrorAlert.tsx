@@ -3,14 +3,14 @@ import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
 import { Alert } from '@material-ui/lab';
 import { Maybe } from '@scrapper-gate/shared/common';
-import { Nullable } from 'functional-cqrs/build/typings/common';
+
 import React, { useCallback, useEffect, useState } from 'react';
 
 export interface ErrorAlertProps {
   /**
    * Error to display in alert
    * */
-  error?: Nullable<Error>;
+  error?: Maybe<Error>;
   onClose?: () => void;
   className?: string;
 }

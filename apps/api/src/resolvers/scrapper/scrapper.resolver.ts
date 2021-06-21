@@ -1,16 +1,13 @@
-import { Resolvers } from '@scrapper-gate/shared/schema';
-import { BaseApolloContext } from '@scrapper-gate/backend/server';
 import {
   CreateScrapperCommand,
   GetScrapperByUserQuery,
   GetScrappersByUserQuery,
   UpdateScrapperCommand,
 } from '@scrapper-gate/backend/domain/scrapper';
-import { UserModel } from '@scrapper-gate/backend/domain/user';
+import { Resolvers } from '@scrapper-gate/shared/schema';
+import { ServerContext } from '../../context';
 
-export const scrapperResolver = (): Resolvers<
-  BaseApolloContext<UserModel>
-> => ({
+export const scrapperResolver = (): Resolvers<ServerContext> => ({
   Query: {
     getMyScrappers: (_, args, ctx) =>
       ctx.unitOfWork.run(({ queriesBus }) =>

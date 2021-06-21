@@ -1,3 +1,4 @@
+import '../../../../typings/global';
 import faker from 'faker';
 import { apiRoutes } from '@scrapper-gate/shared/routing';
 import { makeGraphqlRequest } from '@scrapper-gate/backend/server';
@@ -39,6 +40,10 @@ export const createUser = async () => {
   });
 
   const result = JSON.parse(response.body);
+
+  if (!result.data) {
+    throw new Error('Failed to create user');
+  }
 
   const user = await global.container
     .resolve<UserRepository>('userRepository')

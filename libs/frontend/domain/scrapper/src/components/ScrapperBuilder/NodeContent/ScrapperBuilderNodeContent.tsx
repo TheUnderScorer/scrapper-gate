@@ -9,6 +9,7 @@ import { sections } from '../sections';
 export interface ScrapperBuilderNodeContentProps
   extends Pick<ScrapperBuilderProps, 'ElementPicker'>,
     NodeContentProps {}
+
 const BaseScrapperBuilderNodeContent = (
   props: ScrapperBuilderNodeContentProps
 ) => {

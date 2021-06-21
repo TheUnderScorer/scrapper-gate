@@ -1,3 +1,4 @@
+import '../../typings/global';
 import { createUser } from '../../tests/createUser';
 import { createScrapper } from '../../tests/createScrapper';
 

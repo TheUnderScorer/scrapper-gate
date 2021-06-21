@@ -11,4 +11,5 @@ module.exports = {
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   coverageDirectory: '../../../coverage/libs/backend/unit-of-work',
+  setupFilesAfterEnv: [`${process.cwd()}/tests/setupBackend.ts`],
 };

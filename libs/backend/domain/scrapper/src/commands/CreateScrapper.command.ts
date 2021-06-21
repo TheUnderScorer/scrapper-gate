@@ -7,6 +7,10 @@ export interface CreateScrapperPayload {
   user: UserModel;
 }
 
+export const CreateScrapper = 'CreateScrapper' as const;
+
 export class CreateScrapperCommand implements Command {
+  name = CreateScrapper;
+
   constructor(public readonly payload: CreateScrapperPayload) {}
 }

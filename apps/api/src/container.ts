@@ -1,3 +1,17 @@
+import { asArray } from '@scrapper-gate/backend/awilix';
+import { makeRepositoriesProviderFromDefinitions } from '@scrapper-gate/backend/database';
+import {
+  ExtractToken,
+  ExtractUser,
+  makeExtractToken,
+  makeExtractUser,
+} from '@scrapper-gate/backend/domain/auth';
+import { UserRepository } from '@scrapper-gate/backend/domain/user';
+import { ErrorHandler, errorHandler } from '@scrapper-gate/backend/server';
+import { UnitOfWork } from '@scrapper-gate/backend/unit-of-work';
+import { apiRoutes } from '@scrapper-gate/shared/routing';
+import { SecurityClient } from '@tshio/security-client';
+import { ApolloServer } from 'apollo-server-fastify';
 import {
   asClass,
   asFunction,
@@ -5,28 +19,15 @@ import {
   createContainer as makeContainer,
 } from 'awilix';
 import fastify from 'fastify';
-import { apiRoutes } from '@scrapper-gate/shared/routing';
-import { asArray } from '@scrapper-gate/backend/awilix';
-import { rootResolver } from './resolvers/root.resolver';
-import { userResolver } from './resolvers/user/user.resolver';
-import { apolloServerFactory } from './apolloServer';
-import { ApolloServer } from 'apollo-server-fastify';
-import { Connection, createConnection } from 'typeorm';
-import { entityDefinitions } from './database';
-import { UnitOfWork } from '@scrapper-gate/backend/unit-of-work';
-import { SecurityClient } from '@tshio/security-client';
-import {
-  ExtractToken,
-  ExtractUser,
-  makeExtractToken,
-  makeExtractUser,
-} from '@scrapper-gate/backend/domain/auth';
-import { ErrorHandler, errorHandler } from '@scrapper-gate/backend/server';
-import { makeRepositoriesProviderFromDefinitions } from '@scrapper-gate/backend/database';
-import { handlers } from './handlers';
-import { UserRepository } from '@scrapper-gate/backend/domain/user';
 import { decode } from 'jsonwebtoken';
+import { Connection, createConnection } from 'typeorm';
+import { apolloServerFactory } from './apolloServer';
+import { registerServerCqrs, serverCqrs } from './cqrs';
+import { entityDefinitions } from './database';
+import { handlers } from './handlers';
+import { rootResolver } from './resolvers/root.resolver';
 import { scrapperResolver } from './resolvers/scrapper/scrapper.resolver';
+import { userResolver } from './resolvers/user/user.resolver';
 
 export interface CreateContainerDependencies {
   dbConnection?: Connection;
@@ -89,7 +90,10 @@ export const createContainer = async ({
     decodeToken: asValue(decode),
     securityApiKey: asValue(securityApiKey),
     errorHandler: asFunction(errorHandler).singleton(),
+    cqrsFactory: asFunction(serverCqrs),
   });
+
+  registerServerCqrs(container);
 
   server.decorateRequest('container', '');
 
