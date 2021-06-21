@@ -1,3 +1,4 @@
+import '../../typings/global';
 import gql from 'graphql-tag';
 import { createUser } from '../../tests/createUser';
 import { createScrapper } from '../../tests/createScrapper';

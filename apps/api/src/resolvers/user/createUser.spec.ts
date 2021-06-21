@@ -1,3 +1,4 @@
+import '../../typings/global';
 import gql from 'graphql-tag';
 import '../../typings/global';
 import { apiRoutes } from '@scrapper-gate/shared/routing';

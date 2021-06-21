@@ -1,3 +1,4 @@
+import '../../typings/global';
 import { ScrapperModel } from '@scrapper-gate/backend/domain/scrapper';
 import { VariableModel } from '@scrapper-gate/backend/domain/variables';
 import { makeGraphqlRequest } from '@scrapper-gate/backend/server';

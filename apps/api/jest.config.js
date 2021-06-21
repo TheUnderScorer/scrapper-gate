@@ -16,4 +16,5 @@ module.exports = {
     `<rootDir>/src/tests/setupServer.ts`,
   ],
   testEnvironment: 'node',
+  testTimeout: 99999,
 };
