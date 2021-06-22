@@ -1,3 +1,4 @@
+import { Link } from '@material-ui/core';
 import { VariablesTextField } from '@scrapper-gate/frontend/domain/variables';
 import { FieldNameCreator } from '@scrapper-gate/frontend/form';
 import React from 'react';
@@ -12,7 +13,11 @@ export const ScrapperKey = ({
   fieldNameCreator,
 }: ScrapperKeyProps) => (
   <VariablesTextField
-    helperText="Will be used as value key."
+    helperText={
+      <>
+        It will be used as an identifier for this step. <Link>Learn more</Link>
+      </>
+    }
     disabled={disabled}
     label="Step name"
     name={fieldNameCreator('key')}

@@ -209,6 +209,7 @@ export const ScrapperBuilder = ({
         <VariablesProvider name="variables">
           <form className={classes.form} onSubmit={props.handleSubmit}>
             <FlowBuilder
+              nodeKeyProperty="data.key"
               tabs={tabs}
               isUsingElementPicker={Boolean(isUsingElementPicker)}
               defaultNodeContent={ContentComponent}
