@@ -1,3 +1,4 @@
+import '../../wdyr';
 import { Global } from '@emotion/react';
 import { LocalizationProvider } from '@material-ui/lab';
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
