@@ -9,4 +9,5 @@ export const validationMessages = {
     'Space and special characters (@#$%^&*()/><|[]) are not allowed.',
   [JoiMessages.Number]: 'Must be a number.',
   [JoiMessages.Empty]: 'This field cannot be empty.',
+  [JoiMessages.Unique]: 'This field value must be unique.',
 };

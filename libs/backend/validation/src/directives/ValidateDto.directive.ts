@@ -32,6 +32,7 @@ export class ValidateDtoDirective extends SchemaDirectiveVisitor {
       await Schema.validate(argToCheck, {
         allowUnknown: true,
         abortEarly: true,
+        context: argToCheck,
       });
 
       return resolve.call(this, source, args, context, info);
