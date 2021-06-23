@@ -659,11 +659,11 @@ Object {
                             id="node-start"
                           >
                             <div
-                              class="MuiBox-root css-yxp10p"
+                              class="MuiBox-root css-1fy0bp4"
                             >
                               <div
                                 class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded ActionNodeBox-root-52 Styled(ActionNodeBox)-root-50 Styled(ActionNodeBox)-root-51 makeStyles-paper-25 action-node-box css-172kgz0-MuiPaper-root"
-                                style="width: 70px; height: 70px; position: relative;"
+                                style="width: 90px; height: 90px; position: relative;"
                               >
                                 <div
                                   class="centered MuiBox-root css-1rr92ez"
@@ -691,11 +691,15 @@ Object {
                                   data-nodeid="start"
                                 />
                               </div>
-                              <span
-                                class="MuiTypography-root MuiTypography-caption makeStyles-text-47 css-1kjdt4l-MuiTypography-root"
+                              <div
+                                class="makeStyles-text-47 css-ihqncx-Stack-root"
                               >
-                                Start
-                              </span>
+                                <span
+                                  class="MuiTypography-root MuiTypography-caption css-1kjdt4l-MuiTypography-root"
+                                >
+                                  Start
+                                </span>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -1488,11 +1492,11 @@ Object {
                           id="node-start"
                         >
                           <div
-                            class="MuiBox-root css-yxp10p"
+                            class="MuiBox-root css-1fy0bp4"
                           >
                             <div
                               class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded ActionNodeBox-root-52 Styled(ActionNodeBox)-root-50 Styled(ActionNodeBox)-root-51 makeStyles-paper-25 action-node-box css-172kgz0-MuiPaper-root"
-                              style="width: 70px; height: 70px; position: relative;"
+                              style="width: 90px; height: 90px; position: relative;"
                             >
                               <div
                                 class="centered MuiBox-root css-1rr92ez"
@@ -1520,11 +1524,15 @@ Object {
                                 data-nodeid="start"
                               />
                             </div>
-                            <span
-                              class="MuiTypography-root MuiTypography-caption makeStyles-text-47 css-1kjdt4l-MuiTypography-root"
+                            <div
+                              class="makeStyles-text-47 css-ihqncx-Stack-root"
                             >
-                              Start
-                            </span>
+                              <span
+                                class="MuiTypography-root MuiTypography-caption css-1kjdt4l-MuiTypography-root"
+                              >
+                                Start
+                              </span>
+                            </div>
                           </div>
                         </div>
                       </div>
