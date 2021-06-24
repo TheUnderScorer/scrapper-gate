@@ -1,5 +1,5 @@
 import { first } from '@scrapper-gate/shared/common';
-import { JoiMessages } from '@scrapper-gate/shared/validation';
+import { JoiMessages } from '../types';
 import { CustomCallback } from './decorators.types';
 
 export interface UniqueParams<Context, ValueFromContext> {

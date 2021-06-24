@@ -1,5 +1,4 @@
 import { containsVariableKey } from '@scrapper-gate/shared/domain/variables';
-import * as jf from 'joiful';
 import { JoiMessages } from '../types';
 import { validationMessages } from '../validationMessages';
 import { CustomCallback } from './decorators.types';

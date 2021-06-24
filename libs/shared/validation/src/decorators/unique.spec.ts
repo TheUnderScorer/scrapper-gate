@@ -1,4 +1,4 @@
-import { JoiMessages } from '@scrapper-gate/shared/validation';
+import { JoiMessages } from '../types';
 import { string, validateAsClass } from 'joiful';
 import { validationMessages } from '../validationMessages';
 import { unique } from './unique';
