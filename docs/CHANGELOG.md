@@ -1,3 +1,11 @@
+# [1.6.0](https://github.com/TheUnderScorer/scrapper-gate/compare/v1.5.0...v1.6.0) (2021-06-25)
+
+
+### Features
+
+* Display scrapper key inside node ([afe0e96](https://github.com/TheUnderScorer/scrapper-gate/commit/afe0e96555af36e5e57b13b2561106e55b37c1dd))
+* Ensure that scrapper and variable key are unique ([46a10bc](https://github.com/TheUnderScorer/scrapper-gate/commit/46a10bc611b4940a9d0fc7fb87590f12615468b8))
+
 # [1.5.0](https://github.com/TheUnderScorer/scrapper-gate/compare/v1.4.0...v1.5.0) (2021-06-21)
 
 
