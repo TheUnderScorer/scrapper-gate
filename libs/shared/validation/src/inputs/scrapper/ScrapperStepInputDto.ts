@@ -1,6 +1,7 @@
 import {
   MouseButton,
   ScrapperAction,
+  ScrapperStep,
   ScrapperStepInput,
 } from '@scrapper-gate/shared/schema';
 import * as jf from 'joiful';
@@ -8,6 +9,7 @@ import { BaseSchema } from '../../BaseSchema';
 import { optionalEnum } from '../../decorators/enum';
 import { noSpecialChars } from '../../decorators/noSpecialChars';
 import { supportsVariables } from '../../decorators/supportsVariables';
+import { unique } from '../../decorators/unique';
 import { uuid } from '../../decorators/uuid';
 import { SelectorDto } from '../SelectorDto';
 import { ScrapperConditionalRuleGroupInputDto } from './ScrapperConditionalRuleGroupInputDto';
@@ -37,7 +39,18 @@ export class ScrapperStepInputDto
   @optionalEnum(ScrapperAction)
   action?: ScrapperAction;
 
-  @(noSpecialChars({ max: 50, supportsVariables: true }).allow(null))
+  @(jf
+    .string()
+    .allow(null)
+    .custom(noSpecialChars({ max: 50, supportsVariables: true }))
+    .custom(
+      unique({
+        getValueFromContext: (context: { steps: ScrapperStep[] }) =>
+          context.steps,
+        getValue: (step) => step.key,
+        isTarget: (parent, value) => parent.id === value.id,
+      })
+    ))
   key?: string;
 
   @(jf.number().allow(null))

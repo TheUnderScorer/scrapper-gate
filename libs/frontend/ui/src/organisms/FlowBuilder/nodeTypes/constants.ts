@@ -1,1 +1,1 @@
-export const defaultNodeSize = 70;
+export const defaultNodeSize = 90;

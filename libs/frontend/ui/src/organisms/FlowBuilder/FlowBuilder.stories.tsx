@@ -1,3 +1,4 @@
+import { QueryParamProvider } from '@scrapper-gate/frontend/common';
 import React, { useCallback, useMemo } from 'react';
 import { action } from '@storybook/addon-actions';
 import {
@@ -12,6 +13,7 @@ import {
 import { Form } from 'react-final-form';
 import { FORM_ERROR } from 'final-form';
 import { Box, Typography } from '@material-ui/core';
+import { MemoryRouter } from 'react-router';
 import { PrimaryLightIconButton } from '../../atoms/Buttons/Buttons';
 import {
   basicHandleAddNode,
@@ -67,17 +69,21 @@ const nodeContents = {
 
 export const Loading = () => {
   return (
-    <Form
-      initialValues={{
-        items: [],
-      }}
-      onSubmit={console.log}
-      render={() => (
-        <Box width="90vw" height="90vh">
-          <FlowBuilder loading nodeTypes={{}} nodesSelection={[]} />
-        </Box>
-      )}
-    />
+    <MemoryRouter>
+      <QueryParamProvider>
+        <Form
+          initialValues={{
+            items: [],
+          }}
+          onSubmit={console.log}
+          render={() => (
+            <Box width="90vw" height="90vh">
+              <FlowBuilder loading nodeTypes={{}} nodesSelection={[]} />
+            </Box>
+          )}
+        />
+      </QueryParamProvider>
+    </MemoryRouter>
   );
 };
 
@@ -139,58 +145,63 @@ export const BasicPreset = () => {
   );
 
   return (
-    <Form
-      onSubmit={handleSubmit}
-      initialValues={{
-        items: initialState,
-      }}
-      render={(props) => (
-        <form
-          onSubmit={props.handleSubmit}
-          style={{
-            height: '90vh',
-            width: '90vw',
+    <MemoryRouter>
+      <QueryParamProvider>
+        <Form
+          onSubmit={handleSubmit}
+          initialValues={{
+            items: initialState,
           }}
-        >
-          <FlowBuilder<FlowBuilderPlaceholderProperties>
-            nodesSelection={nodesSelection}
-            nodesLabel="Steps"
-            onAdd={handleAddNode}
-            tabs={[
-              {
-                value: 'tab_1',
-                label: 'Tab 1',
-                content: <Typography>Tab 1 content</Typography>,
-              },
-              {
-                value: 'tab_2',
-                label: 'Tab 2',
-                content: <Typography>Tab 2 content</Typography>,
-              },
-            ]}
-            menu={[
-              {
-                id: 'item_1',
-                content: 'Item 1',
-              },
-              {
-                id: 'item_2',
-                content: 'Item 2',
-              },
-            ]}
-            title="Flow Builder"
-            onClose={action('Close')}
-            onRemove={handleBasicRemoveNode}
-            onConnect={basicConnect}
-            nodeContents={nodeContents}
-            additionalActions={
-              <PrimaryLightIconButton size="small">
-                <PlayArrowSharp />
-              </PrimaryLightIconButton>
-            }
-          />
-        </form>
-      )}
-    />
+          render={(props) => (
+            <form
+              onSubmit={props.handleSubmit}
+              style={{
+                height: '90vh',
+                width: '90vw',
+              }}
+            >
+              <FlowBuilder<FlowBuilderPlaceholderProperties>
+                nodeKeyProperty="data.title"
+                nodesSelection={nodesSelection}
+                nodesLabel="Steps"
+                onAdd={handleAddNode}
+                tabs={[
+                  {
+                    value: 'tab_1',
+                    label: 'Tab 1',
+                    content: <Typography>Tab 1 content</Typography>,
+                  },
+                  {
+                    value: 'tab_2',
+                    label: 'Tab 2',
+                    content: <Typography>Tab 2 content</Typography>,
+                  },
+                ]}
+                menu={[
+                  {
+                    id: 'item_1',
+                    content: 'Item 1',
+                  },
+                  {
+                    id: 'item_2',
+                    content: 'Item 2',
+                  },
+                ]}
+                title="Flow Builder"
+                onClose={action('Close')}
+                onRemove={handleBasicRemoveNode}
+                onConnect={basicConnect}
+                nodeContents={nodeContents}
+                additionalActions={
+                  <PrimaryLightIconButton size="small">
+                    <PlayArrowSharp />
+                  </PrimaryLightIconButton>
+                }
+              />
+            </form>
+          )}
+        />
+      </QueryParamProvider>
+    </MemoryRouter>
   );
 };

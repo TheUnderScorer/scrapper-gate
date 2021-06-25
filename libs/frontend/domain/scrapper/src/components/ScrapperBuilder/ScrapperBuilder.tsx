@@ -111,6 +111,11 @@ export const ScrapperBuilder = ({
         node!.data!.url = browserUrl;
       }
 
+      if (!node.data?.id) {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        node.data!.id = node.id;
+      }
+
       return node;
     },
     [browserUrl]
@@ -146,10 +151,15 @@ export const ScrapperBuilder = ({
     () =>
       mergeValidators<ScrapperBuilderFormState>(
         flowBuilderValidation.ensureAllNodesAreConnected,
-        joiValidationResolver(ScrapperBuilderDto, {
-          allowUnknown: true,
-          presence: 'optional',
-        })
+        (value) =>
+          joiValidationResolver(ScrapperBuilderDto, {
+            allowUnknown: true,
+            presence: 'optional',
+            context: {
+              steps: value.items.map((item) => item.data),
+              variables: value.variables,
+            },
+          })(value)
       ),
     []
   );
@@ -209,6 +219,7 @@ export const ScrapperBuilder = ({
         <VariablesProvider name="variables">
           <form className={classes.form} onSubmit={props.handleSubmit}>
             <FlowBuilder
+              nodeKeyProperty="data.key"
               tabs={tabs}
               isUsingElementPicker={Boolean(isUsingElementPicker)}
               defaultNodeContent={ContentComponent}

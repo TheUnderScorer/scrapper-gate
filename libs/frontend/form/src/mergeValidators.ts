@@ -1,3 +1,4 @@
+import { ExcludeFalsy } from '@scrapper-gate/shared/common';
 import { ValidationErrors } from 'final-form';
 import pLimit from 'p-limit';
 import deepmerge from 'deepmerge';
@@ -13,7 +14,7 @@ export const mergeValidators = <S>(
     validators.map((validator) => limit(() => validator(data)))
   );
 
-  return results.reduce((acc, currentValue) => {
+  return results.filter(ExcludeFalsy).reduce((acc, currentValue) => {
     return deepmerge(acc, currentValue, {
       clone: false,
     });

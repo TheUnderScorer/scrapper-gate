@@ -10,9 +10,16 @@ import React, {
   useCallback,
   useEffect,
   useMemo,
+  MouseEvent,
   useRef,
 } from 'react';
-import ReactFlow, { Connection } from 'react-flow-renderer';
+import ReactFlow, {
+  Connection,
+  Edge,
+  Node,
+  OnConnectStartParams,
+  OnLoadParams,
+} from 'react-flow-renderer';
 import classNames from 'classnames';
 import { useFlowBuilderInstanceContext } from '../providers/FlowBuilderInstance.provider';
 import { useFlowBuilderDragState } from '../providers/FlowBuilderDragState.provider';
@@ -99,6 +106,9 @@ const useStyles = makeStyles((theme: AppTheme) => ({
   },
 }));
 
+const snapGrid: [number, number] = [15, 15];
+const defaultPosition: [number, number] = [0, 0];
+
 export const FlowBuilderCanvas = () => {
   const containerRef = useRef<HTMLDivElement>();
 
@@ -166,9 +176,32 @@ export const FlowBuilderCanvas = () => {
     [addItem, flowInstance]
   );
 
+  const handleDrag = useCallback(
+    (event: MouseEvent, node: Node) => {
+      setTimeout(() => setDraggedNode(node), 150);
+    },
+    [setDraggedNode]
+  );
+
+  const handleConnectStart = useCallback(
+    (event: MouseEvent, data: OnConnectStartParams) => {
+      setConnectionSource(data);
+    },
+    [setConnectionSource]
+  );
+
   const handleConnectionEnd = useCallback(() => {
     setConnectionSource(null);
   }, [setConnectionSource]);
+
+  const handleLoad = useCallback(
+    (instance: OnLoadParams) => {
+      instance.fitView();
+
+      setFlowInstance?.(instance);
+    },
+    [setFlowInstance]
+  );
 
   const [{ canDrop }, drop] = useDrop({
     accept: FlowBuilderDropTypes.Node,
@@ -224,13 +257,11 @@ export const FlowBuilderCanvas = () => {
           })}
         >
           <ReactFlow
+            defaultPosition={defaultPosition}
+            snapGrid={snapGrid}
             edgeTypes={edgeTypes}
             className={classes.canvas}
-            onLoad={(instance) => {
-              instance.fitView();
-
-              setFlowInstance?.(instance);
-            }}
+            onLoad={handleLoad}
             elements={items}
             nodeTypes={mappedNodeTypes}
             onElementsRemove={
@@ -238,15 +269,10 @@ export const FlowBuilderCanvas = () => {
                 items: FlowBuilderItem<BaseNodeProperties>[]
               ) => unknown
             }
-            onConnect={(connection) => connect(connection as Connection)}
+            onConnect={connect as (connect: Connection | Edge) => unknown}
             onNodeDragStop={handleDragEnd}
-            onNodeDrag={(event, node) => {
-              setTimeout(() => setDraggedNode(node), 150);
-            }}
-            onConnectStart={(event, data) => {
-              console.log('connect start');
-              setConnectionSource(data);
-            }}
+            onNodeDrag={handleDrag}
+            onConnectStart={handleConnectStart}
             onConnectEnd={handleConnectionEnd}
             connectionLineComponent={FlowBuilderConnectionLine}
             /*TODO Find a way to disable this at all*/

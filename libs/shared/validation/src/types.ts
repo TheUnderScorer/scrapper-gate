@@ -8,4 +8,5 @@ export enum JoiMessages {
   Custom = 'any.custom',
   Number = 'number.base',
   Empty = 'string.empty',
+  Unique = 'any.unique',
 }

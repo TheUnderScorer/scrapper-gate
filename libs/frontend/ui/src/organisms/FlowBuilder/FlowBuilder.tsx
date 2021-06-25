@@ -72,6 +72,8 @@ export interface FlowBuilderProps<
   nodesCreator?: (api: NodesCreatorApi<T, S>) => Promise<FlowBuilderItem<T>[]>;
   // Useful in testing, if set to sets data-items to current items on element .flow-builder-canvas
   renderItemsInDataAttribute?: boolean;
+  // Path under which optional node key can be found - it will be displayed next to title
+  nodeKeyProperty?: string;
 }
 
 const defaultNodeTypes = {};

@@ -15,7 +15,7 @@ export interface FlowBuilderNodeBoxIconProps {
 const useStyles = makeStyles((theme) => ({
   icon: {
     '& svg': {
-      fontSize: theme.typography.h5.fontSize,
+      fontSize: theme.typography.h4.fontSize,
     },
   },
 }));

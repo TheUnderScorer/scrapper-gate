@@ -1,14 +1,14 @@
 import { BaseSchema } from '../BaseSchema';
-import { validateAsClass } from 'joiful';
+import { string, validateAsClass } from 'joiful';
 import { noSpecialChars } from './noSpecialChars';
 
 class Test extends BaseSchema<Test> {
-  @noSpecialChars({ max: 50 })
+  @(string().custom(noSpecialChars({ max: 50 })))
   value: string;
 }
 
 class TestVariable extends BaseSchema<TestVariable> {
-  @noSpecialChars({ max: 50, supportsVariables: true })
+  @(string().custom(noSpecialChars({ max: 50, supportsVariables: true })))
   value: string;
 }
 

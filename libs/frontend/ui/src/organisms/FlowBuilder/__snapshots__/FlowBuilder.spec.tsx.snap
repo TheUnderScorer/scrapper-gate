@@ -464,7 +464,7 @@ Object {
                           id="node-1"
                         >
                           <div
-                            class="MuiBox-root css-yxp10p"
+                            class="MuiBox-root css-1fy0bp4"
                           >
                             <button
                               class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall makeStyles-dropdownIcon-44 node-dropdown-trigger css-21hjtl-MuiButtonBase-root-MuiIconButton-root"
@@ -492,7 +492,7 @@ Object {
                             </button>
                             <div
                               class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded makeStyles-paper-21 action-node-box css-172kgz0-MuiPaper-root"
-                              style="width: 70px; height: 70px; position: relative;"
+                              style="width: 90px; height: 90px; position: relative;"
                             >
                               <div
                                 class="centered MuiBox-root css-1rr92ez"
@@ -520,11 +520,15 @@ Object {
                                 data-nodeid="1"
                               />
                             </div>
-                            <span
-                              class="MuiTypography-root MuiTypography-caption makeStyles-text-46 css-1kjdt4l-MuiTypography-root"
+                            <div
+                              class="makeStyles-text-46 css-ihqncx-Stack-root"
                             >
-                              First element
-                            </span>
+                              <span
+                                class="MuiTypography-root MuiTypography-caption css-1kjdt4l-MuiTypography-root"
+                              >
+                                First element
+                              </span>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -538,7 +542,7 @@ Object {
                           id="node-2"
                         >
                           <div
-                            class="MuiBox-root css-yxp10p"
+                            class="MuiBox-root css-1fy0bp4"
                           >
                             <button
                               class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall makeStyles-dropdownIcon-44 node-dropdown-trigger css-21hjtl-MuiButtonBase-root-MuiIconButton-root"
@@ -566,7 +570,7 @@ Object {
                             </button>
                             <div
                               class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded makeStyles-paper-21 action-node-box css-172kgz0-MuiPaper-root"
-                              style="width: 70px; height: 70px; position: relative;"
+                              style="width: 90px; height: 90px; position: relative;"
                             >
                               <div
                                 class="centered MuiBox-root css-1rr92ez"
@@ -620,11 +624,15 @@ Object {
                                 data-nodeid="2"
                               />
                             </div>
-                            <span
-                              class="MuiTypography-root MuiTypography-caption makeStyles-text-46 css-1kjdt4l-MuiTypography-root"
+                            <div
+                              class="makeStyles-text-46 css-ihqncx-Stack-root"
                             >
-                              Second element
-                            </span>
+                              <span
+                                class="MuiTypography-root MuiTypography-caption css-1kjdt4l-MuiTypography-root"
+                              >
+                                Second element
+                              </span>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -638,7 +646,7 @@ Object {
                           id="node-3"
                         >
                           <div
-                            class="MuiBox-root css-yxp10p"
+                            class="MuiBox-root css-1fy0bp4"
                           >
                             <button
                               class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall makeStyles-dropdownIcon-44 node-dropdown-trigger css-21hjtl-MuiButtonBase-root-MuiIconButton-root"
@@ -666,7 +674,7 @@ Object {
                             </button>
                             <div
                               class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded makeStyles-paper-21 action-node-box css-172kgz0-MuiPaper-root"
-                              style="width: 70px; height: 70px; position: relative;"
+                              style="width: 90px; height: 90px; position: relative;"
                             >
                               <div
                                 class="centered MuiBox-root css-1rr92ez"
@@ -700,11 +708,15 @@ Object {
                                 data-nodeid="3"
                               />
                             </div>
-                            <span
-                              class="MuiTypography-root MuiTypography-caption makeStyles-text-46 css-1kjdt4l-MuiTypography-root"
+                            <div
+                              class="makeStyles-text-46 css-ihqncx-Stack-root"
                             >
-                              Third element
-                            </span>
+                              <span
+                                class="MuiTypography-root MuiTypography-caption css-1kjdt4l-MuiTypography-root"
+                              >
+                                Third element
+                              </span>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -1499,7 +1511,7 @@ Object {
                         id="node-1"
                       >
                         <div
-                          class="MuiBox-root css-yxp10p"
+                          class="MuiBox-root css-1fy0bp4"
                         >
                           <button
                             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall makeStyles-dropdownIcon-44 node-dropdown-trigger css-21hjtl-MuiButtonBase-root-MuiIconButton-root"
@@ -1527,7 +1539,7 @@ Object {
                           </button>
                           <div
                             class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded makeStyles-paper-21 action-node-box css-172kgz0-MuiPaper-root"
-                            style="width: 70px; height: 70px; position: relative;"
+                            style="width: 90px; height: 90px; position: relative;"
                           >
                             <div
                               class="centered MuiBox-root css-1rr92ez"
@@ -1555,11 +1567,15 @@ Object {
                               data-nodeid="1"
                             />
                           </div>
-                          <span
-                            class="MuiTypography-root MuiTypography-caption makeStyles-text-46 css-1kjdt4l-MuiTypography-root"
+                          <div
+                            class="makeStyles-text-46 css-ihqncx-Stack-root"
                           >
-                            First element
-                          </span>
+                            <span
+                              class="MuiTypography-root MuiTypography-caption css-1kjdt4l-MuiTypography-root"
+                            >
+                              First element
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -1573,7 +1589,7 @@ Object {
                         id="node-2"
                       >
                         <div
-                          class="MuiBox-root css-yxp10p"
+                          class="MuiBox-root css-1fy0bp4"
                         >
                           <button
                             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall makeStyles-dropdownIcon-44 node-dropdown-trigger css-21hjtl-MuiButtonBase-root-MuiIconButton-root"
@@ -1601,7 +1617,7 @@ Object {
                           </button>
                           <div
                             class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded makeStyles-paper-21 action-node-box css-172kgz0-MuiPaper-root"
-                            style="width: 70px; height: 70px; position: relative;"
+                            style="width: 90px; height: 90px; position: relative;"
                           >
                             <div
                               class="centered MuiBox-root css-1rr92ez"
@@ -1655,11 +1671,15 @@ Object {
                               data-nodeid="2"
                             />
                           </div>
-                          <span
-                            class="MuiTypography-root MuiTypography-caption makeStyles-text-46 css-1kjdt4l-MuiTypography-root"
+                          <div
+                            class="makeStyles-text-46 css-ihqncx-Stack-root"
                           >
-                            Second element
-                          </span>
+                            <span
+                              class="MuiTypography-root MuiTypography-caption css-1kjdt4l-MuiTypography-root"
+                            >
+                              Second element
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -1673,7 +1693,7 @@ Object {
                         id="node-3"
                       >
                         <div
-                          class="MuiBox-root css-yxp10p"
+                          class="MuiBox-root css-1fy0bp4"
                         >
                           <button
                             class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall makeStyles-dropdownIcon-44 node-dropdown-trigger css-21hjtl-MuiButtonBase-root-MuiIconButton-root"
@@ -1701,7 +1721,7 @@ Object {
                           </button>
                           <div
                             class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded makeStyles-paper-21 action-node-box css-172kgz0-MuiPaper-root"
-                            style="width: 70px; height: 70px; position: relative;"
+                            style="width: 90px; height: 90px; position: relative;"
                           >
                             <div
                               class="centered MuiBox-root css-1rr92ez"
@@ -1735,11 +1755,15 @@ Object {
                               data-nodeid="3"
                             />
                           </div>
-                          <span
-                            class="MuiTypography-root MuiTypography-caption makeStyles-text-46 css-1kjdt4l-MuiTypography-root"
+                          <div
+                            class="makeStyles-text-46 css-ihqncx-Stack-root"
                           >
-                            Third element
-                          </span>
+                            <span
+                              class="MuiTypography-root MuiTypography-caption css-1kjdt4l-MuiTypography-root"
+                            >
+                              Third element
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </div>

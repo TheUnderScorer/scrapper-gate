@@ -29,7 +29,8 @@ export type ScrapperBuilderNodeSelection = BaseNodeSelectionProperties &
   Omit<ScrapperBuilderStep, 'id'>;
 
 export type ScrapperBuilderNodeProperties = BaseNodeProperties &
-  Omit<ScrapperBuilderStep, 'id'>;
+  Omit<ScrapperBuilderStep, 'id'> &
+  Pick<Partial<ScrapperBuilderStep>, 'id'>;
 
 export interface ScrapperBuilderStep
   extends Omit<
