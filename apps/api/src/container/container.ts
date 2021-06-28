@@ -21,13 +21,13 @@ import {
 import fastify from 'fastify';
 import { decode } from 'jsonwebtoken';
 import { Connection, createConnection } from 'typeorm';
-import { apolloServerFactory } from './apolloServer';
-import { registerServerCqrs, serverCqrs } from './cqrs';
-import { entityDefinitions } from './database';
-import { handlers } from './handlers';
-import { rootResolver } from './resolvers/root.resolver';
-import { scrapperResolver } from './resolvers/scrapper/scrapper.resolver';
-import { userResolver } from './resolvers/user/user.resolver';
+import { apolloServerFactory } from '../apolloServer';
+import { registerServerCqrs, serverCqrs } from '../cqrs';
+import { entityDefinitions } from '../database';
+import { rootResolver } from '../resolvers/root.resolver';
+import { scrapperResolver } from '../resolvers/scrapper/scrapper.resolver';
+import { userResolver } from '../resolvers/user/user.resolver';
+import { setupServices } from './services';
 
 export interface CreateContainerDependencies {
   dbConnection?: Connection;
@@ -67,9 +67,14 @@ export const createContainer = async ({
   });
 
   container.register({
+    logger: asValue(server.log),
+  });
+
+  await setupServices(container);
+
+  container.register({
     port: asValue(port),
     server: asValue(server),
-    logger: asValue(server.log),
     resolvers: asArray([
       asFunction(userResolver),
       asFunction(scrapperResolver),
@@ -78,7 +83,6 @@ export const createContainer = async ({
     apolloServer: asFunction(apolloServerFactory).singleton(),
     container: asValue(container),
     connection: asValue(connection),
-    handlers: asValue(handlers),
     repositoriesProvider: asValue(
       makeRepositoriesProviderFromDefinitions(entityDefinitions)
     ),

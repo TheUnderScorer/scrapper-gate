@@ -22,6 +22,7 @@
     "resolveJsonModule": true,
     "paths": {
       "@scrapper-gate/backend/awilix": ["libs/backend/awilix/src/index.ts"],
+      "@scrapper-gate/backend/aws": ["libs/backend/aws/src/index.ts"],
       "@scrapper-gate/backend/base-model": [
         "libs/backend/base-model/src/index.ts"
       ],
@@ -31,6 +32,9 @@
       "@scrapper-gate/backend/db-utils": ["libs/backend/db-utils/src/index.ts"],
       "@scrapper-gate/backend/domain/auth": [
         "libs/backend/domain/auth/src/index.ts"
+      ],
+      "@scrapper-gate/backend/domain/message-queue-service": [
+        "libs/backend/domain/message-queue-service/src/index.ts"
       ],
       "@scrapper-gate/backend/domain/scrapper": [
         "libs/backend/domain/scrapper/src/index.ts"
@@ -43,6 +47,9 @@
       ],
       "@scrapper-gate/backend/domain/variables": [
         "libs/backend/domain/variables/src/index.ts"
+      ],
+      "@scrapper-gate/backend/message-queue": [
+        "libs/backend/message-queue/src/index.ts"
       ],
       "@scrapper-gate/backend/perf-hooks-utils": [
         "libs/backend/perf-hooks-utils/src/index.ts"

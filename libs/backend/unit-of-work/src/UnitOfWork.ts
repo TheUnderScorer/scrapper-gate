@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { asValueObject } from '@scrapper-gate/backend/awilix';
 import { RepositoriesProvider } from '@scrapper-gate/backend/database';
+import { MessageQueue } from '@scrapper-gate/backend/message-queue';
 import { Logger } from '@scrapper-gate/shared/logger';
 import { asValue, AwilixContainer } from 'awilix';
 import { Typed } from 'emittery';
 import { CqrsResult } from 'functional-cqrs';
-
 import { Connection } from 'typeorm';
 import { UnitOfWorkCallback } from './types';
 
@@ -16,6 +16,7 @@ export interface UnitOfWorkDependencies {
   container: AwilixContainer;
   logger: Logger;
   repositoriesProvider: RepositoriesProvider;
+  messageQueue: MessageQueue;
 }
 
 export class UnitOfWork<
@@ -43,6 +44,8 @@ export class UnitOfWork<
 
     const scopedContainer = container.createScope();
 
+    const messageQueue = scopedContainer.resolve<MessageQueue>('messageQueue');
+
     try {
       const result = await connection.transaction(async (t) => {
         scopedContainer.register(asValueObject(repositoriesProvider(t)));
@@ -67,10 +70,14 @@ export class UnitOfWork<
         return callback(callbackContext);
       });
 
+      await messageQueue.send();
+
       await this.events.emit('finished', this);
 
       return result;
     } catch (e) {
+      await messageQueue.flush();
+
       logger.error('Unit of work failed:', e);
 
       await this.events.emit('failed', {

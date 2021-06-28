@@ -9,6 +9,12 @@ export const runnerSchema = gql`
     Cancelled
   }
 
+  enum RunnerTrigger {
+    Manual
+    Scheduled
+    Retry
+  }
+
   type RunnerPerformanceEntry {
     duration: Float
   }

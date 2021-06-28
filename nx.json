@@ -32,6 +32,9 @@
     "backend-awilix": {
       "tags": []
     },
+    "backend-aws": {
+      "tags": []
+    },
     "backend-base-model": {
       "tags": []
     },
@@ -50,6 +53,9 @@
     "backend-domain-auth": {
       "tags": []
     },
+    "backend-domain-message-queue-service": {
+      "tags": []
+    },
     "backend-domain-scrapper": {
       "tags": []
     },
@@ -60,6 +66,9 @@
       "tags": []
     },
     "backend-domain-variables": {
+      "tags": []
+    },
+    "backend-message-queue": {
       "tags": []
     },
     "backend-perf-hooks-utils": {

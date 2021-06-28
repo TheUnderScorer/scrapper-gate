@@ -259,6 +259,12 @@ export type RunnerPerformanceEntry = {
   duration?: Maybe<Scalars['Float']>;
 };
 
+export enum RunnerTrigger {
+  Manual = 'Manual',
+  Scheduled = 'Scheduled',
+  Retry = 'Retry',
+}
+
 export type Scrapper = BaseEntity &
   CreatedBy & {
     id: Scalars['ID'];
@@ -749,6 +755,7 @@ export type ResolversTypes = ResolversObject<{
   Runnable: ResolversTypes['ScrapperRun'];
   RunnerError: ResolverTypeWrapper<RunnerError>;
   RunnerPerformanceEntry: ResolverTypeWrapper<RunnerPerformanceEntry>;
+  RunnerTrigger: RunnerTrigger;
   Scrapper: ResolverTypeWrapper<Scrapper>;
   ScrapperAction: ScrapperAction;
   ScrapperInput: ScrapperInput;

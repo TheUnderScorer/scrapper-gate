@@ -93,6 +93,27 @@
         }
       }
     },
+    "backend-aws": {
+      "root": "libs/backend/aws",
+      "sourceRoot": "libs/backend/aws/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/backend/aws/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/backend/aws"],
+          "options": {
+            "jestConfig": "libs/backend/aws/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "backend-base-model": {
       "root": "libs/backend/base-model",
       "sourceRoot": "libs/backend/base-model/src",
@@ -219,6 +240,29 @@
         }
       }
     },
+    "backend-domain-message-queue-service": {
+      "root": "libs/backend/domain/message-queue-service",
+      "sourceRoot": "libs/backend/domain/message-queue-service/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/backend/domain/message-queue-service/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/backend/domain/message-queue-service"],
+          "options": {
+            "jestConfig": "libs/backend/domain/message-queue-service/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "backend-domain-scrapper": {
       "root": "libs/backend/domain/scrapper",
       "sourceRoot": "libs/backend/domain/scrapper/src",
@@ -302,6 +346,27 @@
           "outputs": ["coverage/libs/backend/domain/variables"],
           "options": {
             "jestConfig": "libs/backend/domain/variables/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "backend-message-queue": {
+      "root": "libs/backend/message-queue",
+      "sourceRoot": "libs/backend/message-queue/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/backend/message-queue/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/backend/message-queue"],
+          "options": {
+            "jestConfig": "libs/backend/message-queue/jest.config.js",
             "passWithNoTests": true
           }
         }

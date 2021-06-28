@@ -44,5 +44,8 @@ module.exports = {
     '<rootDir>/libs/backend/crud',
     '<rootDir>/libs/frontend/domain/variables',
     '<rootDir>/libs/frontend/data-grid',
+    '<rootDir>/libs/backend/message-queue',
+    '<rootDir>/libs/backend/aws',
+    '<rootDir>/libs/backend/domain/message-queue-service',
   ],
 };

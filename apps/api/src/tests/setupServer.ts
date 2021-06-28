@@ -1,4 +1,4 @@
-import { createContainer } from '../container';
+import { createContainer } from '../container/container';
 import '../typings/global';
 
 beforeEach(async () => {
