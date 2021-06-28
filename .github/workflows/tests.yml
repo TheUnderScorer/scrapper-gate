@@ -104,7 +104,7 @@ jobs:
         run: docker-compose up -d
 
       - name: Setup localstack
-        run: cd deploy/local && terraform apply -auto-approve
+        run: cd deploy/local && terraform init && terraform apply -auto-approve
 
       - name: Setup env
         run: cp .local.env.dist .local.env
@@ -150,6 +150,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - uses: hashicorp/setup-terraform@v1
+
       - name: Set Node.js 16.x
         uses: actions/setup-node@v2
         with:
@@ -157,6 +159,9 @@ jobs:
 
       - name: Start docker
         run: docker-compose up -d
+
+      - name: Setup localstack
+        run: cd deploy/local && terraform init && terraform apply -auto-approve
 
       - name: Setup env
         run: cp .local.env.dist .local.env
@@ -173,6 +178,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - uses: hashicorp/setup-terraform@v1
+
       - name: Set Node.js 16.x
         uses: actions/setup-node@v2
         with:
@@ -183,6 +190,9 @@ jobs:
 
       - name: Start docker
         run: docker-compose up -d
+
+      - name: Setup localstack
+        run: cd deploy/local && terraform init && terraform apply -auto-approve
 
       - name: Setup env
         run: cp .local.env.dist .local.env
