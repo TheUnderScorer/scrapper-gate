@@ -101,7 +101,7 @@ jobs:
       - uses: leonardodino/setup-playwright@main
 
       - name: Start docker
-        run: docker-compose up -d && sudo ./docker/localstack/wait-for-it.sh
+        run: sudo docker-compose up -d && ./docker/localstack/wait-for-it.sh
 
       - name: Setup localstack
         run: cd deploy/local && terraform init && terraform apply -auto-approve
@@ -160,7 +160,7 @@ jobs:
           node-version: 16.x
 
       - name: Start docker
-        run: docker-compose up -d && sudo ./docker/localstack/wait-for-it.sh
+        run: sudo docker-compose up -d && ./docker/localstack/wait-for-it.sh
 
       - name: Setup localstack
         run: cd deploy/local && terraform init && terraform apply -auto-approve
@@ -193,7 +193,7 @@ jobs:
         run: npx playwright install-deps
 
       - name: Start docker
-        run: docker-compose up -d && sudo ./docker/localstack/wait-for-it.sh
+        run: sudo docker-compose up -d && ./docker/localstack/wait-for-it.sh
 
       - name: Setup localstack
         run: cd deploy/local && terraform init && terraform apply -auto-approve
