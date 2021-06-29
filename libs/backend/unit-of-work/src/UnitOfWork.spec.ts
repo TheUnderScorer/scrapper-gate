@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import '../../../../typings/global';
+import { MessageQueue } from '@scrapper-gate/backend/message-queue';
 import { asFunction, asValue, AwilixContainer, createContainer } from 'awilix';
 import { Buses, CommandsBus, EventsBus, QueriesBus } from 'functional-cqrs';
 import { createMockProxy } from 'jest-mock-proxy';
@@ -17,6 +18,7 @@ const mockDisposable = {
 };
 
 const disposableProvider = jest.fn(() => mockDisposable);
+const messageQueue = createMockProxy<MessageQueue>();
 
 describe('Unit of work', () => {
   const create = () => {
@@ -27,6 +29,7 @@ describe('Unit of work', () => {
       disposable: asFunction(disposableProvider)
         .scoped()
         .disposer((value) => value.dispose()),
+      messageQueue: asValue(messageQueue),
     });
 
     const repositoriesProvider = jest.fn(() => ({}));
@@ -36,6 +39,7 @@ describe('Unit of work', () => {
       logger: createMockProxy(),
       connection: global.connection,
       repositoriesProvider,
+      messageQueue,
     });
 
     return {
@@ -54,6 +58,8 @@ describe('Unit of work', () => {
     const { unitOfWork, repositoriesProvider } = create();
 
     await unitOfWork.run(callback);
+
+    expect(messageQueue.send).toHaveBeenCalledTimes(1);
 
     expect(callback).toBeCalledTimes(1);
 
