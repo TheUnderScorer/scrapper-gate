@@ -11,7 +11,10 @@ import { Logger } from '@scrapper-gate/shared/logger';
 import { asClass, asValue, AwilixContainer } from 'awilix';
 import { config } from 'aws-sdk';
 
-export const setupServices = async (container: AwilixContainer) => {
+export const setupServices = async (
+  container: AwilixContainer,
+  skipHealthCheck?: boolean
+) => {
   const logger = container.resolve<Logger>('logger');
 
   logger.info('Setting up services...');
@@ -44,16 +47,18 @@ export const setupServices = async (container: AwilixContainer) => {
     secretAccessKey: container.resolve('awsSecretAccessKey'),
   });
 
-  logger.info('Performing message queue health check...');
+  if (!skipHealthCheck) {
+    logger.info('Performing message queue health check...');
 
-  const messageQueueService = container.resolve<MessageQueueService>(
-    'messageQueueService'
-  );
-  const messageQueueClient = container.resolve<MessageQueueClient>(
-    'messageQueueClient'
-  );
+    const messageQueueService = container.resolve<MessageQueueService>(
+      'messageQueueService'
+    );
+    const messageQueueClient = container.resolve<MessageQueueClient>(
+      'messageQueueClient'
+    );
 
-  await messageQueueClient.healthCheck(messageQueueService.queueUrls);
+    await messageQueueClient.healthCheck(messageQueueService.queueUrls);
+  }
 
   logger.info('Services ready.');
 };

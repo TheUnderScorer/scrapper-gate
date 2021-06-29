@@ -31,10 +31,12 @@ import { setupServices } from './services';
 
 export interface CreateContainerDependencies {
   dbConnection?: Connection;
+  skipMessageQueueHealthCheck?: boolean;
 }
 
 export const createContainer = async ({
   dbConnection,
+  skipMessageQueueHealthCheck,
 }: CreateContainerDependencies = {}) => {
   const container = makeContainer();
   const securityClient = new SecurityClient({
@@ -70,7 +72,7 @@ export const createContainer = async ({
     logger: asValue(server.log),
   });
 
-  await setupServices(container);
+  await setupServices(container, skipMessageQueueHealthCheck);
 
   container.register({
     port: asValue(port),
