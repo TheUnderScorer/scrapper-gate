@@ -141,6 +141,9 @@
     "frontend-ui": {
       "tags": []
     },
+    "lambdas": {
+      "tags": []
+    },
     "shared-common": {
       "tags": []
     },
