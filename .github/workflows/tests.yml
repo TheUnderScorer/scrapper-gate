@@ -104,12 +104,10 @@ jobs:
         run: sudo docker-compose up -d
 
       - name: Wait for localstack
-        run: sudo sh docker/localstack/wait-for-it.sh
+        run: sudo AWS_S3_ENDPOINT=http://localhost:4566 sh docker/localstack/wait-for-it.sh
 
       - name: Setup localstack
         run: cd deploy/local && terraform init && terraform apply -auto-approve
-        env:
-          AWS_S3_ENDPOINT: http://localhost:4566
 
       - name: Setup env
         run: cp .local.env.dist .local.env
@@ -166,12 +164,10 @@ jobs:
         run: sudo docker-compose up -d
 
       - name: Wait for localstack
-        run: sudo sh docker/localstack/wait-for-it.sh
+        run: sudo AWS_S3_ENDPOINT=http://localhost:4566 sh docker/localstack/wait-for-it.sh
 
       - name: Setup localstack
         run: cd deploy/local && terraform init && terraform apply -auto-approve
-        env:
-          AWS_S3_ENDPOINT: http://localhost:4566
 
       - name: Setup env
         run: cp .local.env.dist .local.env
@@ -202,12 +198,10 @@ jobs:
         run: sudo docker-compose up -d
 
       - name: Wait for localstack
-        run: sudo sh docker/localstack/wait-for-it.sh
+        run: sudo AWS_S3_ENDPOINT=http://localhost:4566 sh docker/localstack/wait-for-it.sh
 
       - name: Setup localstack
         run: cd deploy/local && terraform init && terraform apply -auto-approve
-        env:
-          AWS_S3_ENDPOINT: http://localhost:4566
 
       - name: Setup env
         run: cp .local.env.dist .local.env
