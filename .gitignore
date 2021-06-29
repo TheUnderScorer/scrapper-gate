@@ -45,7 +45,7 @@ apps/browser-extension-e2e/src/ctx
 test-results
 
 # Localstack
-docker/localstack/tmp
+/docker/localstack/tmp
 
 # Terraform stuff
 **/.terraform*
