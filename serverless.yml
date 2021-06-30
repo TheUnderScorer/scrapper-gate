@@ -7,21 +7,37 @@ frameworkVersion: '2'
 plugins:
   - serverless-webpack
   - serverless-offline
+  - serverless-offline-sqs
 
 provider:
   name: aws
-  runtime: nodejs12.x
-  lambdaHashingVersion: 20201221
+  runtime: nodejs14.x
+  stage: ${opt:stage,'local'}
 
 functions:
-  test:
-    handler: apps/lambdas/src/functions/test.test
+  scrapperRunnerChromium:
+    handler: apps/lambdas/src/functions/scrapperRunner/scrapperRunner.scrapperRunner
+    memorySize: 256
+    environment:
+      BROWSER_TYPE: Chrome
     events:
-      - http:
-          method: get
-          path: test
-          integration: lambda
+      - sqs:
+          arn: ${self:custom.sqs-scrapper-chromium.${self:provider.stage}}
 
 custom:
+  serverless-offline-sqs:
+    autoCreate: false
+    apiVersion: '2012-11-05'
+    endpoint: http://localhost:4566
+    region: eu-west-1
+    accessKeyId: test
+    secretAccessKey: test
+    skipCacheInvalidation: false
   webpack:
     webpackConfig: apps/lambdas/webpack.config.js
+  stages:
+    - local
+    - staging
+    - production
+  sqs-scrapper-chromium:
+    local: 'arn:aws:sqs:eu-west-1:000000000000:local-scrapper-chromium.fifo'

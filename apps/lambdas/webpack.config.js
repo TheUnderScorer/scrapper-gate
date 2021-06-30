@@ -23,6 +23,16 @@ module.exports = {
       }),
     ],
   },
+  module: {
+    rules: [
+      {
+        // Include ts, tsx, js, and jsx files.
+        test: /\.(ts|js)x?$/,
+        exclude: /node_modules/,
+        use: 'ts-loader',
+      },
+    ],
+  },
   plugins: [
     new ForkTsCheckerWebpackPlugin({
       tsconfig: tsConfigPath,
