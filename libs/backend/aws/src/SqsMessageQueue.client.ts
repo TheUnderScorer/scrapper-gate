@@ -128,12 +128,14 @@ export class SqsMessageQueueClient implements MessageQueueClient {
     queueUrl,
     groupId,
   }: SendMessageParams<unknown>): Promise<void> {
-    await this.sqs
+    const result = await this.sqs
       .sendMessage({
         MessageBody: JSON.stringify(message),
         MessageGroupId: groupId,
         QueueUrl: queueUrl,
       })
       .promise();
+
+    this.dependencies.logger.info('Send message result: ', result);
   }
 }

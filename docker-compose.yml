@@ -7,7 +7,7 @@ services:
       - ./docker/localstack/tmp:/tmp
     environment:
       SERVICES: sqs,s3
-
+      DEFAULT_REGION: eu-west-1
     ports:
       - '4563-4599:4563-4599'
       - 8055:8081

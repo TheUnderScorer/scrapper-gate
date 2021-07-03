@@ -6,17 +6,18 @@ frameworkVersion: '2'
 
 plugins:
   - serverless-webpack
-  - serverless-offline
   - serverless-offline-sqs
+  - serverless-offline
 
 provider:
   name: aws
   runtime: nodejs14.x
-  stage: ${opt:stage,'local'}
+  stage: ${opt:stage, 'local'}
+  region: eu-west-1
 
 functions:
   scrapperRunnerChromium:
-    handler: apps/lambdas/src/functions/scrapperRunner/scrapperRunner.scrapperRunner
+    handler: apps/lambdas/src/functions/scrapperRunner.scrapperRunner
     memorySize: 256
     environment:
       BROWSER_TYPE: Chrome

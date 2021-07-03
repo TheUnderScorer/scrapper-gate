@@ -1058,7 +1058,7 @@
           "executor": "@nrwl/workspace:run-commands",
           "options": {
             "parallel": false,
-            "command": "serverless offline --stage local --verbose"
+            "command": "serverless offline --stage local --lambdaPort 3003"
           }
         },
         "lint": {

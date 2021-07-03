@@ -27,7 +27,8 @@
     "help": "nx help",
     "gql-codegen": "graphql-codegen --config codegen.yml",
     "ts-node-dev": "TS_NODE_PROJECT=tsconfig.node.json ts-node-dev -r tsconfig-paths/register",
-    "ts-node": "TS_NODE_PROJECT=tsconfig.node.json ts-node -r tsconfig-paths/register",
+    "send-sqs-message": "TS_NODE_PROJECT=tsconfig.node.json ts-node-dev -r tsconfig-paths/register -r dotenv/config tools/cli/sendScrapperRunnerMessage.ts dotenv_config_path=\".local.env\" --",
+    "ts-node": "TS_NODE_PROJECT=tsconfig.node.json ts-node -r tsconfig-paths/register --",
     "gather-projects": "npm run ts-node tools/scripts/gatherProjects.ts --",
     "release": "npx semantic-release",
     "release:dry": "npx semantic-release -d",
@@ -189,7 +190,7 @@
     "babel-loader": "8.1.0",
     "copy-webpack-plugin": "^6.0.3",
     "cypress": "^6.0.1",
-    "dotenv": "8.2.0",
+    "dotenv": "^8.2.0",
     "eslint": "^7.25.0",
     "eslint-config-prettier": "8.1.0",
     "eslint-plugin-cypress": "^2.10.3",
@@ -215,7 +216,8 @@
     "url-loader": "^3.0.0",
     "webpack": "4.46.0",
     "webpack-extension-reloader": "^1.1.4",
-    "webpack-target-webextension": "^0.4.0"
+    "webpack-target-webextension": "^0.4.0",
+    "yargs": "^15.4.1"
   },
   "release": {
     "branches": [
