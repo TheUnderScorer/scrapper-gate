@@ -12,6 +12,7 @@ export const scrapperSchema = gql`
     deletedAt: Date
     steps: [ScrapperStep!]
     variables: [Variable!]
+    type: ScrapperType!
   }
 
   input ScrapperInput {
@@ -138,6 +139,11 @@ export const scrapperSchema = gql`
     Type
   }
 
+  enum ScrapperType {
+    RealBrowser
+    Simple
+  }
+
   enum MouseButton {
     Left
     Right
@@ -146,10 +152,17 @@ export const scrapperSchema = gql`
 
   input CreateScrapperInput {
     name: String
+    type: ScrapperType!
+  }
+
+  input StartScrapperInput {
+    scrapperId: ID!
+    browserType: BrowserType
   }
 
   extend type Mutation {
-    createScrapper(input: CreateScrapperInput): Scrapper! @auth
+    createScrapper(input: CreateScrapperInput!): Scrapper! @auth
+    sendScrapperToRunnerQueue(input: StartScrapperInput!): Scrapper! @auth
     updateScrapper(input: ScrapperInput!): Scrapper!
       @auth
       @validateDto(dto: "ScrapperInputDto", key: "input")

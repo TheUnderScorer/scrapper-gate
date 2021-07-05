@@ -1,5 +1,5 @@
 import { createMockUser } from '@scrapper-gate/shared/domain/user';
-import { Scrapper } from '@scrapper-gate/shared/schema';
+import { Scrapper, ScrapperType } from '@scrapper-gate/shared/schema';
 import * as faker from 'faker';
 
 export const createMockScrapper = (createdBy = createMockUser()): Scrapper => ({
@@ -10,4 +10,5 @@ export const createMockScrapper = (createdBy = createMockUser()): Scrapper => ({
   updatedAt: new Date(),
   steps: [],
   variables: [],
+  type: ScrapperType.RealBrowser,
 });

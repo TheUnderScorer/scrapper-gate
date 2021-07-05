@@ -17,6 +17,7 @@ export const createScrapperHandler = ({
   const scrapper = ScrapperModel.create({
     name: command.payload?.input?.name,
     createdBy: command.payload.user,
+    type: command.payload.input.type,
   });
 
   await scrapperRepository.save(scrapper);

@@ -5,6 +5,7 @@ import {
   UpdateScrapperCommand,
 } from '@scrapper-gate/backend/domain/scrapper';
 import { Resolvers } from '@scrapper-gate/shared/schema';
+import { SendScrapperToRunnerQueueCommand } from '../../../../../libs/backend/domain/scrapper/src/commands/SendScrapperToRunnerQueue.command';
 import { ServerContext } from '../../context';
 
 export const scrapperResolver = (): Resolvers<ServerContext> => ({
@@ -44,6 +45,15 @@ export const scrapperResolver = (): Resolvers<ServerContext> => ({
           new UpdateScrapperCommand({
             input: args.input,
             userId: ctx.user!.id,
+          })
+        )
+      ),
+    sendScrapperToRunnerQueue: (_, args, ctx) =>
+      ctx.unitOfWork.run(({ commandsBus }) =>
+        commandsBus.execute(
+          new SendScrapperToRunnerQueueCommand({
+            userId: ctx.user!.id,
+            input: args.input,
           })
         )
       ),

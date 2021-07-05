@@ -89,6 +89,7 @@ export type ConditionalRuleInput = {
 
 export type CreateScrapperInput = {
   name?: Maybe<Scalars['String']>;
+  type: ScrapperType;
 };
 
 export type CreateUserInput = {
@@ -154,11 +155,12 @@ export type Mutation = {
   forgotPassword?: Maybe<ForgotPasswordResponse>;
   login?: Maybe<LoginResponse>;
   resetPassword?: Maybe<ResetPasswordResponse>;
+  sendScrapperToRunnerQueue: Scrapper;
   updateScrapper: Scrapper;
 };
 
 export type MutationCreateScrapperArgs = {
-  input?: Maybe<CreateScrapperInput>;
+  input: CreateScrapperInput;
 };
 
 export type MutationCreateUserArgs = {
@@ -176,6 +178,10 @@ export type MutationLoginArgs = {
 export type MutationResetPasswordArgs = {
   input?: Maybe<ResetPasswordInput>;
   token: Scalars['String'];
+};
+
+export type MutationSendScrapperToRunnerQueueArgs = {
+  input: StartScrapperInput;
 };
 
 export type MutationUpdateScrapperArgs = {
@@ -277,6 +283,7 @@ export type Scrapper = BaseEntity &
     deletedAt?: Maybe<Scalars['Date']>;
     steps?: Maybe<Array<ScrapperStep>>;
     variables?: Maybe<Array<Variable>>;
+    type: ScrapperType;
   };
 
 export enum ScrapperAction {
@@ -402,6 +409,11 @@ export type ScrapperStepInput = {
   conditionalRules?: Maybe<Array<ConditionalRuleGroupInput>>;
 };
 
+export enum ScrapperType {
+  RealBrowser = 'RealBrowser',
+  Simple = 'Simple',
+}
+
 export type Selector = {
   type?: Maybe<SelectorType>;
   value: Scalars['String'];
@@ -416,6 +428,11 @@ export enum SelectorType {
   Selector = 'Selector',
   TextContent = 'TextContent',
 }
+
+export type StartScrapperInput = {
+  scrapperId: Scalars['ID'];
+  browserType?: Maybe<BrowserType>;
+};
 
 export type Subscription = {
   _?: Maybe<Scalars['Boolean']>;
@@ -576,7 +593,7 @@ export type ScrapperBuilderStepFragment = Pick<
 };
 
 export type CreateScrapperMutationVariables = Exact<{
-  input?: Maybe<CreateScrapperInput>;
+  input: CreateScrapperInput;
 }>;
 
 export type CreateScrapperMutation = {
@@ -768,9 +785,11 @@ export type ResolversTypes = ResolversObject<{
   ScrapperRunValueType: ResolverTypeWrapper<Scalars['ScrapperRunValueType']>;
   ScrapperStep: ResolverTypeWrapper<ScrapperStep>;
   ScrapperStepInput: ScrapperStepInput;
+  ScrapperType: ScrapperType;
   Selector: ResolverTypeWrapper<Selector>;
   SelectorInput: SelectorInput;
   SelectorType: SelectorType;
+  StartScrapperInput: StartScrapperInput;
   Subscription: ResolverTypeWrapper<{}>;
   Url: ResolverTypeWrapper<Scalars['Url']>;
   User: ResolverTypeWrapper<User>;
@@ -844,6 +863,7 @@ export type ResolversParentTypes = ResolversObject<{
   ScrapperStepInput: ScrapperStepInput;
   Selector: Selector;
   SelectorInput: SelectorInput;
+  StartScrapperInput: StartScrapperInput;
   Subscription: {};
   Url: Scalars['Url'];
   User: User;
@@ -1069,7 +1089,7 @@ export type MutationResolvers<
     ResolversTypes['Scrapper'],
     ParentType,
     ContextType,
-    RequireFields<MutationCreateScrapperArgs, never>
+    RequireFields<MutationCreateScrapperArgs, 'input'>
   >;
   createUser?: Resolver<
     ResolversTypes['CreateUserResult'],
@@ -1094,6 +1114,12 @@ export type MutationResolvers<
     ParentType,
     ContextType,
     RequireFields<MutationResetPasswordArgs, 'token'>
+  >;
+  sendScrapperToRunnerQueue?: Resolver<
+    ResolversTypes['Scrapper'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationSendScrapperToRunnerQueueArgs, 'input'>
   >;
   updateScrapper?: Resolver<
     ResolversTypes['Scrapper'],
@@ -1206,6 +1232,7 @@ export type ScrapperResolvers<
     ParentType,
     ContextType
   >;
+  type?: Resolver<ResolversTypes['ScrapperType'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 

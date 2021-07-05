@@ -3,7 +3,7 @@ import { UserModel } from '@scrapper-gate/backend/domain/user';
 import { VariableModel } from '@scrapper-gate/backend/domain/variables';
 import { Entities } from '@scrapper-gate/shared/common';
 import { runStates } from '@scrapper-gate/shared/run-states';
-import { RunState, Scrapper } from '@scrapper-gate/shared/schema';
+import { RunState, Scrapper, ScrapperType } from '@scrapper-gate/shared/schema';
 import {
   Column,
   Entity,
@@ -49,6 +49,9 @@ export class ScrapperModel
   })
   @JoinTable()
   variables: VariableModel[];
+
+  @Column()
+  type: ScrapperType;
 
   get isRunning() {
     return this.state && runStates.includes(this.state);

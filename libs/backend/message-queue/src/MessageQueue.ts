@@ -37,7 +37,7 @@ export class MessageQueue {
     this.queue = [];
   }
 
-  async send() {
+  async commit() {
     await this.sendMessages(this.queue);
   }
 

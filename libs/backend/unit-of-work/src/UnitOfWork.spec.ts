@@ -59,7 +59,7 @@ describe('Unit of work', () => {
 
     await unitOfWork.run(callback);
 
-    expect(messageQueue.send).toHaveBeenCalledTimes(1);
+    expect(messageQueue.commit).toHaveBeenCalledTimes(1);
 
     expect(callback).toBeCalledTimes(1);
 

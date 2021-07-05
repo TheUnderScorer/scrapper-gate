@@ -416,7 +416,7 @@ export type UpdateScrapperMutationOptions = Apollo.BaseMutationOptions<
   Types.UpdateScrapperMutationVariables
 >;
 export const CreateScrapperDocument = gql`
-  mutation CreateScrapper($input: CreateScrapperInput) {
+  mutation CreateScrapper($input: CreateScrapperInput!) {
     createScrapper(input: $input) {
       id
       name

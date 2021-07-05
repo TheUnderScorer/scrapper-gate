@@ -70,7 +70,7 @@ export class UnitOfWork<
         return callback(callbackContext);
       });
 
-      await messageQueue.send();
+      await messageQueue.commit();
 
       await this.events.emit('finished', this);
 

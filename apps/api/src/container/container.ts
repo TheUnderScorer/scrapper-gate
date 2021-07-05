@@ -21,6 +21,7 @@ import {
 import fastify from 'fastify';
 import { decode } from 'jsonwebtoken';
 import { Connection, createConnection } from 'typeorm';
+import { v4 } from 'uuid';
 import { apolloServerFactory } from '../apolloServer';
 import { registerServerCqrs, serverCqrs } from '../cqrs';
 import { entityDefinitions } from '../database';
@@ -97,6 +98,7 @@ export const createContainer = async ({
     securityApiKey: asValue(securityApiKey),
     errorHandler: asFunction(errorHandler).singleton(),
     cqrsFactory: asFunction(serverCqrs),
+    traceId: asFunction(() => v4()).scoped(),
   });
 
   registerServerCqrs(container);

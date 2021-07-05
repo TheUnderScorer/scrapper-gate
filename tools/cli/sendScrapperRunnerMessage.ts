@@ -60,7 +60,7 @@ async function main() {
     args.browserType as BrowserType
   );
 
-  await messageQueue.send();
+  await messageQueue.commit();
 
   logger.info('Message sent.');
 }
