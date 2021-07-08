@@ -890,27 +890,6 @@
         }
       }
     },
-    "frontend-logger": {
-      "root": "libs/frontend/logger",
-      "sourceRoot": "libs/frontend/logger/src",
-      "projectType": "library",
-      "targets": {
-        "lint": {
-          "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/frontend/logger/**/*.ts"]
-          }
-        },
-        "test": {
-          "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/frontend/logger"],
-          "options": {
-            "jestConfig": "libs/frontend/logger/jest.config.js",
-            "passWithNoTests": true
-          }
-        }
-      }
-    },
     "frontend-schema": {
       "root": "libs/frontend/schema",
       "sourceRoot": "libs/frontend/schema/src",
@@ -1261,6 +1240,27 @@
           "outputs": ["coverage/libs/shared/logger"],
           "options": {
             "jestConfig": "libs/shared/logger/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "shared-logger-console": {
+      "root": "libs/shared/logger/console",
+      "sourceRoot": "libs/shared/logger/console/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/shared/logger/console/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shared/logger/console"],
+          "options": {
+            "jestConfig": "libs/shared/logger/console/jest.config.js",
             "passWithNoTests": true
           }
         }

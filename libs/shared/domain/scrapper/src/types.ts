@@ -1,5 +1,6 @@
 import { Disposable, MaybePromise } from '@scrapper-gate/shared/common';
 import {
+  RunnerTrigger,
   ScrapperAction,
   ScrapperRun,
   ScrapperRunStepResult,
@@ -55,4 +56,9 @@ export interface ScrapperStepHandlerParams {
   scrapperRun: ScrapperRun;
   step: ScrapperStep;
   variables: Variable[];
+}
+
+export interface ScrapperRunnerMessagePayload {
+  scrapperId: string;
+  trigger: RunnerTrigger;
 }

@@ -1,4 +1,4 @@
-import { logger } from '@scrapper-gate/frontend/logger';
+import { logger } from '@scrapper-gate/shared/logger/console';
 import {
   BaseSchemaConstructor,
   ValidationError as AppValidationError,

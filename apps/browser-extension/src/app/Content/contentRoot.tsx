@@ -4,7 +4,7 @@ import { LocalizationProvider } from '@material-ui/lab';
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import { ApiClientProvider } from '@scrapper-gate/frontend/api-client';
 import { QueryParamProvider } from '@scrapper-gate/frontend/common';
-import { logger } from '@scrapper-gate/frontend/logger';
+import { logger } from '@scrapper-gate/shared/logger/console';
 import { palette, ThemeProvider } from '@scrapper-gate/frontend/theme';
 import {
   hiddenNumericArrows,

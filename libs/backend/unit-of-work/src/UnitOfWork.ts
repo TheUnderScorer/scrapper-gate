@@ -28,6 +28,9 @@ export class UnitOfWork<
       error: Error;
       service: UnitOfWork<Cqrs>;
     };
+    start: {
+      container: AwilixContainer;
+    };
   }>();
 
   constructor(private readonly dependencies: UnitOfWorkDependencies) {}
@@ -58,6 +61,10 @@ export class UnitOfWork<
           eventsBus: asValue(eventsBus),
           commandsBus: asValue(commandsBus),
           queriesBus: asValue(queriesBus),
+        });
+
+        await this.events.emit('start', {
+          container: scopedContainer,
         });
 
         const callbackContext = {

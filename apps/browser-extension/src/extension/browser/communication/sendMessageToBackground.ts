@@ -1,6 +1,6 @@
 import { Message, MessageResult } from './messageResult.types';
 import { browser } from 'webextension-polyfill-ts';
-import { logger } from '@scrapper-gate/frontend/logger';
+import { logger } from '@scrapper-gate/shared/logger/console';
 
 export const sendMessageToBackground = async <Result>(
   message: Message<unknown>

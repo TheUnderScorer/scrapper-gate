@@ -5,7 +5,7 @@ import {
   Message,
   MessageTypes,
 } from './extension/browser/communication/messageResult.types';
-import { logger } from '@scrapper-gate/frontend/logger';
+import { logger } from '@scrapper-gate/shared/logger/console';
 import { cleanupStoresForTab } from './extension/background/cleanupStoresForTab';
 import { cleanupOnInit } from './extension/background/cleanupOnInit';
 

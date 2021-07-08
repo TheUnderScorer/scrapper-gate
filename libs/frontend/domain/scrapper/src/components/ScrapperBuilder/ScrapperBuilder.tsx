@@ -10,7 +10,7 @@ import {
   mergeValidators,
   useDebouncedValidator,
 } from '@scrapper-gate/frontend/form';
-import { logger } from '@scrapper-gate/frontend/logger';
+import { logger } from '@scrapper-gate/shared/logger/console';
 import { useUpdateScrapperMutation } from '@scrapper-gate/frontend/schema';
 import {
   useSnackbarOnError,

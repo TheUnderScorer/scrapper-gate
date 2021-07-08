@@ -1,4 +1,4 @@
-import { logger } from '@scrapper-gate/frontend/logger';
+import { logger } from '@scrapper-gate/shared/logger/console';
 import { wait } from '@scrapper-gate/shared/common';
 import { createMockScrapperStep } from '@scrapper-gate/shared/domain/scrapper';
 import {

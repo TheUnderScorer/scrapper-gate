@@ -16,7 +16,7 @@ export class BaseSchema<T> {
     payload: Partial<unknown>,
     joiOptions?: ValidationOptions
   ) {
-    return validate(payload, this, joiOptions);
+    return validate<T>(payload, this, joiOptions) as T;
   }
 
   static toJoi() {

@@ -17,7 +17,7 @@ provider:
 
 functions:
   scrapperRunnerChromium:
-    handler: apps/lambdas/src/functions/scrapperRunner.scrapperRunner
+    handler: apps/lambdas/src/functions/scrapperRunner/scrapperRunner.scrapperRunner
     memorySize: 256
     environment:
       BROWSER_TYPE: Chrome

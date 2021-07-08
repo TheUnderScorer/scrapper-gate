@@ -22,8 +22,9 @@ import fastify from 'fastify';
 import { decode } from 'jsonwebtoken';
 import { Connection, createConnection } from 'typeorm';
 import { v4 } from 'uuid';
+import { cqrsFactory } from '../../../../libs/backend/cqrs/src/cqrs.factory';
 import { apolloServerFactory } from '../apolloServer';
-import { registerServerCqrs, serverCqrs } from '../cqrs';
+import { registerServerCqrs } from '../cqrs';
 import { entityDefinitions } from '../database';
 import { rootResolver } from '../resolvers/root.resolver';
 import { scrapperResolver } from '../resolvers/scrapper/scrapper.resolver';
@@ -97,7 +98,7 @@ export const createContainer = async ({
     decodeToken: asValue(decode),
     securityApiKey: asValue(securityApiKey),
     errorHandler: asFunction(errorHandler).singleton(),
-    cqrsFactory: asFunction(serverCqrs),
+    cqrsFactory: asFunction(cqrsFactory),
     traceId: asFunction(() => v4()).scoped(),
   });
 

@@ -1,5 +1,5 @@
 import { useFormUndo } from '@scrapper-gate/frontend/form';
-import { logger } from '@scrapper-gate/frontend/logger';
+import { logger } from '@scrapper-gate/shared/logger/console';
 import { useEffect } from 'react';
 import { useFlowBuilderItemsSelector } from '../providers/FlowBuilderItems.provider';
 import { useFlowBuilderContextSelector } from '../providers/FlowBuilderProps.provider';

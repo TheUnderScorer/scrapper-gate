@@ -1,26 +1,14 @@
-import {
-  asCqrs,
-  ResolvedCqrs,
-  ResolvedCqrsConfig,
-} from '@scrapper-gate/backend/awilix';
+import { asCqrs } from '@scrapper-gate/backend/awilix';
 import { cqrs as scrapperCqrs } from '@scrapper-gate/backend/domain/scrapper';
 import { cqrs as userCqrs } from '@scrapper-gate/backend/domain/user';
 import { AwilixContainer } from 'awilix';
-import { createCqrs } from 'functional-cqrs';
+import { CqrsDefinition } from '../../../libs/backend/cqrs/src/cqrs.factory';
 
 export type ServerCqrsConfig = ReturnType<typeof registerServerCqrs>;
 
-export type ServerCqrs = ResolvedCqrs<
-  ServerCqrsConfig['commandHandlers'],
-  ServerCqrsConfig['queryHandlers']
->;
+type ServerCqrsDefinition = CqrsDefinition<ServerCqrsConfig>;
 
-export interface ServerCqrsDependencies {
-  cqrs: ResolvedCqrsConfig<
-    ServerCqrsConfig['commandHandlers'],
-    ServerCqrsConfig['queryHandlers']
-  >;
-}
+export type ServerCqrs = ServerCqrsDefinition['resolvedCqrsResult'];
 
 export const registerServerCqrs = (container: AwilixContainer) => {
   const config = {
@@ -39,6 +27,3 @@ export const registerServerCqrs = (container: AwilixContainer) => {
 
   return config;
 };
-
-export const serverCqrs = ({ cqrs }: ServerCqrsDependencies) =>
-  createCqrs(cqrs);

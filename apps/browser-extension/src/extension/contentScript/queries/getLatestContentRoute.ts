@@ -1,7 +1,7 @@
 import { getActiveTabFromBackground } from '../../browser/tabsQuery/getActiveTabFromBackground';
 import { StoredRoute } from '../../browser/communication/messageResult.types';
 import { browser } from 'webextension-polyfill-ts';
-import { logger } from '@scrapper-gate/frontend/logger';
+import { logger } from '@scrapper-gate/shared/logger/console';
 
 export const getLatestContentRoute = async (): Promise<
   StoredRoute | undefined

@@ -126,9 +126,6 @@
     "frontend-keyboard-shortcuts": {
       "tags": []
     },
-    "frontend-logger": {
-      "tags": []
-    },
     "frontend-schema": {
       "tags": []
     },
@@ -169,6 +166,9 @@
       "tags": []
     },
     "shared-logger": {
+      "tags": []
+    },
+    "shared-logger-console": {
       "tags": []
     },
     "shared-routing": {

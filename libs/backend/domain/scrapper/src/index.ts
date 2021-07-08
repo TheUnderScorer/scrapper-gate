@@ -16,3 +16,6 @@ export * from './scrapperRun.entity';
 export * from './scrapperRunStepResult.entity';
 export * from './scrapperRunStepValue.entity';
 export * from './cqrs';
+export * from './commands/RunScrapper.command';
+export * from './handlers/RunScrapper.handler';
+export * from './logic/getScrapperRunner';

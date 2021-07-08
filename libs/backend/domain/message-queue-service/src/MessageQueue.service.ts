@@ -1,6 +1,6 @@
 import { Message, MessageQueue } from '@scrapper-gate/backend/message-queue';
+import { ScrapperRunnerMessagePayload } from '@scrapper-gate/shared/domain/scrapper';
 import { BrowserType } from '@scrapper-gate/shared/schema';
-import { ScrapperRunnerMessagePayload } from './types';
 
 export interface MessageQueueServiceDependencies {
   messageQueue: MessageQueue;
