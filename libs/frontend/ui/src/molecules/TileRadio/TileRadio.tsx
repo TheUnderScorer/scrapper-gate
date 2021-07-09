@@ -18,6 +18,7 @@ export const TileRadio = ({
   icon,
   title,
   children,
+  description,
   ...paperProps
 }: TileRadioProps) => {
   const classes = useStyles();
@@ -36,6 +37,9 @@ export const TileRadio = ({
         {icon}
         <Typography variant="body2">{title}</Typography>
       </Stack>
+      {description && (
+        <Typography variant="subtitle1">{description}</Typography>
+      )}
       {children}
     </SelectablePaper>
   );
