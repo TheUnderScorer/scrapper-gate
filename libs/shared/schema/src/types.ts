@@ -489,7 +489,7 @@ export type GetScrapperForBuilderQueryVariables = Exact<{
 export type GetScrapperForBuilderQuery = {
   getMyScrapper: Pick<
     Scrapper,
-    'id' | 'createdAt' | 'isRunning' | 'name' | 'state' | 'updatedAt'
+    'id' | 'createdAt' | 'isRunning' | 'name' | 'state' | 'updatedAt' | 'type'
   > & {
     steps?: Maybe<Array<ScrapperBuilderStepFragment>>;
     variables?: Maybe<

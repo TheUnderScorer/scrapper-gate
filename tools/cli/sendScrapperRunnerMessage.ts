@@ -1,8 +1,8 @@
 import { SqsMessageQueueClient } from '@scrapper-gate/backend/aws';
 import { MessageQueueService } from '@scrapper-gate/backend/domain/message-queue-service';
 import { Message, MessageQueue } from '@scrapper-gate/backend/message-queue';
-import { logger } from '@scrapper-gate/frontend/logger';
 import { ScrapperRunnerMessagePayload } from '@scrapper-gate/shared/domain/scrapper';
+import { logger } from '@scrapper-gate/shared/logger/console';
 import { BrowserType, RunnerTrigger } from '@scrapper-gate/shared/schema';
 import { config } from 'aws-sdk';
 import yargs from 'yargs';

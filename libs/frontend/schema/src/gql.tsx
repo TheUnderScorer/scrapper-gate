@@ -60,6 +60,7 @@ export const GetScrapperForBuilderDocument = gql`
       name
       state
       updatedAt
+      type
       steps {
         ...ScrapperBuilderStep
       }

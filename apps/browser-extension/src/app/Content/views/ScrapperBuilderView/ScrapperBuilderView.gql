@@ -6,6 +6,7 @@ query GetScrapperForBuilder($id: ID!) {
     name
     state
     updatedAt
+    type
     steps {
       ...ScrapperBuilderStep
     }
