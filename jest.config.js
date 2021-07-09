@@ -28,7 +28,6 @@ module.exports = {
     '<rootDir>/libs/shared/run-states',
     '<rootDir>/libs/backend/db-utils',
     '<rootDir>/libs/frontend/domain/user',
-    '<rootDir>/libs/frontend/logger',
     '<rootDir>/libs/shared/domain/scrapper',
     '<rootDir>/libs/frontend/keyboard-shortcuts',
     '<rootDir>/libs/frontend/html-picker',
