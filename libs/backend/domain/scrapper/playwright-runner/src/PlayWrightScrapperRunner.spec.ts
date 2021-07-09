@@ -151,7 +151,7 @@ describe('PlayWright scrapper runner', () => {
         timeout
       );
 
-      it.only(
+      it(
         'should read text from popup and text that shows after closing it',
         async () => {
           const runner = await bootstrapRunner(type);
