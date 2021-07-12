@@ -1,7 +1,5 @@
-import React from 'react';
 import {
   AppBar,
-  CircularProgress,
   IconButton,
   makeStyles,
   Toolbar,
@@ -9,11 +7,12 @@ import {
   Typography,
 } from '@material-ui/core';
 import { Add, MenuSharp } from '@material-ui/icons';
-import { Route, Switch } from 'react-router-dom';
 import { browserExtensionRoutes } from '@scrapper-gate/shared/routing';
+import React from 'react';
+import { Route, Switch } from 'react-router-dom';
 import { BooleanParam, useQueryParam } from 'use-query-params';
-import { popupDrawerQueryKey } from '../PopupDrawer/PopupDrawer';
 import { useCreateScrapperExtension } from '../../hooks/useCreateScrapperExtension';
+import { popupDrawerQueryKey } from '../PopupDrawer/PopupDrawer';
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -36,10 +35,7 @@ export const PopupHeader = () => {
 
   const [, setDrawerOpen] = useQueryParam(popupDrawerQueryKey, BooleanParam);
 
-  const [
-    createScrapper,
-    { loading: createScrapperLoading },
-  ] = useCreateScrapperExtension();
+  const createScrapper = useCreateScrapperExtension();
 
   return (
     <AppBar className={classes.appBar} position="static">
@@ -66,14 +62,9 @@ export const PopupHeader = () => {
               <IconButton
                 color="inherit"
                 className={classes.addBtn}
-                disabled={createScrapperLoading}
                 onClick={() => createScrapper()}
               >
-                {createScrapperLoading ? (
-                  <CircularProgress size={15} color="inherit" />
-                ) : (
-                  <Add />
-                )}
+                <Add />
               </IconButton>
             </Tooltip>
           </Route>

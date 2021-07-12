@@ -1,29 +1,14 @@
-import {
-  useCreateScrapper,
-  UseCreateScrapperParams,
-} from '@scrapper-gate/frontend/domain/scrapper';
-import { useContentToggle } from '../../../extension/browser/communication/hooks/useContentToggle';
 import { browserExtensionRoutes } from '@scrapper-gate/shared/routing';
+import { useCallback } from 'react';
+import { useContentToggle } from '../../../extension/browser/communication/hooks/useContentToggle';
 
-export const useCreateScrapperExtension = (
-  params?: UseCreateScrapperParams
-) => {
+export const useCreateScrapperExtension = () => {
   const [toggleContent] = useContentToggle();
 
-  return useCreateScrapper({
-    ...params,
-    onCompleted: async (data) => {
-      params?.onCompleted?.(data);
-
-      if (data?.createScrapper?.id) {
-        await toggleContent({
-          visible: true,
-          path: browserExtensionRoutes.content.scrapper({
-            scrapperId: data.createScrapper.id,
-            drawerOpen: true,
-          }),
-        });
-      }
-    },
-  });
+  return useCallback(async () => {
+    await toggleContent({
+      visible: true,
+      path: browserExtensionRoutes.content.createScrapper,
+    });
+  }, [toggleContent]);
 };

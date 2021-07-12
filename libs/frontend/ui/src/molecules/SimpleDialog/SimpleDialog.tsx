@@ -1,14 +1,12 @@
-import React, { FC, ReactNode } from 'react';
 import {
   CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogProps,
   DialogTitle,
 } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { FC, ReactNode } from 'react';
 import { Centered } from '../../atoms/Centered/Centered';
 
 export interface SimpleDialogProps
@@ -20,14 +18,6 @@ export interface SimpleDialogProps
   loading?: boolean;
 }
 
-const useStyles = makeStyles(() => ({
-  dialog: {
-    '&, & *': {
-      pointerEvents: 'all',
-    },
-  },
-}));
-
 export const SimpleDialog: FC<SimpleDialogProps> = ({
   title,
   onClose,
@@ -37,14 +27,10 @@ export const SimpleDialog: FC<SimpleDialogProps> = ({
   loading,
   ...props
 }) => {
-  const classes = useStyles();
-
   return (
-    <Dialog className={classes.dialog} open={open} onClose={onClose} {...props}>
+    <Dialog open={open} onClose={onClose} {...props}>
       <DialogTitle>{title}</DialogTitle>
-      <DialogContent>
-        <DialogContentText>{children}</DialogContentText>
-      </DialogContent>
+      <DialogContent>{children}</DialogContent>
       {(actions || loading) && (
         <DialogActions>
           {loading ? (

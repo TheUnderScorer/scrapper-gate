@@ -9,6 +9,7 @@ export const primary = {
   dark: colors.deepPurple['800'],
   main: colors.deepPurple['500'],
   light: colors.deepPurple['100'],
+  contrastText: defaultTheme.palette.common.white,
 };
 
 export const palette: PaletteOptions = {

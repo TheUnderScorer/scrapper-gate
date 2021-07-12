@@ -16,6 +16,8 @@ import React, {
   useImperativeHandle,
   useRef,
   useState,
+  FocusEvent,
+  useCallback,
 } from 'react';
 import { useMount, usePrevious } from 'react-use';
 import { Key } from 'ts-key-enum';
@@ -126,6 +128,24 @@ export const TextFieldBlock = forwardRef<HTMLInputElement, TextFieldBlockProps>(
     const [state, setState] = useState(EditorState.createEmpty());
     const prevState = usePrevious(state);
 
+    const handleFocus = useCallback(
+      (event: FocusEvent<HTMLInputElement>) => {
+        setIsFocused(true);
+
+        onFocus?.(event);
+      },
+      [onFocus]
+    );
+
+    const handleBlur = useCallback(
+      (event: FocusEvent<HTMLInputElement>) => {
+        setIsFocused(false);
+
+        onBlur?.(event);
+      },
+      [onBlur]
+    );
+
     useEffect(() => {
       const plainText = state.getCurrentContent().getPlainText();
       const prevText = prevState?.getCurrentContent().getPlainText();
@@ -176,16 +196,8 @@ export const TextFieldBlock = forwardRef<HTMLInputElement, TextFieldBlockProps>(
           ref={ref}
           className={classNames(classes.textField, restProps.className)}
           variant={restProps.variant}
-          onFocus={(event) => {
-            setIsFocused(true);
-
-            onFocus?.(event);
-          }}
-          onBlur={(event) => {
-            setIsFocused(false);
-
-            onBlur?.(event);
-          }}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
           error={error}
           InputProps={{
             ...restProps.InputProps,

@@ -29,6 +29,10 @@ export const getDisplayValue = ({
       throw new TypeError('Cannot render function as value.');
 
     case 'string':
+      if (!Number.isNaN(Number(value))) {
+        return value;
+      }
+
       try {
         const date = new Date(value);
 

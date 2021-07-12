@@ -32,7 +32,8 @@
     "gather-projects": "npm run ts-node tools/scripts/gatherProjects.ts --",
     "release": "npx semantic-release",
     "release:dry": "npx semantic-release -d",
-    "typecheck": "tsc --noEmit -p tsconfig.base.json"
+    "typecheck": "tsc --noEmit -p tsconfig.base.json",
+    "start-local-env": "sh scripts/start-local-env.sh"
   },
   "private": true,
   "dependencies": {

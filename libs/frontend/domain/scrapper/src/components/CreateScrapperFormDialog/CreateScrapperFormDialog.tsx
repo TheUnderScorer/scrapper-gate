@@ -6,6 +6,7 @@ import { CancelButton, SimpleDialog } from '@scrapper-gate/frontend/ui';
 import {
   CreateScrapperInput,
   CreateScrapperMutation,
+  ScrapperType,
 } from '@scrapper-gate/shared/schema';
 import React, { useCallback } from 'react';
 import { Form } from 'react-final-form';
@@ -55,6 +56,10 @@ export const CreateScrapperFormDialog = ({
 
   return (
     <Form
+      initialValues={{
+        type: ScrapperType.Simple,
+        name: '',
+      }}
       onSubmit={handleSubmit}
       render={(props) => (
         <SimpleDialog
@@ -82,8 +87,9 @@ export const CreateScrapperFormDialog = ({
           <Stack spacing={4}>
             <ScrapperTypeSelection name="type" />
             <FormTextField
+              label="Scrapper name"
               name="name"
-              placeholder="Optional scrapper name..."
+              helperText="Optional scrapper name."
             />
           </Stack>
         </SimpleDialog>

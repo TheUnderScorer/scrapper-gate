@@ -34,7 +34,7 @@ export const PopupScrappersView = ({ fetchPolicy }: FetchPolicyProps) => {
 
   const { asset, alt } = useAsset('notFoundSolid');
 
-  const [createScrapper, { loading }] = useCreateScrapperExtension();
+  const createScrapper = useCreateScrapperExtension();
 
   const [toggleContent] = useContentToggle();
 
@@ -65,7 +65,6 @@ export const PopupScrappersView = ({ fetchPolicy }: FetchPolicyProps) => {
       fetchPolicy={fetchPolicy}
       activeScrapperId={activeScrapperId}
       onClick={handleScrapperClick}
-      fabLoading={loading}
       onCreate={() => createScrapper()}
       emptyContent={
         <Centered direction="column" className={classes.empty}>
