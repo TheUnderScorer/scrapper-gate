@@ -1600,6 +1600,5 @@ export type DirectiveResolvers<ContextType = any> = ResolversObject<{
  * @deprecated
  * Use "DirectiveResolvers" root object instead. If you wish to get "IDirectiveResolvers", add "typesPrefix: I" to your config.
  */
-export type IDirectiveResolvers<
-  ContextType = any
-> = DirectiveResolvers<ContextType>;
+export type IDirectiveResolvers<ContextType = any> =
+  DirectiveResolvers<ContextType>;

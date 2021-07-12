@@ -1,42 +1,32 @@
-import { DialogProperties, useDialogStore } from '../useDialogStore';
 import { useCallback } from 'react';
-
-export interface UseConfirmationDialogProps
-  extends Pick<DialogProperties, 'title' | 'content'> {
-  onConfirm?: () => void | Promise<void>;
-  confirmText?: string;
-}
+import { useDialog } from '../DialogController';
+import {
+  ConfirmationDialog,
+  confirmationDialogId,
+  ConfirmationDialogProps,
+} from './ConfirmationDialog';
 
 export const useConfirmationDialog = ({
-  onConfirm,
-  title = 'Confirm action',
-  content,
-  confirmText = 'Confirm',
-}: UseConfirmationDialogProps) => {
-  const setDialog = useDialogStore((store) => store.setDialog);
+  title,
+  message,
+}: Omit<ConfirmationDialogProps, 'onConfirm' | 'onCancel'>) => {
+  const { push } = useDialog();
 
-  return useCallback(() => {
-    setDialog({
-      title,
-      content,
-      footerButtons: ({ handleClose, setLoading }) => [
-        {
-          children: 'Cancel',
-          onClick: handleClose,
-        },
-        {
-          children: confirmText,
-          id: 'confirm',
-          onClick: async () => {
-            setLoading(true);
-
-            await onConfirm?.();
-
-            setLoading(false);
-            handleClose();
-          },
-        },
-      ],
-    });
-  }, [confirmText, content, onConfirm, setDialog, title]);
+  return useCallback(
+    () =>
+      new Promise<boolean>((resolve) => {
+        push({
+          id: confirmationDialogId,
+          content: (
+            <ConfirmationDialog
+              message={message}
+              title={title}
+              onConfirm={() => resolve(true)}
+              onCancel={() => resolve(false)}
+            />
+          ),
+        });
+      }),
+    [message, push, title]
+  );
 };

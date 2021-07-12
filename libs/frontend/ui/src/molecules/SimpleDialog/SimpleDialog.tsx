@@ -49,7 +49,7 @@ export const SimpleDialog: FC<SimpleDialogProps> = ({
         <DialogActions>
           {loading ? (
             <Centered>
-              <CircularProgress size={20} />
+              <CircularProgress size={30} />
             </Centered>
           ) : (
             actions

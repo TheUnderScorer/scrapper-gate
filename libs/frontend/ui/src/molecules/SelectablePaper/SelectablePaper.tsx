@@ -13,6 +13,7 @@ export interface SelectablePaperProps {
   children?: ReactNode;
   boxProps?: BoxProps;
   paperProps?: PaperProps;
+  checkedBackgroundColor?: 'lightPrimary' | 'primary';
 }
 
 export const SelectablePaper = ({
@@ -25,8 +26,9 @@ export const SelectablePaper = ({
   className,
   boxProps,
   paperProps,
+  checkedBackgroundColor,
 }: SelectablePaperProps) => {
-  const classes = useStyles();
+  const classes = useStyles({ checkedBackgroundColor });
 
   return (
     <Box width={width} height={height} className={className} {...boxProps}>

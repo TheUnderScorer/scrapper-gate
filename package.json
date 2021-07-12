@@ -156,10 +156,11 @@
     "@semantic-release/git": "^9.0.0",
     "@semantic-release/github": "^7.2.0",
     "@semantic-release/npm": "^7.0.5",
-    "@storybook/addon-actions": "^6.2.7",
-    "@storybook/addon-docs": "^6.2.7",
-    "@storybook/addon-knobs": "~6.3.0",
-    "@storybook/react": "~6.3.0",
+    "@storybook/addon-actions": "^6.3.4",
+    "@storybook/addon-docs": "^6.3.4",
+    "@storybook/addon-essentials": "^6.3.4",
+    "@storybook/addon-knobs": "^6.3.0",
+    "@storybook/react": "^6.3.4",
     "@svgr/webpack": "^5.4.0",
     "@testing-library/jest-dom": "^5.11.10",
     "@testing-library/react": "11.1.2",
@@ -219,8 +220,7 @@
     "webpack": "4.46.0",
     "webpack-extension-reloader": "^1.1.4",
     "webpack-target-webextension": "^0.4.0",
-    "yargs": "^15.4.1",
-    "@storybook/addon-essentials": "~6.3.0"
+    "yargs": "^15.4.1"
   },
   "release": {
     "branches": [

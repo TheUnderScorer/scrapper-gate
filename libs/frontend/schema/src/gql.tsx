@@ -298,7 +298,8 @@ export function useCreateUserMutation(
 export type CreateUserMutationHookResult = ReturnType<
   typeof useCreateUserMutation
 >;
-export type CreateUserMutationResult = Apollo.MutationResult<Types.CreateUserMutation>;
+export type CreateUserMutationResult =
+  Apollo.MutationResult<Types.CreateUserMutation>;
 export type CreateUserMutationOptions = Apollo.BaseMutationOptions<
   Types.CreateUserMutation,
   Types.CreateUserMutationVariables
@@ -411,7 +412,8 @@ export function useUpdateScrapperMutation(
 export type UpdateScrapperMutationHookResult = ReturnType<
   typeof useUpdateScrapperMutation
 >;
-export type UpdateScrapperMutationResult = Apollo.MutationResult<Types.UpdateScrapperMutation>;
+export type UpdateScrapperMutationResult =
+  Apollo.MutationResult<Types.UpdateScrapperMutation>;
 export type UpdateScrapperMutationOptions = Apollo.BaseMutationOptions<
   Types.UpdateScrapperMutation,
   Types.UpdateScrapperMutationVariables
@@ -465,7 +467,8 @@ export function useCreateScrapperMutation(
 export type CreateScrapperMutationHookResult = ReturnType<
   typeof useCreateScrapperMutation
 >;
-export type CreateScrapperMutationResult = Apollo.MutationResult<Types.CreateScrapperMutation>;
+export type CreateScrapperMutationResult =
+  Apollo.MutationResult<Types.CreateScrapperMutation>;
 export type CreateScrapperMutationOptions = Apollo.BaseMutationOptions<
   Types.CreateScrapperMutation,
   Types.CreateScrapperMutationVariables

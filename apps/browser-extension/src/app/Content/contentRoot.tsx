@@ -4,6 +4,7 @@ import { LocalizationProvider } from '@material-ui/lab';
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import { ApiClientProvider } from '@scrapper-gate/frontend/api-client';
 import { QueryParamProvider } from '@scrapper-gate/frontend/common';
+import { DialogController } from '@scrapper-gate/frontend/dialogs';
 import { logger } from '@scrapper-gate/shared/logger/console';
 import { palette, ThemeProvider } from '@scrapper-gate/frontend/theme';
 import {
@@ -48,7 +49,9 @@ ReactDOM.render(
                         horizontal: 'center',
                       }}
                     >
-                      <Content />
+                      <DialogController>
+                        <Content />
+                      </DialogController>
                     </SnackbarProvider>
                   </ApiClientProvider>
                 </ThemeProvider>
