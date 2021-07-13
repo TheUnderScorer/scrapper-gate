@@ -37,7 +37,10 @@ export const CreateScrapperFormDialog = ({
     async (input: CreateScrapperInput) => {
       const result = await createScrapper({
         variables: {
-          input,
+          input: {
+            ...input,
+            name: input.name || null,
+          },
         },
       });
 
