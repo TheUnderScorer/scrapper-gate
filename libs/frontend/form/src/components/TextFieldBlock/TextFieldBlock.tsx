@@ -98,9 +98,7 @@ const DraftField = forwardRef<
       }}
       ariaMultiline={false}
       editorState={state}
-      onChange={(newState) => {
-        onStateChange?.(newState);
-      }}
+      onChange={onStateChange}
     />
   );
 });
@@ -118,6 +116,8 @@ export const TextFieldBlock = forwardRef<HTMLInputElement, TextFieldBlockProps>(
       ...restProps
     } = props;
 
+    const [didInternalChange, setDidInternalChange] = useState(false);
+
     const classes = useStyles({
       InputProps: props.InputProps,
       variant: props.variant ?? 'outlined',
@@ -125,7 +125,7 @@ export const TextFieldBlock = forwardRef<HTMLInputElement, TextFieldBlockProps>(
     const editorRef = useRef<HTMLElement>();
     const [focused, setIsFocused] = useState(false);
 
-    const [state, setState] = useState(EditorState.createEmpty());
+    const [state, setState] = useState(EditorState.createEmpty(decorator));
     const prevState = usePrevious(state);
 
     const handleFocus = useCallback(
@@ -146,15 +146,6 @@ export const TextFieldBlock = forwardRef<HTMLInputElement, TextFieldBlockProps>(
       [onBlur]
     );
 
-    useEffect(() => {
-      const plainText = state.getCurrentContent().getPlainText();
-      const prevText = prevState?.getCurrentContent().getPlainText();
-
-      if (plainText !== prevText) {
-        onChange?.(plainText);
-      }
-    }, [state, onChange, prevState]);
-
     useMount(() => {
       setState(
         EditorState.set(state, {
@@ -164,26 +155,43 @@ export const TextFieldBlock = forwardRef<HTMLInputElement, TextFieldBlockProps>(
     });
 
     useEffect(() => {
+      if (didInternalChange) {
+        return;
+      }
+
       const parsedValue = getDisplayValue({
         value,
         dateFormat,
       });
 
-      // TODO Investigate this loop
-      if (value === prevState?.getCurrentContent().getPlainText()) {
+      const prevValue = prevState?.getCurrentContent().getPlainText();
+
+      if (value === prevValue) {
         return;
       }
 
-      const state = EditorState.createWithContent(
-        ContentState.createFromText(parsedValue?.toString() ?? '')
-      );
-
-      setState(
-        EditorState.set(state, {
-          decorator,
+      setState((previous) =>
+        EditorState.set(previous, {
+          currentContent: ContentState.createFromText(
+            parsedValue?.toString() ?? ''
+          ),
         })
       );
-    }, [value, decorator, dateFormat, prevState]);
+    }, [value, decorator, dateFormat, prevState, didInternalChange]);
+
+    const handleStateChange = useCallback(
+      (newState: EditorState) => {
+        const plainText = newState.getCurrentContent().getPlainText();
+
+        setDidInternalChange(true);
+
+        onChange?.(plainText);
+        setState(newState);
+
+        setTimeout(() => setDidInternalChange(false), 50);
+      },
+      [onChange]
+    );
 
     return (
       <TextFieldBlockProvider
@@ -202,7 +210,7 @@ export const TextFieldBlock = forwardRef<HTMLInputElement, TextFieldBlockProps>(
           InputProps={{
             ...restProps.InputProps,
             inputProps: {
-              onStateChange: setState,
+              onStateChange: handleStateChange,
               state,
               editorRef,
               component: Editor,

@@ -50,12 +50,11 @@ const initialNodes = [
 
 const handleConnect = flowBuilderUtils.basicHandleConnect();
 const handleNodeRemoval = flowBuilderUtils.basicHandleRemoveNode();
-const ensureCorrectSourcesCount = flowBuilderValidation.makeEnsureCorrectSourcesCount(
-  {
+const ensureCorrectSourcesCount =
+  flowBuilderValidation.makeEnsureCorrectSourcesCount({
     allowedCount: 1,
     onConnect: handleConnect,
-  }
-);
+  });
 
 const selection = createScrapperNodeSelection();
 
@@ -150,7 +149,6 @@ export const ScrapperBuilder = ({
   const validate = useMemo(
     () =>
       mergeValidators<ScrapperBuilderFormState>(
-        flowBuilderValidation.ensureAllNodesAreConnected,
         (value) =>
           joiValidationResolver(ScrapperBuilderDto, {
             allowUnknown: true,
@@ -159,7 +157,8 @@ export const ScrapperBuilder = ({
               steps: value.items.map((item) => item.data),
               variables: value.variables,
             },
-          })(value)
+          })(value),
+        flowBuilderValidation.ensureAllNodesAreConnected
       ),
     []
   );
@@ -209,6 +208,11 @@ export const ScrapperBuilder = ({
     [initialScrapper]
   );
 
+  const nodesCreator = useMemo(
+    () => scrapperStepsToNodes(initialScrapper?.steps ?? [], selection),
+    [initialScrapper]
+  );
+
   return (
     <Form
       validate={debouncedValidate}
@@ -250,10 +254,7 @@ export const ScrapperBuilder = ({
                   }}
                 />
               }
-              nodesCreator={scrapperStepsToNodes(
-                initialScrapper?.steps ?? [],
-                selection
-              )}
+              nodesCreator={nodesCreator}
               {...rest}
             />
           </form>

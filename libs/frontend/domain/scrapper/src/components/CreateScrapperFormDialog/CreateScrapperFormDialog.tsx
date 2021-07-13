@@ -58,7 +58,6 @@ export const CreateScrapperFormDialog = ({
     <Form
       initialValues={{
         type: ScrapperType.Simple,
-        name: '',
       }}
       onSubmit={handleSubmit}
       render={(props) => (
