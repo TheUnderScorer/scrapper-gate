@@ -26,7 +26,7 @@ describe('PlayWright scrapper runner', () => {
 
   const bootstrapRunner = async (browserType: BrowserType) => {
     const options: LaunchOptions = {
-      headless: false,
+      headless: true,
     };
 
     let browser: Browser;

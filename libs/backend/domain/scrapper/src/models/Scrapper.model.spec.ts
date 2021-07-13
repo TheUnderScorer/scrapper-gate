@@ -4,6 +4,7 @@ import {
   MouseButton,
   RunState,
   ScrapperAction,
+  ScrapperType,
 } from '@scrapper-gate/shared/schema';
 import * as faker from 'faker';
 import '../../../../../../typings/global';
@@ -28,6 +29,7 @@ describe('ScrapperModel', () => {
     const scrapper = ScrapperModel.create({
       name: faker.random.word(),
       createdBy: user,
+      type: ScrapperType.RealBrowser,
     });
 
     await repository.save(scrapper);
@@ -45,6 +47,7 @@ describe('ScrapperModel', () => {
     const scrapper = ScrapperModel.create({
       name: faker.random.word(),
       createdBy: user,
+      type: ScrapperType.RealBrowser,
       steps: [
         ScrapperStepModel.create({
           action: ScrapperAction.Click,
@@ -76,6 +79,7 @@ describe('ScrapperModel', () => {
       name: faker.random.word(),
       createdBy: user,
       steps: [step],
+      type: ScrapperType.RealBrowser,
       runs: [
         ScrapperRunModel.create({
           steps: [step.toJSON()],
