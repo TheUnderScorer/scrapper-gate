@@ -129,6 +129,22 @@ export const scrapperSchema = gql`
     variables: [Variable!]
   }
 
+  enum ScrapperDialogBehaviour {
+    AlwaysConfirm
+    AlwaysReject
+  }
+
+  enum ScrapperNoElementsFoundBehavior {
+    Fail
+    Continue
+  }
+
+  type ScrapperRunSettings {
+    dialogBehaviour: ScrapperDialogBehaviour
+    noElementsFoundBehavior: ScrapperNoElementsFoundBehavior
+    timeoutMs: Float
+  }
+
   enum ScrapperAction {
     Click
     Condition

@@ -1,14 +1,15 @@
 import { ReactNode } from 'react';
 
-export interface DialogProps {
+export interface BaseDialogProps {
+  onCancel?: () => unknown;
+}
+
+export interface DialogProperties {
+  content: ReactNode;
   id: string;
 }
 
-export interface Dialog extends DialogProps {
-  content: ReactNode;
-}
-
 export interface DialogContext {
-  push: (dialog: Dialog) => unknown;
+  push: (dialog: DialogProperties) => unknown;
   pull: (id: string) => unknown;
 }

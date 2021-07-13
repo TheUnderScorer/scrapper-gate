@@ -1,8 +1,7 @@
 import { Button, Stack } from '@material-ui/core';
-import { useDialog } from '@scrapper-gate/frontend/dialogs';
+import { BaseDialogProps, Dialog } from '@scrapper-gate/frontend/dialogs';
 import { FormTextField } from '@scrapper-gate/frontend/form';
 import { useSnackbarOnError } from '@scrapper-gate/frontend/snackbars';
-import { CancelButton, SimpleDialog } from '@scrapper-gate/frontend/ui';
 import {
   CreateScrapperInput,
   CreateScrapperMutation,
@@ -10,12 +9,12 @@ import {
 } from '@scrapper-gate/shared/schema';
 import React, { useCallback } from 'react';
 import { Form } from 'react-final-form';
+import { useDialogMethods } from '../../../../../dialogs/src/useDialogMethods';
 import { useCreateScrapper } from '../../hooks/useCreateScrapper';
 import { ScrapperTypeSelection } from '../ScrapperTypeSelection/ScrapperTypeSelection';
 
-export interface CreateScrapperFormProps {
+export interface CreateScrapperFormProps extends BaseDialogProps {
   onCreate?: (scrapper: CreateScrapperMutation['createScrapper']) => unknown;
-  onCancel?: () => unknown;
 }
 
 export const createScrapperDialogId = 'CREATE_SCRAPPER_DIALOG';
@@ -24,7 +23,10 @@ export const CreateScrapperFormDialog = ({
   onCreate,
   onCancel,
 }: CreateScrapperFormProps) => {
-  const { pull } = useDialog();
+  const { pull } = useDialogMethods({
+    id: createScrapperDialogId,
+    onCancel,
+  });
 
   const snackbarOnError = useSnackbarOnError();
   const [createScrapper, { loading }] = useCreateScrapper({
@@ -43,16 +45,10 @@ export const CreateScrapperFormDialog = ({
         await onCreate?.(result.data.createScrapper);
       }
 
-      pull(createScrapperDialogId);
+      pull();
     },
     [createScrapper, onCreate, pull]
   );
-
-  const handleClose = useCallback(() => {
-    onCancel?.();
-
-    pull(createScrapperDialogId);
-  }, [onCancel, pull]);
 
   return (
     <Form
@@ -61,27 +57,22 @@ export const CreateScrapperFormDialog = ({
       }}
       onSubmit={handleSubmit}
       render={(props) => (
-        <SimpleDialog
+        <Dialog
+          id={createScrapperDialogId}
           loading={loading}
-          open
+          onCancel={onCancel}
           actions={
-            <Stack direction="row" spacing={1}>
-              <CancelButton variant="outlined" onClick={handleClose}>
-                Cancel
-              </CancelButton>
-              <Button
-                onClick={() => props.handleSubmit()}
-                variant="contained"
-                color="primary"
-                type="submit"
-              >
-                Create scrapper
-              </Button>
-            </Stack>
+            <Button
+              onClick={() => props.handleSubmit()}
+              variant="contained"
+              color="primary"
+              type="submit"
+            >
+              Create scrapper
+            </Button>
           }
           maxWidth="xl"
           title="Create scrapper"
-          onClose={handleClose}
         >
           <Stack spacing={4}>
             <ScrapperTypeSelection name="type" />
@@ -91,7 +82,7 @@ export const CreateScrapperFormDialog = ({
               helperText="Optional scrapper name."
             />
           </Stack>
-        </SimpleDialog>
+        </Dialog>
       )}
     />
   );

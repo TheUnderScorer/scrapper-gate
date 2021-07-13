@@ -1,7 +1,7 @@
-import { Button, ButtonGroup } from '@material-ui/core';
-import { useDialog } from '@scrapper-gate/frontend/dialogs';
-import { CancelButton, SimpleDialog } from '@scrapper-gate/frontend/ui';
+import { Button } from '@material-ui/core';
 import React, { ReactNode, useCallback } from 'react';
+import { useDialog } from '../DialogController';
+import { Dialog } from './Dialog';
 
 export interface ConfirmationDialogProps {
   onConfirm?: () => unknown;
@@ -27,28 +27,25 @@ export const ConfirmationDialog = ({
   }, [onCancel, pull]);
 
   return (
-    <SimpleDialog
-      open
+    <Dialog
+      id={confirmationDialogId}
       onClose={handleClose}
       actions={
-        <ButtonGroup>
-          <CancelButton onClick={handleClose}>Cancel</CancelButton>
-          <Button
-            id="confirm"
-            onClick={() => {
-              onConfirm?.();
+        <Button
+          id="confirm"
+          onClick={() => {
+            onConfirm?.();
 
-              pull(confirmationDialogId);
-            }}
-            variant="contained"
-          >
-            Confirm
-          </Button>
-        </ButtonGroup>
+            pull(confirmationDialogId);
+          }}
+          variant="contained"
+        >
+          Confirm
+        </Button>
       }
       title={title ?? 'Confirm action'}
     >
       {message}
-    </SimpleDialog>
+    </Dialog>
   );
 };

@@ -1,5 +1,5 @@
 import { ValidationErrors } from 'final-form';
-import isEmpty from 'lodash.isEmpty';
+import isEmpty from 'lodash.isempty';
 
 export const mergeValidators =
   <S>(

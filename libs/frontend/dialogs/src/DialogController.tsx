@@ -2,7 +2,7 @@ import { isIndexValid, last, throwError } from '@scrapper-gate/shared/common';
 import React, { PropsWithChildren, useMemo } from 'react';
 import { useList } from 'react-use';
 import { createContext, useContext } from 'use-context-selector';
-import { Dialog, DialogContext } from './types';
+import { DialogProperties, DialogContext } from './types';
 
 const Context = createContext<DialogContext>({
   pull: throwError(),
@@ -12,7 +12,7 @@ const Context = createContext<DialogContext>({
 export const useDialog = () => useContext(Context);
 
 export const DialogController = ({ children }: PropsWithChildren<unknown>) => {
-  const [dialogs, { push, removeAt }] = useList<Dialog>();
+  const [dialogs, { push, removeAt }] = useList<DialogProperties>();
 
   const activeDialog = useMemo(() => last(dialogs), [dialogs]);
 
