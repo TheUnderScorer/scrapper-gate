@@ -36,7 +36,7 @@ export const RunState = ({
         return `Your ${entity} is currently running...`;
 
       case RunStateEnum.Failed:
-        return `Your${called ? ' last ' : ''}run has failed.`;
+        return `Your${!called ? ' last' : ''} run has failed.`;
 
       case RunStateEnum.Completed:
         if (called && !runMutationLoading) {
@@ -46,12 +46,12 @@ export const RunState = ({
         return runMessage;
 
       case RunStateEnum.Cancelled:
-        return `Your${called ? ' last ' : ''}run was cancelled.`;
+        return `Your${!called ? ' last' : ''} run was cancelled.`;
     }
   }, [called, entity, name, runMutationLoading, running, state]);
 
   return (
-    <Stack spacing={1}>
+    <Stack className="run-state-container" spacing={1}>
       <Stack alignItems="center" direction="row" spacing={2}>
         {running && <CircularProgress />}
         {state === RunStateEnum.Completed && called && !runMutationLoading && (
