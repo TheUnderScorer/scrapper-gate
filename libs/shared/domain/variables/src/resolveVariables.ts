@@ -21,6 +21,10 @@ export const resolveVariables = <T = unknown>({
   variables,
   dateFormat = DateFormat.Date,
 }: ResolveVariablesParams<T>): ResolveVariablesResult<T> => {
+  if (!variables.length) {
+    return target as ResolveVariablesResult<T>;
+  }
+
   const mappedVariables = variables
     .filter((variable) => Boolean(variable.key))
     .reduce((acc, variable) => {

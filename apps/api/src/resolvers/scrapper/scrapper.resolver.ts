@@ -1,11 +1,12 @@
 import {
   CreateScrapperCommand,
   GetScrapperByUserQuery,
+  GetScrapperLastRunQuery,
   GetScrappersByUserQuery,
+  SendScrapperToRunnerQueueCommand,
   UpdateScrapperCommand,
 } from '@scrapper-gate/backend/domain/scrapper';
 import { Resolvers } from '@scrapper-gate/shared/schema';
-import { SendScrapperToRunnerQueueCommand } from '../../../../../libs/backend/domain/scrapper/src/commands/SendScrapperToRunnerQueue.command';
 import { ServerContext } from '../../context';
 
 export const scrapperResolver = (): Resolvers<ServerContext> => ({
@@ -59,6 +60,14 @@ export const scrapperResolver = (): Resolvers<ServerContext> => ({
       ),
   },
   Scrapper: {
-    name: (root) => root.name ?? 'Unnamed scrapper',
+    name: (root) => root.name || 'Unnamed scrapper',
+    lastRun: async (root, _, { unitOfWork }) =>
+      unitOfWork.run(({ queriesBus }) =>
+        queriesBus.query(
+          new GetScrapperLastRunQuery({
+            scrapperId: root.id,
+          })
+        )
+      ),
   },
 });

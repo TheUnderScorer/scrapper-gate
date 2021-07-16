@@ -1,7 +1,7 @@
 import { asCqrs } from '@scrapper-gate/backend/awilix';
+import { CqrsDefinition, cqrsFactory } from '@scrapper-gate/backend/cqrs';
 import { cqrs as scrapperCqrs } from '@scrapper-gate/backend/domain/scrapper';
-import { AwilixContainer } from 'awilix';
-import { CqrsDefinition } from '../../../../../libs/backend/cqrs/src/cqrs.factory';
+import { asFunction, AwilixContainer } from 'awilix';
 
 export const registerScrapperRunnerCqrs = (container: AwilixContainer) => {
   const config = {
@@ -11,7 +11,10 @@ export const registerScrapperRunnerCqrs = (container: AwilixContainer) => {
     queryHandlers: {},
   };
 
-  container.register({ cqrs: asCqrs(config) });
+  container.register({
+    cqrs: asCqrs(config),
+    cqrsFactory: asFunction(cqrsFactory),
+  });
 
   return config;
 };
@@ -22,4 +25,5 @@ export type ScrapperRunnerCqrsConfig = ReturnType<
 
 type ScrapperRunnerCqrsDefinition = CqrsDefinition<ScrapperRunnerCqrsConfig>;
 
-export type ScrapperRunnerCqrs = ScrapperRunnerCqrsDefinition['resolvedCqrsResult'];
+export type ScrapperRunnerCqrs =
+  ScrapperRunnerCqrsDefinition['resolvedCqrsResult'];

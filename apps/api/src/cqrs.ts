@@ -1,8 +1,8 @@
 import { asCqrs } from '@scrapper-gate/backend/awilix';
+import { CqrsDefinition } from '@scrapper-gate/backend/cqrs';
 import { cqrs as scrapperCqrs } from '@scrapper-gate/backend/domain/scrapper';
 import { cqrs as userCqrs } from '@scrapper-gate/backend/domain/user';
 import { AwilixContainer } from 'awilix';
-import { CqrsDefinition } from '../../../libs/backend/cqrs/src/cqrs.factory';
 
 export type ServerCqrsConfig = ReturnType<typeof registerServerCqrs>;
 

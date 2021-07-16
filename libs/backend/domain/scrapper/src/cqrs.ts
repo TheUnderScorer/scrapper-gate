@@ -7,8 +7,10 @@ import { RunScrapperHandler } from './handlers/RunScrapper.handler';
 import { sendScrapperToRunnerQueueHandler } from './handlers/sendScrapperToRunnerQueue.handler';
 import { updateScrapperHandler } from './handlers/updateScrapper.handler';
 import { GetScrapperByUser } from './queries/GetScrapperByUser.query';
+import { GetScrapperLastRun } from './queries/GetScrapperLastRun.query';
 import { GetScrappersByUser } from './queries/GetScrappersByUser.query';
 import { getScrapperByUserHandler } from './queryHandlers/getScrapperByUser.handler';
+import { getScrapperLastRunHandler } from './queryHandlers/getScrapperLastRun.handler';
 import { getScrappersByUserHandler } from './queryHandlers/getScrappersByUser.handler';
 
 export const cqrs = {
@@ -21,5 +23,6 @@ export const cqrs = {
   queryHandlers: {
     [GetScrapperByUser]: getScrapperByUserHandler,
     [GetScrappersByUser]: getScrappersByUserHandler,
+    [GetScrapperLastRun]: getScrapperLastRunHandler,
   },
 };

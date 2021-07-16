@@ -18,11 +18,8 @@ export class RunScrapperHandler implements CommandHandler<RunScrapperCommand> {
   constructor(private readonly dependencies: RunScrapperHandlerDependencies) {}
 
   async handle({ payload: { scrapperId } }: RunScrapperCommand) {
-    const {
-      scrapperRepository,
-      scrapperRunRepository,
-      getScrapperRunner,
-    } = this.dependencies;
+    const { scrapperRepository, scrapperRunRepository, getScrapperRunner } =
+      this.dependencies;
 
     const scrapper = await scrapperRepository.getOneForRun(scrapperId);
     const scrapperRun = ScrapperRunModel.create({
@@ -34,10 +31,8 @@ export class RunScrapperHandler implements CommandHandler<RunScrapperCommand> {
 
     scrapper.state = RunState.InProgress;
 
-    await Promise.all([
-      scrapperRepository.save(scrapper),
-      scrapperRunRepository.save(scrapperRun),
-    ]);
+    await scrapperRepository.save(scrapper);
+    await scrapperRunRepository.save(scrapperRun);
 
     const runner = getScrapperRunner(scrapper);
 

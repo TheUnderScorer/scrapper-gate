@@ -13,6 +13,7 @@ export const scrapperSchema = gql`
     steps: [ScrapperStep!]
     variables: [Variable!]
     type: ScrapperType!
+    lastRun: ScrapperRun
   }
 
   input ScrapperInput {

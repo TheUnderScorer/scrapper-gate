@@ -1,5 +1,9 @@
 import { Button, Stack } from '@material-ui/core';
-import { BaseDialogProps, Dialog } from '@scrapper-gate/frontend/dialogs';
+import {
+  BaseDialogProps,
+  Dialog,
+  useDialogMethods,
+} from '@scrapper-gate/frontend/dialogs';
 import { FormTextField } from '@scrapper-gate/frontend/form';
 import { useSnackbarOnError } from '@scrapper-gate/frontend/snackbars';
 import {
@@ -9,7 +13,6 @@ import {
 } from '@scrapper-gate/shared/schema';
 import React, { useCallback } from 'react';
 import { Form } from 'react-final-form';
-import { useDialogMethods } from '../../../../../dialogs/src/useDialogMethods';
 import { useCreateScrapper } from '../../hooks/useCreateScrapper';
 import { ScrapperTypeSelection } from '../ScrapperTypeSelection/ScrapperTypeSelection';
 
@@ -39,7 +42,7 @@ export const CreateScrapperFormDialog = ({
         variables: {
           input: {
             ...input,
-            name: input.name || null,
+            name: input.name ?? '',
           },
         },
       });

@@ -38,12 +38,8 @@ export class UnitOfWork<
   async run<ReturnType>(
     callback: UnitOfWorkCallback<ReturnType, Cqrs['buses']>
   ) {
-    const {
-      connection,
-      container,
-      logger,
-      repositoriesProvider,
-    } = this.dependencies;
+    const { connection, container, logger, repositoriesProvider } =
+      this.dependencies;
 
     const scopedContainer = container.createScope();
 
@@ -85,7 +81,7 @@ export class UnitOfWork<
     } catch (e) {
       await messageQueue.flush();
 
-      logger.error('Unit of work failed:', e);
+      logger.error('Unit of work failed:', e.message);
 
       await this.events.emit('failed', {
         error: e,

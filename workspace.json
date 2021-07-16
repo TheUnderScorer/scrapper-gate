@@ -284,6 +284,29 @@
         }
       }
     },
+    "backend-domain-scrapper-data-loaders": {
+      "root": "libs/backend/domain/scrapper/data-loaders",
+      "sourceRoot": "libs/backend/domain/scrapper/data-loaders/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/backend/domain/scrapper/data-loaders/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/backend/domain/scrapper/data-loaders"],
+          "options": {
+            "jestConfig": "libs/backend/domain/scrapper/data-loaders/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "backend-domain-scrapper-playwright-runner": {
       "root": "libs/backend/domain/scrapper/playwright-runner",
       "sourceRoot": "libs/backend/domain/scrapper/playwright-runner/src",

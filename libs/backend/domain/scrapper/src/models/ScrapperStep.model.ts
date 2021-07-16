@@ -22,7 +22,8 @@ import { Entities } from '@scrapper-gate/shared/common';
 @Entity(Entities.ScrapperStep)
 export class ScrapperStepModel
   extends BaseModel<ScrapperStepModel>
-  implements ScrapperStep {
+  implements ScrapperStep
+{
   @Column({
     nullable: true,
   })
@@ -48,6 +49,8 @@ export class ScrapperStepModel
 
   @Column({
     nullable: true,
+    type: 'enum',
+    enum: MouseButton,
   })
   mouseButton?: MouseButton;
 
@@ -78,6 +81,8 @@ export class ScrapperStepModel
 
   @Column({
     nullable: true,
+    type: 'enum',
+    enum: ScrapperAction,
   })
   action?: ScrapperAction;
 

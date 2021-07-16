@@ -20,11 +20,12 @@ import { Typed } from 'emittery';
 import { createScrapperRunVariables } from './createScrapperRunVariables';
 import {
   ConditionalRunScrapperStepResult,
+  InitialiseScrapperRunnerParams,
   RunScrapperStepResult,
   ScrapperRunner,
 } from './types';
 
-export interface ProcessParams {
+export interface ProcessParams extends InitialiseScrapperRunnerParams {
   scrapperRun: ScrapperRun;
   scrapper: Scrapper;
 }
@@ -41,14 +42,14 @@ export class ScrapperRunProcessor implements Disposable {
     };
   }>();
 
-  async process({ scrapperRun, scrapper }: ProcessParams) {
+  async process({ scrapperRun, scrapper, ...rest }: ProcessParams) {
     if (!scrapperRun.steps?.length) {
       return {
         scrapperRun,
       };
     }
 
-    await this.runner.initialize?.();
+    await this.runner.initialize?.(rest);
 
     scrapperRun.state = RunState.InProgress;
     scrapperRun.startedAt = new Date();
@@ -68,10 +69,8 @@ export class ScrapperRunProcessor implements Disposable {
         step = nextStep!;
       }
     } catch (error) {
-      const {
-        error: errorObject,
-        stepResult,
-      } = ScrapperRunProcessor.createStepResultFromError(error, step!);
+      const { error: errorObject, stepResult } =
+        ScrapperRunProcessor.createStepResultFromError(error, step!);
 
       scrapperRun.results.push(stepResult);
       scrapperRun.error = {

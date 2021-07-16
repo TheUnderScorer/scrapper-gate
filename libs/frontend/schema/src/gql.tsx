@@ -61,6 +61,10 @@ export const GetScrapperForBuilderDocument = gql`
       state
       updatedAt
       type
+      lastRun {
+        id
+        endedAt
+      }
       steps {
         ...ScrapperBuilderStep
       }
@@ -368,10 +372,141 @@ export type MyScrappersQueryResult = Apollo.QueryResult<
   Types.MyScrappersQuery,
   Types.MyScrappersQueryVariables
 >;
+export const SendScrapperToQueueDocument = gql`
+  mutation SendScrapperToQueue($input: StartScrapperInput!) {
+    sendScrapperToRunnerQueue(input: $input) {
+      id
+      name
+      state
+      lastRun {
+        id
+        endedAt
+      }
+    }
+  }
+`;
+export type SendScrapperToQueueMutationFn = Apollo.MutationFunction<
+  Types.SendScrapperToQueueMutation,
+  Types.SendScrapperToQueueMutationVariables
+>;
+
+/**
+ * __useSendScrapperToQueueMutation__
+ *
+ * To run a mutation, you first call `useSendScrapperToQueueMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useSendScrapperToQueueMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [sendScrapperToQueueMutation, { data, loading, error }] = useSendScrapperToQueueMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useSendScrapperToQueueMutation(
+  baseOptions?: Apollo.MutationHookOptions<
+    Types.SendScrapperToQueueMutation,
+    Types.SendScrapperToQueueMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<
+    Types.SendScrapperToQueueMutation,
+    Types.SendScrapperToQueueMutationVariables
+  >(SendScrapperToQueueDocument, options);
+}
+export type SendScrapperToQueueMutationHookResult = ReturnType<
+  typeof useSendScrapperToQueueMutation
+>;
+export type SendScrapperToQueueMutationResult =
+  Apollo.MutationResult<Types.SendScrapperToQueueMutation>;
+export type SendScrapperToQueueMutationOptions = Apollo.BaseMutationOptions<
+  Types.SendScrapperToQueueMutation,
+  Types.SendScrapperToQueueMutationVariables
+>;
+export const GetScrapperStateDocument = gql`
+  query GetScrapperState($id: ID!) {
+    getMyScrapper(id: $id) {
+      id
+      name
+      state
+      lastRun {
+        id
+        endedAt
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetScrapperStateQuery__
+ *
+ * To run a query within a React component, call `useGetScrapperStateQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetScrapperStateQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetScrapperStateQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetScrapperStateQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    Types.GetScrapperStateQuery,
+    Types.GetScrapperStateQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    Types.GetScrapperStateQuery,
+    Types.GetScrapperStateQueryVariables
+  >(GetScrapperStateDocument, options);
+}
+export function useGetScrapperStateLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    Types.GetScrapperStateQuery,
+    Types.GetScrapperStateQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    Types.GetScrapperStateQuery,
+    Types.GetScrapperStateQueryVariables
+  >(GetScrapperStateDocument, options);
+}
+export type GetScrapperStateQueryHookResult = ReturnType<
+  typeof useGetScrapperStateQuery
+>;
+export type GetScrapperStateLazyQueryHookResult = ReturnType<
+  typeof useGetScrapperStateLazyQuery
+>;
+export type GetScrapperStateQueryResult = Apollo.QueryResult<
+  Types.GetScrapperStateQuery,
+  Types.GetScrapperStateQueryVariables
+>;
 export const UpdateScrapperDocument = gql`
   mutation UpdateScrapper($input: ScrapperInput!) {
     updateScrapper(input: $input) {
       id
+      name
+      state
+      isRunning
+      lastRun {
+        id
+        endedAt
+      }
+      type
+      steps {
+        id
+      }
     }
   }
 `;

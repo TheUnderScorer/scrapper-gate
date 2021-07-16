@@ -1,7 +1,7 @@
 const slsw = require('serverless-webpack');
 const TsConfigPaths = require('tsconfig-paths-webpack-plugin');
 const path = require('path');
-const tsConfigPath = path.resolve(__dirname, 'tsconfig.json');
+const tsConfigPath = path.resolve(__dirname, 'tsconfig.app.json');
 const nodeExternals = require('webpack-node-externals');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
@@ -12,30 +12,43 @@ module.exports = {
   mode: isLocal ? 'development' : 'production',
   externals: [nodeExternals()],
   devtool: 'source-map',
+  target: 'node',
   output: {
     libraryTarget: 'commonjs',
     path: path.resolve(__dirname, '../../dist/apps/lambdas'),
   },
   resolve: {
+    extensions: ['.ts', '.tsx', '.js'],
     plugins: [
       new TsConfigPaths({
         configFile: tsConfigPath,
+        logLevel: 'info',
+        mainFields: ['main', 'browser', 'module'],
       }),
     ],
   },
   module: {
     rules: [
       {
-        // Include ts, tsx, js, and jsx files.
-        test: /\.(ts|js)x?$/,
+        test: /\.tsx?$/,
+        loader: 'ts-loader',
         exclude: /node_modules/,
-        use: 'ts-loader',
+        options: {
+          // disable type checker - we will use it in fork plugin
+          transpileOnly: true,
+          configFile: tsConfigPath,
+        },
       },
     ],
   },
   plugins: [
     new ForkTsCheckerWebpackPlugin({
       tsconfig: tsConfigPath,
+      useTypescriptIncrementalApi: false,
+      workers: 2,
+      memoryLimit: 2048,
+      async: true,
+      useColors: true,
     }),
   ],
 };

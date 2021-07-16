@@ -50,7 +50,7 @@ export interface ScrapperBuilderStep
 }
 
 export interface ScrapperBuilderScrapper
-  extends Omit<Scrapper, 'results' | 'createdBy' | 'steps'> {
+  extends Omit<Scrapper, 'results' | 'createdBy' | 'steps' | 'lastRun'> {
   steps?: ScrapperBuilderStep[];
 }
 

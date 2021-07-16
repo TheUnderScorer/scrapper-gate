@@ -2,15 +2,12 @@
   "extends": "../../tsconfig.base.json",
   "files": [],
   "include": [],
-  "compilerOptions": {
-    "module": "CommonJS",
-    "target": "ES6",
-    "moduleResolution": "node",
-    "sourceMap": true
-  },
   "references": [
     {
       "path": "./tsconfig.spec.json"
+    },
+    {
+      "path": "./tsconfig.app.json"
     }
   ]
 }

@@ -29,7 +29,8 @@ const valueTransformer = {
 @Entity(Entities.Variable)
 export class VariableModel
   extends BaseModel<Variable>
-  implements Variable, CreatedBy {
+  implements Variable, CreatedBy
+{
   @Column({
     type: 'text',
     transformer: valueTransformer,
@@ -49,7 +50,10 @@ export class VariableModel
   })
   defaultValue: unknown;
 
-  @Column()
+  @Column({
+    type: 'enum',
+    enum: VariableScope,
+  })
   scope: VariableScope;
 
   @ManyToOne(() => UserModel)
@@ -58,6 +62,8 @@ export class VariableModel
 
   @Column({
     nullable: true,
+    type: 'enum',
+    enum: VariableType,
   })
   type?: VariableType;
 }

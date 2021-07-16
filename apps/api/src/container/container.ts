@@ -1,4 +1,5 @@
 import { asArray } from '@scrapper-gate/backend/awilix';
+import { cqrsFactory } from '@scrapper-gate/backend/cqrs';
 import { makeRepositoriesProviderFromDefinitions } from '@scrapper-gate/backend/database';
 import {
   ExtractToken,
@@ -22,13 +23,13 @@ import fastify from 'fastify';
 import { decode } from 'jsonwebtoken';
 import { Connection, createConnection } from 'typeorm';
 import { v4 } from 'uuid';
-import { cqrsFactory } from '../../../../libs/backend/cqrs/src/cqrs.factory';
 import { apolloServerFactory } from '../apolloServer';
 import { registerServerCqrs } from '../cqrs';
 import { entityDefinitions } from '../database';
 import { rootResolver } from '../resolvers/root.resolver';
 import { scrapperResolver } from '../resolvers/scrapper/scrapper.resolver';
 import { userResolver } from '../resolvers/user/user.resolver';
+import { setupDataLoaders } from './dataLoaders';
 import { setupServices } from './services';
 
 export interface CreateContainerDependencies {
@@ -75,6 +76,7 @@ export const createContainer = async ({
   });
 
   await setupServices(container, skipMessageQueueHealthCheck);
+  setupDataLoaders(container);
 
   container.register({
     port: asValue(port),

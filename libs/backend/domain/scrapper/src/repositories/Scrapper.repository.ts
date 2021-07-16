@@ -1,7 +1,7 @@
 import { applyQueryVariables } from '@scrapper-gate/backend/db-utils';
 import { ScrapperNotFoundError } from '@scrapper-gate/shared/errors';
 import { completedRunStates } from '@scrapper-gate/shared/run-states';
-import { BaseQueryVariables } from '@scrapper-gate/shared/schema';
+import { BaseQueryVariables, RunState } from '@scrapper-gate/shared/schema';
 import { Brackets, EntityRepository, Repository } from 'typeorm';
 import { ScrapperModel } from '../models/Scrapper.model';
 
@@ -30,15 +30,15 @@ export class ScrapperRepository extends Repository<ScrapperModel> {
     const queryBuilder = this.createQueryBuilder('scrapper');
 
     return queryBuilder
-      .leftJoin('scrapper.createdBy', 'createdBy')
-      .leftJoin('scrapper.steps', 'steps')
+      .leftJoinAndSelect('scrapper.createdBy', 'createdBy')
+      .leftJoinAndSelect('scrapper.steps', 'steps')
       .where('scrapper.id = :scrapperId', { scrapperId })
       .andWhere(
         new Brackets((clause) =>
           clause
             .where('scrapper.state IS NULL')
             .orWhere('scrapper.state IN (:...states)', {
-              states: completedRunStates,
+              states: [...completedRunStates, RunState.Pending],
             })
         )
       )

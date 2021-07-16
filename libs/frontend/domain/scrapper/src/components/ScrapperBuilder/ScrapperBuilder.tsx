@@ -1,4 +1,6 @@
+import { IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { PlayArrow } from '@material-ui/icons';
 import { useIsUsingElementPicker } from '@scrapper-gate/frontend/common';
 import {
   VariablesProvider,
@@ -30,6 +32,7 @@ import React, { useCallback, useMemo } from 'react';
 import { Form } from 'react-final-form';
 import { Node } from 'react-flow-renderer';
 import { v4 as uuid } from 'uuid';
+import { useRunScraperDialog } from '../RunScrapperDialog/useRunScraperDialog';
 import { ScrapperBuilderNodeContent } from './NodeContent/ScrapperBuilderNodeContent';
 import { nodesToScrapperSteps } from './nodesToScrapperSteps';
 import {
@@ -86,7 +89,7 @@ export const ScrapperBuilder = ({
   const snackbarOnError = useSnackbarOnError();
   const snackbarOnSuccess = useSnackbarOnSuccess();
 
-  const [updateScrapper] = useUpdateScrapperMutation();
+  const [updateScrapper, { data }] = useUpdateScrapperMutation();
 
   const [isUsingElementPicker] = useIsUsingElementPicker();
 
@@ -213,6 +216,10 @@ export const ScrapperBuilder = ({
     [initialScrapper]
   );
 
+  const runScrapperDialog = useRunScraperDialog({
+    scrapper: initialScrapper ?? data?.updateScrapper,
+  });
+
   return (
     <Form
       validate={debouncedValidate}
@@ -233,6 +240,11 @@ export const ScrapperBuilder = ({
               onConnect={handleConnect}
               loading={loading}
               nodesSelection={selection}
+              additionalActions={
+                <IconButton onClick={() => runScrapperDialog()}>
+                  <PlayArrow />
+                </IconButton>
+              }
               title={
                 <FormEditableText
                   variant="standard"

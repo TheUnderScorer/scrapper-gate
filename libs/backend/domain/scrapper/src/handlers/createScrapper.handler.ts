@@ -8,25 +8,22 @@ export interface CreateScrapperHandlerDependencies {
   scrapperRepository: ScrapperRepository;
 }
 
-export const createScrapperHandler = ({
-  scrapperRepository,
-}: CreateScrapperHandlerDependencies) => async (
-  command: CreateScrapperCommand,
-  { eventsBus }: CommandContext
-) => {
-  const scrapper = ScrapperModel.create({
-    name: command.payload?.input?.name,
-    createdBy: command.payload.user,
-    type: command.payload.input.type,
-  });
+export const createScrapperHandler =
+  ({ scrapperRepository }: CreateScrapperHandlerDependencies) =>
+  async (command: CreateScrapperCommand, { eventsBus }: CommandContext) => {
+    const scrapper = ScrapperModel.create({
+      name: command.payload.input.name,
+      createdBy: command.payload.user,
+      type: command.payload.input.type,
+    });
 
-  await scrapperRepository.save(scrapper);
+    await scrapperRepository.save(scrapper);
 
-  await eventsBus.dispatch(
-    new ScrapperCreatedEvent({
-      scrapper,
-    })
-  );
+    await eventsBus.dispatch(
+      new ScrapperCreatedEvent({
+        scrapper,
+      })
+    );
 
-  return scrapper;
-};
+    return scrapper;
+  };
