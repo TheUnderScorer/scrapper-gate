@@ -23,6 +23,8 @@ import { useMount, usePrevious } from 'react-use';
 import { Key } from 'ts-key-enum';
 import { TextFieldBlockProvider } from './TextFieldBlock.provider';
 import { TextFieldBlockProps } from './TextFieldBlock.types';
+// @ts-ignore
+import EditorBidiService from 'draft-js/lib/EditorBidiService';
 
 const useStyles = makeStyles((theme) => ({
   input: {
@@ -146,14 +148,6 @@ export const TextFieldBlock = forwardRef<HTMLInputElement, TextFieldBlockProps>(
       [onBlur]
     );
 
-    useMount(() => {
-      setState(
-        EditorState.set(state, {
-          decorator,
-        })
-      );
-    });
-
     useEffect(() => {
       if (didInternalChange) {
         return;
@@ -166,17 +160,22 @@ export const TextFieldBlock = forwardRef<HTMLInputElement, TextFieldBlockProps>(
 
       const prevValue = prevState?.getCurrentContent().getPlainText();
 
-      if (value === prevValue) {
+      if (value === prevValue || parsedValue === prevValue) {
         return;
       }
 
-      setState((previous) =>
-        EditorState.set(previous, {
-          currentContent: ContentState.createFromText(
-            parsedValue?.toString() ?? ''
+      setState((previous) => {
+        const contentState = ContentState.createFromText(
+          parsedValue?.toString() ?? ''
+        );
+        return EditorState.set(previous, {
+          currentContent: contentState,
+          directionMap: EditorBidiService.getDirectionMap(
+            contentState,
+            previous.getDirectionMap()
           ),
-        })
-      );
+        });
+      });
     }, [value, decorator, dateFormat, prevState, didInternalChange]);
 
     const handleStateChange = useCallback(
