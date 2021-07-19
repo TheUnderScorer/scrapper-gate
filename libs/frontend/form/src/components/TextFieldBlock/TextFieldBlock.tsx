@@ -168,6 +168,7 @@ export const TextFieldBlock = forwardRef<HTMLInputElement, TextFieldBlockProps>(
         const contentState = ContentState.createFromText(
           parsedValue?.toString() ?? ''
         );
+
         return EditorState.set(previous, {
           currentContent: contentState,
           directionMap: EditorBidiService.getDirectionMap(
@@ -187,7 +188,7 @@ export const TextFieldBlock = forwardRef<HTMLInputElement, TextFieldBlockProps>(
         onChange?.(plainText);
         setState(newState);
 
-        setTimeout(() => setDidInternalChange(false), 50);
+        setTimeout(() => setDidInternalChange(false), 100);
       },
       [onChange]
     );
@@ -195,7 +196,7 @@ export const TextFieldBlock = forwardRef<HTMLInputElement, TextFieldBlockProps>(
     return (
       <TextFieldBlockProvider
         editorState={state}
-        setEditorState={setState}
+        setEditorState={handleStateChange}
         focused={focused}
       >
         <TextField

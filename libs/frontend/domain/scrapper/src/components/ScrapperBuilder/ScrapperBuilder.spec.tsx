@@ -25,8 +25,11 @@ import {
 jest.mock('@scrapper-gate/frontend/schema', () => {
   const mock = jest.fn();
 
+  const actual = jest.requireActual('@scrapper-gate/frontend/schema');
+
   return {
-    useUpdateScrapperMutation: () => [mock],
+    ...actual,
+    useUpdateScrapperMutation: () => [mock, { data: null }],
   };
 });
 
