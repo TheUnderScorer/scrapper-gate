@@ -13,6 +13,7 @@ const supportedWhen = [
   ConditionalRuleWhen.MoreThan,
   ConditionalRuleWhen.MoreThanOrEqual,
   ConditionalRuleWhen.Equals,
+  ConditionalRuleWhen.NotEqual,
   ConditionalRuleWhen.LessThan,
   ConditionalRuleWhen.LessThanOrEqual,
 ];

@@ -159,6 +159,7 @@ export class PlayWrightScrapperRunner implements ScrapperRunner {
         htmlResolver: {
           elements: await elementHandlesToHtmlElementRuleDefinition(elements),
         },
+        variables: params.scrapperRun.variables ?? [],
       });
 
       const { performance } = await this.afterRun(params);
@@ -200,15 +201,13 @@ export class PlayWrightScrapperRunner implements ScrapperRunner {
     try {
       const { elements } = await this.preRun(params);
 
-      const values: Pick<
-        ScrapperRunValue,
-        'value' | 'sourceElement'
-      >[] = await Promise.all(
-        elements.map(async (el) => ({
-          value: await el.textContent(),
-          sourceElement: await handleToSourceElement(el),
-        }))
-      );
+      const values: Pick<ScrapperRunValue, 'value' | 'sourceElement'>[] =
+        await Promise.all(
+          elements.map(async (el) => ({
+            value: await el.textContent(),
+            sourceElement: await handleToSourceElement(el),
+          }))
+        );
 
       const { performance } = await this.afterRun(params);
 

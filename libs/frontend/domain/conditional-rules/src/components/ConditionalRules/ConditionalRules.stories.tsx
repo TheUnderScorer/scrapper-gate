@@ -1,7 +1,8 @@
+import { variableRule } from '../../rules/variableRule';
 import { VariablesProvider } from '@scrapper-gate/frontend/domain/variables';
 import {
-  ConditionalRuleWhen,
   ConditionalRuleTypes,
+  ConditionalRuleWhen,
 } from '@scrapper-gate/shared/domain/conditional-rules';
 import { createVariable } from '@scrapper-gate/shared/domain/variables';
 import {
@@ -60,6 +61,7 @@ export const Component = () => {
       makeHtmlElementRule({
         highlightId: 'highlight',
       }),
+      variableRule,
     ],
     []
   );

@@ -1,6 +1,5 @@
 import { Stack } from '@material-ui/core';
 import { PrimaryLightChip } from '@scrapper-gate/frontend/ui';
-import { ConditionalRuleWhen } from '@scrapper-gate/shared/domain/conditional-rules';
 import { ConditionalRule } from '@scrapper-gate/shared/schema';
 import React, { memo } from 'react';
 import TruncateMarkup from 'react-truncate-markup';
@@ -8,27 +7,19 @@ import {
   RuleTitleDefinition,
   RuleTitleDefinitionType,
 } from '../../../../types';
-import { valueSupportedWhen } from '../../../../valueSupportedWhen';
 
 export interface ConditionalRulesRuleTitleProps {
   definitions: RuleTitleDefinition[];
   rule: ConditionalRule;
 }
 
-const getComponent = (
-  definition: RuleTitleDefinition,
-  rule: ConditionalRule
-) => {
+const getComponent = (definition: RuleTitleDefinition) => {
   if (!definition.text) {
     return null;
   }
 
   switch (definition.type) {
     case RuleTitleDefinitionType.Value:
-      if (!valueSupportedWhen.includes(rule.when as ConditionalRuleWhen)) {
-        return null;
-      }
-
       return <span>{`"${definition.text}"`}</span>;
 
     case RuleTitleDefinitionType.Highlight:
@@ -47,13 +38,12 @@ const getComponent = (
 
 const BaseConditionalRulesRuleTitle = ({
   definitions,
-  rule,
 }: ConditionalRulesRuleTitleProps) => {
   return (
     <TruncateMarkup lines={1} ellipsis={<span>...</span>}>
       <Stack alignItems="center" spacing={1} direction="row">
         {definitions.map((definition, index) => {
-          const cmp = getComponent(definition, rule);
+          const cmp = getComponent(definition);
 
           if (!cmp) {
             return null;

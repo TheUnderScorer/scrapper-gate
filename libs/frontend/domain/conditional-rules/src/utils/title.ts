@@ -18,7 +18,7 @@ export const baseCreateTitle =
       return [];
     }
 
-    if (!rule?.when || !rule?.value) {
+    if (!rule?.when) {
       return [
         {
           type: RuleTitleDefinitionType.Text,
@@ -27,20 +27,32 @@ export const baseCreateTitle =
       ];
     }
 
-    const base: RuleTitleDefinition[] = [
+    const titleDefinitions: RuleTitleDefinition[] = [
       {
         type: RuleTitleDefinitionType.Text,
         text: toDisplayText(rule.type),
       },
-      {
-        type: RuleTitleDefinitionType.Highlight,
-        text: toDisplayText(rule.when).toLowerCase(),
-      },
     ];
+
+    if (rule.what) {
+      titleDefinitions.push({
+        type: RuleTitleDefinitionType.Value,
+        text: rule.what,
+      });
+    }
+
+    titleDefinitions.push({
+      type: RuleTitleDefinitionType.Highlight,
+      text: toDisplayText(rule.when).toLowerCase(),
+    });
+
+    if (!rule.value) {
+      return titleDefinitions;
+    }
 
     try {
       return [
-        ...base,
+        ...titleDefinitions,
         {
           type: RuleTitleDefinitionType.Value,
           text: valueFormatter
@@ -50,7 +62,7 @@ export const baseCreateTitle =
       ];
     } catch {
       return [
-        ...base,
+        ...titleDefinitions,
         {
           type: RuleTitleDefinitionType.Value,
           text: rule.value,
