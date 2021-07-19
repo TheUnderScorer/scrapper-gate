@@ -1,3 +1,18 @@
+# [1.7.0](https://github.com/TheUnderScorer/scrapper-gate/compare/v1.6.0...v1.7.0) (2021-07-19)
+
+
+### Features
+
+* Add run scrapper dialog ([7c22fa2](https://github.com/TheUnderScorer/scrapper-gate/commit/7c22fa25105b0f7a60fbe5d81690a427547d32d0))
+* **api:** Send scrapper to runner queue ([4fd703b](https://github.com/TheUnderScorer/scrapper-gate/commit/4fd703b8ca0b721a67d3c6b1f121128e1b51a9bf))
+* **backend:** Add lambda function for running scrapper ([77a620e](https://github.com/TheUnderScorer/scrapper-gate/commit/77a620efb12b38fd84753e667c916841cbca2ff4))
+* **browser-extension:** Add create scrapper view to content ([a86fe16](https://github.com/TheUnderScorer/scrapper-gate/commit/a86fe16b846b8af71a497b13b910a058fc3824de))
+
+
+### Performance Improvements
+
+* **browser-extension:** :zap: Optimized TextFieldBlock ([43dad36](https://github.com/TheUnderScorer/scrapper-gate/commit/43dad36d2cfdd5af267db4c2373fd3d1932f9fe6))
+
 # [1.6.0](https://github.com/TheUnderScorer/scrapper-gate/compare/v1.5.0...v1.6.0) (2021-06-25)
 
 
