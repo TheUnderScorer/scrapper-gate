@@ -23,6 +23,7 @@ import { useMount, usePrevious } from 'react-use';
 import { Key } from 'ts-key-enum';
 import { TextFieldBlockProvider } from './TextFieldBlock.provider';
 import { TextFieldBlockProps } from './TextFieldBlock.types';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import EditorBidiService from 'draft-js/lib/EditorBidiService';
 

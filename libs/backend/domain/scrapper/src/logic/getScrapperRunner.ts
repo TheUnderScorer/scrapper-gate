@@ -1,4 +1,4 @@
-import { ScrapperModel } from '@scrapper-gate/backend/domain/scrapper';
+import { ScrapperModel } from '../models/Scrapper.model';
 import { PlayWrightScrapperRunner } from '@scrapper-gate/backend/domain/scrapper/playwright-runner';
 import { Logger } from '@scrapper-gate/shared/logger';
 import { BrowserType, ScrapperType } from '@scrapper-gate/shared/schema';
@@ -11,16 +11,16 @@ export interface GetScrapperRunnerDependencies {
   browserType: BrowserType;
 }
 
-export const makeGetScrapperRunner = (
-  dependencies: GetScrapperRunnerDependencies
-) => (scrapper: ScrapperModel) => {
-  switch (scrapper.type) {
-    case ScrapperType.RealBrowser:
-      return new PlayWrightScrapperRunner(dependencies);
+export const makeGetScrapperRunner =
+  (dependencies: GetScrapperRunnerDependencies) =>
+  (scrapper: ScrapperModel) => {
+    switch (scrapper.type) {
+      case ScrapperType.RealBrowser:
+        return new PlayWrightScrapperRunner(dependencies);
 
-    default:
-      throw new TypeError(`Unsupported scrapper type: ${scrapper.type}`);
-  }
-};
+      default:
+        throw new TypeError(`Unsupported scrapper type: ${scrapper.type}`);
+    }
+  };
 
 export type GetScrapperRunner = ReturnType<typeof makeGetScrapperRunner>;

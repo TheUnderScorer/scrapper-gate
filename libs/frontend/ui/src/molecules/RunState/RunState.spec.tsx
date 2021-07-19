@@ -1,4 +1,4 @@
-import { RunState } from '@scrapper-gate/frontend/ui';
+import { RunState } from './RunState';
 import { render } from '@testing-library/react';
 import { RunStateProps } from './RunState.types';
 import { RunState as RunStateEnum } from '@scrapper-gate/shared/schema';

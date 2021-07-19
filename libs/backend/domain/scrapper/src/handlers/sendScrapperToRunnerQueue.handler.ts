@@ -1,5 +1,5 @@
 import { MessageQueueService } from '@scrapper-gate/backend/domain/message-queue-service';
-import { ScrapperRepository } from '@scrapper-gate/backend/domain/scrapper';
+import { ScrapperRepository } from '../repositories/Scrapper.repository';
 import { ScrapperAlreadyRunningError } from '@scrapper-gate/shared/errors';
 import {
   BrowserType,
@@ -14,37 +14,37 @@ export interface SendScrapperToRunnerQueueHandlerDependencies {
   traceId: string;
 }
 
-export const sendScrapperToRunnerQueueHandler = ({
-  scrapperRepository,
-  messageQueueService,
-  traceId,
-}: SendScrapperToRunnerQueueHandlerDependencies) => async ({
-  payload: { input, userId },
-}: SendScrapperToRunnerQueueCommand) => {
-  const scrapper = await scrapperRepository.getOneByUser(
-    input.scrapperId,
-    userId
-  );
+export const sendScrapperToRunnerQueueHandler =
+  ({
+    scrapperRepository,
+    messageQueueService,
+    traceId,
+  }: SendScrapperToRunnerQueueHandlerDependencies) =>
+  async ({ payload: { input, userId } }: SendScrapperToRunnerQueueCommand) => {
+    const scrapper = await scrapperRepository.getOneByUser(
+      input.scrapperId,
+      userId
+    );
 
-  if (scrapper.isRunning) {
-    throw new ScrapperAlreadyRunningError();
-  }
+    if (scrapper.isRunning) {
+      throw new ScrapperAlreadyRunningError();
+    }
 
-  await messageQueueService.sendToScrapperQueue(
-    {
-      traceId,
-      date: new Date().toISOString(),
-      payload: {
-        scrapperId: input.scrapperId,
-        trigger: RunnerTrigger.Manual,
+    await messageQueueService.sendToScrapperQueue(
+      {
+        traceId,
+        date: new Date().toISOString(),
+        payload: {
+          scrapperId: input.scrapperId,
+          trigger: RunnerTrigger.Manual,
+        },
       },
-    },
-    input.browserType ?? BrowserType.Chrome
-  );
+      input.browserType ?? BrowserType.Chrome
+    );
 
-  scrapper.state = RunState.Pending;
+    scrapper.state = RunState.Pending;
 
-  await scrapperRepository.save(scrapper);
+    await scrapperRepository.save(scrapper);
 
-  return scrapper;
-};
+    return scrapper;
+  };
