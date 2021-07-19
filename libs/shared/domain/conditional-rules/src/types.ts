@@ -1,3 +1,4 @@
+import { MaybePromise } from '@scrapper-gate/shared/common';
 import {
   ConditionalRule,
   ConditionalRuleGroup,
@@ -8,6 +9,7 @@ import {
 export enum ConditionalRuleTypes {
   Date = 'Date',
   HtmlElement = 'HtmlElement',
+  Variable = 'Variable',
 }
 
 export enum ConditionalRuleWhen {
@@ -47,6 +49,4 @@ export interface RuleResolverContext {
 
 export type RuleResolvers = Record<string, RuleResolver>;
 
-export type RuleResolver = (
-  rule: ConditionalRule
-) => boolean | Promise<boolean>;
+export type RuleResolver = (rule: ConditionalRule) => MaybePromise<boolean>;

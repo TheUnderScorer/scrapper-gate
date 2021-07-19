@@ -93,7 +93,7 @@ describe('Date resolver', () => {
       false,
     ],
   ])(
-    'should return true if rule passed',
+    'should return true if rule has passed',
     async (rule, date, expectedResult) => {
       const { result } = await resolveRules({
         resolvers: {
