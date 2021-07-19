@@ -10,7 +10,7 @@ import {
 } from './useMessageSender.types';
 import { sendMessageToActiveTab } from '../../communication/sendMessageToTab';
 import { sendMessageToBackground } from '../../communication/sendMessageToBackground';
-import { logger } from '@scrapper-gate/frontend/logger';
+import { logger } from '@scrapper-gate/shared/logger/console';
 
 export const useMessageSender = <Type extends MessageTypes, Data = unknown>({
   target,

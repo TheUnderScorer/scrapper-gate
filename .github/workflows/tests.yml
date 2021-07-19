@@ -43,7 +43,7 @@ jobs:
           git config --global user.name 'TheUnderScorer'
           git config --global user.email 'przemyslawzydek@gmail.com'
           git remote set-url origin https://TheUnderScorer:$GITHUB_TOKEN@github.com/TheUnderScorer/scrapper-gate
-          git fetch --no-tags --prune --depth=8 origin master
+          git fetch --no-tags --prune origin master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -51,7 +51,7 @@ jobs:
         run: npm ci --legacy-peer-deps
 
       - name: Lint
-        run: npm run format:check -- --base=origin/master && npm run lint
+        run: npm run lint
 
   test-shared:
     name: Run shared tests
@@ -85,6 +85,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - uses: hashicorp/setup-terraform@v1
+
       - name: Set Node.js 16.x
         uses: actions/setup-node@v2
         with:
@@ -99,7 +101,13 @@ jobs:
       - uses: leonardodino/setup-playwright@main
 
       - name: Start docker
-        run: docker-compose up -d
+        run: sudo docker-compose up -d
+
+      - name: Wait for localstack
+        run: sudo AWS_S3_ENDPOINT=http://localhost:4566 sh docker/localstack/wait-for-it.sh
+
+      - name: Setup localstack
+        run: cd deploy/local && terraform init && terraform apply -auto-approve
 
       - name: Setup env
         run: cp .local.env.dist .local.env
@@ -145,13 +153,21 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - uses: hashicorp/setup-terraform@v1
+
       - name: Set Node.js 16.x
         uses: actions/setup-node@v2
         with:
           node-version: 16.x
 
       - name: Start docker
-        run: docker-compose up -d
+        run: sudo docker-compose up -d
+
+      - name: Wait for localstack
+        run: sudo AWS_S3_ENDPOINT=http://localhost:4566 sh docker/localstack/wait-for-it.sh
+
+      - name: Setup localstack
+        run: cd deploy/local && terraform init && terraform apply -auto-approve
 
       - name: Setup env
         run: cp .local.env.dist .local.env
@@ -168,6 +184,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - uses: hashicorp/setup-terraform@v1
+
       - name: Set Node.js 16.x
         uses: actions/setup-node@v2
         with:
@@ -177,7 +195,13 @@ jobs:
         run: npx playwright install-deps
 
       - name: Start docker
-        run: docker-compose up -d
+        run: sudo docker-compose up -d
+
+      - name: Wait for localstack
+        run: sudo AWS_S3_ENDPOINT=http://localhost:4566 sh docker/localstack/wait-for-it.sh
+
+      - name: Setup localstack
+        run: cd deploy/local && terraform init && terraform apply -auto-approve
 
       - name: Setup env
         run: cp .local.env.dist .local.env

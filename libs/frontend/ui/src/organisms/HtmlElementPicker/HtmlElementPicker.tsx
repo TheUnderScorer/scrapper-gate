@@ -62,10 +62,10 @@ export const HtmlElementPicker = ({
   const [textFieldValue, setTextFieldValue] = useState<string | null>('');
   const [mode, setMode] = useState(defaultMode);
 
-  const id = useMemo(() => `html-element-picker-${highlightId ?? name}`, [
-    name,
-    highlightId,
-  ]);
+  const id = useMemo(
+    () => `html-element-picker-${highlightId ?? name}`,
+    [name, highlightId]
+  );
   const uniqueSelector = useMemo(
     () => makeUniqueSelector({ ignoredClassNames: [id] }),
     [id]
@@ -214,22 +214,18 @@ export const HtmlElementPicker = ({
 
   const elementDropdownRef = useRef<HTMLDivElement>();
 
-  const {
-    pickerRef,
-    selectedElement,
-    selectedElementSelector,
-    setTarget,
-  } = useHtmlPicker({
-    appendElement,
-    open,
-    getValueByMode,
-    mode,
-    container,
-    ignoredElementsContainer,
-    clickEnabled,
-    elementDropdownRef,
-    uniqueSelector,
-  });
+  const { pickerRef, selectedElement, selectedElementSelector, setTarget } =
+    useHtmlPicker({
+      appendElement,
+      open,
+      getValueByMode,
+      mode,
+      container,
+      ignoredElementsContainer,
+      clickEnabled,
+      elementDropdownRef,
+      uniqueSelector,
+    });
 
   useEffect(() => {
     if (onPickerToggle) {
@@ -307,6 +303,7 @@ export const HtmlElementPicker = ({
         >
           <span>
             <Button
+              variant="text"
               startIcon={<Colorize />}
               disabled={pickerDisabled}
               className="toggle-picker"

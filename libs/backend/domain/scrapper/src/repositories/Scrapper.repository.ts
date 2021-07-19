@@ -1,8 +1,9 @@
-import { EntityRepository, Repository } from 'typeorm';
-import { ScrapperModel } from '../models/Scrapper.model';
-import { BaseQueryVariables } from '@scrapper-gate/shared/schema';
 import { applyQueryVariables } from '@scrapper-gate/backend/db-utils';
 import { ScrapperNotFoundError } from '@scrapper-gate/shared/errors';
+import { completedRunStates } from '@scrapper-gate/shared/run-states';
+import { BaseQueryVariables, RunState } from '@scrapper-gate/shared/schema';
+import { Brackets, EntityRepository, Repository } from 'typeorm';
+import { ScrapperModel } from '../models/Scrapper.model';
 
 export interface GetScrappersByUserParams extends BaseQueryVariables {
   userId: string;
@@ -23,6 +24,25 @@ export class ScrapperRepository extends Repository<ScrapperModel> {
       .leftJoin('scrapper.createdBy', 'createdBy')
       .where('createdBy.id = :userId', { userId })
       .getManyAndCount();
+  }
+
+  async getOneForRun(scrapperId: string) {
+    const queryBuilder = this.createQueryBuilder('scrapper');
+
+    return queryBuilder
+      .leftJoinAndSelect('scrapper.createdBy', 'createdBy')
+      .leftJoinAndSelect('scrapper.steps', 'steps')
+      .where('scrapper.id = :scrapperId', { scrapperId })
+      .andWhere(
+        new Brackets((clause) =>
+          clause
+            .where('scrapper.state IS NULL')
+            .orWhere('scrapper.state IN (:...states)', {
+              states: [...completedRunStates, RunState.Pending],
+            })
+        )
+      )
+      .getOneOrFail();
   }
 
   async findOneByUser(scrapperId: string, userId: string) {

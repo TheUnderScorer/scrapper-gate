@@ -16,11 +16,16 @@ import React, {
   useImperativeHandle,
   useRef,
   useState,
+  FocusEvent,
+  useCallback,
 } from 'react';
 import { useMount, usePrevious } from 'react-use';
 import { Key } from 'ts-key-enum';
 import { TextFieldBlockProvider } from './TextFieldBlock.provider';
 import { TextFieldBlockProps } from './TextFieldBlock.types';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import EditorBidiService from 'draft-js/lib/EditorBidiService';
 
 const useStyles = makeStyles((theme) => ({
   input: {
@@ -96,9 +101,7 @@ const DraftField = forwardRef<
       }}
       ariaMultiline={false}
       editorState={state}
-      onChange={(newState) => {
-        onStateChange?.(newState);
-      }}
+      onChange={onStateChange}
     />
   );
 });
@@ -116,6 +119,8 @@ export const TextFieldBlock = forwardRef<HTMLInputElement, TextFieldBlockProps>(
       ...restProps
     } = props;
 
+    const [didInternalChange, setDidInternalChange] = useState(false);
+
     const classes = useStyles({
       InputProps: props.InputProps,
       variant: props.variant ?? 'outlined',
@@ -123,52 +128,76 @@ export const TextFieldBlock = forwardRef<HTMLInputElement, TextFieldBlockProps>(
     const editorRef = useRef<HTMLElement>();
     const [focused, setIsFocused] = useState(false);
 
-    const [state, setState] = useState(EditorState.createEmpty());
+    const [state, setState] = useState(EditorState.createEmpty(decorator));
     const prevState = usePrevious(state);
 
-    useEffect(() => {
-      const plainText = state.getCurrentContent().getPlainText();
-      const prevText = prevState?.getCurrentContent().getPlainText();
+    const handleFocus = useCallback(
+      (event: FocusEvent<HTMLInputElement>) => {
+        setIsFocused(true);
 
-      if (plainText !== prevText) {
-        onChange?.(plainText);
+        onFocus?.(event);
+      },
+      [onFocus]
+    );
+
+    const handleBlur = useCallback(
+      (event: FocusEvent<HTMLInputElement>) => {
+        setIsFocused(false);
+
+        onBlur?.(event);
+      },
+      [onBlur]
+    );
+
+    useEffect(() => {
+      if (didInternalChange) {
+        return;
       }
-    }, [state, onChange, prevState]);
 
-    useMount(() => {
-      setState(
-        EditorState.set(state, {
-          decorator,
-        })
-      );
-    });
-
-    useEffect(() => {
       const parsedValue = getDisplayValue({
         value,
         dateFormat,
       });
 
-      // TODO Investigate this loop
-      if (value === prevState?.getCurrentContent().getPlainText()) {
+      const prevValue = prevState?.getCurrentContent().getPlainText();
+
+      if (value === prevValue || parsedValue === prevValue) {
         return;
       }
 
-      const state = EditorState.createWithContent(
-        ContentState.createFromText(parsedValue?.toString() ?? '')
-      );
+      setState((previous) => {
+        const contentState = ContentState.createFromText(
+          parsedValue?.toString() ?? ''
+        );
 
-      setState(
-        EditorState.set(state, {
-          decorator,
-        })
-      );
-    }, [value, decorator, dateFormat, prevState]);
+        return EditorState.set(previous, {
+          currentContent: contentState,
+          directionMap: EditorBidiService.getDirectionMap(
+            contentState,
+            previous.getDirectionMap()
+          ),
+        });
+      });
+    }, [value, decorator, dateFormat, prevState, didInternalChange]);
+
+    const handleStateChange = useCallback(
+      (newState: EditorState) => {
+        const plainText = newState.getCurrentContent().getPlainText();
+
+        setDidInternalChange(true);
+
+        onChange?.(plainText);
+        setState(newState);
+
+        setTimeout(() => setDidInternalChange(false), 100);
+      },
+      [onChange]
+    );
 
     return (
       <TextFieldBlockProvider
         editorState={state}
-        setEditorState={setState}
+        setEditorState={handleStateChange}
         focused={focused}
       >
         <TextField
@@ -176,21 +205,13 @@ export const TextFieldBlock = forwardRef<HTMLInputElement, TextFieldBlockProps>(
           ref={ref}
           className={classNames(classes.textField, restProps.className)}
           variant={restProps.variant}
-          onFocus={(event) => {
-            setIsFocused(true);
-
-            onFocus?.(event);
-          }}
-          onBlur={(event) => {
-            setIsFocused(false);
-
-            onBlur?.(event);
-          }}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
           error={error}
           InputProps={{
             ...restProps.InputProps,
             inputProps: {
-              onStateChange: setState,
+              onStateChange: handleStateChange,
               state,
               editorRef,
               component: Editor,

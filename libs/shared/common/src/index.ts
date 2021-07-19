@@ -29,3 +29,4 @@ export * from './getDisplayValue';
 export * from './serializeValue';
 export * from './date/tryDateCast';
 export * from './excludesFalsy';
+export * from './array/ensureIdsOrder';

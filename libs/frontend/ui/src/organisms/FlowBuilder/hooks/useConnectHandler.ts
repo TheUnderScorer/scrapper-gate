@@ -61,6 +61,7 @@ export const useConnectHandler = () => {
 
       return edge;
     },
+    // TODO Figure out why this deps cause re-render
     [getItems, nodeTypes, onConnect, setItems, theme.palette.primary.dark]
   );
 };

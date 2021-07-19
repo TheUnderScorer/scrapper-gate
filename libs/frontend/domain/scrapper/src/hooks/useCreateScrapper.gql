@@ -1,4 +1,4 @@
-mutation CreateScrapper($input: CreateScrapperInput) {
+mutation CreateScrapper($input: CreateScrapperInput!) {
   createScrapper(input: $input) {
     id
     name

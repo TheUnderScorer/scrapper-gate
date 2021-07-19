@@ -1,4 +1,6 @@
+import { IconButton } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { PlayArrow } from '@material-ui/icons';
 import { useIsUsingElementPicker } from '@scrapper-gate/frontend/common';
 import {
   VariablesProvider,
@@ -10,7 +12,7 @@ import {
   mergeValidators,
   useDebouncedValidator,
 } from '@scrapper-gate/frontend/form';
-import { logger } from '@scrapper-gate/frontend/logger';
+import { logger } from '@scrapper-gate/shared/logger/console';
 import { useUpdateScrapperMutation } from '@scrapper-gate/frontend/schema';
 import {
   useSnackbarOnError,
@@ -30,6 +32,7 @@ import React, { useCallback, useMemo } from 'react';
 import { Form } from 'react-final-form';
 import { Node } from 'react-flow-renderer';
 import { v4 as uuid } from 'uuid';
+import { useRunScraperDialog } from '../RunScrapperDialog/useRunScraperDialog';
 import { ScrapperBuilderNodeContent } from './NodeContent/ScrapperBuilderNodeContent';
 import { nodesToScrapperSteps } from './nodesToScrapperSteps';
 import {
@@ -50,12 +53,11 @@ const initialNodes = [
 
 const handleConnect = flowBuilderUtils.basicHandleConnect();
 const handleNodeRemoval = flowBuilderUtils.basicHandleRemoveNode();
-const ensureCorrectSourcesCount = flowBuilderValidation.makeEnsureCorrectSourcesCount(
-  {
+const ensureCorrectSourcesCount =
+  flowBuilderValidation.makeEnsureCorrectSourcesCount({
     allowedCount: 1,
     onConnect: handleConnect,
-  }
-);
+  });
 
 const selection = createScrapperNodeSelection();
 
@@ -87,7 +89,7 @@ export const ScrapperBuilder = ({
   const snackbarOnError = useSnackbarOnError();
   const snackbarOnSuccess = useSnackbarOnSuccess();
 
-  const [updateScrapper] = useUpdateScrapperMutation();
+  const [updateScrapper, { data }] = useUpdateScrapperMutation();
 
   const [isUsingElementPicker] = useIsUsingElementPicker();
 
@@ -150,7 +152,6 @@ export const ScrapperBuilder = ({
   const validate = useMemo(
     () =>
       mergeValidators<ScrapperBuilderFormState>(
-        flowBuilderValidation.ensureAllNodesAreConnected,
         (value) =>
           joiValidationResolver(ScrapperBuilderDto, {
             allowUnknown: true,
@@ -159,7 +160,8 @@ export const ScrapperBuilder = ({
               steps: value.items.map((item) => item.data),
               variables: value.variables,
             },
-          })(value)
+          })(value),
+        flowBuilderValidation.ensureAllNodesAreConnected
       ),
     []
   );
@@ -209,6 +211,15 @@ export const ScrapperBuilder = ({
     [initialScrapper]
   );
 
+  const nodesCreator = useMemo(
+    () => scrapperStepsToNodes(initialScrapper?.steps ?? [], selection),
+    [initialScrapper]
+  );
+
+  const runScrapperDialog = useRunScraperDialog({
+    scrapper: initialScrapper ?? data?.updateScrapper,
+  });
+
   return (
     <Form
       validate={debouncedValidate}
@@ -229,6 +240,11 @@ export const ScrapperBuilder = ({
               onConnect={handleConnect}
               loading={loading}
               nodesSelection={selection}
+              additionalActions={
+                <IconButton onClick={() => runScrapperDialog()}>
+                  <PlayArrow />
+                </IconButton>
+              }
               title={
                 <FormEditableText
                   variant="standard"
@@ -250,10 +266,7 @@ export const ScrapperBuilder = ({
                   }}
                 />
               }
-              nodesCreator={scrapperStepsToNodes(
-                initialScrapper?.steps ?? [],
-                selection
-              )}
+              nodesCreator={nodesCreator}
               {...rest}
             />
           </form>

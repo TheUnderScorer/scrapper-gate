@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { asValueObject } from '@scrapper-gate/backend/awilix';
 import { RepositoriesProvider } from '@scrapper-gate/backend/database';
+import { MessageQueue } from '@scrapper-gate/backend/message-queue';
 import { Logger } from '@scrapper-gate/shared/logger';
 import { asValue, AwilixContainer } from 'awilix';
 import { Typed } from 'emittery';
 import { CqrsResult } from 'functional-cqrs';
-
 import { Connection } from 'typeorm';
 import { UnitOfWorkCallback } from './types';
 
@@ -16,6 +16,7 @@ export interface UnitOfWorkDependencies {
   container: AwilixContainer;
   logger: Logger;
   repositoriesProvider: RepositoriesProvider;
+  messageQueue: MessageQueue;
 }
 
 export class UnitOfWork<
@@ -27,6 +28,9 @@ export class UnitOfWork<
       error: Error;
       service: UnitOfWork<Cqrs>;
     };
+    start: {
+      container: AwilixContainer;
+    };
   }>();
 
   constructor(private readonly dependencies: UnitOfWorkDependencies) {}
@@ -34,14 +38,12 @@ export class UnitOfWork<
   async run<ReturnType>(
     callback: UnitOfWorkCallback<ReturnType, Cqrs['buses']>
   ) {
-    const {
-      connection,
-      container,
-      logger,
-      repositoriesProvider,
-    } = this.dependencies;
+    const { connection, container, logger, repositoriesProvider } =
+      this.dependencies;
 
     const scopedContainer = container.createScope();
+
+    const messageQueue = scopedContainer.resolve<MessageQueue>('messageQueue');
 
     try {
       const result = await connection.transaction(async (t) => {
@@ -57,6 +59,10 @@ export class UnitOfWork<
           queriesBus: asValue(queriesBus),
         });
 
+        await this.events.emit('start', {
+          container: scopedContainer,
+        });
+
         const callbackContext = {
           eventsBus,
           queriesBus,
@@ -67,11 +73,15 @@ export class UnitOfWork<
         return callback(callbackContext);
       });
 
+      await messageQueue.commit();
+
       await this.events.emit('finished', this);
 
       return result;
     } catch (e) {
-      logger.error('Unit of work failed:', e);
+      await messageQueue.flush();
+
+      logger.error('Unit of work failed:', e.message);
 
       await this.events.emit('failed', {
         error: e,

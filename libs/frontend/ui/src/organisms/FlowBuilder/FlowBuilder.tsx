@@ -97,7 +97,13 @@ export const FlowBuilder = <
 ) => {
   const classes = useStyles();
 
-  const { tabs, mainTabLabel, nodesSelection, ...rest } = props;
+  const {
+    tabs,
+    mainTabLabel,
+    nodesSelection,
+    nodeTypes: propsNodeTypes,
+    ...rest
+  } = props;
 
   const [activeTab, setActiveTab] = useState(mainTab);
 
@@ -109,6 +115,14 @@ export const FlowBuilder = <
     return tabs.find((tab) => tab.value === activeTab)?.content;
   }, [activeTab, tabs]);
 
+  const allNodeTypes = useMemo(
+    () => ({
+      ...(propsNodeTypes ?? defaultNodeTypes),
+      ...nodeTypes,
+    }),
+    [propsNodeTypes]
+  );
+
   return (
     <ReactFlowProvider>
       <DndProvider backend={HTML5Backend}>
@@ -117,11 +131,7 @@ export const FlowBuilder = <
             {...rest}
             activeTab={activeTab}
             nodeTypes={
-              {
-                ...(rest.nodeTypes ?? defaultNodeTypes),
-                ...(nodeTypes ?? []),
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              } as any
+              allNodeTypes as unknown as Record<string, NodeMetadata<T>>
             }
           >
             <FlowBuilderInstanceProvider>

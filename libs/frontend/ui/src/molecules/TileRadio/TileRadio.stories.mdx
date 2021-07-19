@@ -1,6 +1,7 @@
 import { Canvas, Meta, Props, Story } from '@storybook/addon-docs/blocks';
 import { TileRadio } from './TileRadio';
-import { PetsSharp } from '@material-ui/icons';
+import { PetsSharp, Money, VerifiedUser } from '@material-ui/icons';
+import { Stack } from '@material-ui/core';
 
 <Meta title="UI/TileRadio" component={TileRadio} />
 
@@ -15,6 +16,25 @@ import { PetsSharp } from '@material-ui/icons';
 <Canvas>
   <Story name="Tile Radio">
     <TileRadio title="Tile radio" />
+  </Story>
+  <Story name="With description">
+    <Stack direction="row" spacing={2}>
+      <TileRadio
+        icon={<VerifiedUser />}
+        height={300}
+        width={200}
+        title="Basic"
+        description="Lorem ipsum dolor sit amet du"
+      />
+      <TileRadio
+        height={300}
+        icon={<Money />}
+        width={200}
+        title="Premium"
+        checked
+        description="Lorem ipsum dolor sit amet du"
+      />
+    </Stack>
   </Story>
   <Story name="Checked">
     <TileRadio title="Checked" checked />

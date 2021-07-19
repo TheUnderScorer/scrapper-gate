@@ -1,6 +1,17 @@
 mutation UpdateScrapper($input: ScrapperInput!) {
   updateScrapper(input: $input) {
     id
+    name
+    state
+    isRunning
+    lastRun {
+      id
+      endedAt
+    }
+    type
+    steps {
+      id
+    }
   }
 }
 

@@ -13,6 +13,7 @@ import { useContentRouteStorage } from '../../extension/contentScript/hooks/useC
 import { Route, Switch, useHistory } from 'react-router-dom';
 import Root from '../../extension/contentScript/components/Root';
 import { browserExtensionRoutes } from '@scrapper-gate/shared/routing';
+import { CreateScrapperView } from './views/CreateScrapperView';
 import { ScrapperBuilderView } from './views/ScrapperBuilderView/ScrapperBuilderView';
 
 const initialState: ContentToggleHookPayload = {
@@ -69,6 +70,9 @@ export const Content = () => {
       </Route>
       <Route path={browserExtensionRoutes.content.scrapper()}>
         <ScrapperBuilderView />
+      </Route>
+      <Route path={browserExtensionRoutes.content.createScrapper}>
+        <CreateScrapperView />
       </Route>
     </Switch>
   );

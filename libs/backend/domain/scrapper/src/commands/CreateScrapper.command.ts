@@ -3,7 +3,7 @@ import { CreateScrapperInput } from '@scrapper-gate/shared/schema';
 import { UserModel } from '@scrapper-gate/backend/domain/user';
 
 export interface CreateScrapperPayload {
-  input?: CreateScrapperInput;
+  input: CreateScrapperInput;
   user: UserModel;
 }
 

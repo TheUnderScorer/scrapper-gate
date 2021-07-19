@@ -13,8 +13,12 @@ import { ScrapperRunStepResultModel } from './ScrapperRunStepResult.model';
 @Entity(Entities.ScrapperRun)
 export class ScrapperRunModel
   extends BaseModel<ScrapperRun>
-  implements ScrapperRun {
-  @Column()
+  implements ScrapperRun
+{
+  @Column({
+    type: 'enum',
+    enum: RunState,
+  })
   state: RunState;
 
   @Column({

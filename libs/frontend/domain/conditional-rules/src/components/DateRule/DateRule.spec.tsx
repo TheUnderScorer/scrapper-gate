@@ -3,6 +3,7 @@ import { Box } from '@material-ui/core';
 import { LocalizationProvider } from '@material-ui/lab';
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
 import { VariablesProvider } from '@scrapper-gate/frontend/domain/variables';
+import '@scrapper-gate/frontend/theme';
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
 import { DateFormat, wait } from '@scrapper-gate/shared/common';
 import {

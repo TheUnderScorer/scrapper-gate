@@ -5,7 +5,7 @@ import {
   Message,
   MessageTypes,
 } from './extension/browser/communication/messageResult.types';
-import { logger } from '@scrapper-gate/frontend/logger';
+import { logger } from '@scrapper-gate/shared/logger/console';
 import { cleanupStoresForTab } from './extension/background/cleanupStoresForTab';
 import { cleanupOnInit } from './extension/background/cleanupOnInit';
 
@@ -36,10 +36,8 @@ browser.runtime.onInstalled.addListener(() => {
 });
 
 browser.tabs.onRemoved.addListener(async (tabId) => {
-  const {
-    contentRoutes = {},
-    activeOverlays = [],
-  } = await browser.storage.local.get(['contentRoutes', 'activeOverlays']);
+  const { contentRoutes = {}, activeOverlays = [] } =
+    await browser.storage.local.get(['contentRoutes', 'activeOverlays']);
 
   await cleanupStoresForTab({
     tabId,

@@ -1,7 +1,9 @@
 import {
   CreateScrapperCommand,
   GetScrapperByUserQuery,
+  GetScrapperLastRunQuery,
   GetScrappersByUserQuery,
+  SendScrapperToRunnerQueueCommand,
   UpdateScrapperCommand,
 } from '@scrapper-gate/backend/domain/scrapper';
 import { Resolvers } from '@scrapper-gate/shared/schema';
@@ -47,8 +49,25 @@ export const scrapperResolver = (): Resolvers<ServerContext> => ({
           })
         )
       ),
+    sendScrapperToRunnerQueue: (_, args, ctx) =>
+      ctx.unitOfWork.run(({ commandsBus }) =>
+        commandsBus.execute(
+          new SendScrapperToRunnerQueueCommand({
+            userId: ctx.user!.id,
+            input: args.input,
+          })
+        )
+      ),
   },
   Scrapper: {
-    name: (root) => root.name ?? 'Unnamed scrapper',
+    name: (root) => root.name || 'Unnamed scrapper',
+    lastRun: async (root, _, { unitOfWork }) =>
+      unitOfWork.run(({ queriesBus }) =>
+        queriesBus.query(
+          new GetScrapperLastRunQuery({
+            scrapperId: root.id,
+          })
+        )
+      ),
   },
 });

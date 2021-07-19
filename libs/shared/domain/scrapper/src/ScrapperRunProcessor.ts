@@ -20,11 +20,12 @@ import { Typed } from 'emittery';
 import { createScrapperRunVariables } from './createScrapperRunVariables';
 import {
   ConditionalRunScrapperStepResult,
+  InitialiseScrapperRunnerParams,
   RunScrapperStepResult,
   ScrapperRunner,
 } from './types';
 
-export interface ProcessParams {
+export interface ProcessParams extends InitialiseScrapperRunnerParams {
   scrapperRun: ScrapperRun;
   scrapper: Scrapper;
 }
@@ -33,22 +34,22 @@ export class ScrapperRunProcessor implements Disposable {
   constructor(private readonly runner: ScrapperRunner) {}
 
   readonly events = new Typed<{
-    onScrapperRunChange: ScrapperRun;
-    onStepFinish: RunScrapperStepResult;
-    onError: {
+    scrapperRunChanged: ScrapperRun;
+    stepFinished: RunScrapperStepResult;
+    error: {
       error: Error;
       step: ScrapperStep;
     };
   }>();
 
-  async process({ scrapperRun, scrapper }: ProcessParams) {
+  async process({ scrapperRun, scrapper, ...rest }: ProcessParams) {
     if (!scrapperRun.steps?.length) {
       return {
         scrapperRun,
       };
     }
 
-    await this.runner.initialize?.();
+    await this.runner.initialize?.(rest);
 
     scrapperRun.state = RunState.InProgress;
     scrapperRun.startedAt = new Date();
@@ -57,7 +58,7 @@ export class ScrapperRunProcessor implements Disposable {
       scrapperRun.results = [];
     }
 
-    await this.events.emit('onScrapperRunChange', scrapperRun);
+    await this.events.emit('scrapperRunChanged', scrapperRun);
 
     let step = findFirstNode(scrapperRun.steps);
 
@@ -68,10 +69,8 @@ export class ScrapperRunProcessor implements Disposable {
         step = nextStep!;
       }
     } catch (error) {
-      const {
-        error: errorObject,
-        stepResult,
-      } = ScrapperRunProcessor.createStepResultFromError(error, step!);
+      const { error: errorObject, stepResult } =
+        ScrapperRunProcessor.createStepResultFromError(error, step!);
 
       scrapperRun.results.push(stepResult);
       scrapperRun.error = {
@@ -79,7 +78,7 @@ export class ScrapperRunProcessor implements Disposable {
         stepId: step!.id,
       };
 
-      await this.events.emit('onError', {
+      await this.events.emit('error', {
         step: step!,
         error,
       });
@@ -88,7 +87,7 @@ export class ScrapperRunProcessor implements Disposable {
     scrapperRun.endedAt = new Date();
     scrapperRun.state = RunState.Completed;
 
-    await this.events.emit('onScrapperRunChange', scrapperRun);
+    await this.events.emit('scrapperRunChanged', scrapperRun);
 
     return {
       scrapperRun,
@@ -117,8 +116,8 @@ export class ScrapperRunProcessor implements Disposable {
     );
 
     await Promise.all([
-      this.events.emit('onStepFinish', runResult),
-      this.events.emit('onScrapperRunChange', scrapperRun),
+      this.events.emit('stepFinished', runResult),
+      this.events.emit('scrapperRunChanged', scrapperRun),
     ]);
 
     let nextStepId: Maybe<string> = null;

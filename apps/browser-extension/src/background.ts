@@ -1,4 +1,4 @@
-import { logger } from '@scrapper-gate/frontend/logger';
+import { logger } from '@scrapper-gate/shared/logger/console';
 
 declare function importScripts(path: string): void;
 

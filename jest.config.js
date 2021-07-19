@@ -28,7 +28,6 @@ module.exports = {
     '<rootDir>/libs/shared/run-states',
     '<rootDir>/libs/backend/db-utils',
     '<rootDir>/libs/frontend/domain/user',
-    '<rootDir>/libs/frontend/logger',
     '<rootDir>/libs/shared/domain/scrapper',
     '<rootDir>/libs/frontend/keyboard-shortcuts',
     '<rootDir>/libs/frontend/html-picker',
@@ -44,5 +43,10 @@ module.exports = {
     '<rootDir>/libs/backend/crud',
     '<rootDir>/libs/frontend/domain/variables',
     '<rootDir>/libs/frontend/data-grid',
+    '<rootDir>/libs/backend/message-queue',
+    '<rootDir>/libs/backend/aws',
+    '<rootDir>/libs/backend/domain/message-queue-service',
+    '<rootDir>/apps/lambdas',
+    '<rootDir>/libs/backend/domain/scrapper/data-loaders',
   ],
 };

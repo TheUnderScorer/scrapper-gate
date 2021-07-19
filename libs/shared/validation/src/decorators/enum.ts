@@ -1,7 +1,10 @@
 import * as jf from 'joiful';
 
+export const enumValue = (obj: Record<string, string | number>) =>
+  jf.string().valid(Object.values(obj));
+
 export const optionalEnum = (obj: Record<string, string | number>) =>
-  jf.string().valid(Object.values(obj)).optional();
+  enumValue(obj).optional();
 
 export const requiredEnum = (obj: Record<string, string | number>) =>
-  jf.string().valid(Object.values(obj)).required();
+  enumValue(obj).required();

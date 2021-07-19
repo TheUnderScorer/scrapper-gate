@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
+import { wait } from '@scrapper-gate/shared/common';
 import {
   createVariable,
   generateVariableKeyTemplate,
@@ -73,7 +74,7 @@ describe('<VariablesTextField />', () => {
     ).toBeInTheDocument();
   });
 
-  it('should add suggestion to value after clicking it', () => {
+  it('should add suggestion to value after clicking it', async () => {
     const onChange = jest.fn();
     const cmp = renderCmp('{{Myvar', onChange);
     const input = cmp.container.querySelector<HTMLDivElement>(
@@ -88,11 +89,13 @@ describe('<VariablesTextField />', () => {
 
     expect(listItems).toHaveLength(1);
 
-    act(() => {
+    await act(async () => {
       userEvent.click(listItems[0]);
+
+      await wait(500);
     });
 
-    const call = onChange.mock.calls[4][0];
+    const call = onChange.mock.calls[2][0];
 
     expect(call.values.variable).toEqual('{{Myvariable}}');
   });

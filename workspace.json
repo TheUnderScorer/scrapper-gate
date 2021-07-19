@@ -93,6 +93,27 @@
         }
       }
     },
+    "backend-aws": {
+      "root": "libs/backend/aws",
+      "sourceRoot": "libs/backend/aws/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/backend/aws/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/backend/aws"],
+          "options": {
+            "jestConfig": "libs/backend/aws/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "backend-base-model": {
       "root": "libs/backend/base-model",
       "sourceRoot": "libs/backend/base-model/src",
@@ -219,6 +240,29 @@
         }
       }
     },
+    "backend-domain-message-queue-service": {
+      "root": "libs/backend/domain/message-queue-service",
+      "sourceRoot": "libs/backend/domain/message-queue-service/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/backend/domain/message-queue-service/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/backend/domain/message-queue-service"],
+          "options": {
+            "jestConfig": "libs/backend/domain/message-queue-service/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "backend-domain-scrapper": {
       "root": "libs/backend/domain/scrapper",
       "sourceRoot": "libs/backend/domain/scrapper/src",
@@ -235,6 +279,29 @@
           "outputs": ["coverage/libs/backend/domain/scrapper"],
           "options": {
             "jestConfig": "libs/backend/domain/scrapper/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "backend-domain-scrapper-data-loaders": {
+      "root": "libs/backend/domain/scrapper/data-loaders",
+      "sourceRoot": "libs/backend/domain/scrapper/data-loaders/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/backend/domain/scrapper/data-loaders/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/backend/domain/scrapper/data-loaders"],
+          "options": {
+            "jestConfig": "libs/backend/domain/scrapper/data-loaders/jest.config.js",
             "passWithNoTests": true
           }
         }
@@ -302,6 +369,27 @@
           "outputs": ["coverage/libs/backend/domain/variables"],
           "options": {
             "jestConfig": "libs/backend/domain/variables/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "backend-message-queue": {
+      "root": "libs/backend/message-queue",
+      "sourceRoot": "libs/backend/message-queue/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/backend/message-queue/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/backend/message-queue"],
+          "options": {
+            "jestConfig": "libs/backend/message-queue/jest.config.js",
             "passWithNoTests": true
           }
         }
@@ -680,6 +768,37 @@
             "jestConfig": "libs/frontend/domain/scrapper/jest.config.js",
             "passWithNoTests": true
           }
+        },
+        "storybook": {
+          "executor": "@nrwl/storybook:storybook",
+          "options": {
+            "uiFramework": "@storybook/react",
+            "port": 4400,
+            "config": {
+              "configFolder": "libs/frontend/domain/scrapper/.storybook"
+            }
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        },
+        "build-storybook": {
+          "executor": "@nrwl/storybook:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "uiFramework": "@storybook/react",
+            "outputPath": "dist/storybook/frontend-domain-scrapper",
+            "config": {
+              "configFolder": "libs/frontend/domain/scrapper/.storybook"
+            }
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
         }
       }
     },
@@ -825,27 +944,6 @@
         }
       }
     },
-    "frontend-logger": {
-      "root": "libs/frontend/logger",
-      "sourceRoot": "libs/frontend/logger/src",
-      "projectType": "library",
-      "targets": {
-        "lint": {
-          "executor": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/frontend/logger/**/*.ts"]
-          }
-        },
-        "test": {
-          "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/frontend/logger"],
-          "options": {
-            "jestConfig": "libs/frontend/logger/jest.config.js",
-            "passWithNoTests": true
-          }
-        }
-      }
-    },
     "frontend-schema": {
       "root": "libs/frontend/schema",
       "sourceRoot": "libs/frontend/schema/src",
@@ -957,6 +1055,57 @@
             "ci": {
               "quiet": true
             }
+          }
+        }
+      }
+    },
+    "lambdas": {
+      "root": "apps/lambdas",
+      "sourceRoot": "apps/lambdas/src",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/node:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/lambdas",
+            "main": "apps/lambdas/src/main.ts",
+            "tsConfig": "apps/lambdas/tsconfig.app.json",
+            "assets": ["apps/lambdas/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/lambdas/src/environments/environment.ts",
+                  "with": "apps/lambdas/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "parallel": false,
+            "command": "serverless offline --stage local --lambdaPort 3003"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/lambdas/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/lambdas"],
+          "options": {
+            "jestConfig": "apps/lambdas/jest.config.js",
+            "passWithNoTests": true
           }
         }
       }
@@ -1145,6 +1294,27 @@
           "outputs": ["coverage/libs/shared/logger"],
           "options": {
             "jestConfig": "libs/shared/logger/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "shared-logger-console": {
+      "root": "libs/shared/logger/console",
+      "sourceRoot": "libs/shared/logger/console/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/shared/logger/console/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shared/logger/console"],
+          "options": {
+            "jestConfig": "libs/shared/logger/console/jest.config.js",
             "passWithNoTests": true
           }
         }

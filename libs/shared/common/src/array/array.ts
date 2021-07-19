@@ -2,7 +2,7 @@ export const castAsArray = <T>(item: T | T[]): T[] => {
   return Array.isArray(item) ? item : [item];
 };
 
-export const getLastIndex = (arr: unknown[]): number => arr.length - 1;
+export const getLastIndex = (arr: ArrayLike<unknown>): number => arr.length - 1;
 
 export const isLast = (index: number, arr: unknown[]) =>
   getLastIndex(arr) === index;
@@ -21,3 +21,5 @@ export const removeAtIndex = <T>(array: T[], index: number, count = 1) => {
 
   return newValue;
 };
+
+export const isIndexValid = (index: number) => index > -1;

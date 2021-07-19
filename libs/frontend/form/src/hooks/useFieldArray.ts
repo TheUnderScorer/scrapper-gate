@@ -1,4 +1,4 @@
-import { logger } from '@scrapper-gate/frontend/logger';
+import { logger } from '@scrapper-gate/shared/logger/console';
 import { removeAtIndex } from '@scrapper-gate/shared/common';
 import { BaseEntity } from '@scrapper-gate/shared/schema';
 import get from 'lodash.get';

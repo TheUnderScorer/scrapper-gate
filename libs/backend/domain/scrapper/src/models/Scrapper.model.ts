@@ -2,8 +2,8 @@ import { BaseModel } from '@scrapper-gate/backend/base-model';
 import { UserModel } from '@scrapper-gate/backend/domain/user';
 import { VariableModel } from '@scrapper-gate/backend/domain/variables';
 import { Entities } from '@scrapper-gate/shared/common';
-import { runStates } from '@scrapper-gate/shared/run-states';
-import { RunState, Scrapper } from '@scrapper-gate/shared/schema';
+import { isRunning } from '@scrapper-gate/shared/run-states';
+import { RunState, Scrapper, ScrapperType } from '@scrapper-gate/shared/schema';
 import {
   Column,
   Entity,
@@ -19,7 +19,8 @@ import { ScrapperStepModel } from './ScrapperStep.model';
 @Entity(Entities.Scrapper)
 export class ScrapperModel
   extends BaseModel<ScrapperModel>
-  implements Scrapper {
+  implements Scrapper
+{
   @ManyToOne(() => UserModel)
   @JoinColumn()
   createdBy: UserModel;
@@ -31,6 +32,8 @@ export class ScrapperModel
 
   @Column({
     nullable: true,
+    type: 'enum',
+    enum: RunState,
   })
   state?: RunState;
 
@@ -50,7 +53,13 @@ export class ScrapperModel
   @JoinTable()
   variables: VariableModel[];
 
+  @Column({
+    type: 'enum',
+    enum: ScrapperType,
+  })
+  type: ScrapperType;
+
   get isRunning() {
-    return this.state && runStates.includes(this.state);
+    return isRunning(this.state);
   }
 }

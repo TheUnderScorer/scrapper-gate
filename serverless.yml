@@ -1,0 +1,44 @@
+org: theunderscorer
+app: scrapper-gate
+service: scrapper-gate-lambdas
+
+frameworkVersion: '2'
+
+plugins:
+  - serverless-webpack
+  - serverless-offline-sqs
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: ${opt:stage, 'local'}
+  region: eu-west-1
+
+functions:
+  scrapperRunnerChromium:
+    handler: apps/lambdas/src/functions/scrapperRunner/scrapperRunner.scrapperRunner
+    memorySize: 256
+    environment:
+      BROWSER_TYPE: Chrome
+    events:
+      - sqs:
+          arn: ${self:custom.sqs-scrapper-chromium.${self:provider.stage}}
+
+custom:
+  serverless-offline-sqs:
+    autoCreate: false
+    apiVersion: '2012-11-05'
+    endpoint: http://localhost:4566
+    region: eu-west-1
+    accessKeyId: test
+    secretAccessKey: test
+    skipCacheInvalidation: false
+  webpack:
+    webpackConfig: apps/lambdas/webpack.config.js
+  stages:
+    - local
+    - staging
+    - production
+  sqs-scrapper-chromium:
+    local: 'arn:aws:sqs:eu-west-1:000000000000:local-scrapper-chromium.fifo'

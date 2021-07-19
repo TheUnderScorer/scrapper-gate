@@ -1,0 +1,126 @@
+import 'reflect-metadata';
+import { SqsMessageQueueClient } from '@scrapper-gate/backend/aws';
+import { makeRepositoriesProviderFromDefinitions } from '@scrapper-gate/backend/database';
+import { MessageQueueService } from '@scrapper-gate/backend/domain/message-queue-service';
+import {
+  makeGetScrapperRunner,
+  RunScrapperCommand,
+} from '@scrapper-gate/backend/domain/scrapper';
+import { Message, MessageQueue } from '@scrapper-gate/backend/message-queue';
+import { UnitOfWork } from '@scrapper-gate/backend/unit-of-work';
+import { ScrapperRunnerMessagePayload } from '@scrapper-gate/shared/domain/scrapper';
+import { Logger } from '@scrapper-gate/shared/logger';
+import { logger } from '@scrapper-gate/shared/logger/console';
+import { BrowserType } from '@scrapper-gate/shared/schema';
+import { ScrapperRunnerMessageDto } from '@scrapper-gate/shared/validation';
+import {
+  asClass,
+  asFunction,
+  asValue,
+  AwilixContainer,
+  createContainer,
+} from 'awilix';
+import type { SQSEvent } from 'aws-lambda';
+import awsChromeLambda from 'chrome-aws-lambda';
+import pLimit from 'p-limit';
+import { Browser, chromium } from 'playwright-core';
+
+import { Connection, createConnection } from 'typeorm';
+import { v4 } from 'uuid';
+import { registerScrapperRunnerCqrs, ScrapperRunnerCqrs } from './cqrs';
+import { entityDefinitions } from './entityDefinitions';
+
+let container: AwilixContainer;
+
+export const scrapperRunner = async (event: SQSEvent) => {
+  const limit = pLimit(5);
+
+  await bootstrap();
+
+  const unitOfWork =
+    container.resolve<UnitOfWork<ScrapperRunnerCqrs>>('unitOfWork');
+  const logger = container.resolve<Logger>('logger');
+
+  logger.info(`Received event: ${JSON.stringify(event)}`);
+
+  try {
+    await Promise.all(
+      event.Records.map((record) =>
+        limit(async () => {
+          const body = JSON.parse(
+            record.body
+          ) as Message<ScrapperRunnerMessagePayload>;
+          const message = ScrapperRunnerMessageDto.validate(body.payload);
+
+          await unitOfWork.run((ctx) => {
+            // Maintain traceId
+            ctx.container.register({
+              traceId: asValue(body.traceId),
+            });
+
+            return ctx.commandsBus.execute(new RunScrapperCommand(message));
+          });
+        })
+      )
+    );
+  } finally {
+    await cleanup();
+  }
+};
+
+const cleanup = async () => {
+  if (!container) {
+    return;
+  }
+
+  const browser = container.resolve<Browser>('browser');
+  const connection = container.resolve<Connection>('connection');
+
+  await Promise.all([browser.close(), connection.close(), container.dispose()]);
+};
+
+const bootstrap = async () => {
+  if (!container) {
+    const executablePath = await awsChromeLambda.executablePath;
+    const browser = await chromium.launch({
+      headless: false,
+      executablePath: executablePath ?? undefined,
+      args: awsChromeLambda.args,
+    });
+
+    const connection = await createConnection({
+      host: process.env.DB_HOST,
+      database: process.env.DB_NAME,
+      username: process.env.DB_USER,
+      password: process.env.DB_PASSWORD,
+      entities: entityDefinitions.map((entity) => entity.model),
+      type: 'postgres',
+      synchronize: false,
+    });
+
+    await connection.query('SELECT 1+1');
+
+    container = createContainer();
+
+    container.register({
+      container: asValue(container),
+      unitOfWork: asClass(UnitOfWork).singleton(),
+      browser: asValue(browser),
+      connection: asValue(connection),
+      logger: asValue(logger),
+      browserType: asValue(BrowserType.Chrome),
+      getScrapperRunner: asFunction(makeGetScrapperRunner).scoped(),
+      messageQueue: asClass(MessageQueue).scoped(),
+      messageQueueClient: asClass(SqsMessageQueueClient).singleton(),
+      traceId: asFunction(() => v4()),
+      messageQueueService: asClass(MessageQueueService),
+      repositoriesProvider: asValue(
+        makeRepositoriesProviderFromDefinitions(entityDefinitions)
+      ),
+    });
+
+    registerScrapperRunnerCqrs(container);
+  }
+
+  return container;
+};

@@ -1,6 +1,7 @@
 import { Global, ThemeProvider as EmotionThemeProvider } from '@emotion/react';
 import { CssBaseline } from '@material-ui/core';
 import { createTheme } from '@material-ui/core/styles';
+import { SimplePaletteColorOptions } from '@material-ui/core/styles/createPalette';
 import { ThemeProvider as MuiThemeProvider } from '@material-ui/styles';
 import { useContainerStore } from '@scrapper-gate/frontend/common';
 import React, { PropsWithChildren, useMemo, KeyboardEvent } from 'react';
@@ -53,7 +54,8 @@ export const ThemeProvider = ({
             styleOverrides: {
               containedPrimary: {
                 background: palette.gradients.primaryMainToDark,
-                color: palette.text?.primary,
+                color: (palette.primary as SimplePaletteColorOptions)
+                  .contrastText,
               },
             },
           },
@@ -96,6 +98,8 @@ export const ThemeProvider = ({
             defaultProps: {
               container,
               disableEnforceFocus: isContent,
+              disableAutoFocus: isContent,
+              disableRestoreFocus: isContent,
               BackdropProps: {
                 style: {
                   pointerEvents: 'all',

@@ -36,3 +36,8 @@ export const PrimaryIconButton = styled(Fab)(({ theme }) => ({
   },
 }));
 //PrimaryIconButton.defaultProps = defaultProps;
+
+export const CancelButton = Button as ComponentType<ButtonProps>;
+CancelButton.defaultProps = {
+  variant: 'outlined',
+};

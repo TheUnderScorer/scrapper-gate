@@ -1,47 +1,39 @@
-import React, { useMemo, useState } from 'react';
-import { pick } from 'remeda';
-import { Button, ButtonGroup, Stack } from '@material-ui/core';
-import { DialogProperties, useDialogStore } from './useDialogStore';
-import { SimpleDialog } from '@scrapper-gate/frontend/ui';
+import { isIndexValid, last, throwError } from '@scrapper-gate/shared/common';
+import React, { PropsWithChildren, useMemo } from 'react';
+import { useList } from 'react-use';
+import { createContext, useContext } from 'use-context-selector';
+import { DialogProperties, DialogContext } from './types';
 
-export const DialogController = () => {
-  const [loading, setLoading] = useState(false);
+const Context = createContext<DialogContext>({
+  pull: throwError(),
+  push: throwError(),
+});
 
-  const {
-    content,
-    footerButtons,
-    open,
-    title,
-    titleIcon,
-  } = useDialogStore((store) =>
-    pick(store, ['title', 'titleIcon', 'content', 'footerButtons', 'open'])
-  ) as DialogProperties;
-  const hideDialog = useDialogStore((store) => store.hideDialog);
+export const useDialog = () => useContext(Context);
 
-  const buttons = useMemo(() => {
-    return footerButtons?.({ handleClose: hideDialog, setLoading }).map(
-      (button, index) => (
-        <Button key={index} {...button}>
-          {button.children}
-        </Button>
-      )
-    );
-  }, [footerButtons, hideDialog]);
+export const DialogController = ({ children }: PropsWithChildren<unknown>) => {
+  const [dialogs, { push, removeAt }] = useList<DialogProperties>();
+
+  const activeDialog = useMemo(() => last(dialogs), [dialogs]);
+
+  const value = useMemo<DialogContext>(
+    () => ({
+      push,
+      pull: (id) => {
+        const index = dialogs.findIndex((item) => item.id === id);
+
+        if (isIndexValid(index)) {
+          removeAt(index);
+        }
+      },
+    }),
+    [push, removeAt, dialogs]
+  );
 
   return (
-    <SimpleDialog
-      title={
-        <Stack spacing={1} alignItems="center">
-          {titleIcon}
-          {title}
-        </Stack>
-      }
-      open={open}
-      onClose={hideDialog}
-      actions={<ButtonGroup>{buttons}</ButtonGroup>}
-      loading={loading}
-    >
-      {content}
-    </SimpleDialog>
+    <Context.Provider value={value}>
+      {children}
+      {activeDialog?.content}
+    </Context.Provider>
   );
 };

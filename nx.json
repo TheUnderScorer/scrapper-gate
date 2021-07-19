@@ -32,6 +32,9 @@
     "backend-awilix": {
       "tags": []
     },
+    "backend-aws": {
+      "tags": []
+    },
     "backend-base-model": {
       "tags": []
     },
@@ -50,7 +53,13 @@
     "backend-domain-auth": {
       "tags": []
     },
+    "backend-domain-message-queue-service": {
+      "tags": []
+    },
     "backend-domain-scrapper": {
+      "tags": []
+    },
+    "backend-domain-scrapper-data-loaders": {
       "tags": []
     },
     "backend-domain-scrapper-playwright-runner": {
@@ -60,6 +69,9 @@
       "tags": []
     },
     "backend-domain-variables": {
+      "tags": []
+    },
+    "backend-message-queue": {
       "tags": []
     },
     "backend-perf-hooks-utils": {
@@ -117,9 +129,6 @@
     "frontend-keyboard-shortcuts": {
       "tags": []
     },
-    "frontend-logger": {
-      "tags": []
-    },
     "frontend-schema": {
       "tags": []
     },
@@ -130,6 +139,9 @@
       "tags": []
     },
     "frontend-ui": {
+      "tags": []
+    },
+    "lambdas": {
       "tags": []
     },
     "shared-common": {
@@ -159,6 +171,9 @@
     "shared-logger": {
       "tags": []
     },
+    "shared-logger-console": {
+      "tags": []
+    },
     "shared-routing": {
       "tags": []
     },
@@ -171,5 +186,13 @@
     "shared-validation": {
       "tags": []
     }
+  },
+  "targetDependencies": {
+    "build": [
+      {
+        "target": "build",
+        "projects": "dependencies"
+      }
+    ]
   }
 }

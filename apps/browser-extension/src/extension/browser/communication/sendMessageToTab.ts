@@ -3,7 +3,7 @@ import { errorMessageResult } from './messageResult';
 import { Message, MessageResult } from './messageResult.types';
 import { getActiveTab } from '../tabsQuery/getActiveTab';
 import { browser } from 'webextension-polyfill-ts';
-import { logger } from '@scrapper-gate/frontend/logger';
+import { logger } from '@scrapper-gate/shared/logger/console';
 
 export const sendMessageToTab = async <Result>(
   tabId: number,

@@ -1,10 +1,10 @@
-import { Resolver } from 'awilix';
 import {
   CommandHandlersFactoryMap,
   CqrsConfigFactory,
   QueryHandlersFactoryMap,
   ResolvedCqrsConfig,
-} from './asCqrs.types';
+} from '@scrapper-gate/backend/cqrs';
+import { Resolver } from 'awilix';
 
 export const asCqrs = <
   CommandHandlers extends CommandHandlersFactoryMap,

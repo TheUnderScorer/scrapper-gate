@@ -1,8 +1,9 @@
-import { logger } from '@scrapper-gate/frontend/logger';
 import { wait } from '@scrapper-gate/shared/common';
 import { createMockScrapperStep } from '@scrapper-gate/shared/domain/scrapper';
+import { logger } from '@scrapper-gate/shared/logger/console';
 import {
   BrowserType,
+  MouseButton,
   RunState,
   ScrapperAction,
   ScrapperRun,
@@ -24,7 +25,9 @@ describe('PlayWright scrapper runner', () => {
   );
 
   const bootstrapRunner = async (browserType: BrowserType) => {
-    const options: LaunchOptions = {};
+    const options: LaunchOptions = {
+      headless: true,
+    };
 
     let browser: Browser;
 
@@ -164,6 +167,7 @@ describe('PlayWright scrapper runner', () => {
           clickStep.clickTimes = 1;
           clickStep.key = 'Trigger popup';
           clickStep.useUrlFromPreviousStep = false;
+          clickStep.mouseButton = MouseButton.Left;
 
           const { performance } = await runner.Click({
             scrapperRun,
@@ -206,6 +210,7 @@ describe('PlayWright scrapper runner', () => {
               useUrlFromPreviousStep: true,
               action: ScrapperAction.Click,
               key: 'Click close popup',
+              mouseButton: MouseButton.Left,
               selectors: [
                 {
                   value: '#close_popup',

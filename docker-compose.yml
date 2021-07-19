@@ -1,6 +1,17 @@
 version: '3.4'
 
 services:
+  localstack:
+    image: localstack/localstack
+    volumes:
+      - ./docker/localstack/tmp:/tmp
+    environment:
+      SERVICES: sqs,s3
+      DEFAULT_REGION: eu-west-1
+    ports:
+      - '4563-4599:4563-4599'
+      - 8055:8081
+
   app-postgres:
     image: postgres:13.2-alpine
     environment:
@@ -17,17 +28,6 @@ services:
     hostname: redis
     ports:
       - 6379:6379
-    networks:
-      - app
-
-  sqs:
-    build:
-      context: .
-      dockerfile: docker/elasticmq/Dockerfile
-    ports:
-      - 9324:9324
-    volumes:
-      - ./docker/elasticmq/elasticmq.conf:/opt/elasticmq.conf
     networks:
       - app
 

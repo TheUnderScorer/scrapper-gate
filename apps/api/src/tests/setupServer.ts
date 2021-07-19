@@ -1,9 +1,10 @@
-import { createContainer } from '../container';
+import { createContainer } from '../container/container';
 import '../typings/global';
 
 beforeEach(async () => {
   const container = await createContainer({
     dbConnection: global.connection,
+    skipMessageQueueHealthCheck: true,
   });
 
   global.server = container.resolve('server');

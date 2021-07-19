@@ -1,0 +1,23 @@
+mutation SendScrapperToQueue($input: StartScrapperInput!) {
+  sendScrapperToRunnerQueue(input: $input) {
+    id
+    name
+    state
+    lastRun {
+      id
+      endedAt
+    }
+  }
+}
+
+query GetScrapperState($id: ID!) {
+  getMyScrapper(id: $id) {
+    id
+    name
+    state
+    lastRun {
+      id
+      endedAt
+    }
+  }
+}

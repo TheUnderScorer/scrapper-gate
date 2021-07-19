@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Disposable, Maybe, prefix } from '@scrapper-gate/shared/common';
-import { logger } from '@scrapper-gate/frontend/logger';
+import { logger } from '@scrapper-gate/shared/logger/console';
 
 interface ElementPickerProps {
   container?: HTMLElement;

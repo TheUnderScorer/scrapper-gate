@@ -9,3 +9,5 @@ export * from './inputs/SelectorDto';
 export * from './inputs/scrapper/ScrapperInputDto';
 export * from './inputs/scrapper/ScrapperBuilderDto';
 export * from './common/isHtmlAttribute';
+export * from './inputs/scrapper/StartScrapperInputDto';
+export * from './inputs/scrapper/ScrapperRunnerMessageDto';

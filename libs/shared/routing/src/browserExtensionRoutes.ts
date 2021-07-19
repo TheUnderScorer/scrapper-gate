@@ -19,5 +19,6 @@ export const browserExtensionRoutes = {
     scrapper: paramRoute<ContentScrapperRouteParams>(
       '/scrapper/:scrapperId?drawerOpen=:drawerOpen'
     ),
+    createScrapper: '/create-scrapper',
   },
 };

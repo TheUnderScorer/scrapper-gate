@@ -1,6 +1,6 @@
 import { sendMessageToBackground } from './extension/browser/communication/sendMessageToBackground';
 import { MessageTypes } from './extension/browser/communication/messageResult.types';
-import { logger } from '@scrapper-gate/frontend/logger';
+import { logger } from '@scrapper-gate/shared/logger/console';
 
 let didInit = false;
 

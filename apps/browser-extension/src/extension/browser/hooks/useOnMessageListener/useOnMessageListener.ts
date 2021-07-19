@@ -6,7 +6,7 @@ import {
   MessageTypes,
 } from '../../communication/messageResult.types';
 import { browser, Runtime } from 'webextension-polyfill-ts';
-import { logger } from '@scrapper-gate/frontend/logger';
+import { logger } from '@scrapper-gate/shared/logger/console';
 
 interface OnMessageListenerHookProps<
   Type extends keyof TypesMap,

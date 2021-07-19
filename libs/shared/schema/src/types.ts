@@ -89,6 +89,7 @@ export type ConditionalRuleInput = {
 
 export type CreateScrapperInput = {
   name?: Maybe<Scalars['String']>;
+  type: ScrapperType;
 };
 
 export type CreateUserInput = {
@@ -154,11 +155,12 @@ export type Mutation = {
   forgotPassword?: Maybe<ForgotPasswordResponse>;
   login?: Maybe<LoginResponse>;
   resetPassword?: Maybe<ResetPasswordResponse>;
+  sendScrapperToRunnerQueue: Scrapper;
   updateScrapper: Scrapper;
 };
 
 export type MutationCreateScrapperArgs = {
-  input?: Maybe<CreateScrapperInput>;
+  input: CreateScrapperInput;
 };
 
 export type MutationCreateUserArgs = {
@@ -176,6 +178,10 @@ export type MutationLoginArgs = {
 export type MutationResetPasswordArgs = {
   input?: Maybe<ResetPasswordInput>;
   token: Scalars['String'];
+};
+
+export type MutationSendScrapperToRunnerQueueArgs = {
+  input: StartScrapperInput;
 };
 
 export type MutationUpdateScrapperArgs = {
@@ -259,6 +265,12 @@ export type RunnerPerformanceEntry = {
   duration?: Maybe<Scalars['Float']>;
 };
 
+export enum RunnerTrigger {
+  Manual = 'Manual',
+  Scheduled = 'Scheduled',
+  Retry = 'Retry',
+}
+
 export type Scrapper = BaseEntity &
   CreatedBy & {
     id: Scalars['ID'];
@@ -271,6 +283,8 @@ export type Scrapper = BaseEntity &
     deletedAt?: Maybe<Scalars['Date']>;
     steps?: Maybe<Array<ScrapperStep>>;
     variables?: Maybe<Array<Variable>>;
+    type: ScrapperType;
+    lastRun?: Maybe<ScrapperRun>;
   };
 
 export enum ScrapperAction {
@@ -283,12 +297,22 @@ export enum ScrapperAction {
   Type = 'Type',
 }
 
+export enum ScrapperDialogBehaviour {
+  AlwaysConfirm = 'AlwaysConfirm',
+  AlwaysReject = 'AlwaysReject',
+}
+
 export type ScrapperInput = {
   id: Scalars['ID'];
   name?: Maybe<Scalars['String']>;
   steps?: Maybe<Array<ScrapperStepInput>>;
   variables?: Maybe<Array<VariableInput>>;
 };
+
+export enum ScrapperNoElementsFoundBehavior {
+  Fail = 'Fail',
+  Continue = 'Continue',
+}
 
 export type ScrapperQueryResult = {
   total: Scalars['Int'];
@@ -315,6 +339,12 @@ export type ScrapperRun = BaseEntity &
 export type ScrapperRunQueryResult = {
   total: Scalars['Int'];
   items?: Maybe<Array<ScrapperRun>>;
+};
+
+export type ScrapperRunSettings = {
+  dialogBehaviour?: Maybe<ScrapperDialogBehaviour>;
+  noElementsFoundBehavior?: Maybe<ScrapperNoElementsFoundBehavior>;
+  timeoutMs?: Maybe<Scalars['Float']>;
 };
 
 export type ScrapperRunStepResult = BaseEntity & {
@@ -396,6 +426,11 @@ export type ScrapperStepInput = {
   conditionalRules?: Maybe<Array<ConditionalRuleGroupInput>>;
 };
 
+export enum ScrapperType {
+  RealBrowser = 'RealBrowser',
+  Simple = 'Simple',
+}
+
 export type Selector = {
   type?: Maybe<SelectorType>;
   value: Scalars['String'];
@@ -410,6 +445,11 @@ export enum SelectorType {
   Selector = 'Selector',
   TextContent = 'TextContent',
 }
+
+export type StartScrapperInput = {
+  scrapperId: Scalars['ID'];
+  browserType?: Maybe<BrowserType>;
+};
 
 export type Subscription = {
   _?: Maybe<Scalars['Boolean']>;
@@ -466,8 +506,9 @@ export type GetScrapperForBuilderQueryVariables = Exact<{
 export type GetScrapperForBuilderQuery = {
   getMyScrapper: Pick<
     Scrapper,
-    'id' | 'createdAt' | 'isRunning' | 'name' | 'state' | 'updatedAt'
+    'id' | 'createdAt' | 'isRunning' | 'name' | 'state' | 'updatedAt' | 'type'
   > & {
+    lastRun?: Maybe<Pick<ScrapperRun, 'id' | 'endedAt'>>;
     steps?: Maybe<Array<ScrapperBuilderStepFragment>>;
     variables?: Maybe<
       Array<
@@ -529,11 +570,39 @@ export type MyScrappersQuery = {
   };
 };
 
+export type SendScrapperToQueueMutationVariables = Exact<{
+  input: StartScrapperInput;
+}>;
+
+export type SendScrapperToQueueMutation = {
+  sendScrapperToRunnerQueue: Pick<Scrapper, 'id' | 'name' | 'state'> & {
+    lastRun?: Maybe<Pick<ScrapperRun, 'id' | 'endedAt'>>;
+  };
+};
+
+export type GetScrapperStateQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+export type GetScrapperStateQuery = {
+  getMyScrapper: Pick<Scrapper, 'id' | 'name' | 'state'> & {
+    lastRun?: Maybe<Pick<ScrapperRun, 'id' | 'endedAt'>>;
+  };
+};
+
 export type UpdateScrapperMutationVariables = Exact<{
   input: ScrapperInput;
 }>;
 
-export type UpdateScrapperMutation = { updateScrapper: Pick<Scrapper, 'id'> };
+export type UpdateScrapperMutation = {
+  updateScrapper: Pick<
+    Scrapper,
+    'id' | 'name' | 'state' | 'isRunning' | 'type'
+  > & {
+    lastRun?: Maybe<Pick<ScrapperRun, 'id' | 'endedAt'>>;
+    steps?: Maybe<Array<Pick<ScrapperStep, 'id'>>>;
+  };
+};
 
 export type ScrapperBuilderStepFragment = Pick<
   ScrapperStep,
@@ -570,7 +639,7 @@ export type ScrapperBuilderStepFragment = Pick<
 };
 
 export type CreateScrapperMutationVariables = Exact<{
-  input?: Maybe<CreateScrapperInput>;
+  input: CreateScrapperInput;
 }>;
 
 export type CreateScrapperMutation = {
@@ -749,21 +818,27 @@ export type ResolversTypes = ResolversObject<{
   Runnable: ResolversTypes['ScrapperRun'];
   RunnerError: ResolverTypeWrapper<RunnerError>;
   RunnerPerformanceEntry: ResolverTypeWrapper<RunnerPerformanceEntry>;
+  RunnerTrigger: RunnerTrigger;
   Scrapper: ResolverTypeWrapper<Scrapper>;
   ScrapperAction: ScrapperAction;
+  ScrapperDialogBehaviour: ScrapperDialogBehaviour;
   ScrapperInput: ScrapperInput;
+  ScrapperNoElementsFoundBehavior: ScrapperNoElementsFoundBehavior;
   ScrapperQueryResult: ResolverTypeWrapper<ScrapperQueryResult>;
   ScrapperRun: ResolverTypeWrapper<ScrapperRun>;
   ScrapperRunQueryResult: ResolverTypeWrapper<ScrapperRunQueryResult>;
+  ScrapperRunSettings: ResolverTypeWrapper<ScrapperRunSettings>;
   ScrapperRunStepResult: ResolverTypeWrapper<ScrapperRunStepResult>;
   ScrapperRunValue: ResolverTypeWrapper<ScrapperRunValue>;
   ScrapperRunValueElement: ResolverTypeWrapper<ScrapperRunValueElement>;
   ScrapperRunValueType: ResolverTypeWrapper<Scalars['ScrapperRunValueType']>;
   ScrapperStep: ResolverTypeWrapper<ScrapperStep>;
   ScrapperStepInput: ScrapperStepInput;
+  ScrapperType: ScrapperType;
   Selector: ResolverTypeWrapper<Selector>;
   SelectorInput: SelectorInput;
   SelectorType: SelectorType;
+  StartScrapperInput: StartScrapperInput;
   Subscription: ResolverTypeWrapper<{}>;
   Url: ResolverTypeWrapper<Scalars['Url']>;
   User: ResolverTypeWrapper<User>;
@@ -829,6 +904,7 @@ export type ResolversParentTypes = ResolversObject<{
   ScrapperQueryResult: ScrapperQueryResult;
   ScrapperRun: ScrapperRun;
   ScrapperRunQueryResult: ScrapperRunQueryResult;
+  ScrapperRunSettings: ScrapperRunSettings;
   ScrapperRunStepResult: ScrapperRunStepResult;
   ScrapperRunValue: ScrapperRunValue;
   ScrapperRunValueElement: ScrapperRunValueElement;
@@ -837,6 +913,7 @@ export type ResolversParentTypes = ResolversObject<{
   ScrapperStepInput: ScrapperStepInput;
   Selector: Selector;
   SelectorInput: SelectorInput;
+  StartScrapperInput: StartScrapperInput;
   Subscription: {};
   Url: Scalars['Url'];
   User: User;
@@ -1062,7 +1139,7 @@ export type MutationResolvers<
     ResolversTypes['Scrapper'],
     ParentType,
     ContextType,
-    RequireFields<MutationCreateScrapperArgs, never>
+    RequireFields<MutationCreateScrapperArgs, 'input'>
   >;
   createUser?: Resolver<
     ResolversTypes['CreateUserResult'],
@@ -1087,6 +1164,12 @@ export type MutationResolvers<
     ParentType,
     ContextType,
     RequireFields<MutationResetPasswordArgs, 'token'>
+  >;
+  sendScrapperToRunnerQueue?: Resolver<
+    ResolversTypes['Scrapper'],
+    ParentType,
+    ContextType,
+    RequireFields<MutationSendScrapperToRunnerQueueArgs, 'input'>
   >;
   updateScrapper?: Resolver<
     ResolversTypes['Scrapper'],
@@ -1199,6 +1282,12 @@ export type ScrapperResolvers<
     ParentType,
     ContextType
   >;
+  type?: Resolver<ResolversTypes['ScrapperType'], ParentType, ContextType>;
+  lastRun?: Resolver<
+    Maybe<ResolversTypes['ScrapperRun']>,
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -1261,6 +1350,24 @@ export type ScrapperRunQueryResultResolvers<
     ParentType,
     ContextType
   >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
+export type ScrapperRunSettingsResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['ScrapperRunSettings'] = ResolversParentTypes['ScrapperRunSettings']
+> = ResolversObject<{
+  dialogBehaviour?: Resolver<
+    Maybe<ResolversTypes['ScrapperDialogBehaviour']>,
+    ParentType,
+    ContextType
+  >;
+  noElementsFoundBehavior?: Resolver<
+    Maybe<ResolversTypes['ScrapperNoElementsFoundBehavior']>,
+    ParentType,
+    ContextType
+  >;
+  timeoutMs?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -1537,6 +1644,7 @@ export type Resolvers<ContextType = any> = ResolversObject<{
   ScrapperQueryResult?: ScrapperQueryResultResolvers<ContextType>;
   ScrapperRun?: ScrapperRunResolvers<ContextType>;
   ScrapperRunQueryResult?: ScrapperRunQueryResultResolvers<ContextType>;
+  ScrapperRunSettings?: ScrapperRunSettingsResolvers<ContextType>;
   ScrapperRunStepResult?: ScrapperRunStepResultResolvers<ContextType>;
   ScrapperRunValue?: ScrapperRunValueResolvers<ContextType>;
   ScrapperRunValueElement?: ScrapperRunValueElementResolvers<ContextType>;
@@ -1566,6 +1674,5 @@ export type DirectiveResolvers<ContextType = any> = ResolversObject<{
  * @deprecated
  * Use "DirectiveResolvers" root object instead. If you wish to get "IDirectiveResolvers", add "typesPrefix: I" to your config.
  */
-export type IDirectiveResolvers<
-  ContextType = any
-> = DirectiveResolvers<ContextType>;
+export type IDirectiveResolvers<ContextType = any> =
+  DirectiveResolvers<ContextType>;

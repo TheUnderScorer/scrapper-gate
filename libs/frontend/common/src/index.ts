@@ -16,3 +16,4 @@ export * from './hooks/useIsUsingElementPicker';
 export * from './elementNavigator';
 export * from './setRefValue';
 export * from './stores/useCurrentUrl';
+export * from './hooks/useStack';
