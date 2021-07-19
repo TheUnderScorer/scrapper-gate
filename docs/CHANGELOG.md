@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/TheUnderScorer/scrapper-gate/compare/v1.7.0...v1.8.0) (2021-07-19)
+
+
+### Features
+
+* Add "Variable" conditional rule ([c21a063](https://github.com/TheUnderScorer/scrapper-gate/commit/c21a0633133f7400ffc18e0bf2034575575a839d))
+
 # [1.7.0](https://github.com/TheUnderScorer/scrapper-gate/compare/v1.6.0...v1.7.0) (2021-07-19)
 
 
