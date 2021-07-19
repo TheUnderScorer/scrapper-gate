@@ -51,11 +51,10 @@ export type QueryHandlersFactoryMap = HandlersMap<
   HandlerFactory<QueryHandlerFn> | Constructor<QueryHandler>
 >;
 
-export type ResolvedQueryHandlersFactoryMap<
-  T extends QueryHandlersFactoryMap
-> = {
-  [Key in keyof T]: ResolvedQueryHandler<T[Key]>;
-};
+export type ResolvedQueryHandlersFactoryMap<T extends QueryHandlersFactoryMap> =
+  {
+    [Key in keyof T]: ResolvedQueryHandler<T[Key]>;
+  };
 
 export declare type EventHandlersFactoryMap = HandlersMap<
   HandlerFactory<EventHandlerFn>[]

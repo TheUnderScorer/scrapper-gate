@@ -36,10 +36,8 @@ browser.runtime.onInstalled.addListener(() => {
 });
 
 browser.tabs.onRemoved.addListener(async (tabId) => {
-  const {
-    contentRoutes = {},
-    activeOverlays = [],
-  } = await browser.storage.local.get(['contentRoutes', 'activeOverlays']);
+  const { contentRoutes = {}, activeOverlays = [] } =
+    await browser.storage.local.get(['contentRoutes', 'activeOverlays']);
 
   await cleanupStoresForTab({
     tabId,

@@ -53,9 +53,8 @@ export const setupServices = async (
     const messageQueueService = container.resolve<MessageQueueService>(
       'messageQueueService'
     );
-    const messageQueueClient = container.resolve<MessageQueueClient>(
-      'messageQueueClient'
-    );
+    const messageQueueClient =
+      container.resolve<MessageQueueClient>('messageQueueClient');
 
     await messageQueueClient.healthCheck(messageQueueService.queueUrls);
   }

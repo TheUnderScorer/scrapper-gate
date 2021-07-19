@@ -15,13 +15,9 @@ export const useNodesCreator = () => {
   const loading = useFlowBuilderContextSelector((ctx) => ctx.loading);
   const nodesCreator = useFlowBuilderContextSelector((ctx) => ctx.nodesCreator);
   const setItems = useFlowBuilderItemsSelector((ctx) => ctx.setItems);
-  const [
-    nodesRecreated,
-    setNodesRecreated,
-  ] = useFlowBuilderItemsSelector((ctx) => [
-    ctx.nodesRecreated,
-    ctx.setNodesRecreated,
-  ]);
+  const [nodesRecreated, setNodesRecreated] = useFlowBuilderItemsSelector(
+    (ctx) => [ctx.nodesRecreated, ctx.setNodesRecreated]
+  );
 
   useEffect(() => {
     if (loading || !nodesCreator || nodesRecreated) {

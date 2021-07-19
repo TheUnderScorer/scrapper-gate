@@ -6,7 +6,8 @@ import { uuid } from '../../decorators/uuid';
 
 export class ScrapperRunnerMessageDto
   extends BaseSchema<ScrapperRunnerMessageDto>
-  implements ScrapperRunnerMessagePayload {
+  implements ScrapperRunnerMessagePayload
+{
   @(uuid().required())
   scrapperId: string;
 
