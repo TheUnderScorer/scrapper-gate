@@ -1,3 +1,10 @@
+# [1.9.0](https://github.com/TheUnderScorer/scrapper-gate/compare/v1.8.0...v1.9.0) (2021-07-30)
+
+
+### Features
+
+* Support setting initial url in scrapper start node ([a8937b9](https://github.com/TheUnderScorer/scrapper-gate/commit/a8937b9c190d1614579ddb15c6b12af82d2914d9))
+
 # [1.8.0](https://github.com/TheUnderScorer/scrapper-gate/compare/v1.7.0...v1.8.0) (2021-07-19)
 
 
