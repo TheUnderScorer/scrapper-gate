@@ -2,6 +2,7 @@
 import { asValueObject } from '@scrapper-gate/backend/awilix';
 import { RepositoriesProvider } from '@scrapper-gate/backend/database';
 import { MessageQueue } from '@scrapper-gate/backend/message-queue';
+import { Disposable } from '@scrapper-gate/shared/common';
 import { Logger } from '@scrapper-gate/shared/logger';
 import { asValue, AwilixContainer } from 'awilix';
 import { Typed } from 'emittery';
@@ -21,7 +22,8 @@ export interface UnitOfWorkDependencies {
 
 export class UnitOfWork<
   Cqrs extends CqrsResult<any, any> = CqrsResult<any, any>
-> {
+> implements Disposable
+{
   readonly events = new Typed<{
     finished: UnitOfWork<Cqrs>;
     failed: {
@@ -92,5 +94,9 @@ export class UnitOfWork<
     } finally {
       await scopedContainer.dispose();
     }
+  }
+
+  dispose() {
+    this.events.clearListeners();
   }
 }

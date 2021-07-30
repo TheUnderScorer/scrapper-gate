@@ -97,7 +97,7 @@ export class PlayWrightScrapperRunner implements ScrapperRunner {
 
     this.page.on('popup', async (page) => {
       this.logger.info('Popup opened', {
-        url: await page.url(),
+        url: page.url(),
         pages: this.context.pages().length,
       });
 
@@ -314,7 +314,7 @@ export class PlayWrightScrapperRunner implements ScrapperRunner {
 
     this.performanceManager.mark(`${this.traceId}-${step.id}-start`);
 
-    const currentUrl = await this.page.url();
+    const currentUrl = this.page.url();
 
     const urlsEqual = areUrlsEqual(step.url, currentUrl);
 
@@ -329,11 +329,11 @@ export class PlayWrightScrapperRunner implements ScrapperRunner {
         waitUntil: 'networkidle',
       });
 
-      this.logger.debug('Navigated to step url:', await this.page.url());
+      this.logger.debug('Navigated to step url:', this.page.url());
     } else {
       await this.page.waitForLoadState('networkidle');
 
-      this.logger.debug('Not navigating to other page.', await this.page.url());
+      this.logger.debug('Not navigating to other page.', this.page.url());
     }
 
     return this.getElements(step.selectors ?? []);
@@ -346,7 +346,7 @@ export class PlayWrightScrapperRunner implements ScrapperRunner {
     return new ScrapperRunError({
       performance,
       message: error.message,
-      url: await this.page.url(),
+      url: this.page.url(),
       browserVersion: this.browserVersion,
     });
   }

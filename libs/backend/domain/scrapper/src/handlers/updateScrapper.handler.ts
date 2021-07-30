@@ -6,6 +6,7 @@ import {
   VariableModel,
   VariableRepository,
 } from '@scrapper-gate/backend/domain/variables';
+import { performUpdate } from '@scrapper-gate/shared/common';
 import { ScrapperUpdatedEvent } from '@scrapper-gate/shared/domain/scrapper';
 import { VariableScope } from '@scrapper-gate/shared/schema';
 import { CommandContext } from 'functional-cqrs';
@@ -20,81 +21,79 @@ export interface UpdateScrapperHandlerDependencies {
   variableRepository: VariableRepository;
 }
 
-export const updateScrapperHandler = ({
-  scrapperRepository,
-  scrapperStepRepository,
-  variableRepository,
-}: UpdateScrapperHandlerDependencies) => async (
-  { payload: { input, userId } }: UpdateScrapperCommand,
-  { eventsBus }: CommandContext
-) => {
-  let didUpdate = false;
-  let variableModels: VariableModel[] = [];
+export const updateScrapperHandler =
+  ({
+    scrapperRepository,
+    scrapperStepRepository,
+    variableRepository,
+  }: UpdateScrapperHandlerDependencies) =>
+  async (
+    { payload: { input, userId } }: UpdateScrapperCommand,
+    { eventsBus }: CommandContext
+  ) => {
+    const scrapper = await scrapperRepository.getOneByUser(input.id, userId);
 
-  const scrapper = await scrapperRepository.getOneByUser(input.id, userId);
+    const { result: updatedScrapper, didUpdate } = await performUpdate(
+      scrapper,
+      input,
+      {
+        steps: async (scrapper, steps) => {
+          const stepsToRemove = findEntitiesToRemove(
+            steps ?? [],
+            scrapper.steps
+          );
 
-  if ('name' in input) {
-    scrapper.name = input.name;
+          if (stepsToRemove.length) {
+            await scrapperStepRepository.remove(stepsToRemove);
+          }
 
-    didUpdate = true;
-  }
+          scrapper.steps = nodeLikeItemsToModels({
+            createModel: (payload) => ScrapperStepModel.create(payload),
+            input: steps ?? [],
+            existingSteps: scrapper.steps,
+          });
 
-  if ('steps' in input) {
-    const stepsToRemove = findEntitiesToRemove(
-      input.steps ?? [],
-      scrapper.steps
+          return scrapper;
+        },
+        variables: async (scrapper, variables) => {
+          const variablesToRemove = findEntitiesToRemove(
+            variables ?? [],
+            scrapper.variables
+          );
+
+          if (variablesToRemove.length) {
+            await variableRepository.delete(
+              variablesToRemove.map((variable) => variable.id)
+            );
+          }
+
+          const variableModels =
+            variables?.map((variable) =>
+              VariableModel.create({
+                ...variable,
+                createdBy: scrapper.createdBy,
+              })
+            ) ?? [];
+
+          scrapper.variables = variableModels.filter(
+            (variable) => variable.scope === VariableScope.Scrapper
+          );
+
+          return scrapper;
+        },
+      }
     );
 
-    if (stepsToRemove.length) {
-      await scrapperStepRepository.remove(stepsToRemove);
-    }
+    if (didUpdate) {
+      await scrapperRepository.save(updatedScrapper);
 
-    scrapper.steps = nodeLikeItemsToModels({
-      createModel: (payload) => ScrapperStepModel.create(payload),
-      input: input.steps ?? [],
-      existingSteps: scrapper.steps,
-    });
-
-    didUpdate = true;
-  }
-
-  if ('variables' in input) {
-    const variablesToRemove = findEntitiesToRemove(
-      input.variables ?? [],
-      scrapper.variables
-    );
-
-    if (variablesToRemove.length) {
-      await variableRepository.delete(
-        variablesToRemove.map((variable) => variable.id)
+      await eventsBus.dispatch(
+        new ScrapperUpdatedEvent({
+          scrapper: updatedScrapper,
+          userId,
+        })
       );
     }
 
-    variableModels =
-      input.variables?.map((variable) =>
-        VariableModel.create({
-          ...variable,
-          createdBy: scrapper.createdBy,
-        })
-      ) ?? [];
-
-    scrapper.variables = variableModels.filter(
-      (variable) => variable.scope === VariableScope.Scrapper
-    );
-
-    didUpdate = true;
-  }
-
-  if (didUpdate) {
-    await scrapperRepository.save(scrapper);
-
-    await eventsBus.dispatch(
-      new ScrapperUpdatedEvent({
-        scrapper,
-        userId,
-      })
-    );
-  }
-
-  return scrapper;
-};
+    return updatedScrapper;
+  };

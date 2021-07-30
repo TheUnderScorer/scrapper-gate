@@ -21,7 +21,7 @@ export const resolveVariables = <T = unknown>({
   variables,
   dateFormat = DateFormat.Date,
 }: ResolveVariablesParams<T>): ResolveVariablesResult<T> => {
-  if (!variables.length) {
+  if (!variables.length || !target) {
     return target as ResolveVariablesResult<T>;
   }
 

@@ -12,4 +12,6 @@ module.exports = {
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
   coverageDirectory: '../../coverage/apps/lambdas',
+  setupFilesAfterEnv: [`${process.cwd()}/tests/setupBackend.ts`],
+  testTimeout: 99999,
 };

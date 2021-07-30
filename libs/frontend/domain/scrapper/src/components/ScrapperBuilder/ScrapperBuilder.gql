@@ -10,7 +10,7 @@ mutation UpdateScrapper($input: ScrapperInput!) {
     }
     type
     steps {
-      id
+      ...ScrapperBuilderStep
     }
   }
 }

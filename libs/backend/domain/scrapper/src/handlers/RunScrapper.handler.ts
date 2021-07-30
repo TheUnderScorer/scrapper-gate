@@ -22,12 +22,7 @@ export class RunScrapperHandler implements CommandHandler<RunScrapperCommand> {
       this.dependencies;
 
     const scrapper = await scrapperRepository.getOneForRun(scrapperId);
-    const scrapperRun = ScrapperRunModel.create({
-      scrapper,
-      steps: scrapper.steps,
-      state: RunState.InProgress,
-      startedAt: new Date(),
-    });
+    const scrapperRun = ScrapperRunModel.createInProgressFromScrapper(scrapper);
 
     scrapper.state = RunState.InProgress;
 
@@ -44,6 +39,7 @@ export class RunScrapperHandler implements CommandHandler<RunScrapperCommand> {
       await processor.process({
         scrapperRun,
         scrapper,
+        initialUrl: scrapperRun.runSettings?.initialUrl,
       });
     } finally {
       await processor.dispose();

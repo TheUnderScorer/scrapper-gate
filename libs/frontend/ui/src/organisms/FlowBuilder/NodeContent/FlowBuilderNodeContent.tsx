@@ -74,12 +74,8 @@ export const FlowBuilderNodeContent = () => {
     (ctx) => ctx.isUsingElementPicker
   );
 
-  const {
-    activeNodeId,
-    contentOpen,
-    setContentOpen,
-    setActiveNodeId,
-  } = useFlowBuilderActiveNode();
+  const { activeNodeId, contentOpen, setContentOpen, setActiveNodeId } =
+    useFlowBuilderActiveNode();
 
   const classes = useStyles({ isUsingElementPicker, open: contentOpen });
 
@@ -110,6 +106,7 @@ export const FlowBuilderNodeContent = () => {
   }, [activeNodeIndex]);
 
   const ContentComponent = useMemo(() => {
+    console.log({ activeNode });
     if (activeNode?.data?.noContent) {
       return undefined;
     }

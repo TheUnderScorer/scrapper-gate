@@ -8,11 +8,24 @@ export class ScrapperRunRepository extends Repository<ScrapperRunModel> {
     scrapperId: string,
     queryBuilder?: SelectQueryBuilder<ScrapperRunModel>
   ) {
+    return this.getLastForScrapperQuery(scrapperId, queryBuilder).getOne();
+  }
+
+  async getLastForScrapperWithValues(scrapperId: string) {
+    return this.getLastForScrapperQuery(scrapperId)
+      .leftJoinAndSelect('scrapperRun.results', 'results')
+      .leftJoinAndSelect('results.values', 'values')
+      .getOne();
+  }
+
+  private getLastForScrapperQuery(
+    scrapperId: string,
+    queryBuilder?: SelectQueryBuilder<ScrapperRunModel>
+  ) {
     return (queryBuilder ?? this.createQueryBuilder('scrapperRun'))
       .leftJoinAndSelect('scrapperRun.scrapper', 'scrapper')
       .where('scrapper.id = :scrapperId', { scrapperId })
-      .orderBy('scrapperRun.createdAt', 'DESC')
-      .getOne();
+      .orderBy('scrapperRun.createdAt', 'DESC');
   }
 
   async loadLastForScrappers(scrapperIds: ReadonlyArray<string>) {

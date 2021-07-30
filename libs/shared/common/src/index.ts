@@ -30,3 +30,4 @@ export * from './serializeValue';
 export * from './date/tryDateCast';
 export * from './excludesFalsy';
 export * from './array/ensureIdsOrder';
+export * from './performUpdate';

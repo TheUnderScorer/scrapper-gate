@@ -1,5 +1,5 @@
-import { BaseEntity } from '@scrapper-gate/shared/schema';
 import { DataObject } from '@scrapper-gate/shared/common';
+import { BaseEntity } from '@scrapper-gate/shared/schema';
 import {
   BeforeInsert,
   Column,
@@ -27,10 +27,12 @@ export class BaseModel<T> extends DataObject<T> implements BaseEntity {
   @BeforeInsert()
   generateId(force?: boolean) {
     if (this.id && !force) {
-      return;
+      return this;
     }
 
     this.id = uuid();
+
+    return this;
   }
 
   @BeforeInsert()

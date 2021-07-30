@@ -14,6 +14,12 @@ query GetScrapperForBuilder($id: ID!) {
     steps {
       ...ScrapperBuilderStep
     }
+    runSettings {
+      dialogBehaviour
+      initialUrl
+      noElementsFoundBehavior
+      timeoutMs
+    }
     variables {
       id
       createdAt

@@ -74,7 +74,8 @@ export interface ScrapperStepFormProps
 }
 
 export interface ScrapperBuilderFormState
-  extends FlowBuilderFormState<ScrapperBuilderNodeProperties> {
+  extends FlowBuilderFormState<ScrapperBuilderNodeProperties>,
+    Pick<Scrapper, 'runSettings'> {
   name: string;
   variables: Variable[];
 }
