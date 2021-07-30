@@ -12,7 +12,6 @@ import {
   mergeValidators,
   useDebouncedValidator,
 } from '@scrapper-gate/frontend/form';
-import { logger } from '@scrapper-gate/shared/logger/console';
 import { useUpdateScrapperMutation } from '@scrapper-gate/frontend/schema';
 import {
   useSnackbarOnError,
@@ -20,12 +19,14 @@ import {
 } from '@scrapper-gate/frontend/snackbars';
 import {
   FlowBuilder,
+  FlowBuilderNodeTypes,
   flowBuilderUtils,
   flowBuilderValidation,
   IsValidConnectionParams,
   NodeContentComponent,
 } from '@scrapper-gate/frontend/ui';
 import { extractVariableInput } from '@scrapper-gate/shared/domain/variables';
+import { logger } from '@scrapper-gate/shared/logger/console';
 import { VariableScope } from '@scrapper-gate/shared/schema';
 import { ScrapperBuilderDto } from '@scrapper-gate/shared/validation';
 import React, { useCallback, useMemo } from 'react';
@@ -43,12 +44,16 @@ import {
 } from './ScrapperBuilder.types';
 import { createScrapperNodeSelection } from './scrapperNodeSelection';
 import { scrapperStepsToNodes } from './scrapperStepsToNodes';
+import { ScrapperBuilderStartNodeContent } from './StartNodeContent/ScrapperBuilderStartNodeContent';
 
 const initialNodes = [
-  flowBuilderUtils.createStartNode({
-    x: 0,
-    y: 0,
-  }),
+  flowBuilderUtils.createStartNode(
+    {
+      x: 0,
+      y: 0,
+    },
+    false
+  ),
 ];
 
 const handleConnect = flowBuilderUtils.basicHandleConnect();
@@ -188,6 +193,7 @@ export const ScrapperBuilder = ({
               steps,
               name: values.name,
               variables: values.variables.map(extractVariableInput),
+              runSettings: values.runSettings,
             },
           },
         });
@@ -207,6 +213,7 @@ export const ScrapperBuilder = ({
       items: initialNodes as ScrapperBuilderNode[],
       name: initialScrapper?.name ?? '',
       variables: initialScrapper?.variables ?? initialVariables,
+      runSettings: initialScrapper?.runSettings,
     }),
     [initialScrapper]
   );
@@ -240,6 +247,9 @@ export const ScrapperBuilder = ({
               onConnect={handleConnect}
               loading={loading}
               nodesSelection={selection}
+              nodeContents={{
+                [FlowBuilderNodeTypes.Start]: ScrapperBuilderStartNodeContent,
+              }}
               additionalActions={
                 <IconButton onClick={() => runScrapperDialog()}>
                   <PlayArrow />

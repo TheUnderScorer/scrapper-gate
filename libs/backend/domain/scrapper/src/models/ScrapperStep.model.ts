@@ -1,3 +1,6 @@
+import { BaseModel } from '@scrapper-gate/backend/base-model';
+import { UserModel } from '@scrapper-gate/backend/domain/user';
+import { Entities } from '@scrapper-gate/shared/common';
 import {
   ConditionalRuleGroup,
   MouseButton,
@@ -6,7 +9,6 @@ import {
   ScrapperStep,
   Selector,
 } from '@scrapper-gate/shared/schema';
-import { BaseModel } from '@scrapper-gate/backend/base-model';
 import {
   Column,
   Entity,
@@ -15,9 +17,7 @@ import {
   OneToMany,
   OneToOne,
 } from 'typeorm';
-import { UserModel } from '@scrapper-gate/backend/domain/user';
 import { ScrapperModel } from './Scrapper.model';
-import { Entities } from '@scrapper-gate/shared/common';
 
 @Entity(Entities.ScrapperStep)
 export class ScrapperStepModel
@@ -33,7 +33,9 @@ export class ScrapperStepModel
   @JoinColumn()
   createdBy: UserModel;
 
-  @ManyToOne(() => ScrapperStepModel, (model) => model.previousSteps)
+  @ManyToOne(() => ScrapperStepModel, (model) => model.previousSteps, {
+    cascade: true,
+  })
   nextStep?: ScrapperStepModel;
 
   @OneToMany(() => ScrapperStepModel, (model) => model.nextStep)

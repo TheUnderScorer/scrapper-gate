@@ -14,6 +14,7 @@ export const scrapperSchema = gql`
     variables: [Variable!]
     type: ScrapperType!
     lastRun: ScrapperRun
+    runSettings: ScrapperRunSettings
   }
 
   input ScrapperInput {
@@ -21,6 +22,7 @@ export const scrapperSchema = gql`
     name: String
     steps: [ScrapperStepInput!]
     variables: [VariableInput!]
+    runSettings: ScrapperRunSettingsInput
   }
 
   type ScrapperQueryResult {
@@ -57,7 +59,6 @@ export const scrapperSchema = gql`
     position: NodePosition
     key: String
     conditionalRules: [ConditionalRuleGroup!]
-    runs(pagination: Pagination, order: Order): ScrapperRunQueryResult
   }
 
   input ScrapperStepInput {
@@ -128,6 +129,7 @@ export const scrapperSchema = gql`
     error: RunnerError
     key: String
     variables: [Variable!]
+    runSettings: ScrapperRunSettings
   }
 
   enum ScrapperDialogBehaviour {
@@ -144,6 +146,14 @@ export const scrapperSchema = gql`
     dialogBehaviour: ScrapperDialogBehaviour
     noElementsFoundBehavior: ScrapperNoElementsFoundBehavior
     timeoutMs: Float
+    initialUrl: String
+  }
+
+  input ScrapperRunSettingsInput {
+    dialogBehaviour: ScrapperDialogBehaviour
+    noElementsFoundBehavior: ScrapperNoElementsFoundBehavior
+    timeoutMs: Float
+    initialUrl: String
   }
 
   enum ScrapperAction {

@@ -1,17 +1,18 @@
 import { Stack } from '@material-ui/core';
-import { useDialogMethods } from '../useDialogMethods';
-import { PropsWithChildren, ReactNode } from 'react';
-import { BaseDialogProps, DialogProperties } from '../types';
 import {
   CancelButton,
   SimpleDialog,
   SimpleDialogProps,
 } from '@scrapper-gate/frontend/ui';
+import { HTMLProps, PropsWithChildren, ReactNode } from 'react';
+import { BaseDialogProps, DialogProperties } from '../types';
+import { useDialogMethods } from '../useDialogMethods';
 
 export interface DialogProps
   extends BaseDialogProps,
     Omit<SimpleDialogProps, 'open'>,
-    Pick<DialogProperties, 'id'> {
+    Pick<DialogProperties, 'id'>,
+    Pick<HTMLProps<HTMLFormElement>, 'onSubmit'> {
   cancelLabel?: ReactNode;
 }
 
@@ -21,6 +22,7 @@ export const Dialog = ({
   onCancel,
   actions,
   cancelLabel = 'Cancel',
+  onSubmit,
   ...props
 }: PropsWithChildren<DialogProps>) => {
   const { cancel } = useDialogMethods({
@@ -40,7 +42,7 @@ export const Dialog = ({
         </Stack>
       }
     >
-      {children}
+      <form onSubmit={onSubmit}>{children}</form>
     </SimpleDialog>
   );
 };

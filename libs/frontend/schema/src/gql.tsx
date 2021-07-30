@@ -1,7 +1,7 @@
+import * as Apollo from '@apollo/client';
+import { gql } from '@apollo/client';
 import * as Types from '@scrapper-gate/shared/schema';
 
-import { gql } from '@apollo/client';
-import * as Apollo from '@apollo/client';
 const defaultOptions = {};
 export const ScrapperBuilderStepFragmentDoc = gql`
   fragment ScrapperBuilderStep on ScrapperStep {
@@ -67,6 +67,12 @@ export const GetScrapperForBuilderDocument = gql`
       }
       steps {
         ...ScrapperBuilderStep
+      }
+      runSettings {
+        dialogBehaviour
+        initialUrl
+        noElementsFoundBehavior
+        timeoutMs
       }
       variables {
         id
@@ -505,10 +511,11 @@ export const UpdateScrapperDocument = gql`
       }
       type
       steps {
-        id
+        ...ScrapperBuilderStep
       }
     }
   }
+  ${ScrapperBuilderStepFragmentDoc}
 `;
 export type UpdateScrapperMutationFn = Apollo.MutationFunction<
   Types.UpdateScrapperMutation,

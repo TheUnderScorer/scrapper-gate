@@ -32,6 +32,9 @@ export class ScrapperRepository extends Repository<ScrapperModel> {
     return queryBuilder
       .leftJoinAndSelect('scrapper.createdBy', 'createdBy')
       .leftJoinAndSelect('scrapper.steps', 'steps')
+      .leftJoinAndSelect('steps.nextStep', 'nextStep')
+      .leftJoinAndSelect('steps.stepOnTrue', 'stepOnTrue')
+      .leftJoinAndSelect('steps.stepOnFalse', 'stepOnFalse')
       .where('scrapper.id = :scrapperId', { scrapperId })
       .andWhere(
         new Brackets((clause) =>

@@ -1,7 +1,11 @@
 import { Box, Paper } from '@material-ui/core';
-import React, { useMemo, useState } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
+import { Selection } from '@scrapper-gate/frontend/common';
+import { FormUndoProvider } from '@scrapper-gate/frontend/form';
+import React, { useMemo } from 'react';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import {
   Connection,
@@ -10,12 +14,9 @@ import {
   NodeProps,
   ReactFlowProvider,
 } from 'react-flow-renderer';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
-import {
-  FlowBuilderHeader,
-  FlowBuilderHeaderProps,
-} from './Header/FlowBuilderHeader';
+import { useMount } from 'react-use';
+import { StringParam, useQueryParam } from 'use-query-params';
+import { FlowBuilderContent } from './Content/FlowBuilderContent';
 import {
   BaseNodeProperties,
   BaseNodeSelectionProperties,
@@ -28,21 +29,22 @@ import {
   NodeMetadata,
   NodesCreatorApi,
 } from './FlowBuilder.types';
+import {
+  FlowBuilderHeader,
+  FlowBuilderHeaderProps,
+} from './Header/FlowBuilderHeader';
+import { nodeTypes } from './nodeTypes/nodeTypes';
+import { FlowBuilderActiveNodeProvider } from './providers/FlowBuilderActiveNode.provider';
+import { FlowBuilderDragStateProvider } from './providers/FlowBuilderDragState.provider';
+import { FlowBuilderInstanceProvider } from './providers/FlowBuilderInstance.provider';
 import { FlowBuilderItemsProvider } from './providers/FlowBuilderItems.provider';
+import { FlowBuilderPropsProvider } from './providers/FlowBuilderProps.provider';
+import { FlowBuilderSelectionProvider } from './providers/FlowBuilderSelection.provider';
 import {
   FlowBuilderTabs,
   FlowBuilderTabsProps,
   mainTab,
 } from './Tabs/FlowBuilderTabs';
-import { FlowBuilderContent } from './Content/FlowBuilderContent';
-import { FlowBuilderActiveNodeProvider } from './providers/FlowBuilderActiveNode.provider';
-import { FlowBuilderInstanceProvider } from './providers/FlowBuilderInstance.provider';
-import { FlowBuilderSelectionProvider } from './providers/FlowBuilderSelection.provider';
-import { nodeTypes } from './nodeTypes/nodeTypes';
-import { FlowBuilderPropsProvider } from './providers/FlowBuilderProps.provider';
-import { FlowBuilderDragStateProvider } from './providers/FlowBuilderDragState.provider';
-import { Selection } from '@scrapper-gate/frontend/common';
-import { FormUndoProvider } from '@scrapper-gate/frontend/form';
 
 export interface FlowBuilderProps<
   T extends BaseNodeProperties = BaseNodeProperties,
@@ -105,7 +107,7 @@ export const FlowBuilder = <
     ...rest
   } = props;
 
-  const [activeTab, setActiveTab] = useState(mainTab);
+  const [activeTab, setActiveTab] = useQueryParam('tab', StringParam);
 
   const tabContent = useMemo(() => {
     if (!tabs?.length || activeTab === mainTab) {
@@ -123,13 +125,19 @@ export const FlowBuilder = <
     [propsNodeTypes]
   );
 
+  useMount(() => {
+    if (!activeTab) {
+      setActiveTab(mainTab);
+    }
+  });
+
   return (
     <ReactFlowProvider>
       <DndProvider backend={HTML5Backend}>
         <FormUndoProvider>
           <FlowBuilderPropsProvider
             {...rest}
-            activeTab={activeTab}
+            activeTab={activeTab ?? undefined}
             nodeTypes={
               allNodeTypes as unknown as Record<string, NodeMetadata<T>>
             }

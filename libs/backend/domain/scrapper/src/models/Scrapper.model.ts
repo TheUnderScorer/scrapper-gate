@@ -2,8 +2,14 @@ import { BaseModel } from '@scrapper-gate/backend/base-model';
 import { UserModel } from '@scrapper-gate/backend/domain/user';
 import { VariableModel } from '@scrapper-gate/backend/domain/variables';
 import { Entities } from '@scrapper-gate/shared/common';
+import { defaultScrapperRunSettings } from '@scrapper-gate/shared/domain/scrapper';
 import { isRunning } from '@scrapper-gate/shared/run-states';
-import { RunState, Scrapper, ScrapperType } from '@scrapper-gate/shared/schema';
+import {
+  RunState,
+  Scrapper,
+  ScrapperRunSettings,
+  ScrapperType,
+} from '@scrapper-gate/shared/schema';
 import {
   Column,
   Entity,
@@ -58,6 +64,13 @@ export class ScrapperModel
     enum: ScrapperType,
   })
   type: ScrapperType;
+
+  @Column({
+    type: 'jsonb',
+    nullable: true,
+    default: defaultScrapperRunSettings,
+  })
+  runSettings?: ScrapperRunSettings;
 
   get isRunning() {
     return isRunning(this.state);

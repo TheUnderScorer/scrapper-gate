@@ -64,16 +64,12 @@ export const CreateScrapperFormDialog = ({
       onSubmit={handleSubmit}
       render={(props) => (
         <Dialog
+          onSubmit={props.handleSubmit}
           id={createScrapperDialogId}
           loading={loading}
           onCancel={onCancel}
           actions={
-            <Button
-              onClick={() => props.handleSubmit()}
-              variant="contained"
-              color="primary"
-              type="submit"
-            >
+            <Button variant="contained" color="primary" type="submit">
               Create scrapper
             </Button>
           }

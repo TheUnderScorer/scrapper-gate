@@ -17,13 +17,15 @@ export const createScrapperRunVariables = (
     return [];
   }
 
-  const variablesFromRun = scrapperRun.results.map((result) => {
-    return createVariable({
-      key: result.step.key,
-      value: result.values?.map((value) => value.value),
-      scope: VariableScope.Scrapper,
+  const variablesFromRun = scrapperRun.results
+    .filter((result) => result.step.key)
+    .map((result) => {
+      return createVariable({
+        key: result.step.key,
+        value: result.values?.map((value) => value.value),
+        scope: VariableScope.Scrapper,
+      });
     });
-  });
 
   return uniqBy(
     [...variablesFromRun, ...(scrapper.variables ?? [])],
