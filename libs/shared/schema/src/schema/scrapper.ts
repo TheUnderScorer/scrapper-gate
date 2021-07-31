@@ -7,7 +7,6 @@ export const scrapperSchema = gql`
     updatedAt: Date!
     isRunning: Boolean
     name: String
-    state: RunState
     createdBy: User
     deletedAt: Date
     steps: [ScrapperStep!]
@@ -187,9 +186,16 @@ export const scrapperSchema = gql`
     browserType: BrowserType
   }
 
+  type SendScrapperToQueueResult {
+    scrapper: Scrapper
+    run: ScrapperRun
+  }
+
   extend type Mutation {
     createScrapper(input: CreateScrapperInput!): Scrapper! @auth
-    sendScrapperToRunnerQueue(input: StartScrapperInput!): Scrapper! @auth
+    sendScrapperToRunnerQueue(
+      input: StartScrapperInput!
+    ): SendScrapperToQueueResult! @auth
     updateScrapper(input: ScrapperInput!): Scrapper!
       @auth
       @validateDto(dto: "ScrapperInputDto", key: "input")

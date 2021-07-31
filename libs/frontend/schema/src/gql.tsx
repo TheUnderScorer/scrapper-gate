@@ -58,12 +58,12 @@ export const GetScrapperForBuilderDocument = gql`
       createdAt
       isRunning
       name
-      state
       updatedAt
       type
       lastRun {
         id
         endedAt
+        state
       }
       steps {
         ...ScrapperBuilderStep
@@ -321,7 +321,6 @@ export const MyScrappersDocument = gql`
       items {
         id
         name
-        state
         isRunning
         createdAt
       }
@@ -381,12 +380,19 @@ export type MyScrappersQueryResult = Apollo.QueryResult<
 export const SendScrapperToQueueDocument = gql`
   mutation SendScrapperToQueue($input: StartScrapperInput!) {
     sendScrapperToRunnerQueue(input: $input) {
-      id
-      name
-      state
-      lastRun {
+      scrapper {
+        id
+        name
+        lastRun {
+          id
+          endedAt
+          state
+        }
+      }
+      run {
         id
         endedAt
+        state
       }
     }
   }
@@ -439,10 +445,10 @@ export const GetScrapperStateDocument = gql`
     getMyScrapper(id: $id) {
       id
       name
-      state
       lastRun {
         id
         endedAt
+        state
       }
     }
   }
@@ -503,11 +509,11 @@ export const UpdateScrapperDocument = gql`
     updateScrapper(input: $input) {
       id
       name
-      state
       isRunning
       lastRun {
         id
         endedAt
+        state
       }
       type
       steps {
@@ -568,7 +574,6 @@ export const CreateScrapperDocument = gql`
       createdAt
       updatedAt
       isRunning
-      state
     }
   }
 `;

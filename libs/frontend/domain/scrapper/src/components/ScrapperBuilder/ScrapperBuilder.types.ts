@@ -12,6 +12,10 @@ import { Maybe } from '@scrapper-gate/shared/common';
 import { Scrapper, ScrapperStep, Variable } from '@scrapper-gate/shared/schema';
 import { ComponentType } from 'react';
 import { Node } from 'react-flow-renderer';
+import {
+  RunScrapperDialogProps,
+  ScrapperForRun,
+} from '../RunScrapperDialog/RunScrapperDialog.types';
 
 export interface ScrapperElementPickerProps
   extends Pick<NodeContentProps, 'nodeIndex'> {
@@ -50,7 +54,8 @@ export interface ScrapperBuilderStep
 }
 
 export interface ScrapperBuilderScrapper
-  extends Omit<Scrapper, 'results' | 'createdBy' | 'steps' | 'lastRun'> {
+  extends Omit<Scrapper, 'results' | 'createdBy' | 'steps' | 'lastRun'>,
+    Pick<ScrapperForRun, 'lastRun'> {
   steps?: ScrapperBuilderStep[];
 }
 
@@ -58,9 +63,10 @@ export type ScrapperElementPicker = ComponentType<ScrapperElementPickerProps>;
 
 export interface ScrapperBuilderProps
   extends Pick<
-    FlowBuilderProps,
-    'onClose' | 'renderItemsInDataAttribute' | 'onChange'
-  > {
+      FlowBuilderProps,
+      'onClose' | 'renderItemsInDataAttribute' | 'onChange'
+    >,
+    Pick<RunScrapperDialogProps, 'runUrlCreator'> {
   initialScrapper?: ScrapperBuilderScrapper;
   ElementPicker: ScrapperElementPicker;
   loading?: boolean;

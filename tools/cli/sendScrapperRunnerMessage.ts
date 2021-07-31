@@ -46,7 +46,7 @@ async function main() {
     date: new Date().toISOString(),
     traceId: 'trace',
     payload: {
-      scrapperId: args.scrapperId!,
+      runId: args.scrapperId!,
       trigger: RunnerTrigger.Manual,
     },
   };

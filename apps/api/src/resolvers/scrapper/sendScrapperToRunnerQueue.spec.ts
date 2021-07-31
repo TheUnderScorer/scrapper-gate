@@ -12,8 +12,13 @@ import { createUser } from '../../tests/createUser';
 const mutation = gql`
   mutation SendScrapperToRunnerQueue($input: StartScrapperInput!) {
     sendScrapperToRunnerQueue(input: $input) {
-      id
-      state
+      scrapper {
+        id
+        lastRun {
+          id
+          state
+        }
+      }
     }
   }
 `;
@@ -42,6 +47,8 @@ describe('Send scrapper to runner queue', () => {
 
     const body = JSON.parse(response.body);
 
-    expect(body.data.sendScrapperToRunnerQueue.state).toEqual(RunState.Pending);
+    expect(body.data.sendScrapperToRunnerQueue?.scrapper.lastRun.state).toEqual(
+      RunState.Pending
+    );
   });
 });

@@ -8,10 +8,13 @@ import {
 import { useSnackbarOnError } from '@scrapper-gate/frontend/snackbars';
 import { RunState } from '@scrapper-gate/frontend/ui';
 import { isCompleted, isRunning } from '@scrapper-gate/shared/run-states';
-import { RunState as RunStateEnum } from '@scrapper-gate/shared/schema';
+import { Maybe, RunState as RunStateEnum } from '@scrapper-gate/shared/schema';
 import React from 'react';
 import { useMount } from 'react-use';
-import { RunScrapperDialogProps } from './RunScrapperDialog.types';
+import {
+  RunScrapperDialogProps,
+  ScrapperForRun,
+} from './RunScrapperDialog.types';
 
 export const runScrapperDialogId = 'RUN_SCRAPPER';
 
@@ -21,6 +24,7 @@ export const RunScrapperDialog = ({
   scrapper,
   onCancel,
   onRun,
+  runUrlCreator,
 }: RunScrapperDialogProps) => {
   const snackbarOnError = useSnackbarOnError();
 
@@ -36,7 +40,7 @@ export const RunScrapperDialog = ({
     },
     skip: !scrapper,
     onCompleted: (data) => {
-      if (isCompleted(data?.getMyScrapper?.state)) {
+      if (isCompleted(data?.getMyScrapper?.lastRun?.state)) {
         stopPolling?.();
       }
     },
@@ -51,7 +55,9 @@ export const RunScrapperDialog = ({
       },
       onError: snackbarOnError,
       onCompleted: (data) => {
-        if (data?.sendScrapperToRunnerQueue?.state === RunStateEnum.Pending) {
+        if (
+          data?.sendScrapperToRunnerQueue?.run?.state === RunStateEnum.Pending
+        ) {
           startPolling?.(pollMs);
 
           onRun?.();
@@ -59,12 +65,11 @@ export const RunScrapperDialog = ({
       },
     });
 
-  const actualScrapper =
-    getScrapperStateQueryData?.getMyScrapper ??
+  const actualScrapper = (getScrapperStateQueryData?.getMyScrapper ??
     data?.sendScrapperToRunnerQueue ??
-    scrapper;
+    scrapper) as Maybe<ScrapperForRun>;
 
-  const state = actualScrapper?.state;
+  const state = actualScrapper?.lastRun?.state;
 
   const running = isRunning(state);
 
@@ -101,6 +106,7 @@ export const RunScrapperDialog = ({
     >
       <DialogContentText component="div" whiteSpace="pre-wrap">
         <RunState
+          runUrlCreator={runUrlCreator}
           runMutationLoading={loading}
           lastRunDate={
             actualScrapper?.lastRun?.endedAt

@@ -89,6 +89,7 @@ export const ScrapperBuilder = ({
   loading,
   initialScrapper,
   ElementPicker,
+  runUrlCreator,
   ...rest
 }: ScrapperBuilderProps) => {
   const snackbarOnError = useSnackbarOnError();
@@ -225,6 +226,7 @@ export const ScrapperBuilder = ({
 
   const runScrapperDialog = useRunScraperDialog({
     scrapper: initialScrapper ?? data?.updateScrapper,
+    runUrlCreator,
   });
 
   return (

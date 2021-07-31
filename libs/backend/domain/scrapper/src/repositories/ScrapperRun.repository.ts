@@ -18,6 +18,12 @@ export class ScrapperRunRepository extends Repository<ScrapperRunModel> {
       .getOne();
   }
 
+  async findOneOrFailWithScrapper(runId: string) {
+    return this.findOneOrFail(runId, {
+      relations: ['scrapper'],
+    });
+  }
+
   private getLastForScrapperQuery(
     scrapperId: string,
     queryBuilder?: SelectQueryBuilder<ScrapperRunModel>

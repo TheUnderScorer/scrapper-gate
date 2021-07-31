@@ -1,15 +1,18 @@
 import { MessageQueueService } from '@scrapper-gate/backend/domain/message-queue-service';
-import { ScrapperRepository } from '../repositories/Scrapper.repository';
 import { ScrapperAlreadyRunningError } from '@scrapper-gate/shared/errors';
 import {
   BrowserType,
   RunnerTrigger,
-  RunState,
+  SendScrapperToQueueResult,
 } from '@scrapper-gate/shared/schema';
 import { SendScrapperToRunnerQueueCommand } from '../commands/SendScrapperToRunnerQueue.command';
+import { ScrapperRunModel } from '../models/ScrapperRun.model';
+import { ScrapperRepository } from '../repositories/Scrapper.repository';
+import { ScrapperRunRepository } from '../repositories/ScrapperRun.repository';
 
 export interface SendScrapperToRunnerQueueHandlerDependencies {
   scrapperRepository: ScrapperRepository;
+  scrapperRunRepository: ScrapperRunRepository;
   messageQueueService: MessageQueueService;
   traceId: string;
 }
@@ -19,32 +22,42 @@ export const sendScrapperToRunnerQueueHandler =
     scrapperRepository,
     messageQueueService,
     traceId,
+    scrapperRunRepository,
   }: SendScrapperToRunnerQueueHandlerDependencies) =>
-  async ({ payload: { input, userId } }: SendScrapperToRunnerQueueCommand) => {
+  async ({
+    payload: { input, userId },
+  }: SendScrapperToRunnerQueueCommand): Promise<SendScrapperToQueueResult> => {
     const scrapper = await scrapperRepository.getOneByUser(
       input.scrapperId,
       userId
     );
 
-    if (scrapper.isRunning) {
+    const lastRun = await scrapperRunRepository.getLastForScrapper(scrapper.id);
+
+    if (lastRun?.isRunning) {
       throw new ScrapperAlreadyRunningError();
     }
+
+    const run = ScrapperRunModel.createPendingFromScrapper(scrapper);
+
+    await scrapperRunRepository.save(run);
 
     await messageQueueService.sendToScrapperQueue(
       {
         traceId,
         date: new Date().toISOString(),
         payload: {
-          scrapperId: input.scrapperId,
+          runId: run.id,
           trigger: RunnerTrigger.Manual,
         },
       },
       input.browserType ?? BrowserType.Chrome
     );
 
-    scrapper.state = RunState.Pending;
-
     await scrapperRepository.save(scrapper);
 
-    return scrapper;
+    return {
+      run,
+      scrapper,
+    };
   };

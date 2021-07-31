@@ -3,14 +3,23 @@ import {
   TemplateType,
 } from '@scrapper-gate/shared/common';
 
-export const paramRoute = <
-  Params extends Record<string, string | number | boolean | undefined>
->(
-  route: string
-) => (params?: Params) => {
-  if (!params) {
-    return route.split('?')[0];
-  }
+export interface RouteParams {
+  [key: string]: string | number | boolean | undefined;
+}
 
-  return applyVariablesToText(route, params, TemplateType.Colon);
-};
+export const paramRoute =
+  <Params extends RouteParams>(route: string, defaults?: Params) =>
+  (params?: Params) => {
+    const allParams = {
+      ...defaults,
+      ...params,
+    };
+
+    if (!params) {
+      return route.split('?')[0];
+    }
+
+    return applyVariablesToText(route, allParams, TemplateType.Colon);
+  };
+
+export type ParamRouteResult = ReturnType<typeof paramRoute>;

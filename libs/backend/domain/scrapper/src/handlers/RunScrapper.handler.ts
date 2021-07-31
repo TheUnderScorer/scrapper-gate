@@ -3,8 +3,6 @@ import { RunState } from '@scrapper-gate/shared/schema';
 import { CommandHandler } from 'functional-cqrs';
 import { RunScrapperCommand } from '../commands/RunScrapper.command';
 import { GetScrapperRunner } from '../logic/getScrapperRunner';
-import { ScrapperModel } from '../models/Scrapper.model';
-import { ScrapperRunModel } from '../models/ScrapperRun.model';
 import { ScrapperRepository } from '../repositories/Scrapper.repository';
 import { ScrapperRunRepository } from '../repositories/ScrapperRun.repository';
 
@@ -17,14 +15,16 @@ export interface RunScrapperHandlerDependencies {
 export class RunScrapperHandler implements CommandHandler<RunScrapperCommand> {
   constructor(private readonly dependencies: RunScrapperHandlerDependencies) {}
 
-  async handle({ payload: { scrapperId } }: RunScrapperCommand) {
+  async handle({ payload: { runId } }: RunScrapperCommand) {
     const { scrapperRepository, scrapperRunRepository, getScrapperRunner } =
       this.dependencies;
 
-    const scrapper = await scrapperRepository.getOneForRun(scrapperId);
-    const scrapperRun = ScrapperRunModel.createInProgressFromScrapper(scrapper);
+    const scrapperRun = await scrapperRunRepository.findOneOrFailWithScrapper(
+      runId
+    );
+    const { scrapper } = scrapperRun;
 
-    scrapper.state = RunState.InProgress;
+    scrapperRun.state = RunState.InProgress;
 
     await scrapperRepository.save(scrapper);
     await scrapperRunRepository.save(scrapperRun);
@@ -34,7 +34,7 @@ export class RunScrapperHandler implements CommandHandler<RunScrapperCommand> {
     const processor = new ScrapperRunProcessor(runner);
 
     try {
-      this.setupEvents(processor, scrapper);
+      this.setupEvents(processor);
 
       await processor.process({
         scrapperRun,
@@ -46,24 +46,11 @@ export class RunScrapperHandler implements CommandHandler<RunScrapperCommand> {
     }
   }
 
-  private setupEvents(
-    processor: ScrapperRunProcessor,
-    scrapper: ScrapperModel
-  ) {
-    const { scrapperRunRepository, scrapperRepository } = this.dependencies;
+  private setupEvents(processor: ScrapperRunProcessor) {
+    const { scrapperRunRepository } = this.dependencies;
 
     processor.events.on('scrapperRunChanged', async (scrapperRun) => {
-      const promises: Array<Promise<unknown>> = [
-        scrapperRunRepository.save(scrapperRun),
-      ];
-
-      if (scrapperRun.state !== scrapper.state) {
-        scrapper.state = scrapperRun.state;
-
-        promises.push(scrapperRepository.save(scrapper));
-      }
-
-      await Promise.all(promises);
+      await scrapperRunRepository.save(scrapperRun);
     });
   }
 }

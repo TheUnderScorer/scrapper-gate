@@ -1,10 +1,13 @@
-import { paramRoute } from './route';
+import { paramRoute, RouteParams } from './route';
+import { RunResultRouteParams } from './types';
 
-export interface ContentScrapperRouteParams {
+export interface ContentScrapperRouteParams extends RouteParams {
   scrapperId?: string;
   drawerOpen?: boolean;
+}
 
-  [key: string]: string | number | boolean | undefined;
+export interface ScrapperRunResultRouteParams extends RunResultRouteParams {
+  drawerOpen?: boolean;
 }
 
 export const browserExtensionRoutes = {
@@ -20,5 +23,8 @@ export const browserExtensionRoutes = {
       '/scrapper/:scrapperId?drawerOpen=:drawerOpen'
     ),
     createScrapper: '/create-scrapper',
+    scrapperResult: paramRoute<ScrapperRunResultRouteParams>(
+      '/scrapper-result/:resultId?drawerOpen=:drawerOpen'
+    ),
   },
 };
