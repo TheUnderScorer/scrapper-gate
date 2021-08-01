@@ -14,8 +14,23 @@ function makeShim(baseConfig, regex) {
   );
 }
 
+function removeProgressPlugin(config) {
+  // There are two ProgressPlugins, and this causes build to fail
+  const index = config.plugins.findIndex(
+    (plugin) =>
+      plugin.constructor?.name === 'ProgressPlugin' &&
+      plugin.modulesCount === 500
+  );
+
+  config.plugins.splice(index, 1);
+
+  return config;
+}
+
 module.exports = (baseConfig) => {
   const config = createConfig(baseConfig);
+
+  removeProgressPlugin(config);
 
   config.entry.main = [path.resolve(__dirname, './src/popup.tsx')];
   config.entry.content = [path.resolve(__dirname, './src/content.tsx')];
