@@ -43,12 +43,10 @@ module.exports = {
   },
   plugins: [
     new ForkTsCheckerWebpackPlugin({
-      tsconfig: tsConfigPath,
-      useTypescriptIncrementalApi: false,
-      workers: 2,
-      memoryLimit: 2048,
-      async: true,
-      useColors: true,
+      async: false,
+      typescript: {
+        configFile: tsConfigPath,
+      },
     }),
   ],
 };
