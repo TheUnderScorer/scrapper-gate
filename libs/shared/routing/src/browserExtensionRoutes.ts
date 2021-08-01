@@ -23,8 +23,8 @@ export const browserExtensionRoutes = {
       '/scrapper/:scrapperId?drawerOpen=:drawerOpen'
     ),
     createScrapper: '/create-scrapper',
-    scrapperResult: paramRoute<ScrapperRunResultRouteParams>(
-      '/scrapper-result/:resultId?drawerOpen=:drawerOpen'
+    scrapperRun: paramRoute<ScrapperRunResultRouteParams>(
+      '/scrapper-run/:runId?drawerOpen=:drawerOpen'
     ),
   },
 };

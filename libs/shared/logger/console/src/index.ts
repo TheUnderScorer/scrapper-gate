@@ -5,7 +5,7 @@ export const logger: Logger = {
   info: console.log,
   // TODO Helper function for checking env
   debug: (...args) => {
-    return console.log(...args);
+    return console.log('[DEBUG] ', ...args);
   },
   fatal: console.error,
   warn: console.warn,

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Button, DialogContentText } from '@material-ui/core';
-import { Dialog } from '@scrapper-gate/frontend/dialogs';
+import { Dialog, useDialogMethods } from '@scrapper-gate/frontend/dialogs';
 import {
   useGetScrapperStateQuery,
   useSendScrapperToQueueMutation,
@@ -26,6 +26,11 @@ export const RunScrapperDialog = ({
   onRun,
   runUrlCreator,
 }: RunScrapperDialogProps) => {
+  const { cancel } = useDialogMethods({
+    id: runScrapperDialogId,
+    onCancel,
+  });
+
   const snackbarOnError = useSnackbarOnError();
 
   const {
@@ -106,6 +111,8 @@ export const RunScrapperDialog = ({
     >
       <DialogContentText component="div" whiteSpace="pre-wrap">
         <RunState
+          onRunUrlClick={cancel}
+          runId={actualScrapper?.lastRun?.id}
           runUrlCreator={runUrlCreator}
           runMutationLoading={loading}
           lastRunDate={

@@ -11,7 +11,7 @@ module.exports = {
   entry: slsw.lib.entries,
   mode: isLocal ? 'development' : 'production',
   externals: [nodeExternals()],
-  devtool: 'source-map',
+  devtool: isLocal ? 'eval-source-map' : 'source-map',
   target: 'node',
   output: {
     libraryTarget: 'commonjs',

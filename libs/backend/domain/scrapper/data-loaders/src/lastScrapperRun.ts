@@ -12,6 +12,9 @@ export interface LastScrapperRunDataLoaderDependencies {
 export const createLastScrapperRunDataLoader = ({
   scrapperRunRepository,
 }: LastScrapperRunDataLoaderDependencies) =>
-  new DataLoader<string, Maybe<ScrapperRunModel>>((ids) =>
-    scrapperRunRepository.loadLastForScrappers(ids)
+  new DataLoader<string, Maybe<ScrapperRunModel>>(
+    (ids) => scrapperRunRepository.loadLastForScrappers(ids),
+    {
+      cache: false,
+    }
   );

@@ -1,4 +1,5 @@
 import { ScrapperRunError } from '@scrapper-gate/shared/errors';
+import { logger } from '@scrapper-gate/shared/logger/console';
 import {
   RunState,
   ScrapperAction,
@@ -55,13 +56,9 @@ describe('Scrapper run processor', () => {
   it('should process run - true condition', async () => {
     const runner = createMockProxy<ScrapperRunner>();
 
-    const processor = new ScrapperRunProcessor(runner);
-    const {
-      stepOnTrue,
-      stepOnFalse,
-      initialScrapperRun,
-      scrapper,
-    } = await setupRun();
+    const processor = new ScrapperRunProcessor(runner, logger);
+    const { stepOnTrue, stepOnFalse, initialScrapperRun, scrapper } =
+      await setupRun();
 
     runner.Click.mockResolvedValue({
       values: [],
@@ -96,13 +93,9 @@ describe('Scrapper run processor', () => {
   it('should process run - false condition', async () => {
     const runner = createMockProxy<ScrapperRunner>();
 
-    const processor = new ScrapperRunProcessor(runner);
-    const {
-      stepOnTrue,
-      stepOnFalse,
-      initialScrapperRun,
-      scrapper,
-    } = await setupRun();
+    const processor = new ScrapperRunProcessor(runner, logger);
+    const { stepOnTrue, stepOnFalse, initialScrapperRun, scrapper } =
+      await setupRun();
 
     runner.Click.mockResolvedValue({
       values: [],
@@ -135,7 +128,7 @@ describe('Scrapper run processor', () => {
   it('should handle errors', async () => {
     const runner = createMockProxy<ScrapperRunner>();
 
-    const processor = new ScrapperRunProcessor(runner);
+    const processor = new ScrapperRunProcessor(runner, logger);
     const { initialScrapperRun, scrapper } = await setupRun();
 
     runner.Click.mockImplementation(async () => {
@@ -185,7 +178,7 @@ describe('Scrapper run processor', () => {
 
     const runner = createMockProxy<ScrapperRunner>();
 
-    const processor = new ScrapperRunProcessor(runner);
+    const processor = new ScrapperRunProcessor(runner, logger);
     const { initialScrapperRun, scrapper } = await setupRun();
 
     scrapper.steps = steps;

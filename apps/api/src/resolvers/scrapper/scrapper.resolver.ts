@@ -62,12 +62,16 @@ export const scrapperResolver = (): Resolvers<ServerContext> => ({
   Scrapper: {
     name: (root) => root.name || 'Unnamed scrapper',
     lastRun: async (root, _, { unitOfWork }) =>
-      unitOfWork.run(({ queriesBus }) =>
-        queriesBus.query(
-          new GetScrapperLastRunQuery({
-            scrapperId: root.id,
-          })
-        )
+      unitOfWork.run(
+        ({ queriesBus }) =>
+          queriesBus.query(
+            new GetScrapperLastRunQuery({
+              scrapperId: root.id,
+            })
+          ),
+        {
+          runInTransaction: false,
+        }
       ),
   },
 });

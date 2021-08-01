@@ -1,14 +1,15 @@
 import { RunState } from '@scrapper-gate/shared/schema';
 
-export const runStates: RunState[] = [RunState.Pending, RunState.InProgress];
+export const runStates = [RunState.Pending, RunState.InProgress];
 
-export const completedRunStates: RunState[] = [
-  RunState.Completed,
-  RunState.Failed,
-];
+export const completedRunStates = [RunState.Completed, RunState.Failed];
 
-export const isRunning = (state?: RunState): state is RunState =>
+export const isRunning = (
+  state?: RunState
+): state is typeof runStates[number] =>
   Boolean(state && runStates.includes(state));
 
-export const isCompleted = (state?: RunState): state is RunState =>
+export const isCompleted = (
+  state?: RunState
+): state is typeof completedRunStates[number] =>
   Boolean(state && completedRunStates.includes(state));

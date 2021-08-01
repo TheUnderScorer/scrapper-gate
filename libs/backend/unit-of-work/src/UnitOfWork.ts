@@ -7,8 +7,14 @@ import { Logger } from '@scrapper-gate/shared/logger';
 import { asValue, AwilixContainer } from 'awilix';
 import { Typed } from 'emittery';
 import { CqrsResult } from 'functional-cqrs';
-import { Connection } from 'typeorm';
+import { Connection, EntityManager } from 'typeorm';
+import { IsolationLevel } from 'typeorm/driver/types/IsolationLevel';
 import { UnitOfWorkCallback } from './types';
+
+export interface UnitOfWorkRunParams {
+  isolationLevel?: IsolationLevel;
+  runInTransaction?: boolean;
+}
 
 export interface UnitOfWorkDependencies {
   connection: Connection;
@@ -38,42 +44,24 @@ export class UnitOfWork<
   constructor(private readonly dependencies: UnitOfWorkDependencies) {}
 
   async run<ReturnType>(
-    callback: UnitOfWorkCallback<ReturnType, Cqrs['buses']>
+    callback: UnitOfWorkCallback<ReturnType, Cqrs['buses']>,
+    {
+      isolationLevel = 'READ UNCOMMITTED',
+      runInTransaction = true,
+    }: UnitOfWorkRunParams = {}
   ) {
-    const { connection, container, logger, repositoriesProvider } =
-      this.dependencies;
+    const { connection, container, logger } = this.dependencies;
 
     const scopedContainer = container.createScope();
 
     const messageQueue = scopedContainer.resolve<MessageQueue>('messageQueue');
 
     try {
-      const result = await connection.transaction(async (t) => {
-        scopedContainer.register(asValueObject(repositoriesProvider(t)));
-
-        const {
-          buses: { eventsBus, commandsBus, queriesBus },
-        } = scopedContainer.resolve<Cqrs>('cqrsFactory');
-
-        scopedContainer.register({
-          eventsBus: asValue(eventsBus),
-          commandsBus: asValue(commandsBus),
-          queriesBus: asValue(queriesBus),
-        });
-
-        await this.events.emit('start', {
-          container: scopedContainer,
-        });
-
-        const callbackContext = {
-          eventsBus,
-          queriesBus,
-          commandsBus,
-          container: scopedContainer,
-        };
-
-        return callback(callbackContext);
-      });
+      const result = runInTransaction
+        ? await connection.transaction(isolationLevel, async (t) => {
+            return await this.callCallback(scopedContainer, t, callback);
+          })
+        : await this.callCallback(scopedContainer, connection, callback);
 
       await messageQueue.commit();
 
@@ -94,6 +82,40 @@ export class UnitOfWork<
     } finally {
       await scopedContainer.dispose();
     }
+  }
+
+  private async callCallback<ReturnType>(
+    scopedContainer: AwilixContainer,
+    connection: EntityManager | Connection,
+    callback: (
+      context: Cqrs['buses'] & { container: AwilixContainer }
+    ) => Promise<ReturnType> | ReturnType
+  ) {
+    const { repositoriesProvider } = this.dependencies;
+    scopedContainer.register(asValueObject(repositoriesProvider(connection)));
+
+    const {
+      buses: { eventsBus, commandsBus, queriesBus },
+    } = scopedContainer.resolve<Cqrs>('cqrsFactory');
+
+    scopedContainer.register({
+      eventsBus: asValue(eventsBus),
+      commandsBus: asValue(commandsBus),
+      queriesBus: asValue(queriesBus),
+    });
+
+    await this.events.emit('start', {
+      container: scopedContainer,
+    });
+
+    const callbackContext = {
+      eventsBus,
+      queriesBus,
+      commandsBus,
+      container: scopedContainer,
+    };
+
+    return callback(callbackContext);
   }
 
   dispose() {

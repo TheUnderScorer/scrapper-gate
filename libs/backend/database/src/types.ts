@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { EntityManager, Repository } from 'typeorm';
+import { Connection, EntityManager, Repository } from 'typeorm';
 
 export type RepositoriesProvider = (
-  transaction: EntityManager
+  transaction: EntityManager | Connection
 ) => Record<string, Repository<any>>;

@@ -7,6 +7,7 @@ import {
 } from '@scrapper-gate/shared/common';
 import { resolveVariables } from '@scrapper-gate/shared/domain/variables';
 import { AppError, ScrapperRunError } from '@scrapper-gate/shared/errors';
+import { Logger } from '@scrapper-gate/shared/logger';
 import {
   ErrorObject,
   RunState,
@@ -31,7 +32,10 @@ export interface ProcessParams extends InitialiseScrapperRunnerParams {
 }
 
 export class ScrapperRunProcessor implements Disposable {
-  constructor(private readonly runner: ScrapperRunner) {}
+  constructor(
+    private readonly runner: ScrapperRunner,
+    private readonly logger: Logger
+  ) {}
 
   readonly events = new Typed<{
     scrapperRunChanged: ScrapperRun;
@@ -43,6 +47,8 @@ export class ScrapperRunProcessor implements Disposable {
   }>();
 
   async process({ scrapperRun, scrapper, ...rest }: ProcessParams) {
+    let failed = false;
+
     if (!scrapperRun.steps?.length) {
       return {
         scrapperRun,
@@ -69,6 +75,8 @@ export class ScrapperRunProcessor implements Disposable {
         step = nextStep!;
       }
     } catch (error) {
+      this.logger.error(`Step ${step?.id} failed: ${error.message}`);
+
       const { error: errorObject, stepResult } =
         ScrapperRunProcessor.createStepResultFromError(error, step!);
 
@@ -82,12 +90,16 @@ export class ScrapperRunProcessor implements Disposable {
         step: step!,
         error,
       });
+
+      failed = true;
     }
 
     scrapperRun.endedAt = new Date();
-    scrapperRun.state = RunState.Completed;
+    scrapperRun.state = failed ? RunState.Failed : RunState.Completed;
 
     await this.events.emit('scrapperRunChanged', scrapperRun);
+
+    this.logger.info(`Run ${scrapperRun.id} finished.`);
 
     return {
       scrapperRun,

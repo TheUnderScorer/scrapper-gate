@@ -16,9 +16,21 @@ export const RunState = ({
   runMutationLoading,
   lastRunDate,
   runUrlCreator,
-  resultId,
+  runId,
+  onRunUrlClick,
 }: RunStateProps) => {
   const running = isRunning(state);
+
+  const runLinkElement = useMemo(
+    () =>
+      runUrlCreator &&
+      runId && (
+        <Link onClick={onRunUrlClick} to={runUrlCreator({ runId })}>
+          <Button variant="text">View run</Button>
+        </Link>
+      ),
+    [onRunUrlClick, runId, runUrlCreator]
+  );
 
   const message = useMemo(() => {
     const runMessage = (
@@ -30,12 +42,6 @@ export const RunState = ({
     if (!running && !called) {
       return runMessage;
     }
-
-    const runLinkElement = runUrlCreator && resultId && (
-      <Link to={runUrlCreator({ resultId })}>
-        <Button variant="text">View run.</Button>
-      </Link>
-    );
 
     switch (state) {
       case RunStateEnum.Pending:
@@ -73,9 +79,8 @@ export const RunState = ({
     called,
     entity,
     name,
-    resultId,
+    runLinkElement,
     runMutationLoading,
-    runUrlCreator,
     running,
     state,
   ]);
@@ -89,10 +94,10 @@ export const RunState = ({
         )}
         <span>{message}</span>
       </Stack>
-      {lastRunDate && !running && (
+      {lastRunDate && !running && !called && (
         <Typography variant="subtitle2">
           Last run finished at <i>{format(lastRunDate, DateFormat.DateTime)}</i>
-          .
+          . {runLinkElement}
         </Typography>
       )}
     </Stack>

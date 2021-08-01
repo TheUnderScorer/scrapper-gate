@@ -33,7 +33,7 @@ export const ScrapperBuilderView = () => {
   return (
     <ContentDrawer queryKey="drawerOpen">
       <ScrapperBuilder
-        runUrlCreator={browserExtensionRoutes.content.scrapperResult}
+        runUrlCreator={browserExtensionRoutes.content.scrapperRun}
         ElementPicker={ScrapperElementPicker}
         browserUrl={location.href}
         initialScrapper={data?.getMyScrapper}
