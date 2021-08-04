@@ -50,6 +50,8 @@ const BaseFlowBuilderNode = forwardRef<HTMLDivElement, FlowBuilderNodeProps>(
     const classes = useStyles();
     const removeItems = useRemoveItems();
 
+    const readOnly = useFlowBuilderContextSelector((ctx) => ctx.readOnly);
+
     const nodeKeyProperty = useFlowBuilderContextSelector(
       (ctx) => ctx.nodeKeyProperty
     );
@@ -62,16 +64,18 @@ const BaseFlowBuilderNode = forwardRef<HTMLDivElement, FlowBuilderNodeProps>(
     }, [node, nodeKeyProperty]);
 
     const {
-      data: { dropdownMenu, title },
+      data: { dropdownMenu, title, nodeAddonBefore },
     } = node;
 
     const menuItems = useMemo<MenuItemProperties[]>(() => {
-      if (node.data.cannotBeDeleted) {
-        return dropdownMenu?.(node) ?? [];
+      const menuItems = dropdownMenu?.(node) ?? [];
+
+      if (node.data.cannotBeDeleted || readOnly) {
+        return menuItems;
       }
 
       return [
-        ...(dropdownMenu?.(node) ?? []),
+        ...menuItems,
         {
           className: classes.deleteStep,
           id: `delete-step-${node.id}`,
@@ -80,7 +84,7 @@ const BaseFlowBuilderNode = forwardRef<HTMLDivElement, FlowBuilderNodeProps>(
           onClick: () => removeItems([node]),
         },
       ];
-    }, [classes.deleteStep, dropdownMenu, node, removeItems]);
+    }, [classes.deleteStep, dropdownMenu, node, readOnly, removeItems]);
 
     return (
       <div
@@ -93,12 +97,13 @@ const BaseFlowBuilderNode = forwardRef<HTMLDivElement, FlowBuilderNodeProps>(
         )}
       >
         <Box position="relative" textAlign="center" width={defaultNodeSize}>
+          {nodeAddonBefore?.(node)}
           {error && (
             <Tooltip title={<TooltipText>{error.message}</TooltipText>}>
               <ErrorSharp color="error" className={classes.errorIcon} />
             </Tooltip>
           )}
-          {(dropdownMenu || !node.data?.cannotBeDeleted) && (
+          {menuItems.length > 0 && (
             <Dropdown
               iconButtonProps={{
                 className: classNames(

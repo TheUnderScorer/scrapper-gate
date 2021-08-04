@@ -5,10 +5,8 @@ export interface GetScrapperByUserHandlerDependencies {
   scrapperRepository: ScrapperRepository;
 }
 
-export const getScrapperByUserHandler = ({
-  scrapperRepository,
-}: GetScrapperByUserHandlerDependencies) => async ({
-  payload: { scrapperId, userId },
-}: GetScrapperByUserQuery) => {
-  return scrapperRepository.getOneByUser(scrapperId, userId);
-};
+export const getScrapperByUserHandler =
+  ({ scrapperRepository }: GetScrapperByUserHandlerDependencies) =>
+  async ({ payload: { scrapperId, userId } }: GetScrapperByUserQuery) => {
+    return scrapperRepository.getOneAggregateByUser(scrapperId, userId);
+  };

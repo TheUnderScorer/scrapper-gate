@@ -1,4 +1,4 @@
-import { Maybe } from '@scrapper-gate/shared/common';
+import { Perhaps } from '@scrapper-gate/shared/common';
 import React, { PropsWithChildren, useState } from 'react';
 import {
   createContext,
@@ -8,8 +8,8 @@ import {
 import { StringParam, useQueryParam } from 'use-query-params';
 
 export interface FlowBuilderActiveNodeContext {
-  activeNodeId?: Maybe<string>;
-  setActiveNodeId: (node?: Maybe<string>) => unknown;
+  activeNodeId?: Perhaps<string>;
+  setActiveNodeId: (node?: Perhaps<string>) => unknown;
   contentOpen: boolean;
   setContentOpen: (open: boolean) => void;
 }

@@ -17,13 +17,13 @@ export interface EntityDefinition<
 }
 
 // Extract repositories from transaction basing on given entity definitions
-export const makeRepositoriesProviderFromDefinitions = (
-  definitions: EntityDefinition<BaseModel<unknown>>[]
-): RepositoriesProvider => (transaction) => {
-  return definitions.reduce((acc, def) => {
-    return {
-      ...acc,
-      [def.repositoryKey]: transaction.getCustomRepository(def.repository),
-    };
-  }, {} as ReturnType<RepositoriesProvider>);
-};
+export const makeRepositoriesProviderFromDefinitions =
+  (definitions: EntityDefinition[]): RepositoriesProvider =>
+  (transaction) => {
+    return definitions.reduce((acc, def) => {
+      return {
+        ...acc,
+        [def.repositoryKey]: transaction.getCustomRepository(def.repository),
+      };
+    }, {} as ReturnType<RepositoriesProvider>);
+  };

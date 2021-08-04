@@ -33,6 +33,8 @@ import React, { useCallback, useMemo } from 'react';
 import { Form } from 'react-final-form';
 import { Node } from 'react-flow-renderer';
 import { v4 as uuid } from 'uuid';
+import { createScrapperNodeSelection } from '../../shared/scrapperNodeSelection';
+import { scrapperStepsToNodes } from '../../shared/scrapperStepsToNodes';
 import { useRunScraperDialog } from '../RunScrapperDialog/useRunScraperDialog';
 import { ScrapperBuilderNodeContent } from './NodeContent/ScrapperBuilderNodeContent';
 import { nodesToScrapperSteps } from './nodesToScrapperSteps';
@@ -42,8 +44,6 @@ import {
   ScrapperBuilderNodeProperties,
   ScrapperBuilderProps,
 } from './ScrapperBuilder.types';
-import { createScrapperNodeSelection } from './scrapperNodeSelection';
-import { scrapperStepsToNodes } from './scrapperStepsToNodes';
 import { ScrapperBuilderStartNodeContent } from './StartNodeContent/ScrapperBuilderStartNodeContent';
 
 const initialNodes = [
@@ -175,7 +175,7 @@ export const ScrapperBuilder = ({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const debouncedValidate = useDebouncedValidator<any>({
     validate,
-    ms: 500,
+    ms: 250,
   });
 
   const handleSubmit = useCallback(

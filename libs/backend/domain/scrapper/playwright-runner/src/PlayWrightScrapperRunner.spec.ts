@@ -72,7 +72,7 @@ describe('PlayWright scrapper runner', () => {
     }
 
     if (browsers.length) {
-      await browsers.map((browser) => browser.close());
+      browsers.map((browser) => browser.close());
     }
 
     runners = [];
@@ -87,6 +87,7 @@ describe('PlayWright scrapper runner', () => {
       });
 
       const scrapperRun: ScrapperRun = {
+        index: 0,
         id: v4(),
         steps: [],
         createdAt: new Date(),
@@ -197,7 +198,7 @@ describe('PlayWright scrapper runner', () => {
           expect(values[0].value).toEqual('Close popup.');
 
           expect(runner.currentContext.pages()).toHaveLength(2);
-          expect(await runner.currentPage.url()).toEqual(
+          expect(runner.currentPage.url()).toEqual(
             'http://localhost:8080/popup.html?popup=1'
           );
 

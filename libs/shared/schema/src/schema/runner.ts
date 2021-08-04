@@ -7,6 +7,7 @@ export const runnerSchema = gql`
     Completed
     Failed
     Cancelled
+    Skipped
   }
 
   enum RunnerTrigger {

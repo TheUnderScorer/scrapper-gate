@@ -1,5 +1,7 @@
-import { Maybe } from '@scrapper-gate/shared/common';
-import { useFlowBuilderSelection } from '../providers/FlowBuilderSelection.provider';
+import { PopoverPosition } from '@material-ui/core';
+import { Sort } from '@material-ui/icons';
+import { MenuItemProperties, Selection } from '@scrapper-gate/frontend/common';
+import { Perhaps } from '@scrapper-gate/shared/common';
 import React, {
   MutableRefObject,
   useCallback,
@@ -7,15 +9,13 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { MenuItemProperties, Selection } from '@scrapper-gate/frontend/common';
-import { Sort } from '@material-ui/icons';
-import { useFlowBuilderInstanceContext } from '../providers/FlowBuilderInstance.provider';
-import { useAddItem } from './useAddItem';
-import { useFlowBuilderContextSelector } from '../providers/FlowBuilderProps.provider';
-import { PopoverPosition } from '@material-ui/core';
+import { OpenCloseContextMenuBag } from '../../../molecules/ContextMenu/ContextMenu.types';
 import { FilterTextField } from '../../../molecules/FilterTextField/FilterTextField';
 import { BaseNodeSelectionProperties } from '../FlowBuilder.types';
-import { OpenCloseContextMenuBag } from '../../../molecules/ContextMenu/ContextMenu.types';
+import { useFlowBuilderInstanceContext } from '../providers/FlowBuilderInstance.provider';
+import { useFlowBuilderContextSelector } from '../providers/FlowBuilderProps.provider';
+import { useFlowBuilderSelection } from '../providers/FlowBuilderSelection.provider';
+import { useAddItem } from './useAddItem';
 
 export interface UseCanvasContextMenuProps {
   containerRef: MutableRefObject<HTMLElement | undefined>;
@@ -26,7 +26,7 @@ export const useCanvasContextMenu = ({
 }: UseCanvasContextMenuProps) => {
   const { selection } = useFlowBuilderSelection();
   const [filteredSelection, setFilteredSelection] = useState(selection);
-  const [menuPos, setMenuPos] = useState<Maybe<PopoverPosition>>(null);
+  const [menuPos, setMenuPos] = useState<Perhaps<PopoverPosition>>(null);
 
   const { flowInstance } = useFlowBuilderInstanceContext();
   const addItem = useAddItem();
@@ -68,8 +68,8 @@ export const useCanvasContextMenu = ({
   }, []);
 
   const menuItems = useMemo<MenuItemProperties[]>(() => {
-    const nodeTypesItems: Maybe<MenuItemProperties[]> = filteredSelection?.map(
-      (item) => {
+    const nodeTypesItems: Perhaps<MenuItemProperties[]> =
+      filteredSelection?.map((item) => {
         const { icon, label } = item;
 
         return {
@@ -78,8 +78,7 @@ export const useCanvasContextMenu = ({
           icon: icon,
           onClick: handleAdd(item),
         };
-      }
-    );
+      });
 
     return [
       {

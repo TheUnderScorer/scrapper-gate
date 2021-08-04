@@ -1,4 +1,5 @@
 import { MessageQueueService } from '@scrapper-gate/backend/domain/message-queue-service';
+import { getNextIndex } from '@scrapper-gate/shared/common';
 import { ScrapperAlreadyRunningError } from '@scrapper-gate/shared/errors';
 import {
   BrowserType,
@@ -27,18 +28,23 @@ export const sendScrapperToRunnerQueueHandler =
   async ({
     payload: { input, userId },
   }: SendScrapperToRunnerQueueCommand): Promise<SendScrapperToQueueResult> => {
-    const scrapper = await scrapperRepository.getOneByUser(
+    const scrapper = await scrapperRepository.getOneAggregateByUser(
       input.scrapperId,
       userId
     );
 
-    const lastRun = await scrapperRunRepository.getLastForScrapper(scrapper.id);
+    const lastRun = await scrapperRunRepository.findLastForScrapper(
+      scrapper.id
+    );
 
     if (lastRun?.isRunning) {
       throw new ScrapperAlreadyRunningError();
     }
 
-    const run = ScrapperRunModel.createPendingFromScrapper(scrapper);
+    const run = ScrapperRunModel.createPendingFromScrapper(
+      scrapper,
+      getNextIndex(lastRun)
+    );
 
     await scrapperRunRepository.save(run);
 

@@ -4,23 +4,35 @@ import { ScrapperRunModel } from '../models/ScrapperRun.model';
 
 @EntityRepository(ScrapperRunModel)
 export class ScrapperRunRepository extends Repository<ScrapperRunModel> {
-  async getLastForScrapper(
+  async findLastForScrapper(
     scrapperId: string,
     queryBuilder?: SelectQueryBuilder<ScrapperRunModel>
   ) {
     return this.getLastForScrapperQuery(scrapperId, queryBuilder).getOne();
   }
 
-  async getLastForScrapperWithValues(scrapperId: string) {
+  async findLastForScrapperWithValues(scrapperId: string) {
     return this.getLastForScrapperQuery(scrapperId)
       .leftJoinAndSelect('scrapperRun.results', 'results')
       .leftJoinAndSelect('results.values', 'values')
       .getOne();
   }
 
-  async findOneOrFailWithScrapper(runId: string) {
+  async getOneForUser(id: string, userId: string) {
+    return this.findOneOrFail({
+      where: {
+        id,
+        createdBy: {
+          id: userId,
+        },
+      },
+      relations: ['createdBy', 'scrapper', 'results', 'results.values'],
+    });
+  }
+
+  async getOneAggregate(runId: string) {
     return this.findOneOrFail(runId, {
-      relations: ['scrapper'],
+      relations: ['scrapper', 'results', 'results.values'],
     });
   }
 
@@ -36,7 +48,7 @@ export class ScrapperRunRepository extends Repository<ScrapperRunModel> {
 
   async loadLastForScrappers(scrapperIds: ReadonlyArray<string>) {
     const models = await Promise.all(
-      scrapperIds.map((scrapperId) => this.getLastForScrapper(scrapperId))
+      scrapperIds.map((scrapperId) => this.findLastForScrapper(scrapperId))
     );
 
     return ensureIdsOrder(

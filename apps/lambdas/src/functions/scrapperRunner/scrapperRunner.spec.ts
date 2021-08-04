@@ -4,21 +4,16 @@ import {
   ScrapperRepository,
   ScrapperRunModel,
   ScrapperRunRepository,
-  ScrapperStepModel,
+  ScrapperStepModel
 } from '@scrapper-gate/backend/domain/scrapper';
 import { UserRepository } from '@scrapper-gate/backend/domain/user';
 import { Message } from '@scrapper-gate/backend/message-queue';
 import {
   createMockScrapper,
   createMockScrapperStep,
-  ScrapperRunnerMessagePayload,
+  ScrapperRunnerMessagePayload
 } from '@scrapper-gate/shared/domain/scrapper';
-import {
-  MouseButton,
-  RunnerTrigger,
-  ScrapperAction,
-  ScrapperType,
-} from '@scrapper-gate/shared/schema';
+import { MouseButton, RunnerTrigger, ScrapperAction, ScrapperType } from '@scrapper-gate/shared/schema';
 import '../../../../../typings/global/index';
 import { scrapperRunner } from './scrapperRunner';
 
@@ -104,9 +99,8 @@ describe('Scrapper runner', () => {
       global.connection
     );
 
-    const updatedRun = await scrapperRunRepository.getLastForScrapperWithValues(
-      scrapper.id
-    );
+    const updatedRun =
+      await scrapperRunRepository.findLastForScrapperWithValues(scrapper.id);
 
     expect(updatedRun).toBeDefined();
     expect(updatedRun?.results).toHaveLength(scrapper.steps.length);

@@ -12,15 +12,15 @@ import classNames from 'classnames';
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { Node } from 'react-flow-renderer';
 import { useDebounce, usePrevious } from 'react-use';
-import { Layout } from '../../../molecules/Layout/Layout';
-import { ResizablePanel } from '../../../molecules/ResizablePanel/ResizablePanel';
-import { BaseNodeProperties } from '../FlowBuilder.types';
-import { useFlowBuilderActiveNode } from '../providers/FlowBuilderActiveNode.provider';
+import { Layout } from '../../../../molecules/Layout/Layout';
+import { ResizablePanel } from '../../../../molecules/ResizablePanel/ResizablePanel';
+import { BaseNodeProperties } from '../../FlowBuilder.types';
+import { useFlowBuilderActiveNode } from '../../providers/FlowBuilderActiveNode.provider';
 import {
   FlowBuilderItemsContext,
   useFlowBuilderItemsSelector,
-} from '../providers/FlowBuilderItems.provider';
-import { useFlowBuilderContextSelector } from '../providers/FlowBuilderProps.provider';
+} from '../../providers/FlowBuilderItems.provider';
+import { useFlowBuilderContextSelector } from '../../providers/FlowBuilderProps.provider';
 
 interface StyleProps {
   isUsingElementPicker?: boolean;
@@ -73,6 +73,7 @@ export const FlowBuilderNodeContent = () => {
   const isUsingElementPicker = useFlowBuilderContextSelector(
     (ctx) => ctx.isUsingElementPicker
   );
+  const title = useFlowBuilderContextSelector((ctx) => ctx.nodeContentTitle);
 
   const { activeNodeId, contentOpen, setContentOpen, setActiveNodeId } =
     useFlowBuilderActiveNode();
@@ -106,7 +107,6 @@ export const FlowBuilderNodeContent = () => {
   }, [activeNodeIndex]);
 
   const ContentComponent = useMemo(() => {
-    console.log({ activeNode });
     if (activeNode?.data?.noContent) {
       return undefined;
     }
@@ -160,7 +160,7 @@ export const FlowBuilderNodeContent = () => {
               spacing={3}
               className={classNames(classes.content, 'node-content')}
             >
-              <Typography variant="h6">Edit step</Typography>
+              <Typography variant="h6">{title ?? 'Edit step'}</Typography>
               {ContentComponent && (
                 <ContentComponent
                   nodeIndex={activeNodeIndex ?? -1}

@@ -20,9 +20,7 @@ export class RunScrapperHandler implements CommandHandler<RunScrapperCommand> {
     const { scrapperRunRepository, getScrapperRunner, logger } =
       this.dependencies;
 
-    const scrapperRun = await scrapperRunRepository.findOneOrFailWithScrapper(
-      runId
-    );
+    const scrapperRun = await scrapperRunRepository.getOneAggregate(runId);
     const { scrapper } = scrapperRun;
 
     const runner = getScrapperRunner(scrapper);

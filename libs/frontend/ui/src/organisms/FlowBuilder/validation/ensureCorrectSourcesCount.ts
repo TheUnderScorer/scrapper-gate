@@ -1,12 +1,12 @@
+import { mapToArray, wordFormByNumber } from '@scrapper-gate/shared/common';
 import { Edge } from 'react-flow-renderer';
 import {
   BaseNodeProperties,
   FlowBuilderFormState,
   FlowBuilderItem,
+  FlowBuilderProps,
   IsValidConnectionParams,
 } from '../FlowBuilder.types';
-import { FlowBuilderProps } from '../FlowBuilder';
-import { mapToArray, wordFormByNumber } from '@scrapper-gate/shared/common';
 import { splitNodesAndEdges } from '../utils/splitNodesAndEdges';
 
 export interface EnsureCorrectSourcesCountProps {
@@ -62,11 +62,8 @@ export const makeEnsureCorrectSourcesCount = (
 ) => {
   return {
     validator: ({ items }: FlowBuilderFormState) => {
-      const {
-        invalidEdges,
-        nodeEdges,
-        getAllowedCountForType,
-      } = getInvalidEdges(items, props);
+      const { invalidEdges, nodeEdges, getAllowedCountForType } =
+        getInvalidEdges(items, props);
 
       if (invalidEdges.length) {
         return {

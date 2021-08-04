@@ -2,13 +2,17 @@ import {
   applyVariablesToText,
   TemplateType,
 } from '@scrapper-gate/shared/common';
+import { RouteCreator } from './types';
 
 export interface RouteParams {
   [key: string]: string | number | boolean | undefined;
 }
 
 export const paramRoute =
-  <Params extends RouteParams>(route: string, defaults?: Params) =>
+  <Params extends RouteParams>(
+    route: string,
+    defaults?: Partial<Params>
+  ): RouteCreator<Params> =>
   (params?: Params) => {
     const allParams = {
       ...defaults,

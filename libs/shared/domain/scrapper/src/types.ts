@@ -62,3 +62,5 @@ export interface ScrapperRunnerMessagePayload {
   runId: string;
   trigger: RunnerTrigger;
 }
+
+export type ScrapperRunResultKeyPairValues = Record<string, string[]>;

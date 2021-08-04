@@ -11,6 +11,7 @@ export const ScrapperBuilderStepFragmentDoc = gql`
     createdAt
     updatedAt
     mouseButton
+    isFirst
     navigateToUrl
     nextStep {
       id
@@ -565,6 +566,205 @@ export type UpdateScrapperMutationResult =
 export type UpdateScrapperMutationOptions = Apollo.BaseMutationOptions<
   Types.UpdateScrapperMutation,
   Types.UpdateScrapperMutationVariables
+>;
+export const GetMyScrapperRunDocument = gql`
+  query GetMyScrapperRun($id: ID!) {
+    getMyScrapperRun(id: $id) {
+      id
+      createdAt
+      endedAt
+      name
+      scrapper {
+        id
+        name
+      }
+      error {
+        date
+        message
+        name
+        stepId
+      }
+      steps {
+        ...ScrapperBuilderStep
+      }
+      state
+      error {
+        date
+        message
+        name
+      }
+      keyPairValues
+      results {
+        id
+        endedAt
+        startedAt
+        state
+        performance {
+          duration
+        }
+        step {
+          ...ScrapperBuilderStep
+        }
+        values {
+          id
+          sourceElement {
+            id
+            classNames
+            tag
+          }
+          value
+        }
+      }
+    }
+  }
+  ${ScrapperBuilderStepFragmentDoc}
+`;
+
+/**
+ * __useGetMyScrapperRunQuery__
+ *
+ * To run a query within a React component, call `useGetMyScrapperRunQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMyScrapperRunQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMyScrapperRunQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetMyScrapperRunQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    Types.GetMyScrapperRunQuery,
+    Types.GetMyScrapperRunQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    Types.GetMyScrapperRunQuery,
+    Types.GetMyScrapperRunQueryVariables
+  >(GetMyScrapperRunDocument, options);
+}
+export function useGetMyScrapperRunLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    Types.GetMyScrapperRunQuery,
+    Types.GetMyScrapperRunQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    Types.GetMyScrapperRunQuery,
+    Types.GetMyScrapperRunQueryVariables
+  >(GetMyScrapperRunDocument, options);
+}
+export type GetMyScrapperRunQueryHookResult = ReturnType<
+  typeof useGetMyScrapperRunQuery
+>;
+export type GetMyScrapperRunLazyQueryHookResult = ReturnType<
+  typeof useGetMyScrapperRunLazyQuery
+>;
+export type GetMyScrapperRunQueryResult = Apollo.QueryResult<
+  Types.GetMyScrapperRunQuery,
+  Types.GetMyScrapperRunQueryVariables
+>;
+export const GetMyScrapperRunStateDocument = gql`
+  query GetMyScrapperRunState($id: ID!) {
+    getMyScrapperRun(id: $id) {
+      id
+      state
+      scrapper {
+        id
+        name
+        lastRun {
+          id
+          state
+          endedAt
+        }
+      }
+      keyPairValues
+      results {
+        id
+        state
+        performance {
+          duration
+        }
+        error {
+          date
+          message
+          name
+        }
+        step {
+          id
+          key
+        }
+        endedAt
+        startedAt
+        values {
+          id
+          sourceElement {
+            id
+            classNames
+            tag
+          }
+          value
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetMyScrapperRunStateQuery__
+ *
+ * To run a query within a React component, call `useGetMyScrapperRunStateQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMyScrapperRunStateQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMyScrapperRunStateQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetMyScrapperRunStateQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    Types.GetMyScrapperRunStateQuery,
+    Types.GetMyScrapperRunStateQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    Types.GetMyScrapperRunStateQuery,
+    Types.GetMyScrapperRunStateQueryVariables
+  >(GetMyScrapperRunStateDocument, options);
+}
+export function useGetMyScrapperRunStateLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    Types.GetMyScrapperRunStateQuery,
+    Types.GetMyScrapperRunStateQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    Types.GetMyScrapperRunStateQuery,
+    Types.GetMyScrapperRunStateQueryVariables
+  >(GetMyScrapperRunStateDocument, options);
+}
+export type GetMyScrapperRunStateQueryHookResult = ReturnType<
+  typeof useGetMyScrapperRunStateQuery
+>;
+export type GetMyScrapperRunStateLazyQueryHookResult = ReturnType<
+  typeof useGetMyScrapperRunStateLazyQuery
+>;
+export type GetMyScrapperRunStateQueryResult = Apollo.QueryResult<
+  Types.GetMyScrapperRunStateQuery,
+  Types.GetMyScrapperRunStateQueryVariables
 >;
 export const CreateScrapperDocument = gql`
   mutation CreateScrapper($input: CreateScrapperInput!) {

@@ -1,8 +1,10 @@
 import { BaseModel } from '@scrapper-gate/backend/base-model';
 import { Entities } from '@scrapper-gate/shared/common';
+import { pickIdsFromNodeLike } from '@scrapper-gate/shared/node';
 import {
   ErrorObject,
   RunnerPerformanceEntry,
+  RunState,
   ScrapperRunStepResult,
   ScrapperStep,
 } from '@scrapper-gate/shared/schema';
@@ -13,7 +15,8 @@ import { ScrapperRunStepValueModel } from './ScrapperRunStepValue.model';
 @Entity(Entities.ScrapperRunStepResult)
 export class ScrapperRunStepResultModel
   extends BaseModel<ScrapperRunStepResult>
-  implements ScrapperRunStepResult {
+  implements ScrapperRunStepResult
+{
   @Column({
     type: 'jsonb',
   })
@@ -26,8 +29,9 @@ export class ScrapperRunStepResultModel
 
   @Column({
     type: 'jsonb',
+    nullable: true,
   })
-  performance: RunnerPerformanceEntry;
+  performance?: RunnerPerformanceEntry;
 
   @Column({
     nullable: true,
@@ -35,6 +39,32 @@ export class ScrapperRunStepResultModel
   })
   error?: ErrorObject;
 
+  @Column({
+    type: 'enum',
+    enum: RunState,
+  })
+  state: RunState;
+
   @ManyToOne(() => ScrapperRunModel, (model) => model.results)
   scrapperRun: ScrapperRunModel;
+
+  @Column({
+    nullable: true,
+  })
+  endedAt?: Date;
+
+  @Column({
+    nullable: true,
+  })
+  startedAt?: Date;
+
+  static createPendingFromStep(step: ScrapperStep) {
+    return this.create({
+      step: {
+        ...step,
+        ...pickIdsFromNodeLike(step),
+      },
+      state: RunState.Pending,
+    });
+  }
 }

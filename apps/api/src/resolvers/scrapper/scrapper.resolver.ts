@@ -1,11 +1,13 @@
 import {
   CreateScrapperCommand,
+  GetMyScrapperRunQuery,
   GetScrapperByUserQuery,
   GetScrapperLastRunQuery,
   GetScrappersByUserQuery,
   SendScrapperToRunnerQueueCommand,
   UpdateScrapperCommand,
 } from '@scrapper-gate/backend/domain/scrapper';
+import { ScrapperRunResultKeyPairValues } from '@scrapper-gate/shared/domain/scrapper';
 import { Resolvers } from '@scrapper-gate/shared/schema';
 import { ServerContext } from '../../context';
 
@@ -28,6 +30,19 @@ export const scrapperResolver = (): Resolvers<ServerContext> => ({
             userId: ctx.user!.id,
           })
         )
+      ),
+    getMyScrapperRun: (_, args, ctx) =>
+      ctx.unitOfWork.run(
+        ({ queriesBus }) =>
+          queriesBus.query(
+            new GetMyScrapperRunQuery({
+              id: args.id,
+              userId: ctx.user!.id,
+            })
+          ),
+        {
+          runInTransaction: false,
+        }
       ),
   },
   Mutation: {
@@ -58,6 +73,37 @@ export const scrapperResolver = (): Resolvers<ServerContext> => ({
           })
         )
       ),
+  },
+  ScrapperRun: {
+    name: (root) => `Run #${root.index}`,
+    keyPairValues: (root) => {
+      if (!root.results?.length) {
+        return null;
+      }
+
+      const result = root.results.reduce<ScrapperRunResultKeyPairValues>(
+        (acc, result) => {
+          const key = result.step?.key;
+
+          if (!key) {
+            return acc;
+          }
+
+          const values = result.values?.map((value) => value.value);
+
+          if (values) {
+            acc[key] = values;
+          }
+
+          return acc;
+        },
+        {}
+      );
+
+      const isEmpty = Object.values(result).every((item) => !item.length);
+
+      return isEmpty ? null : result;
+    },
   },
   Scrapper: {
     name: (root) => root.name || 'Unnamed scrapper',

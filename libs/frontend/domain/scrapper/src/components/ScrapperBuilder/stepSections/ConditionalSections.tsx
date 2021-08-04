@@ -1,15 +1,16 @@
-import React, { useMemo } from 'react';
-import { ScrapperStepFormProps } from '../ScrapperBuilder.types';
-import { useFormState } from 'react-final-form';
-import { ScrapperKey } from '../commonFields/ScrapperKey';
 import {
   ConditionalRules,
   ConditionalRulesSelection,
   dateRule,
   makeHtmlElementRuleWithPicker,
+  variableRule,
 } from '@scrapper-gate/frontend/domain/conditional-rules';
 import { ConditionalRuleGroupType } from '@scrapper-gate/shared/schema';
+import React, { useMemo } from 'react';
+import { useFormState } from 'react-final-form';
+import { ScrapperKey } from '../commonFields/ScrapperKey';
 import { Url } from '../commonFields/Url';
+import { ScrapperStepFormProps } from '../ScrapperBuilder.types';
 
 export const ConditionalSections = ({
   fieldNameCreator,
@@ -25,6 +26,7 @@ export const ConditionalSections = ({
   const rules = useMemo<ConditionalRulesSelection[]>(
     () => [
       dateRule,
+      variableRule,
       makeHtmlElementRuleWithPicker(({ name, variant }) => (
         <ElementPicker
           {...rest}

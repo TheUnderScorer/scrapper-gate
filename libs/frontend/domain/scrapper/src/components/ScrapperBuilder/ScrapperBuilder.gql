@@ -22,6 +22,7 @@ fragment ScrapperBuilderStep on ScrapperStep {
   createdAt
   updatedAt
   mouseButton
+  isFirst
   navigateToUrl
   nextStep {
     id

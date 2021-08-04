@@ -1,4 +1,4 @@
-import { Maybe, throwError } from '@scrapper-gate/shared/common';
+import { Perhaps, throwError } from '@scrapper-gate/shared/common';
 import React, { PropsWithChildren, useState } from 'react';
 import { Node } from 'react-flow-renderer';
 import {
@@ -9,7 +9,7 @@ import {
 import { BaseNodeProperties } from '../FlowBuilder.types';
 
 export interface FlowBuilderDragStateContext<T extends BaseNodeProperties> {
-  draggedNode?: Maybe<Node<T>>;
+  draggedNode?: Perhaps<Node<T>>;
   setDraggedNode: (node: Node<T> | null) => unknown;
 }
 
@@ -30,10 +30,8 @@ export const useFlowBuilderDragStateSelector = <
 export const FlowBuilderDragStateProvider = ({
   children,
 }: PropsWithChildren<unknown>) => {
-  const [
-    draggedNode,
-    setDraggedNode,
-  ] = useState<Node<BaseNodeProperties> | null>(null);
+  const [draggedNode, setDraggedNode] =
+    useState<Node<BaseNodeProperties> | null>(null);
 
   return (
     <Context.Provider value={{ draggedNode, setDraggedNode }}>

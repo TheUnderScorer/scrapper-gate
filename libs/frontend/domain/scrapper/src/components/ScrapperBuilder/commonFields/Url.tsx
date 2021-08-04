@@ -65,7 +65,7 @@ export const Url = ({
 
   const fillWithLocation = useCallback(() => {
     onChange(location.href);
-  }, [location, onChange]);
+  }, [onChange, location]);
 
   const urlDisabled = disabled || useUrlFromPreviousStep;
 
@@ -123,7 +123,7 @@ export const Url = ({
               <Info />
             </IconButton>
           </Stack>
-          {!isOnStepUrl && !disabled && (
+          {!isOnStepUrl && !disabled && value && (
             <Button href={value}>Open step URL</Button>
           )}
         </Stack>

@@ -1320,6 +1320,27 @@
         }
       }
     },
+    "shared-node": {
+      "root": "libs/shared/node",
+      "sourceRoot": "libs/shared/node/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/shared/node/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shared/node"],
+          "options": {
+            "jestConfig": "libs/shared/node/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "shared-routing": {
       "root": "libs/shared/routing",
       "sourceRoot": "libs/shared/routing/src",

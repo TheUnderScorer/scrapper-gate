@@ -1,14 +1,17 @@
-import { paramRoute, RouteParams } from './route';
-import { RunResultRouteParams } from './types';
+import { paramRoute } from './route';
+import { RunResultRouteParams, ScrapperRouteParams } from './types';
 
-export interface ContentScrapperRouteParams extends RouteParams {
-  scrapperId?: string;
+export interface DrawerRouteParams {
   drawerOpen?: boolean;
 }
 
-export interface ScrapperRunResultRouteParams extends RunResultRouteParams {
-  drawerOpen?: boolean;
-}
+export interface ContentScrapperRouteParams
+  extends ScrapperRouteParams,
+    DrawerRouteParams {}
+
+export interface ScrapperRunResultRouteParams
+  extends RunResultRouteParams,
+    DrawerRouteParams {}
 
 export const browserExtensionRoutes = {
   popup: {
@@ -20,11 +23,17 @@ export const browserExtensionRoutes = {
   },
   content: {
     scrapper: paramRoute<ContentScrapperRouteParams>(
-      '/scrapper/:scrapperId?drawerOpen=:drawerOpen'
+      '/scrapper/:scrapperId?drawerOpen=:drawerOpen',
+      {
+        drawerOpen: true,
+      }
     ),
     createScrapper: '/create-scrapper',
     scrapperRun: paramRoute<ScrapperRunResultRouteParams>(
-      '/scrapper-run/:runId?drawerOpen=:drawerOpen'
+      '/scrapper-run/:runId?drawerOpen=:drawerOpen',
+      {
+        drawerOpen: true,
+      }
     ),
   },
 };

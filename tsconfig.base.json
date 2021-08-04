@@ -124,6 +124,7 @@
       "@scrapper-gate/shared/logger/console": [
         "libs/shared/logger/console/src/index.ts"
       ],
+      "@scrapper-gate/shared/node": ["libs/shared/node/src/index.ts"],
       "@scrapper-gate/shared/routing": ["libs/shared/routing/src/index.ts"],
       "@scrapper-gate/shared/run-states": [
         "libs/shared/run-states/src/index.ts"

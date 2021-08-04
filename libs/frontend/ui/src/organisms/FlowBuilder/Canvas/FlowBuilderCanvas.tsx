@@ -4,15 +4,20 @@ import {
   Stack,
   Typography,
 } from '@material-ui/core';
+import { Selection } from '@scrapper-gate/frontend/common';
+import { AppTheme } from '@scrapper-gate/frontend/theme';
+import { stringifyCircular } from '@scrapper-gate/shared/common';
+import classNames from 'classnames';
 import React, {
+  MouseEvent,
   MutableRefObject,
   ReactNode,
   useCallback,
   useEffect,
   useMemo,
-  MouseEvent,
   useRef,
 } from 'react';
+import { DropTargetMonitor, useDrop } from 'react-dnd';
 import ReactFlow, {
   Connection,
   Edge,
@@ -20,32 +25,27 @@ import ReactFlow, {
   OnConnectStartParams,
   OnLoadParams,
 } from 'react-flow-renderer';
-import classNames from 'classnames';
-import { useFlowBuilderInstanceContext } from '../providers/FlowBuilderInstance.provider';
-import { useFlowBuilderDragState } from '../providers/FlowBuilderDragState.provider';
+import { Key } from 'ts-key-enum';
+import { Centered } from '../../../atoms/Centered/Centered';
+import { ContextMenu } from '../../../molecules/ContextMenu/ContextMenu';
+import { FlowBuilderConnectionLine } from '../ConnectionLine/FlowBuilderConnectionLine';
+import { edgeTypes } from '../edgeTypes/edgeTypes';
 import {
   BaseNodeProperties,
   BaseNodeSelectionProperties,
   FlowBuilderDropTypes,
   FlowBuilderItem,
 } from '../FlowBuilder.types';
-import { FlowBuilderConnectionLine } from '../ConnectionLine/FlowBuilderConnectionLine';
-import { useConnectHandler } from '../hooks/useConnectHandler';
 import { useAddItem } from '../hooks/useAddItem';
-import { FlowBuilderNode } from '../Node/FlowBuilderNode';
-import { useFlowBuilderItemsSelector } from '../providers/FlowBuilderItems.provider';
-import { edgeTypes } from '../edgeTypes/edgeTypes';
-import { useRemoveItems } from '../hooks/useRemoveItems';
-import { useFlowBuilderContextSelector } from '../providers/FlowBuilderProps.provider';
-import { useHandleDragEnd } from '../hooks/useHandleDragEnd';
-import { AppTheme } from '@scrapper-gate/frontend/theme';
-import { DropTargetMonitor, useDrop } from 'react-dnd';
-import { Selection } from '@scrapper-gate/frontend/common';
 import { useCanvasContextMenu } from '../hooks/useCanvasContextMenu';
-import { Key } from 'ts-key-enum';
-import { stringifyCircular } from '@scrapper-gate/shared/common';
-import { Centered } from '../../../atoms/Centered/Centered';
-import { ContextMenu } from '../../../molecules/ContextMenu/ContextMenu';
+import { useConnectHandler } from '../hooks/useConnectHandler';
+import { useHandleDragEnd } from '../hooks/useHandleDragEnd';
+import { useRemoveItems } from '../hooks/useRemoveItems';
+import { FlowBuilderNode } from '../Node/FlowBuilderNode';
+import { useFlowBuilderDragState } from '../providers/FlowBuilderDragState.provider';
+import { useFlowBuilderInstanceContext } from '../providers/FlowBuilderInstance.provider';
+import { useFlowBuilderItemsSelector } from '../providers/FlowBuilderItems.provider';
+import { useFlowBuilderContextSelector } from '../providers/FlowBuilderProps.provider';
 
 const useStyles = makeStyles((theme: AppTheme) => ({
   paper: {
@@ -145,6 +145,8 @@ export const FlowBuilderCanvas = () => {
   const { setDraggedNode } = useFlowBuilderDragState();
 
   const { setFlowInstance, flowInstance } = useFlowBuilderInstanceContext();
+
+  const readOnly = useFlowBuilderContextSelector((ctx) => ctx.readOnly);
 
   const items = useFlowBuilderItemsSelector((ctx) => ctx.items);
   const setConnectionSource = useFlowBuilderItemsSelector(
@@ -257,6 +259,8 @@ export const FlowBuilderCanvas = () => {
           })}
         >
           <ReactFlow
+            nodesDraggable={!readOnly}
+            nodesConnectable={!readOnly}
             defaultPosition={defaultPosition}
             snapGrid={snapGrid}
             edgeTypes={edgeTypes}

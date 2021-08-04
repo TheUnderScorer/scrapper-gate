@@ -1,24 +1,17 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Button, DialogContentText } from '@material-ui/core';
 import { Dialog, useDialogMethods } from '@scrapper-gate/frontend/dialogs';
-import {
-  useGetScrapperStateQuery,
-  useSendScrapperToQueueMutation,
-} from '@scrapper-gate/frontend/schema';
+import { useGetScrapperStateQuery, useSendScrapperToQueueMutation } from '@scrapper-gate/frontend/schema';
 import { useSnackbarOnError } from '@scrapper-gate/frontend/snackbars';
-import { RunState } from '@scrapper-gate/frontend/ui';
+import { RunState, RunStateEntity } from '@scrapper-gate/frontend/ui';
 import { isCompleted, isRunning } from '@scrapper-gate/shared/run-states';
 import { Maybe, RunState as RunStateEnum } from '@scrapper-gate/shared/schema';
 import React from 'react';
 import { useMount } from 'react-use';
-import {
-  RunScrapperDialogProps,
-  ScrapperForRun,
-} from './RunScrapperDialog.types';
+import { scrapperRunPollMs } from '../../shared/constants';
+import { RunScrapperDialogProps, ScrapperForRun } from './RunScrapperDialog.types';
 
 export const runScrapperDialogId = 'RUN_SCRAPPER';
-
-const pollMs = 7000;
 
 export const RunScrapperDialog = ({
   scrapper,
@@ -63,7 +56,7 @@ export const RunScrapperDialog = ({
         if (
           data?.sendScrapperToRunnerQueue?.run?.state === RunStateEnum.Pending
         ) {
-          startPolling?.(pollMs);
+          startPolling?.(scrapperRunPollMs);
 
           onRun?.();
         }
@@ -80,7 +73,7 @@ export const RunScrapperDialog = ({
 
   useMount(() => {
     if (running) {
-      startPolling?.(pollMs);
+      startPolling?.(scrapperRunPollMs);
     }
   });
 
@@ -111,6 +104,7 @@ export const RunScrapperDialog = ({
     >
       <DialogContentText component="div" whiteSpace="pre-wrap">
         <RunState
+          showIcon
           onRunUrlClick={cancel}
           runId={actualScrapper?.lastRun?.id}
           runUrlCreator={runUrlCreator}
@@ -120,10 +114,10 @@ export const RunScrapperDialog = ({
               ? new Date(actualScrapper?.lastRun?.endedAt)
               : undefined
           }
-          name={actualScrapper.name ?? ''}
-          called={called}
+          entityName={actualScrapper.name ?? ''}
+          runMutationCalled={called}
           state={state!}
-          entity="scrapper"
+          entity={RunStateEntity.Scrapper}
         />
       </DialogContentText>
     </Dialog>
