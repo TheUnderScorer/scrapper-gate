@@ -1,7 +1,7 @@
-import { ReferableForm } from '@scrapper-gate/frontend/form';
 import { FormApi } from 'final-form';
 import React, { useCallback, useState } from 'react';
 import { FormProps } from 'react-final-form';
+import { ReferableForm } from '../components/ReferableForm/ReferableForm';
 
 /**
  * Provides direct access to FormApi from component in which <Form /> is used.

@@ -27,19 +27,15 @@ export const ScrapperRunNodeAddonBefore = ({
 
   const state = node.data?.runResult?.state;
 
-  return (
-    <>
-      {state !== RunState.InProgress ? (
-        <RunStateIcon
-          entity={RunStateEntity.Scrapper}
-          className={classes.stateIcon}
-          state={state}
-          runMutationCalled
-          showTooltip
-        />
-      ) : (
-        <LinearProgress className={classes.progress} color="secondary" />
-      )}
-    </>
+  return state !== RunState.InProgress ? (
+    <RunStateIcon
+      entity={RunStateEntity.Scrapper}
+      className={classes.stateIcon}
+      state={state}
+      runMutationCalled
+      showTooltip
+    />
+  ) : (
+    <LinearProgress className={classes.progress} color="secondary" />
   );
 };

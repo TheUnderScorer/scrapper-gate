@@ -1,7 +1,7 @@
 import { Paper, Tab, Tabs } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { FlowBuilderTabsSelection } from '@scrapper-gate/frontend/ui';
 import React from 'react';
+import { FlowBuilderTabsSelection } from '../FlowBuilder.types';
 
 export interface FlowBuilderTabsProps {
   value: unknown;
