@@ -4,16 +4,21 @@ import {
   ScrapperRepository,
   ScrapperRunModel,
   ScrapperRunRepository,
-  ScrapperStepModel
+  ScrapperStepModel,
 } from '@scrapper-gate/backend/domain/scrapper';
 import { UserRepository } from '@scrapper-gate/backend/domain/user';
 import { Message } from '@scrapper-gate/backend/message-queue';
 import {
   createMockScrapper,
   createMockScrapperStep,
-  ScrapperRunnerMessagePayload
+  ScrapperRunnerMessagePayload,
 } from '@scrapper-gate/shared/domain/scrapper';
-import { MouseButton, RunnerTrigger, ScrapperAction, ScrapperType } from '@scrapper-gate/shared/schema';
+import {
+  MouseButton,
+  RunnerTrigger,
+  ScrapperAction,
+  ScrapperType,
+} from '@scrapper-gate/shared/schema';
 import '../../../../../typings/global/index';
 import { scrapperRunner } from './scrapperRunner';
 
@@ -77,7 +82,7 @@ describe('Scrapper runner', () => {
     await userRepository.save(scrapper.createdBy);
     await scrapperRepository.save(scrapper);
 
-    const run = ScrapperRunModel.createPendingFromScrapper(scrapper);
+    const run = ScrapperRunModel.createPendingFromScrapper(scrapper, 0);
 
     await scrapperRunRepository.save(run);
 
