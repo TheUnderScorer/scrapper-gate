@@ -89,6 +89,7 @@ describe('ScrapperModel', () => {
           results: [
             ScrapperRunStepResultModel.create({
               step: step.toJSON(),
+              state: RunState.Pending,
               performance: {
                 duration: 25,
               },

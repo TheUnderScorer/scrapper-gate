@@ -1,21 +1,21 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { act, render, waitFor } from '@testing-library/react';
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
-import { ThemeProvider } from '@scrapper-gate/frontend/theme';
+import { Box } from '@material-ui/core';
 import { QueryParamProvider } from '@scrapper-gate/frontend/common';
-import { MemoryRouter } from 'react-router';
+import { ThemeProvider } from '@scrapper-gate/frontend/theme';
+import { FlowBuilderItem, flowBuilderUtils } from '@scrapper-gate/frontend/ui';
+import { getById, last, wait } from '@scrapper-gate/shared/common';
 import {
   createMockScrapper,
   createMockScrapperStep,
   pickScrapperInput,
 } from '@scrapper-gate/shared/domain/scrapper';
 import { Scrapper, ScrapperAction } from '@scrapper-gate/shared/schema';
-import { getById, last, wait } from '@scrapper-gate/shared/common';
+import { act, render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { SnackbarProvider } from 'notistack';
-import { Box } from '@material-ui/core';
 import { isEdge, isNode, Node, XYPosition } from 'react-flow-renderer';
-import { FlowBuilderItem, flowBuilderUtils } from '@scrapper-gate/frontend/ui';
+import { MemoryRouter } from 'react-router';
 import { ScrapperBuilder } from './ScrapperBuilder';
 import {
   ScrapperBuilderNodeProperties,
@@ -71,6 +71,11 @@ const setupScrapperSteps = async () => {
     createMockScrapperStep({
       disabledActions: [ScrapperAction.Condition],
       createdBy: scrapper.createdBy,
+      intercept: (step) => {
+        step.isFirst = true;
+
+        return step;
+      },
     }),
 
     createMockScrapperStep({
@@ -213,6 +218,7 @@ describe('ScrapperBuilder', () => {
 
         expect(stepVariable).toEqual({
           ...stepInput,
+          isFirst: Boolean(step?.isFirst),
           nextStepId: step!.nextStep?.id,
         });
       });

@@ -5,7 +5,7 @@ export interface UseNormalPaginationParams {
   total: number;
   pagination: Pagination;
   setPagination: Dispatch<SetStateAction<Pagination>>;
-  setPage: (value: ((prevState: number) => number) | number) => void;
+  setPage: Dispatch<SetStateAction<number>>;
 }
 
 export const useNormalPagination = ({

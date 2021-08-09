@@ -15,6 +15,7 @@ describe('Recreate nodes', () => {
         x: 0,
         y: 50,
       },
+      isFirst: true,
       nextStep: {
         id: '2',
       },
@@ -87,6 +88,7 @@ Array [
     "data": Object {
       "icon": undefined,
       "id": "1",
+      "isFirst": true,
       "nextStep": Object {
         "id": "2",
       },
