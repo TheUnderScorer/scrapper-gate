@@ -1,4 +1,5 @@
 import { Perhaps } from '@scrapper-gate/shared/common';
+import { activeNodeQueryKey } from '@scrapper-gate/shared/routing';
 import React, { PropsWithChildren, useState } from 'react';
 import {
   createContext,
@@ -26,7 +27,7 @@ export const FlowBuilderActiveNodeProvider = ({
   children,
 }: PropsWithChildren<unknown>) => {
   const [activeNodeId, setActiveNodeId] = useQueryParam(
-    'activeNode',
+    activeNodeQueryKey,
     StringParam
   );
   const [contentOpen, setContentOpen] = useState(false);

@@ -2,6 +2,7 @@ import { LinearProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { RunStateEntity, RunStateIcon } from '@scrapper-gate/frontend/ui';
 import { RunState } from '@scrapper-gate/shared/schema';
+import classNames from 'classnames';
 import React from 'react';
 import { ScrapperRunNodeAddonBeforeProps } from './ScrapperRunNodeAddonBefore.types';
 
@@ -36,6 +37,9 @@ export const ScrapperRunNodeAddonBefore = ({
       showTooltip
     />
   ) : (
-    <LinearProgress className={classes.progress} color="secondary" />
+    <LinearProgress
+      className={classNames(classes.progress, 'step-in-progress')}
+      color="secondary"
+    />
   );
 };

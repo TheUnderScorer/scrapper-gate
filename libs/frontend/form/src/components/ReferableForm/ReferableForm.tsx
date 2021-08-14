@@ -1,6 +1,5 @@
-import { voidFn } from '@scrapper-gate/shared/common';
-import { FormApi } from 'final-form';
-import React from 'react';
+import { Decorator, FormApi } from 'final-form';
+import React, { useCallback, useMemo } from 'react';
 import { Form, FormProps } from 'react-final-form';
 
 export interface ReferableFormProps<
@@ -10,22 +9,34 @@ export interface ReferableFormProps<
   onForm: (form: FormApi<FormValues, InitialFormValues>) => unknown;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const defaultDecorators: Decorator<any, any>[] = [];
+
 export const ReferableForm = <
   FormValues extends unknown = Record<string, unknown>,
   InitialFormValues extends unknown = Partial<FormValues>
 >({
   onForm,
   ...props
-}: ReferableFormProps<FormValues, InitialFormValues>) => (
-  <Form
-    {...props}
-    decorators={[
-      ...(props.decorators ?? []),
-      (form) => {
-        onForm(form);
+}: ReferableFormProps<FormValues, InitialFormValues>) => {
+  const decorator = useCallback(
+    (form: FormApi<FormValues, InitialFormValues>) => {
+      return form.subscribe(
+        () => {
+          onForm(form);
+        },
+        {
+          values: true,
+        }
+      );
+    },
+    [onForm]
+  );
 
-        return voidFn;
-      },
-    ]}
-  />
-);
+  const decorators: Decorator<FormValues, InitialFormValues>[] = useMemo(
+    () => [...(props.decorators ?? defaultDecorators), decorator],
+    [decorator, props.decorators]
+  );
+
+  return <Form {...props} decorators={decorators} />;
+};

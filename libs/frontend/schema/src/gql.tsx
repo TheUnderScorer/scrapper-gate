@@ -577,6 +577,9 @@ export const GetMyScrapperRunDocument = gql`
       scrapper {
         id
         name
+        steps {
+          id
+        }
       }
       error {
         date
@@ -678,6 +681,9 @@ export const GetMyScrapperRunStateDocument = gql`
       scrapper {
         id
         name
+        steps {
+          id
+        }
         lastRun {
           id
           state

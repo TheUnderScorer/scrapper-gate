@@ -26,7 +26,13 @@ export class ScrapperRunRepository extends Repository<ScrapperRunModel> {
           id: userId,
         },
       },
-      relations: ['createdBy', 'scrapper', 'results', 'results.values'],
+      relations: [
+        'createdBy',
+        'scrapper',
+        'scrapper.steps',
+        'results',
+        'results.values',
+      ],
     });
   }
 

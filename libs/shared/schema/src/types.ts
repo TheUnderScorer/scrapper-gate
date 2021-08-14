@@ -3,7 +3,8 @@ import {
   GraphQLScalarType,
   GraphQLScalarTypeConfig,
 } from 'graphql';
-import { WhatValue, ConditionalRuleValue } from './scalars';
+import { ConditionalRuleValue, WhatValue } from './scalars';
+
 export type Maybe<T> = T | undefined;
 export type Exact<T extends { [key: string]: unknown }> = {
   [K in keyof T]: T[K];
@@ -692,7 +693,11 @@ export type GetMyScrapperRunQuery = {
       ScrapperRun,
       'id' | 'createdAt' | 'endedAt' | 'name' | 'state' | 'keyPairValues'
     > & {
-      scrapper?: Maybe<Pick<Scrapper, 'id' | 'name'>>;
+      scrapper?: Maybe<
+        Pick<Scrapper, 'id' | 'name'> & {
+          steps?: Maybe<Array<Pick<ScrapperStep, 'id'>>>;
+        }
+      >;
       error?: Maybe<Pick<RunnerError, 'date' | 'message' | 'name' | 'stepId'>>;
       steps?: Maybe<Array<ScrapperBuilderStepFragment>>;
       results?: Maybe<
@@ -728,6 +733,7 @@ export type GetMyScrapperRunStateQuery = {
     Pick<ScrapperRun, 'id' | 'state' | 'keyPairValues'> & {
       scrapper?: Maybe<
         Pick<Scrapper, 'id' | 'name'> & {
+          steps?: Maybe<Array<Pick<ScrapperStep, 'id'>>>;
           lastRun?: Maybe<Pick<ScrapperRun, 'id' | 'state' | 'endedAt'>>;
         }
       >;

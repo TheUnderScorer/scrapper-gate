@@ -1,3 +1,4 @@
+import { activeNodeQueryKey, returnUrlQueryKey } from './queryKeys';
 import { paramRoute } from './route';
 import { RunResultRouteParams, ScrapperRouteParams } from './types';
 
@@ -23,14 +24,14 @@ export const browserExtensionRoutes = {
   },
   content: {
     scrapper: paramRoute<ContentScrapperRouteParams>(
-      '/scrapper/:scrapperId?drawerOpen=:drawerOpen',
+      `/scrapper/:scrapperId?drawerOpen=:drawerOpen&${activeNodeQueryKey}=:stepId&${returnUrlQueryKey}=:returnUrl`,
       {
         drawerOpen: true,
       }
     ),
     createScrapper: '/create-scrapper',
     scrapperRun: paramRoute<ScrapperRunResultRouteParams>(
-      '/scrapper-run/:runId?drawerOpen=:drawerOpen',
+      `/scrapper-run/:runId?drawerOpen=:drawerOpen&${returnUrlQueryKey}=:returnUrl`,
       {
         drawerOpen: true,
       }

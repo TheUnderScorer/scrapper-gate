@@ -1,4 +1,5 @@
 import {
+  ReturnableRoute,
   RouteCreator,
   RunResultRouteParams,
 } from '@scrapper-gate/shared/routing';
@@ -9,7 +10,7 @@ export enum RunStateEntity {
   Scrapper = 'scrapper',
 }
 
-export interface RunStateProps {
+export interface RunStateProps extends ReturnableRoute {
   state?: RunState;
   entity: RunStateEntity;
   runMutationCalled?: boolean;

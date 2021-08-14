@@ -1,4 +1,4 @@
-import { IconButton } from '@material-ui/core';
+import { IconButton, Stack } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { PlayArrow } from '@material-ui/icons';
 import { useIsUsingElementPicker } from '@scrapper-gate/frontend/common';
@@ -24,6 +24,7 @@ import {
   flowBuilderValidation,
   IsValidConnectionParams,
   NodeContentComponent,
+  ReturnBtn,
 } from '@scrapper-gate/frontend/ui';
 import { extractVariableInput } from '@scrapper-gate/shared/domain/variables';
 import { logger } from '@scrapper-gate/shared/logger/console';
@@ -258,25 +259,28 @@ export const ScrapperBuilder = ({
                 </IconButton>
               }
               title={
-                <FormEditableText
-                  variant="standard"
-                  name="name"
-                  textProps={{ variant: 'h6' }}
-                  onEditFinish={async (name) => {
-                    if (!initialScrapper?.id) {
-                      return;
-                    }
+                <Stack alignItems="center" spacing={1} direction="row">
+                  <ReturnBtn />
+                  <FormEditableText
+                    variant="standard"
+                    name="name"
+                    textProps={{ variant: 'h6' }}
+                    onEditFinish={async (name) => {
+                      if (!initialScrapper?.id) {
+                        return;
+                      }
 
-                    await updateScrapper({
-                      variables: {
-                        input: {
-                          id: initialScrapper.id,
-                          name,
+                      await updateScrapper({
+                        variables: {
+                          input: {
+                            id: initialScrapper.id,
+                            name,
+                          },
                         },
-                      },
-                    });
-                  }}
-                />
+                      });
+                    }}
+                  />
+                </Stack>
               }
               nodesCreator={nodesCreator}
               {...rest}

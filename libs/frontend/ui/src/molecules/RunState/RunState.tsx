@@ -18,6 +18,7 @@ export const RunState = ({
   runUrlCreator,
   runId,
   onRunUrlClick,
+  returnUrl,
   showIcon,
 }: RunStateProps) => {
   const running = isRunning(state);
@@ -26,11 +27,14 @@ export const RunState = ({
     () =>
       runUrlCreator &&
       runId && (
-        <ButtonRouteLink onClick={onRunUrlClick} to={runUrlCreator({ runId })}>
+        <ButtonRouteLink
+          onClick={onRunUrlClick}
+          to={runUrlCreator({ runId, returnUrl })}
+        >
           View run
         </ButtonRouteLink>
       ),
-    [onRunUrlClick, runId, runUrlCreator]
+    [onRunUrlClick, returnUrl, runId, runUrlCreator]
   );
 
   const message = useMemo(() => {

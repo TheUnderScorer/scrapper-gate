@@ -1,11 +1,18 @@
 import { List, ListItem, ListItemText } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { useReturnUrlProvider } from '@scrapper-gate/frontend/common';
 import { useFormFieldValue } from '@scrapper-gate/frontend/form';
 import { NodeContentProps } from '@scrapper-gate/frontend/ui';
 import { DateFormat, toDisplayText } from '@scrapper-gate/shared/common';
+import classNames from 'classnames';
 import { format } from 'date-fns';
 import React, { useMemo } from 'react';
-import { ScrapperRunNodeProperties } from '../ScrapperRun.types';
+import { Link } from 'react-router-dom';
+import {
+  ScrapperRunNodeProperties,
+  ScrapperRunProps,
+  ScrapperRunScrapper,
+} from '../ScrapperRun.types';
 
 const useStyles = makeStyles(() => ({
   list: {
@@ -15,11 +22,27 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-export const ScrapperRunNodeContent = ({ getFieldName }: NodeContentProps) => {
+export interface ScrapperRunNodeContentProps
+  extends NodeContentProps,
+    Pick<ScrapperRunProps, 'scrapperUrlCreator'> {}
+
+export const ScrapperRunNodeContent = ({
+  getFieldName,
+  scrapperUrlCreator,
+}: ScrapperRunNodeContentProps) => {
   const classes = useStyles();
 
   const runResult = useFormFieldValue<ScrapperRunNodeProperties['runResult']>(
     getFieldName('runResult')
+  );
+
+  const scrapper = useFormFieldValue<ScrapperRunScrapper>('scrapper');
+
+  const stepExists = useMemo(
+    () =>
+      runResult?.step?.id &&
+      Boolean(scrapper?.steps?.find((step) => step.id === runResult.step.id)),
+    [runResult, scrapper]
   );
 
   const values = useMemo(
@@ -27,16 +50,35 @@ export const ScrapperRunNodeContent = ({ getFieldName }: NodeContentProps) => {
     [runResult]
   );
 
+  const returnUrl = useReturnUrlProvider();
+
   return (
-    <List className={classes.list}>
-      {runResult?.step?.key && (
-        <ListItem disableGutters>
-          <ListItemText primary="Key" secondary={runResult.step.key} />
-        </ListItem>
-      )}
+    <List className={classNames(classes.list, 'scrapper-run-node-content')}>
       {values && (
         <ListItem disableGutters>
-          <ListItemText primary="Value" secondary={values} />
+          {<ListItemText primary="Value" secondary={values} />}
+        </ListItem>
+      )}
+      {runResult?.step?.key && (
+        <ListItem disableGutters>
+          <ListItemText
+            primary="Step"
+            secondary={
+              stepExists ? (
+                <Link
+                  to={scrapperUrlCreator({
+                    scrapperId: scrapper?.id ?? '',
+                    stepId: runResult?.step?.id,
+                    returnUrl,
+                  })}
+                >
+                  {runResult.step.key}
+                </Link>
+              ) : (
+                runResult.step.key
+              )
+            }
+          />
         </ListItem>
       )}
       {runResult?.state && (

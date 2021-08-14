@@ -7,6 +7,9 @@ query GetMyScrapperRun($id: ID!) {
     scrapper {
       id
       name
+      steps {
+        id
+      }
     }
     error {
       date
@@ -55,6 +58,9 @@ query GetMyScrapperRunState($id: ID!) {
     scrapper {
       id
       name
+      steps {
+        id
+      }
       lastRun {
         id
         state

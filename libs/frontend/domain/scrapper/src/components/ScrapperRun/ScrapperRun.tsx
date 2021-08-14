@@ -1,6 +1,7 @@
 import { ApolloError } from '@apollo/client';
 import { Divider, Stack, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { submitNotAllowed } from '@scrapper-gate/frontend/common';
 import {
   useGetMyScrapperRunQuery,
   useGetMyScrapperRunStateQuery,
@@ -11,12 +12,15 @@ import {
   FlowBuilder,
   FlowBuilderTabsSelection,
   flowBuilderUtils,
+  NodeContentProps,
+  ReturnBtn,
   RunState,
   RunStateEntity,
 } from '@scrapper-gate/frontend/ui';
-import { throwError } from '@scrapper-gate/shared/common';
 import { isCompleted } from '@scrapper-gate/shared/run-states';
-import React, { useCallback, useEffect, useMemo } from 'react';
+import { Maybe } from '@scrapper-gate/shared/schema';
+import { FormApi } from 'final-form';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { Form } from 'react-final-form';
 import { v4 } from 'uuid';
 import { scrapperRunPollMs } from '../../shared/constants';
@@ -51,8 +55,11 @@ export const ScrapperRun = ({
   runId,
   onQueryError,
   scrapperUrlCreator,
+  fetchPolicy,
   ...rest
 }: ScrapperRunProps) => {
+  const formRef = useRef<Maybe<FormApi<ScrapperRunFormState>>>();
+
   const classes = useStyles();
 
   const snackbarOnError = useSnackbarOnError();
@@ -71,6 +78,7 @@ export const ScrapperRun = ({
       id: runId,
     },
     onError: handleError,
+    fetchPolicy,
   });
 
   const { data, loading } = useGetMyScrapperRunQuery({
@@ -78,9 +86,8 @@ export const ScrapperRun = ({
       id: runId,
     },
     onError: handleError,
+    fetchPolicy,
     onCompleted: (data) => {
-      startPolling(scrapperRunPollMs);
-
       if (!isCompleted(data?.getMyScrapperRun?.state)) {
         startPolling(scrapperRunPollMs);
       }
@@ -101,11 +108,12 @@ export const ScrapperRun = ({
     [data]
   );
 
-  const values = useMemo<ScrapperRunFormState>(
+  const initialValues = useMemo<ScrapperRunFormState>(
     () => ({
       items: initialNodes,
+      scrapper: data?.getMyScrapperRun?.scrapper,
     }),
-    []
+    [data]
   );
 
   const tabs = useMemo<FlowBuilderTabsSelection[]>(
@@ -123,58 +131,79 @@ export const ScrapperRun = ({
     [data]
   );
 
+  const nodeContent = useCallback(
+    (props: NodeContentProps) => (
+      <ScrapperRunNodeContent
+        {...props}
+        scrapperUrlCreator={scrapperUrlCreator}
+      />
+    ),
+    [scrapperUrlCreator]
+  );
+
+  useEffect(() => {
+    if (data?.getMyScrapperRun?.scrapper) {
+      formRef.current?.change('scrapper', data.getMyScrapperRun.scrapper);
+    }
+  }, [data]);
+
   return (
-    <Form
-      initialValues={values}
-      onSubmit={throwError('Submit not allowed.')}
-      render={() => (
-        <FlowBuilder
-          tabs={tabs}
-          onAdd={handleAdd}
-          onConnect={handleConnect}
-          loading={loading}
-          nodesCreator={nodesCreator}
-          nodesSelection={selection}
-          nodeContentTitle="Step result"
-          nodeKeyProperty="data.key"
-          defaultNodeContent={ScrapperRunNodeContent}
-          readOnly
-          title={
-            <Stack direction="row" spacing={2} alignItems="center">
-              <span>
-                <Typography variant="h6">
-                  {data?.getMyScrapperRun?.name}
-                </Typography>
-                {data?.getMyScrapperRun?.scrapper && (
+    <Form<ScrapperRunFormState>
+      initialValues={initialValues}
+      onSubmit={submitNotAllowed}
+      render={({ form }) => {
+        formRef.current = form;
+
+        return (
+          <FlowBuilder
+            tabs={tabs}
+            onAdd={handleAdd}
+            onConnect={handleConnect}
+            loading={loading}
+            nodesCreator={nodesCreator}
+            nodesSelection={selection}
+            nodeContentTitle="Step result"
+            nodeKeyProperty="data.key"
+            defaultNodeContent={nodeContent}
+            readOnly
+            title={
+              <Stack direction="row" spacing={2} alignItems="center">
+                <ReturnBtn />
+                <span>
+                  <Typography variant="h6">
+                    {data?.getMyScrapperRun?.name}
+                  </Typography>
+                  {data?.getMyScrapperRun?.scrapper && (
+                    <Typography>
+                      from{' '}
+                      <ButtonRouteLink
+                        to={scrapperUrlCreator({
+                          scrapperId: data.getMyScrapperRun.scrapper.id,
+                        })}
+                      >
+                        {data.getMyScrapperRun.scrapper.name}
+                      </ButtonRouteLink>
+                    </Typography>
+                  )}
+                </span>
+                <Divider orientation="vertical" className={classes.divider} />
+                {data?.getMyScrapperRun && (
                   <Typography>
-                    from{' '}
-                    <ButtonRouteLink
-                      to={scrapperUrlCreator({
-                        scrapperId: data.getMyScrapperRun.scrapper.id,
-                      })}
-                    >
-                      {data.getMyScrapperRun.scrapper.name}
-                    </ButtonRouteLink>
+                    <RunState
+                      showIcon
+                      runMutationCalled
+                      state={data.getMyScrapperRun.state}
+                      entity={RunStateEntity.Scrapper}
+                      entityName={data.getMyScrapperRun.name ?? ''}
+                    />
                   </Typography>
                 )}
-              </span>
-              <Divider orientation="vertical" className={classes.divider} />
-              {data?.getMyScrapperRun && (
-                <Typography>
-                  <RunState
-                    showIcon
-                    runMutationCalled
-                    state={data.getMyScrapperRun.state}
-                    entity={RunStateEntity.Scrapper}
-                    entityName={data.getMyScrapperRun.name ?? ''}
-                  />
-                </Typography>
-              )}
-            </Stack>
-          }
-          {...rest}
-        />
-      )}
+              </Stack>
+            }
+            {...rest}
+          />
+        );
+      }}
     />
   );
 };

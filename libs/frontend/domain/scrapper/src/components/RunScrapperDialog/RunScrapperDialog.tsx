@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Button, DialogContentText } from '@material-ui/core';
+import { useReturnUrlProvider } from '@scrapper-gate/frontend/common';
 import { Dialog, useDialogMethods } from '@scrapper-gate/frontend/dialogs';
-import { useGetScrapperStateQuery, useSendScrapperToQueueMutation } from '@scrapper-gate/frontend/schema';
+import {
+  useGetScrapperStateQuery,
+  useSendScrapperToQueueMutation,
+} from '@scrapper-gate/frontend/schema';
 import { useSnackbarOnError } from '@scrapper-gate/frontend/snackbars';
 import { RunState, RunStateEntity } from '@scrapper-gate/frontend/ui';
 import { isCompleted, isRunning } from '@scrapper-gate/shared/run-states';
@@ -9,7 +13,10 @@ import { Maybe, RunState as RunStateEnum } from '@scrapper-gate/shared/schema';
 import React from 'react';
 import { useMount } from 'react-use';
 import { scrapperRunPollMs } from '../../shared/constants';
-import { RunScrapperDialogProps, ScrapperForRun } from './RunScrapperDialog.types';
+import {
+  RunScrapperDialogProps,
+  ScrapperForRun,
+} from './RunScrapperDialog.types';
 
 export const runScrapperDialogId = 'RUN_SCRAPPER';
 
@@ -19,6 +26,8 @@ export const RunScrapperDialog = ({
   onRun,
   runUrlCreator,
 }: RunScrapperDialogProps) => {
+  const returnUrl = useReturnUrlProvider();
+
   const { cancel } = useDialogMethods({
     id: runScrapperDialogId,
     onCancel,
@@ -104,6 +113,7 @@ export const RunScrapperDialog = ({
     >
       <DialogContentText component="div" whiteSpace="pre-wrap">
         <RunState
+          returnUrl={returnUrl}
           showIcon
           onRunUrlClick={cancel}
           runId={actualScrapper?.lastRun?.id}
