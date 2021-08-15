@@ -50,19 +50,28 @@ export const scrapperRunner = async (
     await Promise.all(
       event.Records.map((record) =>
         limit(async () => {
-          const body = JSON.parse(
-            record.body
-          ) as Message<ScrapperRunnerMessagePayload>;
-          const message = ScrapperRunnerMessageDto.validate(body.payload);
+          try {
+            const body = JSON.parse(
+              record.body
+            ) as Message<ScrapperRunnerMessagePayload>;
+            const message = ScrapperRunnerMessageDto.validate(body.payload);
 
-          await unitOfWork.run((ctx) => {
-            // Maintain traceId
-            ctx.container.register({
-              traceId: asValue(body.traceId),
-            });
+            await unitOfWork.run(
+              (ctx) => {
+                // Maintain traceId
+                ctx.container.register({
+                  traceId: asValue(body.traceId),
+                });
 
-            return ctx.commandsBus.execute(new RunScrapperCommand(message));
-          });
+                return ctx.commandsBus.execute(new RunScrapperCommand(message));
+              },
+              {
+                runInTransaction: false,
+              }
+            );
+          } catch (error) {
+            logger.error(`Scrapper runner error: ${error.message}`);
+          }
         })
       )
     );
@@ -91,16 +100,17 @@ const bootstrap = async (dbConnection?: Connection) => {
     const connectionProvided = Boolean(dbConnection);
 
     const connection =
-      dbConnection ??
-      (await createConnection({
-        host: process.env.DB_HOST,
-        database: process.env.DB_NAME,
-        username: process.env.DB_USER,
-        password: process.env.DB_PASSWORD,
-        entities: entityDefinitions.map((entity) => entity.model),
-        type: 'postgres',
-        synchronize: false,
-      }));
+      dbConnection instanceof Connection
+        ? dbConnection
+        : await createConnection({
+            host: process.env.DB_HOST,
+            database: process.env.DB_NAME,
+            username: process.env.DB_USER,
+            password: process.env.DB_PASSWORD,
+            entities: entityDefinitions.map((entity) => entity.model),
+            type: 'postgres',
+            synchronize: false,
+          });
 
     await connection.query('SELECT 1+1');
 

@@ -2,7 +2,7 @@ import { Fade } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import { makeStyles } from '@material-ui/core/styles';
 import { Alert } from '@material-ui/lab';
-import { Maybe } from '@scrapper-gate/shared/common';
+import { Perhaps } from '@scrapper-gate/shared/common';
 
 import React, { useCallback, useEffect, useState } from 'react';
 
@@ -10,7 +10,7 @@ export interface ErrorAlertProps {
   /**
    * Error to display in alert
    * */
-  error?: Maybe<Error>;
+  error?: Perhaps<Error>;
   onClose?: () => void;
   className?: string;
 }
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
 export const ErrorAlert = ({ error, onClose, className }: ErrorAlertProps) => {
   const classes = useStyles();
 
-  const [currentError, setCurrentError] = useState<Maybe<Error>>(error);
+  const [currentError, setCurrentError] = useState<Perhaps<Error>>(error);
 
   useEffect(() => {
     setCurrentError(error);

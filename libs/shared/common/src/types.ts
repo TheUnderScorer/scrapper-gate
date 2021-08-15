@@ -1,4 +1,4 @@
-export type Maybe<T> = T | null | undefined;
+export type Perhaps<T> = T | null | undefined;
 
 export type FindAndCountResult<T> = [T[], number];
 
@@ -17,3 +17,5 @@ export type OmitFunctions<T> = Pick<
 export interface Jsonable {
   toJSON(): Dictionary;
 }
+
+export type Exists<T> = T extends undefined | null ? never : T;

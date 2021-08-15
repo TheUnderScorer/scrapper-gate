@@ -77,6 +77,8 @@ export const FlowBuilderHeader = ({
 
   const loading = useFlowBuilderContextSelector((ctx) => ctx.loading);
 
+  const readOnly = useFlowBuilderContextSelector((ctx) => ctx.readOnly);
+
   const handleSort = useCallback(() => {
     const { items: newItems } = buildBasicGraph(getItems());
 
@@ -111,44 +113,67 @@ export const FlowBuilderHeader = ({
             )}
           </Stack>
           <Stack direction="row" spacing={2} alignItems="center">
-            {activeTab === mainTab && (
-              <SkeletonComponentOrIcon loading={loading} width={30} height={30}>
-                <Tooltip title={<TooltipText>Sort items</TooltipText>}>
-                  <IconButton onClick={handleSort}>
-                    <SortSharp />
-                  </IconButton>
-                </Tooltip>
-              </SkeletonComponentOrIcon>
+            {!readOnly && (
+              <>
+                {activeTab === mainTab && (
+                  <SkeletonComponentOrIcon
+                    loading={loading}
+                    width={30}
+                    height={30}
+                  >
+                    <Tooltip title={<TooltipText>Sort items</TooltipText>}>
+                      <IconButton onClick={handleSort}>
+                        <SortSharp />
+                      </IconButton>
+                    </Tooltip>
+                  </SkeletonComponentOrIcon>
+                )}
+                <SkeletonComponentOrIcon
+                  loading={loading}
+                  width={30}
+                  height={30}
+                >
+                  <UndoButtons />
+                </SkeletonComponentOrIcon>
+              </>
             )}
-            <SkeletonComponentOrIcon loading={loading} width={30} height={30}>
-              <UndoButtons />
-            </SkeletonComponentOrIcon>
             {additionalActions}
-            <Divider orientation="vertical" className={classes.divider} />
-            <SkeletonComponentOrIcon loading={loading} width={30} height={30}>
-              <FormStateIcon className={classes.iconButton} />
-            </SkeletonComponentOrIcon>
-            <SkeletonComponentOrIcon
-              variant="rectangular"
-              loading={loading}
-              width={60}
-              height={30}
-            >
-              <Fab
-                disabled={formState.submitting || hasErrors}
-                className={classNames(classes.fab, 'flow-builder-submit-btn')}
-                size="small"
-                variant="extended"
-                color="primary"
-                type="submit"
-              >
-                {formState.validating
-                  ? 'Checking...'
-                  : formState.submitting
-                  ? 'Saving...'
-                  : 'Save'}
-              </Fab>
-            </SkeletonComponentOrIcon>
+            {!readOnly && (
+              <>
+                <Divider orientation="vertical" className={classes.divider} />
+                <SkeletonComponentOrIcon
+                  loading={loading}
+                  width={30}
+                  height={30}
+                >
+                  <FormStateIcon className={classes.iconButton} />
+                </SkeletonComponentOrIcon>
+                <SkeletonComponentOrIcon
+                  variant="rectangular"
+                  loading={loading}
+                  width={60}
+                  height={30}
+                >
+                  <Fab
+                    disabled={formState.submitting || hasErrors}
+                    className={classNames(
+                      classes.fab,
+                      'flow-builder-submit-btn'
+                    )}
+                    size="small"
+                    variant="extended"
+                    color="primary"
+                    type="submit"
+                  >
+                    {formState.validating
+                      ? 'Checking...'
+                      : formState.submitting
+                      ? 'Saving...'
+                      : 'Save'}
+                  </Fab>
+                </SkeletonComponentOrIcon>
+              </>
+            )}
             {menu && (
               <Dropdown
                 iconButtonProps={{

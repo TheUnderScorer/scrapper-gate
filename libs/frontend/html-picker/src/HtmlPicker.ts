@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { Disposable, Maybe, prefix } from '@scrapper-gate/shared/common';
+import { Disposable, Perhaps, prefix } from '@scrapper-gate/shared/common';
 import { logger } from '@scrapper-gate/shared/logger/console';
 
 interface ElementPickerProps {
@@ -41,7 +41,7 @@ export class HtmlPicker implements ElementPickerProps, Disposable {
 
   private triggerListener?: () => unknown;
 
-  private selectedElementInternal?: Maybe<HTMLElement>;
+  private selectedElementInternal?: Perhaps<HTMLElement>;
 
   private handleClick = (event: Event) => {
     if (!this.preventClick) {

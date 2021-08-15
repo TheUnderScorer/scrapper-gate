@@ -31,7 +31,10 @@ export const updateScrapperHandler =
     { payload: { input, userId } }: UpdateScrapperCommand,
     { eventsBus }: CommandContext
   ) => {
-    const scrapper = await scrapperRepository.getOneByUser(input.id, userId);
+    const scrapper = await scrapperRepository.getOneAggregateByUser(
+      input.id,
+      userId
+    );
 
     const { result: updatedScrapper, didUpdate } = await performUpdate(
       scrapper,

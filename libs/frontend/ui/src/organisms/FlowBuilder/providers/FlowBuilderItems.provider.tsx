@@ -1,16 +1,16 @@
-import { Node, useZoomPanHelper } from 'react-flow-renderer';
+import { Perhaps, throwError } from '@scrapper-gate/shared/common';
 import React, { ReactNode, useCallback, useEffect, useState } from 'react';
-import { useTimeoutFn } from 'react-use';
 import { useField, useForm } from 'react-final-form';
+import { Node, useZoomPanHelper } from 'react-flow-renderer';
+import { useTimeoutFn } from 'react-use';
 import { createContext, useContextSelector } from 'use-context-selector';
-import { Maybe, throwError } from '@scrapper-gate/shared/common';
-import { useFlowBuilderContextSelector } from './FlowBuilderProps.provider';
 import {
   BaseNodeProperties,
   ConnectionSource,
   FlowBuilderFormState,
   FlowBuilderItem,
 } from '../FlowBuilder.types';
+import { useFlowBuilderContextSelector } from './FlowBuilderProps.provider';
 
 export interface FlowBuilderItemsContext<T extends BaseNodeProperties> {
   items: FlowBuilderItem<T>[];
@@ -18,8 +18,8 @@ export interface FlowBuilderItemsContext<T extends BaseNodeProperties> {
   getItems: () => FlowBuilderItem<T>[];
   setItems: (items: FlowBuilderItem<T>[]) => unknown;
   recentlyCreatedNodeIds?: string[];
-  connectionSource?: Maybe<ConnectionSource>;
-  setConnectionSource: (source: Maybe<ConnectionSource>) => unknown;
+  connectionSource?: Perhaps<ConnectionSource>;
+  setConnectionSource: (source: Perhaps<ConnectionSource>) => unknown;
   nodesRecreated: boolean;
   setNodesRecreated: (recreated: boolean) => unknown;
   afterCreate: (
@@ -72,9 +72,8 @@ export const FlowBuilderItemsProvider = <T extends BaseNodeProperties>(props: {
   const [recentlyCreatedNodeIds, setRecentlyCreatedNodeIds] = useState<
     string[]
   >([]);
-  const [connectionSource, setConnectionSource] = useState<
-    Maybe<ConnectionSource>
-  >();
+  const [connectionSource, setConnectionSource] =
+    useState<Perhaps<ConnectionSource>>();
 
   const [, , resetTimeout] = useTimeoutFn(
     () => setRecentlyCreatedNodeIds([]),

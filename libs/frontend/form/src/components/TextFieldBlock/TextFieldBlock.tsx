@@ -1,4 +1,4 @@
-import { Box, InputProps, TextField } from '@material-ui/core';
+import { TextField } from '@material-ui/core';
 import { InputBaseComponentProps } from '@material-ui/core/InputBase/InputBase';
 import { makeStyles } from '@material-ui/core/styles';
 import { getDisplayValue } from '@scrapper-gate/shared/common';
@@ -9,23 +9,23 @@ import {
   EditorState,
   getDefaultKeyBinding,
 } from 'draft-js';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import EditorBidiService from 'draft-js/lib/EditorBidiService';
 import React, {
+  FocusEvent,
   forwardRef,
   MutableRefObject,
+  useCallback,
   useEffect,
   useImperativeHandle,
   useRef,
   useState,
-  FocusEvent,
-  useCallback,
 } from 'react';
-import { useMount, usePrevious } from 'react-use';
+import { usePrevious } from 'react-use';
 import { Key } from 'ts-key-enum';
 import { TextFieldBlockProvider } from './TextFieldBlock.provider';
 import { TextFieldBlockProps } from './TextFieldBlock.types';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import EditorBidiService from 'draft-js/lib/EditorBidiService';
 
 const useStyles = makeStyles((theme) => ({
   input: {
@@ -92,7 +92,7 @@ const DraftField = forwardRef<
       tabIndex={0}
       spellCheck={Boolean(rest.spellCheck)}
       keyBindingFn={(event) => {
-        // Prevent multilines
+        // Prevent multiline
         if ([Key.Enter, Key.Tab].includes(event.key as Key)) {
           return null;
         }

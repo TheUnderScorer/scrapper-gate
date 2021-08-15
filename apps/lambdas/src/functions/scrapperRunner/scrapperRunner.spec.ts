@@ -2,6 +2,7 @@
 import {
   ScrapperModel,
   ScrapperRepository,
+  ScrapperRunModel,
   ScrapperRunRepository,
   ScrapperStepModel,
 } from '@scrapper-gate/backend/domain/scrapper';
@@ -81,6 +82,10 @@ describe('Scrapper runner', () => {
     await userRepository.save(scrapper.createdBy);
     await scrapperRepository.save(scrapper);
 
+    const run = ScrapperRunModel.createPendingFromScrapper(scrapper, 0);
+
+    await scrapperRunRepository.save(run);
+
     await scrapperRunner(
       {
         Records: [
@@ -89,7 +94,7 @@ describe('Scrapper runner', () => {
               traceId: '#trace',
               date: new Date().toISOString(),
               payload: {
-                scrapperId: scrapper.id,
+                runId: run.id,
                 trigger: RunnerTrigger.Manual,
               },
             } as Message<ScrapperRunnerMessagePayload>),
@@ -99,14 +104,13 @@ describe('Scrapper runner', () => {
       global.connection
     );
 
-    const run = await scrapperRunRepository.getLastForScrapperWithValues(
-      scrapper.id
-    );
+    const updatedRun =
+      await scrapperRunRepository.findLastForScrapperWithValues(scrapper.id);
 
-    expect(run).toBeDefined();
-    expect(run?.results).toHaveLength(scrapper.steps.length);
+    expect(updatedRun).toBeDefined();
+    expect(updatedRun?.results).toHaveLength(scrapper.steps.length);
 
-    const result = run?.results?.find(
+    const result = updatedRun?.results?.find(
       (result) => result.step.action === ScrapperAction.ReadText
     );
 

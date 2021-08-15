@@ -14,6 +14,7 @@ provider:
   runtime: nodejs14.x
   stage: ${opt:stage, 'local'}
   region: eu-west-1
+  lambdaHashingVersion: 20201221
 
 functions:
   scrapperRunnerChromium:

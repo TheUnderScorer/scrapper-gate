@@ -1,7 +1,11 @@
-import { Maybe } from '@scrapper-gate/shared/common';
+import { MenuItemProperties, Selection } from '@scrapper-gate/frontend/common';
+import { FieldNameCreator } from '@scrapper-gate/frontend/form';
+import { Perhaps } from '@scrapper-gate/shared/common';
+import { ComponentType, MouseEvent, ReactNode, Ref } from 'react';
 import {
   Connection,
   Edge,
+  EdgeProps,
   Node,
   NodeProps,
   OnConnectStartParams,
@@ -9,11 +13,11 @@ import {
   removeElements,
   XYPosition,
 } from 'react-flow-renderer';
-import { ComponentType, MouseEvent, ReactNode } from 'react';
-import { FlowBuilderInstanceContext } from './providers/FlowBuilderInstance.provider';
 import { NormalEdgeVariations } from './edgeTypes/NormalEdge.types';
-import { MenuItemProperties, Selection } from '@scrapper-gate/frontend/common';
-import { FieldNameCreator } from '@scrapper-gate/frontend/form';
+import { FlowBuilderHeaderProps } from './Header/FlowBuilderHeader';
+import { useNodesCreator } from './hooks/useNodesCreator';
+import { FlowBuilderInstanceContext } from './providers/FlowBuilderInstance.provider';
+import { FlowBuilderTabsProps } from './Tabs/FlowBuilderTabs';
 
 export interface FlowBuilderAddApi<T extends BaseNodeProperties> {
   flowInstance: FlowBuilderInstanceContext['flowInstance'];
@@ -48,6 +52,10 @@ export enum ConditionalNodeEdgeType {
   False = 'False',
 }
 
+export interface FlowBuilderApiRef {
+  nodesCreator: ReturnType<typeof useNodesCreator>;
+}
+
 export interface BaseNodeProperties {
   isFirst?: boolean;
   isLast?: boolean;
@@ -62,6 +70,7 @@ export interface BaseNodeProperties {
   sourcePosition?: Position;
   title?: ReactNode;
   dropdownMenu?: (node: NodeProps<this>) => MenuItemProperties[];
+  nodeAddonBefore?: (node: NodeProps<this>) => JSX.Element;
   noContent?: boolean;
   cannotBeDeleted?: boolean;
   sourceHandle?: string;
@@ -158,5 +167,46 @@ export interface NodesCreatorApi<
   S extends BaseNodeSelectionProperties
 > {
   handleConnect: (params: Connection, items: FlowBuilderItem<T>[]) => Edge;
-  createNode: (selection: Selection<S>) => Promise<Maybe<FlowBuilderItem<T>[]>>;
+  createNode: (
+    selection: Selection<S>
+  ) => Promise<Perhaps<FlowBuilderItem<T>[]>>;
 }
+
+export interface FlowBuilderProps<
+  T extends BaseNodeProperties = BaseNodeProperties,
+  S extends BaseNodeSelectionProperties = BaseNodeSelectionProperties
+> extends FlowBuilderHeaderProps,
+    Pick<FlowBuilderTabsProps, 'tabs' | 'mainTabLabel'> {
+  nodeContentTitle?: string;
+  onAdd?: (
+    item: Selection<S>,
+    api: FlowBuilderAddApi<T>
+  ) => CreateNodeResult<T> | Promise<CreateNodeResult<T>>;
+  onRemove?: (
+    nodes: Array<EdgeProps<T> | NodeProps<T>>,
+    api: FlowBuilderRemoveApi<T>
+  ) => FlowBuilderItem<T>[];
+  onChange?: (items: FlowBuilderItem<T>[]) => unknown;
+  nodesSelection?: Selection<S>[];
+  nodeTypes?: Record<string, NodeMetadata<T>>;
+  onConnect?: (connection: Connection, edge?: Partial<Edge<T>>) => Edge<T>;
+  useFallbackConnectionHandler?: boolean;
+  isValidConnection?: (params: IsValidConnectionParams<T>) => boolean;
+  nodeContents?: Record<string, NodeContentComponent>;
+  defaultNodeContent?: NodeContentComponent;
+  isUsingElementPicker?: boolean;
+  nodesLabel?: string;
+  loading?: boolean;
+  // Used on init in order to transform initial items into actual nodes
+  nodesCreator?: (api: NodesCreatorApi<T, S>) => Promise<FlowBuilderItem<T>[]>;
+  // Useful in testing, if set to sets data-items to current items on element .flow-builder-canvas
+  renderItemsInDataAttribute?: boolean;
+  // Path under which optional node key can be found - it will be displayed next to title
+  nodeKeyProperty?: string;
+  readOnly?: boolean;
+  apiRef?: Ref<Perhaps<FlowBuilderApiRef>>;
+}
+
+export type FlowBuilderTabsSelection = Selection<string> & {
+  content?: ReactNode;
+};

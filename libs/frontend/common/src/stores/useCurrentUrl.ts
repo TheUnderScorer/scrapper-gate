@@ -9,7 +9,7 @@ export interface CurrentUrlStore {
 
 export const useCurrentUrl = create<CurrentUrlStore>((set) => ({
   // Stores current url, or in case of browser extension - url of active tab
-  currentUrl: document.location.toString(),
+  currentUrl: window.document.location.toString(),
   setCurrentUrl: (url) => {
     set({
       currentUrl: url,

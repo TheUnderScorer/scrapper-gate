@@ -1,18 +1,11 @@
 import { createVariable } from '@scrapper-gate/shared/domain/variables';
-import {
-  Scrapper,
-  ScrapperRun,
-  VariableScope,
-} from '@scrapper-gate/shared/schema';
+import { ScrapperRun, VariableScope } from '@scrapper-gate/shared/schema';
 import { uniqBy } from 'remeda';
 
 /**
  * Creates scrapper variables, creating variables from run result and appending them to existing scrapper variables
  * */
-export const createScrapperRunVariables = (
-  scrapper: Scrapper,
-  scrapperRun: ScrapperRun
-) => {
+export const createScrapperRunVariables = (scrapperRun: ScrapperRun) => {
   if (!scrapperRun.results?.length) {
     return [];
   }
@@ -28,7 +21,7 @@ export const createScrapperRunVariables = (
     });
 
   return uniqBy(
-    [...variablesFromRun, ...(scrapper.variables ?? [])],
+    [...variablesFromRun, ...(scrapperRun.variables ?? [])],
     (variable) => variable.key
   );
 };

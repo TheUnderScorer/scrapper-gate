@@ -1,0 +1,99 @@
+query GetMyScrapperRun($id: ID!) {
+  getMyScrapperRun(id: $id) {
+    id
+    createdAt
+    endedAt
+    name
+    scrapper {
+      id
+      name
+      steps {
+        id
+      }
+    }
+    error {
+      date
+      message
+      name
+      stepId
+    }
+    steps {
+      ...ScrapperBuilderStep
+    }
+    state
+    error {
+      date
+      message
+      name
+    }
+    keyPairValues
+    results {
+      id
+      endedAt
+      startedAt
+      state
+      performance {
+        duration
+      }
+      step {
+        ...ScrapperBuilderStep
+      }
+      values {
+        id
+        sourceElement {
+          id
+          classNames
+          tag
+        }
+        value
+      }
+    }
+  }
+}
+
+query GetMyScrapperRunState($id: ID!) {
+  getMyScrapperRun(id: $id) {
+    id
+    state
+    scrapper {
+      id
+      name
+      steps {
+        id
+      }
+      lastRun {
+        id
+        state
+        endedAt
+      }
+    }
+    keyPairValues
+    results {
+      id
+      state
+      performance {
+        duration
+      }
+      error {
+        date
+        message
+        name
+      }
+      step {
+        id
+        key
+      }
+      endedAt
+      startedAt
+      values {
+        id
+        sourceElement {
+          id
+          classNames
+          tag
+        }
+        value
+      }
+    }
+  }
+}

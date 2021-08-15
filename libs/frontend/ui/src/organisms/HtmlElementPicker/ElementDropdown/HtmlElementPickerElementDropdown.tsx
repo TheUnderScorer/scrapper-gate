@@ -1,5 +1,3 @@
-import { Maybe } from '@scrapper-gate/shared/common';
-import React, { forwardRef, useCallback, useMemo } from 'react';
 import {
   Divider,
   Fab,
@@ -23,11 +21,13 @@ import {
   ElementNavigatorDirection,
   navigateElement,
 } from '@scrapper-gate/frontend/common';
+import { Perhaps } from '@scrapper-gate/shared/common';
 import classNames from 'classnames';
+import React, { forwardRef, useCallback, useMemo } from 'react';
 
 export interface HtmlElementPickerElementDropdownProps {
-  selectedElement?: Maybe<HTMLElement>;
-  selector?: Maybe<string>;
+  selectedElement?: Perhaps<HTMLElement>;
+  selector?: Perhaps<string>;
   onSelect?: () => unknown;
   onSelectedElementChange?: (element: HTMLElement) => unknown;
 }
@@ -56,9 +56,10 @@ export const HtmlElementPickerElementDropdown = forwardRef<
 >(({ selectedElement, selector, onSelect, onSelectedElementChange }, ref) => {
   const classes = useStyles();
 
-  const canNavigate = useMemo(() => canBeNavigated(selectedElement), [
-    selectedElement,
-  ]);
+  const canNavigate = useMemo(
+    () => canBeNavigated(selectedElement),
+    [selectedElement]
+  );
 
   const navigate = useCallback(
     (direction: ElementNavigatorDirection) => () => {

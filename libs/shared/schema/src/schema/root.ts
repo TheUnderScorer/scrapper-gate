@@ -13,6 +13,8 @@ export const rootSchema = gql`
   # }
   directive @validateDto(dto: String!, key: String!) on FIELD_DEFINITION
 
+  scalar Record
+
   input Pagination {
     take: Int!
     skip: Int!
@@ -21,6 +23,10 @@ export const rootSchema = gql`
   enum OrderDirection {
     Asc
     Desc
+  }
+
+  interface Indexable {
+    index: Int!
   }
 
   input Order {

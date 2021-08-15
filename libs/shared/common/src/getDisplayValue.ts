@@ -29,7 +29,8 @@ export const getDisplayValue = ({
       throw new TypeError('Cannot render function as value.');
 
     case 'string':
-      if (!Number.isNaN(Number(value))) {
+      // TODO Keep an eye on this, because sometimes we get date in places we should not have
+      if (!Number.isNaN(Number(value) || value.startsWith('http'))) {
         return value;
       }
 

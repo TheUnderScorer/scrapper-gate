@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { NodeLikeItem } from '@scrapper-gate/shared/schema';
+import { NodeLikeItem } from '@scrapper-gate/shared/node';
 import { Node } from 'react-flow-renderer';
-import { recreateNodes } from './recreateNodes';
+import { BaseNodeProperties, FlowBuilderNodeTypes } from '../FlowBuilder.types';
 import { createEdge } from './createEdge';
 import { createNodeFromSelection } from './createNodeFromSelection';
-import { BaseNodeProperties, FlowBuilderNodeTypes } from '../FlowBuilder.types';
+import { recreateNodes } from './recreateNodes';
 
 describe('Recreate nodes', () => {
   const baseItems: NodeLikeItem[] = [
@@ -15,6 +15,7 @@ describe('Recreate nodes', () => {
         x: 0,
         y: 50,
       },
+      isFirst: true,
       nextStep: {
         id: '2',
       },
@@ -87,6 +88,7 @@ Array [
     "data": Object {
       "icon": undefined,
       "id": "1",
+      "isFirst": true,
       "nextStep": Object {
         "id": "2",
       },

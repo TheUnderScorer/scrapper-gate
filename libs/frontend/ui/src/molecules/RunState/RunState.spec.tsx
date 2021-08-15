@@ -1,13 +1,15 @@
-import { RunState } from './RunState';
-import { render } from '@testing-library/react';
-import { RunStateProps } from './RunState.types';
 import { RunState as RunStateEnum } from '@scrapper-gate/shared/schema';
+import { render } from '@testing-library/react';
+import { RunState } from './RunState';
+import { RunStateEntity, RunStateProps } from './RunState.types';
 
 type TestCaseData = [props: RunStateProps, expectedContent: string];
 
 const baseProps = {
   name: 'Test',
-  entity: 'scrapper',
+  entity: RunStateEntity.Scrapper,
+  showIcon: true,
+  entityName: '',
 };
 
 describe('<RunState />', () => {
@@ -17,7 +19,7 @@ describe('<RunState />', () => {
         ...baseProps,
         state: RunStateEnum.Pending,
       },
-      'Your scrapper is currently in queue...',
+      'Your scrapper is currently in queue.',
     ],
     [
       {
@@ -30,7 +32,7 @@ describe('<RunState />', () => {
       {
         ...baseProps,
         state: RunStateEnum.Completed,
-        called: true,
+        runMutationCalled: true,
       },
       'Your scrapper run has completed',
     ],
@@ -39,7 +41,7 @@ describe('<RunState />', () => {
         ...baseProps,
         state: RunStateEnum.Completed,
         runMutationLoading: true,
-        called: true,
+        runMutationCalled: true,
       },
       'You are about to run scrapper',
     ],
@@ -47,7 +49,7 @@ describe('<RunState />', () => {
       {
         ...baseProps,
         state: RunStateEnum.Failed,
-        called: true,
+        runMutationCalled: true,
       },
       'Your run has failed',
     ],
@@ -55,7 +57,7 @@ describe('<RunState />', () => {
       {
         ...baseProps,
         state: RunStateEnum.Cancelled,
-        called: true,
+        runMutationCalled: true,
       },
       'Your run was cancelled',
     ],

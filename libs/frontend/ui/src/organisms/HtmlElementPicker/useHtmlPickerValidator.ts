@@ -1,4 +1,3 @@
-import { useDebouncedValidator } from '@scrapper-gate/frontend/form';
 import { getElementsBySelectors } from '@scrapper-gate/shared/common';
 import { InvalidSelectorProvidedError } from '@scrapper-gate/shared/errors';
 import { Selector } from '@scrapper-gate/shared/schema';
@@ -20,7 +19,7 @@ export const useHtmlPickerValidator = ({
   validationRules,
   filterSelectorsForValidation,
 }: UseHtmlPickerValidatorProps) => {
-  const validateFn = useCallback(
+  return useCallback(
     (fieldValue?: Selector[]) => {
       if (fieldValue?.length && validationRules?.length && !pickerDisabled) {
         try {
@@ -61,8 +60,4 @@ export const useHtmlPickerValidator = ({
       elementsValidator,
     ]
   );
-
-  return useDebouncedValidator<Selector[]>({
-    validate: validateFn,
-  });
 };

@@ -1,68 +1,117 @@
-import { CircularProgress, Stack, Typography } from '@material-ui/core';
-import { Check } from '@material-ui/icons';
+import { Stack, Typography } from '@material-ui/core';
 import { DateFormat } from '@scrapper-gate/shared/common';
 import { isRunning } from '@scrapper-gate/shared/run-states';
+import { RunState as RunStateEnum } from '@scrapper-gate/shared/schema';
 import { format } from 'date-fns';
 import React, { useMemo } from 'react';
+import { ButtonRouteLink } from '../ButtonRouteLink/ButtonRouteLink';
+import { RunStateIcon } from './Icon/RunStateIcon';
 import { RunStateProps } from './RunState.types';
-import { RunState as RunStateEnum } from '@scrapper-gate/shared/schema';
 
 export const RunState = ({
   state,
   entity,
-  name,
-  called,
+  entityName,
+  runMutationCalled,
   runMutationLoading,
   lastRunDate,
+  runUrlCreator,
+  runId,
+  onRunUrlClick,
+  returnUrl,
+  showIcon,
 }: RunStateProps) => {
   const running = isRunning(state);
+
+  const runLinkElement = useMemo(
+    () =>
+      runUrlCreator &&
+      runId && (
+        <ButtonRouteLink
+          onClick={onRunUrlClick}
+          to={runUrlCreator({ runId, returnUrl })}
+        >
+          View run
+        </ButtonRouteLink>
+      ),
+    [onRunUrlClick, returnUrl, runId, runUrlCreator]
+  );
 
   const message = useMemo(() => {
     const runMessage = (
       <>
-        You are about to run {entity} <strong>{name}</strong>.
+        You are about to run {entity} <strong>{entityName}</strong>.
       </>
     );
 
-    if (!running && !called) {
+    if (!running && !runMutationCalled) {
       return runMessage;
     }
 
     switch (state) {
       case RunStateEnum.Pending:
-        return `Your ${entity} is currently in queue...`;
+        return (
+          <>
+            Your {entity} is currently in queue. {runLinkElement}
+          </>
+        );
 
       case RunStateEnum.InProgress:
-        return `Your ${entity} is currently running...`;
+        return (
+          <>
+            Your {entity} is currently running. {runLinkElement}
+          </>
+        );
 
       case RunStateEnum.Failed:
-        return `Your${!called ? ' last' : ''} run has failed.`;
+        return (
+          <>
+            Your{!runMutationCalled ? ' last' : ''} run has failed.{' '}
+            {runLinkElement}
+          </>
+        );
 
       case RunStateEnum.Completed:
-        if (called && !runMutationLoading) {
-          return `Your ${entity} run has completed.`;
+        if (runMutationCalled && !runMutationLoading) {
+          return (
+            <>
+              Your {entity} run has completed. {runLinkElement}
+            </>
+          );
         }
 
         return runMessage;
 
       case RunStateEnum.Cancelled:
-        return `Your${!called ? ' last' : ''} run was cancelled.`;
+        return `Your${!runMutationCalled ? ' last' : ''} run was cancelled.`;
     }
-  }, [called, entity, name, runMutationLoading, running, state]);
+  }, [
+    runMutationCalled,
+    entity,
+    entityName,
+    runLinkElement,
+    runMutationLoading,
+    running,
+    state,
+  ]);
 
   return (
     <Stack className="run-state-container" spacing={1}>
       <Stack alignItems="center" direction="row" spacing={2}>
-        {running && <CircularProgress />}
-        {state === RunStateEnum.Completed && called && !runMutationLoading && (
-          <Check />
+        {showIcon && (
+          <RunStateIcon
+            entity={entity}
+            state={state}
+            runMutationCalled={runMutationCalled}
+            runMutationLoading={runMutationLoading}
+          />
         )}
         <span>{message}</span>
       </Stack>
-      {lastRunDate && !running && (
+      {lastRunDate && !running && !runMutationCalled && (
         <Typography variant="subtitle2">
           Last run finished at <i>{format(lastRunDate, DateFormat.DateTime)}</i>
-          .
+          . {runLinkElement}
         </Typography>
       )}
     </Stack>

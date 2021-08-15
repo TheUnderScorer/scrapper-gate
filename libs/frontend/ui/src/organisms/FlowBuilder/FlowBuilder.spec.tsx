@@ -1,36 +1,25 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import '@testing-library/jest-dom';
-import {
-  AccountTreeSharp,
-  OpenInBrowserSharp,
-  PetsSharp,
-  SaveSharp,
-  StopSharp,
-} from '@material-ui/icons';
-import React from 'react';
-import { Form } from 'react-final-form';
-import {
-  act,
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-} from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { AccountTreeSharp, OpenInBrowserSharp, PetsSharp, SaveSharp, StopSharp } from '@material-ui/icons';
 import { QueryParamProvider, Selection } from '@scrapper-gate/frontend/common';
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
-import { MemoryRouter } from 'react-router';
-import { createNodeFromSelection } from './utils/createNodeFromSelection';
 import { wait } from '@scrapper-gate/shared/common';
+import '@testing-library/jest-dom';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import React from 'react';
+import { Form } from 'react-final-form';
+import { MemoryRouter } from 'react-router';
 import { dragSelectionIntoCanvas } from '../../../../../../tests/ui/flowBuilder/dragSelectionIntoCanvas';
-import { FlowBuilder, FlowBuilderProps } from './FlowBuilder';
+import { FlowBuilder } from './FlowBuilder';
 import {
   BaseNodeProperties,
   BaseNodeSelectionProperties,
   FlowBuilderItem,
   FlowBuilderNodeTypes,
-  NodeContentComponent,
+  FlowBuilderProps,
+  NodeContentComponent
 } from './FlowBuilder.types';
+import { createNodeFromSelection } from './utils/createNodeFromSelection';
 
 const offset = 50;
 

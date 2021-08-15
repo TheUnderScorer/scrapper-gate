@@ -1,11 +1,18 @@
+import { activeNodeQueryKey, returnUrlQueryKey } from './queryKeys';
 import { paramRoute } from './route';
+import { RunResultRouteParams, ScrapperRouteParams } from './types';
 
-export interface ContentScrapperRouteParams {
-  scrapperId?: string;
+export interface DrawerRouteParams {
   drawerOpen?: boolean;
-
-  [key: string]: string | number | boolean | undefined;
 }
+
+export interface ContentScrapperRouteParams
+  extends ScrapperRouteParams,
+    DrawerRouteParams {}
+
+export interface ScrapperRunResultRouteParams
+  extends RunResultRouteParams,
+    DrawerRouteParams {}
 
 export const browserExtensionRoutes = {
   popup: {
@@ -17,8 +24,17 @@ export const browserExtensionRoutes = {
   },
   content: {
     scrapper: paramRoute<ContentScrapperRouteParams>(
-      '/scrapper/:scrapperId?drawerOpen=:drawerOpen'
+      `/scrapper/:scrapperId?drawerOpen=:drawerOpen&${activeNodeQueryKey}=:stepId&${returnUrlQueryKey}=:returnUrl`,
+      {
+        drawerOpen: true,
+      }
     ),
     createScrapper: '/create-scrapper',
+    scrapperRun: paramRoute<ScrapperRunResultRouteParams>(
+      `/scrapper-run/:runId?drawerOpen=:drawerOpen&${returnUrlQueryKey}=:returnUrl`,
+      {
+        drawerOpen: true,
+      }
+    ),
   },
 };

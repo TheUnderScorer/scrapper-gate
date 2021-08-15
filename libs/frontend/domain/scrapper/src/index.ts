@@ -6,3 +6,7 @@ export * from './components/ScrapperBuilder/ScrapperBuilder.types';
 export * from './hooks/useIsOnStepUrl';
 export * from './components/CreateScrapperFormDialog/CreateScrapperFormDialog';
 export * from './components/RunScrapperDialog/useRunScraperDialog';
+export * from './shared/scrapperNodeSelection';
+export * from './components/ScrapperRun/ScrapperRun';
+export * from './components/ScrapperRun/ScrapperRun.types';
+export { ScrapperBuilderStep } from './shared/types';

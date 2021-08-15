@@ -59,6 +59,8 @@ export interface ScrapperStepHandlerParams {
 }
 
 export interface ScrapperRunnerMessagePayload {
-  scrapperId: string;
+  runId: string;
   trigger: RunnerTrigger;
 }
+
+export type ScrapperRunResultKeyPairValues = Record<string, string[]>;

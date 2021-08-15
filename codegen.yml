@@ -1,12 +1,3 @@
-references:
-  typescript: &typescript
-    config:
-    skipTypename: true
-    hooks:
-    afterOneFileWrite:
-      - prettier --write
-      - eslint --fix
-
 overwrite: true
 watch: false
 schema:

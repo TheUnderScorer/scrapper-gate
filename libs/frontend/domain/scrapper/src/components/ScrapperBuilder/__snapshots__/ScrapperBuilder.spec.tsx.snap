@@ -26,13 +26,17 @@ Object {
                   <div
                     class="css-1jz9r7a-Stack-root"
                   >
-                    <span>
-                      <h6
-                        aria-label="Click to edit"
-                        class="MuiTypography-root MuiTypography-h6 makeStyles-text-10 form-editable-text css-5d68dr-MuiTypography-root"
-                        data-mui-internal-clone-element="true"
-                      />
-                    </span>
+                    <div
+                      class="css-bjpsha-Stack-root"
+                    >
+                      <span>
+                        <h6
+                          aria-label="Click to edit"
+                          class="MuiTypography-root MuiTypography-h6 makeStyles-text-10 form-editable-text css-5d68dr-MuiTypography-root"
+                          data-mui-internal-clone-element="true"
+                        />
+                      </span>
+                    </div>
                   </div>
                   <div
                     class="css-1jz9r7a-Stack-root"
@@ -883,13 +887,17 @@ Object {
                 <div
                   class="css-1jz9r7a-Stack-root"
                 >
-                  <span>
-                    <h6
-                      aria-label="Click to edit"
-                      class="MuiTypography-root MuiTypography-h6 makeStyles-text-10 form-editable-text css-5d68dr-MuiTypography-root"
-                      data-mui-internal-clone-element="true"
-                    />
-                  </span>
+                  <div
+                    class="css-bjpsha-Stack-root"
+                  >
+                    <span>
+                      <h6
+                        aria-label="Click to edit"
+                        class="MuiTypography-root MuiTypography-h6 makeStyles-text-10 form-editable-text css-5d68dr-MuiTypography-root"
+                        data-mui-internal-clone-element="true"
+                      />
+                    </span>
+                  </div>
                 </div>
                 <div
                   class="css-1jz9r7a-Stack-root"

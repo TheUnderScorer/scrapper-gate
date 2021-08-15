@@ -1,11 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { PropsWithChildren } from 'react';
 import { createContext, useContextSelector } from 'use-context-selector';
-import { FlowBuilderProps } from '../FlowBuilder';
-import {
-  BaseNodeProperties,
-  BaseNodeSelectionProperties,
-} from '../FlowBuilder.types';
+import { BaseNodeProperties, BaseNodeSelectionProperties, FlowBuilderProps } from '../FlowBuilder.types';
 
 export interface FlowBuilderPropsContext<
   T extends BaseNodeProperties = BaseNodeProperties,

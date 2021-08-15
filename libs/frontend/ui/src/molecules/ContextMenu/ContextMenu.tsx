@@ -1,16 +1,16 @@
-import { Maybe } from '@scrapper-gate/shared/common';
+import { ClickAwayListener, Menu, PopoverPosition } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
+import { preventDefault } from '@scrapper-gate/frontend/common';
+import { Perhaps } from '@scrapper-gate/shared/common';
+import classNames from 'classnames';
 import React, {
   forwardRef,
   MouseEventHandler,
   useCallback,
   useState,
 } from 'react';
-import { ClickAwayListener, Menu, PopoverPosition } from '@material-ui/core';
-import { ContextMenuProps } from './ContextMenu.types';
 import { GenericMenuItem } from '../GenericMenuItem/GenericMenuItem';
-import { makeStyles } from '@material-ui/styles';
-import classNames from 'classnames';
-import { preventDefault } from '@scrapper-gate/frontend/common';
+import { ContextMenuProps } from './ContextMenu.types';
 
 const useStyles = makeStyles({
   menu: {
@@ -26,7 +26,8 @@ export const ContextMenu = forwardRef<HTMLDivElement, ContextMenuProps>(
   ({ children, menuItems, onOpen, onClose, ...menuProps }, ref) => {
     const classes = useStyles();
 
-    const [mouseState, setMouseState] = useState<Maybe<PopoverPosition>>(null);
+    const [mouseState, setMouseState] =
+      useState<Perhaps<PopoverPosition>>(null);
 
     const handleContextMenu: MouseEventHandler = useCallback(
       (event) => {

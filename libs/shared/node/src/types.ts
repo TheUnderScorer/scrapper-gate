@@ -1,4 +1,4 @@
-import { BaseEntity, NodePosition } from './types';
+import { BaseEntity, NodePosition } from '@scrapper-gate/shared/schema';
 
 export interface NodeLikeItem<
   Step extends Pick<BaseEntity, 'id'> = Pick<BaseEntity, 'id'>
@@ -9,6 +9,7 @@ export interface NodeLikeItem<
   stepOnFalse?: Step;
   position?: NodePosition;
   type?: string;
+  isFirst?: boolean;
 }
 
 export interface NodeLikeItemInput extends Pick<BaseEntity, 'id'> {

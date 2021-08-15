@@ -3,29 +3,17 @@ import {
   FlowBuilderNodeTypes,
   flowBuilderUtils,
 } from '@scrapper-gate/frontend/ui';
-import { ScrapperAction } from '@scrapper-gate/shared/schema';
 import { scrapperActionNodeTypeMap } from './scrapperActionNodeTypeMap';
-import {
-  ScrapperBuilderNodeSelection,
-  ScrapperBuilderStep,
-} from './ScrapperBuilder.types';
+import { ScrapperBuilderNodeSelection } from './scrapperNodeSelection';
+import { ScrapperBuilderStep } from './types';
 
-export const scrapperStepsToNodes = (
-  steps: ScrapperBuilderStep[],
+export const scrapperStepsToNodes = <T extends ScrapperBuilderStep>(
+  steps: T[],
   selections: Selection<ScrapperBuilderNodeSelection>[]
 ) => {
   const stepsWithTypes = steps.map((step) => ({
     ...step,
-    type:
-      (
-        scrapperActionNodeTypeMap as Record<
-          ScrapperAction,
-          FlowBuilderNodeTypes
-        >
-      )[
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        step.action!
-      ] ?? FlowBuilderNodeTypes.Action,
+    type: scrapperActionNodeTypeMap[step.action] ?? FlowBuilderNodeTypes.Action,
   }));
 
   return flowBuilderUtils.recreateNodes({

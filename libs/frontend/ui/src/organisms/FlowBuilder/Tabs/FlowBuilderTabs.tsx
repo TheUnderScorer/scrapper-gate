@@ -1,12 +1,12 @@
-import React, { ReactNode } from 'react';
 import { Paper, Tab, Tabs } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { Selection } from '@scrapper-gate/frontend/common';
+import React from 'react';
+import { FlowBuilderTabsSelection } from '../FlowBuilder.types';
 
 export interface FlowBuilderTabsProps {
   value: unknown;
   onChange: (value: string) => unknown;
-  tabs?: Array<Selection<string> & { content?: ReactNode }>;
+  tabs?: Array<FlowBuilderTabsSelection>;
   mainTabLabel?: string;
 }
 

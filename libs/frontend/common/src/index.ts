@@ -17,3 +17,6 @@ export * from './elementNavigator';
 export * from './setRefValue';
 export * from './stores/useCurrentUrl';
 export * from './hooks/useStack';
+export * from './errors';
+export * from './hooks/useLocationHref';
+export * from './hooks/useReturnUrlProvider';

@@ -1,0 +1,456 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<ScrapperRun /> should render without crashing 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div
+        class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded makeStyles-paper-3 css-172kgz0-MuiPaper-root"
+      >
+        <header
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAppBar-root MuiAppBar-colorTransparent MuiAppBar-positionStatic css-pivuyh-MuiPaper-root-MuiAppBar-root"
+        >
+          <div
+            class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular makeStyles-appBar-5 css-1t29gy6-MuiToolbar-root"
+          >
+            <div
+              class="makeStyles-mainGrid-6 css-hz4k7x-Stack-root"
+            >
+              <div
+                class="css-1jz9r7a-Stack-root"
+              >
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-pulse css-fomgco-MuiSkeleton-root"
+                  style="width: 30px; height: 30px;"
+                />
+                <span
+                  class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                  style="width: 60px; height: 10px;"
+                />
+              </div>
+              <div
+                class="css-1jz9r7a-Stack-root"
+              />
+            </div>
+          </div>
+        </header>
+        <div
+          class="MuiPaper-root MuiPaper-outlined makeStyles-paper-10 css-mta8o9-MuiPaper-root"
+        >
+          <div
+            class="MuiTabs-root makeStyles-tabs-9 css-1ujnqem-MuiTabs-root"
+          >
+            <div
+              class="MuiTabs-scroller MuiTabs-fixed css-jpln7h-MuiTabs-scroller"
+              style="overflow: hidden; margin-bottom: 0px;"
+            >
+              <div
+                class="MuiTabs-flexContainer css-heg063-MuiTabs-flexContainer"
+                role="tablist"
+              >
+                <button
+                  aria-selected="true"
+                  class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary Mui-selected css-e0qzyo-MuiButtonBase-root-MuiTab-root"
+                  role="tab"
+                  tabindex="0"
+                  type="button"
+                >
+                  <span
+                    class="MuiTab-wrapper css-17yibpu-MuiTab-wrapper"
+                  >
+                    Steps
+                  </span>
+                  <span
+                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  />
+                </button>
+                <button
+                  aria-selected="false"
+                  class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary css-e0qzyo-MuiButtonBase-root-MuiTab-root"
+                  role="tab"
+                  tabindex="-1"
+                  type="button"
+                >
+                  <span
+                    class="MuiTab-wrapper css-17yibpu-MuiTab-wrapper"
+                  >
+                    Values
+                  </span>
+                  <span
+                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  />
+                </button>
+              </div>
+              <span
+                class="MuiTabs-indicator css-78exr-MuiTabs-indicator"
+                style="left: 0px; width: 0px;"
+              />
+            </div>
+          </div>
+        </div>
+        <div
+          class="MuiBox-root css-1x5kfkn"
+        >
+          <div
+            class="makeStyles-stack-11 css-1abmola-Stack-root"
+          >
+            <div
+              class="centered makeStyles-paper-12 MuiBox-root css-1rr92ez"
+            >
+              <div
+                class="css-m72s89-Stack-root"
+              >
+                <span
+                  class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary css-1h9nrm7-MuiCircularProgress-root"
+                  role="progressbar"
+                  style="width: 40px; height: 40px;"
+                >
+                  <svg
+                    class="MuiCircularProgress-svg css-1idz92c-MuiCircularProgress-svg"
+                    viewBox="22 22 44 44"
+                  >
+                    <circle
+                      class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-176wh8e-MuiCircularProgress-circle"
+                      cx="44"
+                      cy="44"
+                      fill="none"
+                      r="20.2"
+                      stroke-width="3.6"
+                    />
+                  </svg>
+                </span>
+                <p
+                  class="MuiTypography-root MuiTypography-body2 css-108qaiy-MuiTypography-root"
+                >
+                  Loading builder...
+                </p>
+              </div>
+            </div>
+            <div
+              class="makeStyles-drawer-16 node-content-closed makeStyles-container-22"
+              style="position: relative; user-select: auto; visibility: hidden; width: 20%; height: 100%; max-width: 900px; min-width: 500px; box-sizing: border-box; flex-shrink: 0;"
+            >
+              <div
+                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 makeStyles-paper-18 makeStyles-paper-20 makeStyles-content-23 resizable-panel-content css-1ps6pg7-MuiPaper-root"
+                style="webkit-transform: translateX(1024px) translateX(0px); transform: translateX(1024px) translateX(0px);"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column MuiGrid-wrap-xs-nowrap makeStyles-container-26 layout css-19kb62l-MuiGrid-root"
+                >
+                  <div
+                    class="MuiGrid-root MuiGrid-item makeStyles-body-27 makeStyles-body-28 layout-body css-10texkh-MuiGrid-root"
+                    style="height: calc(100% - 50px); flex: 1;"
+                  >
+                    <div
+                      class="makeStyles-content-14 node-content css-nu13me-Stack-root"
+                    >
+                      <h6
+                        class="MuiTypography-root MuiTypography-h6 css-5d68dr-MuiTypography-root"
+                      >
+                        Step result
+                      </h6>
+                    </div>
+                  </div>
+                  <div
+                    class="MuiGrid-root MuiGrid-item layout-footer css-10texkh-MuiGrid-root"
+                    style="height: 50px;"
+                  >
+                    <hr
+                      class="MuiDivider-root MuiDivider-fullWidth makeStyles-btnDivider-15 css-9mgopn-MuiDivider-root"
+                    />
+                    <div
+                      class="MuiBox-root css-1v7vvra"
+                    >
+                      <button
+                        class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButtonBase-root Mui-focusVisible css-1b9y47s-MuiButtonBase-root-MuiButton-root"
+                        tabindex="0"
+                        type="button"
+                      >
+                        <span
+                          class="MuiButton-label css-8xplcm-MuiButton-label"
+                        >
+                          Close
+                        </span>
+                        <span
+                          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                        >
+                          <span
+                            class="css-1yvx2br-MuiTouchRipple-ripple MuiTouchRipple-ripple MuiTouchRipple-rippleVisible MuiTouchRipple-ripplePulsate"
+                            style="width: 1px; height: 1px; top: -0.5px; left: -0.5px;"
+                          >
+                            <span
+                              class="MuiTouchRipple-child MuiTouchRipple-childPulsate"
+                            />
+                          </span>
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="makeStyles-handle-21 makeStyles-handle-25"
+              >
+                <div
+                  class=""
+                  style="position: absolute; user-select: none; width: 10px; height: 100%; top: 0px; left: -5px; cursor: col-resize;"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded makeStyles-paper-3 css-172kgz0-MuiPaper-root"
+    >
+      <header
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAppBar-root MuiAppBar-colorTransparent MuiAppBar-positionStatic css-pivuyh-MuiPaper-root-MuiAppBar-root"
+      >
+        <div
+          class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular makeStyles-appBar-5 css-1t29gy6-MuiToolbar-root"
+        >
+          <div
+            class="makeStyles-mainGrid-6 css-hz4k7x-Stack-root"
+          >
+            <div
+              class="css-1jz9r7a-Stack-root"
+            >
+              <span
+                class="MuiSkeleton-root MuiSkeleton-circular MuiSkeleton-pulse css-fomgco-MuiSkeleton-root"
+                style="width: 30px; height: 30px;"
+              />
+              <span
+                class="MuiSkeleton-root MuiSkeleton-text MuiSkeleton-pulse css-1n7gpw1-MuiSkeleton-root"
+                style="width: 60px; height: 10px;"
+              />
+            </div>
+            <div
+              class="css-1jz9r7a-Stack-root"
+            />
+          </div>
+        </div>
+      </header>
+      <div
+        class="MuiPaper-root MuiPaper-outlined makeStyles-paper-10 css-mta8o9-MuiPaper-root"
+      >
+        <div
+          class="MuiTabs-root makeStyles-tabs-9 css-1ujnqem-MuiTabs-root"
+        >
+          <div
+            class="MuiTabs-scroller MuiTabs-fixed css-jpln7h-MuiTabs-scroller"
+            style="overflow: hidden; margin-bottom: 0px;"
+          >
+            <div
+              class="MuiTabs-flexContainer css-heg063-MuiTabs-flexContainer"
+              role="tablist"
+            >
+              <button
+                aria-selected="true"
+                class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary Mui-selected css-e0qzyo-MuiButtonBase-root-MuiTab-root"
+                role="tab"
+                tabindex="0"
+                type="button"
+              >
+                <span
+                  class="MuiTab-wrapper css-17yibpu-MuiTab-wrapper"
+                >
+                  Steps
+                </span>
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </button>
+              <button
+                aria-selected="false"
+                class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary css-e0qzyo-MuiButtonBase-root-MuiTab-root"
+                role="tab"
+                tabindex="-1"
+                type="button"
+              >
+                <span
+                  class="MuiTab-wrapper css-17yibpu-MuiTab-wrapper"
+                >
+                  Values
+                </span>
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </button>
+            </div>
+            <span
+              class="MuiTabs-indicator css-78exr-MuiTabs-indicator"
+              style="left: 0px; width: 0px;"
+            />
+          </div>
+        </div>
+      </div>
+      <div
+        class="MuiBox-root css-1x5kfkn"
+      >
+        <div
+          class="makeStyles-stack-11 css-1abmola-Stack-root"
+        >
+          <div
+            class="centered makeStyles-paper-12 MuiBox-root css-1rr92ez"
+          >
+            <div
+              class="css-m72s89-Stack-root"
+            >
+              <span
+                class="MuiCircularProgress-root MuiCircularProgress-indeterminate MuiCircularProgress-colorPrimary css-1h9nrm7-MuiCircularProgress-root"
+                role="progressbar"
+                style="width: 40px; height: 40px;"
+              >
+                <svg
+                  class="MuiCircularProgress-svg css-1idz92c-MuiCircularProgress-svg"
+                  viewBox="22 22 44 44"
+                >
+                  <circle
+                    class="MuiCircularProgress-circle MuiCircularProgress-circleIndeterminate css-176wh8e-MuiCircularProgress-circle"
+                    cx="44"
+                    cy="44"
+                    fill="none"
+                    r="20.2"
+                    stroke-width="3.6"
+                  />
+                </svg>
+              </span>
+              <p
+                class="MuiTypography-root MuiTypography-body2 css-108qaiy-MuiTypography-root"
+              >
+                Loading builder...
+              </p>
+            </div>
+          </div>
+          <div
+            class="makeStyles-drawer-16 node-content-closed makeStyles-container-22"
+            style="position: relative; user-select: auto; visibility: hidden; width: 20%; height: 100%; max-width: 900px; min-width: 500px; box-sizing: border-box; flex-shrink: 0;"
+          >
+            <div
+              class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 makeStyles-paper-18 makeStyles-paper-20 makeStyles-content-23 resizable-panel-content css-1ps6pg7-MuiPaper-root"
+              style="webkit-transform: translateX(1024px) translateX(0px); transform: translateX(1024px) translateX(0px);"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column MuiGrid-wrap-xs-nowrap makeStyles-container-26 layout css-19kb62l-MuiGrid-root"
+              >
+                <div
+                  class="MuiGrid-root MuiGrid-item makeStyles-body-27 makeStyles-body-28 layout-body css-10texkh-MuiGrid-root"
+                  style="height: calc(100% - 50px); flex: 1;"
+                >
+                  <div
+                    class="makeStyles-content-14 node-content css-nu13me-Stack-root"
+                  >
+                    <h6
+                      class="MuiTypography-root MuiTypography-h6 css-5d68dr-MuiTypography-root"
+                    >
+                      Step result
+                    </h6>
+                  </div>
+                </div>
+                <div
+                  class="MuiGrid-root MuiGrid-item layout-footer css-10texkh-MuiGrid-root"
+                  style="height: 50px;"
+                >
+                  <hr
+                    class="MuiDivider-root MuiDivider-fullWidth makeStyles-btnDivider-15 css-9mgopn-MuiDivider-root"
+                  />
+                  <div
+                    class="MuiBox-root css-1v7vvra"
+                  >
+                    <button
+                      class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButtonBase-root Mui-focusVisible css-1b9y47s-MuiButtonBase-root-MuiButton-root"
+                      tabindex="0"
+                      type="button"
+                    >
+                      <span
+                        class="MuiButton-label css-8xplcm-MuiButton-label"
+                      >
+                        Close
+                      </span>
+                      <span
+                        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                      >
+                        <span
+                          class="css-1yvx2br-MuiTouchRipple-ripple MuiTouchRipple-ripple MuiTouchRipple-rippleVisible MuiTouchRipple-ripplePulsate"
+                          style="width: 1px; height: 1px; top: -0.5px; left: -0.5px;"
+                        >
+                          <span
+                            class="MuiTouchRipple-child MuiTouchRipple-childPulsate"
+                          />
+                        </span>
+                      </span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="makeStyles-handle-21 makeStyles-handle-25"
+            >
+              <div
+                class=""
+                style="position: absolute; user-select: none; width: 10px; height: 100%; top: 0px; left: -5px; cursor: col-resize;"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

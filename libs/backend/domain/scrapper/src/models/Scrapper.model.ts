@@ -3,9 +3,7 @@ import { UserModel } from '@scrapper-gate/backend/domain/user';
 import { VariableModel } from '@scrapper-gate/backend/domain/variables';
 import { Entities } from '@scrapper-gate/shared/common';
 import { defaultScrapperRunSettings } from '@scrapper-gate/shared/domain/scrapper';
-import { isRunning } from '@scrapper-gate/shared/run-states';
 import {
-  RunState,
   Scrapper,
   ScrapperRunSettings,
   ScrapperType,
@@ -36,13 +34,6 @@ export class ScrapperModel
   })
   name?: string;
 
-  @Column({
-    nullable: true,
-    type: 'enum',
-    enum: RunState,
-  })
-  state?: RunState;
-
   @OneToMany(() => ScrapperStepModel, (model) => model.scrapper, {
     cascade: true,
   })
@@ -71,8 +62,4 @@ export class ScrapperModel
     default: defaultScrapperRunSettings,
   })
   runSettings?: ScrapperRunSettings;
-
-  get isRunning() {
-    return isRunning(this.state);
-  }
 }

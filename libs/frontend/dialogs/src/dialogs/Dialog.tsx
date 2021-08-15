@@ -4,15 +4,14 @@ import {
   SimpleDialog,
   SimpleDialogProps,
 } from '@scrapper-gate/frontend/ui';
-import { HTMLProps, PropsWithChildren, ReactNode } from 'react';
+import { PropsWithChildren, ReactNode } from 'react';
 import { BaseDialogProps, DialogProperties } from '../types';
 import { useDialogMethods } from '../useDialogMethods';
 
 export interface DialogProps
   extends BaseDialogProps,
     Omit<SimpleDialogProps, 'open'>,
-    Pick<DialogProperties, 'id'>,
-    Pick<HTMLProps<HTMLFormElement>, 'onSubmit'> {
+    Pick<DialogProperties, 'id'> {
   cancelLabel?: ReactNode;
 }
 
@@ -22,7 +21,6 @@ export const Dialog = ({
   onCancel,
   actions,
   cancelLabel = 'Cancel',
-  onSubmit,
   ...props
 }: PropsWithChildren<DialogProps>) => {
   const { cancel } = useDialogMethods({
@@ -42,7 +40,7 @@ export const Dialog = ({
         </Stack>
       }
     >
-      <form onSubmit={onSubmit}>{children}</form>
+      {children}
     </SimpleDialog>
   );
 };

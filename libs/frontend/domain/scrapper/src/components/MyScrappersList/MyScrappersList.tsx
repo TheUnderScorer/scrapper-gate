@@ -1,16 +1,16 @@
-import { Maybe } from '@scrapper-gate/shared/common';
-import React from 'react';
+import { FetchPolicyProps } from '@scrapper-gate/frontend/common';
+import { MyScrappersDocument } from '@scrapper-gate/frontend/schema';
 import {
   ControlledList,
   ControlledListProps,
 } from '@scrapper-gate/frontend/ui';
-import { MyScrappersDocument } from '@scrapper-gate/frontend/schema';
+import { Perhaps } from '@scrapper-gate/shared/common';
+import React from 'react';
+import { ScrapperListItem } from '../ScrapperListItem/ScrapperListItem';
 import {
   ScrapperListItemProps,
   ScrapperListItemScrapper,
 } from '../ScrapperListItem/ScrapperListItem.types';
-import { ScrapperListItem } from '../ScrapperListItem/ScrapperListItem';
-import { FetchPolicyProps } from '@scrapper-gate/frontend/common';
 
 export interface MyScrappersListProps
   extends Pick<ControlledListProps, 'emptyContent'>,
@@ -18,7 +18,7 @@ export interface MyScrappersListProps
     FetchPolicyProps {
   fabLoading?: boolean;
   onCreate?: () => unknown;
-  activeScrapperId?: Maybe<string>;
+  activeScrapperId?: Perhaps<string>;
 }
 
 export const MyScrappersList = ({

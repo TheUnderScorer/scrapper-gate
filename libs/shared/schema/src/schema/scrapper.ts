@@ -7,7 +7,6 @@ export const scrapperSchema = gql`
     updatedAt: Date!
     isRunning: Boolean
     name: String
-    state: RunState
     createdBy: User
     deletedAt: Date
     steps: [ScrapperStep!]
@@ -53,12 +52,13 @@ export const scrapperSchema = gql`
     typeDelay: Float
     typeValue: String
     useUrlFromPreviousStep: Boolean
-    action: ScrapperAction
+    action: ScrapperAction!
     selectors: [Selector!]
     clickTimes: Int
     position: NodePosition
     key: String
     conditionalRules: [ConditionalRuleGroup!]
+    isFirst: Boolean
   }
 
   input ScrapperStepInput {
@@ -79,6 +79,7 @@ export const scrapperSchema = gql`
     stepIdOnFalse: ID
     key: String
     conditionalRules: [ConditionalRuleGroupInput!]
+    isFirst: Boolean
   }
 
   type ScrapperRunStepResult implements BaseEntity {
@@ -90,6 +91,9 @@ export const scrapperSchema = gql`
     values: [ScrapperRunValue!]
     performance: RunnerPerformanceEntry
     step: ScrapperStep!
+    state: RunState!
+    startedAt: Date
+    endedAt: Date
   }
 
   scalar ScrapperRunValueType
@@ -115,7 +119,7 @@ export const scrapperSchema = gql`
     sourceElement: ScrapperRunValueElement
   }
 
-  type ScrapperRun implements BaseEntity & Runnable {
+  type ScrapperRun implements BaseEntity & Runnable & CreatedBy & Indexable {
     id: ID!
     deletedAt: Date
     updatedAt: Date!
@@ -126,10 +130,15 @@ export const scrapperSchema = gql`
     startedAt: Date
     progress: Float
     results: [ScrapperRunStepResult!]
+    keyPairValues: Record
     error: RunnerError
     key: String
+    index: Int!
+    name: String
     variables: [Variable!]
     runSettings: ScrapperRunSettings
+    scrapper: Scrapper
+    createdBy: User
   }
 
   enum ScrapperDialogBehaviour {
@@ -187,9 +196,16 @@ export const scrapperSchema = gql`
     browserType: BrowserType
   }
 
+  type SendScrapperToQueueResult {
+    scrapper: Scrapper
+    run: ScrapperRun
+  }
+
   extend type Mutation {
     createScrapper(input: CreateScrapperInput!): Scrapper! @auth
-    sendScrapperToRunnerQueue(input: StartScrapperInput!): Scrapper! @auth
+    sendScrapperToRunnerQueue(
+      input: StartScrapperInput!
+    ): SendScrapperToQueueResult! @auth
     updateScrapper(input: ScrapperInput!): Scrapper!
       @auth
       @validateDto(dto: "ScrapperInputDto", key: "input")
@@ -199,5 +215,6 @@ export const scrapperSchema = gql`
     getMyScrappers(pagination: Pagination, order: Order): ScrapperQueryResult!
       @auth
     getMyScrapper(id: ID!): Scrapper! @auth
+    getMyScrapperRun(id: ID!): ScrapperRun @auth
   }
 `;

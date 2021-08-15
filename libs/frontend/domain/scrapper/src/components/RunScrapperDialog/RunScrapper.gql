@@ -1,11 +1,18 @@
 mutation SendScrapperToQueue($input: StartScrapperInput!) {
   sendScrapperToRunnerQueue(input: $input) {
-    id
-    name
-    state
-    lastRun {
+    scrapper {
+      id
+      name
+      lastRun {
+        id
+        endedAt
+        state
+      }
+    }
+    run {
       id
       endedAt
+      state
     }
   }
 }
@@ -14,10 +21,10 @@ query GetScrapperState($id: ID!) {
   getMyScrapper(id: $id) {
     id
     name
-    state
     lastRun {
       id
       endedAt
+      state
     }
   }
 }
