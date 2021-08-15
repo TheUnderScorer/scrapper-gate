@@ -1,6 +1,9 @@
 import { useLocation } from 'react-router-dom';
 
-export const useLocationUrl = () => {
+/**
+ * Provides location pathname with search query
+ * */
+export const useLocationHref = () => {
   const location = useLocation();
 
   return `${location.pathname}${location.search}`;

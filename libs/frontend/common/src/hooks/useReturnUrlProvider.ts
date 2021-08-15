@@ -1,8 +1,8 @@
-import { useLocationUrl } from '@scrapper-gate/frontend/common';
 import { useMemo } from 'react';
+import { useLocationHref } from './useLocationHref';
 
 export const useReturnUrlProvider = () => {
-  const url = useLocationUrl();
+  const url = useLocationHref();
 
   return useMemo(() => encodeURIComponent(url), [url]);
 };

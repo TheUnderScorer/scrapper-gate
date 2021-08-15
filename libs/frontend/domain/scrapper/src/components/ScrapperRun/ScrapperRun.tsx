@@ -108,6 +108,7 @@ export const ScrapperRun = ({
     [data]
   );
 
+  // TODO Figure out if data here results in scrapper existing, or if we still need to keep form ref
   const initialValues = useMemo<ScrapperRunFormState>(
     () => ({
       items: initialNodes,
