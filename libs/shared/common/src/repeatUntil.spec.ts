@@ -12,10 +12,7 @@ describe('Repeat until', () => {
   });
 
   it('should timeout', async () => {
-    const handler = jest.fn((iteration: number) => iteration);
-    const checker = jest.fn((value: unknown) => typeof value === 'string');
-
-    await expect(() => repeatUntil(handler, checker, 1000)).rejects.toThrow(
+    await expect(() => repeatUntil(jest.fn(), jest.fn(), 1000)).rejects.toThrow(
       OperationTimeoutError
     );
   });

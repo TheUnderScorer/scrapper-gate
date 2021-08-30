@@ -1,4 +1,5 @@
 import { OperationTimeoutError } from '@scrapper-gate/shared/errors';
+import { wait } from './timeout';
 
 export const repeatUntil = async <T>(
   handler: (iteration: number) => Promise<T> | T,
@@ -21,6 +22,11 @@ export const repeatUntil = async <T>(
       lastResult = await conditionChecker(value, iteration);
 
       iteration++;
+
+      /**
+       * Without the "wait" here above "setTimeout" is never triggered!
+       * */
+      await wait(5);
     } while (!lastResult);
 
     clearTimeout(timeoutId);
