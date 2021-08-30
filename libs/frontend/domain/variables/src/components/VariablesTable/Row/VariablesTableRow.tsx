@@ -5,8 +5,8 @@ import {
   Tooltip,
   Typography,
 } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import { Delete } from '@material-ui/icons';
+import { makeStyles } from '@material-ui/styles';
 import { EnumSelect, FormTextField } from '@scrapper-gate/frontend/form';
 import { VariableScope, VariableType } from '@scrapper-gate/shared/schema';
 import classNames from 'classnames';

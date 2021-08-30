@@ -7,6 +7,7 @@ import {
   SendScrapperToRunnerQueueCommand,
   UpdateScrapperCommand,
 } from '@scrapper-gate/backend/domain/scrapper';
+import { ExcludeFalsy } from '@scrapper-gate/shared/common';
 import { ScrapperRunResultKeyPairValues } from '@scrapper-gate/shared/domain/scrapper';
 import { Resolvers } from '@scrapper-gate/shared/schema';
 import { ServerContext } from '../../context';
@@ -89,9 +90,11 @@ export const scrapperResolver = (): Resolvers<ServerContext> => ({
             return acc;
           }
 
-          const values = result.values?.map((value) => value.value);
+          const values = result.values
+            ?.map((value) => value.value)
+            .filter(ExcludeFalsy);
 
-          if (values) {
+          if (values?.length) {
             acc[key] = values;
           }
 
@@ -104,6 +107,10 @@ export const scrapperResolver = (): Resolvers<ServerContext> => ({
 
       return isEmpty ? null : result;
     },
+  },
+  ScrapperRunStepResult: {
+    screenshots: (result) =>
+      result.values?.map((value) => value.screenshot).filter(ExcludeFalsy),
   },
   Scrapper: {
     name: (root) => root.name || 'Unnamed scrapper',

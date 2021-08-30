@@ -38,8 +38,14 @@ query GetMyScrapperRun($id: ID!) {
       step {
         ...ScrapperBuilderStep
       }
+      screenshots {
+        ...FileLinkFile
+      }
       values {
         id
+        screenshot {
+          ...FileLinkFile
+        }
         sourceElement {
           id
           classNames

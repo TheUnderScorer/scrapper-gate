@@ -127,4 +127,9 @@ export class ScrapperStepModel
     nullable: true,
   })
   isFirst?: boolean;
+
+  @Column({
+    nullable: true,
+  })
+  fullPageScreenshot?: boolean;
 }

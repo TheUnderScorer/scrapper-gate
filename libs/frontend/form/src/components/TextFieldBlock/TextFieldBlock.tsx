@@ -1,6 +1,6 @@
 import { TextField } from '@material-ui/core';
 import { InputBaseComponentProps } from '@material-ui/core/InputBase/InputBase';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 import { getDisplayValue } from '@scrapper-gate/shared/common';
 import classNames from 'classnames';
 import {

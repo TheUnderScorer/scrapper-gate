@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 import '@material-ui/core';
-import { colors } from '@material-ui/core';
-import { Theme } from '@material-ui/core/styles';
+import { colors, Theme } from '@material-ui/core';
 import { Palette } from '@material-ui/core/styles/createPalette';
 
 interface FlowBuilderColors {

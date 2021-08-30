@@ -8,7 +8,6 @@ import {
   Tooltip,
   Typography,
 } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import {
   Check,
   KeyboardArrowDown,
@@ -16,6 +15,7 @@ import {
   KeyboardArrowRight,
   KeyboardArrowUp,
 } from '@material-ui/icons';
+import { makeStyles } from '@material-ui/styles';
 import {
   canBeNavigated,
   ElementNavigatorDirection,

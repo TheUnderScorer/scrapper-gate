@@ -1,8 +1,8 @@
-import { Handle, Position } from 'react-flow-renderer';
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { BaseNodeProperties, HandleBag } from '../../FlowBuilder.types';
+import { makeStyles } from '@material-ui/styles';
 import { stopPropagation } from '@scrapper-gate/frontend/common';
+import React from 'react';
+import { Handle, Position } from 'react-flow-renderer';
+import { BaseNodeProperties, HandleBag } from '../../FlowBuilder.types';
 
 export type ConditionalNodeHandlesProps = HandleBag<BaseNodeProperties>;
 

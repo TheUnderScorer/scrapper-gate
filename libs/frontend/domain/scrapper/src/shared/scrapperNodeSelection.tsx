@@ -19,13 +19,7 @@ export const createScrapperNodeSelection =
         id: '',
         title: scrapperActionTextMap[action],
         action,
-        type:
-          (
-            scrapperActionNodeTypeMap as Record<
-              ScrapperAction,
-              FlowBuilderNodeTypes
-            >
-          )[action] ?? FlowBuilderNodeTypes.Action,
+        type: scrapperActionNodeTypeMap[action] ?? FlowBuilderNodeTypes.Action,
       },
       icon: scrapperActionIcons[action],
       label: scrapperActionTextMap[action],

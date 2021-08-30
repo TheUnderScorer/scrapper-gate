@@ -1,16 +1,15 @@
+import { ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
+import { Selection } from '@scrapper-gate/frontend/common';
+import classNames from 'classnames';
 import React, { useMemo } from 'react';
 
 import { useDrag } from 'react-dnd';
-import { makeStyles } from '@material-ui/core/styles';
-import classNames from 'classnames';
-
-import { ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import {
   BaseNodeSelectionProperties,
   FlowBuilderDropTypes,
 } from '../../FlowBuilder.types';
 import { useNodeMetadata } from '../../hooks/useNodeMetadata';
-import { Selection } from '@scrapper-gate/frontend/common';
 
 export interface FlowBuilderSidebarItemProps<
   S extends BaseNodeSelectionProperties

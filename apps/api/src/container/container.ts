@@ -10,6 +10,7 @@ import {
 import { UserRepository } from '@scrapper-gate/backend/domain/user';
 import { ErrorHandler, errorHandler } from '@scrapper-gate/backend/server';
 import { UnitOfWork } from '@scrapper-gate/backend/unit-of-work';
+import { getEnvironment } from '@scrapper-gate/shared/common';
 import { apiRoutes } from '@scrapper-gate/shared/routing';
 import { SecurityClient } from '@tshio/security-client';
 import { ApolloServer } from 'apollo-server-fastify';
@@ -26,6 +27,7 @@ import { v4 } from 'uuid';
 import { apolloServerFactory } from '../apolloServer';
 import { registerServerCqrs } from '../cqrs';
 import { entityDefinitions } from '../database';
+import { fileResolver } from '../resolvers/file/file.resolver';
 import { rootResolver } from '../resolvers/root.resolver';
 import { scrapperResolver } from '../resolvers/scrapper/scrapper.resolver';
 import { userResolver } from '../resolvers/user/user.resolver';
@@ -73,6 +75,7 @@ export const createContainer = async ({
 
   container.register({
     logger: asValue(server.log),
+    environment: asValue(getEnvironment()),
   });
 
   await setupServices(container, skipMessageQueueHealthCheck);
@@ -85,6 +88,7 @@ export const createContainer = async ({
       asFunction(userResolver),
       asFunction(scrapperResolver),
       asFunction(rootResolver),
+      asFunction(fileResolver),
     ]),
     apolloServer: asFunction(apolloServerFactory).singleton(),
     container: asValue(container),

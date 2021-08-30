@@ -1,6 +1,6 @@
-import React, { useMemo } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import { Stack, Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
+import React, { useMemo } from 'react';
 
 const useStyles = makeStyles((theme) => ({
   keyHint: {

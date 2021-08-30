@@ -1,24 +1,24 @@
-import React from 'react';
-import {
-  FormCheckbox,
-  FormTextField,
-  joiValidationResolver,
-} from '@scrapper-gate/frontend/form';
 import {
   Button,
   CircularProgress,
   Fab,
   Link as MuiLink,
-  makeStyles,
   Stack,
   Typography,
 } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
+import {
+  FormCheckbox,
+  FormTextField,
+  joiValidationResolver,
+} from '@scrapper-gate/frontend/form';
 import { ErrorAlert } from '@scrapper-gate/frontend/ui';
+import React from 'react';
+import { Form } from 'react-final-form';
 import { Link } from 'react-router-dom';
 import { LoginFormProps, LoginFormType } from './LoginForm.types';
-import { useLoginForm } from './useLoginForm';
-import { Form } from 'react-final-form';
 import { LoginFormDto } from './LoginFormDto';
+import { useLoginForm } from './useLoginForm';
 
 const useStyles = makeStyles((theme) => ({
   form: {

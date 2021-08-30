@@ -4,8 +4,8 @@ import {
   IconButtonProps,
   Tooltip,
 } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import { CheckSharp, ErrorSharp, InfoSharp } from '@material-ui/icons';
+import { makeStyles } from '@material-ui/styles';
 import classNames from 'classnames';
 import React, { useMemo } from 'react';
 import { useFormState } from 'react-final-form';

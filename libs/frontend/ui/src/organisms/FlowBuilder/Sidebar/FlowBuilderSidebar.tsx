@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
 import { Box, List, Stack, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import { FlowBuilderSidebarItem } from './Item/FlowBuilderSidebarItem';
-import { useFlowBuilderSelection } from '../providers/FlowBuilderSelection.provider';
+import { Skeleton } from '@material-ui/lab';
+import { makeStyles } from '@material-ui/styles';
 
 import { Selection } from '@scrapper-gate/frontend/common';
-import { useFlowBuilderContextSelector } from '../providers/FlowBuilderProps.provider';
-import { Skeleton } from '@material-ui/lab';
+import React, { useState } from 'react';
 import { range } from 'remeda';
-import { SkeletonListItem } from '../../../molecules/Skeleton/ListItem/SkeletonListItem';
-import { ResizablePanel } from '../../../molecules/ResizablePanel/ResizablePanel';
-import { FilterTextField } from '../../../molecules/FilterTextField/FilterTextField';
-import { BaseNodeSelectionProperties } from '../FlowBuilder.types';
 import { Centered } from '../../../atoms/Centered/Centered';
+import { FilterTextField } from '../../../molecules/FilterTextField/FilterTextField';
+import { ResizablePanel } from '../../../molecules/ResizablePanel/ResizablePanel';
+import { SkeletonListItem } from '../../../molecules/Skeleton/ListItem/SkeletonListItem';
+import { BaseNodeSelectionProperties } from '../FlowBuilder.types';
+import { useFlowBuilderContextSelector } from '../providers/FlowBuilderProps.provider';
+import { useFlowBuilderSelection } from '../providers/FlowBuilderSelection.provider';
+import { FlowBuilderSidebarItem } from './Item/FlowBuilderSidebarItem';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -51,7 +51,7 @@ export const FlowBuilderSidebar = () => {
         right: true,
       }}
       minWidth="200px"
-      maxWidth="600px"
+      maxWidth="400px"
       paperProps={{
         square: true,
         elevation: 1,

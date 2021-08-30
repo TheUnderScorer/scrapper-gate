@@ -1,24 +1,34 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { createBaseEntity, Disposable, Perhaps } from '@scrapper-gate/shared/common';
+import {
+  createBaseEntity,
+  Disposable,
+  Perhaps,
+} from '@scrapper-gate/shared/common';
 import { resolveVariables } from '@scrapper-gate/shared/domain/variables';
 import { ErrorObjectDto } from '@scrapper-gate/shared/errors';
 import { Logger } from '@scrapper-gate/shared/logger';
-import { findFirstNode, getNextStepIdFromCondition } from '@scrapper-gate/shared/node';
+import {
+  findFirstNode,
+  getNextStepIdFromCondition,
+} from '@scrapper-gate/shared/node';
 import {
   RunState,
   Scrapper,
   ScrapperAction,
   ScrapperRun,
   ScrapperRunStepResult,
-  ScrapperStep
+  ScrapperRunValue,
+  ScrapperStep,
 } from '@scrapper-gate/shared/schema';
 import { Typed } from 'emittery';
 import { createScrapperRunVariables } from './createScrapperRunVariables';
 import {
   ConditionalRunScrapperStepResult,
   InitialiseScrapperRunnerParams,
+  ReadTextScrapperStepResult,
   RunScrapperStepResult,
-  ScrapperRunner
+  ScrapperRunner,
+  ScreenshotRunScrapperStepResult,
 } from './types';
 
 export interface ProcessParams extends InitialiseScrapperRunnerParams {
@@ -34,10 +44,18 @@ export class ScrapperRunProcessor implements Disposable {
 
   readonly events = new Typed<{
     scrapperRunChanged: ScrapperRun;
-    stepFinished: RunScrapperStepResult;
+    stepFinished: {
+      result: RunScrapperStepResult;
+      scrapperRun: ScrapperRun;
+      stepResult: ScrapperRunStepResult;
+    };
     error: {
       error: Error;
       step: ScrapperStep;
+    };
+    filledStepResultAfterRun: {
+      runStepResult: RunScrapperStepResult;
+      result: ScrapperRunStepResult;
     };
   }>();
 
@@ -131,20 +149,25 @@ export class ScrapperRunProcessor implements Disposable {
     stepResult.step = preparedStep;
 
     try {
-      const runResult = await this.runner[step.action!]({
+      const runResult:
+        | ScreenshotRunScrapperStepResult
+        | ReadTextScrapperStepResult
+        | ConditionalRunScrapperStepResult = await this.runner[step.action!]({
         scrapperRun,
         step: preparedStep,
         variables,
       });
 
-      ScrapperRunProcessor.fillStepResultAfterRun(runResult, stepResult);
+      await this.fillStepResultAfterRun(runResult, stepResult);
 
       stepResult.state = RunState.Completed;
 
-      await Promise.all([
-        this.events.emit('stepFinished', runResult),
-        this.events.emit('scrapperRunChanged', scrapperRun),
-      ]);
+      await this.events.emit('stepFinished', {
+        result: runResult,
+        scrapperRun,
+        stepResult,
+      });
+      await this.events.emit('scrapperRunChanged', scrapperRun);
 
       let nextStepId: Perhaps<string> = null;
 
@@ -178,17 +201,35 @@ export class ScrapperRunProcessor implements Disposable {
     }
   }
 
-  private static fillStepResultAfterRun(
+  private async fillStepResultAfterRun(
     runStepResult: RunScrapperStepResult,
     result: ScrapperRunStepResult
   ) {
-    result.values = runStepResult?.values?.map((value) => ({
-      ...createBaseEntity(),
-      ...value,
-    }));
+    if ('values' in runStepResult) {
+      result.values = runStepResult?.values?.map(
+        ({ sourceElement, ...rest }) => {
+          const runValue: ScrapperRunValue = {
+            ...createBaseEntity(),
+            sourceElement,
+          };
+
+          if ('value' in rest) {
+            runValue.value = rest.value;
+          }
+
+          return runValue;
+        }
+      );
+    }
+
     result.performance = runStepResult.performance;
     result.state = RunState.Completed;
     result.endedAt = new Date();
+
+    await this.events.emit('filledStepResultAfterRun', {
+      result,
+      runStepResult,
+    });
   }
 
   async dispose() {

@@ -1,7 +1,7 @@
 import { Fade } from '@material-ui/core';
 import Box from '@material-ui/core/Box';
-import { makeStyles } from '@material-ui/core/styles';
 import { Alert } from '@material-ui/lab';
+import { makeStyles } from '@material-ui/styles';
 import { Perhaps } from '@scrapper-gate/shared/common';
 
 import React, { useCallback, useEffect, useState } from 'react';

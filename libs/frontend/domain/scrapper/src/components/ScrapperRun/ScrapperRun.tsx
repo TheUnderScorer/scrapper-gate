@@ -1,6 +1,6 @@
 import { ApolloError } from '@apollo/client';
 import { Divider, Stack, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 import { submitNotAllowed } from '@scrapper-gate/frontend/common';
 import {
   useGetMyScrapperRunQuery,

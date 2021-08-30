@@ -1,23 +1,23 @@
-import classNames from 'classnames';
-import React from 'react';
-import { Emoji } from '@scrapper-gate/frontend/ui';
 import {
   Box,
   Divider,
   Grid,
   IconButton,
-  makeStyles,
   Stack,
   Tooltip,
   Typography,
 } from '@material-ui/core';
+import { ArrowBackSharp } from '@material-ui/icons';
+import { makeStyles } from '@material-ui/styles';
+import { AppTheme } from '@scrapper-gate/frontend/theme';
+import { Emoji } from '@scrapper-gate/frontend/ui';
+import classNames from 'classnames';
+import React from 'react';
+import { Route, useHistory, useRouteMatch } from 'react-router-dom';
+import { LoginForm } from '../LoginForm/LoginForm';
+import { LoginFormProps, LoginFormType } from '../LoginForm/LoginForm.types';
 import { AuthFacebookButton } from './FacebookButton/AuthFacebookButton';
 import { AuthGoogleButton } from './GoogleButton/AuthGoogleButton';
-import { LoginForm } from '../LoginForm/LoginForm';
-import { Route, useHistory, useRouteMatch } from 'react-router-dom';
-import { ArrowBackSharp } from '@material-ui/icons';
-import { AppTheme } from '@scrapper-gate/frontend/theme';
-import { LoginFormProps, LoginFormType } from '../LoginForm/LoginForm.types';
 
 export type AuthProps = Pick<LoginFormProps, 'afterLogin' | 'afterCreate'>;
 

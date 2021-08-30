@@ -33,6 +33,9 @@
       "@scrapper-gate/backend/domain/auth": [
         "libs/backend/domain/auth/src/index.ts"
       ],
+      "@scrapper-gate/backend/domain/files": [
+        "libs/backend/domain/files/src/index.ts"
+      ],
       "@scrapper-gate/backend/domain/message-queue-service": [
         "libs/backend/domain/message-queue-service/src/index.ts"
       ],
@@ -77,6 +80,9 @@
       ],
       "@scrapper-gate/frontend/domain/conditional-rules": [
         "libs/frontend/domain/conditional-rules/src/index.ts"
+      ],
+      "@scrapper-gate/frontend/domain/files": [
+        "libs/frontend/domain/files/src/index.ts"
       ],
       "@scrapper-gate/frontend/domain/scrapper": [
         "libs/frontend/domain/scrapper/src/index.ts"

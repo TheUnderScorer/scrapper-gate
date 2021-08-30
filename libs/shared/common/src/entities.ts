@@ -7,4 +7,6 @@ export enum Entities {
   ScrapperStep = 'ScrapperStep',
   ScrapperResult = 'ScrapperResult',
   Variable = 'Variable',
+  File = 'File',
+  FileRelation = 'FileRelation',
 }

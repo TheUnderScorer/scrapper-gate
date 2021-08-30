@@ -6,7 +6,7 @@ import {
   Stack,
   Typography,
 } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 import { getById } from '@scrapper-gate/shared/common';
 import classNames from 'classnames';
 import React, { useCallback, useEffect, useMemo } from 'react';

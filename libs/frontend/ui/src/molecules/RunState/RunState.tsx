@@ -97,7 +97,7 @@ export const RunState = ({
 
   return (
     <Stack className="run-state-container" spacing={1}>
-      <Stack alignItems="center" direction="row" spacing={2}>
+      <Stack alignItems="center" direction="row" spacing={3}>
         {showIcon && (
           <RunStateIcon
             entity={entity}

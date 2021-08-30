@@ -7,9 +7,9 @@ import {
   Toolbar,
   Tooltip,
 } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import { CloseSharp, SortSharp } from '@material-ui/icons';
 import { Skeleton } from '@material-ui/lab';
+import { makeStyles } from '@material-ui/styles';
 import { MenuItemProperties } from '@scrapper-gate/frontend/common';
 import classNames from 'classnames';
 import React, { ReactNode, useCallback } from 'react';

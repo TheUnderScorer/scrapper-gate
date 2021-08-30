@@ -3,6 +3,14 @@ import { gql } from '@apollo/client';
 import * as Types from '@scrapper-gate/shared/schema';
 
 const defaultOptions = {};
+export const FileLinkFileFragmentDoc = gql`
+  fragment FileLinkFile on File {
+    id
+    url
+    name
+    kind
+  }
+`;
 export const ScrapperBuilderStepFragmentDoc = gql`
   fragment ScrapperBuilderStep on ScrapperStep {
     id
@@ -608,8 +616,14 @@ export const GetMyScrapperRunDocument = gql`
         step {
           ...ScrapperBuilderStep
         }
+        screenshots {
+          ...FileLinkFile
+        }
         values {
           id
+          screenshot {
+            ...FileLinkFile
+          }
           sourceElement {
             id
             classNames
@@ -621,6 +635,7 @@ export const GetMyScrapperRunDocument = gql`
     }
   }
   ${ScrapperBuilderStepFragmentDoc}
+  ${FileLinkFileFragmentDoc}
 `;
 
 /**

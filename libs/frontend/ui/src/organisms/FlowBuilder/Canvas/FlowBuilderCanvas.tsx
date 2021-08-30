@@ -1,9 +1,5 @@
-import {
-  CircularProgress,
-  makeStyles,
-  Stack,
-  Typography,
-} from '@material-ui/core';
+import { CircularProgress, Stack, Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
 import { Selection } from '@scrapper-gate/frontend/common';
 import { AppTheme } from '@scrapper-gate/frontend/theme';
 import { stringifyCircular } from '@scrapper-gate/shared/common';

@@ -1,5 +1,5 @@
-import { Theme } from '@material-ui/core/styles';
 import { css } from '@emotion/react';
+import { Theme } from '@material-ui/core';
 
 export const themeStyles = (theme: Theme) => css`
   #notistack-snackbar .emoji img {

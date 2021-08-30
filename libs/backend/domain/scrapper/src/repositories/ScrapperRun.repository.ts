@@ -32,6 +32,7 @@ export class ScrapperRunRepository extends Repository<ScrapperRunModel> {
         'scrapper.steps',
         'results',
         'results.values',
+        'results.values.screenshot',
       ],
     });
   }

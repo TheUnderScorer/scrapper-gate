@@ -240,6 +240,27 @@
         }
       }
     },
+    "backend-domain-files": {
+      "root": "libs/backend/domain/files",
+      "sourceRoot": "libs/backend/domain/files/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/backend/domain/files/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/backend/domain/files"],
+          "options": {
+            "jestConfig": "libs/backend/domain/files/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "backend-domain-message-queue-service": {
       "root": "libs/backend/domain/message-queue-service",
       "sourceRoot": "libs/backend/domain/message-queue-service/src",
@@ -748,6 +769,29 @@
         }
       }
     },
+    "frontend-domain-files": {
+      "root": "libs/frontend/domain/files",
+      "sourceRoot": "libs/frontend/domain/files/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/frontend/domain/files/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/frontend/domain/files"],
+          "options": {
+            "jestConfig": "libs/frontend/domain/files/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "frontend-domain-scrapper": {
       "root": "libs/frontend/domain/scrapper",
       "sourceRoot": "libs/frontend/domain/scrapper/src",
@@ -1091,7 +1135,7 @@
           "executor": "@nrwl/workspace:run-commands",
           "options": {
             "parallel": false,
-            "command": "serverless offline --stage local --lambdaPort 3003"
+            "command": "serverless offline --stage development --lambdaPort 3003"
           }
         },
         "lint": {

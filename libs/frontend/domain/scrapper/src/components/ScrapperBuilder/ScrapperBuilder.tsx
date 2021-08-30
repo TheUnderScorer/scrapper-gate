@@ -1,6 +1,6 @@
 import { IconButton, Stack } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import { PlayArrow } from '@material-ui/icons';
+import { makeStyles } from '@material-ui/styles';
 import { useIsUsingElementPicker } from '@scrapper-gate/frontend/common';
 import {
   VariablesProvider,

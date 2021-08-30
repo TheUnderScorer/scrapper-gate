@@ -59,6 +59,7 @@ export const scrapperSchema = gql`
     key: String
     conditionalRules: [ConditionalRuleGroup!]
     isFirst: Boolean
+    fullPageScreenshot: Boolean
   }
 
   input ScrapperStepInput {
@@ -80,6 +81,7 @@ export const scrapperSchema = gql`
     key: String
     conditionalRules: [ConditionalRuleGroupInput!]
     isFirst: Boolean
+    fullPageScreenshot: Boolean
   }
 
   type ScrapperRunStepResult implements BaseEntity {
@@ -94,6 +96,7 @@ export const scrapperSchema = gql`
     state: RunState!
     startedAt: Date
     endedAt: Date
+    screenshots: [File]
   }
 
   scalar ScrapperRunValueType
@@ -117,6 +120,7 @@ export const scrapperSchema = gql`
     createdAt: Date!
     value: ScrapperRunValueType
     sourceElement: ScrapperRunValueElement
+    screenshot: File
   }
 
   type ScrapperRun implements BaseEntity & Runnable & CreatedBy & Indexable {
@@ -173,6 +177,7 @@ export const scrapperSchema = gql`
     ReadText
     ReloadPage
     Type
+    Screenshot
   }
 
   enum ScrapperType {

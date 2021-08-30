@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 import React, { useCallback, useMemo } from 'react';
 import { Connection, NodeProps } from 'react-flow-renderer';
 import { BaseNodeProperties } from '../../FlowBuilder.types';

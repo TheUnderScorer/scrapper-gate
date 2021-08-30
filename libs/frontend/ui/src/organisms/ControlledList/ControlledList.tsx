@@ -1,4 +1,22 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { DocumentNode, useQuery } from '@apollo/client';
+import {
+  CircularProgress,
+  List,
+  Pagination as PaginationComponent,
+  Typography,
+} from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
+import { makeStyles } from '@material-ui/styles';
+import { FetchPolicyProps } from '@scrapper-gate/frontend/common';
+import { QueryResult } from '@scrapper-gate/shared/common';
+import {
+  BaseEntity,
+  BaseQueryVariables,
+  Order,
+  Pagination,
+} from '@scrapper-gate/shared/schema';
+import classNames from 'classnames';
 import React, {
   ElementType,
   ReactElement,
@@ -8,29 +26,11 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import { DocumentNode, useQuery } from '@apollo/client';
-import {
-  CircularProgress,
-  List,
-  Pagination as PaginationComponent,
-  Typography,
-} from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import classNames from 'classnames';
-import { Alert } from '@material-ui/lab';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import {
-  BaseEntity,
-  BaseQueryVariables,
-  Order,
-  Pagination,
-} from '@scrapper-gate/shared/schema';
-import { FetchPolicyProps } from '@scrapper-gate/frontend/common';
-import { QueryResult } from '@scrapper-gate/shared/common';
 import { Centered } from '../../atoms/Centered/Centered';
 import { Layout } from '../../molecules/Layout/Layout';
-import { useNormalPagination } from './useNormalPagination';
 import { useInfiniteScrollPagination } from './useInfiniteScrollPagination';
+import { useNormalPagination } from './useNormalPagination';
 
 export interface RenderItemParams<
   Entity extends Pick<BaseEntity, 'id'> = BaseEntity

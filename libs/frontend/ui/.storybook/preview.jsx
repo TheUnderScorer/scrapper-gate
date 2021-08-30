@@ -3,7 +3,7 @@ import { addDecorator } from '@storybook/react';
 import { withKnobs } from '@storybook/addon-knobs';
 import { withActions } from '@storybook/addon-actions';
 import { ThemeProvider } from '../../theme/src';
-import { SnackbarProvider } from 'notistack';
+import { SnackbarProvider } from '../../snackbars/src/providers/SnackbarProvider';
 import React from 'react';
 
 addDecorator(withKnobs);

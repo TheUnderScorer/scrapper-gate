@@ -53,6 +53,9 @@
     "backend-domain-auth": {
       "tags": []
     },
+    "backend-domain-files": {
+      "tags": []
+    },
     "backend-domain-message-queue-service": {
       "tags": []
     },
@@ -109,6 +112,9 @@
       "tags": []
     },
     "frontend-domain-conditional-rules": {
+      "tags": []
+    },
+    "frontend-domain-files": {
       "tags": []
     },
     "frontend-domain-scrapper": {

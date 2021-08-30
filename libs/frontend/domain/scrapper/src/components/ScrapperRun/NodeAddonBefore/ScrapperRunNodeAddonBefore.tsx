@@ -1,5 +1,5 @@
 import { LinearProgress } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 import { RunStateEntity, RunStateIcon } from '@scrapper-gate/frontend/ui';
 import { RunState } from '@scrapper-gate/shared/schema';
 import classNames from 'classnames';

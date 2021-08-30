@@ -1,9 +1,10 @@
-import React, { useMemo } from 'react';
-import { ConditionalRule } from '@scrapper-gate/shared/schema';
-import { Button, makeStyles } from '@material-ui/core';
-import { Centered, Dropdown } from '@scrapper-gate/frontend/ui';
+import { Button } from '@material-ui/core';
 import { Add } from '@material-ui/icons';
+import { makeStyles } from '@material-ui/styles';
 import { MenuItemProperties } from '@scrapper-gate/frontend/common';
+import { Centered, Dropdown } from '@scrapper-gate/frontend/ui';
+import { ConditionalRule } from '@scrapper-gate/shared/schema';
+import React, { useMemo } from 'react';
 import { ConditionalRulesSelection } from '../../../types';
 
 export interface ConditionalRulesSelectionDropdownProps {
