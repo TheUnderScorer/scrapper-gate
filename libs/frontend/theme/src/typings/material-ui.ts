@@ -72,3 +72,9 @@ declare module '@material-ui/core/Button/Button' {
     warning: true;
   }
 }
+
+declare module '@material-ui/core/Paper/Paper' {
+  interface PaperPropsVariantOverrides {
+    transparent: true;
+  }
+}

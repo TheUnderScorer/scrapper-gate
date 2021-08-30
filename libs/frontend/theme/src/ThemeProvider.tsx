@@ -93,6 +93,19 @@ export const ThemeProvider = ({
               },
             },
           },
+          MuiAccordion: {
+            variants: [
+              {
+                props: {
+                  variant: 'transparent',
+                },
+                style: {
+                  background: 'transparent',
+                  border: 'none',
+                },
+              },
+            ],
+          },
           MuiDialog: {
             defaultProps: {
               container,
