@@ -97,7 +97,6 @@ export const makeColumns = ({
     filterable: false,
     editable: false,
     disableColumnMenu: true,
-    disableClickEventBubbling: true,
     hide: false,
     align: 'center',
     hideSortIcons: true,
