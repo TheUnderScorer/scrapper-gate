@@ -1,4 +1,7 @@
-import { FilesService } from '@scrapper-gate/backend/domain/files';
+import {
+  FilesService,
+  generateScrapperScreenshotFileKey,
+} from '@scrapper-gate/backend/domain/files';
 import { PerformanceManager } from '@scrapper-gate/backend/perf-hooks-utils';
 import {
   areUrlsEqual,
@@ -175,9 +178,11 @@ export class PlayWrightScrapperRunner implements ScrapperRunner {
 
       const screenshots: ScrapperRunScreenshotValue[] = await Promise.all(
         rawScreenshots.map(async (screenshot, index) => {
-          const key = `scrapper-run-${params.scrapperRun.id}/step-${
-            params.step.id
-          }/screenshot-${index + 1}.png`;
+          const key = generateScrapperScreenshotFileKey(
+            params.scrapperRun.id,
+            params.step.id,
+            index + 1
+          );
 
           return {
             sourceElement: screenshot.sourceElement,

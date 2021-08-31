@@ -1,3 +1,4 @@
+import { FileModel } from '@scrapper-gate/backend/domain/files';
 import {
   ScrapperModel,
   ScrapperStepModel,
@@ -20,6 +21,7 @@ const entities = [
   ScrapperRunStepResultModel,
   ScrapperRunStepValueModel,
   VariableModel,
+  FileModel,
 ];
 
 let rootConnection: Connection;
