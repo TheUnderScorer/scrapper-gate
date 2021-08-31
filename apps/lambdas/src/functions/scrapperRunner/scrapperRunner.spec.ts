@@ -1,4 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-explicit-any,@typescript-eslint/no-non-null-assertion */
+import { generateScrapperScreenshotFileKey } from '@scrapper-gate/backend/domain/files';
 import {
   ScrapperModel,
   ScrapperRepository,
@@ -14,6 +15,9 @@ import {
   ScrapperRunnerMessagePayload,
 } from '@scrapper-gate/shared/domain/scrapper';
 import {
+  FileAccess,
+  FileKind,
+  FileType,
   MouseButton,
   RunnerTrigger,
   ScrapperAction,
@@ -22,23 +26,94 @@ import {
 import '../../../../../typings/global/index';
 import { scrapperRunner } from './scrapperRunner';
 
+let userRepository: UserRepository;
+let scrapperRepository: ScrapperRepository;
+let scrapperRunRepository: ScrapperRunRepository;
+
+async function createScrapper() {
+  const scrapper = ScrapperModel.create(createMockScrapper());
+  await userRepository.save(scrapper.createdBy);
+
+  scrapper.type = ScrapperType.RealBrowser;
+  scrapper.runSettings = {
+    initialUrl: 'http://localhost:8080/blog/index.html',
+  };
+
+  return scrapper;
+}
+
 describe('Scrapper runner', () => {
-  it('should run real browser scrapper', async () => {
-    const userRepository = await global.connection.getCustomRepository(
-      UserRepository
-    );
-    const scrapperRepository =
+  beforeEach(() => {
+    userRepository = global.connection.getCustomRepository(UserRepository);
+    scrapperRepository =
       global.connection.getCustomRepository(ScrapperRepository);
-    const scrapperRunRepository = global.connection.getCustomRepository(
+    scrapperRunRepository = global.connection.getCustomRepository(
       ScrapperRunRepository
     );
+  });
 
-    const scrapper = ScrapperModel.create(createMockScrapper());
+  it('should persist screenshots with scrapper', async () => {
+    const scrapper = await createScrapper();
 
-    scrapper.type = ScrapperType.RealBrowser;
-    scrapper.runSettings = {
-      initialUrl: 'http://localhost:8080/blog/index.html',
-    };
+    const step = ScrapperStepModel.create(
+      await createMockScrapperStep({
+        createdBy: scrapper.createdBy,
+        intercept: (step) => {
+          step.useUrlFromPreviousStep = true;
+          step.action = ScrapperAction.Screenshot;
+          step.isFirst = true;
+
+          delete step.url;
+
+          return step;
+        },
+      })
+    );
+
+    scrapper.steps = [step];
+
+    await scrapperRepository.save(scrapper);
+
+    const run = ScrapperRunModel.createPendingFromScrapper(scrapper, 0);
+    await scrapperRunRepository.save(run);
+
+    await scrapperRunner(
+      {
+        Records: [
+          {
+            body: JSON.stringify({
+              traceId: '#trace',
+              date: new Date().toISOString(),
+              payload: {
+                runId: run.id,
+                trigger: RunnerTrigger.Manual,
+              },
+            } as Message<ScrapperRunnerMessagePayload>),
+          },
+        ],
+      } as any,
+      global.connection
+    );
+
+    const updatedRun =
+      await scrapperRunRepository.findLastForScrapperWithValues(scrapper.id);
+
+    const screenshot = updatedRun!.results[0].values![0].screenshot;
+
+    expect(screenshot).toBeDefined();
+    expect(screenshot.kind).toEqual(FileKind.Image);
+    expect(screenshot.access).toEqual(FileAccess.Private);
+    expect(screenshot.type).toEqual(FileType.ScrapperScreenshot);
+    expect(screenshot.key).toEqual(
+      generateScrapperScreenshotFileKey(
+        updatedRun!.id,
+        updatedRun!.results[0].step.id
+      )
+    );
+  });
+
+  it('should run real browser scrapper', async () => {
+    const scrapper = await createScrapper();
 
     const firstStep = ScrapperStepModel.create(
       await createMockScrapperStep({
@@ -79,11 +154,9 @@ describe('Scrapper runner', () => {
 
     scrapper.steps = [firstStep, secondStep];
 
-    await userRepository.save(scrapper.createdBy);
     await scrapperRepository.save(scrapper);
 
     const run = ScrapperRunModel.createPendingFromScrapper(scrapper, 0);
-
     await scrapperRunRepository.save(run);
 
     await scrapperRunner(

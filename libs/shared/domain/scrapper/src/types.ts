@@ -83,3 +83,9 @@ export interface ScrapperRunnerMessagePayload {
 }
 
 export type ScrapperRunResultKeyPairValues = Record<string, string[]>;
+
+export interface ScrapperStepFinishedPayload {
+  result: RunScrapperStepResult;
+  scrapperRun: ScrapperRun;
+  stepResult: ScrapperRunStepResult;
+}

@@ -6,8 +6,9 @@ import {
 } from '@scrapper-gate/shared/domain/scrapper';
 import { Logger } from '@scrapper-gate/shared/logger';
 import { ScrapperRunStepResult } from '@scrapper-gate/shared/schema';
-import { CommandHandler } from 'functional-cqrs';
+import { CommandHandler, EventsBus } from 'functional-cqrs';
 import { RunScrapperCommand } from '../commands/RunScrapper.command';
+import { ScrapperStepCompletedEvent } from '../events/ScrapperStepCompleted.event';
 import { GetScrapperRunner } from '../logic/getScrapperRunner';
 import { ScrapperRunModel } from '../models/ScrapperRun.model';
 import { ScrapperRepository } from '../repositories/Scrapper.repository';
@@ -19,6 +20,7 @@ export interface RunScrapperHandlerDependencies {
   getScrapperRunner: GetScrapperRunner;
   logger: Logger;
   fileRepository: FileRepository;
+  eventsBus: EventsBus;
 }
 
 export class RunScrapperHandler implements CommandHandler<RunScrapperCommand> {
@@ -28,7 +30,7 @@ export class RunScrapperHandler implements CommandHandler<RunScrapperCommand> {
     const { scrapperRunRepository, getScrapperRunner, logger } =
       this.dependencies;
 
-    const scrapperRun = await scrapperRunRepository.getOneAggregate(runId);
+    const scrapperRun = await scrapperRunRepository.getOneForRun(runId);
     const { scrapper } = scrapperRun;
 
     const runner = getScrapperRunner(scrapper);
@@ -49,10 +51,14 @@ export class RunScrapperHandler implements CommandHandler<RunScrapperCommand> {
   }
 
   private setupEvents(processor: ScrapperRunProcessor) {
-    const { scrapperRunRepository } = this.dependencies;
+    const { scrapperRunRepository, eventsBus } = this.dependencies;
 
     processor.events.on('scrapperRunChanged', async (scrapperRun) => {
       await scrapperRunRepository.save(ScrapperRunModel.create(scrapperRun));
+    });
+
+    processor.events.on('stepFinished', async (payload) => {
+      await eventsBus.dispatch(new ScrapperStepCompletedEvent(payload));
     });
 
     processor.events.on(

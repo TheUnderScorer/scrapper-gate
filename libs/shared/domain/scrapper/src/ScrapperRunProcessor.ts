@@ -25,10 +25,9 @@ import { createScrapperRunVariables } from './createScrapperRunVariables';
 import {
   ConditionalRunScrapperStepResult,
   InitialiseScrapperRunnerParams,
-  ReadTextScrapperStepResult,
   RunScrapperStepResult,
   ScrapperRunner,
-  ScreenshotRunScrapperStepResult,
+  ScrapperStepFinishedPayload,
 } from './types';
 
 export interface ProcessParams extends InitialiseScrapperRunnerParams {
@@ -44,11 +43,7 @@ export class ScrapperRunProcessor implements Disposable {
 
   readonly events = new Typed<{
     scrapperRunChanged: ScrapperRun;
-    stepFinished: {
-      result: RunScrapperStepResult;
-      scrapperRun: ScrapperRun;
-      stepResult: ScrapperRunStepResult;
-    };
+    stepFinished: ScrapperStepFinishedPayload;
     error: {
       error: Error;
       step: ScrapperStep;
@@ -149,10 +144,7 @@ export class ScrapperRunProcessor implements Disposable {
     stepResult.step = preparedStep;
 
     try {
-      const runResult:
-        | ScreenshotRunScrapperStepResult
-        | ReadTextScrapperStepResult
-        | ConditionalRunScrapperStepResult = await this.runner[step.action!]({
+      const runResult: RunScrapperStepResult = await this.runner[step.action!]({
         scrapperRun,
         step: preparedStep,
         variables,

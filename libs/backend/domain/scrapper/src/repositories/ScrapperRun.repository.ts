@@ -15,6 +15,7 @@ export class ScrapperRunRepository extends Repository<ScrapperRunModel> {
     return this.getLastForScrapperQuery(scrapperId)
       .leftJoinAndSelect('scrapperRun.results', 'results')
       .leftJoinAndSelect('results.values', 'values')
+      .leftJoinAndSelect('values.screenshot', 'screenshot')
       .getOne();
   }
 
@@ -37,7 +38,7 @@ export class ScrapperRunRepository extends Repository<ScrapperRunModel> {
     });
   }
 
-  async getOneAggregate(runId: string) {
+  async getOneForRun(runId: string) {
     return this.findOneOrFail(runId, {
       relations: ['scrapper', 'results', 'results.values'],
     });
