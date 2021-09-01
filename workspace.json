@@ -594,7 +594,8 @@
           },
           "configurations": {
             "production": {
-              "devServerTarget": "browser-extension:serve:production"
+              "devServerTarget": "browser-extension:serve:production",
+              "runInBand": true
             }
           }
         },

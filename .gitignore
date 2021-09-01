@@ -49,3 +49,6 @@ test-results
 
 # Terraform stuff
 **/.terraform*
+
+# Browser contexts
+**/.ctx
