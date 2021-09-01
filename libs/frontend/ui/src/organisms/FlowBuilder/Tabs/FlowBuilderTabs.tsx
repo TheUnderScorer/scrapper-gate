@@ -35,7 +35,7 @@ export const FlowBuilderTabs = ({
     <Paper square variant="outlined" className={classes.paper}>
       <Tabs
         indicatorColor="primary"
-        value={value}
+        value={value ?? mainTab}
         onChange={(event, value) => onChange(value)}
         className={classes.tabs}
       >

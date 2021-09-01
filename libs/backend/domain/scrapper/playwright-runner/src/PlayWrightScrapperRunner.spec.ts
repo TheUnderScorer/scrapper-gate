@@ -24,11 +24,15 @@ import {
 } from 'awilix';
 import { readFileSync } from 'fs';
 import { createMockProxy } from 'jest-mock-proxy';
+import looksSame from 'looks-same';
 import path from 'path';
 import playwright, { Browser, LaunchOptions } from 'playwright';
+import { promisify } from 'util';
 import { v4 } from 'uuid';
 import '../../../../../../typings/global';
 import { PlayWrightScrapperRunner } from './PlayWrightScrapperRunner';
+
+const looksSamePromise = promisify(looksSame);
 
 const timeout = 900000;
 
@@ -188,7 +192,10 @@ describe('PlayWright scrapper runner', () => {
         )) as Buffer;
 
         expect(file).toBeDefined();
-        expect(file.equals(expectedScreenshot)).toEqual(true);
+
+        const looksSame = await looksSamePromise(file, expectedScreenshot);
+
+        expect(looksSame.equal).toEqual(true);
       });
 
       it('should make screenshot of selected elements and save it into s3', async () => {
@@ -231,16 +238,20 @@ describe('PlayWright scrapper runner', () => {
 
         expect(files.every((file) => file instanceof Buffer)).toEqual(true);
 
-        (files as Buffer[]).forEach((file, index) => {
-          const expectedFile = readFileSync(
-            path.join(
-              __dirname,
-              `./__fixtures__/element-screenshot-${index}.png`
-            )
-          );
+        await Promise.all(
+          (files as Buffer[]).map(async (file, index) => {
+            const expectedFile = readFileSync(
+              path.join(
+                __dirname,
+                `./__fixtures__/element-screenshot-${index}.png`
+              )
+            );
 
-          expect(expectedFile.equals(file)).toEqual(true);
-        });
+            const compareResult = await looksSamePromise(file, expectedFile);
+
+            expect(compareResult.equal).toEqual(true);
+          })
+        );
       });
 
       it(

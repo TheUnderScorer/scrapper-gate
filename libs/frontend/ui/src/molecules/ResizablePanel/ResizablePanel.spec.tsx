@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import '@scrapper-gate/frontend/theme';
+import { ThemeProvider } from '@scrapper-gate/frontend/theme';
 import { act, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ResizablePanel } from './ResizablePanel';
@@ -7,9 +8,11 @@ import { ResizablePanel } from './ResizablePanel';
 describe('<ResizablePanel />', () => {
   it('should render without crashing', () => {
     const cmp = render(
-      <ResizablePanel minWidth="100px" maxWidth="500px" initialWidth="300px">
-        Panel contents
-      </ResizablePanel>
+      <ThemeProvider>
+        <ResizablePanel minWidth="100px" maxWidth="500px" initialWidth="300px">
+          Panel contents
+        </ResizablePanel>
+      </ThemeProvider>
     );
 
     expect(cmp).toMatchSnapshot();
@@ -17,7 +20,9 @@ describe('<ResizablePanel />', () => {
 
   it('should toggle contents when open/closed', async () => {
     const cmp = render(
-      <ResizablePanel initialWidth="300px">Panel contents</ResizablePanel>
+      <ThemeProvider>
+        <ResizablePanel initialWidth="300px">Panel contents</ResizablePanel>
+      </ThemeProvider>
     );
 
     const btn = cmp.container.querySelector('.toggle-panel');

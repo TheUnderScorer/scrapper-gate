@@ -1,7 +1,5 @@
-import { Box, List, Stack, Typography } from '@material-ui/core';
-import { Skeleton } from '@material-ui/lab';
+import { Box, List, Skeleton, Stack, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-
 import { Selection } from '@scrapper-gate/frontend/common';
 import React, { useState } from 'react';
 import { range } from 'remeda';

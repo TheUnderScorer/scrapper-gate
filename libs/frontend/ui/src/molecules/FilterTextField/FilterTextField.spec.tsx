@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { range } from 'remeda';
-import { useState } from 'react';
 import { List, ListItem } from '@material-ui/core';
+import { ThemeProvider } from '@scrapper-gate/frontend/theme';
 import { act, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { useState } from 'react';
+import { range } from 'remeda';
 import { FilterTextField } from '../FilterTextField/FilterTextField';
 
 interface TestItem {
@@ -20,7 +21,7 @@ const Component = (props: { filterKeys: Array<keyof TestItem> }) => {
   const [filteredItems, setFilteredItems] = useState(items);
 
   return (
-    <>
+    <ThemeProvider>
       <FilterTextField
         items={items}
         onItemsChange={setFilteredItems}
@@ -33,7 +34,7 @@ const Component = (props: { filterKeys: Array<keyof TestItem> }) => {
           </ListItem>
         ))}
       </List>
-    </>
+    </ThemeProvider>
   );
 };
 

@@ -1,10 +1,22 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { AccountTreeSharp, OpenInBrowserSharp, PetsSharp, SaveSharp, StopSharp } from '@material-ui/icons';
+import {
+  AccountTreeSharp,
+  OpenInBrowserSharp,
+  PetsSharp,
+  SaveSharp,
+  StopSharp,
+} from '@material-ui/icons';
 import { QueryParamProvider, Selection } from '@scrapper-gate/frontend/common';
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
 import { wait } from '@scrapper-gate/shared/common';
 import '@testing-library/jest-dom';
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { Form } from 'react-final-form';
@@ -17,7 +29,7 @@ import {
   FlowBuilderItem,
   FlowBuilderNodeTypes,
   FlowBuilderProps,
-  NodeContentComponent
+  NodeContentComponent,
 } from './FlowBuilder.types';
 import { createNodeFromSelection } from './utils/createNodeFromSelection';
 
@@ -210,7 +222,7 @@ describe('<FlowBuilder />', () => {
       ],
     });
 
-    const tab = screen.getByText('Tab 1').parentNode;
+    const tab = screen.getByText('Tab 1');
 
     act(() => {
       userEvent.click(tab as HTMLElement);

@@ -211,6 +211,7 @@
     "faker": "^5.5.2",
     "jest": "27.0.3",
     "jest-mock-proxy": "^3.0.0",
+    "looks-same": "^7.3.0",
     "matcher": "^4.0.0",
     "mini-css-extract-plugin": "^2.1.0",
     "mockzilla": "^0.9.0",

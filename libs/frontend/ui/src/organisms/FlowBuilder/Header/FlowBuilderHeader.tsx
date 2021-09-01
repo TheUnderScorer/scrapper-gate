@@ -3,12 +3,12 @@ import {
   Divider,
   Fab,
   IconButton,
+  Skeleton,
   Stack,
   Toolbar,
   Tooltip,
 } from '@material-ui/core';
 import { CloseSharp, SortSharp } from '@material-ui/icons';
-import { Skeleton } from '@material-ui/lab';
 import { makeStyles } from '@material-ui/styles';
 import { MenuItemProperties } from '@scrapper-gate/frontend/common';
 import classNames from 'classnames';

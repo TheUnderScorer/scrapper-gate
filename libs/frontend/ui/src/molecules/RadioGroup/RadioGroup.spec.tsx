@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { render, RenderResult, act } from '@testing-library/react';
-import fireEvent from '@testing-library/user-event';
-import { Form } from 'react-final-form';
 import { Description, Home } from '@material-ui/icons';
-import React from 'react';
-import { RadioGroup } from './RadioGroup';
 import { Selection } from '@scrapper-gate/frontend/common';
+import { ThemeProvider } from '@scrapper-gate/frontend/theme';
+import { act, render, RenderResult } from '@testing-library/react';
+import fireEvent from '@testing-library/user-event';
+import React from 'react';
+import { Form } from 'react-final-form';
+import { RadioGroup } from './RadioGroup';
 
 const options: Selection[] = [
   {
@@ -22,14 +23,16 @@ const options: Selection[] = [
 
 const renderCmp = (): RenderResult =>
   render(
-    <Form
-      onSubmit={jest.fn()}
-      render={() => (
-        <div>
-          <RadioGroup name="test" options={options} />
-        </div>
-      )}
-    />
+    <ThemeProvider>
+      <Form
+        onSubmit={jest.fn()}
+        render={() => (
+          <div>
+            <RadioGroup name="test" options={options} />
+          </div>
+        )}
+      />
+    </ThemeProvider>
   );
 
 describe('<RadioGroup />', () => {
