@@ -22,18 +22,13 @@ import {
   AwilixContainer,
   createContainer,
 } from 'awilix';
-import { readFileSync } from 'fs';
 import { createMockProxy } from 'jest-mock-proxy';
-import looksSame from 'looks-same';
-import path from 'path';
 import playwright, { Browser, LaunchOptions } from 'playwright';
-import { promisify } from 'util';
 import { v4 } from 'uuid';
+import '../../../../../../tests/jestExtensions/toMatchImageSnapshot';
 import { persistTestArtifact } from '../../../../../../tests/utils/artifacts';
 import '../../../../../../typings/global';
 import { PlayWrightScrapperRunner } from './PlayWrightScrapperRunner';
-
-const looksSamePromise = promisify(looksSame);
 
 const timeout = 900000;
 
@@ -168,9 +163,6 @@ describe('PlayWright scrapper runner', () => {
       it('should make screenshot of a whole page and save it into s3', async () => {
         const runner = await bootstrapRunner(type);
         const filesService = container.resolve<FilesService>('filesService');
-        const expectedScreenshot = readFileSync(
-          path.resolve(__dirname, './__fixtures__/screenshot.png')
-        );
 
         const step: ScrapperStep = {
           ...(await createMockScrapperStep({})),
@@ -196,9 +188,9 @@ describe('PlayWright scrapper runner', () => {
 
         await persistTestArtifact('full-page-screenshot.png', file);
 
-        const looksSame = await looksSamePromise(file, expectedScreenshot);
-
-        expect(looksSame.equal).toEqual(true);
+        expect(file).toMatchImageSnapshot({
+          failureThreshold: 0.1,
+        });
       });
 
       it('should make screenshot of selected elements and save it into s3', async () => {
@@ -245,16 +237,10 @@ describe('PlayWright scrapper runner', () => {
           (files as Buffer[]).map(async (file, index) => {
             await persistTestArtifact(`element-screenshot-${index}.png`, file);
 
-            const expectedFile = readFileSync(
-              path.join(
-                __dirname,
-                `./__fixtures__/element-screenshot-${index}.png`
-              )
-            );
-
-            const compareResult = await looksSamePromise(file, expectedFile);
-
-            expect(compareResult.equal).toEqual(true);
+            expect(file).toMatchImageSnapshot({
+              customSnapshotIdentifier: `scrapper-result-screenshot-${index}.png`,
+              failureThreshold: 0.1,
+            });
           })
         );
       });

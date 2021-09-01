@@ -52,3 +52,5 @@ test-results
 
 # Browser contexts
 **/.ctx
+
+artifacts
