@@ -144,6 +144,7 @@ jobs:
           npx nx run-many --target=test --projects=$PROJECTS --parallel --maxParallel=2
 
       - uses: actions/upload-artifact@v2
+        if: ${{ failure() }}
         with:
           name: test-artifact
           path: artifacts
