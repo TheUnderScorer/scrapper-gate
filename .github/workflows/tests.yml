@@ -143,6 +143,11 @@ jobs:
           echo "$PROJECTS"
           npx nx run-many --target=test --projects=$PROJECTS --parallel --maxParallel=2
 
+      - uses: actions/upload-artifact@v2
+        with:
+          name: test-artifact
+          path: artifacts
+
   test-frontend:
     needs:
       - typecheck

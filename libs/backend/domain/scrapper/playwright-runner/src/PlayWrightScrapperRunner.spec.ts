@@ -29,6 +29,7 @@ import path from 'path';
 import playwright, { Browser, LaunchOptions } from 'playwright';
 import { promisify } from 'util';
 import { v4 } from 'uuid';
+import { persistTestArtifact } from '../../../../../../tests/utils/artifacts';
 import '../../../../../../typings/global';
 import { PlayWrightScrapperRunner } from './PlayWrightScrapperRunner';
 
@@ -193,6 +194,8 @@ describe('PlayWright scrapper runner', () => {
 
         expect(file).toBeDefined();
 
+        await persistTestArtifact('full-page-screenshot.png', file);
+
         const looksSame = await looksSamePromise(file, expectedScreenshot);
 
         expect(looksSame.equal).toEqual(true);
@@ -240,6 +243,8 @@ describe('PlayWright scrapper runner', () => {
 
         await Promise.all(
           (files as Buffer[]).map(async (file, index) => {
+            await persistTestArtifact(`element-screenshot-${index}.png`, file);
+
             const expectedFile = readFileSync(
               path.join(
                 __dirname,
