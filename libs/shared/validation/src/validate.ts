@@ -11,6 +11,7 @@ export const validate = <T>(
 ) => {
   const result = validateAsClass(input, classConstructor, {
     abortEarly: false,
+
     messages: validationMessages,
     ...joiOptions,
   });

@@ -1,5 +1,5 @@
-const rootMain = require('../../../../../.storybook/main');
-const rootWebpackConfig = require('../../../../../.storybook/webpack.config');
+const rootMain = require('../../../../.storybook/main');
+const rootWebpackConfig = require('../../../../.storybook/webpack.config');
 
 module.exports = {
   ...rootMain,

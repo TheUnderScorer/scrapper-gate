@@ -18,6 +18,7 @@ const variables: Variable[] = [
   createVariable({
     key: 'Myvariable',
     value: 'Variable test',
+
     defaultValue: 'Test',
     scope: VariableScope.Global,
   }),

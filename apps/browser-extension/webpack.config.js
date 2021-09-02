@@ -3,6 +3,46 @@ const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const webpack = require('webpack');
+const fsExtra = require('fs-extra');
+
+const fallbackWritePlugin = {
+  apply(compiler) {
+    compiler.hooks.afterCompile.tapAsync(
+      'my-plugin',
+      (compilation, callback) => {
+        const { path: targetPath } = compilation.outputOptions;
+        const { assets } = compilation;
+
+        fsExtra.ensureDirSync(targetPath);
+
+        Object.entries(assets).forEach(([key, asset]) => {
+          const source = getAssetSource(asset);
+          const sourcePath = path.join(targetPath, key);
+
+          if (sourcePath.includes('.gitkeep')) {
+            return;
+          }
+
+          fsExtra.writeFileSync(sourcePath, source);
+        });
+
+        callback();
+      }
+    );
+  },
+};
+
+function getAssetSource(asset) {
+  let source = asset.source();
+
+  if (Array.isArray(source)) {
+    return source.join('\n');
+  } else if (source instanceof ArrayBuffer) {
+    return Buffer.from(source);
+  }
+
+  return source;
+}
 
 function makeShim(baseConfig, regex) {
   baseConfig.plugins.push(
@@ -69,6 +109,8 @@ module.exports = (baseConfig) => {
     config.devServer.watchOptions = {
       ignored: /node_modules/,
     };
+
+    config.plugins.push(fallbackWritePlugin);
   }
 
   makeShim(baseConfig, /faker/);
