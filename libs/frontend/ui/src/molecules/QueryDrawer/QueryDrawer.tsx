@@ -1,5 +1,5 @@
-import React from 'react';
 import { Drawer, DrawerProps } from '@material-ui/core';
+import React from 'react';
 import { BooleanParam, useQueryParam } from 'use-query-params';
 
 export interface QueryDrawerProps extends Omit<DrawerProps, 'open'> {
@@ -19,7 +19,7 @@ export const QueryDrawer = ({
       {...rest}
       open={Boolean(open)}
       onClose={(event, reason) => {
-        setOpen(false);
+        setOpen(false, 'pushIn');
 
         onClose?.(event, reason);
       }}

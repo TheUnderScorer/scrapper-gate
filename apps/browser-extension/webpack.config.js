@@ -3,15 +3,18 @@ const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const webpack = require('webpack');
+const { createPipe } = require('remeda');
 
-function makeShim(baseConfig, regex) {
-  baseConfig.plugins.push(
+function makeShim(config, regex) {
+  config.plugins.push(
     new webpack.NormalModuleReplacementPlugin(regex, (resource) => {
       const srcPath = path.resolve(path.join(__dirname, '../../tools/shim.js'));
 
       resource.request = resource.request.replace(regex, srcPath);
     })
   );
+
+  return config;
 }
 
 function removeProgressPlugin(config) {
@@ -27,29 +30,7 @@ function removeProgressPlugin(config) {
   return config;
 }
 
-module.exports = (baseConfig) => {
-  const config = createConfig(baseConfig);
-
-  removeProgressPlugin(config);
-
-  config.entry.main = [path.resolve(__dirname, './src/popup.tsx')];
-  config.entry.content = [path.resolve(__dirname, './src/content.tsx')];
-  config.entry.contentRoot = [
-    path.resolve(__dirname, './src/app/Content/contentRoot.tsx'),
-  ];
-  config.entry.background = [path.resolve(__dirname, './src/background.ts')];
-  config.entry.backgroundMain = [
-    path.resolve(__dirname, './src/backgroundMain.ts'),
-  ];
-
-  delete config.entry.styles;
-
-  config.output.filename = '[name].js';
-  config.output.chunkFilename = '[name].js';
-
-  delete config.optimization.runtimeChunk;
-  config.optimization.splitChunks.automaticNameDelimiter = '-';
-
+function copyManifest(config) {
   config.plugins.push(
     new CopyPlugin({
       patterns: [
@@ -61,6 +42,19 @@ module.exports = (baseConfig) => {
     })
   );
 
+  return config;
+}
+
+function resolveCorrectQueryString(config) {
+  config.resolve.alias['query-string'] = path.resolve(
+    __dirname,
+    '../../node_modules/query-string'
+  );
+
+  return config;
+}
+
+function setupDevServer(config) {
   if (config.devServer) {
     // config.devServer.hot = true;
     config.devServer.writeToDisk = true;
@@ -69,13 +63,19 @@ module.exports = (baseConfig) => {
     config.devServer.watchOptions = {
       ignored: /node_modules/,
     };
-
-    // config.plugins.push(fallbackWritePlugin);
   }
 
-  makeShim(baseConfig, /faker/);
-  makeShim(baseConfig, /@testing-library.*/);
+  return config;
+}
 
+function setupShims(config) {
+  makeShim(config, /faker/);
+  makeShim(config, /@testing-library.*/);
+
+  return config;
+}
+
+function modifyBundle(config) {
   if (config.mode === 'development') {
     config.devtool = 'cheap-module-source-map';
     config.optimization.removeAvailableModules = false;
@@ -104,4 +104,42 @@ module.exports = (baseConfig) => {
   }
 
   return config;
-};
+}
+
+function cleanupEntries(config) {
+  delete config.entry.styles;
+
+  config.output.filename = '[name].js';
+  config.output.chunkFilename = '[name].js';
+
+  delete config.optimization.runtimeChunk;
+  config.optimization.splitChunks.automaticNameDelimiter = '-';
+
+  return config;
+}
+
+function setupEntries(config) {
+  config.entry.main = [path.resolve(__dirname, './src/popup.tsx')];
+  config.entry.content = [path.resolve(__dirname, './src/content.tsx')];
+  config.entry.contentRoot = [
+    path.resolve(__dirname, './src/app/Content/contentRoot.tsx'),
+  ];
+  config.entry.background = [path.resolve(__dirname, './src/background.ts')];
+  config.entry.backgroundMain = [
+    path.resolve(__dirname, './src/backgroundMain.ts'),
+  ];
+
+  return config;
+}
+
+module.exports = createPipe(
+  createConfig,
+  removeProgressPlugin,
+  setupEntries,
+  cleanupEntries,
+  copyManifest,
+  resolveCorrectQueryString,
+  setupDevServer,
+  setupShims,
+  modifyBundle
+);

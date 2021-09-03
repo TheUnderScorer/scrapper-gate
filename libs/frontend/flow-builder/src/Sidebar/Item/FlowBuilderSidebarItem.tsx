@@ -55,9 +55,6 @@ export const FlowBuilderSidebarItem = <S extends BaseNodeSelectionProperties>({
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     }),
-    options: {
-      dropEffect: 'copy',
-    },
     type: FlowBuilderDropTypes.Node,
   });
 
