@@ -10,6 +10,7 @@ import {
   EditorState,
   getDefaultKeyBinding,
 } from 'draft-js';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import EditorBidiService from 'draft-js/lib/EditorBidiService';
