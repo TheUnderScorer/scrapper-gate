@@ -21,8 +21,8 @@ import {
 import { makeStyles } from '@material-ui/styles';
 import { useReturnUrlProvider } from '@scrapper-gate/frontend/common';
 import { FileLink } from '@scrapper-gate/frontend/domain/files';
+import { NodeContentProps } from '@scrapper-gate/frontend/flow-builder';
 import { useFormFieldValue } from '@scrapper-gate/frontend/form';
-import { NodeContentProps } from '@scrapper-gate/frontend/ui';
 import {
   DateFormat,
   ExcludeFalsy,

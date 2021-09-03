@@ -126,6 +126,9 @@
     "frontend-domain-variables": {
       "tags": []
     },
+    "frontend-flow-builder": {
+      "tags": []
+    },
     "frontend-form": {
       "tags": []
     },

@@ -3,7 +3,7 @@ import {
   FlowBuilderItem,
   FlowBuilderNodeTypes,
   flowBuilderUtils,
-} from '@scrapper-gate/frontend/ui';
+} from '@scrapper-gate/frontend/flow-builder';
 import { first, getById } from '@scrapper-gate/shared/common';
 import { pickScrapperInput } from '@scrapper-gate/shared/domain/scrapper';
 import {

@@ -7,6 +7,14 @@ import {
   VariablesTable,
 } from '@scrapper-gate/frontend/domain/variables';
 import {
+  FlowBuilder,
+  FlowBuilderNodeTypes,
+  flowBuilderUtils,
+  flowBuilderValidation,
+  IsValidConnectionParams,
+  NodeContentComponent,
+} from '@scrapper-gate/frontend/flow-builder';
+import {
   FormEditableText,
   joiValidationResolver,
   mergeValidators,
@@ -17,15 +25,7 @@ import {
   useSnackbarOnError,
   useSnackbarOnSuccess,
 } from '@scrapper-gate/frontend/snackbars';
-import {
-  FlowBuilder,
-  FlowBuilderNodeTypes,
-  flowBuilderUtils,
-  flowBuilderValidation,
-  IsValidConnectionParams,
-  NodeContentComponent,
-  ReturnBtn,
-} from '@scrapper-gate/frontend/ui';
+import { ReturnBtn } from '@scrapper-gate/frontend/ui';
 import { extractVariableInput } from '@scrapper-gate/shared/domain/variables';
 import { logger } from '@scrapper-gate/shared/logger/console';
 import { VariableScope } from '@scrapper-gate/shared/schema';

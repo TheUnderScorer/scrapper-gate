@@ -189,7 +189,7 @@ describe('PlayWright scrapper runner', () => {
         await persistTestArtifact('full-page-screenshot.png', file);
 
         expect(file).toMatchImageSnapshot({
-          failureThreshold: 0.1,
+          failureThreshold: 0.6,
         });
       });
 
@@ -239,7 +239,7 @@ describe('PlayWright scrapper runner', () => {
 
             expect(file).toMatchImageSnapshot({
               customSnapshotIdentifier: `scrapper-result-screenshot-${index}.png`,
-              failureThreshold: 0.1,
+              failureThreshold: 0.6,
             });
           })
         );

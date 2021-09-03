@@ -93,6 +93,9 @@
       "@scrapper-gate/frontend/domain/variables": [
         "libs/frontend/domain/variables/src/index.ts"
       ],
+      "@scrapper-gate/frontend/flow-builder": [
+        "libs/frontend/flow-builder/src/index.ts"
+      ],
       "@scrapper-gate/frontend/form": ["libs/frontend/form/src/index.ts"],
       "@scrapper-gate/frontend/html-picker": [
         "libs/frontend/html-picker/src/index.ts"

@@ -2,7 +2,7 @@ import { Selection } from '@scrapper-gate/frontend/common';
 import {
   BaseNodeSelectionProperties,
   FlowBuilderNodeTypes,
-} from '@scrapper-gate/frontend/ui';
+} from '@scrapper-gate/frontend/flow-builder';
 import { ScrapperAction } from '@scrapper-gate/shared/schema';
 import { scrapperActionIcons } from '../dictionary/scrapperActionIcons';
 import { scrapperActionTextMap } from '../dictionary/scrapperActionTextMap';

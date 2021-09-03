@@ -1,12 +1,12 @@
 import { TextFieldProps } from '@material-ui/core';
-import { FieldNameCreator } from '@scrapper-gate/frontend/form';
 import {
   BaseNodeProperties,
   FlowBuilderFormState,
   FlowBuilderProps,
-  HtmlElementPickerProps,
   NodeContentProps,
-} from '@scrapper-gate/frontend/ui';
+} from '@scrapper-gate/frontend/flow-builder';
+import { FieldNameCreator } from '@scrapper-gate/frontend/form';
+import { HtmlElementPickerProps } from '@scrapper-gate/frontend/ui';
 import { Perhaps } from '@scrapper-gate/shared/common';
 import { Scrapper, Variable } from '@scrapper-gate/shared/schema';
 import { ComponentType } from 'react';

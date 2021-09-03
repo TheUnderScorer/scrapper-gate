@@ -1,7 +1,7 @@
 import {
   BaseNodeProperties,
   FlowBuilderItem,
-} from '../../../libs/frontend/ui/src/organisms/FlowBuilder/FlowBuilder.types';
+} from '../../../libs/frontend/flow-builder/src/FlowBuilder.types';
 
 export const getItems = <T extends BaseNodeProperties>(
   container?: HTMLElement

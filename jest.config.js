@@ -51,5 +51,6 @@ module.exports = {
     '<rootDir>/libs/shared/node',
     '<rootDir>/libs/backend/domain/files',
     '<rootDir>/libs/frontend/domain/files',
+    '<rootDir>/libs/frontend/flow-builder',
   ],
 };
