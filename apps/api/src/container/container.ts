@@ -123,6 +123,8 @@ export const createContainer = async ({
 
   const apolloServer = container.resolve<ApolloServer>('apolloServer');
 
+  await apolloServer.start();
+
   server.addHook('preHandler', async (req) => {
     req.container = container;
   });
