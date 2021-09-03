@@ -7,13 +7,12 @@ import {
   Typography,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
+import { Layout, ResizablePanel } from '@scrapper-gate/frontend/ui';
 import { getById } from '@scrapper-gate/shared/common';
 import classNames from 'classnames';
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { Node } from 'react-flow-renderer';
 import { useDebounce, usePrevious } from 'react-use';
-import { Layout } from '../../../../ui/src/molecules/Layout/Layout';
-import { ResizablePanel } from '../../../../ui/src/molecules/ResizablePanel/ResizablePanel';
 import { BaseNodeProperties } from '../../FlowBuilder.types';
 import { useFlowBuilderActiveNode } from '../../providers/FlowBuilderActiveNode.provider';
 import {

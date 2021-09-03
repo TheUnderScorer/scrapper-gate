@@ -2,6 +2,7 @@ import { CircularProgress, Stack, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { Selection } from '@scrapper-gate/frontend/common';
 import { AppTheme } from '@scrapper-gate/frontend/theme';
+import { Centered, ContextMenu } from '@scrapper-gate/frontend/ui';
 import { stringifyCircular } from '@scrapper-gate/shared/common';
 import classNames from 'classnames';
 import React, {
@@ -22,8 +23,6 @@ import ReactFlow, {
   OnLoadParams,
 } from 'react-flow-renderer';
 import { Key } from 'ts-key-enum';
-import { Centered } from '../../../ui/src/atoms/Centered/Centered';
-import { ContextMenu } from '../../../ui/src/molecules/ContextMenu/ContextMenu';
 import { FlowBuilderConnectionLine } from '../ConnectionLine/FlowBuilderConnectionLine';
 import { edgeTypes } from '../edgeTypes/edgeTypes';
 import {

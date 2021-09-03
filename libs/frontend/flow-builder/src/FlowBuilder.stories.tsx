@@ -10,13 +10,13 @@ import {
 } from '@material-ui/icons';
 import { QueryParamProvider } from '@scrapper-gate/frontend/common';
 import { FormTextField } from '@scrapper-gate/frontend/form';
+import { PrimaryLightIconButton } from '@scrapper-gate/frontend/ui';
 import { wait } from '@scrapper-gate/shared/common';
 import { action } from '@storybook/addon-actions';
 import { FORM_ERROR } from 'final-form';
 import React, { useCallback, useMemo } from 'react';
 import { Form } from 'react-final-form';
 import { MemoryRouter } from 'react-router';
-import { PrimaryLightIconButton } from '../../ui/src/atoms/Buttons/Buttons';
 import { FlowBuilder } from './FlowBuilder';
 import {
   FlowBuilderNodeTypes,

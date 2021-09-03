@@ -1,9 +1,9 @@
 import { ButtonGroup, IconButton, Tooltip } from '@material-ui/core';
 import { RedoSharp, UndoSharp } from '@material-ui/icons';
-import { useFormUndo } from '@scrapper-gate/frontend/form';
 import { useKeyboardShortcuts } from '@scrapper-gate/frontend/keyboard-shortcuts';
+import { TextWithKeyHint } from '@scrapper-gate/frontend/ui';
 import React from 'react';
-import { TextWithKeyHint } from '../../../../ui/src/molecules/TextWithKeyHint/TextWithKeyHint';
+import { useFormUndo } from '../../providers/FormUndo.provider';
 
 export const UndoButtons = () => {
   const shortcuts = useKeyboardShortcuts();

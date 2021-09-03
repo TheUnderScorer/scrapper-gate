@@ -1,8 +1,8 @@
 import { Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
+import { Centered } from '@scrapper-gate/frontend/ui';
 import classNames from 'classnames';
 import React from 'react';
-import { Centered } from '../../../../ui/src/atoms/Centered/Centered';
 import { NodeIconBoxProps } from '../../FlowBuilder.types';
 
 export type ActionNodeBoxProps = NodeIconBoxProps;

@@ -5,12 +5,11 @@ import {
   MenuItemProperties,
   stopPropagation,
 } from '@scrapper-gate/frontend/common';
+import { Dropdown, TooltipText } from '@scrapper-gate/frontend/ui';
 import classNames from 'classnames';
 import get from 'lodash.get';
 import React, { forwardRef, memo, useMemo } from 'react';
 import { NodeProps } from 'react-flow-renderer';
-import { TooltipText } from '../../../ui/src/atoms/TooltipText/TooltipText';
-import { Dropdown } from '../../../ui/src/molecules/Dropdown/Dropdown';
 import { BaseNodeProperties } from '../FlowBuilder.types';
 import { useNodeError } from '../hooks/useNodeError';
 import { useRemoveItems } from '../hooks/useRemoveItems';

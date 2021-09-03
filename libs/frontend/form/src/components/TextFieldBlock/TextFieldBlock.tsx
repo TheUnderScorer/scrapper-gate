@@ -90,6 +90,8 @@ const DraftField = forwardRef<
   return (
     <Editor
       {...rest}
+      onCopy={(editor, event) => rest?.onCopy?.(event as any)}
+      onCut={(editor, event) => rest?.onCut?.(event as any)}
       tabIndex={0}
       spellCheck={Boolean(rest.spellCheck)}
       keyBindingFn={(event) => {

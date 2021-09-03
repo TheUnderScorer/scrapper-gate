@@ -1,12 +1,14 @@
 import { Box, List, Skeleton, Stack, Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
 import { Selection } from '@scrapper-gate/frontend/common';
+import {
+  Centered,
+  FilterTextField,
+  ResizablePanel,
+  SkeletonListItem,
+} from '@scrapper-gate/frontend/ui';
 import React, { useState } from 'react';
 import { range } from 'remeda';
-import { Centered } from '../../../ui/src/atoms/Centered/Centered';
-import { FilterTextField } from '../../../ui/src/molecules/FilterTextField/FilterTextField';
-import { ResizablePanel } from '../../../ui/src/molecules/ResizablePanel/ResizablePanel';
-import { SkeletonListItem } from '../../../ui/src/molecules/Skeleton/ListItem/SkeletonListItem';
 import { BaseNodeSelectionProperties } from '../FlowBuilder.types';
 import { useFlowBuilderContextSelector } from '../providers/FlowBuilderProps.provider';
 import { useFlowBuilderSelection } from '../providers/FlowBuilderSelection.provider';

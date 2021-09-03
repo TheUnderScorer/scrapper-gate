@@ -12,13 +12,15 @@ import { CloseSharp, SortSharp } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/styles';
 import { MenuItemProperties } from '@scrapper-gate/frontend/common';
 import { UndoButtons } from '@scrapper-gate/frontend/form';
+import {
+  Dropdown,
+  FormStateIcon,
+  SkeletonComponentOrIcon,
+  TooltipText,
+} from '@scrapper-gate/frontend/ui';
 import classNames from 'classnames';
 import React, { ReactNode, useCallback } from 'react';
 import { useFormState } from 'react-final-form';
-import { TooltipText } from '../../../ui/src/atoms/TooltipText/TooltipText';
-import { Dropdown } from '../../../ui/src/molecules/Dropdown/Dropdown';
-import { FormStateIcon } from '../../../ui/src/molecules/FormStateIcon/FormStateIcon';
-import { SkeletonComponentOrIcon } from '../../../ui/src/molecules/Skeleton/ComponentOrIcon/SkeletonComponentOrIcon';
 import { useFlowBuilderItemsSelector } from '../providers/FlowBuilderItems.provider';
 import { useFlowBuilderContextSelector } from '../providers/FlowBuilderProps.provider';
 import { mainTab } from '../Tabs/FlowBuilderTabs';

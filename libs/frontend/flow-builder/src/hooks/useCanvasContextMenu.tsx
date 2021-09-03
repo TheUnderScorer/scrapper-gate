@@ -1,6 +1,10 @@
 import { PopoverPosition } from '@material-ui/core';
 import { Sort } from '@material-ui/icons';
 import { MenuItemProperties, Selection } from '@scrapper-gate/frontend/common';
+import {
+  FilterTextField,
+  OpenCloseContextMenuBag,
+} from '@scrapper-gate/frontend/ui';
 import { Perhaps } from '@scrapper-gate/shared/common';
 import React, {
   MutableRefObject,
@@ -9,8 +13,6 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { OpenCloseContextMenuBag } from '../../../ui/src/molecules/ContextMenu/ContextMenu.types';
-import { FilterTextField } from '../../../ui/src/molecules/FilterTextField/FilterTextField';
 import { BaseNodeSelectionProperties } from '../FlowBuilder.types';
 import { useFlowBuilderInstanceContext } from '../providers/FlowBuilderInstance.provider';
 import { useFlowBuilderContextSelector } from '../providers/FlowBuilderProps.provider';
