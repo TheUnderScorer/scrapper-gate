@@ -1,3 +1,10 @@
+# [1.0.0-test.2](https://github.com/TheUnderScorer/scrapper-gate/compare/v1.0.0-test.1...v1.0.0-test.2) (2021-09-04)
+
+
+### Features
+
+* Add scrapper screenshot action ([5cd5517](https://github.com/TheUnderScorer/scrapper-gate/commit/5cd55170267c9a5975315b48a994a50b2428a6f9))
+
 # 1.0.0-test.1 (2021-08-15)
 
 
