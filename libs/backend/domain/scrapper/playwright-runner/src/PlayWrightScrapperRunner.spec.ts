@@ -25,14 +25,11 @@ import {
 import { createMockProxy } from 'jest-mock-proxy';
 import playwright, { Browser, LaunchOptions } from 'playwright';
 import { v4 } from 'uuid';
-import '../../../../../../tests/jestExtensions/toMatchImageSnapshot';
 import { persistTestArtifact } from '../../../../../../tests/utils/artifacts';
 import '../../../../../../typings/global';
 import { PlayWrightScrapperRunner } from './PlayWrightScrapperRunner';
 
 const timeout = 900000;
-
-const failureThreshold = 1;
 
 let runners: PlayWrightScrapperRunner[] = [];
 let browsers: Browser[] = [];
@@ -189,10 +186,6 @@ describe('PlayWright scrapper runner', () => {
         expect(file).toBeDefined();
 
         await persistTestArtifact('full-page-screenshot.png', file);
-
-        expect(file).toMatchImageSnapshot({
-          failureThreshold,
-        });
       });
 
       it('should make screenshot of selected elements and save it into s3', async () => {
@@ -238,11 +231,6 @@ describe('PlayWright scrapper runner', () => {
         await Promise.all(
           (files as Buffer[]).map(async (file, index) => {
             await persistTestArtifact(`element-screenshot-${index}.png`, file);
-
-            expect(file).toMatchImageSnapshot({
-              customSnapshotIdentifier: `scrapper-result-screenshot-${index}.png`,
-              failureThreshold,
-            });
           })
         );
       });
