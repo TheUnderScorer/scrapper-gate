@@ -2,7 +2,7 @@ import { Selection } from '@scrapper-gate/frontend/common';
 import {
   BaseNodeSelectionProperties,
   FlowBuilderNodeTypes,
-} from '@scrapper-gate/frontend/ui';
+} from '@scrapper-gate/frontend/flow-builder';
 import { ScrapperAction } from '@scrapper-gate/shared/schema';
 import { scrapperActionIcons } from '../dictionary/scrapperActionIcons';
 import { scrapperActionTextMap } from '../dictionary/scrapperActionTextMap';
@@ -19,13 +19,7 @@ export const createScrapperNodeSelection =
         id: '',
         title: scrapperActionTextMap[action],
         action,
-        type:
-          (
-            scrapperActionNodeTypeMap as Record<
-              ScrapperAction,
-              FlowBuilderNodeTypes
-            >
-          )[action] ?? FlowBuilderNodeTypes.Action,
+        type: scrapperActionNodeTypeMap[action] ?? FlowBuilderNodeTypes.Action,
       },
       icon: scrapperActionIcons[action],
       label: scrapperActionTextMap[action],

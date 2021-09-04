@@ -1,21 +1,40 @@
-import { wait } from '@scrapper-gate/shared/common';
+import { createS3Client, setupAwsContainer } from '@scrapper-gate/backend/aws';
+import {
+  FilesService,
+  generateScrapperScreenshotFileKey,
+} from '@scrapper-gate/backend/domain/files';
+import { Environment, wait } from '@scrapper-gate/shared/common';
 import { createMockScrapperStep } from '@scrapper-gate/shared/domain/scrapper';
 import { logger } from '@scrapper-gate/shared/logger/console';
 import {
   BrowserType,
+  FileType,
   MouseButton,
   RunState,
   ScrapperAction,
   ScrapperRun,
+  ScrapperStep,
 } from '@scrapper-gate/shared/schema';
+import {
+  asClass,
+  asFunction,
+  asValue,
+  AwilixContainer,
+  createContainer,
+} from 'awilix';
+import { createMockProxy } from 'jest-mock-proxy';
 import playwright, { Browser, LaunchOptions } from 'playwright';
 import { v4 } from 'uuid';
+import { persistTestArtifact } from '../../../../../../tests/utils/artifacts';
+import '../../../../../../typings/global';
 import { PlayWrightScrapperRunner } from './PlayWrightScrapperRunner';
 
 const timeout = 900000;
 
 let runners: PlayWrightScrapperRunner[] = [];
 let browsers: Browser[] = [];
+
+let container: AwilixContainer;
 
 describe('PlayWright scrapper runner', () => {
   const ignoredBrowserTypes =
@@ -48,11 +67,26 @@ describe('PlayWright scrapper runner', () => {
 
     await wait(1000);
 
+    container = createContainer();
+
+    setupAwsContainer(container);
+
+    container.register({
+      filesService: asClass(FilesService).singleton(),
+      s3: asFunction(createS3Client),
+      environment: asValue(Environment.Development),
+      logger: asValue(logger),
+      eventsBus: asValue(createMockProxy()),
+    });
+
+    container.resolve('configureAws');
+
     const runner = new PlayWrightScrapperRunner({
       logger,
       traceId: '#trace_id',
       browser,
       browserType,
+      filesService: container.resolve<FilesService>('filesService'),
     });
 
     browsers.push(browser);
@@ -124,6 +158,82 @@ describe('PlayWright scrapper runner', () => {
         },
         timeout
       );
+
+      it('should make screenshot of a whole page and save it into s3', async () => {
+        const runner = await bootstrapRunner(type);
+        const filesService = container.resolve<FilesService>('filesService');
+
+        const step: ScrapperStep = {
+          ...(await createMockScrapperStep({})),
+          action: ScrapperAction.Screenshot,
+          useUrlFromPreviousStep: false,
+          url: 'http://localhost:8080/blog/article1.html',
+        };
+
+        const result = await runner.Screenshot({
+          scrapperRun,
+          variables: [],
+          step,
+        });
+
+        expect(result.values).toHaveLength(1);
+
+        const file = (await filesService.get(
+          generateScrapperScreenshotFileKey(scrapperRun.id, step.id),
+          FileType.ScrapperScreenshot
+        )) as Buffer;
+
+        expect(file).toBeDefined();
+
+        await persistTestArtifact('full-page-screenshot.png', file);
+      });
+
+      it('should make screenshot of selected elements and save it into s3', async () => {
+        const runner = await bootstrapRunner(type);
+        const filesService = container.resolve<FilesService>('filesService');
+
+        const step: ScrapperStep = {
+          ...(await createMockScrapperStep({})),
+          action: ScrapperAction.Screenshot,
+          useUrlFromPreviousStep: false,
+          url: 'http://localhost:8080/blog/article1.html',
+          selectors: [
+            {
+              value: 'h1',
+            },
+            {
+              value: 'p',
+            },
+          ],
+        };
+
+        const result = await runner.Screenshot({
+          scrapperRun,
+          variables: [],
+          step,
+        });
+
+        expect(result.values).toHaveLength(2);
+
+        const files = await Promise.all([
+          filesService.get(
+            generateScrapperScreenshotFileKey(scrapperRun.id, step.id),
+            FileType.ScrapperScreenshot
+          ),
+          filesService.get(
+            generateScrapperScreenshotFileKey(scrapperRun.id, step.id, 2),
+            FileType.ScrapperScreenshot
+          ),
+        ]);
+
+        expect(files.every((file) => file instanceof Buffer)).toEqual(true);
+
+        await Promise.all(
+          (files as Buffer[]).map(async (file, index) => {
+            await persistTestArtifact(`element-screenshot-${index}.png`, file);
+          })
+        );
+      });
 
       it(
         'should handle dynamic elements',

@@ -1,6 +1,6 @@
 import { ScrapperAction } from '@scrapper-gate/shared/schema';
 
-export const scrapperActionTextMap = {
+export const scrapperActionTextMap: Record<ScrapperAction, string> = {
   [ScrapperAction.Click]: 'Click',
   [ScrapperAction.GoBack]: 'Go back',
   [ScrapperAction.NavigateTo]: 'Navigate to',
@@ -8,4 +8,5 @@ export const scrapperActionTextMap = {
   [ScrapperAction.ReloadPage]: 'Reload Page',
   [ScrapperAction.Type]: 'Type text',
   [ScrapperAction.Condition]: 'Conditional',
+  [ScrapperAction.Screenshot]: 'Screenshot',
 };

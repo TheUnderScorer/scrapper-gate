@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-no-useless-fragment */
+import { Skeleton, SkeletonProps } from '@material-ui/core';
 import React, { PropsWithChildren } from 'react';
-import { Skeleton, SkeletonProps } from '@material-ui/lab';
 
 export interface SkeletonComponentOrIconProps
   extends Pick<SkeletonProps, 'width' | 'height' | 'variant'> {

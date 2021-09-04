@@ -1,6 +1,6 @@
 import { Box, ClickAwayListener } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import { GridApi } from '@material-ui/data-grid';
+import { makeStyles } from '@material-ui/styles';
 import React, { memo, useMemo } from 'react';
 import { resolveGridModelFormName } from '../../resolveGridModelFormName';
 import { EditRowProps } from './EditRow.types';

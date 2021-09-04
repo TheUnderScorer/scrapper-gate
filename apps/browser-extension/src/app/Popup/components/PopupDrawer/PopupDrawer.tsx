@@ -1,6 +1,3 @@
-import React, { useMemo } from 'react';
-import { Layout, QueryDrawer } from '@scrapper-gate/frontend/ui';
-import { MenuItemProperties } from '@scrapper-gate/frontend/common';
 import {
   Divider,
   List,
@@ -10,13 +7,16 @@ import {
   ListSubheader,
 } from '@material-ui/core';
 import { Assignment, Logout, Web } from '@material-ui/icons';
+import { makeStyles } from '@material-ui/styles';
+import { MenuItemProperties } from '@scrapper-gate/frontend/common';
+import { useLogout } from '@scrapper-gate/frontend/domain/auth';
 import { UserAvatar } from '@scrapper-gate/frontend/domain/user';
 import { useGetCurrentUserQuery } from '@scrapper-gate/frontend/schema';
-import { makeStyles } from '@material-ui/core/styles';
-import { useHistory } from 'react-router-dom';
+import { Layout, QueryDrawer } from '@scrapper-gate/frontend/ui';
 import { browserExtensionRoutes } from '@scrapper-gate/shared/routing';
+import React, { useMemo } from 'react';
 import { useLocation } from 'react-router';
-import { useLogout } from '@scrapper-gate/frontend/domain/auth';
+import { useHistory } from 'react-router-dom';
 
 export const popupDrawerQueryKey = 'popupDrawer';
 

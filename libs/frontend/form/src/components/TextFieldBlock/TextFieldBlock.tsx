@@ -1,6 +1,7 @@
 import { TextField } from '@material-ui/core';
 import { InputBaseComponentProps } from '@material-ui/core/InputBase/InputBase';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
+import { AppTheme } from '@scrapper-gate/frontend/theme';
 import { getDisplayValue } from '@scrapper-gate/shared/common';
 import classNames from 'classnames';
 import {
@@ -9,6 +10,7 @@ import {
   EditorState,
   getDefaultKeyBinding,
 } from 'draft-js';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import EditorBidiService from 'draft-js/lib/EditorBidiService';
@@ -27,7 +29,7 @@ import { Key } from 'ts-key-enum';
 import { TextFieldBlockProvider } from './TextFieldBlock.provider';
 import { TextFieldBlockProps } from './TextFieldBlock.types';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: AppTheme) => ({
   input: {
     '& .public-DraftEditor-content': {
       padding: 18,
@@ -89,6 +91,8 @@ const DraftField = forwardRef<
   return (
     <Editor
       {...rest}
+      onCopy={(editor, event) => rest?.onCopy?.(event as any)}
+      onCut={(editor, event) => rest?.onCut?.(event as any)}
       tabIndex={0}
       spellCheck={Boolean(rest.spellCheck)}
       keyBindingFn={(event) => {
@@ -161,6 +165,11 @@ export const TextFieldBlock = forwardRef<HTMLInputElement, TextFieldBlockProps>(
 
       const prevValue = prevState?.getCurrentContent().getPlainText();
 
+      console.log({
+        parsedValue,
+        prevValue,
+      });
+
       if (value === prevValue || parsedValue === prevValue) {
         return;
       }
@@ -182,6 +191,7 @@ export const TextFieldBlock = forwardRef<HTMLInputElement, TextFieldBlockProps>(
 
     const handleStateChange = useCallback(
       (newState: EditorState) => {
+        console.log(newState);
         const plainText = newState.getCurrentContent().getPlainText();
 
         setDidInternalChange(true);

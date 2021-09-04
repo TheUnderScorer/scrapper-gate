@@ -1,11 +1,16 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { render, fireEvent, act } from '@testing-library/react';
+import { ThemeProvider } from '@scrapper-gate/frontend/theme';
+import { act, fireEvent, render } from '@testing-library/react';
 import React from 'react';
 import { CollapsableCard } from './CollapsableCard';
 
 describe('<CollapsableCard />', () => {
   it('should handle collapse only on btn click', () => {
-    const { container } = render(<CollapsableCard />);
+    const { container } = render(
+      <ThemeProvider>
+        <CollapsableCard />
+      </ThemeProvider>
+    );
 
     const btn = container.querySelector('.collapsable-card-btn');
     const summary = container.querySelector('.MuiAccordionSummary-content');
@@ -26,7 +31,9 @@ describe('<CollapsableCard />', () => {
   it('should handle close', () => {
     const onClose = jest.fn();
     const { container } = render(
-      <CollapsableCard closable onClose={onClose} />
+      <ThemeProvider>
+        <CollapsableCard closable onClose={onClose} />
+      </ThemeProvider>
     );
 
     const btn = container.querySelector('.close-collapsable-card');

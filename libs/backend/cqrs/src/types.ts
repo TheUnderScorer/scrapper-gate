@@ -1,8 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-import {
-  Constructor,
-  ResolvedConstructor,
-} from '@scrapper-gate/shared/constructor';
+import { Constructor, ResolvedConstructor } from '@scrapper-gate/shared/constructor';
 import {
   CommandHandler,
   CommandHandlerFn,
@@ -14,12 +11,12 @@ import {
   HandlersMap,
   QueriesBus,
   QueryHandler,
-  QueryHandlerFn,
+  QueryHandlerFn
 } from 'functional-cqrs';
 import { EventHandlerFn } from 'functional-cqrs/build/types/event';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type HandlerFactory<T> = (...args: any[]) => T;
+export type HandlerFactory<T> = (...args: any[]) => T;
 
 export type CommandHandlersFactoryMap = HandlersMap<
   HandlerFactory<CommandHandlerFn> | Constructor<CommandHandler>

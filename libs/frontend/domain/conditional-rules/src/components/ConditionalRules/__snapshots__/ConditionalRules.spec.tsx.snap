@@ -6,60 +6,18 @@ Object {
   "baseElement": <body>
     <div>
       <div
-        class="MuiBox-root css-1a8w37c"
+        class="MuiBox-root css-0"
       >
         <div
-          class="MuiBox-root css-1icgf7x"
+          class="MuiBox-root css-1yuhvjn"
         />
         <div
-          class="centered makeStyles-btn-1 MuiBox-root css-1rr92ez"
+          class="centered makeStyles-btn-1 MuiBox-root css-9hmjl0"
         >
           <button
-            class="MuiButtonBase-root MuiFab-root MuiFab-extended MuiFab-sizeSmall MuiFab-primary makeStyles-fab-2 add-rules-group css-y2dn85-MuiButtonBase-root-MuiFab-root"
+            class="MuiButtonBase-root MuiFab-root MuiFab-extended MuiFab-sizeSmall MuiFab-primary makeStyles-fab-2 add-rules-group css-fzzzik-MuiButtonBase-root-MuiFab-root"
             tabindex="0"
             type="button"
-          >
-            <span
-              class="MuiFab-label css-110lfi1-MuiFab-label"
-            >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-egrpcv-MuiSvgIcon-root"
-                data-testid="AddIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
-                />
-              </svg>
-              Add rules group
-            </span>
-            <span
-              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-            />
-          </button>
-        </div>
-      </div>
-    </div>
-  </body>,
-  "container": <div>
-    <div
-      class="MuiBox-root css-1a8w37c"
-    >
-      <div
-        class="MuiBox-root css-1icgf7x"
-      />
-      <div
-        class="centered makeStyles-btn-1 MuiBox-root css-1rr92ez"
-      >
-        <button
-          class="MuiButtonBase-root MuiFab-root MuiFab-extended MuiFab-sizeSmall MuiFab-primary makeStyles-fab-2 add-rules-group css-y2dn85-MuiButtonBase-root-MuiFab-root"
-          tabindex="0"
-          type="button"
-        >
-          <span
-            class="MuiFab-label css-110lfi1-MuiFab-label"
           >
             <svg
               aria-hidden="true"
@@ -73,7 +31,41 @@ Object {
               />
             </svg>
             Add rules group
-          </span>
+            <span
+              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+            />
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="MuiBox-root css-0"
+    >
+      <div
+        class="MuiBox-root css-1yuhvjn"
+      />
+      <div
+        class="centered makeStyles-btn-1 MuiBox-root css-9hmjl0"
+      >
+        <button
+          class="MuiButtonBase-root MuiFab-root MuiFab-extended MuiFab-sizeSmall MuiFab-primary makeStyles-fab-2 add-rules-group css-fzzzik-MuiButtonBase-root-MuiFab-root"
+          tabindex="0"
+          type="button"
+        >
+          <svg
+            aria-hidden="true"
+            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-egrpcv-MuiSvgIcon-root"
+            data-testid="AddIcon"
+            focusable="false"
+            viewBox="0 0 24 24"
+          >
+            <path
+              d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
+            />
+          </svg>
+          Add rules group
           <span
             class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
           />

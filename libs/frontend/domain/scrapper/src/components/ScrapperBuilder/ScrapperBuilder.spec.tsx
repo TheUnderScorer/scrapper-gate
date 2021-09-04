@@ -2,8 +2,12 @@
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 import { Box } from '@material-ui/core';
 import { QueryParamProvider } from '@scrapper-gate/frontend/common';
+import {
+  FlowBuilderItem,
+  flowBuilderUtils,
+} from '@scrapper-gate/frontend/flow-builder';
+import { SnackbarProvider } from '@scrapper-gate/frontend/snackbars';
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
-import { FlowBuilderItem, flowBuilderUtils } from '@scrapper-gate/frontend/ui';
 import { getById, last, wait } from '@scrapper-gate/shared/common';
 import {
   createMockScrapper,
@@ -13,7 +17,6 @@ import {
 import { Scrapper, ScrapperAction } from '@scrapper-gate/shared/schema';
 import { act, render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { SnackbarProvider } from 'notistack';
 import { isEdge, isNode, Node, XYPosition } from 'react-flow-renderer';
 import { MemoryRouter } from 'react-router';
 import { ScrapperBuilder } from './ScrapperBuilder';

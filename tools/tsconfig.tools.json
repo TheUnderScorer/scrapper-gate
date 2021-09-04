@@ -1,13 +1,14 @@
 {
   "extends": "../tsconfig.base.json",
   "compilerOptions": {
-    "outDir": "../dist/out-tsc/tools",
-    "rootDir": ".",
-    "module": "commonjs",
-    "target": "es5",
+    "rootDir": "../",
+    "module": "CommonJS",
+    "target": "ES2020",
     "types": ["node"],
     "importHelpers": false,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "sourceMap": true
   },
-  "include": ["**/*.ts"]
+  "include": ["**/*.ts"],
+  "exclude": ["./scripts/**/*.ts"]
 }

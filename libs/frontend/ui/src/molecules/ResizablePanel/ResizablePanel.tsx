@@ -1,8 +1,9 @@
-import { ResizablePanelProps } from './ResizablePanel.types';
-import { Resizable } from 're-resizable';
-import { makeStyles } from '@material-ui/core/styles';
-import classNames from 'classnames';
 import { Fab, Paper, Tooltip } from '@material-ui/core';
+import { ChevronLeft } from '@material-ui/icons';
+import { makeStyles } from '@material-ui/styles';
+import { useKeyboardShortcuts } from '@scrapper-gate/frontend/keyboard-shortcuts';
+import classNames from 'classnames';
+import { Resizable } from 're-resizable';
 import {
   forwardRef,
   MutableRefObject,
@@ -10,11 +11,10 @@ import {
   useRef,
   useState,
 } from 'react';
-import { ChevronLeft } from '@material-ui/icons';
-import { usePrevious, useToggle } from 'react-use';
-import { useKeyboardShortcuts } from '@scrapper-gate/frontend/keyboard-shortcuts';
 import { useHotkeys } from 'react-hotkeys-hook';
+import { usePrevious, useToggle } from 'react-use';
 import { TextWithKeyHint } from '../TextWithKeyHint/TextWithKeyHint';
+import { ResizablePanelProps } from './ResizablePanel.types';
 
 const useStyles = makeStyles((theme) => ({
   handle: (props: Pick<ResizablePanelProps, 'enable'>) => ({

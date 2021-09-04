@@ -1,12 +1,12 @@
 import {
   AppBar,
   IconButton,
-  makeStyles,
   Toolbar,
   Tooltip,
   Typography,
 } from '@material-ui/core';
 import { Add, MenuSharp } from '@material-ui/icons';
+import { makeStyles } from '@material-ui/styles';
 import { browserExtensionRoutes } from '@scrapper-gate/shared/routing';
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';

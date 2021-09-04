@@ -1,7 +1,13 @@
 import { ApolloError } from '@apollo/client';
 import { Divider, Stack, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 import { submitNotAllowed } from '@scrapper-gate/frontend/common';
+import {
+  FlowBuilder,
+  FlowBuilderTabsSelection,
+  flowBuilderUtils,
+  NodeContentProps,
+} from '@scrapper-gate/frontend/flow-builder';
 import {
   useGetMyScrapperRunQuery,
   useGetMyScrapperRunStateQuery,
@@ -9,10 +15,6 @@ import {
 import { useSnackbarOnError } from '@scrapper-gate/frontend/snackbars';
 import {
   ButtonRouteLink,
-  FlowBuilder,
-  FlowBuilderTabsSelection,
-  flowBuilderUtils,
-  NodeContentProps,
   ReturnBtn,
   RunState,
   RunStateEntity,

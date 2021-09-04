@@ -6,10 +6,10 @@ Object {
   "baseElement": <body>
     <div>
       <div
-        class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column MuiGrid-wrap-xs-nowrap makeStyles-container-5 layout css-19kb62l-MuiGrid-root"
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-undefined MuiGrid-direction-xs-column MuiGrid-wrap-xs-nowrap makeStyles-container-5 layout css-19kb62l-MuiGrid-root"
       >
         <div
-          class="MuiGrid-root MuiGrid-item makeStyles-body-6 makeStyles-body-7 layout-body css-10texkh-MuiGrid-root"
+          class="MuiGrid-root MuiGrid-item makeStyles-body-6 makeStyles-body-7 layout-body css-13i4rnv-MuiGrid-root"
           style="height: calc(100% - 0px); flex: 1;"
         >
           <ul
@@ -20,7 +20,7 @@ Object {
               class="MuiListItem-container css-oyakqy-MuiListItem-container"
             >
               <div
-                class="MuiButtonBase-root MuiListItem-root MuiListItem-gutters MuiListItem-button MuiListItem-secondaryAction scrapper-list-item css-te20g0-MuiButtonBase-root-MuiListItem-root"
+                class="MuiButtonBase-root MuiListItem-root MuiListItem-gutters MuiListItem-padding MuiListItem-button MuiListItem-secondaryAction scrapper-list-item css-1tbkvnq-MuiButtonBase-root-MuiListItem-root"
                 role="button"
                 tabindex="0"
               >
@@ -41,25 +41,21 @@ Object {
                 class="MuiListItemSecondaryAction-root css-518kzi-MuiListItemSecondaryAction-root"
               >
                 <button
-                  class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-14yxx0d-MuiButtonBase-root-MuiIconButton-root"
+                  class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-4eo9e9-MuiButtonBase-root-MuiIconButton-root"
                   tabindex="0"
                   type="button"
                 >
-                  <span
-                    class="MuiIconButton-label css-4jkopv-MuiIconButton-label"
+                  <svg
+                    aria-hidden="true"
+                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-egrpcv-MuiSvgIcon-root"
+                    data-testid="MoreVertSharpIcon"
+                    focusable="false"
+                    viewBox="0 0 24 24"
                   >
-                    <svg
-                      aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-egrpcv-MuiSvgIcon-root"
-                      data-testid="MoreVertSharpIcon"
-                      focusable="false"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
-                      />
-                    </svg>
-                  </span>
+                    <path
+                      d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+                    />
+                  </svg>
                   <span
                     class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
                   />
@@ -78,7 +74,7 @@ Object {
     >
       <div
         aria-hidden="true"
-        class="MuiBackdrop-root MuiBackdrop-invisible css-1qjps05-MuiBackdrop-root"
+        class="MuiBackdrop-root MuiBackdrop-invisible css-g3hgs1-MuiBackdrop-root-MuiModal-backdrop"
         style="opacity: 0; visibility: hidden;"
       />
       <div
@@ -96,7 +92,7 @@ Object {
           tabindex="-1"
         >
           <li
-            class="MuiButtonBase-root MuiListItem-root MuiListItem-gutters MuiListItem-button MuiMenuItem-root css-1x5hx7h-MuiButtonBase-root-MuiListItem-root-MuiMenuItem-root"
+            class="MuiMenuItem-root MuiMenuItem-gutters MuiButtonBase-root css-soz1h5-MuiButtonBase-root-MuiMenuItem-root"
             id="delete_scrapper"
             role="menuitem"
             tabindex="-1"
@@ -139,10 +135,10 @@ Object {
   </body>,
   "container": <div>
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-direction-xs-column MuiGrid-wrap-xs-nowrap makeStyles-container-5 layout css-19kb62l-MuiGrid-root"
+      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-undefined MuiGrid-direction-xs-column MuiGrid-wrap-xs-nowrap makeStyles-container-5 layout css-19kb62l-MuiGrid-root"
     >
       <div
-        class="MuiGrid-root MuiGrid-item makeStyles-body-6 makeStyles-body-7 layout-body css-10texkh-MuiGrid-root"
+        class="MuiGrid-root MuiGrid-item makeStyles-body-6 makeStyles-body-7 layout-body css-13i4rnv-MuiGrid-root"
         style="height: calc(100% - 0px); flex: 1;"
       >
         <ul
@@ -153,7 +149,7 @@ Object {
             class="MuiListItem-container css-oyakqy-MuiListItem-container"
           >
             <div
-              class="MuiButtonBase-root MuiListItem-root MuiListItem-gutters MuiListItem-button MuiListItem-secondaryAction scrapper-list-item css-te20g0-MuiButtonBase-root-MuiListItem-root"
+              class="MuiButtonBase-root MuiListItem-root MuiListItem-gutters MuiListItem-padding MuiListItem-button MuiListItem-secondaryAction scrapper-list-item css-1tbkvnq-MuiButtonBase-root-MuiListItem-root"
               role="button"
               tabindex="0"
             >
@@ -174,25 +170,21 @@ Object {
               class="MuiListItemSecondaryAction-root css-518kzi-MuiListItemSecondaryAction-root"
             >
               <button
-                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-14yxx0d-MuiButtonBase-root-MuiIconButton-root"
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-4eo9e9-MuiButtonBase-root-MuiIconButton-root"
                 tabindex="0"
                 type="button"
               >
-                <span
-                  class="MuiIconButton-label css-4jkopv-MuiIconButton-label"
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-egrpcv-MuiSvgIcon-root"
+                  data-testid="MoreVertSharpIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
                 >
-                  <svg
-                    aria-hidden="true"
-                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-egrpcv-MuiSvgIcon-root"
-                    data-testid="MoreVertSharpIcon"
-                    focusable="false"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
-                    />
-                  </svg>
-                </span>
+                  <path
+                    d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+                  />
+                </svg>
                 <span
                   class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
                 />

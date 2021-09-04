@@ -121,6 +121,36 @@ export type ErrorObjectInterface = {
   date: Scalars['Date'];
 };
 
+export type File = BaseEntity & {
+  id: Scalars['ID'];
+  createdAt: Scalars['Date'];
+  deletedAt?: Maybe<Scalars['Date']>;
+  updatedAt: Scalars['Date'];
+  key: Scalars['String'];
+  name: Scalars['String'];
+  mimeType: Scalars['String'];
+  type: FileType;
+  kind: FileKind;
+  access: FileAccess;
+  url?: Maybe<Scalars['Url']>;
+};
+
+export enum FileAccess {
+  Public = 'Public',
+  Private = 'Private',
+}
+
+export enum FileKind {
+  Image = 'Image',
+  Video = 'Video',
+  Document = 'Document',
+  Other = 'Other',
+}
+
+export enum FileType {
+  ScrapperScreenshot = 'ScrapperScreenshot',
+}
+
 export type ForgotPasswordInput = {
   username: Scalars['String'];
 };
@@ -307,6 +337,7 @@ export enum ScrapperAction {
   ReadText = 'ReadText',
   ReloadPage = 'ReloadPage',
   Type = 'Type',
+  Screenshot = 'Screenshot',
 }
 
 export enum ScrapperDialogBehaviour {
@@ -388,6 +419,7 @@ export type ScrapperRunStepResult = BaseEntity & {
   state: RunState;
   startedAt?: Maybe<Scalars['Date']>;
   endedAt?: Maybe<Scalars['Date']>;
+  screenshots?: Maybe<Array<Maybe<File>>>;
 };
 
 export type ScrapperRunValue = BaseEntity & {
@@ -397,6 +429,7 @@ export type ScrapperRunValue = BaseEntity & {
   createdAt: Scalars['Date'];
   value?: Maybe<Scalars['ScrapperRunValueType']>;
   sourceElement?: Maybe<ScrapperRunValueElement>;
+  screenshot?: Maybe<File>;
 };
 
 export type ScrapperRunValueElement = {
@@ -431,6 +464,7 @@ export type ScrapperStep = BaseEntity &
     key?: Maybe<Scalars['String']>;
     conditionalRules?: Maybe<Array<ConditionalRuleGroup>>;
     isFirst?: Maybe<Scalars['Boolean']>;
+    fullPageScreenshot?: Maybe<Scalars['Boolean']>;
   };
 
 export type ScrapperStepInput = {
@@ -452,6 +486,7 @@ export type ScrapperStepInput = {
   key?: Maybe<Scalars['String']>;
   conditionalRules?: Maybe<Array<ConditionalRuleGroupInput>>;
   isFirst?: Maybe<Scalars['Boolean']>;
+  fullPageScreenshot?: Maybe<Scalars['Boolean']>;
 };
 
 export enum ScrapperType {
@@ -599,6 +634,8 @@ export type CreateUserMutation = {
   };
 };
 
+export type FileLinkFileFragment = Pick<File, 'id' | 'url' | 'name' | 'kind'>;
+
 export type MyScrappersQueryVariables = Exact<{
   pagination?: Maybe<Pagination>;
   order?: Maybe<Order>;
@@ -708,9 +745,11 @@ export type GetMyScrapperRunQuery = {
           > & {
             performance?: Maybe<Pick<RunnerPerformanceEntry, 'duration'>>;
             step: ScrapperBuilderStepFragment;
+            screenshots?: Maybe<Array<Maybe<FileLinkFileFragment>>>;
             values?: Maybe<
               Array<
                 Pick<ScrapperRunValue, 'id' | 'value'> & {
+                  screenshot?: Maybe<FileLinkFileFragment>;
                   sourceElement?: Maybe<
                     Pick<ScrapperRunValueElement, 'id' | 'classNames' | 'tag'>
                   >;
@@ -895,6 +934,7 @@ export type ResolversTypes = ResolversObject<{
   AuthTokens: ResolverTypeWrapper<AuthTokens>;
   String: ResolverTypeWrapper<Scalars['String']>;
   BaseEntity:
+    | ResolversTypes['File']
     | ResolversTypes['Scrapper']
     | ResolversTypes['ScrapperRun']
     | ResolversTypes['ScrapperRunStepResult']
@@ -924,6 +964,10 @@ export type ResolversTypes = ResolversObject<{
   ErrorObjectInterface:
     | ResolversTypes['ErrorObject']
     | ResolversTypes['RunnerError'];
+  File: ResolverTypeWrapper<File>;
+  FileAccess: FileAccess;
+  FileKind: FileKind;
+  FileType: FileType;
   ForgotPasswordInput: ForgotPasswordInput;
   ForgotPasswordResponse: ResolverTypeWrapper<ForgotPasswordResponse>;
   Indexable: ResolversTypes['ScrapperRun'];
@@ -986,6 +1030,7 @@ export type ResolversParentTypes = ResolversObject<{
   AuthTokens: AuthTokens;
   String: Scalars['String'];
   BaseEntity:
+    | ResolversParentTypes['File']
     | ResolversParentTypes['Scrapper']
     | ResolversParentTypes['ScrapperRun']
     | ResolversParentTypes['ScrapperRunStepResult']
@@ -1013,6 +1058,7 @@ export type ResolversParentTypes = ResolversObject<{
   ErrorObjectInterface:
     | ResolversParentTypes['ErrorObject']
     | ResolversParentTypes['RunnerError'];
+  File: File;
   ForgotPasswordInput: ForgotPasswordInput;
   ForgotPasswordResponse: ForgotPasswordResponse;
   Indexable: ResolversParentTypes['ScrapperRun'];
@@ -1116,6 +1162,7 @@ export type BaseEntityResolvers<
   ParentType extends ResolversParentTypes['BaseEntity'] = ResolversParentTypes['BaseEntity']
 > = ResolversObject<{
   __resolveType: TypeResolveFn<
+    | 'File'
     | 'Scrapper'
     | 'ScrapperRun'
     | 'ScrapperRunStepResult'
@@ -1234,6 +1281,24 @@ export type ErrorObjectInterfaceResolvers<
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   message?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   date?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+}>;
+
+export type FileResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['File'] = ResolversParentTypes['File']
+> = ResolversObject<{
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  createdAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  deletedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
+  updatedAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  key?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  mimeType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  type?: Resolver<ResolversTypes['FileType'], ParentType, ContextType>;
+  kind?: Resolver<ResolversTypes['FileKind'], ParentType, ContextType>;
+  access?: Resolver<ResolversTypes['FileAccess'], ParentType, ContextType>;
+  url?: Resolver<Maybe<ResolversTypes['Url']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type ForgotPasswordResponseResolvers<
@@ -1580,6 +1645,11 @@ export type ScrapperRunStepResultResolvers<
   state?: Resolver<ResolversTypes['RunState'], ParentType, ContextType>;
   startedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   endedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
+  screenshots?: Resolver<
+    Maybe<Array<Maybe<ResolversTypes['File']>>>,
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -1601,6 +1671,7 @@ export type ScrapperRunValueResolvers<
     ParentType,
     ContextType
   >;
+  screenshot?: Resolver<Maybe<ResolversTypes['File']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -1699,6 +1770,11 @@ export type ScrapperStepResolvers<
     ContextType
   >;
   isFirst?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
+  fullPageScreenshot?: Resolver<
+    Maybe<ResolversTypes['Boolean']>,
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -1819,6 +1895,7 @@ export type Resolvers<ContextType = any> = ResolversObject<{
   Date?: GraphQLScalarType;
   ErrorObject?: ErrorObjectResolvers<ContextType>;
   ErrorObjectInterface?: ErrorObjectInterfaceResolvers<ContextType>;
+  File?: FileResolvers<ContextType>;
   ForgotPasswordResponse?: ForgotPasswordResponseResolvers<ContextType>;
   Indexable?: IndexableResolvers<ContextType>;
   IsAutenthicatedResponse?: IsAutenthicatedResponseResolvers<ContextType>;

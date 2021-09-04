@@ -1,13 +1,3 @@
-import React, { useCallback, useState } from 'react';
-import {
-  ConditionalRuleGroupInput,
-  ConditionalRuleGroupType,
-} from '@scrapper-gate/shared/schema';
-import {
-  FieldProps,
-  useFieldArray,
-  useFieldHasError,
-} from '@scrapper-gate/frontend/form';
 import {
   Box,
   Divider,
@@ -17,15 +7,25 @@ import {
   Stack,
   Typography,
 } from '@material-ui/core';
+import { Add } from '@material-ui/icons';
+import { makeStyles } from '@material-ui/styles';
+import {
+  FieldProps,
+  useFieldArray,
+  useFieldHasError,
+} from '@scrapper-gate/frontend/form';
+import { Centered } from '@scrapper-gate/frontend/ui';
+import {
+  ConditionalRuleGroupInput,
+  ConditionalRuleGroupType,
+} from '@scrapper-gate/shared/schema';
+import classNames from 'classnames';
+import React, { useCallback, useState } from 'react';
+import { ConditionalRulesSelection } from '../../types';
 import {
   ConditionalRulesGroup,
   ConditionalRulesGroupProps,
 } from './Group/ConditionalRulesGroup';
-import { Centered } from '@scrapper-gate/frontend/ui';
-import { makeStyles } from '@material-ui/core/styles';
-import { ConditionalRulesSelection } from '../../types';
-import { Add } from '@material-ui/icons';
-import classNames from 'classnames';
 
 export interface ConditionalRulesProps
   extends FieldProps<Omit<ConditionalRuleGroupInput, 'id'>[]>,

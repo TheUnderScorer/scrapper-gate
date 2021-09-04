@@ -1,13 +1,14 @@
-import { ComponentType } from 'react';
-import { ReadTextSections } from './stepSections/ReadTextSections';
-import { ClickSections } from './stepSections/ClickSections';
-import { TypeSections } from './stepSections/TypeSections';
-import { ReloadSections } from './stepSections/ReloadSections';
 import { ScrapperAction } from '@scrapper-gate/shared/schema';
+import { ComponentType } from 'react';
 import { ScrapperStepFormProps } from './ScrapperBuilder.types';
+import { ClickSections } from './stepSections/ClickSections';
+import { ConditionalSections } from './stepSections/ConditionalSections';
 import { GoBackSections } from './stepSections/GoBackSections';
 import { NavigateToSections } from './stepSections/NavigateToSections';
-import { ConditionalSections } from './stepSections/ConditionalSections';
+import { ReadTextSections } from './stepSections/ReadTextSections';
+import { ReloadSections } from './stepSections/ReloadSections';
+import { ScreenshotSections } from './stepSections/ScreenshotSections';
+import { TypeSections } from './stepSections/TypeSections';
 
 export type Sections = {
   [Key in ScrapperAction]?: ComponentType<ScrapperStepFormProps>;
@@ -21,4 +22,5 @@ export const sections: Sections = {
   [ScrapperAction.GoBack]: GoBackSections,
   [ScrapperAction.ReloadPage]: ReloadSections,
   [ScrapperAction.Condition]: ConditionalSections,
+  [ScrapperAction.Screenshot]: ScreenshotSections,
 };

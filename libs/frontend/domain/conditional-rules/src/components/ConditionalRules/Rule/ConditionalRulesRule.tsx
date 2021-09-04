@@ -8,8 +8,8 @@ import {
   Tooltip,
   Typography,
 } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import { Delete, Edit } from '@material-ui/icons';
+import { makeStyles } from '@material-ui/styles';
 import { useVariablesContextSelector } from '@scrapper-gate/frontend/domain/variables';
 import { toDisplayText } from '@scrapper-gate/shared/common';
 import {

@@ -21,7 +21,7 @@ provider "aws" {
 
 module "scrapper-gate" {
   source             = "../infra"
-  env_name           = "local"
+  env_name           = "development"
   dev_services_count = 1
 }
 

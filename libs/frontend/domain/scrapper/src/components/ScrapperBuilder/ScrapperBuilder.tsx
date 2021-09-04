@@ -1,11 +1,19 @@
 import { IconButton, Stack } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import { PlayArrow } from '@material-ui/icons';
+import { makeStyles } from '@material-ui/styles';
 import { useIsUsingElementPicker } from '@scrapper-gate/frontend/common';
 import {
   VariablesProvider,
   VariablesTable,
 } from '@scrapper-gate/frontend/domain/variables';
+import {
+  FlowBuilder,
+  FlowBuilderNodeTypes,
+  flowBuilderUtils,
+  flowBuilderValidation,
+  IsValidConnectionParams,
+  NodeContentComponent,
+} from '@scrapper-gate/frontend/flow-builder';
 import {
   FormEditableText,
   joiValidationResolver,
@@ -17,15 +25,7 @@ import {
   useSnackbarOnError,
   useSnackbarOnSuccess,
 } from '@scrapper-gate/frontend/snackbars';
-import {
-  FlowBuilder,
-  FlowBuilderNodeTypes,
-  flowBuilderUtils,
-  flowBuilderValidation,
-  IsValidConnectionParams,
-  NodeContentComponent,
-  ReturnBtn,
-} from '@scrapper-gate/frontend/ui';
+import { ReturnBtn } from '@scrapper-gate/frontend/ui';
 import { extractVariableInput } from '@scrapper-gate/shared/domain/variables';
 import { logger } from '@scrapper-gate/shared/logger/console';
 import { VariableScope } from '@scrapper-gate/shared/schema';

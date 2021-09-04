@@ -4,7 +4,7 @@ import {
   BaseNodeProperties,
   FlowBuilderFormState,
   FlowBuilderProps,
-} from '@scrapper-gate/frontend/ui';
+} from '@scrapper-gate/frontend/flow-builder';
 import { Exists } from '@scrapper-gate/shared/common';
 import {
   RouteCreator,

@@ -1,6 +1,11 @@
 import { asDisposable, asDisposableValue } from '@scrapper-gate/backend/awilix';
-import { SqsMessageQueueClient } from '@scrapper-gate/backend/aws';
+import {
+  createS3Client,
+  setupAwsContainer,
+  SqsMessageQueueClient,
+} from '@scrapper-gate/backend/aws';
 import { makeRepositoriesProviderFromDefinitions } from '@scrapper-gate/backend/database';
+import { FilesService } from '@scrapper-gate/backend/domain/files';
 import { MessageQueueService } from '@scrapper-gate/backend/domain/message-queue-service';
 import {
   makeGetScrapperRunner,
@@ -8,6 +13,7 @@ import {
 } from '@scrapper-gate/backend/domain/scrapper';
 import { Message, MessageQueue } from '@scrapper-gate/backend/message-queue';
 import { UnitOfWork } from '@scrapper-gate/backend/unit-of-work';
+import { getEnvironment } from '@scrapper-gate/shared/common';
 import { ScrapperRunnerMessagePayload } from '@scrapper-gate/shared/domain/scrapper';
 import { Logger } from '@scrapper-gate/shared/logger';
 import { logger } from '@scrapper-gate/shared/logger/console';
@@ -116,8 +122,12 @@ const bootstrap = async (dbConnection?: Connection) => {
 
     container = createContainer();
 
+    setupAwsContainer(container);
+
     container.register({
       container: asValue(container),
+      environment: asValue(getEnvironment()),
+      s3: asFunction(createS3Client).singleton(),
       unitOfWork: asDisposable(asClass(UnitOfWork).singleton()),
       browser: asDisposableValue(browser, (browser) => browser.close()),
       connection: connectionProvided
@@ -130,10 +140,13 @@ const bootstrap = async (dbConnection?: Connection) => {
       messageQueueClient: asClass(SqsMessageQueueClient).singleton(),
       traceId: asFunction(() => v4()),
       messageQueueService: asClass(MessageQueueService),
+      filesService: asClass(FilesService).scoped(),
       repositoriesProvider: asValue(
         makeRepositoriesProviderFromDefinitions(entityDefinitions)
       ),
     });
+
+    container.resolve('configureAws');
 
     registerScrapperRunnerCqrs(container);
   }

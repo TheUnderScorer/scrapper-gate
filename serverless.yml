@@ -12,7 +12,7 @@ plugins:
 provider:
   name: aws
   runtime: nodejs14.x
-  stage: ${opt:stage, 'local'}
+  stage: ${opt:stage, 'development'}
   region: eu-west-1
   lambdaHashingVersion: 20201221
 
@@ -38,8 +38,8 @@ custom:
   webpack:
     webpackConfig: apps/lambdas/webpack.config.js
   stages:
-    - local
+    - development
     - staging
     - production
   sqs-scrapper-chromium:
-    local: 'arn:aws:sqs:eu-west-1:000000000000:local-scrapper-chromium.fifo'
+    development: 'arn:aws:sqs:eu-west-1:000000000000:development-scrapper-chromium.fifo'

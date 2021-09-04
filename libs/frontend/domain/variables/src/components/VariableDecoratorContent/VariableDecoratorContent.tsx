@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/styles';
 import { TextFieldBlockDecoratorComponentProps } from '@scrapper-gate/frontend/form';
 import { LightTooltip } from '@scrapper-gate/frontend/ui';
 import classNames from 'classnames';

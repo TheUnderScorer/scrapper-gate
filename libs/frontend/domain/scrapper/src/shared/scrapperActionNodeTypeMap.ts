@@ -1,4 +1,4 @@
-import { FlowBuilderNodeTypes } from '@scrapper-gate/frontend/ui';
+import { FlowBuilderNodeTypes } from '@scrapper-gate/frontend/flow-builder';
 import { ScrapperAction } from '@scrapper-gate/shared/schema';
 
 export type ScrapperActionNodeTypeMap = {

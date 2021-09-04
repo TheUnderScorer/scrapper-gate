@@ -5,6 +5,7 @@ import {
   GetMyScrapperRunDocument,
   GetMyScrapperRunStateDocument,
 } from '@scrapper-gate/frontend/schema';
+import { SnackbarProvider } from '@scrapper-gate/frontend/snackbars';
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
 import {
   createMockScrapper,
@@ -21,7 +22,6 @@ import {
 import '@testing-library/jest-dom';
 import { act, render, RenderResult, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { SnackbarProvider } from 'notistack';
 import { XYPosition } from 'react-flow-renderer';
 import { BrowserRouter } from 'react-router-dom';
 import { ScrapperRun } from './ScrapperRun';

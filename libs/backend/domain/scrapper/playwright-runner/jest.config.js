@@ -13,4 +13,5 @@ module.exports = {
   coverageDirectory:
     '../../../../../coverage/libs/backend/domain/scrapper/playwright-runner',
   testEnvironment: 'node',
+  setupFilesAfterEnv: [`${process.cwd()}/tests/setupBackend.ts`],
 };

@@ -9,19 +9,19 @@ import {
   Stack,
   useTheme,
 } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import { AttachMoney } from '@material-ui/icons';
+import { makeStyles } from '@material-ui/styles';
 import { AppTheme } from '@scrapper-gate/frontend/theme';
 import { Emoji, Highlight } from '@scrapper-gate/frontend/ui';
 import { first, getLastIndex } from '@scrapper-gate/shared/common';
 import { Variable } from '@scrapper-gate/shared/schema';
 import classNames from 'classnames';
 import React, {
+  MouseEvent,
   useCallback,
   useEffect,
   useMemo,
   useState,
-  MouseEvent,
 } from 'react';
 import { useKey } from 'react-use';
 import { Key } from 'ts-key-enum';
@@ -61,9 +61,10 @@ export const VariableSuggestions = ({
 
   const theme = useTheme() as AppTheme;
 
-  const rawText = useMemo(() => text.replace(/{/g, '').replace(/}/g, ''), [
-    text,
-  ]);
+  const rawText = useMemo(
+    () => text.replace(/{/g, '').replace(/}/g, ''),
+    [text]
+  );
 
   const filteredVariables = useMemo(() => {
     if (!rawText) {

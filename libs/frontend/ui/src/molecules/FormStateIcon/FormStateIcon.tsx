@@ -2,10 +2,11 @@ import {
   CircularProgress,
   IconButton,
   IconButtonProps,
+  Theme,
   Tooltip,
 } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import { CheckSharp, ErrorSharp, InfoSharp } from '@material-ui/icons';
+import { makeStyles } from '@material-ui/styles';
 import classNames from 'classnames';
 import React, { useMemo } from 'react';
 import { useFormState } from 'react-final-form';
@@ -13,7 +14,7 @@ import { TooltipText } from '../../atoms/TooltipText/TooltipText';
 
 export type FormStateIconProps = IconButtonProps;
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
   icon: {
     '&.success': {
       color: theme.palette.success.main,

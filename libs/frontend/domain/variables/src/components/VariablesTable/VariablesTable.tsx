@@ -10,8 +10,8 @@ import {
   TableRow,
   useTheme,
 } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import { Add } from '@material-ui/icons';
+import { makeStyles } from '@material-ui/styles';
 import { useFieldArray } from '@scrapper-gate/frontend/form';
 import { Centered, Emoji, InformationBox } from '@scrapper-gate/frontend/ui';
 import { createVariable } from '@scrapper-gate/shared/domain/variables';

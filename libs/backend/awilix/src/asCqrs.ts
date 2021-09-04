@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   CommandHandlersFactoryMap,
   CqrsConfigFactory,
@@ -15,15 +16,14 @@ export const asCqrs = <
   resolve: (container) => {
     const {
       commandHandlers,
-      eventHandlers,
+      eventHandlers = {},
       queryHandlers,
       subscribers,
       ...rest
     } = config;
 
-    const [builtCommandHandlers, builtEventHandlers, builtQueryHandlers] = [
+    const [builtCommandHandlers, builtQueryHandlers] = [
       commandHandlers,
-      eventHandlers,
       queryHandlers,
     ].map((handlers) => {
       if (!handlers) {
@@ -32,12 +32,21 @@ export const asCqrs = <
 
       const mappedPairs = Object.entries(handlers).map(([key, handler]) => [
         key,
-        container.build(handler),
+        container.build(handler as any),
       ]);
 
       return Object.fromEntries(mappedPairs);
     });
 
+    const builtEventHandlers = Object.fromEntries(
+      Object.entries(eventHandlers).map(([event, handlers]) => {
+        const builtHandlers = handlers.map((handler) =>
+          container.build(handler)
+        );
+
+        return [event, builtHandlers];
+      })
+    );
     const builtSubscribers = subscribers?.map((sub) => container.build(sub));
 
     return {

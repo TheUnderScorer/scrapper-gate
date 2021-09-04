@@ -1,4 +1,5 @@
-import { Fab, makeStyles } from '@material-ui/core';
+import { Fab } from '@material-ui/core';
+import { makeStyles } from '@material-ui/styles';
 import { FetchPolicyProps } from '@scrapper-gate/frontend/common';
 import {
   MyScrappersList,

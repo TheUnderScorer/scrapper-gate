@@ -1,8 +1,3 @@
-import React, { memo } from 'react';
-import {
-  ConditionalRule,
-  ConditionalRuleGroupType,
-} from '@scrapper-gate/shared/schema';
 import {
   Accordion,
   AccordionDetails,
@@ -15,20 +10,25 @@ import {
   useTheme,
 } from '@material-ui/core';
 import { Delete, ExpandMore } from '@material-ui/icons';
-import {
-  ConditionalRulesRule,
-  ConditionalRulesRuleProps,
-} from '../Rule/ConditionalRulesRule';
+import { makeStyles } from '@material-ui/styles';
 import {
   FormSelect,
   useFieldArray,
   useFieldHasError,
 } from '@scrapper-gate/frontend/form';
-import { makeStyles } from '@material-ui/core/styles';
-import { ConditionalRulesSelectionDropdown } from '../SelectionDropdown/ConditionalRulesSelectionDropdown';
-import { Centered, Emoji } from '@scrapper-gate/frontend/ui';
-import classNames from 'classnames';
 import { AppTheme } from '@scrapper-gate/frontend/theme';
+import { Centered, Emoji } from '@scrapper-gate/frontend/ui';
+import {
+  ConditionalRule,
+  ConditionalRuleGroupType,
+} from '@scrapper-gate/shared/schema';
+import classNames from 'classnames';
+import React, { memo } from 'react';
+import {
+  ConditionalRulesRule,
+  ConditionalRulesRuleProps,
+} from '../Rule/ConditionalRulesRule';
+import { ConditionalRulesSelectionDropdown } from '../SelectionDropdown/ConditionalRulesSelectionDropdown';
 
 export interface ConditionalRulesGroupProps
   extends Pick<

@@ -18,3 +18,4 @@ export * from './components/TextFieldBlock';
 export { regexDecoratorStrategy } from './components/TextFieldBlock/utils';
 export * from './components/ReferableForm/ReferableForm';
 export * from './hooks/useRefereableForm';
+export * from './components/UndoButtons/UndoButtons';

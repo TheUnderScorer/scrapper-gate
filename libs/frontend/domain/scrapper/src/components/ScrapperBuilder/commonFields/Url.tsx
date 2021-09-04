@@ -5,16 +5,17 @@ import {
   Stack,
   Tooltip,
 } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import { Info, Language, MyLocation } from '@material-ui/icons';
+import { makeStyles } from '@material-ui/styles';
 import { VariablesTextField } from '@scrapper-gate/frontend/domain/variables';
+import { NodeContentProps } from '@scrapper-gate/frontend/flow-builder';
 import {
   FieldNameCreator,
   FormSwitch,
   FormTextFieldBlockProps,
   useFormFieldValue,
 } from '@scrapper-gate/frontend/form';
-import { NodeContentProps, TooltipText } from '@scrapper-gate/frontend/ui';
+import { TooltipText } from '@scrapper-gate/frontend/ui';
 import React, { useCallback } from 'react';
 import { useField } from 'react-final-form';
 import { useLocation } from 'react-use';
