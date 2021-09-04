@@ -26,6 +26,12 @@
       "sourceRoot": "apps/api/src",
       "projectType": "application",
       "targets": {
+        "echo": {
+          "executor": "./tools/executors/echo:echo",
+          "options": {
+            "textToEcho": "Hello world!"
+          }
+        },
         "build": {
           "executor": "@nrwl/node:build",
           "outputs": ["{options.outputPath}"],

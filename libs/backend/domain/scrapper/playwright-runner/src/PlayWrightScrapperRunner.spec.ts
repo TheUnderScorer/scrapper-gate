@@ -32,6 +32,8 @@ import { PlayWrightScrapperRunner } from './PlayWrightScrapperRunner';
 
 const timeout = 900000;
 
+const failureThreshold = 1;
+
 let runners: PlayWrightScrapperRunner[] = [];
 let browsers: Browser[] = [];
 
@@ -189,7 +191,7 @@ describe('PlayWright scrapper runner', () => {
         await persistTestArtifact('full-page-screenshot.png', file);
 
         expect(file).toMatchImageSnapshot({
-          failureThreshold: 0.8,
+          failureThreshold,
         });
       });
 
@@ -239,7 +241,7 @@ describe('PlayWright scrapper runner', () => {
 
             expect(file).toMatchImageSnapshot({
               customSnapshotIdentifier: `scrapper-result-screenshot-${index}.png`,
-              failureThreshold: 0.8,
+              failureThreshold,
             });
           })
         );
