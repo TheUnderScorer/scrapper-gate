@@ -83,6 +83,7 @@ export const RunState = ({
         return runMessage;
 
       case RunStateEnum.Cancelled:
+      default:
         return `Your${!runMutationCalled ? ' last' : ''} run was cancelled.`;
     }
   }, [

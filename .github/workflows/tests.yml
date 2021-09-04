@@ -149,6 +149,12 @@ jobs:
           name: test-artifact
           path: artifacts
 
+      - uses: actions/upload-artifact@v2
+        if: ${{ failure() }}
+        with:
+          name: test-artifact
+          path: libs/backend/domain/scrapper/playwright-runner/src/__image_snapshots__/__diff_output__
+
   test-frontend:
     needs:
       - typecheck
