@@ -7,7 +7,7 @@
   "files": [
     "../../node_modules/@nrwl/react/typings/cssmodule.d.ts",
     "../../node_modules/@nrwl/react/typings/image.d.ts",
-    "../../libs/frontend/block-editor/typings/slate/index.d.ts"
+    "../../libs/frontend/block-editor/src/typings/slate/index.d.ts"
   ],
   "exclude": ["**/*.spec.ts", "**/*.spec.tsx"],
   "include": ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"]

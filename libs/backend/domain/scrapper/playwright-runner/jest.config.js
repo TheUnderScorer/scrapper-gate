@@ -1,3 +1,4 @@
+/** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
 module.exports = {
   displayName: 'backend-domain-scrapper-playwright-runner',
   preset: '../../../../../jest.preset.js',

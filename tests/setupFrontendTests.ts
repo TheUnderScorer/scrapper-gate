@@ -1,7 +1,8 @@
-import 'mockzilla-webextension';
 import '@testing-library/jest-dom';
 import { cleanup } from '@testing-library/react';
 import { cleanup as cleanupHooks } from '@testing-library/react-hooks';
+import 'mockzilla-webextension';
+import '../libs/frontend/block-editor/src/typings/slate/index.d';
 
 (global as any).ResizeObserver =
   (global as any).ResizeObserver ||

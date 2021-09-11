@@ -2,6 +2,7 @@ import {
   IconButton,
   TableCell,
   TableRow,
+  Theme,
   Tooltip,
   Typography,
 } from '@material-ui/core';
@@ -21,7 +22,7 @@ export interface VariablesTableRowProps {
   scope: VariableScope;
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
   delete: {
     color: theme.palette.error.main,
   },

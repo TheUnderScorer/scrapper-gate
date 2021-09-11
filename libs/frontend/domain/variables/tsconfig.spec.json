@@ -4,7 +4,7 @@
     "outDir": "../../../../dist/out-tsc",
     "module": "commonjs",
     "types": ["jest", "node"],
-    "files": ["../../block-editor/typings/slate/index.d.ts"]
+    "files": ["../../block-editor/src/typings/slate/index.d.ts"]
   },
   "include": [
     "**/*.spec.ts",

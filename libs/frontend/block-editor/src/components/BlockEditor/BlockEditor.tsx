@@ -4,6 +4,7 @@ import { InputBaseComponentProps } from '@material-ui/core/InputBase/InputBase';
 import { setRefValue } from '@scrapper-gate/frontend/common';
 import classNames from 'classnames';
 import React, {
+  ComponentType,
   FocusEvent,
   forwardRef,
   MutableRefObject,
@@ -27,7 +28,7 @@ import { BlockEditorProps, SlateProps } from './BlockEditor.types';
 const BlockEditorField = forwardRef<
   HTMLElement,
   InputBaseComponentProps &
-    Pick<BlockEditorProps, 'decorators'> & {
+    Pick<BlockEditorProps, 'decorators' | 'name'> & {
       onEditorChange: SlateProps['onChange'];
       editorRef: MutableRefObject<HTMLElement>;
       editorValue: SlateProps['value'];
@@ -57,8 +58,20 @@ const BlockEditorField = forwardRef<
       value,
     }));
 
+    // Extended type in order to support passing name - it is used in tests
+    const SlateComponent = Slate as ComponentType<
+      SlateProps & {
+        name?: string;
+      }
+    >;
+
     return (
-      <Slate editor={editor} onChange={onEditorChange} value={editorValue}>
+      <SlateComponent
+        editor={editor}
+        onChange={onEditorChange}
+        value={editorValue}
+        name={props.name}
+      >
         <Editable
           className={classNames(props.className, 'block-editor-slate-editable')}
           aria-multiline={false}
@@ -66,7 +79,7 @@ const BlockEditorField = forwardRef<
           decorate={decorate}
           {...(props as any)}
         />
-      </Slate>
+      </SlateComponent>
     );
   }
 );

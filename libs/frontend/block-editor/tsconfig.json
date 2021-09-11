@@ -10,7 +10,7 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true
   },
-  "files": ["./typings/slate/index.d.ts"],
+  "files": ["./src/typings/slate/index.d.ts"],
   "include": [],
   "references": [
     {
