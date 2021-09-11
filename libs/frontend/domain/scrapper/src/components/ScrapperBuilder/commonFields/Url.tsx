@@ -7,12 +7,12 @@ import {
 } from '@material-ui/core';
 import { Info, Language, MyLocation } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/styles';
+import { BlockEditorProps } from '@scrapper-gate/frontend/block-editor';
 import { VariablesTextField } from '@scrapper-gate/frontend/domain/variables';
 import { NodeContentProps } from '@scrapper-gate/frontend/flow-builder';
 import {
   FieldNameCreator,
   FormSwitch,
-  FormTextFieldBlockProps,
   useFormFieldValue,
 } from '@scrapper-gate/frontend/form';
 import { TooltipText } from '@scrapper-gate/frontend/ui';
@@ -24,7 +24,7 @@ import { useIsOnStepUrl } from '../../../hooks/useIsOnStepUrl';
 export interface UrlProps
   extends Pick<NodeContentProps, 'nodeIndex'>,
     Pick<
-      Partial<FormTextFieldBlockProps>,
+      Partial<BlockEditorProps>,
       'name' | 'label' | 'disabled' | 'helperText'
     > {
   fieldNameCreator: FieldNameCreator;

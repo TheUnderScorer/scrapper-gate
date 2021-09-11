@@ -1,24 +1,21 @@
-import {
-  FieldProps,
-  FormTextFieldBlock,
-  TextFieldBlockProps,
-} from '@scrapper-gate/frontend/form';
+import { BlockEditorProps } from '@scrapper-gate/frontend/block-editor';
+import { FieldProps, FormBlockEditor } from '@scrapper-gate/frontend/form';
 import React from 'react';
-import { createVariablesDecorator } from '../../createVariablesDecorator';
+import { createVariablesDecorators } from '../../createVariablesDecorators';
 
 export interface VariablesTextFieldProps
-  extends Omit<TextFieldBlockProps, 'name'> {
+  extends Omit<BlockEditorProps, 'name'> {
   name: string;
   fieldProps?: FieldProps<string>;
 }
 
-const decorator = createVariablesDecorator();
+const decorators = createVariablesDecorators();
 
 export const VariablesTextField = ({
   variant,
   ...rest
 }: VariablesTextFieldProps) => {
   return (
-    <FormTextFieldBlock variant={variant} {...rest} decorator={decorator} />
+    <FormBlockEditor variant={variant} {...rest} decorators={decorators} />
   );
 };

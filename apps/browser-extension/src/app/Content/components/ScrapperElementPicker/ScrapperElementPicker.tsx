@@ -1,18 +1,18 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { TextFieldProps } from '@material-ui/core';
-import { createVariablesDecorator } from '@scrapper-gate/frontend/domain/variables';
-import { TextFieldBlock } from '@scrapper-gate/frontend/form';
-import { containsVariableKey } from '@scrapper-gate/shared/domain/variables';
-import { Selector } from '@scrapper-gate/shared/schema';
-import React, { useCallback, KeyboardEvent } from 'react';
+import { BlockEditor } from '@scrapper-gate/frontend/block-editor';
+import { ScrapperElementPickerProps } from '@scrapper-gate/frontend/domain/scrapper';
+import { createVariablesDecorators } from '@scrapper-gate/frontend/domain/variables';
 import {
   HtmlElementPicker,
   HtmlElementPickerValidationRules,
 } from '@scrapper-gate/frontend/ui';
-import { ScrapperElementPickerProps } from '@scrapper-gate/frontend/domain/scrapper';
+import { containsVariableKey } from '@scrapper-gate/shared/domain/variables';
+import { Selector } from '@scrapper-gate/shared/schema';
+import React, { KeyboardEvent, useCallback } from 'react';
 import { useScrapperElementPicker } from './hooks/useScrapperElementPicker';
 
-const decorator = createVariablesDecorator();
+const decorator = createVariablesDecorators();
 
 const TextFieldComponent = ({
   onChange,
@@ -20,8 +20,8 @@ const TextFieldComponent = ({
   ...rest
 }: Omit<TextFieldProps, 'ref'>) => {
   return (
-    <TextFieldBlock
-      decorator={decorator}
+    <BlockEditor
+      decorators={decorator}
       {...rest}
       value={value as string}
       onChange={(text) =>

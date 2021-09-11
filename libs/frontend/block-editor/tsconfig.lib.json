@@ -1,13 +1,14 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "../../../../dist/out-tsc",
+    "jsx": "react-jsx",
+    "outDir": "../../../dist/out-tsc",
     "types": ["node"]
   },
   "files": [
-    "../../../../node_modules/@nrwl/react/typings/cssmodule.d.ts",
-    "../../../../node_modules/@nrwl/react/typings/image.d.ts",
-    "../../block-editor/typings/slate/index.d.ts"
+    "../../../node_modules/@nrwl/react/typings/cssmodule.d.ts",
+    "../../../node_modules/@nrwl/react/typings/image.d.ts",
+    "./typings/slate/index.d.ts"
   ],
   "exclude": [
     "**/*.spec.ts",

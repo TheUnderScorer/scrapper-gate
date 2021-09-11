@@ -11,6 +11,7 @@ import { act, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { Form, FormSpy } from 'react-final-form';
+import { Editor, Transforms } from 'slate';
 import { VariablesProvider } from '../../providers/VariablesProvider';
 import { VariablesTextField } from './VariablesTextField';
 
@@ -34,8 +35,10 @@ const variables: Variable[] = [
   }),
 ];
 
-const renderCmp = (initialValue?: string, onChange = jest.fn()) =>
-  render(
+const renderCmp = async (initialValue?: string, onChange = jest.fn()) => {
+  let editor: Editor | undefined;
+
+  const cmp = render(
     <ThemeProvider>
       <Form
         initialValues={{
@@ -45,7 +48,15 @@ const renderCmp = (initialValue?: string, onChange = jest.fn()) =>
         onSubmit={jest.fn()}
         render={() => (
           <VariablesProvider name="variables">
-            <VariablesTextField name="variable" />
+            <VariablesTextField
+              editorInstanceRef={(instance) => {
+                if (instance) {
+                  editor = instance;
+                }
+              }}
+              initialFocused
+              name="variable"
+            />
             <FormSpy onChange={onChange} />
           </VariablesProvider>
         )}
@@ -53,37 +64,67 @@ const renderCmp = (initialValue?: string, onChange = jest.fn()) =>
     </ThemeProvider>
   );
 
+  while (!editor) {
+    await wait(250);
+  }
+
+  return {
+    editor,
+    cmp,
+  };
+};
+
 describe('<VariablesTextField />', () => {
-  it('should render without crashing', () => {
-    const cmp = renderCmp();
+  it('should render without crashing', async () => {
+    const { cmp } = await renderCmp();
 
     expect(cmp).toBeDefined();
   });
 
   it('should show variables suggestions', async () => {
-    const cmp = renderCmp('{{');
-    const input = cmp.container.querySelector<HTMLDivElement>(
-      '[contenteditable=true]'
-    );
-
+    const { cmp, editor } = await renderCmp('{{');
+    cmp.container.querySelector<HTMLDivElement>('[contenteditable]');
     act(() => {
-      input!.focus();
+      Transforms.select(editor, {
+        anchor: {
+          path: [0, 0],
+          offset: 0,
+        },
+        focus: {
+          path: [0, 0],
+          offset: 2,
+        },
+      });
+    });
+
+    await act(async () => {
+      await wait(500);
     });
 
     expect(
       cmp.baseElement.querySelector('.variable-suggestions-container')
     ).toBeInTheDocument();
-  });
+  }, 9999999);
 
   it('should add suggestion to value after clicking it', async () => {
     const onChange = jest.fn();
-    const cmp = renderCmp('{{Myvar', onChange);
-    const input = cmp.container.querySelector<HTMLDivElement>(
-      '[contenteditable=true]'
-    );
-
+    const { cmp, editor } = await renderCmp('{{Myvar', onChange);
+    cmp.container.querySelector<HTMLDivElement>('[contenteditable=true]');
     act(() => {
-      input!.focus();
+      Transforms.select(editor, {
+        anchor: {
+          path: [0, 0],
+          offset: 0,
+        },
+        focus: {
+          path: [0, 0],
+          offset: 6,
+        },
+      });
+    });
+
+    await act(async () => {
+      await wait(500);
     });
 
     const listItems = cmp.baseElement.querySelectorAll('.variable-list-item');
@@ -96,13 +137,13 @@ describe('<VariablesTextField />', () => {
       await wait(500);
     });
 
-    const call = onChange.mock.calls[2][0];
-
-    expect(call.values.variable).toEqual('{{Myvariable}}');
+    expect(onChange.mock.calls[1][0].values.variable).toEqual('{{Myvariable}}');
   });
 
-  it('should display variable component on variable', () => {
-    const cmp = renderCmp(generateVariableKeyTemplate(variables[0].key!));
+  it('should display variable component on variable', async () => {
+    const { cmp } = await renderCmp(
+      generateVariableKeyTemplate(variables[0].key!)
+    );
     const variable = cmp.container.querySelector('.variable-content');
 
     expect(variable).toBeInTheDocument();
