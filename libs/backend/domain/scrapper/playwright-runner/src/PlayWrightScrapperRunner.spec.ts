@@ -36,6 +36,8 @@ let browsers: Browser[] = [];
 
 let container: AwilixContainer;
 
+jest.retryTimes(3);
+
 describe('PlayWright scrapper runner', () => {
   const ignoredBrowserTypes =
     process.env.IGNORED_BROWSER_TYPES?.split(',') ?? [];
