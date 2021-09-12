@@ -1,9 +1,8 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
-import gql from 'graphql-tag';
-import { range } from 'remeda';
 import { List, ListItemText } from '@material-ui/core';
-import React from 'react';
+import { ThemeProvider } from '@scrapper-gate/frontend/theme';
+import { BaseEntity, Pagination } from '@scrapper-gate/shared/schema';
 import {
   act,
   fireEvent,
@@ -11,9 +10,11 @@ import {
   RenderResult,
   waitFor,
 } from '@testing-library/react';
-import { ControlledList, ControlledListProps } from './ControlledList';
-import { BaseEntity, Pagination } from '@scrapper-gate/shared/schema';
 import userEvent from '@testing-library/user-event';
+import gql from 'graphql-tag';
+import React from 'react';
+import { range } from 'remeda';
+import { ControlledList, ControlledListProps } from './ControlledList';
 
 interface TestItem extends BaseEntity {
   __typename?: 'TestItem';
@@ -125,24 +126,26 @@ const Wrapper = (
   props: Pick<ControlledListProps, 'paginationType' | 'onDataChange'>
 ) => {
   return (
-    <div
-      className="wrapper"
-      style={{
-        height: '400px',
-      }}
-    >
-      <ControlledList<TestItem>
-        id="test_controlled_list"
-        defaultPagination={initialPagination}
-        renderItem={({ item }) => (
-          <List key={item.id} className="test-list-item">
-            <ListItemText primary={`ID: ${item.id}`} />
-          </List>
-        )}
-        query={query}
-        {...props}
-      />
-    </div>
+    <ThemeProvider>
+      <div
+        className="wrapper"
+        style={{
+          height: '400px',
+        }}
+      >
+        <ControlledList<TestItem>
+          id="test_controlled_list"
+          defaultPagination={initialPagination}
+          renderItem={({ item }) => (
+            <List key={item.id} className="test-list-item">
+              <ListItemText primary={`ID: ${item.id}`} />
+            </List>
+          )}
+          query={query}
+          {...props}
+        />
+      </div>
+    </ThemeProvider>
   );
 };
 

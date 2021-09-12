@@ -1,14 +1,17 @@
 import {
   createAwsLogger,
+  createS3Client,
+  setupAwsContainer,
   SqsMessageQueueClient,
 } from '@scrapper-gate/backend/aws';
+import { FilesService } from '@scrapper-gate/backend/domain/files';
 import { MessageQueueService } from '@scrapper-gate/backend/domain/message-queue-service';
 import {
   MessageQueue,
   MessageQueueClient,
 } from '@scrapper-gate/backend/message-queue';
 import { Logger } from '@scrapper-gate/shared/logger';
-import { asClass, asValue, AwilixContainer } from 'awilix';
+import { asClass, asFunction, asValue, AwilixContainer } from 'awilix';
 import { config } from 'aws-sdk';
 
 export const setupServices = async (
@@ -18,6 +21,8 @@ export const setupServices = async (
   const logger = container.resolve<Logger>('logger');
 
   logger.info('Setting up services...');
+
+  setupAwsContainer(container);
 
   container.register({
     chromiumScraperQueueUrl: asValue(
@@ -29,16 +34,16 @@ export const setupServices = async (
     webkitScrapperQueueUrl: asValue(
       process.env.AWS_SQS_SCRAPPER_WEBKIT_QUEUE_URL
     ),
-    awsRegion: asValue(process.env.AWS_REGION),
-    awsAccessKeyId: asValue(process.env.AWS_ACCESS_KEY_ID),
-    awsSecretAccessKey: asValue(process.env.AWS_SECRET_ACCESS_KEY),
-    sqsEndpoint: asValue(process.env.AWS_SQS_ENDPOINT_URL),
     messageQueue: asClass(MessageQueue).scoped(),
     messageQueueClient: asClass(SqsMessageQueueClient).singleton(),
     messageQueueService: asClass(MessageQueueService).scoped(),
+    filesService: asClass(FilesService).scoped(),
+    s3: asFunction(createS3Client).scoped(),
   });
 
   logger.info('Setting up aws...');
+
+  container.resolve('configureAws');
 
   config.update({
     logger: createAwsLogger(container.resolve<Logger>('logger')),

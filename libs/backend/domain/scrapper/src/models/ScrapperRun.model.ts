@@ -1,14 +1,17 @@
 import { BaseModel } from '@scrapper-gate/backend/base-model';
+import { UserModel } from '@scrapper-gate/backend/domain/user';
 import { Entities } from '@scrapper-gate/shared/common';
 import { defaultScrapperRunSettings } from '@scrapper-gate/shared/domain/scrapper';
+import { isRunning } from '@scrapper-gate/shared/run-states';
 import {
   RunnerError,
   RunState,
   ScrapperRun,
   ScrapperRunSettings,
   ScrapperStep,
+  Variable,
 } from '@scrapper-gate/shared/schema';
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { ScrapperModel } from './Scrapper.model';
 import { ScrapperRunStepResultModel } from './ScrapperRunStepResult.model';
 
@@ -70,13 +73,48 @@ export class ScrapperRunModel
   })
   runSettings?: ScrapperRunSettings;
 
-  static createInProgressFromScrapper(scrapper: ScrapperModel) {
+  @Column()
+  index: number;
+
+  @ManyToOne(() => UserModel)
+  @JoinColumn()
+  createdBy: UserModel;
+
+  @Column({
+    type: 'jsonb',
+    nullable: true,
+  })
+  variables?: Variable[];
+
+  get isRunning() {
+    return isRunning(this.state);
+  }
+
+  static createInProgressFromScrapper(scrapper: ScrapperModel, index: number) {
+    return this.createFromScrapper(scrapper, RunState.InProgress, index);
+  }
+
+  static createPendingFromScrapper(scrapper: ScrapperModel, index: number) {
+    return this.createFromScrapper(scrapper, RunState.Pending, index);
+  }
+
+  private static createFromScrapper(
+    scrapper: ScrapperModel,
+    state: RunState,
+    index: number
+  ) {
     return this.create({
       scrapper,
       steps: scrapper.steps,
-      state: RunState.InProgress,
+      state,
+      variables: scrapper.variables,
       startedAt: new Date(),
+      results: scrapper.steps.map((step) =>
+        ScrapperRunStepResultModel.createPendingFromStep(step)
+      ),
       runSettings: scrapper.runSettings,
+      createdBy: scrapper.createdBy,
+      index,
     });
   }
 }

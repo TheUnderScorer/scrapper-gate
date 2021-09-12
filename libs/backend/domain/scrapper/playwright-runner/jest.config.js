@@ -1,3 +1,4 @@
+/** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
 module.exports = {
   displayName: 'backend-domain-scrapper-playwright-runner',
   preset: '../../../../../jest.preset.js',
@@ -13,4 +14,5 @@ module.exports = {
   coverageDirectory:
     '../../../../../coverage/libs/backend/domain/scrapper/playwright-runner',
   testEnvironment: 'node',
+  setupFilesAfterEnv: [`${process.cwd()}/tests/setupBackend.ts`],
 };

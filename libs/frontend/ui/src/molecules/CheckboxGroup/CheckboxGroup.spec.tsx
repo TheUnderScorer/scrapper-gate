@@ -1,11 +1,12 @@
 import { Description, Home } from '@material-ui/icons';
-import React from 'react';
-import { act, render, RenderResult } from '@testing-library/react';
-import { Form } from 'react-final-form';
-import fireEvent from '@testing-library/user-event';
-import { CheckboxGroup } from './CheckboxGroup';
 import { Selection } from '@scrapper-gate/frontend/common';
+import { ThemeProvider } from '@scrapper-gate/frontend/theme';
 import { wait } from '@scrapper-gate/shared/common';
+import { act, render, RenderResult } from '@testing-library/react';
+import fireEvent from '@testing-library/user-event';
+import React from 'react';
+import { Form } from 'react-final-form';
+import { CheckboxGroup } from './CheckboxGroup';
 
 const options: Selection[] = [
   {
@@ -27,14 +28,16 @@ const options: Selection[] = [
 
 const renderCmp = (): RenderResult =>
   render(
-    <Form
-      onSubmit={jest.fn()}
-      render={() => (
-        <div>
-          <CheckboxGroup name="test" options={options} />
-        </div>
-      )}
-    />
+    <ThemeProvider>
+      <Form
+        onSubmit={jest.fn()}
+        render={() => (
+          <div>
+            <CheckboxGroup name="test" options={options} />
+          </div>
+        )}
+      />
+    </ThemeProvider>
   );
 
 describe('<CheckboxGroup />', () => {

@@ -1,4 +1,4 @@
-import { Maybe } from '@scrapper-gate/shared/common';
+import { Perhaps } from '@scrapper-gate/shared/common';
 
 export enum ElementNavigatorDirection {
   Children = 'Children',
@@ -30,7 +30,7 @@ export const navigateElement = (
 };
 
 export const canBeNavigated = (
-  element?: Maybe<HTMLElement>
+  element?: Perhaps<HTMLElement>
 ): Record<ElementNavigatorDirection, boolean> => {
   return {
     Parent: Boolean(element?.parentNode),

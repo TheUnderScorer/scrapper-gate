@@ -1,5 +1,5 @@
 import { BaseModel } from '@scrapper-gate/backend/base-model';
-import { NodeLikeItem, NodeLikeItemInput } from '@scrapper-gate/shared/schema';
+import { NodeLikeItem, NodeLikeItemInput } from '@scrapper-gate/shared/node';
 
 const propertiesToOverwrite: Array<
   [keyof NodeLikeItemInput, 'nextStep' | 'stepOnFalse' | 'stepOnTrue']

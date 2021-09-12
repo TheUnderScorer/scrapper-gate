@@ -1,0 +1,6 @@
+fragment FileLinkFile on File {
+  id
+  url
+  name
+  kind
+}

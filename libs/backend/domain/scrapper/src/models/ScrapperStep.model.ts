@@ -82,11 +82,10 @@ export class ScrapperStepModel
   useUrlFromPreviousStep?: boolean;
 
   @Column({
-    nullable: true,
     type: 'enum',
     enum: ScrapperAction,
   })
-  action?: ScrapperAction;
+  action: ScrapperAction;
 
   @Column({
     nullable: true,
@@ -123,4 +122,14 @@ export class ScrapperStepModel
     type: 'jsonb',
   })
   conditionalRules?: ConditionalRuleGroup[];
+
+  @Column({
+    nullable: true,
+  })
+  isFirst?: boolean;
+
+  @Column({
+    nullable: true,
+  })
+  fullPageScreenshot?: boolean;
 }

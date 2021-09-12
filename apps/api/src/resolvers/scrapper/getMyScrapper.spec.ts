@@ -1,9 +1,9 @@
-import '../../typings/global';
-import gql from 'graphql-tag';
-import { createUser } from '../../tests/createUser';
-import { createScrapper } from '../../tests/createScrapper';
 import { makeGraphqlRequest } from '@scrapper-gate/backend/server';
 import { apiRoutes } from '@scrapper-gate/shared/routing';
+import gql from 'graphql-tag';
+import { createScrapper } from '../../tests/createScrapper';
+import { createUser } from '../../tests/createUser';
+import '../../typings/global';
 
 const getMyScrapper = gql`
   fragment CompleteUser on User {
@@ -27,7 +27,6 @@ const getMyScrapper = gql`
       deletedAt
       isRunning
       name
-      state
       updatedAt
       steps {
         id

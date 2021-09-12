@@ -33,6 +33,9 @@
       "@scrapper-gate/backend/domain/auth": [
         "libs/backend/domain/auth/src/index.ts"
       ],
+      "@scrapper-gate/backend/domain/files": [
+        "libs/backend/domain/files/src/index.ts"
+      ],
       "@scrapper-gate/backend/domain/message-queue-service": [
         "libs/backend/domain/message-queue-service/src/index.ts"
       ],
@@ -67,6 +70,9 @@
       "@scrapper-gate/frontend/api-client": [
         "libs/frontend/api-client/src/index.ts"
       ],
+      "@scrapper-gate/frontend/block-editor": [
+        "libs/frontend/block-editor/src/index.ts"
+      ],
       "@scrapper-gate/frontend/common": ["libs/frontend/common/src/index.ts"],
       "@scrapper-gate/frontend/data-grid": [
         "libs/frontend/data-grid/src/index.ts"
@@ -78,6 +84,9 @@
       "@scrapper-gate/frontend/domain/conditional-rules": [
         "libs/frontend/domain/conditional-rules/src/index.ts"
       ],
+      "@scrapper-gate/frontend/domain/files": [
+        "libs/frontend/domain/files/src/index.ts"
+      ],
       "@scrapper-gate/frontend/domain/scrapper": [
         "libs/frontend/domain/scrapper/src/index.ts"
       ],
@@ -86,6 +95,9 @@
       ],
       "@scrapper-gate/frontend/domain/variables": [
         "libs/frontend/domain/variables/src/index.ts"
+      ],
+      "@scrapper-gate/frontend/flow-builder": [
+        "libs/frontend/flow-builder/src/index.ts"
       ],
       "@scrapper-gate/frontend/form": ["libs/frontend/form/src/index.ts"],
       "@scrapper-gate/frontend/html-picker": [
@@ -124,6 +136,7 @@
       "@scrapper-gate/shared/logger/console": [
         "libs/shared/logger/console/src/index.ts"
       ],
+      "@scrapper-gate/shared/node": ["libs/shared/node/src/index.ts"],
       "@scrapper-gate/shared/routing": ["libs/shared/routing/src/index.ts"],
       "@scrapper-gate/shared/run-states": [
         "libs/shared/run-states/src/index.ts"

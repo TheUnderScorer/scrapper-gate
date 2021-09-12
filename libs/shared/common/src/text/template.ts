@@ -1,4 +1,4 @@
-import { Maybe } from '../types';
+import { Perhaps } from '../types';
 
 export enum TemplateType {
   Braces = 'Braces',
@@ -7,7 +7,7 @@ export enum TemplateType {
 
 export type TemplateVariables = Record<
   string,
-  Maybe<string | number | boolean>
+  Perhaps<string | number | boolean>
 >;
 
 export const applyVariablesToText = (

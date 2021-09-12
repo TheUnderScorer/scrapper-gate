@@ -1,3 +1,7 @@
+import {
+  FilesService,
+  generateScrapperScreenshotFileKey,
+} from '@scrapper-gate/backend/domain/files';
 import { PerformanceManager } from '@scrapper-gate/backend/perf-hooks-utils';
 import {
   areUrlsEqual,
@@ -8,18 +12,22 @@ import {
   InitialiseScrapperRunnerParams,
   resolveScrapperStepRules,
   ScrapperRunner,
+  ScrapperRunScreenshotValue,
   ScrapperStepHandlerParams,
+  ScreenshotRunScrapperStepResult,
 } from '@scrapper-gate/shared/domain/scrapper';
 import { ScrapperRunError } from '@scrapper-gate/shared/errors';
 import { Logger } from '@scrapper-gate/shared/logger';
 import {
   BrowserType,
+  FileType,
   RunnerPerformanceEntry,
   ScrapperRunValue,
+  ScrapperStep,
   Selector,
   SelectorType,
 } from '@scrapper-gate/shared/schema';
-import { Browser, BrowserContext, Page } from 'playwright';
+import { Browser, BrowserContext, ElementHandle, Page } from 'playwright';
 import { elementHandlesToHtmlElementRuleDefinition } from './elementHandlesToHtmlElementRuleDefinition';
 import { handleToSourceElement } from './handleToSourceElement';
 import { mouseButtonMap } from './mouseButtonMap';
@@ -29,10 +37,16 @@ export interface PlayWrightScrapperRunnerDependencies {
   traceId: string;
   logger: Logger;
   browserType: BrowserType;
+  filesService: FilesService;
 }
 
 interface AfterRunResult {
   performance: RunnerPerformanceEntry;
+}
+
+interface RawScrapperRunScreenshotValue
+  extends Pick<ScrapperRunScreenshotValue, 'sourceElement'> {
+  screenshotBuffer: Buffer;
 }
 
 // TODO Extract common logic + performance logic
@@ -46,17 +60,20 @@ export class PlayWrightScrapperRunner implements ScrapperRunner {
   private readonly logger: Logger;
   private readonly traceId: string;
   private readonly performanceManager = new PerformanceManager();
+  private readonly filesService: FilesService;
 
   constructor({
     browser,
     traceId,
     logger,
     browserType,
+    filesService,
   }: PlayWrightScrapperRunnerDependencies) {
     this.browser = browser;
     this.traceId = traceId;
     this.logger = logger;
     this.browserType = browserType;
+    this.filesService = filesService;
   }
 
   async initialize({ initialUrl }: InitialiseScrapperRunnerParams = {}) {
@@ -149,6 +166,73 @@ export class PlayWrightScrapperRunner implements ScrapperRunner {
     } catch (e) {
       throw await this.onError(e, params);
     }
+  }
+
+  async Screenshot(
+    params: ScrapperStepHandlerParams
+  ): Promise<ScreenshotRunScrapperStepResult> {
+    try {
+      const { elements } = await this.preRun(params);
+
+      const rawScreenshots = await this.getScreenshots(elements, params.step);
+
+      const screenshots: ScrapperRunScreenshotValue[] = await Promise.all(
+        rawScreenshots.map(async (screenshot, index) => {
+          const key = generateScrapperScreenshotFileKey(
+            params.scrapperRun.id,
+            params.step.id,
+            index + 1
+          );
+
+          return {
+            sourceElement: screenshot.sourceElement,
+            screenshotFileId: await this.filesService.upload(
+              screenshot.screenshotBuffer,
+              key,
+              FileType.ScrapperScreenshot
+            ),
+          };
+        })
+      );
+
+      const { performance } = await this.afterRun(params);
+
+      return {
+        performance,
+        values: screenshots,
+      };
+    } catch (e) {
+      throw await this.onError(e, params);
+    }
+  }
+
+  private async getScreenshots(
+    elements: ElementHandle<SVGElement | HTMLElement>[],
+    step: ScrapperStep
+  ): Promise<RawScrapperRunScreenshotValue[]> {
+    const screenshots: RawScrapperRunScreenshotValue[] = [];
+
+    if (!elements.length) {
+      screenshots.push({
+        screenshotBuffer: await this.page.screenshot({
+          type: 'png',
+          fullPage: Boolean(step.fullPageScreenshot),
+        }),
+      });
+    } else {
+      await Promise.all(
+        elements.map(async (element) =>
+          screenshots.push({
+            screenshotBuffer: await element.screenshot({
+              type: 'png',
+            }),
+            sourceElement: await handleToSourceElement(element),
+          })
+        )
+      );
+    }
+
+    return screenshots;
   }
 
   async Condition(params: ScrapperStepHandlerParams) {

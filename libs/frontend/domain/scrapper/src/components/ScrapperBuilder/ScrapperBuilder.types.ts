@@ -1,17 +1,21 @@
 import { TextFieldProps } from '@material-ui/core';
-import { FieldNameCreator } from '@scrapper-gate/frontend/form';
 import {
   BaseNodeProperties,
-  BaseNodeSelectionProperties,
   FlowBuilderFormState,
   FlowBuilderProps,
-  HtmlElementPickerProps,
   NodeContentProps,
-} from '@scrapper-gate/frontend/ui';
-import { Maybe } from '@scrapper-gate/shared/common';
-import { Scrapper, ScrapperStep, Variable } from '@scrapper-gate/shared/schema';
+} from '@scrapper-gate/frontend/flow-builder';
+import { FieldNameCreator } from '@scrapper-gate/frontend/form';
+import { HtmlElementPickerProps } from '@scrapper-gate/frontend/ui';
+import { Perhaps } from '@scrapper-gate/shared/common';
+import { Scrapper, Variable } from '@scrapper-gate/shared/schema';
 import { ComponentType } from 'react';
 import { Node } from 'react-flow-renderer';
+import { ScrapperBuilderStep } from '../../shared/types';
+import {
+  RunScrapperDialogProps,
+  ScrapperForRun,
+} from '../RunScrapperDialog/RunScrapperDialog.types';
 
 export interface ScrapperElementPickerProps
   extends Pick<NodeContentProps, 'nodeIndex'> {
@@ -25,32 +29,13 @@ export interface ScrapperElementPickerProps
 
 export type ScrapperBuilderNode = Node<ScrapperBuilderNodeProperties>;
 
-export type ScrapperBuilderNodeSelection = BaseNodeSelectionProperties &
-  Omit<ScrapperBuilderStep, 'id'>;
-
 export type ScrapperBuilderNodeProperties = BaseNodeProperties &
-  Omit<ScrapperBuilderStep, 'id'> &
-  Pick<Partial<ScrapperBuilderStep>, 'id'>;
-
-export interface ScrapperBuilderStep
-  extends Omit<
-    ScrapperStep,
-    | 'nextStep'
-    | 'createdBy'
-    | 'updatedAt'
-    | 'createdAt'
-    | 'previousSteps'
-    | 'stepOnFalse'
-    | 'stepOnTrue'
-  > {
-  nextStep?: Pick<ScrapperStep, 'id'>;
-  previousSteps?: Pick<ScrapperStep, 'id'>[];
-  stepOnTrue?: Pick<ScrapperStep, 'id'>;
-  stepOnFalse?: Pick<ScrapperStep, 'id'>;
-}
+  Omit<ScrapperBuilderStep, 'id' | 'action'> &
+  Pick<Partial<ScrapperBuilderStep>, 'id' | 'action'>;
 
 export interface ScrapperBuilderScrapper
-  extends Omit<Scrapper, 'results' | 'createdBy' | 'steps' | 'lastRun'> {
+  extends Omit<Scrapper, 'results' | 'createdBy' | 'steps' | 'lastRun'>,
+    Pick<ScrapperForRun, 'lastRun'> {
   steps?: ScrapperBuilderStep[];
 }
 
@@ -58,13 +43,13 @@ export type ScrapperElementPicker = ComponentType<ScrapperElementPickerProps>;
 
 export interface ScrapperBuilderProps
   extends Pick<
-    FlowBuilderProps,
-    'onClose' | 'renderItemsInDataAttribute' | 'onChange'
-  > {
+      FlowBuilderProps,
+      'onClose' | 'renderItemsInDataAttribute' | 'onChange' | 'loading'
+    >,
+    Pick<RunScrapperDialogProps, 'runUrlCreator'> {
   initialScrapper?: ScrapperBuilderScrapper;
   ElementPicker: ScrapperElementPicker;
-  loading?: boolean;
-  browserUrl?: Maybe<string>;
+  browserUrl?: Perhaps<string>;
 }
 
 export interface ScrapperStepFormProps

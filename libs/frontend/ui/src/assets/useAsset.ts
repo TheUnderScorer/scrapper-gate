@@ -1,8 +1,8 @@
-import { Maybe } from '@scrapper-gate/shared/common';
-import { AssetReturnType, Assets } from './assets.types';
+import { SvgComponent } from '@scrapper-gate/frontend/common';
+import { Perhaps } from '@scrapper-gate/shared/common';
 import { useState } from 'react';
 import { useMount } from 'react-use';
-import { SvgComponent } from '@scrapper-gate/frontend/common';
+import { AssetReturnType, Assets } from './assets.types';
 import { getAsset } from './getAsset';
 
 export interface UseAssetResult<T> {
@@ -27,7 +27,7 @@ export function useAsset(
   assetToGet: Assets,
   type: AssetReturnType = AssetReturnType.String
 ): UseAssetResult<SvgComponent | string> {
-  const [asset, setAsset] = useState<Maybe<SvgComponent | string>>();
+  const [asset, setAsset] = useState<Perhaps<SvgComponent | string>>();
   const [loading, setLoading] = useState(true);
 
   useMount(() => {

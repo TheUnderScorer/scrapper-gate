@@ -1,9 +1,9 @@
-import React, { PropsWithChildren } from 'react';
-import { makeStyles, Theme } from '@material-ui/core/styles';
-import classNames from 'classnames';
+import { makeStyles } from '@material-ui/styles';
 import { useIsUsingElementPicker } from '@scrapper-gate/frontend/common';
+import classNames from 'classnames';
+import React, { PropsWithChildren } from 'react';
 
-const useStyles = makeStyles((theme: Theme) => {
+const useStyles = makeStyles((theme) => {
   return {
     container: {
       transition: theme.transitions.create('opacity'),

@@ -1,4 +1,4 @@
-import { generateEdgeId } from '../../../libs/frontend/ui/src/organisms/FlowBuilder/utils';
+import { generateEdgeId } from '../../../libs/frontend/flow-builder/src/utils';
 
 export const assertNodesAreConnected = (
   sourceNodeId: string,

@@ -1,6 +1,6 @@
-import { sendMessageToBackground } from './extension/browser/communication/sendMessageToBackground';
-import { MessageTypes } from './extension/browser/communication/messageResult.types';
 import { logger } from '@scrapper-gate/shared/logger/console';
+import { MessageTypes } from './extension/browser/communication/messageResult.types';
+import { sendMessageToBackground } from './extension/browser/communication/sendMessageToBackground';
 
 let didInit = false;
 
@@ -27,6 +27,8 @@ function main() {
     const emotion10Styles = document.querySelectorAll(
       `style[data-emotion]:not([data-s])`
     );
+
+    logger.debug(`Found ${emotion10Styles.length} emotion styles.`);
 
     emotion10Styles.forEach((node) => {
       node.setAttribute('data-s', '');

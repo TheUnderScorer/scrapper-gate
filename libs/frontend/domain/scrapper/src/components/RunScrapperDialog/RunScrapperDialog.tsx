@@ -1,27 +1,38 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Button, DialogContentText } from '@material-ui/core';
-import { Dialog } from '@scrapper-gate/frontend/dialogs';
+import { useReturnUrlProvider } from '@scrapper-gate/frontend/common';
+import { Dialog, useDialogMethods } from '@scrapper-gate/frontend/dialogs';
 import {
   useGetScrapperStateQuery,
   useSendScrapperToQueueMutation,
 } from '@scrapper-gate/frontend/schema';
 import { useSnackbarOnError } from '@scrapper-gate/frontend/snackbars';
-import { RunState } from '@scrapper-gate/frontend/ui';
+import { RunState, RunStateEntity } from '@scrapper-gate/frontend/ui';
 import { isCompleted, isRunning } from '@scrapper-gate/shared/run-states';
-import { RunState as RunStateEnum } from '@scrapper-gate/shared/schema';
+import { Maybe, RunState as RunStateEnum } from '@scrapper-gate/shared/schema';
 import React from 'react';
 import { useMount } from 'react-use';
-import { RunScrapperDialogProps } from './RunScrapperDialog.types';
+import { scrapperRunPollMs } from '../../shared/constants';
+import {
+  RunScrapperDialogProps,
+  ScrapperForRun,
+} from './RunScrapperDialog.types';
 
 export const runScrapperDialogId = 'RUN_SCRAPPER';
-
-const pollMs = 7000;
 
 export const RunScrapperDialog = ({
   scrapper,
   onCancel,
   onRun,
+  runUrlCreator,
 }: RunScrapperDialogProps) => {
+  const returnUrl = useReturnUrlProvider();
+
+  const { cancel } = useDialogMethods({
+    id: runScrapperDialogId,
+    onCancel,
+  });
+
   const snackbarOnError = useSnackbarOnError();
 
   const {
@@ -36,7 +47,7 @@ export const RunScrapperDialog = ({
     },
     skip: !scrapper,
     onCompleted: (data) => {
-      if (isCompleted(data?.getMyScrapper?.state)) {
+      if (isCompleted(data?.getMyScrapper?.lastRun?.state)) {
         stopPolling?.();
       }
     },
@@ -51,26 +62,27 @@ export const RunScrapperDialog = ({
       },
       onError: snackbarOnError,
       onCompleted: (data) => {
-        if (data?.sendScrapperToRunnerQueue?.state === RunStateEnum.Pending) {
-          startPolling?.(pollMs);
+        if (
+          data?.sendScrapperToRunnerQueue?.run?.state === RunStateEnum.Pending
+        ) {
+          startPolling?.(scrapperRunPollMs);
 
           onRun?.();
         }
       },
     });
 
-  const actualScrapper =
-    getScrapperStateQueryData?.getMyScrapper ??
+  const actualScrapper = (getScrapperStateQueryData?.getMyScrapper ??
     data?.sendScrapperToRunnerQueue ??
-    scrapper;
+    scrapper) as Maybe<ScrapperForRun>;
 
-  const state = actualScrapper?.state;
+  const state = actualScrapper?.lastRun?.state;
 
   const running = isRunning(state);
 
   useMount(() => {
     if (running) {
-      startPolling?.(pollMs);
+      startPolling?.(scrapperRunPollMs);
     }
   });
 
@@ -101,16 +113,21 @@ export const RunScrapperDialog = ({
     >
       <DialogContentText component="div" whiteSpace="pre-wrap">
         <RunState
+          returnUrl={returnUrl}
+          showIcon
+          onRunUrlClick={cancel}
+          runId={actualScrapper?.lastRun?.id}
+          runUrlCreator={runUrlCreator}
           runMutationLoading={loading}
           lastRunDate={
             actualScrapper?.lastRun?.endedAt
               ? new Date(actualScrapper?.lastRun?.endedAt)
               : undefined
           }
-          name={actualScrapper.name ?? ''}
-          called={called}
+          entityName={actualScrapper.name ?? ''}
+          runMutationCalled={called}
           state={state!}
-          entity="scrapper"
+          entity={RunStateEntity.Scrapper}
         />
       </DialogContentText>
     </Dialog>

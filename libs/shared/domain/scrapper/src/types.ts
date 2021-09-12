@@ -28,7 +28,12 @@ export interface ScrapperRunner extends ScrapperStepHandlers, Disposable {
   initialize?: (params?: InitialiseScrapperRunnerParams) => Promise<void>;
 }
 
-export type RunScrapperStepResult = Pick<
+export type RunScrapperStepResult =
+  | ReadTextScrapperStepResult
+  | ConditionalRunScrapperStepResult
+  | ScreenshotRunScrapperStepResult;
+
+export type ReadTextScrapperStepResult = Pick<
   ScrapperRunStepResult,
   'performance'
 > & {
@@ -36,8 +41,18 @@ export type RunScrapperStepResult = Pick<
 };
 
 export interface ConditionalRunScrapperStepResult
-  extends Pick<RunScrapperStepResult, 'performance'> {
+  extends Pick<ReadTextScrapperStepResult, 'performance'> {
   result: boolean;
+}
+
+export interface ScrapperRunScreenshotValue
+  extends Pick<ScrapperRunValue, 'sourceElement'> {
+  screenshotFileId: string;
+}
+
+export interface ScreenshotRunScrapperStepResult
+  extends Pick<ReadTextScrapperStepResult, 'performance'> {
+  values: ScrapperRunScreenshotValue[];
 }
 
 type BaseStepHandlers = {
@@ -50,6 +65,10 @@ export type ScrapperStepHandlers = BaseStepHandlers & {
   [ScrapperAction.Condition]: (
     params: ScrapperStepHandlerParams
   ) => MaybePromise<ConditionalRunScrapperStepResult>;
+
+  [ScrapperAction.Screenshot]: (
+    params: ScrapperStepHandlerParams
+  ) => MaybePromise<ScreenshotRunScrapperStepResult>;
 };
 
 export interface ScrapperStepHandlerParams {
@@ -59,6 +78,14 @@ export interface ScrapperStepHandlerParams {
 }
 
 export interface ScrapperRunnerMessagePayload {
-  scrapperId: string;
+  runId: string;
   trigger: RunnerTrigger;
+}
+
+export type ScrapperRunResultKeyPairValues = Record<string, string[]>;
+
+export interface ScrapperStepFinishedPayload {
+  result: RunScrapperStepResult;
+  scrapperRun: ScrapperRun;
+  stepResult: ScrapperRunStepResult;
 }

@@ -1,5 +1,9 @@
 import { asCqrs } from '@scrapper-gate/backend/awilix';
-import { CqrsDefinition } from '@scrapper-gate/backend/cqrs';
+import {
+  CqrsDefinition,
+  mergeEventHandlers,
+} from '@scrapper-gate/backend/cqrs';
+import { cqrs as fileCqrs } from '@scrapper-gate/backend/domain/files';
 import { cqrs as scrapperCqrs } from '@scrapper-gate/backend/domain/scrapper';
 import { cqrs as userCqrs } from '@scrapper-gate/backend/domain/user';
 import { AwilixContainer } from 'awilix';
@@ -18,7 +22,9 @@ export const registerServerCqrs = (container: AwilixContainer) => {
     },
     queryHandlers: {
       ...scrapperCqrs.queryHandlers,
+      ...fileCqrs.queryHandlers,
     },
+    eventHandlers: mergeEventHandlers(fileCqrs.eventHandlers),
   };
 
   container.register({

@@ -2,13 +2,14 @@
 import { Box } from '@material-ui/core';
 import { LocalizationProvider } from '@material-ui/lab';
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
+import '@scrapper-gate/frontend/block-editor';
 import { VariablesProvider } from '@scrapper-gate/frontend/domain/variables';
 import '@scrapper-gate/frontend/theme';
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
 import { DateFormat, wait } from '@scrapper-gate/shared/common';
 import {
-  ConditionalRuleWhen,
   ConditionalRuleTypes,
+  ConditionalRuleWhen,
 } from '@scrapper-gate/shared/domain/conditional-rules';
 import { createVariable } from '@scrapper-gate/shared/domain/variables';
 import {
@@ -22,16 +23,15 @@ import userEvent from '@testing-library/user-event';
 import { format, subDays } from 'date-fns';
 import React, { PropsWithChildren } from 'react';
 import { Form } from 'react-final-form';
-import { mockDraftJs } from '../../../../../../../tests/mocks/mockDraftJs';
+import {
+  addGroupAndRule,
+  assertTitle,
+} from '../../../../../../../tests/domain/conditionalRules/testUtils';
 import { baseRulesSelection } from '../../baseRules';
 import {
   ConditionalRules,
   ConditionalRulesProps,
 } from '../ConditionalRules/ConditionalRules';
-import {
-  addGroupAndRule,
-  assertTitle,
-} from '../../../../../../../tests/domain/conditionalRules/testUtils';
 
 jest.mock('react-truncate-markup', () => {
   const Component = (props: PropsWithChildren<unknown>) => props.children;
@@ -102,10 +102,6 @@ const renderCmpWithVariables = (props: Partial<ConditionalRulesProps> = {}) => {
 const now = new Date();
 
 describe('<DateRule />', () => {
-  beforeEach(() => {
-    mockDraftJs();
-  });
-
   it('should render correct title', async () => {
     const cmp = renderCmp();
 

@@ -1,15 +1,15 @@
-import React, { useEffect } from 'react';
-import { useIsAuthorized } from '@scrapper-gate/frontend/domain/auth';
-import { Route, Switch, useHistory } from 'react-router-dom';
-import { browserExtensionRoutes } from '@scrapper-gate/shared/routing';
-import { PopupAuthView } from './views/PopupAuthView';
-import { useMount } from 'react-use';
-import { AppType, useAppType } from '@scrapper-gate/frontend/common';
-import { Centered, Layout, flowBuilderUtils } from '@scrapper-gate/frontend/ui';
-import { PopupHeader } from './components/PopupHeader/PopupHeader';
 import { Box, CircularProgress } from '@material-ui/core';
-import { PopupScrappersView } from './views/PopupScrappersView';
+import { AppType, useAppType } from '@scrapper-gate/frontend/common';
+import { useIsAuthorized } from '@scrapper-gate/frontend/domain/auth';
+import { Centered, Layout } from '@scrapper-gate/frontend/ui';
+import { browserExtensionRoutes } from '@scrapper-gate/shared/routing';
+import React, { useEffect } from 'react';
+import { Route, Switch, useHistory } from 'react-router-dom';
+import { useMount } from 'react-use';
 import { PopupDrawer } from './components/PopupDrawer/PopupDrawer';
+import { PopupHeader } from './components/PopupHeader/PopupHeader';
+import { PopupAuthView } from './views/PopupAuthView';
+import { PopupScrappersView } from './views/PopupScrappersView';
 
 export const Popup = () => {
   const { isAuthorized, loading } = useIsAuthorized();

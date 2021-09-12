@@ -26,6 +26,12 @@
       "sourceRoot": "apps/api/src",
       "projectType": "application",
       "targets": {
+        "echo": {
+          "executor": "./tools/executors/echo:echo",
+          "options": {
+            "textToEcho": "Hello world!"
+          }
+        },
         "build": {
           "executor": "@nrwl/node:build",
           "outputs": ["{options.outputPath}"],
@@ -235,6 +241,27 @@
           "outputs": ["coverage/libs/backend/domain/auth"],
           "options": {
             "jestConfig": "libs/backend/domain/auth/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "backend-domain-files": {
+      "root": "libs/backend/domain/files",
+      "sourceRoot": "libs/backend/domain/files/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/backend/domain/files/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/backend/domain/files"],
+          "options": {
+            "jestConfig": "libs/backend/domain/files/jest.config.js",
             "passWithNoTests": true
           }
         }
@@ -573,7 +600,8 @@
           },
           "configurations": {
             "production": {
-              "devServerTarget": "browser-extension:serve:production"
+              "devServerTarget": "browser-extension:serve:production",
+              "runInBand": true
             }
           }
         },
@@ -604,6 +632,60 @@
           "options": {
             "jestConfig": "libs/frontend/api-client/jest.config.js",
             "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "frontend-block-editor": {
+      "root": "libs/frontend/block-editor",
+      "sourceRoot": "libs/frontend/block-editor/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/frontend/block-editor/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/frontend/block-editor"],
+          "options": {
+            "jestConfig": "libs/frontend/block-editor/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "storybook": {
+          "executor": "@nrwl/storybook:storybook",
+          "options": {
+            "uiFramework": "@storybook/react",
+            "port": 4400,
+            "config": {
+              "configFolder": "libs/frontend/block-editor/.storybook"
+            }
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        },
+        "build-storybook": {
+          "executor": "@nrwl/storybook:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "uiFramework": "@storybook/react",
+            "outputPath": "dist/storybook/frontend-block-editor",
+            "config": {
+              "configFolder": "libs/frontend/block-editor/.storybook"
+            }
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
           }
         }
       }
@@ -748,6 +830,29 @@
         }
       }
     },
+    "frontend-domain-files": {
+      "root": "libs/frontend/domain/files",
+      "sourceRoot": "libs/frontend/domain/files/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/frontend/domain/files/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/frontend/domain/files"],
+          "options": {
+            "jestConfig": "libs/frontend/domain/files/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "frontend-domain-scrapper": {
       "root": "libs/frontend/domain/scrapper",
       "sourceRoot": "libs/frontend/domain/scrapper/src",
@@ -879,6 +984,60 @@
         }
       }
     },
+    "frontend-flow-builder": {
+      "root": "libs/frontend/flow-builder",
+      "sourceRoot": "libs/frontend/flow-builder/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/frontend/flow-builder/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/frontend/flow-builder"],
+          "options": {
+            "jestConfig": "libs/frontend/flow-builder/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "storybook": {
+          "executor": "@nrwl/storybook:storybook",
+          "options": {
+            "uiFramework": "@storybook/react",
+            "port": 4400,
+            "config": {
+              "configFolder": "libs/frontend/flow-builder/.storybook"
+            }
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        },
+        "build-storybook": {
+          "executor": "@nrwl/storybook:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "uiFramework": "@storybook/react",
+            "outputPath": "dist/storybook/frontend-flow-builder",
+            "config": {
+              "configFolder": "libs/frontend/flow-builder/.storybook"
+            }
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        }
+      }
+    },
     "frontend-form": {
       "root": "libs/frontend/form",
       "sourceRoot": "libs/frontend/form/src",
@@ -896,6 +1055,37 @@
           "options": {
             "jestConfig": "libs/frontend/form/jest.config.js",
             "passWithNoTests": true
+          }
+        },
+        "storybook": {
+          "executor": "@nrwl/storybook:storybook",
+          "options": {
+            "uiFramework": "@storybook/react",
+            "port": 4400,
+            "config": {
+              "configFolder": "libs/frontend/form/.storybook"
+            }
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        },
+        "build-storybook": {
+          "executor": "@nrwl/storybook:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "uiFramework": "@storybook/react",
+            "outputPath": "dist/storybook/frontend-form",
+            "config": {
+              "configFolder": "libs/frontend/form/.storybook"
+            }
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
           }
         }
       }
@@ -1091,7 +1281,7 @@
           "executor": "@nrwl/workspace:run-commands",
           "options": {
             "parallel": false,
-            "command": "serverless offline --stage local --lambdaPort 3003"
+            "command": "serverless offline --stage development --lambdaPort 3003"
           }
         },
         "lint": {
@@ -1315,6 +1505,27 @@
           "outputs": ["coverage/libs/shared/logger/console"],
           "options": {
             "jestConfig": "libs/shared/logger/console/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "shared-node": {
+      "root": "libs/shared/node",
+      "sourceRoot": "libs/shared/node/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/shared/node/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shared/node"],
+          "options": {
+            "jestConfig": "libs/shared/node/jest.config.js",
             "passWithNoTests": true
           }
         }

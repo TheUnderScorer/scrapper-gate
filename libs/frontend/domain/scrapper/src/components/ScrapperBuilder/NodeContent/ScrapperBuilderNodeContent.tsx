@@ -1,6 +1,6 @@
 import { Stack } from '@material-ui/core';
+import { NodeContentProps } from '@scrapper-gate/frontend/flow-builder';
 import { useFormFieldValue } from '@scrapper-gate/frontend/form';
-import { NodeContentProps } from '@scrapper-gate/frontend/ui';
 import { ScrapperAction } from '@scrapper-gate/shared/schema';
 import React, { memo, useMemo } from 'react';
 import { ScrapperBuilderProps } from '../ScrapperBuilder.types';

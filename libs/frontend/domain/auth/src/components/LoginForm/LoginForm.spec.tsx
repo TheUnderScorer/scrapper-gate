@@ -1,9 +1,12 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 import {
   CreateUserDocument,
   LoginDocument,
 } from '@scrapper-gate/frontend/schema';
-import { MockedProvider, MockedResponse } from '@apollo/client/testing';
+import { ThemeProvider } from '@scrapper-gate/frontend/theme';
+import { wait } from '@scrapper-gate/shared/common';
+import { createMockUser } from '@scrapper-gate/shared/domain/user';
 import {
   CreateUserMutation,
   CreateUserMutationVariables,
@@ -14,11 +17,9 @@ import { act, render, RenderResult, waitFor } from '@testing-library/react';
 import fireEvent from '@testing-library/user-event';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
-import { createMockUser } from '@scrapper-gate/shared/domain/user';
-import { wait } from '@scrapper-gate/shared/common';
+import { useTokensStore } from '../../store/useTokensStore';
 import { LoginForm } from './LoginForm';
 import { LoginFormProps, LoginFormType } from './LoginForm.types';
-import { useTokensStore } from '../../store/useTokensStore';
 
 const user = createMockUser();
 
@@ -75,7 +76,9 @@ const renderComponent = (props?: LoginFormProps): RenderResult => {
   act(() => {
     cmp = render(
       <MockedProvider mocks={mocks}>
-        <LoginForm {...props} />
+        <ThemeProvider>
+          <LoginForm {...props} />
+        </ThemeProvider>
       </MockedProvider>
     );
   });

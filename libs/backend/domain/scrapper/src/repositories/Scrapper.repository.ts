@@ -48,7 +48,7 @@ export class ScrapperRepository extends Repository<ScrapperModel> {
       .getOneOrFail();
   }
 
-  async findOneByUser(scrapperId: string, userId: string) {
+  async findOneAggregateForUser(scrapperId: string, userId: string) {
     return this.findOne({
       where: {
         id: scrapperId,
@@ -63,12 +63,13 @@ export class ScrapperRepository extends Repository<ScrapperModel> {
         'steps.nextStep',
         'steps.stepOnTrue',
         'steps.stepOnFalse',
+        'steps.previousSteps',
       ],
     });
   }
 
-  async getOneByUser(scrapperId: string, userId: string) {
-    const scrapper = await this.findOneByUser(scrapperId, userId);
+  async getOneAggregateByUser(scrapperId: string, userId: string) {
+    const scrapper = await this.findOneAggregateForUser(scrapperId, userId);
 
     if (!scrapper) {
       throw new ScrapperNotFoundError();

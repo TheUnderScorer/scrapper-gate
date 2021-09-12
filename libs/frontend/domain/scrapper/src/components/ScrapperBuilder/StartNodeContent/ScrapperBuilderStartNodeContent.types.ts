@@ -1,4 +1,4 @@
-import { NodeContentProps } from '@scrapper-gate/frontend/ui';
+import { NodeContentProps } from '@scrapper-gate/frontend/flow-builder';
 import { ScrapperBuilderProps } from '../ScrapperBuilder.types';
 
 export interface ScrapperBuilderStartNodeContentProps

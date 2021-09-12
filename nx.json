@@ -53,6 +53,9 @@
     "backend-domain-auth": {
       "tags": []
     },
+    "backend-domain-files": {
+      "tags": []
+    },
     "backend-domain-message-queue-service": {
       "tags": []
     },
@@ -96,6 +99,9 @@
     "frontend-api-client": {
       "tags": []
     },
+    "frontend-block-editor": {
+      "tags": []
+    },
     "frontend-common": {
       "tags": []
     },
@@ -111,6 +117,9 @@
     "frontend-domain-conditional-rules": {
       "tags": []
     },
+    "frontend-domain-files": {
+      "tags": []
+    },
     "frontend-domain-scrapper": {
       "tags": []
     },
@@ -118,6 +127,9 @@
       "tags": []
     },
     "frontend-domain-variables": {
+      "tags": []
+    },
+    "frontend-flow-builder": {
       "tags": []
     },
     "frontend-form": {
@@ -172,6 +184,9 @@
       "tags": []
     },
     "shared-logger-console": {
+      "tags": []
+    },
+    "shared-node": {
       "tags": []
     },
     "shared-routing": {

@@ -1,11 +1,10 @@
-import React, { FC, MouseEventHandler } from 'react';
-import { Check } from '@material-ui/icons';
 import { Button, CircularProgress, Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Check } from '@material-ui/icons';
+import { makeStyles } from '@material-ui/styles';
 import classNames from 'classnames';
+import React, { FC, MouseEventHandler } from 'react';
+import { useFormState } from 'react-final-form';
 import { PrimaryIconButton } from '../../atoms/Buttons/Buttons';
-import { useForm, useFormState } from 'react-final-form';
-import { isDisabled } from '@testing-library/user-event/dist/utils';
 
 export interface SubmitButtonProps {
   didSubmit?: boolean;

@@ -1,5 +1,5 @@
-import { ScrapperStepInput } from '@scrapper-gate/shared/schema';
 import { getAllObjectKeys } from '@scrapper-gate/shared/common';
+import { ScrapperStepInput } from '@scrapper-gate/shared/schema';
 import { pick } from 'remeda';
 
 export const scrapperStepInputKeys = getAllObjectKeys<ScrapperStepInput>({
@@ -20,6 +20,8 @@ export const scrapperStepInputKeys = getAllObjectKeys<ScrapperStepInput>({
   url: true,
   useUrlFromPreviousStep: true,
   conditionalRules: true,
+  isFirst: true,
+  fullPageScreenshot: true,
 });
 
 export const pickScrapperInput = pick<

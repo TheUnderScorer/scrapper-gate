@@ -42,6 +42,10 @@ const resolveMappedVariables = <T = unknown>(
   target: T,
   variables: TemplateVariables
 ): ResolveVariablesResult<T> => {
+  if (!target) {
+    return target as ResolveVariablesResult<T>;
+  }
+
   switch (typeof target) {
     case 'string':
       return replaceVariablesInText(

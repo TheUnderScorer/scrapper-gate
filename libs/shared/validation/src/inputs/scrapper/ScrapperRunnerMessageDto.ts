@@ -9,7 +9,7 @@ export class ScrapperRunnerMessageDto
   implements ScrapperRunnerMessagePayload
 {
   @(uuid().required())
-  scrapperId: string;
+  runId: string;
 
   @requiredEnum(RunnerTrigger)
   trigger: RunnerTrigger;

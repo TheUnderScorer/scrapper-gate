@@ -11,7 +11,7 @@ module.exports = {
   entry: slsw.lib.entries,
   mode: isLocal ? 'development' : 'production',
   externals: [nodeExternals()],
-  devtool: 'source-map',
+  devtool: isLocal ? 'eval-source-map' : 'source-map',
   target: 'node',
   output: {
     libraryTarget: 'commonjs',
@@ -43,12 +43,10 @@ module.exports = {
   },
   plugins: [
     new ForkTsCheckerWebpackPlugin({
-      tsconfig: tsConfigPath,
-      useTypescriptIncrementalApi: false,
-      workers: 2,
-      memoryLimit: 2048,
-      async: true,
-      useColors: true,
+      async: false,
+      typescript: {
+        configFile: tsConfigPath,
+      },
     }),
   ],
 };

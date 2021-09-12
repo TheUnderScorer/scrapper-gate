@@ -1,9 +1,15 @@
-import { ScrapperRunProcessor } from '@scrapper-gate/shared/domain/scrapper';
-import { RunState } from '@scrapper-gate/shared/schema';
-import { CommandHandler } from 'functional-cqrs';
+import { FileRepository } from '@scrapper-gate/backend/domain/files';
+import { ExcludeFalsy, getById } from '@scrapper-gate/shared/common';
+import {
+  RunScrapperStepResult,
+  ScrapperRunProcessor,
+} from '@scrapper-gate/shared/domain/scrapper';
+import { Logger } from '@scrapper-gate/shared/logger';
+import { ScrapperRunStepResult } from '@scrapper-gate/shared/schema';
+import { CommandHandler, EventsBus } from 'functional-cqrs';
 import { RunScrapperCommand } from '../commands/RunScrapper.command';
+import { ScrapperStepCompletedEvent } from '../events/ScrapperStepCompleted.event';
 import { GetScrapperRunner } from '../logic/getScrapperRunner';
-import { ScrapperModel } from '../models/Scrapper.model';
 import { ScrapperRunModel } from '../models/ScrapperRun.model';
 import { ScrapperRepository } from '../repositories/Scrapper.repository';
 import { ScrapperRunRepository } from '../repositories/ScrapperRun.repository';
@@ -12,58 +18,81 @@ export interface RunScrapperHandlerDependencies {
   scrapperRepository: ScrapperRepository;
   scrapperRunRepository: ScrapperRunRepository;
   getScrapperRunner: GetScrapperRunner;
+  logger: Logger;
+  fileRepository: FileRepository;
+  eventsBus: EventsBus;
 }
 
 export class RunScrapperHandler implements CommandHandler<RunScrapperCommand> {
   constructor(private readonly dependencies: RunScrapperHandlerDependencies) {}
 
-  async handle({ payload: { scrapperId } }: RunScrapperCommand) {
-    const { scrapperRepository, scrapperRunRepository, getScrapperRunner } =
+  async handle({ payload: { runId, initialUrl } }: RunScrapperCommand) {
+    const { scrapperRunRepository, getScrapperRunner, logger } =
       this.dependencies;
 
-    const scrapper = await scrapperRepository.getOneForRun(scrapperId);
-    const scrapperRun = ScrapperRunModel.createInProgressFromScrapper(scrapper);
-
-    scrapper.state = RunState.InProgress;
-
-    await scrapperRepository.save(scrapper);
-    await scrapperRunRepository.save(scrapperRun);
+    const scrapperRun = await scrapperRunRepository.getOneForRun(runId);
+    const { scrapper } = scrapperRun;
 
     const runner = getScrapperRunner(scrapper);
 
-    const processor = new ScrapperRunProcessor(runner);
+    const processor = new ScrapperRunProcessor(runner, logger);
 
     try {
-      this.setupEvents(processor, scrapper);
+      this.setupEvents(processor);
 
       await processor.process({
         scrapperRun,
         scrapper,
-        initialUrl: scrapperRun.runSettings?.initialUrl,
+        initialUrl: initialUrl ?? scrapperRun.runSettings?.initialUrl,
       });
     } finally {
       await processor.dispose();
     }
   }
 
-  private setupEvents(
-    processor: ScrapperRunProcessor,
-    scrapper: ScrapperModel
-  ) {
-    const { scrapperRunRepository, scrapperRepository } = this.dependencies;
+  private setupEvents(processor: ScrapperRunProcessor) {
+    const { scrapperRunRepository, eventsBus } = this.dependencies;
 
     processor.events.on('scrapperRunChanged', async (scrapperRun) => {
-      const promises: Array<Promise<unknown>> = [
-        scrapperRunRepository.save(scrapperRun),
-      ];
+      await scrapperRunRepository.save(ScrapperRunModel.create(scrapperRun));
+    });
 
-      if (scrapperRun.state !== scrapper.state) {
-        scrapper.state = scrapperRun.state;
+    processor.events.on('stepFinished', async (payload) => {
+      await eventsBus.dispatch(new ScrapperStepCompletedEvent(payload));
+    });
 
-        promises.push(scrapperRepository.save(scrapper));
+    processor.events.on(
+      'filledStepResultAfterRun',
+      async ({ runStepResult, result }) => {
+        await this.connectFiles(runStepResult, result);
+      }
+    );
+  }
+
+  private async connectFiles(
+    runStepResult: RunScrapperStepResult,
+    result: ScrapperRunStepResult
+  ) {
+    if ('values' in runStepResult) {
+      const fileIds = runStepResult.values
+        ?.map((item) =>
+          'screenshotFileId' in item ? item.screenshotFileId : undefined
+        )
+        .filter(ExcludeFalsy);
+
+      if (!fileIds?.length) {
+        return;
       }
 
-      await Promise.all(promises);
-    });
+      const files = await this.dependencies.fileRepository.findByIds(fileIds);
+
+      result.values?.forEach((value, index) => {
+        const fileId = fileIds[index];
+
+        if (fileId) {
+          value.screenshot = getById(files, fileId);
+        }
+      });
+    }
   }
 }

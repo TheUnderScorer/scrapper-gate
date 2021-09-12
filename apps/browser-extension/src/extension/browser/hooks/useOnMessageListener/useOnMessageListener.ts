@@ -1,19 +1,19 @@
-import { Maybe } from '@scrapper-gate/shared/common';
+import { Perhaps } from '@scrapper-gate/shared/common';
+import { logger } from '@scrapper-gate/shared/logger/console';
 import { useEffect, useState } from 'react';
+import { browser, Runtime } from 'webextension-polyfill-ts';
 import {
   Message,
   MessageResult,
   MessageTypes,
 } from '../../communication/messageResult.types';
-import { browser, Runtime } from 'webextension-polyfill-ts';
-import { logger } from '@scrapper-gate/shared/logger/console';
 
 interface OnMessageListenerHookProps<
   Type extends keyof TypesMap,
   TypesMap extends Record<string, unknown>
 > {
   type: MessageTypes;
-  initialValue?: () => Promise<Maybe<TypesMap[Type]>>;
+  initialValue?: () => Promise<Perhaps<TypesMap[Type]>>;
   sendResponse?: (
     message: Message<Type, TypesMap[Type]>,
     sender: Runtime.MessageSender
@@ -29,10 +29,10 @@ export const useOnMessageListener = <
   initialValue,
   sendResponse: responseSender,
   onMessage,
-}: OnMessageListenerHookProps<Type, TypesMap>): Maybe<TypesMap[Type]> => {
+}: OnMessageListenerHookProps<Type, TypesMap>): Perhaps<TypesMap[Type]> => {
   const [initialValueResolved, setInitialValueResolved] = useState(false);
 
-  const [value, setValue] = useState<Maybe<TypesMap[Type]>>(null);
+  const [value, setValue] = useState<Perhaps<TypesMap[Type]>>(null);
 
   useEffect(() => {
     if (initialValue && !initialValueResolved) {

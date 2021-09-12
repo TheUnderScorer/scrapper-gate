@@ -18,3 +18,4 @@ export * from './commands/SendScrapperToRunnerQueue.command';
 export * from './queries/GetScrapperLastRun.query';
 export * from './models/ScrapperRun.model';
 export * from './repositories/ScrapperRun.repository';
+export * from './queries/GetMyScrapperRun.query';

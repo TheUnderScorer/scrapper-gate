@@ -8,8 +8,8 @@ import {
   Toolbar,
   Typography,
 } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import { Close } from '@material-ui/icons';
+import { makeStyles } from '@material-ui/styles';
 import { useKeyboardShortcuts } from '@scrapper-gate/frontend/keyboard-shortcuts';
 import { Selector } from '@scrapper-gate/shared/schema';
 import classNames from 'classnames';

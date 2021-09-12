@@ -1,6 +1,6 @@
 import { useKeyboardShortcuts } from '@scrapper-gate/frontend/keyboard-shortcuts';
 
-import { Maybe, throwError } from '@scrapper-gate/shared/common';
+import { Perhaps, throwError } from '@scrapper-gate/shared/common';
 import React, {
   PropsWithChildren,
   SyntheticEvent,
@@ -25,7 +25,7 @@ export interface FormUndoContext {
 
 interface FormUndoState<T> {
   past: T[];
-  present: Maybe<T>;
+  present: Perhaps<T>;
   future: T[];
 }
 

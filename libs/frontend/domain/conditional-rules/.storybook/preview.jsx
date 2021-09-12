@@ -3,7 +3,7 @@ import { addDecorator } from '@storybook/react';
 import { withKnobs } from '@storybook/addon-knobs';
 import { withActions } from '@storybook/addon-actions';
 
-import { SnackbarProvider } from 'notistack';
+import { SnackbarProvider } from '@scrapper-gate/frontend/snackbars';
 import React from 'react';
 import { ThemeProvider } from '../../../theme/src';
 import { LocalizationProvider } from '@material-ui/lab';

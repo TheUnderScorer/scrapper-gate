@@ -5,6 +5,5 @@ mutation CreateScrapper($input: CreateScrapperInput!) {
     createdAt
     updatedAt
     isRunning
-    state
   }
 }

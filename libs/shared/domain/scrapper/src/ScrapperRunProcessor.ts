@@ -2,18 +2,22 @@
 import {
   createBaseEntity,
   Disposable,
-  findFirstNode,
-  Maybe,
+  Perhaps,
 } from '@scrapper-gate/shared/common';
 import { resolveVariables } from '@scrapper-gate/shared/domain/variables';
-import { AppError, ScrapperRunError } from '@scrapper-gate/shared/errors';
+import { ErrorObjectDto } from '@scrapper-gate/shared/errors';
+import { Logger } from '@scrapper-gate/shared/logger';
 import {
-  ErrorObject,
+  findFirstNode,
+  getNextStepIdFromCondition,
+} from '@scrapper-gate/shared/node';
+import {
   RunState,
   Scrapper,
   ScrapperAction,
   ScrapperRun,
   ScrapperRunStepResult,
+  ScrapperRunValue,
   ScrapperStep,
 } from '@scrapper-gate/shared/schema';
 import { Typed } from 'emittery';
@@ -23,6 +27,7 @@ import {
   InitialiseScrapperRunnerParams,
   RunScrapperStepResult,
   ScrapperRunner,
+  ScrapperStepFinishedPayload,
 } from './types';
 
 export interface ProcessParams extends InitialiseScrapperRunnerParams {
@@ -31,18 +36,27 @@ export interface ProcessParams extends InitialiseScrapperRunnerParams {
 }
 
 export class ScrapperRunProcessor implements Disposable {
-  constructor(private readonly runner: ScrapperRunner) {}
+  constructor(
+    private readonly runner: ScrapperRunner,
+    private readonly logger: Logger
+  ) {}
 
   readonly events = new Typed<{
     scrapperRunChanged: ScrapperRun;
-    stepFinished: RunScrapperStepResult;
+    stepFinished: ScrapperStepFinishedPayload;
     error: {
       error: Error;
       step: ScrapperStep;
     };
+    filledStepResultAfterRun: {
+      runStepResult: RunScrapperStepResult;
+      result: ScrapperRunStepResult;
+    };
   }>();
 
   async process({ scrapperRun, scrapper, ...rest }: ProcessParams) {
+    let failed = false;
+
     if (!scrapperRun.steps?.length) {
       return {
         scrapperRun,
@@ -64,15 +78,15 @@ export class ScrapperRunProcessor implements Disposable {
 
     try {
       while (step) {
-        const { nextStep } = await this.runStep(step, scrapperRun, scrapper);
+        const { nextStep } = await this.runStep(step, scrapperRun);
 
         step = nextStep!;
       }
     } catch (error) {
-      const { error: errorObject, stepResult } =
-        ScrapperRunProcessor.createStepResultFromError(error, step!);
+      this.logger.error(`Step ${step?.id} failed: ${error.message}`);
 
-      scrapperRun.results.push(stepResult);
+      const errorObject = ErrorObjectDto.createFromError(error);
+
       scrapperRun.error = {
         ...errorObject,
         stepId: step!.id,
@@ -82,103 +96,132 @@ export class ScrapperRunProcessor implements Disposable {
         step: step!,
         error,
       });
+
+      failed = true;
     }
 
     scrapperRun.endedAt = new Date();
-    scrapperRun.state = RunState.Completed;
+    scrapperRun.state = failed ? RunState.Failed : RunState.Completed;
+
+    scrapperRun.results.forEach((result) => {
+      // Mark all not completed steps as skipped
+      if (result.state !== RunState.Completed) {
+        result.state = RunState.Skipped;
+      }
+    });
 
     await this.events.emit('scrapperRunChanged', scrapperRun);
+
+    this.logger.info(`Run ${scrapperRun.id} finished.`);
 
     return {
       scrapperRun,
     };
   }
 
-  private async runStep(
-    step: ScrapperStep,
-    scrapperRun: ScrapperRun,
-    scrapper: Scrapper
-  ) {
-    const variables = createScrapperRunVariables(scrapper, scrapperRun);
+  private async runStep(step: ScrapperStep, scrapperRun: ScrapperRun) {
+    const variables = createScrapperRunVariables(scrapperRun);
+
+    const stepResult = scrapperRun.results!.find(
+      (result) => result.step.id === step.id
+    );
+
+    if (!stepResult) {
+      throw new TypeError(`No step result found for step ${step.id}`);
+    }
+
+    stepResult.startedAt = new Date();
+    stepResult.state = RunState.InProgress;
+
+    await this.events.emit('scrapperRunChanged', scrapperRun);
 
     const preparedStep = resolveVariables({
       target: step,
       variables,
     });
-    const runResult = await this.runner[step.action!]({
-      scrapperRun,
-      step: preparedStep,
-      variables,
-    });
 
-    scrapperRun.results!.push(
-      ScrapperRunProcessor.createStepResult(runResult, step)
-    );
+    // Overwrite step from result with step that has resolved variables
+    stepResult.step = preparedStep;
 
-    await Promise.all([
-      this.events.emit('stepFinished', runResult),
-      this.events.emit('scrapperRunChanged', scrapperRun),
-    ]);
+    try {
+      const runResult: RunScrapperStepResult = await this.runner[step.action!]({
+        scrapperRun,
+        step: preparedStep,
+        variables,
+      });
 
-    let nextStepId: Maybe<string> = null;
+      await this.fillStepResultAfterRun(runResult, stepResult);
 
-    if (step.action !== ScrapperAction.Condition) {
-      nextStepId = step.nextStep?.id;
-    } else {
-      nextStepId = (runResult as ConditionalRunScrapperStepResult).result
-        ? step.stepOnTrue?.id
-        : step.stepOnFalse?.id;
+      stepResult.state = RunState.Completed;
+
+      await this.events.emit('stepFinished', {
+        result: runResult,
+        scrapperRun,
+        stepResult,
+      });
+      await this.events.emit('scrapperRunChanged', scrapperRun);
+
+      let nextStepId: Perhaps<string> = null;
+
+      if (step.action !== ScrapperAction.Condition) {
+        nextStepId = step.nextStep?.id;
+      } else {
+        nextStepId = getNextStepIdFromCondition(
+          preparedStep,
+          (runResult as ConditionalRunScrapperStepResult).result
+        );
+      }
+
+      const nextStep = nextStepId
+        ? scrapperRun.steps!.find(
+            (scrapperRunStep) => scrapperRunStep.id === nextStepId
+          )
+        : null;
+
+      return {
+        nextStep,
+      };
+    } catch (error) {
+      const errorObject = ErrorObjectDto.createFromError(error);
+
+      stepResult.state = RunState.Failed;
+      stepResult.error = errorObject;
+
+      await this.events.emit('scrapperRunChanged', scrapperRun);
+
+      throw error;
+    }
+  }
+
+  private async fillStepResultAfterRun(
+    runStepResult: RunScrapperStepResult,
+    result: ScrapperRunStepResult
+  ) {
+    if ('values' in runStepResult) {
+      result.values = runStepResult?.values?.map(
+        ({ sourceElement, ...rest }) => {
+          const runValue: ScrapperRunValue = {
+            ...createBaseEntity(),
+            sourceElement,
+          };
+
+          if ('value' in rest) {
+            runValue.value = rest.value;
+          }
+
+          return runValue;
+        }
+      );
     }
 
-    const nextStep = nextStepId
-      ? scrapperRun.steps!.find(
-          (scrapperRunStep) => scrapperRunStep.id === nextStepId
-        )
-      : null;
+    result.performance = runStepResult.performance;
+    result.state = RunState.Completed;
+    result.endedAt = new Date();
 
-    return {
-      nextStep,
-    };
-  }
-
-  private static createStepResultFromError(error: Error, step: ScrapperStep) {
-    const errorObject: ErrorObject = {
-      name: error.name,
-      message: error.message,
-      date: error instanceof AppError ? error.date : new Date(),
-    };
-
-    const stepResult: ScrapperRunStepResult = {
-      ...createBaseEntity(),
-      step,
-      error: errorObject,
-      performance:
-        error instanceof ScrapperRunError
-          ? error.performance
-          : {
-              duration: 0,
-            },
-    };
-
-    return {
-      error: errorObject,
-      stepResult,
-    };
-  }
-
-  private static createStepResult(
-    result: RunScrapperStepResult,
-    step: ScrapperStep
-  ): ScrapperRunStepResult {
-    return {
-      ...createBaseEntity(),
-      values: result.values?.map((value) => ({
-        ...createBaseEntity(),
-        ...value,
-      })),
-      performance: result.performance,
-      step,
-    };
+    await this.events.emit('filledStepResultAfterRun', {
+      result,
+      runStepResult,
+    });
   }
 
   async dispose() {

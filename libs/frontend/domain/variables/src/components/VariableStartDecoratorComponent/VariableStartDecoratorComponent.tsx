@@ -1,76 +1,88 @@
+import { makeStyles } from '@material-ui/styles';
 import {
-  TextFieldBlockDecoratorComponentProps,
-  useTextFieldBlockContext,
-} from '@scrapper-gate/frontend/form';
+  DecoratorComponentProps,
+  useBlockEditorContext,
+} from '@scrapper-gate/frontend/block-editor';
 import { LightTooltip } from '@scrapper-gate/frontend/ui';
 import {
   getTextVariableTemplate,
   TemplateType,
 } from '@scrapper-gate/shared/common';
 import { Variable } from '@scrapper-gate/shared/schema';
-import { EditorState, Modifier, SelectionState } from 'draft-js';
 import React, { MutableRefObject, useCallback, useMemo, useRef } from 'react';
+import { Transforms } from 'slate';
 import { VariableSuggestions } from '../VariableSuggestions/VariableSuggestions';
 
+const useStyles = makeStyles({
+  container: {
+    display: 'inline-block',
+  },
+});
+
 export const VariableStartDecoratorComponent = ({
-  decoratedText,
   children,
-  start,
-  end,
-  blockKey,
-}: TextFieldBlockDecoratorComponentProps) => {
+  leaf,
+  attributes,
+}: DecoratorComponentProps) => {
+  const classes = useStyles();
+
   const containerRef = useRef<HTMLElement>();
 
-  const { editorState, focused, setEditorState } = useTextFieldBlockContext();
+  const { focused, editor } = useBlockEditorContext();
+  const { selection } = editor;
 
-  const selection = editorState.getSelection();
-  const selectionStart = selection.getStartOffset();
-  const selectionEnd = selection.getEndOffset();
+  const selectionStart = Number(selection?.anchor?.offset);
+  const selectionEnd = Number(selection?.focus?.offset);
 
   const handleVariableClick = useCallback(
     (variable: Variable) => {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const selection = SelectionState.createEmpty(blockKey!).merge({
-        focusOffset: end,
-        anchorOffset: start,
-        hasFocus: true,
-      });
+      if (!variable.key) {
+        return;
+      }
 
-      const newContent = Modifier.replaceText(
-        editorState.getCurrentContent(),
-        selection,
-        getTextVariableTemplate(variable.key, TemplateType.Braces)
+      Transforms.insertText(
+        editor,
+        getTextVariableTemplate(variable.key, TemplateType.Braces),
+        {
+          at: {
+            focus: {
+              path: leaf.path,
+              offset: leaf.endIndex,
+            },
+            anchor: {
+              path: leaf.path,
+              offset: leaf.startIndex,
+            },
+          },
+        }
       );
-
-      const newState = EditorState.push(
-        editorState,
-        newContent,
-        'insert-characters'
-      );
-
-      setEditorState(newState);
     },
-    [blockKey, editorState, end, setEditorState, start]
+    [editor, leaf]
   );
 
   const isSelectionWithinBounds = useMemo(() => {
-    return selectionStart >= start && selectionEnd <= end;
-  }, [end, selectionEnd, selectionStart, start]);
+    return (
+      selectionStart >= Number(leaf.startIndex) &&
+      selectionEnd <= Number(leaf.endIndex)
+    );
+  }, [leaf, selectionEnd, selectionStart]);
 
   return (
-    <LightTooltip
-      TransitionProps={{ timeout: 0 }}
-      open={isSelectionWithinBounds && focused}
-      title={
-        <VariableSuggestions
-          onVariableClick={handleVariableClick}
-          text={decoratedText}
-        />
-      }
-    >
-      <span ref={containerRef as MutableRefObject<HTMLElement>}>
-        {children}
-      </span>
-    </LightTooltip>
+    <div {...attributes} className={classes.container}>
+      <LightTooltip
+        TransitionProps={{ timeout: 0 }}
+        open={isSelectionWithinBounds && focused}
+        title={
+          <VariableSuggestions
+            onVariableClick={handleVariableClick}
+            text={leaf.text ?? ''}
+          />
+        }
+      >
+        <span ref={containerRef as MutableRefObject<HTMLElement>}>
+          {children}
+        </span>
+      </LightTooltip>
+    </div>
   );
 };

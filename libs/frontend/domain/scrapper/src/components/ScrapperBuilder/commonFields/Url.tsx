@@ -5,16 +5,17 @@ import {
   Stack,
   Tooltip,
 } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import { Info, Language, MyLocation } from '@material-ui/icons';
+import { makeStyles } from '@material-ui/styles';
+import { BlockEditorProps } from '@scrapper-gate/frontend/block-editor';
 import { VariablesTextField } from '@scrapper-gate/frontend/domain/variables';
+import { NodeContentProps } from '@scrapper-gate/frontend/flow-builder';
 import {
   FieldNameCreator,
   FormSwitch,
-  FormTextFieldBlockProps,
   useFormFieldValue,
 } from '@scrapper-gate/frontend/form';
-import { NodeContentProps, TooltipText } from '@scrapper-gate/frontend/ui';
+import { TooltipText } from '@scrapper-gate/frontend/ui';
 import React, { useCallback } from 'react';
 import { useField } from 'react-final-form';
 import { useLocation } from 'react-use';
@@ -23,7 +24,7 @@ import { useIsOnStepUrl } from '../../../hooks/useIsOnStepUrl';
 export interface UrlProps
   extends Pick<NodeContentProps, 'nodeIndex'>,
     Pick<
-      Partial<FormTextFieldBlockProps>,
+      Partial<BlockEditorProps>,
       'name' | 'label' | 'disabled' | 'helperText'
     > {
   fieldNameCreator: FieldNameCreator;
@@ -65,7 +66,7 @@ export const Url = ({
 
   const fillWithLocation = useCallback(() => {
     onChange(location.href);
-  }, [location, onChange]);
+  }, [onChange, location]);
 
   const urlDisabled = disabled || useUrlFromPreviousStep;
 
@@ -123,7 +124,7 @@ export const Url = ({
               <Info />
             </IconButton>
           </Stack>
-          {!isOnStepUrl && !disabled && (
+          {!isOnStepUrl && !disabled && value && (
             <Button href={value}>Open step URL</Button>
           )}
         </Stack>

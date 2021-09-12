@@ -1,11 +1,19 @@
-import { IconButton } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { IconButton, Stack } from '@material-ui/core';
 import { PlayArrow } from '@material-ui/icons';
+import { makeStyles } from '@material-ui/styles';
 import { useIsUsingElementPicker } from '@scrapper-gate/frontend/common';
 import {
   VariablesProvider,
   VariablesTable,
 } from '@scrapper-gate/frontend/domain/variables';
+import {
+  FlowBuilder,
+  FlowBuilderNodeTypes,
+  flowBuilderUtils,
+  flowBuilderValidation,
+  IsValidConnectionParams,
+  NodeContentComponent,
+} from '@scrapper-gate/frontend/flow-builder';
 import {
   FormEditableText,
   joiValidationResolver,
@@ -17,14 +25,7 @@ import {
   useSnackbarOnError,
   useSnackbarOnSuccess,
 } from '@scrapper-gate/frontend/snackbars';
-import {
-  FlowBuilder,
-  FlowBuilderNodeTypes,
-  flowBuilderUtils,
-  flowBuilderValidation,
-  IsValidConnectionParams,
-  NodeContentComponent,
-} from '@scrapper-gate/frontend/ui';
+import { ReturnBtn } from '@scrapper-gate/frontend/ui';
 import { extractVariableInput } from '@scrapper-gate/shared/domain/variables';
 import { logger } from '@scrapper-gate/shared/logger/console';
 import { VariableScope } from '@scrapper-gate/shared/schema';
@@ -33,6 +34,8 @@ import React, { useCallback, useMemo } from 'react';
 import { Form } from 'react-final-form';
 import { Node } from 'react-flow-renderer';
 import { v4 as uuid } from 'uuid';
+import { createScrapperNodeSelection } from '../../shared/scrapperNodeSelection';
+import { scrapperStepsToNodes } from '../../shared/scrapperStepsToNodes';
 import { useRunScraperDialog } from '../RunScrapperDialog/useRunScraperDialog';
 import { ScrapperBuilderNodeContent } from './NodeContent/ScrapperBuilderNodeContent';
 import { nodesToScrapperSteps } from './nodesToScrapperSteps';
@@ -42,8 +45,6 @@ import {
   ScrapperBuilderNodeProperties,
   ScrapperBuilderProps,
 } from './ScrapperBuilder.types';
-import { createScrapperNodeSelection } from './scrapperNodeSelection';
-import { scrapperStepsToNodes } from './scrapperStepsToNodes';
 import { ScrapperBuilderStartNodeContent } from './StartNodeContent/ScrapperBuilderStartNodeContent';
 
 const initialNodes = [
@@ -89,6 +90,7 @@ export const ScrapperBuilder = ({
   loading,
   initialScrapper,
   ElementPicker,
+  runUrlCreator,
   ...rest
 }: ScrapperBuilderProps) => {
   const snackbarOnError = useSnackbarOnError();
@@ -174,7 +176,7 @@ export const ScrapperBuilder = ({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const debouncedValidate = useDebouncedValidator<any>({
     validate,
-    ms: 500,
+    ms: 250,
   });
 
   const handleSubmit = useCallback(
@@ -225,6 +227,7 @@ export const ScrapperBuilder = ({
 
   const runScrapperDialog = useRunScraperDialog({
     scrapper: initialScrapper ?? data?.updateScrapper,
+    runUrlCreator,
   });
 
   return (
@@ -256,25 +259,28 @@ export const ScrapperBuilder = ({
                 </IconButton>
               }
               title={
-                <FormEditableText
-                  variant="standard"
-                  name="name"
-                  textProps={{ variant: 'h6' }}
-                  onEditFinish={async (name) => {
-                    if (!initialScrapper?.id) {
-                      return;
-                    }
+                <Stack alignItems="center" spacing={1} direction="row">
+                  <ReturnBtn />
+                  <FormEditableText
+                    variant="standard"
+                    name="name"
+                    textProps={{ variant: 'h6' }}
+                    onEditFinish={async (name) => {
+                      if (!initialScrapper?.id) {
+                        return;
+                      }
 
-                    await updateScrapper({
-                      variables: {
-                        input: {
-                          id: initialScrapper.id,
-                          name,
+                      await updateScrapper({
+                        variables: {
+                          input: {
+                            id: initialScrapper.id,
+                            name,
+                          },
                         },
-                      },
-                    });
-                  }}
-                />
+                      });
+                    }}
+                  />
+                </Stack>
               }
               nodesCreator={nodesCreator}
               {...rest}
