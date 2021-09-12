@@ -1,6 +1,6 @@
 {
   "name": "scrapper-gate",
-  "version": "1.0.0-test.2",
+  "version": "1.0.0",
   "license": "MIT",
   "scripts": {
     "nx": "nx",
