@@ -99,6 +99,9 @@
     "frontend-api-client": {
       "tags": []
     },
+    "frontend-block-editor": {
+      "tags": []
+    },
     "frontend-common": {
       "tags": []
     },

@@ -2,24 +2,24 @@
 import { Box } from '@material-ui/core';
 import { LocalizationProvider } from '@material-ui/lab';
 import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
-import { logger } from '@scrapper-gate/shared/logger/console';
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
 import { wait } from '@scrapper-gate/shared/common';
+import { logger } from '@scrapper-gate/shared/logger/console';
 import '@testing-library/jest-dom';
 import { act, render, RenderResult } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React, { PropsWithChildren } from 'react';
 import { Form } from 'react-final-form';
-import { mockDraftJs } from '../../../../../../../tests/mocks/mockDraftJs';
+import {
+  addGroupAndRule,
+  assertTitle,
+} from '../../../../../../../tests/domain/conditionalRules/testUtils';
+import { mockSlate } from '../../../../../../../tests/mocks/mockSlate';
 import { makeHtmlElementRule } from '../../rules/htmlRule';
 import {
   ConditionalRules,
   ConditionalRulesProps,
 } from '../ConditionalRules/ConditionalRules';
-import {
-  addGroupAndRule,
-  assertTitle,
-} from '../../../../../../../tests/domain/conditionalRules/testUtils';
 
 const rules = [
   makeHtmlElementRule({
@@ -156,7 +156,7 @@ describe('<HtmlElementRule />', () => {
   });
 
   beforeEach(() => {
-    mockDraftJs();
+    mockSlate();
   });
 
   it.each<TestCase>([

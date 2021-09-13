@@ -1,18 +1,13 @@
+import { PropsOf } from '@emotion/react';
 import { TextFieldProps } from '@material-ui/core';
-import { CompositeDecorator, ContentState } from 'draft-js';
-import { ReactNode } from 'react';
+import { Ref } from 'react';
+import { Editor } from 'slate';
+import { Slate } from 'slate-react';
+import { Decorator } from '../../Decorator';
 
-export interface TextFieldBlockDecoratorComponentProps {
-  children: ReactNode;
-  contentState: ContentState;
-  entityKey?: string;
-  blockKey?: string;
-  start: number;
-  end: number;
-  decoratedText: string;
-}
+export type SlateProps = PropsOf<typeof Slate>;
 
-export interface TextFieldBlockProps
+export interface BlockEditorProps
   extends Pick<
     TextFieldProps,
     | 'helperText'
@@ -32,9 +27,13 @@ export interface TextFieldBlockProps
     | 'onFocus'
     | 'onBlur'
     | 'error'
+    | 'name'
   > {
+  initialFocused?: boolean;
+  editorInstanceRef?: Ref<Editor>;
+  decorators?: Decorator[];
   onChange?: (text: string) => unknown;
-  decorator?: CompositeDecorator;
+
   value?: string;
   // Used in case if value was passed as date
   // Ex. use case - <VariablesDateField />

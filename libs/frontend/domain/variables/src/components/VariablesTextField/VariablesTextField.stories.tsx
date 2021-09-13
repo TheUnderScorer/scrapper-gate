@@ -1,4 +1,4 @@
-import { Box, Stack, TextField, Typography } from '@material-ui/core';
+import { Box, Stack, Typography } from '@material-ui/core';
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
 import { Scoped } from '@scrapper-gate/frontend/ui';
 import {
@@ -45,8 +45,6 @@ export const Component = () => {
         <VariablesProvider name="variables">
           <Stack spacing={2}>
             <VariablesTextField label="Variable" name="variable" />
-            <VariablesTextField label="Variable" name="variable1" />
-            <TextField label="Text field" />
             <Typography>Values:</Typography>
             <pre>{JSON.stringify(props.values, null, ' ')}</pre>
             <Typography>Resolved variables:</Typography>

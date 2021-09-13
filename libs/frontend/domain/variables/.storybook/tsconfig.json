@@ -11,5 +11,8 @@
     "../**/*.spec.jsx"
   ],
   "include": ["../src/**/*", "*.js"],
-  "files": ["../../../../../node_modules/@nrwl/react/typings/styled-jsx.d.ts"]
+  "files": [
+    "../../../../../node_modules/@nrwl/react/typings/styled-jsx.d.ts",
+    "../../../block-editor/src/typings/slate/index.d.ts"
+  ]
 }

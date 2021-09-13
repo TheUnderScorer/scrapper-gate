@@ -33,3 +33,4 @@ export * from './performUpdate';
 export * from './indexable';
 export * from './fns';
 export * from './pickId';
+export * from './matchAll';

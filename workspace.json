@@ -636,6 +636,60 @@
         }
       }
     },
+    "frontend-block-editor": {
+      "root": "libs/frontend/block-editor",
+      "sourceRoot": "libs/frontend/block-editor/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/frontend/block-editor/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/frontend/block-editor"],
+          "options": {
+            "jestConfig": "libs/frontend/block-editor/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "storybook": {
+          "executor": "@nrwl/storybook:storybook",
+          "options": {
+            "uiFramework": "@storybook/react",
+            "port": 4400,
+            "config": {
+              "configFolder": "libs/frontend/block-editor/.storybook"
+            }
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        },
+        "build-storybook": {
+          "executor": "@nrwl/storybook:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "uiFramework": "@storybook/react",
+            "outputPath": "dist/storybook/frontend-block-editor",
+            "config": {
+              "configFolder": "libs/frontend/block-editor/.storybook"
+            }
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        }
+      }
+    },
     "frontend-common": {
       "root": "libs/frontend/common",
       "sourceRoot": "libs/frontend/common/src",
