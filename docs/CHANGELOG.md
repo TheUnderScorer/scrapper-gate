@@ -1,3 +1,11 @@
+# [1.0.0-test.4](https://github.com/TheUnderScorer/scrapper-gate/compare/v1.0.0-test.3...v1.0.0-test.4) (2021-09-13)
+
+
+### Bug Fixes
+
+* **flow-builder:** Fix disappearing left handle after saving in first node ([3ae961d](https://github.com/TheUnderScorer/scrapper-gate/commit/3ae961d8524aa462781533e01ee0dbc9fa4d1790))
+* **scrapper-builder:** Persist start node position ([1f245e0](https://github.com/TheUnderScorer/scrapper-gate/commit/1f245e073a1feacc2f55e6e3d2666e83501c1a4d))
+
 # [1.0.0-test.3](https://github.com/TheUnderScorer/scrapper-gate/compare/v1.0.0-test.2...v1.0.0-test.3) (2021-09-13)
 
 
