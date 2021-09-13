@@ -13,11 +13,6 @@ export class Decorator {
   decorate([entry, path]: NodeEntry, range: Range[] = []) {
     const { regex, type } = this;
 
-    console.log(`Decorate entry ${type}:`, {
-      entry,
-      range,
-    });
-
     if (!('text' in entry)) {
       return range;
     }
@@ -25,23 +20,11 @@ export class Decorator {
     const matches = matchAll(entry?.text ?? '', regex);
 
     matches.forEach((match) => {
-      console.log(`Decorate match ${type}: `, {
-        match,
-        entry,
-      });
-
       if (!match) {
         return;
       }
 
-      const [startMatch, secondMatch] = match;
-
-      console.log(`Matches ${type}:`, {
-        startMatch,
-        secondMatch,
-        entry,
-        range,
-      });
+      const [startMatch] = match;
 
       const { index: startIndex } = match;
       const endIndex = Number(startIndex) + startMatch.length;
@@ -54,11 +37,6 @@ export class Decorator {
         anchor: { path, offset: startIndex },
         focus: { path, offset: endIndex },
       });
-    });
-
-    console.log(`Decorate range ${type}:`, {
-      entry,
-      range,
     });
 
     return range;
