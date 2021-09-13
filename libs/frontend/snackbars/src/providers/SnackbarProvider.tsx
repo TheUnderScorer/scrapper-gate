@@ -6,7 +6,7 @@ import { SnackbarVariant } from '../types';
 
 const makeSnackbarVariant =
   (variant: SnackbarVariant) => (props: SnackbarProps) =>
-    <Snackbar variant={variant} {...props} />;
+    <Snackbar variant={variant} {...props} key={variant} />;
 
 const components = {
   [SnackbarVariant.Success]: makeSnackbarVariant(SnackbarVariant.Success),

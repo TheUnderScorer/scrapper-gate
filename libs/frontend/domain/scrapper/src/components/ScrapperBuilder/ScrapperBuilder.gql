@@ -1,17 +1,44 @@
 mutation UpdateScrapper($input: ScrapperInput!) {
   updateScrapper(input: $input) {
+    ...ScrapperBuilderScrapper
+  }
+}
+
+fragment ScrapperBuilderScrapper on Scrapper {
+  id
+  createdAt
+  isRunning
+  name
+  updatedAt
+  type
+  startNodePosition {
+    x
+    y
+  }
+  lastRun {
     id
-    name
-    isRunning
-    lastRun {
-      id
-      endedAt
-      state
-    }
+    endedAt
+    state
+  }
+  steps {
+    ...ScrapperBuilderStep
+  }
+  runSettings {
+    dialogBehaviour
+    initialUrl
+    noElementsFoundBehavior
+    timeoutMs
+  }
+  variables {
+    id
+    createdAt
+    defaultValue
+    updatedAt
+    isBuiltIn
+    key
+    scope
     type
-    steps {
-      ...ScrapperBuilderStep
-    }
+    value
   }
 }
 

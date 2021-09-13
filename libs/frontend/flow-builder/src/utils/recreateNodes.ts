@@ -1,6 +1,6 @@
 import { Selection } from '@scrapper-gate/frontend/common';
 import { findFirstNode, NodeLikeItem } from '@scrapper-gate/shared/node';
-import { Node, Position } from 'react-flow-renderer';
+import { Node, Position, XYPosition } from 'react-flow-renderer';
 import {
   BaseNodeProperties,
   BaseNodeSelectionProperties,
@@ -19,6 +19,7 @@ export interface RecreateNodesParams<
   selections: Selection<S>[];
   findSelectionForItem: (item: T, selections: Selection<S>[]) => Selection<S>;
   startNodeNoContent?: boolean;
+  startNodePosition?: XYPosition;
 }
 
 export const recreateNodes =
@@ -31,6 +32,7 @@ export const recreateNodes =
     items,
     selections,
     startNodeNoContent = true,
+    startNodePosition,
   }: RecreateNodesParams<T, S>) =>
   async ({
     handleConnect,
@@ -119,7 +121,7 @@ export const recreateNodes =
     const firstNode = result.find((node) => node.id === firstStep.id) as Node;
 
     const startNode = createStartNode(
-      {
+      startNodePosition ?? {
         x: firstNode.position.x - defaultNodeSize * 2,
         y: firstNode.position.y,
       },

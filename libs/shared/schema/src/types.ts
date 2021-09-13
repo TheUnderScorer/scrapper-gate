@@ -160,6 +160,10 @@ export type ForgotPasswordResponse = {
   stack?: Maybe<Scalars['String']>;
 };
 
+export type HasStartNode = {
+  startNodePosition?: Maybe<NodePosition>;
+};
+
 export type Indexable = {
   index: Scalars['Int'];
 };
@@ -314,7 +318,8 @@ export enum RunnerTrigger {
 }
 
 export type Scrapper = BaseEntity &
-  CreatedBy & {
+  CreatedBy &
+  HasStartNode & {
     id: Scalars['ID'];
     createdAt: Scalars['Date'];
     updatedAt: Scalars['Date'];
@@ -327,6 +332,7 @@ export type Scrapper = BaseEntity &
     type: ScrapperType;
     lastRun?: Maybe<ScrapperRun>;
     runSettings?: Maybe<ScrapperRunSettings>;
+    startNodePosition?: Maybe<NodePosition>;
   };
 
 export enum ScrapperAction {
@@ -351,6 +357,7 @@ export type ScrapperInput = {
   steps?: Maybe<Array<ScrapperStepInput>>;
   variables?: Maybe<Array<VariableInput>>;
   runSettings?: Maybe<ScrapperRunSettingsInput>;
+  startNodePosition?: Maybe<NodePositionInput>;
 };
 
 export enum ScrapperNoElementsFoundBehavior {
@@ -572,38 +579,7 @@ export type GetScrapperForBuilderQueryVariables = Exact<{
 }>;
 
 export type GetScrapperForBuilderQuery = {
-  getMyScrapper: Pick<
-    Scrapper,
-    'id' | 'createdAt' | 'isRunning' | 'name' | 'updatedAt' | 'type'
-  > & {
-    lastRun?: Maybe<Pick<ScrapperRun, 'id' | 'endedAt' | 'state'>>;
-    steps?: Maybe<Array<ScrapperBuilderStepFragment>>;
-    runSettings?: Maybe<
-      Pick<
-        ScrapperRunSettings,
-        | 'dialogBehaviour'
-        | 'initialUrl'
-        | 'noElementsFoundBehavior'
-        | 'timeoutMs'
-      >
-    >;
-    variables?: Maybe<
-      Array<
-        Pick<
-          Variable,
-          | 'id'
-          | 'createdAt'
-          | 'defaultValue'
-          | 'updatedAt'
-          | 'isBuiltIn'
-          | 'key'
-          | 'scope'
-          | 'type'
-          | 'value'
-        >
-      >
-    >;
-  };
+  getMyScrapper: ScrapperBuilderScrapperFragment;
 };
 
 export type GetCurrentUserQueryVariables = Exact<{ [key: string]: never }>;
@@ -679,10 +655,38 @@ export type UpdateScrapperMutationVariables = Exact<{
 }>;
 
 export type UpdateScrapperMutation = {
-  updateScrapper: Pick<Scrapper, 'id' | 'name' | 'isRunning' | 'type'> & {
-    lastRun?: Maybe<Pick<ScrapperRun, 'id' | 'endedAt' | 'state'>>;
-    steps?: Maybe<Array<ScrapperBuilderStepFragment>>;
-  };
+  updateScrapper: ScrapperBuilderScrapperFragment;
+};
+
+export type ScrapperBuilderScrapperFragment = Pick<
+  Scrapper,
+  'id' | 'createdAt' | 'isRunning' | 'name' | 'updatedAt' | 'type'
+> & {
+  startNodePosition?: Maybe<Pick<NodePosition, 'x' | 'y'>>;
+  lastRun?: Maybe<Pick<ScrapperRun, 'id' | 'endedAt' | 'state'>>;
+  steps?: Maybe<Array<ScrapperBuilderStepFragment>>;
+  runSettings?: Maybe<
+    Pick<
+      ScrapperRunSettings,
+      'dialogBehaviour' | 'initialUrl' | 'noElementsFoundBehavior' | 'timeoutMs'
+    >
+  >;
+  variables?: Maybe<
+    Array<
+      Pick<
+        Variable,
+        | 'id'
+        | 'createdAt'
+        | 'defaultValue'
+        | 'updatedAt'
+        | 'isBuiltIn'
+        | 'key'
+        | 'scope'
+        | 'type'
+        | 'value'
+      >
+    >
+  >;
 };
 
 export type ScrapperBuilderStepFragment = Pick<
@@ -970,6 +974,7 @@ export type ResolversTypes = ResolversObject<{
   FileType: FileType;
   ForgotPasswordInput: ForgotPasswordInput;
   ForgotPasswordResponse: ResolverTypeWrapper<ForgotPasswordResponse>;
+  HasStartNode: ResolversTypes['Scrapper'];
   Indexable: ResolversTypes['ScrapperRun'];
   Int: ResolverTypeWrapper<Scalars['Int']>;
   IsAutenthicatedResponse: ResolverTypeWrapper<IsAutenthicatedResponse>;
@@ -1061,6 +1066,7 @@ export type ResolversParentTypes = ResolversObject<{
   File: File;
   ForgotPasswordInput: ForgotPasswordInput;
   ForgotPasswordResponse: ForgotPasswordResponse;
+  HasStartNode: ResolversParentTypes['Scrapper'];
   Indexable: ResolversParentTypes['ScrapperRun'];
   Int: Scalars['Int'];
   IsAutenthicatedResponse: IsAutenthicatedResponse;
@@ -1310,6 +1316,18 @@ export type ForgotPasswordResponseResolvers<
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type HasStartNodeResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['HasStartNode'] = ResolversParentTypes['HasStartNode']
+> = ResolversObject<{
+  __resolveType: TypeResolveFn<'Scrapper', ParentType, ContextType>;
+  startNodePosition?: Resolver<
+    Maybe<ResolversTypes['NodePosition']>,
+    ParentType,
+    ContextType
+  >;
+}>;
+
 export type IndexableResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['Indexable'] = ResolversParentTypes['Indexable']
@@ -1509,6 +1527,11 @@ export type ScrapperResolvers<
   >;
   runSettings?: Resolver<
     Maybe<ResolversTypes['ScrapperRunSettings']>,
+    ParentType,
+    ContextType
+  >;
+  startNodePosition?: Resolver<
+    Maybe<ResolversTypes['NodePosition']>,
     ParentType,
     ContextType
   >;
@@ -1897,6 +1920,7 @@ export type Resolvers<ContextType = any> = ResolversObject<{
   ErrorObjectInterface?: ErrorObjectInterfaceResolvers<ContextType>;
   File?: FileResolvers<ContextType>;
   ForgotPasswordResponse?: ForgotPasswordResponseResolvers<ContextType>;
+  HasStartNode?: HasStartNodeResolvers<ContextType>;
   Indexable?: IndexableResolvers<ContextType>;
   IsAutenthicatedResponse?: IsAutenthicatedResponseResolvers<ContextType>;
   LoginResponse?: LoginResponseResolvers<ContextType>;

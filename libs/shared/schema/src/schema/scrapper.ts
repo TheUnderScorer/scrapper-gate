@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 export const scrapperSchema = gql`
-  type Scrapper implements BaseEntity & CreatedBy {
+  type Scrapper implements BaseEntity & CreatedBy & HasStartNode {
     id: ID!
     createdAt: Date!
     updatedAt: Date!
@@ -14,6 +14,7 @@ export const scrapperSchema = gql`
     type: ScrapperType!
     lastRun: ScrapperRun
     runSettings: ScrapperRunSettings
+    startNodePosition: NodePosition
   }
 
   input ScrapperInput {
@@ -22,6 +23,7 @@ export const scrapperSchema = gql`
     steps: [ScrapperStepInput!]
     variables: [VariableInput!]
     runSettings: ScrapperRunSettingsInput
+    startNodePosition: NodePositionInput
   }
 
   type ScrapperQueryResult {

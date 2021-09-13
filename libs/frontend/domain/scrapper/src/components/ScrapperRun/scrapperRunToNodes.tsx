@@ -23,5 +23,5 @@ export const scrapperRunToNodes = (
     }));
   }
 
-  return scrapperStepsToNodes(steps, selections);
+  return scrapperStepsToNodes({ steps: steps, selections: selections });
 };

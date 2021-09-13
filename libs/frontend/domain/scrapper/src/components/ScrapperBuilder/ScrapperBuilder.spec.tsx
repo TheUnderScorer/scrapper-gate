@@ -4,6 +4,7 @@ import { Box } from '@material-ui/core';
 import { QueryParamProvider } from '@scrapper-gate/frontend/common';
 import {
   FlowBuilderItem,
+  FlowBuilderNodeTypes,
   flowBuilderUtils,
 } from '@scrapper-gate/frontend/flow-builder';
 import { SnackbarProvider } from '@scrapper-gate/frontend/snackbars';
@@ -125,6 +126,45 @@ describe('ScrapperBuilder', () => {
     expect(cmp).toMatchSnapshot();
   });
 
+  it('should support persisted start node position', async () => {
+    await setupScrapperSteps();
+
+    const onChange = jest.fn();
+
+    scrapper.startNodePosition = {
+      x: 50,
+      y: 236,
+    };
+
+    renderCmp({
+      initialScrapper: scrapper,
+      loading: false,
+      onChange,
+    });
+
+    await act(async () => {
+      await wait(1000);
+    });
+
+    await waitFor(
+      () => {
+        const items = last(
+          onChange.mock.calls
+        )[0] as FlowBuilderItem<ScrapperBuilderNodeProperties>[];
+
+        const startNode = items.find(
+          (item) => item.type === FlowBuilderNodeTypes.Start
+        ) as Node;
+
+        expect(startNode.position).toEqual(scrapper.startNodePosition);
+      },
+      {
+        interval: 250,
+        timeout: 7000,
+      }
+    );
+  });
+
   it('should correctly render scrapper steps', async () => {
     await setupScrapperSteps();
 
@@ -212,6 +252,11 @@ describe('ScrapperBuilder', () => {
     expect(mockFn).toHaveBeenCalledTimes(1);
 
     const { variables } = mockFn.mock.calls[0][0];
+
+    expect(variables.input.startNodePosition).toEqual({
+      x: -180,
+      y: 0,
+    });
 
     scrapper
       .steps!.map((step) => pickScrapperInput(step))

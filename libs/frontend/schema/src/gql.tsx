@@ -60,43 +60,53 @@ export const ScrapperBuilderStepFragmentDoc = gql`
     }
   }
 `;
-export const GetScrapperForBuilderDocument = gql`
-  query GetScrapperForBuilder($id: ID!) {
-    getMyScrapper(id: $id) {
+export const ScrapperBuilderScrapperFragmentDoc = gql`
+  fragment ScrapperBuilderScrapper on Scrapper {
+    id
+    createdAt
+    isRunning
+    name
+    updatedAt
+    type
+    startNodePosition {
+      x
+      y
+    }
+    lastRun {
+      id
+      endedAt
+      state
+    }
+    steps {
+      ...ScrapperBuilderStep
+    }
+    runSettings {
+      dialogBehaviour
+      initialUrl
+      noElementsFoundBehavior
+      timeoutMs
+    }
+    variables {
       id
       createdAt
-      isRunning
-      name
+      defaultValue
       updatedAt
+      isBuiltIn
+      key
+      scope
       type
-      lastRun {
-        id
-        endedAt
-        state
-      }
-      steps {
-        ...ScrapperBuilderStep
-      }
-      runSettings {
-        dialogBehaviour
-        initialUrl
-        noElementsFoundBehavior
-        timeoutMs
-      }
-      variables {
-        id
-        createdAt
-        defaultValue
-        updatedAt
-        isBuiltIn
-        key
-        scope
-        type
-        value
-      }
+      value
     }
   }
   ${ScrapperBuilderStepFragmentDoc}
+`;
+export const GetScrapperForBuilderDocument = gql`
+  query GetScrapperForBuilder($id: ID!) {
+    getMyScrapper(id: $id) {
+      ...ScrapperBuilderScrapper
+    }
+  }
+  ${ScrapperBuilderScrapperFragmentDoc}
 `;
 
 /**
@@ -516,21 +526,10 @@ export type GetScrapperStateQueryResult = Apollo.QueryResult<
 export const UpdateScrapperDocument = gql`
   mutation UpdateScrapper($input: ScrapperInput!) {
     updateScrapper(input: $input) {
-      id
-      name
-      isRunning
-      lastRun {
-        id
-        endedAt
-        state
-      }
-      type
-      steps {
-        ...ScrapperBuilderStep
-      }
+      ...ScrapperBuilderScrapper
     }
   }
-  ${ScrapperBuilderStepFragmentDoc}
+  ${ScrapperBuilderScrapperFragmentDoc}
 `;
 export type UpdateScrapperMutationFn = Apollo.MutationFunction<
   Types.UpdateScrapperMutation,

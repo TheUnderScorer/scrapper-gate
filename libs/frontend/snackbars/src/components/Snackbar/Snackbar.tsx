@@ -48,7 +48,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const Snackbar = ({ variant, message, ...rest }: SnackbarProps) => {
+export const Snackbar = ({
+  variant,
+  message,
+  action,
+  ...rest
+}: SnackbarProps) => {
   const [open, setOpen] = useState(true);
 
   const classes = useStyles();
