@@ -66,6 +66,7 @@ export const VariablesDateField = (props: VariablesDateFieldProps) => {
           const formattedText = getDisplayValue({
             value: text,
             dateFormat: props.inputFormat,
+            isDate: true,
           });
 
           // Ensure that we won't overwrite Date value from date picker with value from TextFieldBlock

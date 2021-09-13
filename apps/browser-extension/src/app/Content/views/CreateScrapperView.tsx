@@ -17,6 +17,9 @@ export const CreateScrapperView = () => {
       id: createScrapperDialogId,
       content: (
         <CreateScrapperFormDialog
+          onCancel={() => {
+            history.push('/');
+          }}
           onCreate={(data) => {
             history.push(
               browserExtensionRoutes.content.scrapper({

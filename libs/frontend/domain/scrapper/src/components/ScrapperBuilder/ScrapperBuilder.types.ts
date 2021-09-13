@@ -8,14 +8,15 @@ import {
 import { FieldNameCreator } from '@scrapper-gate/frontend/form';
 import { HtmlElementPickerProps } from '@scrapper-gate/frontend/ui';
 import { Perhaps } from '@scrapper-gate/shared/common';
-import { Scrapper, Variable } from '@scrapper-gate/shared/schema';
+import {
+  Scrapper,
+  ScrapperBuilderScrapperFragment,
+  Variable,
+} from '@scrapper-gate/shared/schema';
 import { ComponentType } from 'react';
 import { Node } from 'react-flow-renderer';
 import { ScrapperBuilderStep } from '../../shared/types';
-import {
-  RunScrapperDialogProps,
-  ScrapperForRun,
-} from '../RunScrapperDialog/RunScrapperDialog.types';
+import { RunScrapperDialogProps } from '../RunScrapperDialog/RunScrapperDialog.types';
 
 export interface ScrapperElementPickerProps
   extends Pick<NodeContentProps, 'nodeIndex'> {
@@ -33,12 +34,6 @@ export type ScrapperBuilderNodeProperties = BaseNodeProperties &
   Omit<ScrapperBuilderStep, 'id' | 'action'> &
   Pick<Partial<ScrapperBuilderStep>, 'id' | 'action'>;
 
-export interface ScrapperBuilderScrapper
-  extends Omit<Scrapper, 'results' | 'createdBy' | 'steps' | 'lastRun'>,
-    Pick<ScrapperForRun, 'lastRun'> {
-  steps?: ScrapperBuilderStep[];
-}
-
 export type ScrapperElementPicker = ComponentType<ScrapperElementPickerProps>;
 
 export interface ScrapperBuilderProps
@@ -47,7 +42,7 @@ export interface ScrapperBuilderProps
       'onClose' | 'renderItemsInDataAttribute' | 'onChange' | 'loading'
     >,
     Pick<RunScrapperDialogProps, 'runUrlCreator'> {
-  initialScrapper?: ScrapperBuilderScrapper;
+  initialScrapper?: ScrapperBuilderScrapperFragment;
   ElementPicker: ScrapperElementPicker;
   browserUrl?: Perhaps<string>;
 }

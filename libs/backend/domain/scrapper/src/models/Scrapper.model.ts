@@ -4,6 +4,7 @@ import { VariableModel } from '@scrapper-gate/backend/domain/variables';
 import { Entities } from '@scrapper-gate/shared/common';
 import { defaultScrapperRunSettings } from '@scrapper-gate/shared/domain/scrapper';
 import {
+  NodePosition,
   Scrapper,
   ScrapperRunSettings,
   ScrapperType,
@@ -62,4 +63,10 @@ export class ScrapperModel
     default: defaultScrapperRunSettings,
   })
   runSettings?: ScrapperRunSettings;
+
+  @Column({
+    type: 'jsonb',
+    nullable: true,
+  })
+  startNodePosition?: NodePosition;
 }

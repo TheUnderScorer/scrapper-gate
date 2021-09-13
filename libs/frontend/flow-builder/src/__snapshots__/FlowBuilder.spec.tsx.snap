@@ -478,6 +478,12 @@ Object {
                                 </span>
                               </div>
                               <div
+                                class="react-flow__handle react-flow__handle-left nodrag target connectable"
+                                data-handleid="left"
+                                data-handlepos="left"
+                                data-nodeid="1"
+                              />
+                              <div
                                 class="react-flow__handle react-flow__handle-right nodrag source connectable"
                                 data-handleid="right"
                                 data-handlepos="right"
@@ -1476,6 +1482,12 @@ Object {
                                 </svg>
                               </span>
                             </div>
+                            <div
+                              class="react-flow__handle react-flow__handle-left nodrag target connectable"
+                              data-handleid="left"
+                              data-handlepos="left"
+                              data-nodeid="1"
+                            />
                             <div
                               class="react-flow__handle react-flow__handle-right nodrag source connectable"
                               data-handleid="right"

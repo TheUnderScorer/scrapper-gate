@@ -185,6 +185,10 @@ export const ScrapperBuilder = ({
         return;
       }
 
+      const startNode = values.items.find(
+        (node) => node.type === FlowBuilderNodeTypes.Start
+      ) as Node | undefined;
+
       try {
         const steps = nodesToScrapperSteps(values.items);
 
@@ -196,6 +200,7 @@ export const ScrapperBuilder = ({
               name: values.name,
               variables: values.variables.map(extractVariableInput),
               runSettings: values.runSettings,
+              startNodePosition: startNode?.position,
             },
           },
         });
@@ -221,7 +226,12 @@ export const ScrapperBuilder = ({
   );
 
   const nodesCreator = useMemo(
-    () => scrapperStepsToNodes(initialScrapper?.steps ?? [], selection),
+    () =>
+      scrapperStepsToNodes({
+        steps: initialScrapper?.steps ?? [],
+        selections: selection,
+        startNodePosition: initialScrapper?.startNodePosition,
+      }),
     [initialScrapper]
   );
 

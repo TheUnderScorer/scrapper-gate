@@ -1,35 +1,5 @@
 query GetScrapperForBuilder($id: ID!) {
   getMyScrapper(id: $id) {
-    id
-    createdAt
-    isRunning
-    name
-    updatedAt
-    type
-    lastRun {
-      id
-      endedAt
-      state
-    }
-    steps {
-      ...ScrapperBuilderStep
-    }
-    runSettings {
-      dialogBehaviour
-      initialUrl
-      noElementsFoundBehavior
-      timeoutMs
-    }
-    variables {
-      id
-      createdAt
-      defaultValue
-      updatedAt
-      isBuiltIn
-      key
-      scope
-      type
-      value
-    }
+    ...ScrapperBuilderScrapper
   }
 }

@@ -10,4 +10,8 @@ export const nodesSchema = gql`
     y: Float!
     x: Float!
   }
+
+  interface HasStartNode {
+    startNodePosition: NodePosition
+  }
 `;

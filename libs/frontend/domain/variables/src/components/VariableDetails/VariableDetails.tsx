@@ -6,7 +6,7 @@ import {
   Stack,
 } from '@material-ui/core';
 import { getDisplayValue } from '@scrapper-gate/shared/common';
-import { Variable } from '@scrapper-gate/shared/schema';
+import { Variable, VariableType } from '@scrapper-gate/shared/schema';
 import classNames from 'classnames';
 import React from 'react';
 import { VariableIcon } from '../VariableIcon/VariableIcon';
@@ -22,6 +22,8 @@ export const VariableDetails = ({
   className,
   hideTitle,
 }: VariableDetailsProps) => {
+  const isDate = variable.type === VariableType.Date;
+
   return (
     <List
       disablePadding
@@ -41,7 +43,9 @@ export const VariableDetails = ({
       <ListItem disableGutters>
         <ListItemText
           primary="Default value"
-          secondary={getDisplayValue({ value: variable.defaultValue }) ?? '-'}
+          secondary={
+            getDisplayValue({ value: variable.defaultValue, isDate }) ?? '-'
+          }
         />
       </ListItem>
       <ListItem disableGutters>
@@ -50,6 +54,7 @@ export const VariableDetails = ({
           secondary={
             getDisplayValue({
               value: variable.value,
+              isDate,
             }) ?? '-'
           }
         />
