@@ -76,31 +76,27 @@ export const nodeTypes: Record<
     boxWithIcon: ActionNodeBox,
     handles: ({
       node: {
-        data: { isFirst, isLast, sourcePosition, targetPosition },
+        data: { sourcePosition, targetPosition },
       },
       isValidConnectionChecker,
     }) => (
       <>
-        {!isFirst && (
-          <Handle
-            onClick={stopPropagation}
-            id={targetPosition ?? Position.Left}
-            isValidConnection={isValidConnectionChecker}
-            isConnectable
-            type="target"
-            position={targetPosition ?? Position.Left}
-          />
-        )}
-        {!isLast && (
-          <Handle
-            onClick={stopPropagation}
-            isValidConnection={isValidConnectionChecker}
-            isConnectable
-            type="source"
-            position={sourcePosition ?? Position.Right}
-            id={sourcePosition ?? Position.Right}
-          />
-        )}
+        <Handle
+          onClick={stopPropagation}
+          id={targetPosition ?? Position.Left}
+          isValidConnection={isValidConnectionChecker}
+          isConnectable
+          type="target"
+          position={targetPosition ?? Position.Left}
+        />
+        <Handle
+          onClick={stopPropagation}
+          isValidConnection={isValidConnectionChecker}
+          isConnectable
+          type="source"
+          position={sourcePosition ?? Position.Right}
+          id={sourcePosition ?? Position.Right}
+        />
       </>
     ),
     handlesData: {
