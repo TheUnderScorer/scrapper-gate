@@ -1,3 +1,10 @@
+# [1.0.0-test.3](https://github.com/TheUnderScorer/scrapper-gate/compare/v1.0.0-test.2...v1.0.0-test.3) (2021-09-13)
+
+
+### Bug Fixes
+
+* Replace draft-js with slate ([39ddc3c](https://github.com/TheUnderScorer/scrapper-gate/commit/39ddc3cff26b883b2d80777ec720c8f797618ba9))
+
 # [1.0.0-test.2](https://github.com/TheUnderScorer/scrapper-gate/compare/v1.0.0-test.1...v1.0.0-test.2) (2021-09-04)
 
 
