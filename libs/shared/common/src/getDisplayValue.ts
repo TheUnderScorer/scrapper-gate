@@ -1,17 +1,34 @@
 import { format } from 'date-fns';
+import { canBeDate } from './canBeDate';
 import { DateFormat } from './date/DateFormat';
 
 export interface GetValueParams {
   value: unknown;
   dateFormat?: string;
+  isDate?: boolean;
 }
 
 export const getDisplayValue = ({
   value,
   dateFormat = DateFormat.Date,
+  isDate,
 }: GetValueParams): string | number | null | undefined => {
   if (!value) {
     return null;
+  }
+
+  if (isDate) {
+    if (!canBeDate(value)) {
+      return null;
+    }
+
+    try {
+      const date = new Date(value);
+
+      return format(date, dateFormat);
+    } catch {
+      return null;
+    }
   }
 
   switch (typeof value) {

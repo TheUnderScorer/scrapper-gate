@@ -10,5 +10,7 @@ export const useCreateScrapperExtension = () => {
       visible: true,
       path: browserExtensionRoutes.content.createScrapper,
     });
+
+    window.close();
   }, [toggleContent]);
 };
