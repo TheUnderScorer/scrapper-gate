@@ -49,6 +49,7 @@ fragment ScrapperBuilderStep on ScrapperStep {
   createdAt
   updatedAt
   mouseButton
+  fullPageScreenshot
   isFirst
   navigateToUrl
   nextStep {

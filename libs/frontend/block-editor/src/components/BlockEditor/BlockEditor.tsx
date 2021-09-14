@@ -84,6 +84,17 @@ const BlockEditorField = forwardRef<
   }
 );
 
+const getEmptyValue = () => [
+  {
+    type: 'text',
+    children: [
+      {
+        text: '',
+      },
+    ],
+  },
+];
+
 export const BlockEditor = forwardRef<HTMLInputElement, BlockEditorProps>(
   (
     {
@@ -111,8 +122,14 @@ export const BlockEditor = forwardRef<HTMLInputElement, BlockEditorProps>(
     const [didInternalChange, setDidInternalChange] = useState(false);
 
     const [state, setState] = useState<Descendant[]>(
-      value ? textSerializeStrategy.deserialize(value) : []
+      value ? textSerializeStrategy.deserialize(value) : getEmptyValue()
     );
+
+    console.log({
+      value,
+      state,
+      name: props.name,
+    });
 
     const handleStateChange = useCallback(
       (newState: Descendant[]) => {
@@ -150,7 +167,13 @@ export const BlockEditor = forwardRef<HTMLInputElement, BlockEditorProps>(
         return;
       }
 
-      setState(textSerializeStrategy.deserialize(value ?? ''));
+      if (!value) {
+        setState(getEmptyValue());
+
+        return;
+      }
+
+      setState(textSerializeStrategy.deserialize(value));
     }, [didInternalChange, value]);
 
     useEffect(() => {
