@@ -1,4 +1,7 @@
-import { useFormUndo } from '@scrapper-gate/frontend/form';
+import {
+  useFormUndo,
+  useSetFormAsNonDirty,
+} from '@scrapper-gate/frontend/form';
 import { logger } from '@scrapper-gate/shared/logger/console';
 import { useCallback } from 'react';
 import { useFlowBuilderItemsSelector } from '../providers/FlowBuilderItems.provider';
@@ -18,6 +21,8 @@ export const useNodesCreator = () => {
     (ctx) => ctx.setNodesRecreated
   );
 
+  const setFormAsNonDirty = useSetFormAsNonDirty();
+
   return useCallback(() => {
     nodesCreator?.({
       handleConnect: (params, items) =>
@@ -33,10 +38,20 @@ export const useNodesCreator = () => {
           setItems(result);
 
           reset();
+
+          setFormAsNonDirty();
         }
       })
       .catch(logger.error);
 
     setNodesRecreated(true);
-  }, [addItem, connect, nodesCreator, reset, setItems, setNodesRecreated]);
+  }, [
+    addItem,
+    connect,
+    nodesCreator,
+    reset,
+    setFormAsNonDirty,
+    setItems,
+    setNodesRecreated,
+  ]);
 };

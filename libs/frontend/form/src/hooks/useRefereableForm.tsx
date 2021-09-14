@@ -18,8 +18,17 @@ export const useRefereableForm = <
   > | null>(null);
 
   const Form = useCallback(
-    () => <ReferableForm {...props} onForm={setForm} />,
-    [props]
+    () => (
+      <ReferableForm
+        {...props}
+        onForm={(formApi) => {
+          if (!form) {
+            setForm(formApi);
+          }
+        }}
+      />
+    ),
+    [form, props]
   );
 
   return {

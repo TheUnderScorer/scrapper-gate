@@ -1,3 +1,4 @@
+import { voidFn } from '@scrapper-gate/shared/common';
 import { Decorator, FormApi } from 'final-form';
 import React, { useCallback, useMemo } from 'react';
 import { Form, FormProps } from 'react-final-form';
@@ -21,14 +22,9 @@ export const ReferableForm = <
 }: ReferableFormProps<FormValues, InitialFormValues>) => {
   const decorator = useCallback(
     (form: FormApi<FormValues, InitialFormValues>) => {
-      return form.subscribe(
-        () => {
-          onForm(form);
-        },
-        {
-          values: true,
-        }
-      );
+      onForm(form);
+
+      return voidFn;
     },
     [onForm]
   );
