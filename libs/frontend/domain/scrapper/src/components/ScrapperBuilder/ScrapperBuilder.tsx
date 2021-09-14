@@ -18,6 +18,7 @@ import {
   FormEditableText,
   joiValidationResolver,
   mergeValidators,
+  UnsavedFormAlert,
   useDebouncedValidator,
 } from '@scrapper-gate/frontend/form';
 import { useUpdateScrapperMutation } from '@scrapper-gate/frontend/schema';
@@ -248,6 +249,7 @@ export const ScrapperBuilder = ({
       destroyOnUnregister={false}
       render={(props) => (
         <VariablesProvider name="variables">
+          <UnsavedFormAlert />
           <form className={classes.form} onSubmit={props.handleSubmit}>
             <FlowBuilder
               nodeKeyProperty="data.key"

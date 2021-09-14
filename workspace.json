@@ -1281,7 +1281,7 @@
           "executor": "@nrwl/workspace:run-commands",
           "options": {
             "parallel": false,
-            "command": "serverless offline --stage development --lambdaPort 3003"
+            "command": "npx serverless offline --stage development --lambdaPort 3003"
           }
         },
         "lint": {

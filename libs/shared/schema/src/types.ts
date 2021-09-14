@@ -697,6 +697,7 @@ export type ScrapperBuilderStepFragment = Pick<
   | 'createdAt'
   | 'updatedAt'
   | 'mouseButton'
+  | 'fullPageScreenshot'
   | 'isFirst'
   | 'navigateToUrl'
   | 'reloadDelay'

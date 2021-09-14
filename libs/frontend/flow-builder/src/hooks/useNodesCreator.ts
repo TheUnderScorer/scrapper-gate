@@ -1,8 +1,9 @@
-import { useFormUndo } from '@scrapper-gate/frontend/form';
-import { withPrefix } from '@scrapper-gate/shared/common';
+import {
+  useFormUndo,
+  useSetFormAsNonDirty,
+} from '@scrapper-gate/frontend/form';
 import { logger } from '@scrapper-gate/shared/logger/console';
 import { useCallback } from 'react';
-import { useDebounce } from 'react-use';
 import { useFlowBuilderItemsSelector } from '../providers/FlowBuilderItems.provider';
 import { useFlowBuilderContextSelector } from '../providers/FlowBuilderProps.provider';
 import { useAddItem } from './useAddItem';
@@ -20,7 +21,9 @@ export const useNodesCreator = () => {
     (ctx) => ctx.setNodesRecreated
   );
 
-  const handler = useCallback(() => {
+  const setFormAsNonDirty = useSetFormAsNonDirty();
+
+  return useCallback(() => {
     nodesCreator?.({
       handleConnect: (params, items) =>
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -35,23 +38,20 @@ export const useNodesCreator = () => {
           setItems(result);
 
           reset();
+
+          setFormAsNonDirty();
         }
       })
       .catch(logger.error);
 
     setNodesRecreated(true);
-  }, [addItem, connect, nodesCreator, reset, setItems, setNodesRecreated]);
-
-  // Every time "nodesCreator" is changed, trigger handler once again, because items inside it probably changed
-  useDebounce(
-    () => {
-      logger.debug(withPrefix('Nodes creator changed', 'debounce'));
-
-      handler();
-    },
-    250,
-    [nodesCreator]
-  );
-
-  return handler;
+  }, [
+    addItem,
+    connect,
+    nodesCreator,
+    reset,
+    setFormAsNonDirty,
+    setItems,
+    setNodesRecreated,
+  ]);
 };

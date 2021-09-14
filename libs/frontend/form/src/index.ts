@@ -17,3 +17,6 @@ export * from './components/ReferableForm/ReferableForm';
 export * from './hooks/useRefereableForm';
 export * from './components/UndoButtons/UndoButtons';
 export * from './components/FormBlockEditor/FormBlockEditor';
+export * from './components/UnsavedFormAlert/UnsavedFormAlert';
+export * from './components/UnsavedFormAlert/UnsavedFormAlert.types';
+export * from './hooks/useSetFormAsNonDirty';
