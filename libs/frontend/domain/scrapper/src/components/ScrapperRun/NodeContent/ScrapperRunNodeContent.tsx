@@ -108,6 +108,7 @@ export const ScrapperRunNodeContent = ({
   return (
     <div>
       <Accordion
+        variant="outlined"
         expanded={expanded === ScrapperRunNodeContentPanel.Details}
         onChange={handleExpandedChange(ScrapperRunNodeContentPanel.Details)}
       >
@@ -192,6 +193,7 @@ export const ScrapperRunNodeContent = ({
         </AccordionDetails>
       </Accordion>
       <Accordion
+        variant="outlined"
         expanded={expanded === ScrapperRunNodeContentPanel.Duration}
         onChange={handleExpandedChange(ScrapperRunNodeContentPanel.Duration)}
       >
