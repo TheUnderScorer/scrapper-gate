@@ -1,12 +1,18 @@
-import React, { PropsWithChildren } from 'react';
 import {
   FormControl,
   FormHelperText,
   InputLabel,
+  ListItemIcon,
+  ListItemText,
+  MenuItem,
   Select,
   SelectProps,
   TextFieldProps,
+  useTheme,
 } from '@material-ui/core';
+import { AppTheme } from '@scrapper-gate/frontend/theme';
+import { Emoji } from '@scrapper-gate/frontend/ui';
+import React, { Children, PropsWithChildren, useMemo } from 'react';
 import { useField } from 'react-final-form';
 import { useToggle } from 'react-use';
 
@@ -41,6 +47,8 @@ export const FormSelect = ({
   initialOpen,
   ...props
 }: PropsWithChildren<FormSelectProps>) => {
+  const theme = useTheme() as AppTheme;
+
   const [open, toggleOpen] = useToggle(Boolean(initialOpen));
 
   const {
@@ -50,6 +58,8 @@ export const FormSelect = ({
     multiple,
     initialValue: defaultValue,
   });
+
+  const childrenCount = useMemo(() => Children.count(children), [children]);
 
   return (
     <FormControl id={name} variant={variant} error={Boolean(error)}>
@@ -63,7 +73,16 @@ export const FormSelect = ({
         multiple={multiple}
         {...props}
       >
-        {children}
+        {childrenCount > 0 ? (
+          children
+        ) : (
+          <MenuItem disabled>
+            <ListItemIcon>
+              <Emoji>{theme.emojis.empty}</Emoji>
+            </ListItemIcon>
+            <ListItemText>No items found</ListItemText>
+          </MenuItem>
+        )}
       </Select>
       {(helperText || error) && (
         <FormHelperText>{error?.message ?? helperText}</FormHelperText>
