@@ -1,3 +1,16 @@
+# [1.0.0-test.5](https://github.com/TheUnderScorer/scrapper-gate/compare/v1.0.0-test.4...v1.0.0-test.5) (2021-09-14)
+
+
+### Bug Fixes
+
+* **block-editor:** Fix typing when field was empty ([3830835](https://github.com/TheUnderScorer/scrapper-gate/commit/3830835b7026067d6169eed66deda9f820a343f4))
+* **scrapper-builder:** Keep state after switching tabs ([553eeab](https://github.com/TheUnderScorer/scrapper-gate/commit/553eeab0d263cfb2fe31b2de165bc663f35d4438))
+
+
+### Features
+
+* **form:** Show alert if form has unsaved changes ([1d50ed7](https://github.com/TheUnderScorer/scrapper-gate/commit/1d50ed7c5b4a083692710252b73016169e17314d))
+
 # [1.0.0-test.4](https://github.com/TheUnderScorer/scrapper-gate/compare/v1.0.0-test.3...v1.0.0-test.4) (2021-09-13)
 
 
