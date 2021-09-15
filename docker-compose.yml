@@ -3,6 +3,8 @@ version: '3.4'
 services:
   localstack:
     image: localstack/localstack
+    networks:
+      - app
     volumes:
       - ./docker/localstack/tmp:/tmp
     environment:

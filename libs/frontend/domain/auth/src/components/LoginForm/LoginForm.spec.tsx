@@ -6,7 +6,7 @@ import {
 } from '@scrapper-gate/frontend/schema';
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
 import { wait } from '@scrapper-gate/shared/common';
-import { createMockUser } from '@scrapper-gate/shared/domain/user';
+import { createMockUser } from '@scrapper-gate/shared/domain/user/mocks';
 import {
   CreateUserMutation,
   CreateUserMutationVariables,

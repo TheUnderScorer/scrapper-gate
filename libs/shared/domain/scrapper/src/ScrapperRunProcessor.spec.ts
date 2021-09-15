@@ -1,12 +1,18 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { createBaseEntity } from '@scrapper-gate/shared/common';
+import {
+  createMockScrapper,
+  createMockScrapperRun,
+  createMockScrapperStep,
+} from '@scrapper-gate/shared/domain/scrapper/mocks';
 import { ScrapperRunError } from '@scrapper-gate/shared/errors';
 import { logger } from '@scrapper-gate/shared/logger/console';
-import { RunState, ScrapperAction, ScrapperStep } from '@scrapper-gate/shared/schema';
+import {
+  RunState,
+  ScrapperAction,
+  ScrapperStep,
+} from '@scrapper-gate/shared/schema';
 import { createMockProxy } from 'jest-mock-proxy';
-import { createMockScrapper } from './mockScrapper';
-import { createMockScrapperRun } from './mockScrapperRun';
-import { createMockScrapperStep } from './mockScrapperStep';
 import { ScrapperRunProcessor } from './ScrapperRunProcessor';
 import { ScrapperRunner } from './types';
 

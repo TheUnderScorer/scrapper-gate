@@ -33,26 +33,10 @@
           }
         },
         "build": {
-          "executor": "@nrwl/node:build",
-          "outputs": ["{options.outputPath}"],
+          "executor": "@nrwl/workspace:run-commands",
           "options": {
-            "outputPath": "dist/apps/api",
-            "main": "apps/api/src/main.ts",
-            "tsConfig": "apps/api/tsconfig.app.json",
-            "generatePackageJson": true
-          },
-          "configurations": {
-            "production": {
-              "optimization": true,
-              "extractLicenses": true,
-              "inspect": false,
-              "fileReplacements": [
-                {
-                  "replace": "apps/api/src/environments/environment.ts",
-                  "with": "apps/api/src/environments/environment.prod.ts"
-                }
-              ]
-            }
+            "parallel": false,
+            "command": "node apps/api/build.mjs"
           }
         },
         "serve": {
@@ -1405,22 +1389,43 @@
         }
       }
     },
-    "shared-domain-user": {
-      "root": "libs/shared/domain/user",
-      "sourceRoot": "libs/shared/domain/user/src",
+    "shared-domain-scrapper-mocks": {
+      "root": "libs/shared/domain/scrapper/mocks",
+      "sourceRoot": "libs/shared/domain/scrapper/mocks/src",
       "projectType": "library",
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["libs/shared/domain/user/**/*.ts"]
+            "lintFilePatterns": ["libs/shared/domain/scrapper/mocks/**/*.ts"]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/shared/domain/user"],
+          "outputs": ["coverage/libs/shared/domain/scrapper/mocks"],
           "options": {
-            "jestConfig": "libs/shared/domain/user/jest.config.js",
+            "jestConfig": "libs/shared/domain/scrapper/mocks/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "shared-domain-user-mocks": {
+      "root": "libs/shared/domain/user/mocks",
+      "sourceRoot": "libs/shared/domain/user/mocks/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/shared/domain/user/mocks/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shared/domain/user/mocks"],
+          "options": {
+            "jestConfig": "libs/shared/domain/user/mocks/jest.config.js",
             "passWithNoTests": true
           }
         }

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any,@typescript-eslint/no-non-null-assertion */
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
+import { createMockScrapper } from '@scrapper-gate/shared/domain/scrapper/mocks';
 import { PopupScrappersView } from './PopupScrappersView';
 import { act, render, waitFor } from '@testing-library/react';
 import { Tabs } from 'webextension-polyfill-ts';
@@ -9,7 +10,6 @@ import {
   MyScrappersQueryVariables,
 } from '@scrapper-gate/shared/schema';
 import { initialPagination } from '@scrapper-gate/frontend/ui';
-import { createMockScrapper } from '@scrapper-gate/shared/domain/scrapper';
 import userEvent from '@testing-library/user-event';
 import { mockEvent, MockzillaEventOf } from 'mockzilla-webextension';
 import { useTokensStore } from '@scrapper-gate/frontend/domain/auth';

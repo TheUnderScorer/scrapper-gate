@@ -1,8 +1,15 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "../../dist/out-tsc",
-    "types": ["node", "express"]
+    "outDir": "../../dist/apps/api",
+    "types": ["node", "express"],
+    "module": "CommonJS",
+    "plugins": [
+      {
+        "transform": "@zerollup/ts-transform-paths",
+        "exclude": ["*"]
+      }
+    ]
   },
   "exclude": ["**/*.spec.ts", "src/tests/setupServer.ts"],
   "include": ["**/*.ts"]

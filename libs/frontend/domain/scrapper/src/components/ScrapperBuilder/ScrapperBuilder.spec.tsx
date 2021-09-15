@@ -10,11 +10,11 @@ import {
 import { SnackbarProvider } from '@scrapper-gate/frontend/snackbars';
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
 import { getById, last, wait } from '@scrapper-gate/shared/common';
+import { pickScrapperInput } from '@scrapper-gate/shared/domain/scrapper';
 import {
   createMockScrapper,
   createMockScrapperStep,
-  pickScrapperInput,
-} from '@scrapper-gate/shared/domain/scrapper';
+} from '@scrapper-gate/shared/domain/scrapper/mocks';
 import { Scrapper, ScrapperAction } from '@scrapper-gate/shared/schema';
 import { act, render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
