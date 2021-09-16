@@ -43,7 +43,7 @@
           "executor": "@nrwl/workspace:run-commands",
           "options": {
             "parallel": false,
-            "command": "docker-compose -f docker-compose.prod.yml up api -d"
+            "command": "docker-compose -f docker-compose.prod.yml up -d api"
           }
         },
         "serve": {

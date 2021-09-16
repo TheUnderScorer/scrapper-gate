@@ -39,7 +39,7 @@ jobs:
         run: npm ci --legacy-peer-deps
 
       - name: Build
-        run: npx nx build browser-extension --prod && npx nx build api --prod
+        run: npx nx build browser-extension --prod && npx nx build api
 
   lint:
     needs:
