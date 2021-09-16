@@ -39,6 +39,13 @@
             "command": "node apps/api/build.mjs"
           }
         },
+        "serve-docker": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "parallel": false,
+            "command": "docker compose -f docker-compose.prod.yml up api -d"
+          }
+        },
         "serve": {
           "executor": "@nrwl/workspace:run-commands",
           "options": {
@@ -580,7 +587,9 @@
           "outputs": ["coverage/apps/browser-extension-e2e"],
           "options": {
             "jestConfig": "apps/browser-extension-e2e/jest.config.js",
-            "passWithNoTests": true
+            "passWithNoTests": true,
+            "runInBand": true,
+            "bail": 1
           },
           "configurations": {
             "production": {

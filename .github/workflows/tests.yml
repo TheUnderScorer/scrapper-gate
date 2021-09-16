@@ -252,5 +252,8 @@ jobs:
       - name: Build extension
         run: npx nx build browser-extension --prod
 
+      - name: Start api
+        run: npx nx run api:serve-docker
+
       - name: Test
         run: xvfb-run --auto-servernum -- npx nx run browser-extension-e2e:e2e

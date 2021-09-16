@@ -14,6 +14,7 @@ import { UserAvatar } from '@scrapper-gate/frontend/domain/user';
 import { useGetCurrentUserQuery } from '@scrapper-gate/frontend/schema';
 import { Layout, QueryDrawer } from '@scrapper-gate/frontend/ui';
 import { browserExtensionRoutes } from '@scrapper-gate/shared/routing';
+import classNames from 'classnames';
 import React, { useMemo } from 'react';
 import { useLocation } from 'react-router';
 import { useHistory } from 'react-router-dom';
@@ -80,7 +81,7 @@ export const PopupDrawer = () => {
         id: 'logout',
         icon: <Logout />,
         content: 'Logout',
-        className: classes.logout,
+        className: classNames(classes.logout, 'logout'),
         onClick: logout,
       },
     ],

@@ -94,7 +94,7 @@
     },
     "browser-extension-e2e": {
       "tags": [],
-      "implicitDependencies": ["browser-extension"]
+      "implicitDependencies": ["browser-extension", "api"]
     },
     "frontend-api-client": {
       "tags": []

@@ -129,7 +129,12 @@ export const LoginForm = ({
                 <Stack alignItems="center" direction="row">
                   <Typography variant="caption">Don't have account?</Typography>
                   <Link to={signupUrl}>
-                    <Button disabled={loading} color="primary" variant="text">
+                    <Button
+                      className="sign-up"
+                      disabled={loading}
+                      color="primary"
+                      variant="text"
+                    >
                       Sign up
                     </Button>
                   </Link>
