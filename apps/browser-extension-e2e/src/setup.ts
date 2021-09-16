@@ -1,7 +1,10 @@
 import { wait } from '@scrapper-gate/shared/common';
+import { apiRoutes } from '@scrapper-gate/shared/routing';
 import fs from 'fs';
 import path from 'path';
 import { chromium } from 'playwright';
+import { URL } from 'url';
+import fetch from 'node-fetch';
 
 const extensionPath = path.join(
   __dirname,
@@ -10,10 +13,28 @@ const extensionPath = path.join(
 
 let contextPaths: string[] = [];
 
+async function apiHealthCheck() {
+  if (!process.env.SERVER_URL) {
+    throw new Error('SERVER_URL is missing in environment!');
+  }
+
+  const url = new URL(process.env.SERVER_URL);
+
+  url.pathname = apiRoutes.health;
+
+  const response = await fetch(url.toString());
+
+  if (!response.ok) {
+    throw new Error('API health check failed');
+  }
+}
+
 beforeAll(async () => {
   if (global.browser) {
     return;
   }
+
+  await apiHealthCheck();
 
   if (!fs.existsSync(extensionPath)) {
     throw new Error('Extension must be built before launching e2e tests!');
