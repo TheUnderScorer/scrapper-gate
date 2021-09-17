@@ -250,7 +250,7 @@ jobs:
         run: npm ci --legacy-peer-deps && npm i ts-node -g
 
       - name: Build extension
-        run: cp apps/browser-extension/.local.env.dist apps/browser-extension/.local.env && npx nx build browser-extension --prod
+        run: cp apps/browser-extension/.local.env.dist apps/browser-extension/.env && npx nx build browser-extension --prod
 
       - name: Start api
         run: npx nx run api:serve-docker
