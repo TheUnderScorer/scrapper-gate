@@ -257,3 +257,13 @@ jobs:
 
       - name: Test
         run: xvfb-run --auto-servernum -- npx nx run browser-extension-e2e:e2e
+
+      - name: Write API logs
+        run: docker-compose -f docker-compose.prod.yml logs api > api-logs.log
+        if: ${{ failure() }}
+
+      - uses: actions/upload-artifact@v2
+        if: ${{ failure() }}
+        with:
+          name: test-artifact
+          path: api-logs.log
