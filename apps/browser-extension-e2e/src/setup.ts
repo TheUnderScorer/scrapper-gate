@@ -30,26 +30,29 @@ async function apiHealthCheck() {
 }
 
 beforeAll(async () => {
+  await apiHealthCheck();
+
+  if (!fs.existsSync(extensionPath)) {
+    throw new Error('Extension must be built before launching e2e tests!');
+  }
+});
+
+beforeEach(async () => {
   jest.retryTimes(3);
 
   if (global.browser) {
     return;
   }
 
-  await apiHealthCheck();
+  const { currentTestName } = expect.getState();
+  const fullContextPath = path.resolve(
+    __dirname,
+    'contexts',
+    currentTestName,
+    '.ctx'
+  );
 
-  if (!fs.existsSync(extensionPath)) {
-    throw new Error('Extension must be built before launching e2e tests!');
-  }
-
-  const { testPath } = expect.getState();
-  const contextPath = testPath.split('/');
-
-  contextPath.pop();
-
-  const fullContextPath = path.join(...contextPath, '.ctx');
-
-  contextPath.push(fullContextPath);
+  contextPaths.push(fullContextPath);
 
   const ctx = await chromium.launchPersistentContext(fullContextPath, {
     args: [
@@ -77,16 +80,6 @@ beforeAll(async () => {
   console.log('e2e tests setup ready!');
 });
 
-afterEach(async () => {
-  if (!global.browser) {
-    return;
-  }
-
-  const pages = global.browser.pages();
-
-  await Promise.all(pages.map((page) => page.close()));
-});
-
 afterAll(async () => {
   if (global.browser) {
     await global.browser.close();
@@ -94,7 +87,11 @@ afterAll(async () => {
 
   contextPaths.forEach((path) => {
     if (fs.existsSync(path)) {
-      fs.unlinkSync(path);
+      try {
+        fs.unlinkSync(path);
+      } catch {
+        /// Nothing here :0
+      }
     }
   });
 
