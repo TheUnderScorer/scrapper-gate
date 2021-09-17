@@ -1,4 +1,5 @@
 import { wait } from '@scrapper-gate/shared/common';
+import { logger } from '@scrapper-gate/shared/logger/console';
 import { apiRoutes } from '@scrapper-gate/shared/routing';
 import fs from 'fs';
 import path from 'path';
@@ -76,6 +77,20 @@ beforeEach(async () => {
   await wait(2000);
 
   global.browser = ctx;
+
+  ctx.on('page', (page) => {
+    page.on('request', (request) => {
+      logger.info(`Performing request to ${request.url()}`);
+    });
+
+    page.on('requestfailed', async (request) => {
+      const response = await request.response();
+
+      logger.error(
+        `Request to ${request.url()} failed with status: ${response?.status()}`
+      );
+    });
+  });
 
   console.log('e2e tests setup ready!');
 });
