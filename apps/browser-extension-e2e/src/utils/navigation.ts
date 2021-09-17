@@ -22,7 +22,11 @@ export const navigateToPopup = async (
   };
 
   if (result.isAuthorized && logoutIfAuthorized) {
-    await logout(page);
+    try {
+      await logout(page);
+    } catch (error) {
+      console.error('Failed to logout:', error);
+    }
   }
 
   return result;
