@@ -9,11 +9,11 @@ import {
 } from '@scrapper-gate/backend/domain/scrapper';
 import { UserRepository } from '@scrapper-gate/backend/domain/user';
 import { Message } from '@scrapper-gate/backend/message-queue';
+import { ScrapperRunnerMessagePayload } from '@scrapper-gate/shared/domain/scrapper';
 import {
   createMockScrapper,
   createMockScrapperStep,
-  ScrapperRunnerMessagePayload,
-} from '@scrapper-gate/shared/domain/scrapper';
+} from '@scrapper-gate/shared/domain/scrapper/mocks';
 import {
   FileAccess,
   FileKind,

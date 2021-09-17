@@ -11,7 +11,7 @@ import {
   createMockScrapper,
   createMockScrapperRun,
   createMockScrapperStep,
-} from '@scrapper-gate/shared/domain/scrapper';
+} from '@scrapper-gate/shared/domain/scrapper/mocks';
 import {
   GetMyScrapperRunQueryVariables,
   GetMyScrapperRunStateQueryVariables,

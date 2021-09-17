@@ -1,9 +1,15 @@
 import { NoActiveTabFoundError } from '@scrapper-gate/shared/errors';
+import { logger } from '@scrapper-gate/shared/logger/console';
+import { browser, Tabs } from 'webextension-polyfill-ts';
+import { isBrowserExtensionUrl } from '../../isBrowserExtensionUrl';
+import { getActiveTab } from '../tabsQuery/getActiveTab';
+import { createActiveTab } from './createActiveTab';
 import { errorMessageResult } from './messageResult';
 import { Message, MessageResult } from './messageResult.types';
-import { getActiveTab } from '../tabsQuery/getActiveTab';
-import { browser } from 'webextension-polyfill-ts';
-import { logger } from '@scrapper-gate/shared/logger/console';
+
+export interface SendMessageParams {
+  onTabCreated?: (tab: Tabs.Tab) => unknown;
+}
 
 export const sendMessageToTab = async <Result>(
   tabId: number,
@@ -23,12 +29,30 @@ export const sendMessageToTab = async <Result>(
 };
 
 export const sendMessageToActiveTab = async <Result>(
-  message: Message<unknown>
+  message: Message<unknown>,
+  { onTabCreated }: SendMessageParams = {}
 ) => {
-  const activeTab = await getActiveTab();
+  let activeTab: Tabs.Tab | undefined;
+  let tabCreated = false;
+
+  try {
+    activeTab = await getActiveTab();
+  } catch {
+    activeTab = await createActiveTab();
+    tabCreated = true;
+  }
+
+  if (isBrowserExtensionUrl(activeTab?.url ?? '')) {
+    activeTab = await createActiveTab();
+    tabCreated = true;
+  }
 
   if (!activeTab?.id) {
     return errorMessageResult<Result>(new NoActiveTabFoundError());
+  }
+
+  if (tabCreated) {
+    onTabCreated?.(activeTab);
   }
 
   return sendMessageToTab<Result>(activeTab.id, message);

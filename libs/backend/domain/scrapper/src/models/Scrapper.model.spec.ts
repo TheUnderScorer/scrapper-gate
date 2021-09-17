@@ -1,5 +1,5 @@
 import { UserModel } from '@scrapper-gate/backend/domain/user';
-import { createMockUser } from '@scrapper-gate/shared/domain/user';
+import { createMockUser } from '@scrapper-gate/shared/domain/user/mocks';
 import {
   MouseButton,
   RunState,

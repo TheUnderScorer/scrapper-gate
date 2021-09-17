@@ -1,21 +1,10 @@
+const makeShim = require('../../tools/makeShim');
 const createConfig = require('@nrwl/react/plugins/webpack');
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const webpack = require('webpack');
 const { createPipe } = require('remeda');
-
-function makeShim(config, regex) {
-  config.plugins.push(
-    new webpack.NormalModuleReplacementPlugin(regex, (resource) => {
-      const srcPath = path.resolve(path.join(__dirname, '../../tools/shim.js'));
-
-      resource.request = resource.request.replace(regex, srcPath);
-    })
-  );
-
-  return config;
-}
 
 function removeProgressPlugin(config) {
   // There are two ProgressPlugins, and this causes build to fail

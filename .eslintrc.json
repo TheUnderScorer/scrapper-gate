@@ -2,7 +2,10 @@
   "root": true,
   "ignorePatterns": ["**/*"],
   "extends": ["plugin:@nrwl/nx/react"],
-  "plugins": ["@nrwl/nx"],
+  "plugins": ["@nrwl/nx", "no-only-tests"],
+  "rules": {
+    "no-only-tests/no-only-tests": "error"
+  },
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],

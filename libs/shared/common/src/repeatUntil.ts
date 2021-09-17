@@ -1,25 +1,41 @@
 import { OperationTimeoutError } from '@scrapper-gate/shared/errors';
+import { MaybePromise } from './promise';
 import { wait } from './timeout';
 
 export const repeatUntil = async <T>(
-  handler: (iteration: number) => Promise<T> | T,
-  conditionChecker: (value: T, iteration: number) => boolean | Promise<boolean>,
+  handler: (iteration: number) => MaybePromise<T>,
+  conditionChecker?: (
+    value: T,
+    iteration: number
+  ) => boolean | Promise<boolean>,
   timeout = 10000
 ): Promise<T> =>
   // eslint-disable-next-line no-async-promise-executor
   new Promise<T>(async (resolve, reject) => {
     let lastResult = false;
+    let lastError: Error;
     let value: T;
     let iteration = 0;
 
     const timeoutId = setTimeout(() => {
-      reject(new OperationTimeoutError('repeat until'));
+      reject(lastError ?? new OperationTimeoutError('repeat until'));
     }, timeout);
 
     do {
-      value = await handler(iteration);
+      if (conditionChecker) {
+        value = await handler(iteration);
 
-      lastResult = await conditionChecker(value, iteration);
+        lastResult = await conditionChecker(value, iteration);
+      } else {
+        try {
+          value = await handler(iteration);
+
+          lastResult = true;
+        } catch (error) {
+          lastError = error;
+          lastResult = false;
+        }
+      }
 
       iteration++;
 
@@ -31,5 +47,6 @@ export const repeatUntil = async <T>(
 
     clearTimeout(timeoutId);
 
-    resolve(value);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    resolve(value!);
   });

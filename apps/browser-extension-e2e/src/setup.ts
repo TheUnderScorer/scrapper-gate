@@ -1,7 +1,11 @@
 import { wait } from '@scrapper-gate/shared/common';
+import { logger } from '@scrapper-gate/shared/logger/console';
+import { apiRoutes } from '@scrapper-gate/shared/routing';
 import fs from 'fs';
 import path from 'path';
 import { chromium } from 'playwright';
+import { URL } from 'url';
+import fetch from 'node-fetch';
 
 const extensionPath = path.join(
   __dirname,
@@ -10,23 +14,46 @@ const extensionPath = path.join(
 
 let contextPaths: string[] = [];
 
-beforeAll(async () => {
-  if (global.browser) {
-    return;
+async function apiHealthCheck() {
+  if (!process.env.SERVER_URL) {
+    throw new Error('SERVER_URL is missing in environment!');
   }
+
+  const url = new URL(process.env.SERVER_URL);
+
+  url.pathname = apiRoutes.health;
+
+  const response = await fetch(url.toString());
+
+  if (!response.ok) {
+    throw new Error('API health check failed');
+  }
+}
+
+beforeAll(async () => {
+  await apiHealthCheck();
 
   if (!fs.existsSync(extensionPath)) {
     throw new Error('Extension must be built before launching e2e tests!');
   }
+});
 
-  const { testPath } = expect.getState();
-  const contextPath = testPath.split('/');
+beforeEach(async () => {
+  jest.retryTimes(3);
 
-  contextPath.pop();
+  if (global.browser) {
+    return;
+  }
 
-  const fullContextPath = path.join(...contextPath, '.ctx');
+  const { currentTestName } = expect.getState();
+  const fullContextPath = path.resolve(
+    __dirname,
+    'contexts',
+    currentTestName,
+    '.ctx'
+  );
 
-  contextPath.push(fullContextPath);
+  contextPaths.push(fullContextPath);
 
   const ctx = await chromium.launchPersistentContext(fullContextPath, {
     args: [
@@ -51,17 +78,21 @@ beforeAll(async () => {
 
   global.browser = ctx;
 
+  ctx.on('page', (page) => {
+    page.on('request', (request) => {
+      logger.info(`Performing request to ${request.url()}`);
+    });
+
+    page.on('requestfailed', async (request) => {
+      const response = await request.response();
+
+      logger.error(
+        `Request to ${request.url()} failed with status: ${response?.status()}`
+      );
+    });
+  });
+
   console.log('e2e tests setup ready!');
-});
-
-afterEach(async () => {
-  if (!global.browser) {
-    return;
-  }
-
-  const pages = global.browser.pages();
-
-  await Promise.all(pages.map((page) => page.close()));
 });
 
 afterAll(async () => {
@@ -71,7 +102,11 @@ afterAll(async () => {
 
   contextPaths.forEach((path) => {
     if (fs.existsSync(path)) {
-      fs.unlinkSync(path);
+      try {
+        fs.unlinkSync(path);
+      } catch {
+        /// Nothing here :0
+      }
     }
   });
 

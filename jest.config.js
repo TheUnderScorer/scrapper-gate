@@ -19,7 +19,6 @@ module.exports = {
     '<rootDir>/libs/shared/errors',
     '<rootDir>/libs/backend/domain/user',
     '<rootDir>/libs/backend/base-model',
-    '<rootDir>/libs/shared/domain/user',
     '<rootDir>/libs/frontend/api-client',
     '<rootDir>/libs/frontend/ui',
     '<rootDir>/libs/frontend/dialogs',
@@ -53,5 +52,7 @@ module.exports = {
     '<rootDir>/libs/frontend/domain/files',
     '<rootDir>/libs/frontend/flow-builder',
     '<rootDir>/libs/frontend/block-editor',
+    '<rootDir>/libs/shared/domain/scrapper/mocks',
+    '<rootDir>/libs/shared/domain/user/mocks',
   ],
 };

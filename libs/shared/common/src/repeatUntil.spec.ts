@@ -11,6 +11,16 @@ describe('Repeat until', () => {
     expect(result).toEqual(3);
   });
 
+  it('should return last error if no checker was provided', async () => {
+    const error = new Error('test');
+
+    const handler = jest.fn(() => {
+      throw error;
+    });
+
+    await expect(repeatUntil(handler, undefined, 1000)).rejects.toThrow(error);
+  });
+
   it('should timeout', async () => {
     await expect(() => repeatUntil(jest.fn(), jest.fn(), 1000)).rejects.toThrow(
       OperationTimeoutError

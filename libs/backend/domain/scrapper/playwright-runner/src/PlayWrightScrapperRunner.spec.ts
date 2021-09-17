@@ -4,7 +4,7 @@ import {
   generateScrapperScreenshotFileKey,
 } from '@scrapper-gate/backend/domain/files';
 import { Environment, wait } from '@scrapper-gate/shared/common';
-import { createMockScrapperStep } from '@scrapper-gate/shared/domain/scrapper';
+import { createMockScrapperStep } from '@scrapper-gate/shared/domain/scrapper/mocks';
 import { logger } from '@scrapper-gate/shared/logger/console';
 import {
   BrowserType,

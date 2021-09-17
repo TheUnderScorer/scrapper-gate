@@ -1,3 +1,4 @@
+import { successMessageResult } from '../../browser/communication/messageResult';
 import {
   HandlersMap,
   MessageTypes,
@@ -28,7 +29,22 @@ export const handlers: HandlersMap = {
     };
   },
   [MessageTypes.ToggleContent]: async (message) => {
-    await sendMessageToActiveTab(message);
+    await sendMessageToActiveTab(message, {
+      /**
+       * If new tab was created the message won't reach it, so we will just update content routes for this tab, and after opening it content will *magically* open!
+       * */
+      onTabCreated: (tab) => {
+        if (message.payload?.path && message.payload?.visible) {
+          updateContentRoute(
+            {
+              pathname: message.payload.path,
+              search: '',
+            },
+            tab
+          );
+        }
+      },
+    });
 
     return {
       result: true,
@@ -39,23 +55,16 @@ export const handlers: HandlersMap = {
       type: MessageTypes.GetContentRoute,
     });
 
-    return {
-      result: true,
-      payload: result.payload,
-    };
+    return successMessageResult(result.payload);
   },
-  [MessageTypes.GetActiveTab]: async () => ({
-    result: true,
-    payload: await getActiveTab(),
-  }),
+  [MessageTypes.GetActiveTab]: async () =>
+    successMessageResult(await getActiveTab()),
   [MessageTypes.Logout]: async () => {
     await sendMessageToActiveTab({
       type: MessageTypes.Logout,
     });
 
-    return {
-      result: true,
-    };
+    return successMessageResult();
   },
   [MessageTypes.InjectContentScript]: async (message, sender) => {
     if (!sender.tab?.id) {

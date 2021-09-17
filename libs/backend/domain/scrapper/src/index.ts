@@ -19,3 +19,5 @@ export * from './queries/GetScrapperLastRun.query';
 export * from './models/ScrapperRun.model';
 export * from './repositories/ScrapperRun.repository';
 export * from './queries/GetMyScrapperRun.query';
+export * from './models/ScrapperRunStepValue.model';
+export * from './models/ScrapperRunStepResult.model';

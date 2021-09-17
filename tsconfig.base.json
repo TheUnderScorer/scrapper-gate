@@ -125,8 +125,11 @@
       "@scrapper-gate/shared/domain/scrapper": [
         "libs/shared/domain/scrapper/src/index.ts"
       ],
-      "@scrapper-gate/shared/domain/user": [
-        "libs/shared/domain/user/src/index.ts"
+      "@scrapper-gate/shared/domain/scrapper/mocks": [
+        "libs/shared/domain/scrapper/mocks/src/index.ts"
+      ],
+      "@scrapper-gate/shared/domain/user/mocks": [
+        "libs/shared/domain/user/mocks/src/index.ts"
       ],
       "@scrapper-gate/shared/domain/variables": [
         "libs/shared/domain/variables/src/index.ts"

@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React, { useMemo } from 'react';
 import { Avatar, Box, Stack, StackProps, Typography } from '@material-ui/core';
 import { User } from '@scrapper-gate/shared/schema';
@@ -26,7 +27,7 @@ export const UserAvatar = ({
 
   return (
     <Stack
-      className={className}
+      className={classNames(className, 'user-avatar')}
       justifyContent={justifyContent}
       alignItems={alignItems}
     >

@@ -8,7 +8,11 @@ import {
   makeExtractUser,
 } from '@scrapper-gate/backend/domain/auth';
 import { UserRepository } from '@scrapper-gate/backend/domain/user';
-import { ErrorHandler, errorHandler } from '@scrapper-gate/backend/server';
+import {
+  ErrorHandler,
+  errorHandler,
+  healthCheck,
+} from '@scrapper-gate/backend/server';
 import { UnitOfWork } from '@scrapper-gate/backend/unit-of-work';
 import { getEnvironment } from '@scrapper-gate/shared/common';
 import { apiRoutes } from '@scrapper-gate/shared/routing';
@@ -115,11 +119,7 @@ export const createContainer = async ({
   await container.resolve<ExtractToken>('extractToken')(server);
   await container.resolve<ExtractUser>('extractUser')(server);
 
-  server.get(apiRoutes.health, async () => {
-    return {
-      alive: true,
-    };
-  });
+  healthCheck(server, apiRoutes.health);
 
   const apolloServer = container.resolve<ApolloServer>('apolloServer');
 

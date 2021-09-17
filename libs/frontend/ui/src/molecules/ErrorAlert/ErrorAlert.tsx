@@ -3,6 +3,7 @@ import Box from '@material-ui/core/Box';
 import { Alert } from '@material-ui/lab';
 import { makeStyles } from '@material-ui/styles';
 import { Perhaps } from '@scrapper-gate/shared/common';
+import classNames from 'classnames';
 
 import React, { useCallback, useEffect, useState } from 'react';
 
@@ -47,7 +48,7 @@ export const ErrorAlert = ({ error, onClose, className }: ErrorAlertProps) => {
         {currentError && (
           <Alert
             onClose={handleClose}
-            className={classes.alert}
+            className={classNames(classes.alert, 'error-alert')}
             variant="filled"
             severity="error"
           >
