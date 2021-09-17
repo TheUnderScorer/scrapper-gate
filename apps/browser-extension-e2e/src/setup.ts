@@ -30,6 +30,8 @@ async function apiHealthCheck() {
 }
 
 beforeAll(async () => {
+  jest.retryTimes(3);
+
   if (global.browser) {
     return;
   }

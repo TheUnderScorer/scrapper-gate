@@ -610,8 +610,7 @@
           "options": {
             "jestConfig": "apps/browser-extension-e2e/jest.config.js",
             "passWithNoTests": true,
-            "runInBand": true,
-            "bail": 1
+            "runInBand": true
           },
           "configurations": {
             "production": {
