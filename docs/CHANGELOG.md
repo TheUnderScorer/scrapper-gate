@@ -1,3 +1,10 @@
+# [1.0.0-test.6](https://github.com/TheUnderScorer/scrapper-gate/compare/v1.0.0-test.5...v1.0.0-test.6) (2021-09-17)
+
+
+### Features
+
+* **ui:** Show notice if form select is empty ([8d48024](https://github.com/TheUnderScorer/scrapper-gate/commit/8d48024cbc382a6567dee3220356c1449da3fb4b))
+
 # [1.0.0-test.5](https://github.com/TheUnderScorer/scrapper-gate/compare/v1.0.0-test.4...v1.0.0-test.5) (2021-09-14)
 
 
