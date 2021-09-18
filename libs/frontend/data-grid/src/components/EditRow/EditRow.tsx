@@ -1,12 +1,18 @@
-import { Box, ClickAwayListener } from '@material-ui/core';
 import { GridApi } from '@material-ui/data-grid';
-import { makeStyles } from '@material-ui/styles';
+import { Box, ClickAwayListener } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import React, { memo, useMemo } from 'react';
 import { resolveGridModelFormName } from '../../resolveGridModelFormName';
 import { EditRowProps } from './EditRow.types';
 
-const useStyles = makeStyles(() => ({
-  box: {
+const PREFIX = 'EditRow';
+
+const classes = {
+  box: `${PREFIX}-box`,
+};
+
+const StyledClickAwayListener = styled(ClickAwayListener)(() => ({
+  [`& .${classes.box}`]: {
     '& .MuiFormControl-root, & .MuiInputBase-root': {
       width: '100%',
       height: '100%',
@@ -15,8 +21,6 @@ const useStyles = makeStyles(() => ({
 }));
 
 const BaseEditRow = ({ api, id, field, name, children }: EditRowProps) => {
-  const classes = useStyles();
-
   const fullName = useMemo(
     () =>
       resolveGridModelFormName({
@@ -29,7 +33,7 @@ const BaseEditRow = ({ api, id, field, name, children }: EditRowProps) => {
   );
 
   return (
-    <ClickAwayListener
+    <StyledClickAwayListener
       mouseEvent="onMouseDown"
       onClickAway={() => {
         (api as GridApi).setCellMode(id, field, 'view');
@@ -46,7 +50,7 @@ const BaseEditRow = ({ api, id, field, name, children }: EditRowProps) => {
       >
         {children({ name: fullName })}
       </Box>
-    </ClickAwayListener>
+    </StyledClickAwayListener>
   );
 };
 

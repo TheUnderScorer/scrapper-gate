@@ -1,4 +1,4 @@
-import { Drawer, DrawerProps } from '@material-ui/core';
+import { Drawer, DrawerProps } from '@mui/material';
 import React from 'react';
 import { BooleanParam, useQueryParam } from 'use-query-params';
 

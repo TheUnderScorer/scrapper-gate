@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Stack } from '@material-ui/core';
+import { Stack } from '@mui/material';
 import { KeyHint } from '../../atoms/KeyHint/KeyHint';
 import { TooltipText } from '../../atoms/TooltipText/TooltipText';
 

@@ -1,4 +1,4 @@
-import { Button } from '@material-ui/core';
+import { Button } from '@mui/material';
 import React, { ReactNode, useCallback } from 'react';
 import { useDialog } from '../DialogController';
 import { Dialog } from './Dialog';

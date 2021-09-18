@@ -1,5 +1,4 @@
-import { Box, List, Skeleton, Stack, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import { Box, List, Skeleton, Stack, Typography } from '@mui/material';
 import { Selection } from '@scrapper-gate/frontend/common';
 import {
   Centered,
@@ -14,30 +13,7 @@ import { useFlowBuilderContextSelector } from '../providers/FlowBuilderProps.pro
 import { useFlowBuilderSelection } from '../providers/FlowBuilderSelection.provider';
 import { FlowBuilderSidebarItem } from './Item/FlowBuilderSidebarItem';
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    padding: theme.spacing(2),
-    borderLeft: 'none',
-    borderTop: 'none',
-    borderBottom: 'none',
-  },
-  grid: {
-    height: '100%',
-  },
-  list: {
-    overflow: 'auto',
-    flex: 1,
-    marginBottom: theme.spacing(4),
-
-    '& .item-Conditional': {
-      paddingLeft: theme.spacing(2.5),
-    },
-  },
-}));
-
 export const FlowBuilderSidebar = () => {
-  const classes = useStyles();
-
   const { selection } = useFlowBuilderSelection();
 
   const [filteredSelection, setFilteredSelection] = useState(selection);
@@ -56,7 +32,12 @@ export const FlowBuilderSidebar = () => {
         square: true,
         elevation: 1,
         variant: 'outlined',
-        className: classes.paper,
+        sx: {
+          padding: (theme) => theme.spacing(2),
+          borderLeft: 'none',
+          borderTop: 'none',
+          borderBottom: 'none',
+        },
       }}
     >
       {loading && (
@@ -75,7 +56,7 @@ export const FlowBuilderSidebar = () => {
         </Box>
       )}
       {!loading && (
-        <Stack spacing={2} direction="column" className={classes.grid}>
+        <Stack spacing={2} direction="column" sx={{ height: '100%' }}>
           <Typography variant="h6">List of steps</Typography>
           <FilterTextField<Selection<BaseNodeSelectionProperties>>
             items={selection ?? []}
@@ -84,7 +65,17 @@ export const FlowBuilderSidebar = () => {
             placeholder="Search steps..."
           />
           {Boolean(filteredSelection?.length) && (
-            <List className={classes.list}>
+            <List
+              sx={{
+                overflow: 'auto',
+                flex: 1,
+                marginBottom: (theme) => theme.spacing(4),
+
+                '& .item-Conditional': {
+                  paddingLeft: (theme) => theme.spacing(2.5),
+                },
+              }}
+            >
               {filteredSelection?.map((selection) => (
                 <FlowBuilderSidebarItem
                   className={`item-${selection.value.type}`}

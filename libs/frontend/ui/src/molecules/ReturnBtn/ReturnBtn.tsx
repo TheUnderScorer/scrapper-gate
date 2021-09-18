@@ -1,5 +1,5 @@
-import { IconButton } from '@material-ui/core';
-import { ArrowBack } from '@material-ui/icons';
+import { IconButton } from '@mui/material';
+import { ArrowBack } from '@mui/icons-material';
 import { returnUrlQueryKey } from '@scrapper-gate/shared/routing';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
@@ -15,7 +15,7 @@ export const ReturnBtn = (props: ReturnBtnProps) => {
   }
 
   return (
-    <IconButton onClick={() => history.push(returnUrl)} {...props}>
+    <IconButton onClick={() => history.push(returnUrl)} {...props} size="large">
       <ArrowBack />
     </IconButton>
   );

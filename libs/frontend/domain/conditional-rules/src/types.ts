@@ -1,4 +1,4 @@
-import { TextFieldProps } from '@material-ui/core';
+import { TextFieldProps } from '@mui/material';
 import { Selection } from '@scrapper-gate/frontend/common';
 import { FieldNameCreator } from '@scrapper-gate/frontend/form';
 import { ConditionalRuleWhen } from '@scrapper-gate/shared/domain/conditional-rules';

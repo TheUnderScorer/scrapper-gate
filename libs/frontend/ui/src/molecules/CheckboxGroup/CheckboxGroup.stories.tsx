@@ -1,8 +1,8 @@
 import { Form } from 'react-final-form';
 import React from 'react';
-import { Home, Description } from '@material-ui/icons';
+import { Home, Description } from '@mui/icons-material';
 import { action } from '@storybook/addon-actions';
-import { Box } from '@material-ui/core';
+import { Box } from '@mui/material';
 import { CheckboxGroup } from './CheckboxGroup';
 import { Selection } from '@scrapper-gate/frontend/common';
 

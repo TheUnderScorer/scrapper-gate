@@ -1,3 +1,4 @@
+import { Close } from '@mui/icons-material';
 import {
   AppBar,
   FormControlLabel,
@@ -7,9 +8,8 @@ import {
   Switch,
   Toolbar,
   Typography,
-} from '@material-ui/core';
-import { Close } from '@material-ui/icons';
-import { makeStyles } from '@material-ui/styles';
+} from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { useKeyboardShortcuts } from '@scrapper-gate/frontend/keyboard-shortcuts';
 import { Selector } from '@scrapper-gate/shared/schema';
 import classNames from 'classnames';
@@ -21,6 +21,43 @@ import {
   SelectorsList,
   SelectorsListProps,
 } from '../../../molecules/SelectorsList/SelectorsList';
+
+const PREFIX = 'HtmlElementPickerSnackbar';
+
+const classes = {
+  selectorsList: `${PREFIX}-selectorsList`,
+  paper: `${PREFIX}-paper`,
+  content: `${PREFIX}-content`,
+  appBar: `${PREFIX}-appBar`,
+  toolbar: `${PREFIX}-toolbar`,
+};
+
+const StyledDraggable = styled(Draggable)(({ theme }) => ({
+  [`& .${classes.selectorsList}`]: {
+    maxHeight: '40vh',
+    overflow: 'auto',
+  },
+
+  [`& .${classes.paper}`]: {
+    minWidth: '550px',
+    backgroundColor: theme.palette.greyVariant['100'],
+    position: 'absolute',
+    pointerEvents: 'all',
+  },
+
+  [`& .${classes.content}`]: {
+    padding: theme.spacing(2),
+  },
+
+  [`& .${classes.appBar}`]: {
+    backgroundColor: theme.palette.background.paper,
+    cursor: 'move',
+  },
+
+  [`& .${classes.toolbar}`]: {
+    paddingLeft: theme.spacing(0.5),
+  },
+}));
 
 export interface HtmlElementPickerSnackbarProps {
   open?: boolean;
@@ -35,29 +72,6 @@ export interface HtmlElementPickerSnackbarProps {
   input: ReactNode;
 }
 
-const useStyles = makeStyles((theme) => ({
-  selectorsList: {
-    maxHeight: '40vh',
-    overflow: 'auto',
-  },
-  paper: {
-    minWidth: '550px',
-    backgroundColor: theme.palette.greyVariant['100'],
-    position: 'absolute',
-    pointerEvents: 'all',
-  },
-  content: {
-    padding: theme.spacing(2),
-  },
-  appBar: {
-    backgroundColor: theme.palette.background.paper,
-    cursor: 'move',
-  },
-  toolbar: {
-    paddingLeft: theme.spacing(0.5),
-  },
-}));
-
 export const HtmlElementPickerSnackbar = ({
   onClose,
   enableClick,
@@ -71,8 +85,6 @@ export const HtmlElementPickerSnackbar = ({
 }: HtmlElementPickerSnackbarProps) => {
   const keyboardShortcuts = useKeyboardShortcuts();
 
-  const classes = useStyles();
-
   useHotkeys(
     keyboardShortcuts?.elementPicker.toggleElementClicking ?? '',
     (event) => {
@@ -84,7 +96,7 @@ export const HtmlElementPickerSnackbar = ({
   );
 
   return (
-    <Draggable
+    <StyledDraggable
       bounds={{
         top: 0,
         bottom: window.innerHeight,
@@ -106,7 +118,7 @@ export const HtmlElementPickerSnackbar = ({
           color="transparent"
         >
           <Toolbar className={classes.toolbar}>
-            <IconButton color="inherit" onClick={onClose}>
+            <IconButton color="inherit" onClick={onClose} size="large">
               <Close />
             </IconButton>
             <Typography>Select element</Typography>
@@ -167,6 +179,6 @@ export const HtmlElementPickerSnackbar = ({
           </Stack>
         </Stack>
       </Paper>
-    </Draggable>
+    </StyledDraggable>
   );
 };

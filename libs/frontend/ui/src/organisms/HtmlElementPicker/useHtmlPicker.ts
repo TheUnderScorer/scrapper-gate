@@ -12,7 +12,7 @@ import {
 import tinycolor from 'tinycolor2';
 import { HtmlElementPickerProps } from './HtmlElementPicker.types';
 import { Selector, SelectorType } from '@scrapper-gate/shared/schema';
-import { useTheme } from '@material-ui/core';
+import { useTheme } from '@mui/material';
 import { prefix } from '@scrapper-gate/shared/common';
 
 export interface UseHtmlPickerProps

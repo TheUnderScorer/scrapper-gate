@@ -1,4 +1,4 @@
-import { Stack, Typography } from '@material-ui/core';
+import { Stack, Typography } from '@mui/material';
 import { DateFormat } from '@scrapper-gate/shared/common';
 import { isRunning } from '@scrapper-gate/shared/run-states';
 import { RunState as RunStateEnum } from '@scrapper-gate/shared/schema';

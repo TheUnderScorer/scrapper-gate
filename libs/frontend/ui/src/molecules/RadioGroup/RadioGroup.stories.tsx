@@ -1,4 +1,4 @@
-import { Description, Home } from '@material-ui/icons';
+import { Description, Home } from '@mui/icons-material';
 import React from 'react';
 import { Form } from 'react-final-form';
 import { action } from '@storybook/addon-actions';

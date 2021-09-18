@@ -1,4 +1,4 @@
-import { AttachMoney } from '@material-ui/icons';
+import { AttachMoney } from '@mui/icons-material';
 import { baseCreateTitle } from '../utils/title';
 import { ConditionalRuleTypes } from '@scrapper-gate/shared/domain/conditional-rules';
 import { VariableRule } from '../components/VariableRule/VariableRule';

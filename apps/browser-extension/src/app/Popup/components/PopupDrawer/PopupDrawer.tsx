@@ -1,47 +1,34 @@
+import { Assignment, Logout, Web } from '@mui/icons-material';
 import {
+  Box,
   Divider,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
   ListSubheader,
-} from '@material-ui/core';
-import { Assignment, Logout, Web } from '@material-ui/icons';
-import { makeStyles } from '@material-ui/styles';
-import { MenuItemProperties } from '@scrapper-gate/frontend/common';
+  styled,
+} from '@mui/material';
 import { useLogout } from '@scrapper-gate/frontend/domain/auth';
 import { UserAvatar } from '@scrapper-gate/frontend/domain/user';
 import { useGetCurrentUserQuery } from '@scrapper-gate/frontend/schema';
-import { Layout, QueryDrawer } from '@scrapper-gate/frontend/ui';
+import {
+  Layout,
+  MenuItemProperties,
+  QueryDrawer,
+} from '@scrapper-gate/frontend/ui';
 import { browserExtensionRoutes } from '@scrapper-gate/shared/routing';
-import classNames from 'classnames';
 import React, { useMemo } from 'react';
 import { useLocation } from 'react-router';
 import { useHistory } from 'react-router-dom';
 
 export const popupDrawerQueryKey = 'popupDrawer';
 
-const useStyles = makeStyles((theme) => ({
-  layout: {
-    minWidth: '250px',
-    paddingTop: theme.spacing(2),
-  },
-  avatar: {
-    padding: `0 ${theme.spacing(2)}`,
-  },
-  logout: {
-    '&, & svg': {
-      color: theme.palette.error.main,
-    },
-  },
-  divider: {
-    margin: `${theme.spacing(1)} 0`,
-  },
+const StyledDivider = styled(Divider)(({ theme }) => ({
+  margin: `${theme.spacing(1)} 0`,
 }));
 
 export const PopupDrawer = () => {
-  const classes = useStyles();
-
   const location = useLocation();
   const history = useHistory();
 
@@ -81,11 +68,16 @@ export const PopupDrawer = () => {
         id: 'logout',
         icon: <Logout />,
         content: 'Logout',
-        className: classNames(classes.logout, 'logout'),
+        className: 'logout',
         onClick: logout,
+        sx: {
+          '&, & svg': {
+            color: (theme) => theme.palette.error.main,
+          },
+        },
       },
     ],
-    [classes.logout, history, location.pathname, logout]
+    [history, location.pathname, logout]
   );
 
   const { data } = useGetCurrentUserQuery();
@@ -101,16 +93,23 @@ export const PopupDrawer = () => {
       queryKey={popupDrawerQueryKey}
     >
       <Layout
-        className={classes.layout}
+        sx={{
+          minWidth: '250px',
+          paddingTop: (theme) => theme.spacing(2),
+        }}
         headerHeight={70}
         header={
           data?.me && (
-            <UserAvatar
-              className={classes.avatar}
-              alignItems="flex-start"
-              user={data.me}
-              showName
-            />
+            <Box height="100%" display="flex" alignItems="center">
+              <UserAvatar
+                alignItems="flex-start"
+                user={data.me}
+                showName
+                sx={{
+                  padding: (theme) => `0 ${theme.spacing(2)}`,
+                }}
+              />
+            </Box>
           )
         }
         body={
@@ -127,13 +126,7 @@ export const PopupDrawer = () => {
                 }
 
                 if (item.type === 'divider') {
-                  return (
-                    <Divider
-                      key={item.id}
-                      className={classes.divider}
-                      variant="fullWidth"
-                    />
-                  );
+                  return <StyledDivider key={item.id} variant="fullWidth" />;
                 }
 
                 return (

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { LocalizationProvider } from '@material-ui/lab';
-import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
+import { LocalizationProvider } from '@mui/lab';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
 import { DateFormat, wait } from '@scrapper-gate/shared/common';
 import { createVariable } from '@scrapper-gate/shared/domain/variables';

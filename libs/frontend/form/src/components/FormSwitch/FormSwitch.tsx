@@ -6,7 +6,7 @@ import {
   FormHelperText,
   Switch as BaseSwitch,
   SwitchProps as BaseSwitchProps,
-} from '@material-ui/core';
+} from '@mui/material';
 import { useField } from 'react-final-form';
 
 export interface FormSwitchProps extends Omit<BaseSwitchProps, 'name'> {

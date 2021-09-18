@@ -1,5 +1,5 @@
-import { InputAdornment } from '@material-ui/core';
-import { Input, Timer } from '@material-ui/icons';
+import { InputAdornment } from '@mui/material';
+import { Input, Timer } from '@mui/icons-material';
 import { VariablesTextField } from '@scrapper-gate/frontend/domain/variables';
 import { FormTextField } from '@scrapper-gate/frontend/form';
 import { wordFormByNumber } from '@scrapper-gate/shared/common';

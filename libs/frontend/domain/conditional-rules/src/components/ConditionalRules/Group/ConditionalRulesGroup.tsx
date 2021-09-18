@@ -1,3 +1,4 @@
+import { Delete, ExpandMore } from '@mui/icons-material';
 import {
   Accordion,
   AccordionDetails,
@@ -8,9 +9,8 @@ import {
   Tooltip,
   Typography,
   useTheme,
-} from '@material-ui/core';
-import { Delete, ExpandMore } from '@material-ui/icons';
-import { makeStyles } from '@material-ui/styles';
+} from '@mui/material';
+import { styled } from '@mui/material/styles';
 import {
   FormSelect,
   useFieldArray,
@@ -30,6 +30,48 @@ import {
 } from '../Rule/ConditionalRulesRule';
 import { ConditionalRulesSelectionDropdown } from '../SelectionDropdown/ConditionalRulesSelectionDropdown';
 
+const PREFIX = 'ConditionalRulesGroup';
+
+const classes = {
+  btn: `${PREFIX}-btn`,
+  btnContainer: `${PREFIX}-btnContainer`,
+  paper: `${PREFIX}-paper`,
+  typeSection: `${PREFIX}-typeSection`,
+  summaryStack: `${PREFIX}-summaryStack`,
+  accordion: `${PREFIX}-accordion`,
+};
+
+const StyledAccordion = styled(Accordion)(({ theme }) => ({
+  [`& .${classes.btn}`]: {
+    '&, & svg': {
+      color: theme.palette.error.main,
+    },
+  },
+
+  [`& .${classes.btnContainer}`]: {
+    marginTop: theme.spacing(2),
+  },
+
+  [`& .${classes.paper}`]: {
+    padding: `${theme.spacing(4)} 0`,
+  },
+
+  [`& .${classes.typeSection}`]: {
+    marginBottom: theme.spacing(2),
+  },
+
+  [`& .${classes.summaryStack}`]: {
+    width: '100%',
+    paddingRight: theme.spacing(2),
+  },
+
+  [`&.${classes.accordion}`]: {
+    '&.hasError': {
+      borderColor: theme.palette.error.main,
+    },
+  },
+}));
+
 export interface ConditionalRulesGroupProps
   extends Pick<
     ConditionalRulesRuleProps,
@@ -44,32 +86,6 @@ export interface ConditionalRulesGroupProps
   onOpen?: () => void;
 }
 
-const useStyles = makeStyles((theme) => ({
-  btn: {
-    '&, & svg': {
-      color: theme.palette.error.main,
-    },
-  },
-  btnContainer: {
-    marginTop: theme.spacing(2),
-  },
-  paper: {
-    padding: `${theme.spacing(4)} 0`,
-  },
-  typeSection: {
-    marginBottom: theme.spacing(2),
-  },
-  summaryStack: {
-    width: '100%',
-    paddingRight: theme.spacing(2),
-  },
-  accordion: {
-    '&.hasError': {
-      borderColor: theme.palette.error.main,
-    },
-  },
-}));
-
 const BaseConditionalRulesGroup = ({
   definitions,
   index,
@@ -82,8 +98,6 @@ const BaseConditionalRulesGroup = ({
   onClose,
   ...rest
 }: ConditionalRulesGroupProps) => {
-  const classes = useStyles();
-
   const theme = useTheme() as AppTheme;
 
   const {
@@ -99,7 +113,7 @@ const BaseConditionalRulesGroup = ({
   });
 
   return (
-    <Accordion
+    <StyledAccordion
       className={classNames(
         'conditional-rules-group',
         { hasError },
@@ -184,7 +198,7 @@ const BaseConditionalRulesGroup = ({
           />
         </Stack>
       </AccordionDetails>
-    </Accordion>
+    </StyledAccordion>
   );
 };
 

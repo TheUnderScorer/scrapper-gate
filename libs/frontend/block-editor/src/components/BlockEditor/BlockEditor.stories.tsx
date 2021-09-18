@@ -1,4 +1,4 @@
-import { Stack } from '@material-ui/core';
+import { Stack } from '@mui/material';
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
 import { Scoped } from '@scrapper-gate/frontend/ui';
 import { useState } from 'react';

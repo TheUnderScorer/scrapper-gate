@@ -1,3 +1,4 @@
+import { ArrowBackSharp } from '@mui/icons-material';
 import {
   Box,
   Divider,
@@ -6,10 +7,8 @@ import {
   Stack,
   Tooltip,
   Typography,
-} from '@material-ui/core';
-import { ArrowBackSharp } from '@material-ui/icons';
-import { makeStyles } from '@material-ui/styles';
-import { AppTheme } from '@scrapper-gate/frontend/theme';
+} from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { Emoji } from '@scrapper-gate/frontend/ui';
 import classNames from 'classnames';
 import React from 'react';
@@ -19,18 +18,27 @@ import { LoginFormProps, LoginFormType } from '../LoginForm/LoginForm.types';
 import { AuthFacebookButton } from './FacebookButton/AuthFacebookButton';
 import { AuthGoogleButton } from './GoogleButton/AuthGoogleButton';
 
-export type AuthProps = Pick<LoginFormProps, 'afterLogin' | 'afterCreate'>;
+const PREFIX = 'Auth';
 
-const useStyles = makeStyles((theme: AppTheme) => ({
-  container: {
+const classes = {
+  container: `${PREFIX}-container`,
+  stack: `${PREFIX}-stack`,
+  box: `${PREFIX}-box`,
+  icon: `${PREFIX}-icon`,
+};
+
+const StyledGrid = styled(Grid)(({ theme }) => ({
+  [`&.${classes.container}`]: {
     padding: 0,
     height: '100%',
   },
-  stack: {
+
+  [`& .${classes.stack}`]: {
     flex: 1,
     padding: `0 ${theme.spacing(2)}`,
   },
-  box: {
+
+  [`& .${classes.box}`]: {
     background: theme.palette.gradients.primaryMainToDark,
     color: theme.palette.primary.contrastText,
     height: theme.spacing(12),
@@ -39,20 +47,22 @@ const useStyles = makeStyles((theme: AppTheme) => ({
     justifyContent: 'center',
     width: '100%',
   },
-  icon: {
+
+  [`& .${classes.icon}`]: {
     color: theme.palette.primary.contrastText,
   },
 }));
 
+export type AuthProps = Pick<LoginFormProps, 'afterLogin' | 'afterCreate'>;
+
 export const Auth = ({ afterLogin, afterCreate }: AuthProps) => {
-  const classes = useStyles();
   const match = useRouteMatch();
   const history = useHistory();
 
   const signupUrl = `${match.path}/sign-up`;
 
   return (
-    <Grid
+    <StyledGrid
       className={classNames(classes.container, 'auth')}
       direction="column"
       container
@@ -71,6 +81,7 @@ export const Auth = ({ afterLogin, afterCreate }: AuthProps) => {
               <IconButton
                 onClick={() => history.push(match.path)}
                 className={classes.icon}
+                size="large"
               >
                 <ArrowBackSharp />
               </IconButton>
@@ -110,6 +121,6 @@ export const Auth = ({ afterLogin, afterCreate }: AuthProps) => {
           />
         </Box>
       </Route>
-    </Grid>
+    </StyledGrid>
   );
 };

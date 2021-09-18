@@ -1,5 +1,5 @@
-import { Typography } from '@material-ui/core';
-import { styled } from '@material-ui/styles';
+import { Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { CSSProperties } from 'react';
 
 export const TooltipText = styled(Typography)(({ theme }) => ({

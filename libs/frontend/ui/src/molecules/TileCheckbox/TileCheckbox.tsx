@@ -1,7 +1,13 @@
-import React, { HTMLProps, ReactNode, useMemo } from 'react';
-import { Box, Checkbox, Fade, Stack, Typography } from '@material-ui/core';
+import {
+  Box,
+  BoxProps,
+  Checkbox,
+  Fade,
+  Stack,
+  Typography,
+} from '@mui/material';
 import classNames from 'classnames';
-import { useStyles } from './TileCheckbox.styles';
+import React, { ReactNode, useMemo } from 'react';
 import {
   SelectablePaper,
   SelectablePaperProps,
@@ -10,7 +16,7 @@ import {
 export interface TileCheckboxProps extends SelectablePaperProps {
   title?: ReactNode;
   icon?: ReactNode;
-  containerProps?: HTMLProps<HTMLDivElement>;
+  containerProps?: BoxProps;
   showCheckbox?: boolean;
   direction?: 'vertical' | 'horizontal';
 }
@@ -48,10 +54,13 @@ export const TileCheckbox = ({
     return direction === 'horizontal' ? horizontalSize : verticalSize;
   }, [direction, height, width]);
 
-  const classes = useStyles();
-
   const text = (
-    <Typography className={classes.text} variant="body2">
+    <Typography
+      sx={{
+        userSelect: 'none',
+      }}
+      variant="body2"
+    >
       {title}
     </Typography>
   );
@@ -61,14 +70,30 @@ export const TileCheckbox = ({
       checked={paperProps.checked}
       disabled={paperProps.disabled}
       color="primary"
-      className={classNames(classes.checkbox, 'tile-checkbox', direction)}
+      className={classNames('tile-checkbox', direction)}
+      sx={{
+        '&.vertical': {
+          position: 'absolute',
+          top: '-12%',
+          right: '-12%',
+          zIndex: 2,
+          pointerEvents: 'none',
+        },
+        '&.horizontal': {
+          padding: 0,
+        },
+      }}
     />
   );
   return (
-    <div
+    <Box
       {...containerProps}
+      component="div"
+      sx={{
+        cursor: 'pointer',
+        ...containerProps?.sx,
+      }}
       className={classNames(
-        classes.container,
         'tile-checkbox-container',
         containerProps?.className
       )}
@@ -85,7 +110,10 @@ export const TileCheckbox = ({
               alignItems="center"
               spacing={2}
               direction="row"
-              className={classes.stack}
+              sx={{
+                width: '100%',
+                height: '100%',
+              }}
             >
               {icon}
               {direction === 'horizontal' && (
@@ -104,6 +132,6 @@ export const TileCheckbox = ({
         )}
         {children}
       </Box>
-    </div>
+    </Box>
   );
 };

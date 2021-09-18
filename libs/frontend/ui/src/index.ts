@@ -43,3 +43,4 @@ export * from './molecules/ReturnBtn/ReturnBtn';
 export * from './molecules/Skeleton/ComponentOrIcon/SkeletonComponentOrIcon';
 export * from './molecules/Skeleton/ListItem/SkeletonListItem';
 export * from './molecules/FormStateIcon/FormStateIcon';
+export * from './types/menuItemProperties';

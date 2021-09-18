@@ -5,8 +5,8 @@ import {
   Link as MuiLink,
   Stack,
   Typography,
-} from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+} from '@mui/material';
+import { styled } from '@mui/material/styles';
 import {
   FormCheckbox,
   FormTextField,
@@ -20,18 +20,30 @@ import { LoginFormProps, LoginFormType } from './LoginForm.types';
 import { LoginFormDto } from './LoginFormDto';
 import { useLoginForm } from './useLoginForm';
 
-const useStyles = makeStyles((theme) => ({
-  form: {
+const PREFIX = 'LoginForm';
+
+const classes = {
+  form: `${PREFIX}-form`,
+  alert: `${PREFIX}-alert`,
+  action: `${PREFIX}-action`,
+  fab: `${PREFIX}-fab`,
+};
+
+const Root = styled('form')(({ theme }) => ({
+  [`&.${classes.form}`]: {
     width: '100%',
   },
-  alert: {
+
+  [`& .${classes.alert}`]: {
     marginBottom: 0,
     marginTop: theme.spacing(3),
   },
-  action: {
+
+  [`& .${classes.action}`]: {
     width: '100%',
   },
-  fab: {
+
+  [`& .${classes.fab}`]: {
     '&.MuiButtonBase-root': {
       minWidth: '150px',
     },
@@ -46,7 +58,6 @@ export const LoginForm = ({
   type = LoginFormType.Login,
   afterCreate,
 }: LoginFormProps) => {
-  const classes = useStyles();
   const { error, loading, handleSubmit } = useLoginForm({
     type,
     afterLogin,
@@ -64,7 +75,7 @@ export const LoginForm = ({
       validateOnBlur={false}
       onSubmit={handleSubmit}
       render={(props) => (
-        <form className={classes.form} onSubmit={props.handleSubmit}>
+        <Root className={classes.form} onSubmit={props.handleSubmit}>
           <Stack direction="column" spacing={3} alignItems="center">
             <ErrorAlert className={classes.alert} error={error} />
             <FormTextField
@@ -142,7 +153,7 @@ export const LoginForm = ({
               )}
             </Stack>
           </Stack>
-        </form>
+        </Root>
       )}
     />
   );

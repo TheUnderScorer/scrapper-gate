@@ -3,9 +3,9 @@ import {
   ListItem,
   ListItemSecondaryAction,
   ListItemText,
-} from '@material-ui/core';
+} from '@mui/material';
 import { Dropdown } from '@scrapper-gate/frontend/ui';
-import { Delete } from '@material-ui/icons';
+import { Delete } from '@mui/icons-material';
 import { ScrapperListItemProps } from './ScrapperListItem.types';
 
 export const ScrapperListItem = ({

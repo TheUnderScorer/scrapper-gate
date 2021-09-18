@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/styles';
+import { Box } from '@mui/material';
 import { DecoratorComponentProps } from '@scrapper-gate/frontend/block-editor';
 import { LightTooltip } from '@scrapper-gate/frontend/ui';
 import classNames from 'classnames';
@@ -6,24 +6,11 @@ import React, { memo } from 'react';
 import { useVariablesContextSelector } from '../../providers/VariablesProvider';
 import { VariableDetails } from '../VariableDetails/VariableDetails';
 
-const useStyles = makeStyles((theme) => ({
-  variable: {
-    '&.resolved': {
-      color: theme.palette.primary.dark,
-    },
-  },
-  details: {
-    minWidth: '150px',
-  },
-}));
-
 const BaseVariableDecoratorContent = ({
   children,
   leaf,
   attributes,
 }: DecoratorComponentProps) => {
-  const classes = useStyles();
-
   const text = 'text' in leaf && leaf.text ? leaf.text : '';
 
   const variable = useVariablesContextSelector(
@@ -33,30 +20,37 @@ const BaseVariableDecoratorContent = ({
   const resolved = Boolean(variable);
 
   return (
-    <span {...attributes}>
+    <Box {...attributes}>
       <LightTooltip
         key={`variable-${text}-${resolved ? 'resolved' : 'not-resolved'}`}
         arrow
         open={variable ? undefined : false}
         title={
           variable ? (
-            <VariableDetails className={classes.details} variable={variable} />
+            <VariableDetails
+              variable={variable}
+              sx={{
+                minWidth: '150px',
+              }}
+            />
           ) : (
             ''
           )
         }
       >
-        <span
-          className={classNames(
-            classes.variable,
-            { resolved },
-            'variable-content'
-          )}
+        <Box
+          component="span"
+          sx={{
+            '&.resolved': {
+              color: (theme) => theme.palette.primary.dark,
+            },
+          }}
+          className={classNames({ resolved }, 'variable-content')}
         >
           {children}
-        </span>
+        </Box>
       </LightTooltip>
-    </span>
+    </Box>
   );
 };
 

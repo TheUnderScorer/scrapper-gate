@@ -1,4 +1,4 @@
-import { Button, Stack } from '@material-ui/core';
+import { Button, Stack } from '@mui/material';
 import {
   BaseDialogProps,
   Dialog,

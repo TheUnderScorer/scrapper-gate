@@ -8,8 +8,8 @@ import {
   TextField,
   TextFieldProps,
   Tooltip,
-} from '@material-ui/core';
-import { Add, Code } from '@material-ui/icons';
+} from '@mui/material';
+import { Add, Code } from '@mui/icons-material';
 import { Perhaps } from '@scrapper-gate/shared/common';
 import { SelectorType } from '@scrapper-gate/shared/schema';
 import React from 'react';

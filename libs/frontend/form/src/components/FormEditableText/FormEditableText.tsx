@@ -1,3 +1,4 @@
+import { Check } from '@mui/icons-material';
 import {
   ClickAwayListener,
   IconButton,
@@ -7,26 +8,31 @@ import {
   Tooltip,
   Typography,
   TypographyProps,
-} from '@material-ui/core';
-import { Check } from '@material-ui/icons';
-import { makeStyles } from '@material-ui/styles';
+} from '@mui/material';
+import { styled } from '@mui/material/styles';
 import classNames from 'classnames';
 import React, { useCallback, useState } from 'react';
 import { useField } from 'react-final-form';
 import { useBoolean } from 'react-use';
 import { Key } from 'ts-key-enum';
 
+const PREFIX = 'FormEditableText';
+
+const classes = {
+  text: `${PREFIX}-text`,
+};
+
+const StyledClickAwayListener = styled(ClickAwayListener)(() => ({
+  [`& .${classes.text}`]: {
+    cursor: 'pointer',
+  },
+}));
+
 export interface FormEditableTextProps extends Omit<TextFieldProps, 'name'> {
   onEditFinish?: (value: string) => unknown;
   textProps?: TypographyProps;
   name: string;
 }
-
-const useStyles = makeStyles(() => ({
-  text: {
-    cursor: 'pointer',
-  },
-}));
 
 export const FormEditableText = ({
   onEditFinish,
@@ -40,8 +46,6 @@ export const FormEditableText = ({
     input: { value, onChange },
   } = useField(name);
   const [internalValue, setInternalValue] = useState(value ?? '');
-
-  const classes = useStyles();
 
   const [isEdit, toggleIsEdit] = useBoolean(false);
 
@@ -63,7 +67,7 @@ export const FormEditableText = ({
   }, [internalValue, onChange, onEditFinish, toggleIsEdit, value]);
 
   return (
-    <ClickAwayListener onClickAway={() => finishEdit()}>
+    <StyledClickAwayListener onClickAway={() => finishEdit()}>
       <span className={className}>
         {!isEdit && (
           <Tooltip title="Click to edit">
@@ -113,6 +117,6 @@ export const FormEditableText = ({
           </Stack>
         )}
       </span>
-    </ClickAwayListener>
+    </StyledClickAwayListener>
   );
 };

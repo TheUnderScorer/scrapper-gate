@@ -5,7 +5,7 @@ import {
   PetsSharp,
   SaveSharp,
   StopSharp,
-} from '@material-ui/icons';
+} from '@mui/icons-material';
 import { QueryParamProvider, Selection } from '@scrapper-gate/frontend/common';
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
 import { wait } from '@scrapper-gate/shared/common';

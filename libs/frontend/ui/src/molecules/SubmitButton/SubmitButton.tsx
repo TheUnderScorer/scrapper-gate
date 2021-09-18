@@ -1,10 +1,31 @@
-import { Button, CircularProgress, Theme } from '@material-ui/core';
-import { Check } from '@material-ui/icons';
-import { makeStyles } from '@material-ui/styles';
+import { Check } from '@mui/icons-material';
+import { Button, CircularProgress } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import classNames from 'classnames';
 import React, { FC, MouseEventHandler } from 'react';
 import { useFormState } from 'react-final-form';
 import { PrimaryIconButton } from '../../atoms/Buttons/Buttons';
+
+const PREFIX = 'SubmitButton';
+
+const classes = {
+  btn: `${PREFIX}-btn`,
+  base: `${PREFIX}-base`,
+};
+
+const StyledPrimaryIconButton = styled(PrimaryIconButton)(({ theme }) => ({
+  [`& .${classes.btn}`]: {
+    width: theme.spacing(13),
+  },
+
+  [`&.${classes.base}`]: {
+    transition: theme.transitions.create('all'),
+    '&.didSubmit': {
+      backgroundColor: `${theme.palette.success.main} !important`,
+      color: `${theme.palette.success.contrastText} !important`,
+    },
+  },
+}));
 
 export interface SubmitButtonProps {
   didSubmit?: boolean;
@@ -14,19 +35,6 @@ export interface SubmitButtonProps {
   className?: string;
   type?: 'icon' | 'button';
 }
-
-const useStyles = makeStyles((theme: Theme) => ({
-  btn: {
-    width: theme.spacing(13),
-  },
-  base: {
-    transition: theme.transitions.create('all'),
-    '&.didSubmit': {
-      backgroundColor: `${theme.palette.success.main} !important`,
-      color: `${theme.palette.success.contrastText} !important`,
-    },
-  },
-}));
 
 export const SubmitButton: FC<SubmitButtonProps> = ({
   didSubmit,
@@ -42,8 +50,6 @@ export const SubmitButton: FC<SubmitButtonProps> = ({
       dirty: true,
     },
   });
-
-  const classes = useStyles();
 
   const buttonType = didSubmit ? 'button' : 'submit';
   const color = loading || didSubmit ? 'inherit' : 'primary';
@@ -72,7 +78,7 @@ export const SubmitButton: FC<SubmitButtonProps> = ({
   }
 
   return (
-    <PrimaryIconButton
+    <StyledPrimaryIconButton
       type={buttonType}
       onClick={onClick}
       disabled={disabled || loading || !formState.dirty}
@@ -85,6 +91,6 @@ export const SubmitButton: FC<SubmitButtonProps> = ({
     >
       {didSubmit && <Check />}
       {!didSubmit && (loading ? <CircularProgress size={20} /> : children)}
-    </PrimaryIconButton>
+    </StyledPrimaryIconButton>
   );
 };

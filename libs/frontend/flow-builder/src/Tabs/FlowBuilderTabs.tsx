@@ -1,7 +1,26 @@
-import { Paper, Tab, Tabs } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import { Paper, Tab, Tabs } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import React from 'react';
 import { FlowBuilderTabsSelection } from '../FlowBuilder.types';
+
+const PREFIX = 'FlowBuilderTabs';
+
+const classes = {
+  tabs: `${PREFIX}-tabs`,
+  paper: `${PREFIX}-paper`,
+};
+
+const StyledPaper = styled(Paper)(({ theme }) => ({
+  [`& .${classes.tabs}`]: {
+    backgroundColor: 'inherit',
+  },
+
+  [`&.${classes.paper}`]: {
+    borderLeft: 'none',
+    borderRight: 'none',
+    backgroundColor: theme.palette.greyVariant['100'],
+  },
+}));
 
 export interface FlowBuilderTabsProps {
   value: unknown;
@@ -12,27 +31,14 @@ export interface FlowBuilderTabsProps {
 
 export const mainTab = 'main';
 
-const useStyles = makeStyles((theme) => ({
-  tabs: {
-    backgroundColor: 'inherit',
-  },
-  paper: {
-    borderLeft: 'none',
-    borderRight: 'none',
-    backgroundColor: theme.palette.greyVariant['100'],
-  },
-}));
-
 export const FlowBuilderTabs = ({
   value,
   onChange,
   mainTabLabel = 'Steps',
   tabs,
 }: FlowBuilderTabsProps) => {
-  const classes = useStyles();
-
   return (
-    <Paper square variant="outlined" className={classes.paper}>
+    <StyledPaper square variant="outlined" className={classes.paper}>
       <Tabs
         indicatorColor="primary"
         value={value ?? mainTab}
@@ -44,6 +50,6 @@ export const FlowBuilderTabs = ({
           <Tab label={tab.label} value={tab.value} key={tab.value} />
         ))}
       </Tabs>
-    </Paper>
+    </StyledPaper>
   );
 };

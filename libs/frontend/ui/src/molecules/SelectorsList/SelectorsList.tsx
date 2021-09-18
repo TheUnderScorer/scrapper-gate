@@ -6,8 +6,8 @@ import {
   ListItemText,
   ListSubheader,
   Tooltip,
-} from '@material-ui/core';
-import { Remove } from '@material-ui/icons';
+} from '@mui/material';
+import { Remove } from '@mui/icons-material';
 import { getSelectorWithElementsAggregate } from '@scrapper-gate/shared/common';
 import { Selector } from '@scrapper-gate/shared/schema';
 import classNames from 'classnames';
@@ -86,7 +86,7 @@ export const SelectorsList = ({
                     onDelete(index);
                   }
                 }}
-              >
+                size="large">
                 <Remove />
               </IconButton>
             </Tooltip>

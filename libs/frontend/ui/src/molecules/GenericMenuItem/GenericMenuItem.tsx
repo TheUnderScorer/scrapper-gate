@@ -4,41 +4,51 @@ import {
   ListItemText,
   ListSubheader,
   MenuItem,
-} from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
-import { MenuItemProperties } from '@scrapper-gate/frontend/common';
+} from '@mui/material';
 import React, { forwardRef } from 'react';
-
-const useStyles = makeStyles((theme) => ({
-  header: {
-    lineHeight: 'inherit',
-    marginBottom: theme.spacing(0.3),
-  },
-  divider: {
-    padding: 0,
-  },
-}));
+import { MenuItemProperties } from '../../types/menuItemProperties';
 
 export const GenericMenuItem = forwardRef<HTMLLIElement, MenuItemProperties>(
-  ({ onClick, icon, className, content, type, id }, ref) => {
-    const classes = useStyles();
-
+  ({ onClick, icon, className, content, sx, type, id }, ref) => {
     if (type === 'subHeader') {
       return (
-        <ListSubheader className={classes.header}>{content}</ListSubheader>
+        <ListSubheader
+          sx={{
+            lineHeight: 'inherit',
+            marginBottom: (theme) => theme.spacing(0.3),
+            ...sx,
+          }}
+        >
+          {content}
+        </ListSubheader>
       );
     }
 
     if (type === 'divider') {
-      return <ListItem disableGutters className={classes.divider} divider />;
+      return (
+        <ListItem
+          disableGutters
+          sx={{
+            padding: 0,
+            ...sx,
+          }}
+          divider
+        />
+      );
     }
 
     if (type === 'input') {
-      return <ListItem>{content}</ListItem>;
+      return <ListItem sx={sx}>{content}</ListItem>;
     }
 
     return (
-      <MenuItem ref={ref} id={id} onClick={onClick} className={className}>
+      <MenuItem
+        ref={ref}
+        id={id}
+        onClick={onClick}
+        className={className}
+        sx={sx}
+      >
         {icon && <ListItemIcon>{icon}</ListItemIcon>}
         <ListItemText>{content}</ListItemText>
       </MenuItem>

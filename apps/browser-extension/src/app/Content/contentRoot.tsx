@@ -1,6 +1,6 @@
 import { Global } from '@emotion/react';
-import { LocalizationProvider } from '@material-ui/lab';
-import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
+import { LocalizationProvider } from '@mui/lab';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { ApiClientProvider } from '@scrapper-gate/frontend/api-client';
 import { QueryParamProvider } from '@scrapper-gate/frontend/common';
 import { DialogController } from '@scrapper-gate/frontend/dialogs';

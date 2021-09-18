@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { TextField } from '@material-ui/core';
-import { InputBaseComponentProps } from '@material-ui/core/InputBase/InputBase';
+import { TextField } from '@mui/material';
+import { InputBaseComponentProps } from '@mui/material/InputBase/InputBase';
 import { setRefValue } from '@scrapper-gate/frontend/common';
 import classNames from 'classnames';
 import React, {

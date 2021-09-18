@@ -1,6 +1,6 @@
-import { Fab, Paper, Tooltip } from '@material-ui/core';
-import { ChevronLeft } from '@material-ui/icons';
-import { makeStyles } from '@material-ui/styles';
+import { ChevronLeft } from '@mui/icons-material';
+import { Fab, Paper, Tooltip } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { useKeyboardShortcuts } from '@scrapper-gate/frontend/keyboard-shortcuts';
 import classNames from 'classnames';
 import { Resizable } from 're-resizable';
@@ -16,8 +16,11 @@ import { usePrevious, useToggle } from 'react-use';
 import { TextWithKeyHint } from '../TextWithKeyHint/TextWithKeyHint';
 import { ResizablePanelProps } from './ResizablePanel.types';
 
-const useStyles = makeStyles((theme) => ({
-  handle: (props: Pick<ResizablePanelProps, 'enable'>) => ({
+const StyledResizable = styled(Resizable, {
+  shouldForwardProp: (propName: PropertyKey) => propName !== 'ref',
+  skipSx: false,
+})(({ theme, ...props }) => ({
+  '& .panel-handle': {
     '&:hover > div, &:active > div': {
       backgroundColor: theme.palette.primary.main,
       transition: theme.transitions.create('all'),
@@ -30,34 +33,10 @@ const useStyles = makeStyles((theme) => ({
     '&.closed > div': {
       pointerEvents: 'none',
     },
-  }),
-  container: {
+  },
+  '& .panel-container': {
     '&:not(.isResize)': {
       transition: theme.transitions.create('all'),
-    },
-  },
-  content: {
-    width: '100%',
-    height: '100%',
-    overflowX: 'visible',
-
-    '&.closed': {
-      padding: 0,
-    },
-  },
-  iconBtn: {
-    position: 'absolute',
-    top: '45%',
-    right: '-12px',
-    zIndex: 10,
-    width: '25px',
-    height: '25px',
-    minHeight: 0,
-    '& svg': {
-      transition: theme.transitions.create('transform'),
-    },
-    '&.closed svg': {
-      transform: 'rotate(180deg)',
     },
   },
 }));
@@ -74,10 +53,6 @@ export const ResizablePanel = forwardRef<HTMLDivElement, ResizablePanelProps>(
     },
     ref
   ) => {
-    const classes = useStyles({
-      enable: props.enable,
-    });
-
     const [open, toggleOpen] = useToggle(true);
 
     const [isResize, setIsResize] = useState(false);
@@ -124,16 +99,19 @@ export const ResizablePanel = forwardRef<HTMLDivElement, ResizablePanelProps>(
     );
 
     return (
-      <Resizable
+      <StyledResizable
         {...props}
-        ref={instanceRef as MutableRefObject<Resizable>}
-        className={classNames(props.className, classes.container, {
+        {...({
+          ref: instanceRef as MutableRefObject<Resizable>,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } as any)}
+        className={classNames(props.className, 'panel-container', {
           closed,
           isResize,
         })}
         handleWrapperClass={classNames(
           props.handleWrapperClass,
-          classes.handle,
+          'panel-handle',
           {
             closed,
           }
@@ -158,11 +136,22 @@ export const ResizablePanel = forwardRef<HTMLDivElement, ResizablePanelProps>(
             <Fab
               onClick={() => toggleOpen()}
               size="small"
-              className={classNames(
-                classes.iconBtn,
-                { closed },
-                'toggle-panel'
-              )}
+              sx={{
+                position: 'absolute',
+                top: '45%',
+                right: '-12px',
+                zIndex: 10,
+                width: '25px',
+                height: '25px',
+                minHeight: 0,
+                '& svg': {
+                  transition: (theme) => theme.transitions.create('transform'),
+                },
+                '&.closed svg': {
+                  transform: 'rotate(180deg)',
+                },
+              }}
+              className={classNames({ closed }, 'toggle-panel')}
             >
               <ChevronLeft />
             </Fab>
@@ -171,9 +160,18 @@ export const ResizablePanel = forwardRef<HTMLDivElement, ResizablePanelProps>(
         <Paper
           {...paperProps}
           ref={ref}
+          sx={{
+            width: '100%',
+            height: '100%',
+            overflowX: 'visible',
+
+            '&.closed': {
+              padding: 0,
+            },
+            ...paperProps?.sx,
+          }}
           className={classNames(
             paperProps?.className,
-            classes.content,
             'resizable-panel-content',
             {
               closed,
@@ -182,7 +180,7 @@ export const ResizablePanel = forwardRef<HTMLDivElement, ResizablePanelProps>(
         >
           {open && children}
         </Paper>
-      </Resizable>
+      </StyledResizable>
     );
   }
 );

@@ -1,21 +1,24 @@
+import { CheckSharp, ErrorSharp, InfoSharp } from '@mui/icons-material';
 import {
   CircularProgress,
   IconButton,
   IconButtonProps,
-  Theme,
   Tooltip,
-} from '@material-ui/core';
-import { CheckSharp, ErrorSharp, InfoSharp } from '@material-ui/icons';
-import { makeStyles } from '@material-ui/styles';
+} from '@mui/material';
+import { styled } from '@mui/material/styles';
 import classNames from 'classnames';
 import React, { useMemo } from 'react';
 import { useFormState } from 'react-final-form';
 import { TooltipText } from '../../atoms/TooltipText/TooltipText';
 
-export type FormStateIconProps = IconButtonProps;
+const PREFIX = 'FormStateIcon';
 
-const useStyles = makeStyles((theme: Theme) => ({
-  icon: {
+const classes = {
+  icon: `${PREFIX}-icon`,
+};
+
+const StyledTooltip = styled(Tooltip)(({ theme }) => ({
+  [`& .${classes.icon}`]: {
     '&.success': {
       color: theme.palette.success.main,
     },
@@ -24,6 +27,8 @@ const useStyles = makeStyles((theme: Theme) => ({
     },
   },
 }));
+
+export type FormStateIconProps = IconButtonProps;
 
 export const FormStateIcon = (props: FormStateIconProps) => {
   const formState = useFormState({
@@ -64,10 +69,8 @@ export const FormStateIcon = (props: FormStateIconProps) => {
     return hasError ? <ErrorSharp /> : <CheckSharp />;
   }, [formState.validating, hasError]);
 
-  const classes = useStyles();
-
   return (
-    <Tooltip title={error ? <TooltipText>{error}</TooltipText> : ''}>
+    <StyledTooltip title={error ? <TooltipText>{error}</TooltipText> : ''}>
       <span>
         <IconButton
           component="span"
@@ -84,10 +87,11 @@ export const FormStateIcon = (props: FormStateIconProps) => {
               : 'success',
             props.className
           )}
+          size="large"
         >
           {formState.submitting ? <CircularProgress size={20} /> : stateIcon}
         </IconButton>
       </span>
-    </Tooltip>
+    </StyledTooltip>
   );
 };

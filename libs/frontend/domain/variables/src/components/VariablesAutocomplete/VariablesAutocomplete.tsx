@@ -4,7 +4,7 @@ import {
   AutocompleteRenderInputParams,
   createFilterOptions,
   FilterOptionsState,
-} from '@material-ui/core';
+} from '@mui/material';
 import { FieldProps, useFieldHasError } from '@scrapper-gate/frontend/form';
 import { Highlight } from '@scrapper-gate/frontend/ui';
 import { Variable } from '@scrapper-gate/shared/schema';

@@ -5,8 +5,8 @@ import {
   ListItemText,
   Paper,
   Stack,
-} from '@material-ui/core';
-import { Image as ImageIcon, VideoCall } from '@material-ui/icons';
+} from '@mui/material';
+import { Image as ImageIcon, VideoCall } from '@mui/icons-material';
 import { Image } from '@scrapper-gate/frontend/ui';
 import { FileKind } from '@scrapper-gate/shared/schema';
 import React, { ReactNode } from 'react';

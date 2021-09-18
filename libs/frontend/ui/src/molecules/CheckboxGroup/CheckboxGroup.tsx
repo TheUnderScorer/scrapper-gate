@@ -1,6 +1,6 @@
 import React, { FC, useCallback } from 'react';
 import { useField } from 'react-final-form';
-import { Grid, GridSpacing, InputLabel } from '@material-ui/core';
+import { Grid, GridSpacing, InputLabel } from '@mui/material';
 import { TileCheckbox } from '../TileCheckbox/TileCheckbox';
 import { Selection } from '@scrapper-gate/frontend/common';
 

@@ -1,4 +1,4 @@
-import { SnackbarProps as BaseProps } from '@material-ui/core';
+import { SnackbarProps as BaseProps } from '@mui/material';
 import { SnackbarVariant } from '../../types';
 
 export interface SnackbarProps extends BaseProps {

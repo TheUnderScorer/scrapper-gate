@@ -1,14 +1,4 @@
 import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Typography,
-} from '@material-ui/core';
-import {
   Assignment,
   EventAvailable,
   EventNote,
@@ -17,8 +7,18 @@ import {
   Schedule,
   Screenshot,
   Storage,
-} from '@material-ui/icons';
-import { makeStyles } from '@material-ui/styles';
+} from '@mui/icons-material';
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+} from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { useReturnUrlProvider } from '@scrapper-gate/frontend/common';
 import { FileLink } from '@scrapper-gate/frontend/domain/files';
 import { NodeContentProps } from '@scrapper-gate/frontend/flow-builder';
@@ -39,13 +39,15 @@ import {
   ScrapperRunScrapper,
 } from '../ScrapperRun.types';
 
-enum ScrapperRunNodeContentPanel {
-  Details = 'Details',
-  Duration = 'Duration',
-}
+const PREFIX = 'ScrapperRunNodeContent';
 
-const useStyles = makeStyles((theme) => ({
-  list: {
+const classes = {
+  list: `${PREFIX}-list`,
+  nestedList: `${PREFIX}-nestedList`,
+};
+
+const Root = styled('div')(({ theme }) => ({
+  [`& .${classes.list}`]: {
     '&.MuiList-root': {
       marginTop: 0,
     },
@@ -54,11 +56,17 @@ const useStyles = makeStyles((theme) => ({
       marginRight: theme.spacing(2),
     },
   },
-  nestedList: {
+
+  [`& .${classes.nestedList}`]: {
     paddingTop: 0,
     marginLeft: theme.spacing(2),
   },
 }));
+
+enum ScrapperRunNodeContentPanel {
+  Details = 'Details',
+  Duration = 'Duration',
+}
 
 export interface ScrapperRunNodeContentProps
   extends NodeContentProps,
@@ -68,8 +76,6 @@ export const ScrapperRunNodeContent = ({
   getFieldName,
   scrapperUrlCreator,
 }: ScrapperRunNodeContentProps) => {
-  const classes = useStyles();
-
   const [expanded, setExpanded] = useState<Maybe<ScrapperRunNodeContentPanel>>(
     ScrapperRunNodeContentPanel.Details
   );
@@ -106,7 +112,7 @@ export const ScrapperRunNodeContent = ({
   const returnUrl = useReturnUrlProvider();
 
   return (
-    <div>
+    <Root>
       <Accordion
         variant="outlined"
         expanded={expanded === ScrapperRunNodeContentPanel.Details}
@@ -246,6 +252,6 @@ export const ScrapperRunNodeContent = ({
           </List>
         </AccordionDetails>
       </Accordion>
-    </div>
+    </Root>
   );
 };

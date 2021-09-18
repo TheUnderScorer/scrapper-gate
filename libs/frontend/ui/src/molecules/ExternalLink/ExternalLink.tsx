@@ -1,22 +1,26 @@
-import { Link, LinkProps, Stack } from '@material-ui/core';
-import { OpenInNew } from '@material-ui/icons';
-import { makeStyles } from '@material-ui/styles';
+import { OpenInNew } from '@mui/icons-material';
+import { Link, LinkProps, Stack } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import React from 'react';
 
-export type ExternalLinkProps = Omit<LinkProps, 'target'>;
+const PREFIX = 'ExternalLink';
 
-const useStyles = makeStyles({
-  stack: {
+const classes = {
+  stack: `${PREFIX}-stack`,
+};
+
+const StyledLink = styled(Link)({
+  [`& .${classes.stack}`]: {
     display: 'inline-flex',
     verticalAlign: 'middle',
   },
 });
 
-export const ExternalLink = ({ children, ...props }: ExternalLinkProps) => {
-  const classes = useStyles();
+export type ExternalLinkProps = Omit<LinkProps, 'target'>;
 
+export const ExternalLink = ({ children, ...props }: ExternalLinkProps) => {
   return (
-    <Link {...props} target="_blank">
+    <StyledLink {...props} target="_blank">
       <Stack
         direction="row"
         spacing={0.5}
@@ -27,6 +31,6 @@ export const ExternalLink = ({ children, ...props }: ExternalLinkProps) => {
         <OpenInNew fontSize="small" />
         <span>{children}</span>
       </Stack>
-    </Link>
+    </StyledLink>
   );
 };

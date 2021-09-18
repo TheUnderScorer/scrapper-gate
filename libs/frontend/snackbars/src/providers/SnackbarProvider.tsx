@@ -1,4 +1,4 @@
-import { SnackbarProps } from '@material-ui/core';
+import { SnackbarProps } from '@mui/material';
 import { SnackbarProvider as Provider, SnackbarProviderProps } from 'notistack';
 import { PropsWithChildren } from 'react';
 import { Snackbar } from '../components/Snackbar/Snackbar';

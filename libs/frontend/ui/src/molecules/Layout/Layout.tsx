@@ -1,9 +1,14 @@
-import { Grid } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import { Grid } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { ThemedSxProps } from '@scrapper-gate/frontend/theme';
 import classNames from 'classnames';
 import React, { ReactNode, useMemo } from 'react';
 
-export interface LayoutProps {
+const StyledGrid = styled(Grid)({
+  height: '100%',
+});
+
+export interface LayoutProps extends ThemedSxProps {
   header?: ReactNode;
   body?: ReactNode;
   footer?: ReactNode;
@@ -13,21 +18,9 @@ export interface LayoutProps {
   noGutters?: boolean;
 }
 
-const useStyles = makeStyles((theme) => ({
-  container: {
-    height: '100%',
-  },
-  body: (props: LayoutProps) => ({
-    overflowY: props.footer || props.header ? 'auto' : 'hidden',
-    overflowX: 'hidden',
-    padding: props.noGutters ? 0 : `${theme.spacing(2)} 0`,
-  }),
-}));
-
 export const Layout = (props: LayoutProps) => {
-  const classes = useStyles(props);
-
-  const { body, footer, footerHeight, header, headerHeight, className } = props;
+  const { body, footer, footerHeight, header, headerHeight, className, sx } =
+    props;
 
   const heightOffset = useMemo(() => {
     let offset = 0;
@@ -44,17 +37,18 @@ export const Layout = (props: LayoutProps) => {
   }, [headerHeight, header, footerHeight, footer]);
 
   return (
-    <Grid
-      className={classNames(classes.container, className, 'layout')}
+    <StyledGrid
+      className={classNames(className, 'layout')}
       container
       direction="column"
       wrap="nowrap"
+      sx={sx}
     >
       {header && (
         <Grid
           className="layout-header"
           item
-          style={{
+          sx={{
             height: headerHeight,
           }}
         >
@@ -63,11 +57,14 @@ export const Layout = (props: LayoutProps) => {
       )}
       {body && (
         <Grid
-          className={classNames(classes.body, 'layout-body')}
+          className="layout-body"
           item
-          style={{
+          sx={{
             height: `calc(100% - ${heightOffset}px)`,
             flex: 1,
+            overflowY: props.footer || props.header ? 'auto' : 'hidden',
+            overflowX: 'hidden',
+            padding: (theme) => (props.noGutters ? 0 : `${theme.spacing(2)} 0`),
           }}
         >
           {body}
@@ -84,6 +81,6 @@ export const Layout = (props: LayoutProps) => {
           {footer}
         </Grid>
       )}
-    </Grid>
+    </StyledGrid>
   );
 };

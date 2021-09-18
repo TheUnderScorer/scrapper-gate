@@ -4,8 +4,8 @@ import {
   InputAdornment,
   TextField,
   TextFieldProps,
-} from '@material-ui/core';
-import { ClearSharp } from '@material-ui/icons';
+} from '@mui/material';
+import { ClearSharp } from '@mui/icons-material';
 import { usePrevious } from 'react-use';
 import { stopPropagation } from '@scrapper-gate/frontend/common';
 

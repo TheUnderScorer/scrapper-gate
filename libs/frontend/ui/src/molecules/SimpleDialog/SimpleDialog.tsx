@@ -5,7 +5,7 @@ import {
   DialogContent,
   DialogProps,
   DialogTitle,
-} from '@material-ui/core';
+} from '@mui/material';
 import React, { FC, HTMLProps, ReactNode } from 'react';
 import { Centered } from '../../atoms/Centered/Centered';
 

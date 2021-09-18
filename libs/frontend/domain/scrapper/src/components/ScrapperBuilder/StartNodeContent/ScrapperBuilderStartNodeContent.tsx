@@ -1,4 +1,4 @@
-import { Stack } from '@material-ui/core';
+import { Stack } from '@mui/material';
 import { FieldNameCreator } from '@scrapper-gate/frontend/form';
 import React from 'react';
 import { Url } from '../commonFields/Url';

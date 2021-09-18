@@ -1,4 +1,4 @@
-import { Stack } from '@material-ui/core';
+import { Stack } from '@mui/material';
 import { NodeContentProps } from '@scrapper-gate/frontend/flow-builder';
 import { useFormFieldValue } from '@scrapper-gate/frontend/form';
 import { ScrapperAction } from '@scrapper-gate/shared/schema';

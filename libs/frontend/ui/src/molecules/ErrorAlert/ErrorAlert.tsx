@@ -1,11 +1,25 @@
-import { Fade } from '@material-ui/core';
-import Box from '@material-ui/core/Box';
-import { Alert } from '@material-ui/lab';
-import { makeStyles } from '@material-ui/styles';
+import { Alert, Fade } from '@mui/material';
+import Box from '@mui/material/Box';
+import { styled } from '@mui/material/styles';
 import { Perhaps } from '@scrapper-gate/shared/common';
 import classNames from 'classnames';
 
 import React, { useCallback, useEffect, useState } from 'react';
+
+const PREFIX = 'ErrorAlert';
+
+const classes = {
+  alert: `${PREFIX}-alert`,
+};
+
+const StyledFade = styled(Fade)(({ theme }) => ({
+  [`& .${classes.alert}`]: {
+    '&.MuiPaper-root': {
+      backgroundColor: theme.palette.error.main,
+      color: theme.palette.error.contrastText,
+    },
+  },
+}));
 
 export interface ErrorAlertProps {
   /**
@@ -16,18 +30,7 @@ export interface ErrorAlertProps {
   className?: string;
 }
 
-const useStyles = makeStyles((theme) => ({
-  alert: {
-    '&.MuiPaper-root': {
-      backgroundColor: theme.palette.error.main,
-      color: theme.palette.error.contrastText,
-    },
-  },
-}));
-
 export const ErrorAlert = ({ error, onClose, className }: ErrorAlertProps) => {
-  const classes = useStyles();
-
   const [currentError, setCurrentError] = useState<Perhaps<Error>>(error);
 
   useEffect(() => {
@@ -43,7 +46,7 @@ export const ErrorAlert = ({ error, onClose, className }: ErrorAlertProps) => {
   }, [onClose]);
 
   return (
-    <Fade timeout={1000} in={Boolean(currentError)}>
+    <StyledFade timeout={1000} in={Boolean(currentError)}>
       <Box className={className}>
         {currentError && (
           <Alert
@@ -56,6 +59,6 @@ export const ErrorAlert = ({ error, onClose, className }: ErrorAlertProps) => {
           </Alert>
         )}
       </Box>
-    </Fade>
+    </StyledFade>
   );
 };

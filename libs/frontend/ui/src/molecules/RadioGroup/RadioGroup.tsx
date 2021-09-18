@@ -1,5 +1,5 @@
 import React, { FC, ReactNode, useCallback } from 'react';
-import { Grid, GridSpacing, InputLabel } from '@material-ui/core';
+import { Grid, GridSpacing, InputLabel } from '@mui/material';
 import { useField } from 'react-final-form';
 import { TileRadio } from '../TileRadio/TileRadio';
 import { Selection } from '@scrapper-gate/frontend/common';

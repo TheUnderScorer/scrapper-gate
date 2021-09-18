@@ -6,7 +6,7 @@ import {
   TableHead,
   TableRow,
   useTheme,
-} from '@material-ui/core';
+} from '@mui/material';
 import { Centered, Emoji, InformationBox } from '@scrapper-gate/frontend/ui';
 import { useMemo } from 'react';
 import { ScrapperRunValuesTableProps } from './ScrapperRunValuesTable.types';

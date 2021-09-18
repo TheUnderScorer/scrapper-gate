@@ -1,4 +1,4 @@
-import { TextField, TextFieldProps } from '@material-ui/core';
+import { TextField, TextFieldProps } from '@mui/material';
 import { setRefValue } from '@scrapper-gate/frontend/common';
 import React, { Ref, useState } from 'react';
 import { useField } from 'react-final-form';

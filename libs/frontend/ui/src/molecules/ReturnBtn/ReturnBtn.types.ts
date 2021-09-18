@@ -1,3 +1,3 @@
-import { IconButtonProps } from '@material-ui/core';
+import { IconButtonProps } from '@mui/material';
 
 export type ReturnBtnProps = Omit<IconButtonProps, 'onClick'>;

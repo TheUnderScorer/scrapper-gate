@@ -1,4 +1,4 @@
-import { styled } from '@material-ui/styles';
+import { styled } from '@mui/material/styles';
 import { RoundNodeBox } from '../RoundNodeBox';
 
 export const StartNodeBox = styled(RoundNodeBox)(({ theme }) => ({

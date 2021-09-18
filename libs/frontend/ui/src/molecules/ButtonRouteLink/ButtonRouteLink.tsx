@@ -1,10 +1,16 @@
-import { Button } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import { Button } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import React from 'react';
 import { Link, LinkProps } from 'react-router-dom';
 
-const useStyles = makeStyles(() => ({
-  button: {
+const PREFIX = 'ButtonRouteLink';
+
+const classes = {
+  button: `${PREFIX}-button`,
+};
+
+const StyledLink = styled(Link)(() => ({
+  [`& .${classes.button}`]: {
     padding: 0,
     margin: 0,
     minWidth: 'auto',
@@ -12,13 +18,11 @@ const useStyles = makeStyles(() => ({
 }));
 
 export const ButtonRouteLink = ({ children, ...props }: LinkProps) => {
-  const classes = useStyles();
-
   return (
-    <Link {...props}>
+    <StyledLink {...props}>
       <Button variant="text" size="small" className={classes.button}>
         {children}
       </Button>
-    </Link>
+    </StyledLink>
   );
 };

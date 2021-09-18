@@ -1,3 +1,4 @@
+import { Close } from '@mui/icons-material';
 import {
   Alert,
   AlertColor,
@@ -6,9 +7,8 @@ import {
   Stack,
   Typography,
   useTheme,
-} from '@material-ui/core';
-import { Close } from '@material-ui/icons';
-import { makeStyles } from '@material-ui/styles';
+} from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { Emoji } from '@scrapper-gate/frontend/ui';
 import classNames from 'classnames';
 import React, { useMemo, useState } from 'react';
@@ -16,29 +16,31 @@ import { useTimeoutFn } from 'react-use';
 import { SnackbarVariant } from '../../types';
 import { SnackbarProps } from './Snackbar.types';
 
-const severityMap: {
-  [Key in SnackbarVariant]?: AlertColor;
-} = {
-  [SnackbarVariant.Success]: 'success',
-  [SnackbarVariant.Error]: 'error',
-  [SnackbarVariant.Info]: 'info',
+const PREFIX = 'Snackbar';
+
+const classes = {
+  emoji: `${PREFIX}-emoji`,
+  alert: `${PREFIX}-alert`,
+  snackbar: `${PREFIX}-snackbar`,
 };
 
-const useStyles = makeStyles((theme) => ({
-  emoji: {
+const StyledBaseSnackbar = styled(BaseSnackbar)(({ theme }) => ({
+  [`& .${classes.emoji}`]: {
     '& img': {
       width: `${theme.typography.h6.fontSize} !important`,
       height: `${theme.typography.h6.fontSize} !important`,
     },
   },
-  alert: {
+
+  [`& .${classes.alert}`]: {
     minWidth: theme.spacing(10),
 
     '& .MuiAlert-icon': {
       padding: 0,
     },
   },
-  snackbar: {
+
+  [`&.${classes.snackbar}`]: {
     pointerEvents: 'all',
 
     '& .MuiPaper-root': {
@@ -48,6 +50,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const severityMap: {
+  [Key in SnackbarVariant]?: AlertColor;
+} = {
+  [SnackbarVariant.Success]: 'success',
+  [SnackbarVariant.Error]: 'error',
+  [SnackbarVariant.Info]: 'info',
+};
+
 export const Snackbar = ({
   variant,
   message,
@@ -55,8 +65,6 @@ export const Snackbar = ({
   ...rest
 }: SnackbarProps) => {
   const [open, setOpen] = useState(true);
-
-  const classes = useStyles();
 
   const theme = useTheme();
 
@@ -74,7 +82,7 @@ export const Snackbar = ({
   useTimeoutFn(() => setOpen(false), rest.autoHideDuration ?? 5000);
 
   return (
-    <BaseSnackbar
+    <StyledBaseSnackbar
       open={open}
       onClose={() => {
         setOpen(false);
@@ -91,11 +99,15 @@ export const Snackbar = ({
       >
         <Stack direction="row" alignItems="center" spacing={2}>
           <Typography>{message}</Typography>
-          <IconButton color="inherit" onClick={() => setOpen(false)}>
+          <IconButton
+            color="inherit"
+            onClick={() => setOpen(false)}
+            size="large"
+          >
             <Close />
           </IconButton>
         </Stack>
       </Alert>
-    </BaseSnackbar>
+    </StyledBaseSnackbar>
   );
 };

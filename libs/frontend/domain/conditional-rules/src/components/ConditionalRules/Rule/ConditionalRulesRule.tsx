@@ -1,3 +1,4 @@
+import { Delete, Edit } from '@mui/icons-material';
 import {
   Accordion,
   AccordionDetails,
@@ -7,9 +8,8 @@ import {
   TextFieldProps,
   Tooltip,
   Typography,
-} from '@material-ui/core';
-import { Delete, Edit } from '@material-ui/icons';
-import { makeStyles } from '@material-ui/styles';
+} from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { useVariablesContextSelector } from '@scrapper-gate/frontend/domain/variables';
 import { toDisplayText } from '@scrapper-gate/shared/common';
 import {
@@ -27,6 +27,88 @@ import {
 } from '../../../types';
 import { ConditionalRulesRuleTitle } from './Title/ConditionalRulesRuleTitle';
 
+const PREFIX = 'ConditionalRulesRule';
+
+const classes = {
+  select: `${PREFIX}-select`,
+  iconButton: `${PREFIX}-iconButton`,
+  delete: `${PREFIX}-delete`,
+  title: `${PREFIX}-title`,
+  paper: `${PREFIX}-paper`,
+  content: `${PREFIX}-content`,
+  summaryStack: `${PREFIX}-summaryStack`,
+  accordionSummary: `${PREFIX}-accordionSummary`,
+  paperContent: `${PREFIX}-paperContent`,
+  btnSection: `${PREFIX}-btnSection`,
+  summaryContent: `${PREFIX}-summaryContent`,
+  innerStack: `${PREFIX}-innerStack`,
+};
+
+const StyledAccordion = styled(Accordion)(({ theme }) => ({
+  [`& .${classes.select}`]: {
+    minWidth: '200px',
+  },
+
+  [`& .${classes.iconButton}`]: {
+    width: '35px',
+    height: '35px',
+  },
+
+  [`& .${classes.delete}`]: {
+    '&, & svg': {
+      color: theme.palette.error.main,
+    },
+  },
+
+  [`& .${classes.title}`]: {
+    width: '100%',
+  },
+
+  [`& .${classes.paper}`]: {
+    padding: `${theme.spacing(1)} ${theme.spacing(2)}`,
+    display: 'flex',
+    justifyContent: 'space-between',
+    width: '100%',
+    alignItems: 'center',
+  },
+
+  [`&.${classes.content}`]: {
+    width: '100%',
+  },
+
+  [`& .${classes.summaryStack}`]: {
+    width: '100%',
+    paddingRight: theme.spacing(2),
+
+    '&.hasError': {
+      color: theme.palette.error.main,
+    },
+  },
+
+  [`& .${classes.accordionSummary}`]: {
+    '& .MuiAccordionSummary-expandIconWrapper': {
+      transform: 'none !important',
+    },
+  },
+
+  [`& .${classes.paperContent}`]: {
+    padding: theme.spacing(2),
+    width: '100%',
+  },
+
+  [`& .${classes.btnSection}`]: {
+    marginTop: theme.spacing(2),
+  },
+
+  [`& .${classes.summaryContent}`]: {
+    width: '100%',
+  },
+
+  [`& .${classes.innerStack}`]: {
+    width: '100%',
+  },
+}));
+
 export interface ConditionalRulesRuleProps {
   fieldVariant?: TextFieldProps['variant'];
   value: ConditionalRuleInput & Pick<BaseEntity, 'id'>;
@@ -38,60 +120,6 @@ export interface ConditionalRulesRuleProps {
   onEditClose?: (rowId: string) => void;
   hasError?: boolean;
 }
-
-const useStyles = makeStyles((theme) => ({
-  select: {
-    minWidth: '200px',
-  },
-  iconButton: {
-    width: '35px',
-    height: '35px',
-  },
-  delete: {
-    '&, & svg': {
-      color: theme.palette.error.main,
-    },
-  },
-  title: {
-    width: '100%',
-  },
-  paper: {
-    padding: `${theme.spacing(1)} ${theme.spacing(2)}`,
-    display: 'flex',
-    justifyContent: 'space-between',
-    width: '100%',
-    alignItems: 'center',
-  },
-  content: {
-    width: '100%',
-  },
-  summaryStack: {
-    width: '100%',
-    paddingRight: theme.spacing(2),
-
-    '&.hasError': {
-      color: theme.palette.error.main,
-    },
-  },
-  accordionSummary: {
-    '& .MuiAccordionSummary-expandIconWrapper': {
-      transform: 'none !important',
-    },
-  },
-  paperContent: {
-    padding: theme.spacing(2),
-    width: '100%',
-  },
-  btnSection: {
-    marginTop: theme.spacing(2),
-  },
-  summaryContent: {
-    width: '100%',
-  },
-  innerStack: {
-    width: '100%',
-  },
-}));
 
 const getTitle = (
   value: ConditionalRuleInput & Pick<BaseEntity, 'id'>,
@@ -132,8 +160,6 @@ const BaseConditionalRulesRule = ({
   onEditClose,
   hasError,
 }: ConditionalRulesRuleProps) => {
-  const classes = useStyles();
-
   const variables = useVariablesContextSelector((ctx) => ctx.variables);
 
   const definitionSelection = useMemo(() => {
@@ -152,7 +178,7 @@ const BaseConditionalRulesRule = ({
   ]);
 
   return (
-    <Accordion
+    <StyledAccordion
       className={classNames(classes.content, 'conditional-rules-rule')}
       elevation={2}
       onChange={(event, expanded) =>
@@ -214,7 +240,7 @@ const BaseConditionalRulesRule = ({
           />
         )}
       </AccordionDetails>
-    </Accordion>
+    </StyledAccordion>
   );
 };
 

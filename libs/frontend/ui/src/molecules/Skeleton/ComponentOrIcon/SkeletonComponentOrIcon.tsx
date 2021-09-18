@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-no-useless-fragment */
-import { Skeleton, SkeletonProps } from '@material-ui/core';
+import { Skeleton, SkeletonProps } from '@mui/material';
 import React, { PropsWithChildren } from 'react';
 
 export interface SkeletonComponentOrIconProps

@@ -1,5 +1,5 @@
-import { Button, ButtonProps, Fab } from '@material-ui/core';
-import { styled } from '@material-ui/styles';
+import { Button, ButtonProps, Fab } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { ComponentType } from 'react';
 
 export const PrimaryLightButton: ComponentType<ButtonProps> = styled(Button)(

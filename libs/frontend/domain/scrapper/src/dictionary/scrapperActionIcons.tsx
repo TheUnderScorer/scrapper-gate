@@ -7,7 +7,7 @@ import {
   Refresh,
   Screenshot,
   Visibility,
-} from '@material-ui/icons';
+} from '@mui/icons-material';
 import { ScrapperAction } from '@scrapper-gate/shared/schema';
 
 export const scrapperActionIcons = {

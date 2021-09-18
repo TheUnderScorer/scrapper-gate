@@ -1,7 +1,5 @@
-import { CircularProgress, Stack, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import { Box, CircularProgress, Stack, Typography } from '@mui/material';
 import { Selection } from '@scrapper-gate/frontend/common';
-import { AppTheme } from '@scrapper-gate/frontend/theme';
 import { Centered, ContextMenu } from '@scrapper-gate/frontend/ui';
 import { stringifyCircular } from '@scrapper-gate/shared/common';
 import classNames from 'classnames';
@@ -42,72 +40,11 @@ import { useFlowBuilderInstanceContext } from '../providers/FlowBuilderInstance.
 import { useFlowBuilderItemsSelector } from '../providers/FlowBuilderItems.provider';
 import { useFlowBuilderContextSelector } from '../providers/FlowBuilderProps.provider';
 
-const useStyles = makeStyles((theme: AppTheme) => ({
-  paper: {
-    backgroundColor: theme.palette.greyVariant['100'],
-    flex: 1,
-    position: 'relative',
-  },
-  canvas: {
-    '& .react-flow__handle': {
-      width: '15px',
-      height: '20px',
-      padding: theme.spacing(0.3),
-      borderColor: 'transparent',
-      backgroundColor: 'transparent',
-      '&::after': {
-        width: '15px',
-        height: '15px',
-        content: '""',
-        borderRadius: '50%',
-        position: 'absolute',
-        right: '-2px',
-        boxShadow: theme.shadows[1],
-        border: `1px solid ${theme.palette.background.paper}`,
-      },
-    },
-    '& .react-flow__handle-top, & .react-flow__handle-bottom': {
-      width: '15px',
-    },
-    '& .react-flow__handle-top::after': {
-      top: '-2px',
-      left: '3px',
-    },
-    '& .react-flow__handle-bottom::after': {
-      bottom: '-2px',
-      left: '3px',
-    },
-    '& .react-flow__handle-left::after': {
-      right: 'auto',
-      left: '-2px',
-    },
-    '& .react-flow__handle.target::after': {
-      background: theme.palette.secondary.light,
-    },
-    '& .react-flow__handle.source::after': {
-      background: theme.palette.primary.dark,
-    },
-    '& #react-flow__arrow polyline, & #react-flow__arrowclosed polyline': {
-      stroke: theme.palette.secondary.light,
-      fill: theme.palette.secondary.light,
-    },
-    '& .react-flow__handle-connecting': {
-      '&:not(.react-flow__handle-valid)::after': {
-        opacity: 0.9,
-        background: theme.palette.error.main,
-        cursor: 'not-allowed',
-      },
-    },
-  },
-}));
-
 const snapGrid: [number, number] = [15, 15];
 const defaultPosition: [number, number] = [0, 0];
 
 export const FlowBuilderCanvas = () => {
   const containerRef = useRef<HTMLDivElement>();
-
-  const classes = useStyles();
 
   const nodeTypes = useFlowBuilderContextSelector((ctx) => ctx.nodeTypes);
 
@@ -226,7 +163,13 @@ export const FlowBuilderCanvas = () => {
 
   if (loading || !items?.length) {
     return (
-      <Centered className={classes.paper}>
+      <Centered
+        sx={{
+          backgroundColor: (theme) => theme.palette.greyVariant['100'],
+          flex: 1,
+          position: 'relative',
+        }}
+      >
         <Stack alignItems="center" direction="column" spacing={2}>
           <CircularProgress />
           <Typography variant="body2">Loading builder...</Typography>
@@ -243,15 +186,72 @@ export const FlowBuilderCanvas = () => {
       menuItems={menuItems}
     >
       {({ onContextMenu }) => (
-        <div
+        <Box
           data-items={
             renderItemsInDataAttribute ? stringifyCircular(items) : undefined
           }
           onContextMenu={onContextMenu}
           ref={containerRef as MutableRefObject<HTMLDivElement>}
-          className={classNames(classes.paper, 'flow-builder-canvas', {
+          className={classNames('flow-builder-canvas', {
             canDrop,
           })}
+          sx={{
+            backgroundColor: (theme) => theme.palette.greyVariant['100'],
+            flex: 1,
+            position: 'relative',
+
+            '& .react-flow__handle': {
+              width: '15px',
+              height: '20px',
+              padding: (theme) => theme.spacing(0.3),
+              borderColor: 'transparent',
+              backgroundColor: 'transparent',
+              '&::after': {
+                width: '15px',
+                height: '15px',
+                content: '""',
+                borderRadius: '50%',
+                position: 'absolute',
+                right: '-2px',
+                boxShadow: (theme) => theme.shadows[1],
+                border: (theme) =>
+                  `1px solid ${theme.palette.background.paper}`,
+              },
+            },
+            '& .react-flow__handle-top, & .react-flow__handle-bottom': {
+              width: '15px',
+            },
+            '& .react-flow__handle-top::after': {
+              top: '-2px',
+              left: '3px',
+            },
+            '& .react-flow__handle-bottom::after': {
+              bottom: '-2px',
+              left: '3px',
+            },
+            '& .react-flow__handle-left::after': {
+              right: 'auto',
+              left: '-2px',
+            },
+            '& .react-flow__handle.target::after': {
+              background: (theme) => theme.palette.secondary.light,
+            },
+            '& .react-flow__handle.source::after': {
+              background: (theme) => theme.palette.primary.dark,
+            },
+            '& #react-flow__arrow polyline, & #react-flow__arrowclosed polyline':
+              {
+                stroke: (theme) => theme.palette.secondary.light,
+                fill: (theme) => theme.palette.secondary.light,
+              },
+            '& .react-flow__handle-connecting': {
+              '&:not(.react-flow__handle-valid)::after': {
+                opacity: 0.9,
+                background: (theme) => theme.palette.error.main,
+                cursor: 'not-allowed',
+              },
+            },
+          }}
         >
           <ReactFlow
             nodesDraggable={!readOnly}
@@ -259,7 +259,6 @@ export const FlowBuilderCanvas = () => {
             defaultPosition={defaultPosition}
             snapGrid={snapGrid}
             edgeTypes={edgeTypes}
-            className={classes.canvas}
             onLoad={handleLoad}
             elements={items}
             nodeTypes={mappedNodeTypes}
@@ -277,7 +276,7 @@ export const FlowBuilderCanvas = () => {
             /*TODO Find a way to disable this at all*/
             deleteKeyCode={Key.Delete}
           />
-        </div>
+        </Box>
       )}
     </ContextMenu>
   );

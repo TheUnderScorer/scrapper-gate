@@ -9,7 +9,7 @@ import {
   SelectProps,
   TextFieldProps,
   useTheme,
-} from '@material-ui/core';
+} from '@mui/material';
 import { AppTheme } from '@scrapper-gate/frontend/theme';
 import { Emoji } from '@scrapper-gate/frontend/ui';
 import React, { Children, PropsWithChildren, useMemo } from 'react';

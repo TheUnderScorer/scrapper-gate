@@ -1,4 +1,4 @@
-import { TextFieldProps } from '@material-ui/core';
+import { TextFieldProps } from '@mui/material';
 import { ReactNode, KeyboardEvent, ComponentType } from 'react';
 import { Selector, SelectorType } from '@scrapper-gate/shared/schema';
 

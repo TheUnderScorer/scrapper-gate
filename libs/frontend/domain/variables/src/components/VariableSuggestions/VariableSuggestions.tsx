@@ -1,3 +1,4 @@
+import { AttachMoney } from '@mui/icons-material';
 import {
   createFilterOptions,
   Divider,
@@ -8,9 +9,8 @@ import {
   ListSubheader,
   Stack,
   useTheme,
-} from '@material-ui/core';
-import { AttachMoney } from '@material-ui/icons';
-import { makeStyles } from '@material-ui/styles';
+} from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { AppTheme } from '@scrapper-gate/frontend/theme';
 import { Emoji, Highlight } from '@scrapper-gate/frontend/ui';
 import { first, getLastIndex } from '@scrapper-gate/shared/common';
@@ -28,35 +28,48 @@ import { Key } from 'ts-key-enum';
 import { useVariablesContextSelector } from '../../providers/VariablesProvider';
 import { VariableDetails } from '../VariableDetails/VariableDetails';
 
-export interface VariableSuggestionsProps {
-  text: string;
-  onVariableClick?: (variable: Variable) => unknown;
-}
+const PREFIX = 'VariableSuggestions';
 
-const useStyles = makeStyles((theme) => ({
-  icon: {
+const classes = {
+  icon: `${PREFIX}-icon`,
+  item: `${PREFIX}-item`,
+  stack: `${PREFIX}-stack`,
+  stackItem: `${PREFIX}-stackItem`,
+  divider: `${PREFIX}-divider`,
+};
+
+const StyledStack = styled(Stack)(({ theme }) => ({
+  [`& .${classes.icon}`]: {
     minWidth: '35px',
   },
-  item: {
+
+  [`& .${classes.item}`]: {
     cursor: 'pointer',
   },
-  stack: {
+
+  [`&.${classes.stack}`]: {
     minWidth: '400px',
   },
-  stackItem: {
+
+  [`& .${classes.stackItem}`]: {
     width: '49%',
   },
-  divider: {
+
+  [`& .${classes.divider}`]: {
     marginLeft: theme.spacing(2),
     marginRight: theme.spacing(2),
   },
 }));
 
+export interface VariableSuggestionsProps {
+  text: string;
+  onVariableClick?: (variable: Variable) => unknown;
+}
+
 export const VariableSuggestions = ({
   text,
   onVariableClick,
 }: VariableSuggestionsProps) => {
-  const classes = useStyles();
   const variables = useVariablesContextSelector((ctx) => ctx.filteredVariables);
 
   const theme = useTheme() as AppTheme;
@@ -153,7 +166,7 @@ export const VariableSuggestions = ({
   }, [filteredVariables, selectedVariable]);
 
   return (
-    <Stack
+    <StyledStack
       className={classNames(classes.stack, 'variable-suggestions-container')}
       spacing={0}
       direction="row"
@@ -216,6 +229,6 @@ export const VariableSuggestions = ({
           />
         </>
       )}
-    </Stack>
+    </StyledStack>
   );
 };

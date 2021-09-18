@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { TextFieldProps } from '@material-ui/core';
+import { TextFieldProps } from '@mui/material';
 import { BlockEditor } from '@scrapper-gate/frontend/block-editor';
 import { ScrapperElementPickerProps } from '@scrapper-gate/frontend/domain/scrapper';
 import { createVariablesDecorators } from '@scrapper-gate/frontend/domain/variables';

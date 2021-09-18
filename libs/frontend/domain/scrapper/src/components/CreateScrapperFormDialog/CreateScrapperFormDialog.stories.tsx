@@ -1,5 +1,5 @@
 import { MockedProvider } from '@apollo/client/testing';
-import { Button } from '@material-ui/core';
+import { Button } from '@mui/material';
 import { DialogController, useDialog } from '@scrapper-gate/frontend/dialogs';
 import {
   createScrapperDialogId,

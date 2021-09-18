@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { Form } from 'react-final-form';
-import { Box, GlobalStyles, Stack } from '@material-ui/core';
+import { Box, GlobalStyles, Stack } from '@mui/material';
 import { HtmlElementPicker } from './HtmlElementPicker';
 import { HtmlElementPickerValidationRules } from './HtmlElementPicker.types';
 import { highlight } from '../../styles/highlight';

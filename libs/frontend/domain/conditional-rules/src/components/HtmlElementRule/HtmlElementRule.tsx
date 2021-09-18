@@ -1,5 +1,5 @@
-import { Box, Link, MenuItem, Stack, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import { Box, Link, MenuItem, Stack, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { VariablesTextField } from '@scrapper-gate/frontend/domain/variables';
 import {
   EnumSelect,
@@ -25,17 +25,23 @@ import { ruleLabels } from '../../labels';
 import { ConditionalRuleDefinitionsProps } from '../../types';
 import { valueSupportedWhen } from '../../valueSupportedWhen';
 
+const PREFIX = 'HtmlElementRule';
+
+const classes = {
+  select: `${PREFIX}-select`,
+};
+
+const StyledStack = styled(Stack)(() => ({
+  [`& .${classes.select}`]: {
+    minWidth: '150px',
+  },
+}));
+
 export interface HtmlElementRuleProps
   extends ConditionalRuleDefinitionsProps,
     Omit<HtmlElementPickerProps, 'name'> {
   picker?: ReactNode;
 }
-
-const useStyles = makeStyles(() => ({
-  select: {
-    minWidth: '150px',
-  },
-}));
 
 export const HtmlElementRule = ({
   definition,
@@ -45,8 +51,6 @@ export const HtmlElementRule = ({
   picker,
   ...rest
 }: HtmlElementRuleProps) => {
-  const classes = useStyles();
-
   const selectors = useFormFieldValue<Selector[]>(getName('meta.selectors'));
   const whatValue = useFormFieldValue(getName('what'));
 
@@ -73,7 +77,7 @@ export const HtmlElementRule = ({
   }, [onChangeWhen, whatValue, whenOptions, whenValue]);
 
   return (
-    <Stack direction="column" spacing={spacing}>
+    <StyledStack direction="column" spacing={spacing}>
       <EnumSelect
         helperText={
           <>
@@ -147,6 +151,6 @@ export const HtmlElementRule = ({
           <Typography>elements must match this condition.</Typography>
         </Stack>
       )}
-    </Stack>
+    </StyledStack>
   );
 };

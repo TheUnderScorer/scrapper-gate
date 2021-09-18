@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
-import { List, ListItemText } from '@material-ui/core';
+import { List, ListItemText } from '@mui/material';
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
 import { BaseEntity, Pagination } from '@scrapper-gate/shared/schema';
 import {

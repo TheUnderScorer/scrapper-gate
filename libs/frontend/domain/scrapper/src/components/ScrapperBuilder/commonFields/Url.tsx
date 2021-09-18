@@ -1,12 +1,12 @@
+import { Info, Language, MyLocation } from '@mui/icons-material';
 import {
   Button,
   IconButton,
   InputAdornment,
   Stack,
   Tooltip,
-} from '@material-ui/core';
-import { Info, Language, MyLocation } from '@material-ui/icons';
-import { makeStyles } from '@material-ui/styles';
+} from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { BlockEditorProps } from '@scrapper-gate/frontend/block-editor';
 import { VariablesTextField } from '@scrapper-gate/frontend/domain/variables';
 import { NodeContentProps } from '@scrapper-gate/frontend/flow-builder';
@@ -21,6 +21,23 @@ import { useField } from 'react-final-form';
 import { useLocation } from 'react-use';
 import { useIsOnStepUrl } from '../../../hooks/useIsOnStepUrl';
 
+const PREFIX = 'Url';
+
+const classes = {
+  label: `${PREFIX}-label`,
+  infoBtn: `${PREFIX}-infoBtn`,
+};
+
+const StyledStack = styled(Stack)(({ theme }) => ({
+  [`& .${classes.label}`]: {
+    marginRight: 0,
+  },
+
+  [`& .${classes.infoBtn}`]: {
+    marginLeft: theme.spacing(1),
+  },
+}));
+
 export interface UrlProps
   extends Pick<NodeContentProps, 'nodeIndex'>,
     Pick<
@@ -32,15 +49,6 @@ export interface UrlProps
   initialValue?: string;
 }
 
-const useStyles = makeStyles((theme) => ({
-  label: {
-    marginRight: 0,
-  },
-  infoBtn: {
-    marginLeft: theme.spacing(1),
-  },
-}));
-
 export const Url = ({
   disabled,
   fieldNameCreator,
@@ -50,8 +58,6 @@ export const Url = ({
   initialValue,
   ...rest
 }: UrlProps) => {
-  const classes = useStyles();
-
   const useUrlFromPreviousStep = useFormFieldValue<boolean>(
     fieldNameCreator('useUrlFromPreviousStep')
   );
@@ -76,7 +82,7 @@ export const Url = ({
   });
 
   return (
-    <Stack spacing={1} direction="column">
+    <StyledStack spacing={1} direction="column">
       <VariablesTextField
         InputProps={{
           startAdornment: (
@@ -92,7 +98,11 @@ export const Url = ({
                 title={<TooltipText>Fill with current URL</TooltipText>}
               >
                 <span>
-                  <IconButton disabled={urlDisabled} onClick={fillWithLocation}>
+                  <IconButton
+                    disabled={urlDisabled}
+                    onClick={fillWithLocation}
+                    size="large"
+                  >
                     <MyLocation />
                   </IconButton>
                 </span>
@@ -129,6 +139,6 @@ export const Url = ({
           )}
         </Stack>
       )}
-    </Stack>
+    </StyledStack>
   );
 };

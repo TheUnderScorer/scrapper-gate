@@ -1,4 +1,4 @@
-import { Description, Home } from '@material-ui/icons';
+import { Description, Home } from '@mui/icons-material';
 import { Selection } from '@scrapper-gate/frontend/common';
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
 import { wait } from '@scrapper-gate/shared/common';

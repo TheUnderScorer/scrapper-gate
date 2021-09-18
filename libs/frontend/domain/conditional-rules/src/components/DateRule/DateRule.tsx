@@ -1,5 +1,5 @@
-import { MenuItem, Stack } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import { MenuItem, Stack } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { VariablesDateField } from '@scrapper-gate/frontend/domain/variables';
 import { FormSelect, useFormFieldValue } from '@scrapper-gate/frontend/form';
 import { DateFormat, toDisplayText } from '@scrapper-gate/shared/common';
@@ -8,6 +8,23 @@ import classNames from 'classnames';
 import React, { useMemo } from 'react';
 import { ruleLabels } from '../../labels';
 import { ConditionalRuleDefinitionsProps } from '../../types';
+
+const PREFIX = 'DateRule';
+
+const classes = {
+  select: `${PREFIX}-select`,
+  date: `${PREFIX}-date`,
+};
+
+const StyledStack = styled(Stack)(() => ({
+  [`& .${classes.select}`]: {
+    minWidth: 100,
+  },
+
+  [`& .${classes.date}`]: {
+    flex: 1,
+  },
+}));
 
 const supportedWhen = [
   ConditionalRuleWhen.MoreThan,
@@ -20,15 +37,6 @@ const supportedWhen = [
 
 const now = new Date();
 
-const useStyles = makeStyles(() => ({
-  select: {
-    minWidth: 100,
-  },
-  date: {
-    flex: 1,
-  },
-}));
-
 export const DateRule = ({
   getName,
   spacing,
@@ -38,10 +46,8 @@ export const DateRule = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const initialValue = useMemo(() => (value ? undefined : now), []);
 
-  const classes = useStyles();
-
   return (
-    <Stack spacing={spacing}>
+    <StyledStack spacing={spacing}>
       <FormSelect
         label={ruleLabels.when}
         className={classNames('date-rule-select', classes.select)}
@@ -66,6 +72,6 @@ export const DateRule = ({
           initialValue,
         }}
       />
-    </Stack>
+    </StyledStack>
   );
 };

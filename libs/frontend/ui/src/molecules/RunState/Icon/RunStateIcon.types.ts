@@ -1,9 +1,12 @@
+import { ThemedSxProps } from '@scrapper-gate/frontend/theme';
 import { RunStateProps } from '../RunState.types';
 
-export type RunStateIconProps = Pick<
-  RunStateProps,
-  'state' | 'runMutationCalled' | 'runMutationLoading' | 'entity'
-> & {
+export interface RunStateIconProps
+  extends Pick<
+      RunStateProps,
+      'state' | 'runMutationCalled' | 'runMutationLoading' | 'entity'
+    >,
+    ThemedSxProps {
   className?: string;
   showTooltip?: boolean;
-};
+}
