@@ -20,7 +20,7 @@ const BaseVariableDecoratorContent = ({
   const resolved = Boolean(variable);
 
   return (
-    <Box {...attributes}>
+    <div {...attributes}>
       <LightTooltip
         key={`variable-${text}-${resolved ? 'resolved' : 'not-resolved'}`}
         arrow
@@ -50,7 +50,7 @@ const BaseVariableDecoratorContent = ({
           {children}
         </Box>
       </LightTooltip>
-    </Box>
+    </div>
   );
 };
 

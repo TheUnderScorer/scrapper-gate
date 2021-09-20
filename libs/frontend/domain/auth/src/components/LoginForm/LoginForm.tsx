@@ -20,34 +20,8 @@ import { LoginFormProps, LoginFormType } from './LoginForm.types';
 import { LoginFormDto } from './LoginFormDto';
 import { useLoginForm } from './useLoginForm';
 
-const PREFIX = 'LoginForm';
-
-const classes = {
-  form: `${PREFIX}-form`,
-  alert: `${PREFIX}-alert`,
-  action: `${PREFIX}-action`,
-  fab: `${PREFIX}-fab`,
-};
-
-const Root = styled('form')(({ theme }) => ({
-  [`&.${classes.form}`]: {
-    width: '100%',
-  },
-
-  [`& .${classes.alert}`]: {
-    marginBottom: 0,
-    marginTop: theme.spacing(3),
-  },
-
-  [`& .${classes.action}`]: {
-    width: '100%',
-  },
-
-  [`& .${classes.fab}`]: {
-    '&.MuiButtonBase-root': {
-      minWidth: '150px',
-    },
-  },
+const StyledForm = styled('form')(() => ({
+  width: '100%',
 }));
 
 const validate = joiValidationResolver(LoginFormDto);
@@ -75,9 +49,15 @@ export const LoginForm = ({
       validateOnBlur={false}
       onSubmit={handleSubmit}
       render={(props) => (
-        <Root className={classes.form} onSubmit={props.handleSubmit}>
+        <StyledForm onSubmit={props.handleSubmit}>
           <Stack direction="column" spacing={3} alignItems="center">
-            <ErrorAlert className={classes.alert} error={error} />
+            <ErrorAlert
+              sx={{
+                marginBottom: 0,
+                marginTop: (theme) => theme.spacing(3),
+              }}
+              error={error}
+            />
             <FormTextField
               label="E-mail"
               fullWidth
@@ -112,7 +92,9 @@ export const LoginForm = ({
               />
             )}
             <Stack
-              className={classes.action}
+              sx={{
+                width: '100%',
+              }}
               spacing={2}
               direction="row"
               alignItems="center"
@@ -121,7 +103,11 @@ export const LoginForm = ({
               }
             >
               <Fab
-                className={classes.fab}
+                sx={{
+                  '&.MuiButtonBase-root': {
+                    minWidth: '150px',
+                  },
+                }}
                 id={type === LoginFormType.Login ? 'login' : 'signup'}
                 disabled={loading}
                 type="submit"
@@ -153,7 +139,7 @@ export const LoginForm = ({
               )}
             </Stack>
           </Stack>
-        </Root>
+        </StyledForm>
       )}
     />
   );

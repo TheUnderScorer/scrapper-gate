@@ -153,7 +153,6 @@ export const HtmlElementPicker = ({
       (item) => `${item.value}${item.type}`
     );
 
-    setTextFieldValue('');
     onChange(newValue);
   }, [
     textFieldValue,

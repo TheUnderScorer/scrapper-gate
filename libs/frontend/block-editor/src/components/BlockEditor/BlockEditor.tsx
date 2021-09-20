@@ -125,12 +125,6 @@ export const BlockEditor = forwardRef<HTMLInputElement, BlockEditorProps>(
       value ? textSerializeStrategy.deserialize(value) : getEmptyValue()
     );
 
-    console.log({
-      value,
-      state,
-      name: props.name,
-    });
-
     const handleStateChange = useCallback(
       (newState: Descendant[]) => {
         setDidInternalChange(true);
@@ -139,7 +133,7 @@ export const BlockEditor = forwardRef<HTMLInputElement, BlockEditorProps>(
 
         setState(newState);
 
-        setTimeout(() => setDidInternalChange(false), 50);
+        setTimeout(() => setDidInternalChange(false), 25);
       },
       [onChange]
     );

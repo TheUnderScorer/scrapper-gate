@@ -1,27 +1,11 @@
 import { Alert, Fade } from '@mui/material';
 import Box from '@mui/material/Box';
-import { styled } from '@mui/material/styles';
+import { ThemedSxProps } from '@scrapper-gate/frontend/theme';
 import { Perhaps } from '@scrapper-gate/shared/common';
-import classNames from 'classnames';
 
 import React, { useCallback, useEffect, useState } from 'react';
 
-const PREFIX = 'ErrorAlert';
-
-const classes = {
-  alert: `${PREFIX}-alert`,
-};
-
-const StyledFade = styled(Fade)(({ theme }) => ({
-  [`& .${classes.alert}`]: {
-    '&.MuiPaper-root': {
-      backgroundColor: theme.palette.error.main,
-      color: theme.palette.error.contrastText,
-    },
-  },
-}));
-
-export interface ErrorAlertProps {
+export interface ErrorAlertProps extends ThemedSxProps {
   /**
    * Error to display in alert
    * */
@@ -30,7 +14,12 @@ export interface ErrorAlertProps {
   className?: string;
 }
 
-export const ErrorAlert = ({ error, onClose, className }: ErrorAlertProps) => {
+export const ErrorAlert = ({
+  error,
+  onClose,
+  className,
+  sx,
+}: ErrorAlertProps) => {
   const [currentError, setCurrentError] = useState<Perhaps<Error>>(error);
 
   useEffect(() => {
@@ -46,12 +35,12 @@ export const ErrorAlert = ({ error, onClose, className }: ErrorAlertProps) => {
   }, [onClose]);
 
   return (
-    <StyledFade timeout={1000} in={Boolean(currentError)}>
-      <Box className={className}>
+    <Fade timeout={1000} in={Boolean(currentError)}>
+      <Box className={className} sx={sx}>
         {currentError && (
           <Alert
             onClose={handleClose}
-            className={classNames(classes.alert, 'error-alert')}
+            className="error-alert"
             variant="filled"
             severity="error"
           >
@@ -59,6 +48,6 @@ export const ErrorAlert = ({ error, onClose, className }: ErrorAlertProps) => {
           </Alert>
         )}
       </Box>
-    </StyledFade>
+    </Fade>
   );
 };
