@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
+
 import { colors, Theme } from '@mui/material';
 import { Palette } from '@mui/material/styles';
 
@@ -45,6 +46,8 @@ declare module '@mui/material/styles' {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore TS incorrectly assumes that this module does not exist
 declare module '@mui/styles/defaultTheme' {
   export interface DefaultTheme extends AppTheme {}
 }

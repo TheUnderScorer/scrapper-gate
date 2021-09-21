@@ -28,8 +28,8 @@ import {
   ExcludeFalsy,
   toDisplayText,
 } from '@scrapper-gate/shared/common';
+import { isCompleted } from '@scrapper-gate/shared/run-states';
 import { Maybe } from '@scrapper-gate/shared/schema';
-import classNames from 'classnames';
 import { format } from 'date-fns';
 import React, { useCallback, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -39,27 +39,14 @@ import {
   ScrapperRunScrapper,
 } from '../ScrapperRun.types';
 
-const PREFIX = 'ScrapperRunNodeContent';
-
-const classes = {
-  list: `${PREFIX}-list`,
-  nestedList: `${PREFIX}-nestedList`,
-};
-
-const Root = styled('div')(({ theme }) => ({
-  [`& .${classes.list}`]: {
-    '&.MuiList-root': {
-      marginTop: 0,
-    },
-    '& .MuiListItemIcon-root': {
-      minWidth: 0,
-      marginRight: theme.spacing(2),
-    },
+const StyledList = styled(List)(({ theme }) => ({
+  '&.MuiList-root': {
+    marginTop: 0,
   },
 
-  [`& .${classes.nestedList}`]: {
-    paddingTop: 0,
-    marginLeft: theme.spacing(2),
+  '& .MuiListItemIcon-root': {
+    minWidth: 0,
+    marginRight: theme.spacing(2),
   },
 }));
 
@@ -111,8 +98,10 @@ export const ScrapperRunNodeContent = ({
 
   const returnUrl = useReturnUrlProvider();
 
+  const completed = isCompleted(runResult?.state);
+
   return (
-    <Root>
+    <div>
       <Accordion
         variant="outlined"
         expanded={expanded === ScrapperRunNodeContentPanel.Details}
@@ -122,10 +111,7 @@ export const ScrapperRunNodeContent = ({
           <Typography>Details</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <List
-            disablePadding
-            className={classNames(classes.list, 'scrapper-run-node-content')}
-          >
+          <StyledList disablePadding className="scrapper-run-node-content">
             {values && (
               <ListItem disableGutters>
                 <ListItemIcon>
@@ -180,7 +166,13 @@ export const ScrapperRunNodeContent = ({
                   <ListItemText>Screenshots: </ListItemText>
                 </ListItem>
                 <ListItem disableGutters>
-                  <List className={classes.nestedList} dense>
+                  <List
+                    dense
+                    sx={{
+                      paddingTop: 0,
+                      marginLeft: (theme) => theme.spacing(2),
+                    }}
+                  >
                     {runResult?.screenshots
                       ?.filter(ExcludeFalsy)
                       .map((screenshot) => (
@@ -195,63 +187,65 @@ export const ScrapperRunNodeContent = ({
                 </ListItem>
               </>
             )}
-          </List>
+          </StyledList>
         </AccordionDetails>
       </Accordion>
-      <Accordion
-        variant="outlined"
-        expanded={expanded === ScrapperRunNodeContentPanel.Duration}
-        onChange={handleExpandedChange(ScrapperRunNodeContentPanel.Duration)}
-      >
-        <AccordionSummary expandIcon={<ExpandMore />}>
-          <Typography>Duration</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <List disablePadding>
-            {runResult?.startedAt && (
-              <ListItem disableGutters>
-                <ListItemIcon>
-                  <EventNote />
-                </ListItemIcon>
-                <ListItemText
-                  primary="Started at"
-                  secondary={format(
-                    new Date(runResult.startedAt),
-                    DateFormat.DateTime
-                  )}
-                />
-              </ListItem>
-            )}
+      {completed && (
+        <Accordion
+          variant="outlined"
+          expanded={expanded === ScrapperRunNodeContentPanel.Duration}
+          onChange={handleExpandedChange(ScrapperRunNodeContentPanel.Duration)}
+        >
+          <AccordionSummary expandIcon={<ExpandMore />}>
+            <Typography>Duration</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <StyledList disablePadding>
+              {runResult?.startedAt && (
+                <ListItem disableGutters>
+                  <ListItemIcon>
+                    <EventNote />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary="Started at"
+                    secondary={format(
+                      new Date(runResult.startedAt),
+                      DateFormat.DateTime
+                    )}
+                  />
+                </ListItem>
+              )}
 
-            {runResult?.endedAt && (
-              <ListItem disableGutters>
-                <ListItemIcon>
-                  <EventAvailable />
-                </ListItemIcon>
-                <ListItemText
-                  primary="Ended at"
-                  secondary={format(
-                    new Date(runResult.endedAt),
-                    DateFormat.DateTime
-                  )}
-                />
-              </ListItem>
-            )}
+              {runResult?.endedAt && (
+                <ListItem disableGutters>
+                  <ListItemIcon>
+                    <EventAvailable />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary="Ended at"
+                    secondary={format(
+                      new Date(runResult.endedAt),
+                      DateFormat.DateTime
+                    )}
+                  />
+                </ListItem>
+              )}
 
-            {runResult?.performance?.duration && (
-              <ListItem disableGutters>
-                <ListItemIcon>
-                  <Schedule />
-                </ListItemIcon>
-                <ListItemText>
-                  This step took{' '}
-                  <i>{runResult.performance.duration.toFixed(2)}MS</i>
-                </ListItemText>
-              </ListItem>
-            )}
-          </List>
-        </AccordionDetails>
-      </Accordion>
-    </Root>
+              {runResult?.performance?.duration && (
+                <ListItem disableGutters>
+                  <ListItemIcon>
+                    <Schedule />
+                  </ListItemIcon>
+                  <ListItemText>
+                    This step took{' '}
+                    <i>{runResult.performance.duration.toFixed(2)}MS</i>
+                  </ListItemText>
+                </ListItem>
+              )}
+            </StyledList>
+          </AccordionDetails>
+        </Accordion>
+      )}
+    </div>
   );
 };

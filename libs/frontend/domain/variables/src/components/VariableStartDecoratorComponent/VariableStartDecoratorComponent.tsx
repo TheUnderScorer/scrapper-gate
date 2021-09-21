@@ -1,3 +1,4 @@
+import { Box } from '@mui/material';
 import {
   DecoratorComponentProps,
   useBlockEditorContext,
@@ -59,12 +60,7 @@ export const VariableStartDecoratorComponent = ({
   }, [leaf, selectionEnd, selectionStart]);
 
   return (
-    <div
-      {...attributes}
-      style={{
-        display: 'inline-block',
-      }}
-    >
+    <Box {...attributes} display="inline-block">
       <LightTooltip
         TransitionProps={{ timeout: 0 }}
         open={isSelectionWithinBounds && focused}
@@ -79,6 +75,6 @@ export const VariableStartDecoratorComponent = ({
           {children}
         </span>
       </LightTooltip>
-    </div>
+    </Box>
   );
 };
