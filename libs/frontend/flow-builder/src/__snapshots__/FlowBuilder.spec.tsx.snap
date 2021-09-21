@@ -9,16 +9,16 @@ Object {
         style="width: 500px; height: 500px;"
       >
         <div
-          class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded makeStyles-paper-1 css-172kgz0-MuiPaper-root"
+          class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded css-19qxo0b-MuiPaper-root"
         >
           <header
-            class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAppBar-root MuiAppBar-colorTransparent MuiAppBar-positionStatic css-pivuyh-MuiPaper-root-MuiAppBar-root"
+            class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAppBar-root MuiAppBar-colorTransparent MuiAppBar-positionStatic css-je1c66-MuiPaper-root-MuiAppBar-root"
           >
             <div
-              class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular makeStyles-appBar-3 css-1t29gy6-MuiToolbar-root"
+              class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular FlowBuilderHeader-appBar css-1t29gy6-MuiToolbar-root"
             >
               <div
-                class="makeStyles-mainGrid-4 css-3y1137-MuiStack-root"
+                class="FlowBuilderHeader-mainGrid css-3y1137-MuiStack-root"
               >
                 <div
                   class="css-1yo1jo6-MuiStack-root"
@@ -27,7 +27,7 @@ Object {
                   class="css-1yo1jo6-MuiStack-root"
                 >
                   <button
-                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-4eo9e9-MuiButtonBase-root-MuiIconButton-root"
+                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-1nvo327-MuiButtonBase-root-MuiIconButton-root"
                     data-mui-internal-clone-element="true"
                     tabindex="0"
                     type="button"
@@ -58,7 +58,7 @@ Object {
                       variant="outlined"
                     >
                       <button
-                        class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeMedium undo-btn css-4eo9e9-MuiButtonBase-root-MuiIconButton-root"
+                        class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge undo-btn css-1nvo327-MuiButtonBase-root-MuiIconButton-root"
                         disabled=""
                         tabindex="-1"
                         type="button"
@@ -83,7 +83,7 @@ Object {
                       variant="outlined"
                     >
                       <button
-                        class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeMedium redo-btn css-4eo9e9-MuiButtonBase-root-MuiIconButton-root"
+                        class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge redo-btn css-1nvo327-MuiButtonBase-root-MuiIconButton-root"
                         disabled=""
                         tabindex="-1"
                         type="button"
@@ -103,15 +103,15 @@ Object {
                     </span>
                   </div>
                   <hr
-                    class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical makeStyles-divider-5 css-ftc7wc-MuiDivider-root"
+                    class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical FlowBuilderHeader-divider css-ftc7wc-MuiDivider-root"
                   />
                   <span
                     aria-label=""
-                    class=""
+                    class="css-y0eob7"
                     data-mui-internal-clone-element="true"
                   >
                     <span
-                      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium makeStyles-icon-7 success makeStyles-iconButton-2 css-4eo9e9-MuiButtonBase-root-MuiIconButton-root"
+                      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge FormStateIcon-icon success FlowBuilderHeader-iconButton css-1nvo327-MuiButtonBase-root-MuiIconButton-root"
                       role="button"
                       tabindex="0"
                     >
@@ -129,7 +129,7 @@ Object {
                     </span>
                   </span>
                   <button
-                    class="MuiButtonBase-root MuiFab-root MuiFab-extended MuiFab-sizeSmall MuiFab-primary makeStyles-fab-6 flow-builder-submit-btn css-fzzzik-MuiButtonBase-root-MuiFab-root"
+                    class="MuiButtonBase-root MuiFab-root MuiFab-extended MuiFab-sizeSmall MuiFab-primary FlowBuilderHeader-fab flow-builder-submit-btn css-fzzzik-MuiButtonBase-root-MuiFab-root"
                     tabindex="0"
                     type="submit"
                   >
@@ -143,10 +143,10 @@ Object {
             </div>
           </header>
           <div
-            class="MuiPaper-root MuiPaper-outlined makeStyles-paper-9 css-mta8o9-MuiPaper-root"
+            class="MuiPaper-root MuiPaper-outlined FlowBuilderTabs-paper css-qm8bt1-MuiPaper-root"
           >
             <div
-              class="MuiTabs-root makeStyles-tabs-8 css-1ujnqem-MuiTabs-root"
+              class="MuiTabs-root FlowBuilderTabs-tabs css-1ujnqem-MuiTabs-root"
             >
               <div
                 class="MuiTabs-scroller MuiTabs-fixed css-jpln7h-MuiTabs-scroller"
@@ -180,14 +180,14 @@ Object {
             class="MuiBox-root css-1g68m89"
           >
             <div
-              class="makeStyles-stack-10 css-m69qwo-MuiStack-root"
+              class="css-18wwntv-MuiStack-root"
             >
               <div
-                class="makeStyles-container-15"
+                class="panel-container css-1tlsny7"
                 style="position: relative; user-select: auto; width: 25%; height: 100%; max-width: 400px; min-width: 200px; box-sizing: border-box; flex-shrink: 0;"
               >
                 <button
-                  class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeSmall makeStyles-iconBtn-17 toggle-panel css-1sx5uep-MuiButtonBase-root-MuiFab-root"
+                  class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeSmall toggle-panel css-8cfj7d-MuiButtonBase-root-MuiFab-root"
                   data-mui-internal-clone-element="true"
                   tabindex="0"
                   type="button"
@@ -208,10 +208,10 @@ Object {
                   />
                 </button>
                 <div
-                  class="MuiPaper-root MuiPaper-outlined makeStyles-paper-11 makeStyles-content-16 resizable-panel-content css-mta8o9-MuiPaper-root"
+                  class="MuiPaper-root MuiPaper-outlined resizable-panel-content css-1qvsjo2-MuiPaper-root"
                 >
                   <div
-                    class="makeStyles-grid-12 css-1p5q5e5-MuiStack-root"
+                    class="css-zwbr96-MuiStack-root"
                   >
                     <h6
                       class="MuiTypography-root MuiTypography-h6 css-5d68dr-MuiTypography-root"
@@ -257,10 +257,10 @@ Object {
                         </div>
                         <fieldset
                           aria-hidden="true"
-                          class="MuiOutlinedInput-notchedOutline css-1o2jng6-MuiOutlinedInput-notchedOutline"
+                          class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
                         >
                           <legend
-                            class="css-1br1jja"
+                            class="css-1a1ihhj"
                           >
                             <span
                               class="notranslate"
@@ -272,24 +272,24 @@ Object {
                       </div>
                     </div>
                     <ul
-                      class="MuiList-root MuiList-padding makeStyles-list-13 css-h4y409-MuiList-root"
+                      class="MuiList-root MuiList-padding css-n1y23x-MuiList-root"
                     >
                       <li
-                        class="MuiListItem-root MuiListItem-gutters MuiListItem-padding makeStyles-tile-19 item-Action css-10hr97i-MuiListItem-root"
+                        class="MuiListItem-root MuiListItem-gutters MuiListItem-padding FlowBuilderSidebarItem-tile item-Action css-1v9fd58-MuiListItem-root"
                         draggable="true"
                       >
                         <div
                           class="MuiListItemIcon-root css-cveggr-MuiListItemIcon-root"
                         >
                           <div
-                            class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded makeStyles-paper-21 action-node-box css-172kgz0-MuiPaper-root"
+                            class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded action-node-box css-1hpjjg8-MuiPaper-root"
                             style="width: 50px; height: 50px; position: relative;"
                           >
                             <div
                               class="centered MuiBox-root css-9hmjl0"
                             >
                               <span
-                                class="makeStyles-span-22"
+                                class="MuiBox-root css-vxcmzt"
                               >
                                 <svg
                                   aria-hidden="true"
@@ -307,7 +307,7 @@ Object {
                           </div>
                         </div>
                         <div
-                          class="MuiListItemText-root makeStyles-text-20 css-tlelie-MuiListItemText-root"
+                          class="MuiListItemText-root FlowBuilderSidebarItem-text css-tlelie-MuiListItemText-root"
                         >
                           <span
                             class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-18fn6n9-MuiTypography-root"
@@ -317,17 +317,17 @@ Object {
                         </div>
                       </li>
                       <li
-                        class="MuiListItem-root MuiListItem-gutters MuiListItem-padding makeStyles-tile-19 item-Conditional css-10hr97i-MuiListItem-root"
+                        class="MuiListItem-root MuiListItem-gutters MuiListItem-padding FlowBuilderSidebarItem-tile item-Conditional css-1v9fd58-MuiListItem-root"
                         draggable="true"
                       >
                         <div
                           class="MuiListItemIcon-root css-cveggr-MuiListItemIcon-root"
                         >
                           <div
-                            class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded makeStyles-diamond-25 makeStyles-diamond-26 conditional-node css-172kgz0-MuiPaper-root"
+                            class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded conditional-node css-taj9at-MuiPaper-root"
                           >
                             <div
-                              class="centered makeStyles-content-24 MuiBox-root css-9hmjl0"
+                              class="centered MuiBox-root css-1v69lcx"
                             >
                               <span>
                                 <svg
@@ -346,7 +346,7 @@ Object {
                           </div>
                         </div>
                         <div
-                          class="MuiListItemText-root makeStyles-text-20 css-tlelie-MuiListItemText-root"
+                          class="MuiListItemText-root FlowBuilderSidebarItem-text css-tlelie-MuiListItemText-root"
                         >
                           <span
                             class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-18fn6n9-MuiTypography-root"
@@ -356,21 +356,21 @@ Object {
                         </div>
                       </li>
                       <li
-                        class="MuiListItem-root MuiListItem-gutters MuiListItem-padding makeStyles-tile-19 item-End css-10hr97i-MuiListItem-root"
+                        class="MuiListItem-root MuiListItem-gutters MuiListItem-padding FlowBuilderSidebarItem-tile item-End css-1v9fd58-MuiListItem-root"
                         draggable="true"
                       >
                         <div
                           class="MuiListItemIcon-root css-cveggr-MuiListItemIcon-root"
                         >
                           <div
-                            class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded ActionNodeBox-root-29 Styled(ActionNodeBox)-root-27 Styled(ActionNodeBox)-root-28 makeStyles-paper-21 action-node-box css-172kgz0-MuiPaper-root"
+                            class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded action-node-box css-1mggujv-MuiPaper-root"
                             style="width: 50px; height: 50px; position: relative;"
                           >
                             <div
                               class="centered MuiBox-root css-9hmjl0"
                             >
                               <span
-                                class="makeStyles-span-22"
+                                class="MuiBox-root css-vxcmzt"
                               >
                                 <svg
                                   aria-hidden="true"
@@ -388,7 +388,7 @@ Object {
                           </div>
                         </div>
                         <div
-                          class="MuiListItemText-root makeStyles-text-20 css-tlelie-MuiListItemText-root"
+                          class="MuiListItemText-root FlowBuilderSidebarItem-text css-tlelie-MuiListItemText-root"
                         >
                           <span
                             class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-18fn6n9-MuiTypography-root"
@@ -401,7 +401,7 @@ Object {
                   </div>
                 </div>
                 <div
-                  class="makeStyles-handle-14 makeStyles-handle-18"
+                  class="panel-handle"
                 >
                   <div
                     class=""
@@ -410,10 +410,10 @@ Object {
                 </div>
               </div>
               <div
-                class="makeStyles-paper-30 flow-builder-canvas"
+                class="flow-builder-canvas MuiBox-root css-pqu56z"
               >
                 <div
-                  class="react-flow makeStyles-canvas-31"
+                  class="react-flow"
                 >
                   <div
                     class="react-flow__renderer react-flow__zoompane"
@@ -428,14 +428,14 @@ Object {
                         style="z-index: 3; transform: translate(100px,125px); pointer-events: all; opacity: 0;"
                       >
                         <div
-                          class="flow-builder-node flow-builder-node-Action"
+                          class="flow-builder-node flow-builder-node-Action css-37h7p1"
                           id="node-1"
                         >
                           <div
                             class="MuiBox-root css-iykhn8"
                           >
                             <button
-                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall makeStyles-dropdownIcon-44 node-dropdown-trigger css-1is4vhy-MuiButtonBase-root-MuiIconButton-root"
+                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge FlowBuilderNode-dropdownIcon node-dropdown-trigger css-1nvo327-MuiButtonBase-root-MuiIconButton-root"
                               tabindex="0"
                               type="button"
                             >
@@ -455,14 +455,14 @@ Object {
                               />
                             </button>
                             <div
-                              class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded makeStyles-paper-21 action-node-box css-172kgz0-MuiPaper-root"
+                              class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded action-node-box css-jx39ho-MuiPaper-root"
                               style="width: 90px; height: 90px; position: relative;"
                             >
                               <div
                                 class="centered MuiBox-root css-9hmjl0"
                               >
                                 <span
-                                  class="makeStyles-icon-48 makeStyles-span-22"
+                                  class="FlowBuilderNodeBoxIcon-icon MuiBox-root css-vxcmzt"
                                 >
                                   <svg
                                     aria-hidden="true"
@@ -491,7 +491,7 @@ Object {
                               />
                             </div>
                             <div
-                              class="makeStyles-text-46 css-nen11g-MuiStack-root"
+                              class="FlowBuilderNode-text css-nen11g-MuiStack-root"
                             >
                               <span
                                 class="MuiTypography-root MuiTypography-caption css-1kjdt4l-MuiTypography-root"
@@ -508,14 +508,14 @@ Object {
                         style="z-index: 3; transform: translate(150px,125px); pointer-events: all; opacity: 0;"
                       >
                         <div
-                          class="flow-builder-node flow-builder-node-Action"
+                          class="flow-builder-node flow-builder-node-Action css-37h7p1"
                           id="node-2"
                         >
                           <div
                             class="MuiBox-root css-iykhn8"
                           >
                             <button
-                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall makeStyles-dropdownIcon-44 node-dropdown-trigger css-1is4vhy-MuiButtonBase-root-MuiIconButton-root"
+                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge FlowBuilderNode-dropdownIcon node-dropdown-trigger css-1nvo327-MuiButtonBase-root-MuiIconButton-root"
                               tabindex="0"
                               type="button"
                             >
@@ -535,14 +535,14 @@ Object {
                               />
                             </button>
                             <div
-                              class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded makeStyles-paper-21 action-node-box css-172kgz0-MuiPaper-root"
+                              class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded action-node-box css-jx39ho-MuiPaper-root"
                               style="width: 90px; height: 90px; position: relative;"
                             >
                               <div
                                 class="centered MuiBox-root css-9hmjl0"
                               >
                                 <span
-                                  class="makeStyles-icon-48 makeStyles-span-22"
+                                  class="FlowBuilderNodeBoxIcon-icon MuiBox-root css-vxcmzt"
                                 >
                                   <svg
                                     aria-hidden="true"
@@ -591,7 +591,7 @@ Object {
                               />
                             </div>
                             <div
-                              class="makeStyles-text-46 css-nen11g-MuiStack-root"
+                              class="FlowBuilderNode-text css-nen11g-MuiStack-root"
                             >
                               <span
                                 class="MuiTypography-root MuiTypography-caption css-1kjdt4l-MuiTypography-root"
@@ -608,14 +608,14 @@ Object {
                         style="z-index: 3; transform: translate(200px,125px); pointer-events: all; opacity: 0;"
                       >
                         <div
-                          class="flow-builder-node flow-builder-node-Action"
+                          class="flow-builder-node flow-builder-node-Action css-37h7p1"
                           id="node-3"
                         >
                           <div
                             class="MuiBox-root css-iykhn8"
                           >
                             <button
-                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall makeStyles-dropdownIcon-44 node-dropdown-trigger css-1is4vhy-MuiButtonBase-root-MuiIconButton-root"
+                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge FlowBuilderNode-dropdownIcon node-dropdown-trigger css-1nvo327-MuiButtonBase-root-MuiIconButton-root"
                               tabindex="0"
                               type="button"
                             >
@@ -635,14 +635,14 @@ Object {
                               />
                             </button>
                             <div
-                              class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded makeStyles-paper-21 action-node-box css-172kgz0-MuiPaper-root"
+                              class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded action-node-box css-jx39ho-MuiPaper-root"
                               style="width: 90px; height: 90px; position: relative;"
                             >
                               <div
                                 class="centered MuiBox-root css-9hmjl0"
                               >
                                 <span
-                                  class="makeStyles-icon-48 makeStyles-span-22"
+                                  class="FlowBuilderNodeBoxIcon-icon MuiBox-root css-vxcmzt"
                                 >
                                   <svg
                                     aria-hidden="true"
@@ -671,7 +671,7 @@ Object {
                               />
                             </div>
                             <div
-                              class="makeStyles-text-46 css-nen11g-MuiStack-root"
+                              class="FlowBuilderNode-text css-nen11g-MuiStack-root"
                             >
                               <span
                                 class="MuiTypography-root MuiTypography-caption css-1kjdt4l-MuiTypography-root"
@@ -739,22 +739,22 @@ Object {
                 </div>
               </div>
               <div
-                class="makeStyles-drawer-35 node-content-closed makeStyles-container-15"
+                class="panel-container css-vtxc8y"
                 style="position: relative; user-select: auto; visibility: hidden; width: 20%; height: 100%; max-width: 900px; min-width: 500px; box-sizing: border-box; flex-shrink: 0;"
+                sx="[object Object]"
               >
                 <div
-                  class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 makeStyles-paper-37 makeStyles-paper-39 makeStyles-content-16 resizable-panel-content css-1ps6pg7-MuiPaper-root"
+                  class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 resizable-panel-content css-1vecl5b-MuiPaper-root"
                   style="webkit-transform: translateX(1024px); transform: translateX(1024px);"
                 >
                   <div
-                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-undefined MuiGrid-direction-xs-column MuiGrid-wrap-xs-nowrap makeStyles-container-41 layout css-19kb62l-MuiGrid-root"
+                    class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-undefined MuiGrid-direction-xs-column MuiGrid-wrap-xs-nowrap layout css-13db0rd-MuiGrid-root"
                   >
                     <div
-                      class="MuiGrid-root MuiGrid-item makeStyles-body-42 makeStyles-body-43 layout-body css-13i4rnv-MuiGrid-root"
-                      style="height: calc(100% - 50px); flex: 1;"
+                      class="MuiGrid-root MuiGrid-item layout-body css-13m6jwh-MuiGrid-root"
                     >
                       <div
-                        class="makeStyles-content-33 node-content css-1lwbda4-MuiStack-root"
+                        class="node-content css-1pcxs97-MuiStack-root"
                       >
                         <h6
                           class="MuiTypography-root MuiTypography-h6 css-5d68dr-MuiTypography-root"
@@ -767,37 +767,41 @@ Object {
                       class="MuiGrid-root MuiGrid-item layout-footer css-13i4rnv-MuiGrid-root"
                       style="height: 50px;"
                     >
-                      <hr
-                        class="MuiDivider-root MuiDivider-fullWidth makeStyles-btnDivider-34 css-9mgopn-MuiDivider-root"
-                      />
                       <div
-                        class="MuiBox-root css-n085mf"
+                        class="MuiBox-root css-0"
                       >
-                        <button
-                          class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButtonBase-root Mui-focusVisible css-1f1sisq-MuiButtonBase-root-MuiButton-root"
-                          tabindex="0"
-                          type="button"
+                        <hr
+                          class="MuiDivider-root MuiDivider-fullWidth css-1s2c4sr-MuiDivider-root"
+                        />
+                        <div
+                          class="MuiBox-root css-n085mf"
                         >
-                          Close
-                          <span
-                            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                          <button
+                            class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButtonBase-root Mui-focusVisible css-1f1sisq-MuiButtonBase-root-MuiButton-root"
+                            tabindex="0"
+                            type="button"
                           >
+                            Close
                             <span
-                              class="css-y4cjyz-MuiTouchRipple-ripple MuiTouchRipple-ripple MuiTouchRipple-rippleVisible MuiTouchRipple-ripplePulsate"
-                              style="width: 1px; height: 1px; top: -0.5px; left: -0.5px;"
+                              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
                             >
                               <span
-                                class="MuiTouchRipple-child MuiTouchRipple-childPulsate"
-                              />
+                                class="css-y4cjyz-MuiTouchRipple-ripple MuiTouchRipple-ripple MuiTouchRipple-rippleVisible MuiTouchRipple-ripplePulsate"
+                                style="width: 1px; height: 1px; top: -0.5px; left: -0.5px;"
+                              >
+                                <span
+                                  class="MuiTouchRipple-child MuiTouchRipple-childPulsate"
+                                />
+                              </span>
                             </span>
-                          </span>
-                        </button>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
                 <div
-                  class="makeStyles-handle-14 makeStyles-handle-40"
+                  class="panel-handle"
                 >
                   <div
                     class=""
@@ -836,7 +840,7 @@ Object {
           tabindex="-1"
         >
           <li
-            class="MuiMenuItem-root MuiMenuItem-gutters MuiButtonBase-root makeStyles-deleteStep-47 css-soz1h5-MuiButtonBase-root-MuiMenuItem-root"
+            class="MuiMenuItem-root MuiMenuItem-gutters MuiButtonBase-root FlowBuilderNode-deleteStep css-soz1h5-MuiButtonBase-root-MuiMenuItem-root"
             id="delete-step-1"
             role="menuitem"
             tabindex="-1"
@@ -902,7 +906,7 @@ Object {
           tabindex="-1"
         >
           <li
-            class="MuiMenuItem-root MuiMenuItem-gutters MuiButtonBase-root makeStyles-deleteStep-47 css-soz1h5-MuiButtonBase-root-MuiMenuItem-root"
+            class="MuiMenuItem-root MuiMenuItem-gutters MuiButtonBase-root FlowBuilderNode-deleteStep css-soz1h5-MuiButtonBase-root-MuiMenuItem-root"
             id="delete-step-2"
             role="menuitem"
             tabindex="-1"
@@ -968,7 +972,7 @@ Object {
           tabindex="-1"
         >
           <li
-            class="MuiMenuItem-root MuiMenuItem-gutters MuiButtonBase-root makeStyles-deleteStep-47 css-soz1h5-MuiButtonBase-root-MuiMenuItem-root"
+            class="MuiMenuItem-root MuiMenuItem-gutters MuiButtonBase-root FlowBuilderNode-deleteStep css-soz1h5-MuiButtonBase-root-MuiMenuItem-root"
             id="delete-step-3"
             role="menuitem"
             tabindex="-1"
@@ -1014,16 +1018,16 @@ Object {
       style="width: 500px; height: 500px;"
     >
       <div
-        class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded makeStyles-paper-1 css-172kgz0-MuiPaper-root"
+        class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded css-19qxo0b-MuiPaper-root"
       >
         <header
-          class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAppBar-root MuiAppBar-colorTransparent MuiAppBar-positionStatic css-pivuyh-MuiPaper-root-MuiAppBar-root"
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiAppBar-root MuiAppBar-colorTransparent MuiAppBar-positionStatic css-je1c66-MuiPaper-root-MuiAppBar-root"
         >
           <div
-            class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular makeStyles-appBar-3 css-1t29gy6-MuiToolbar-root"
+            class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular FlowBuilderHeader-appBar css-1t29gy6-MuiToolbar-root"
           >
             <div
-              class="makeStyles-mainGrid-4 css-3y1137-MuiStack-root"
+              class="FlowBuilderHeader-mainGrid css-3y1137-MuiStack-root"
             >
               <div
                 class="css-1yo1jo6-MuiStack-root"
@@ -1032,7 +1036,7 @@ Object {
                 class="css-1yo1jo6-MuiStack-root"
               >
                 <button
-                  class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-4eo9e9-MuiButtonBase-root-MuiIconButton-root"
+                  class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-1nvo327-MuiButtonBase-root-MuiIconButton-root"
                   data-mui-internal-clone-element="true"
                   tabindex="0"
                   type="button"
@@ -1063,7 +1067,7 @@ Object {
                     variant="outlined"
                   >
                     <button
-                      class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeMedium undo-btn css-4eo9e9-MuiButtonBase-root-MuiIconButton-root"
+                      class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge undo-btn css-1nvo327-MuiButtonBase-root-MuiIconButton-root"
                       disabled=""
                       tabindex="-1"
                       type="button"
@@ -1088,7 +1092,7 @@ Object {
                     variant="outlined"
                   >
                     <button
-                      class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeMedium redo-btn css-4eo9e9-MuiButtonBase-root-MuiIconButton-root"
+                      class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge redo-btn css-1nvo327-MuiButtonBase-root-MuiIconButton-root"
                       disabled=""
                       tabindex="-1"
                       type="button"
@@ -1108,15 +1112,15 @@ Object {
                   </span>
                 </div>
                 <hr
-                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical makeStyles-divider-5 css-ftc7wc-MuiDivider-root"
+                  class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical FlowBuilderHeader-divider css-ftc7wc-MuiDivider-root"
                 />
                 <span
                   aria-label=""
-                  class=""
+                  class="css-y0eob7"
                   data-mui-internal-clone-element="true"
                 >
                   <span
-                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium makeStyles-icon-7 success makeStyles-iconButton-2 css-4eo9e9-MuiButtonBase-root-MuiIconButton-root"
+                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge FormStateIcon-icon success FlowBuilderHeader-iconButton css-1nvo327-MuiButtonBase-root-MuiIconButton-root"
                     role="button"
                     tabindex="0"
                   >
@@ -1134,7 +1138,7 @@ Object {
                   </span>
                 </span>
                 <button
-                  class="MuiButtonBase-root MuiFab-root MuiFab-extended MuiFab-sizeSmall MuiFab-primary makeStyles-fab-6 flow-builder-submit-btn css-fzzzik-MuiButtonBase-root-MuiFab-root"
+                  class="MuiButtonBase-root MuiFab-root MuiFab-extended MuiFab-sizeSmall MuiFab-primary FlowBuilderHeader-fab flow-builder-submit-btn css-fzzzik-MuiButtonBase-root-MuiFab-root"
                   tabindex="0"
                   type="submit"
                 >
@@ -1148,10 +1152,10 @@ Object {
           </div>
         </header>
         <div
-          class="MuiPaper-root MuiPaper-outlined makeStyles-paper-9 css-mta8o9-MuiPaper-root"
+          class="MuiPaper-root MuiPaper-outlined FlowBuilderTabs-paper css-qm8bt1-MuiPaper-root"
         >
           <div
-            class="MuiTabs-root makeStyles-tabs-8 css-1ujnqem-MuiTabs-root"
+            class="MuiTabs-root FlowBuilderTabs-tabs css-1ujnqem-MuiTabs-root"
           >
             <div
               class="MuiTabs-scroller MuiTabs-fixed css-jpln7h-MuiTabs-scroller"
@@ -1185,14 +1189,14 @@ Object {
           class="MuiBox-root css-1g68m89"
         >
           <div
-            class="makeStyles-stack-10 css-m69qwo-MuiStack-root"
+            class="css-18wwntv-MuiStack-root"
           >
             <div
-              class="makeStyles-container-15"
+              class="panel-container css-1tlsny7"
               style="position: relative; user-select: auto; width: 25%; height: 100%; max-width: 400px; min-width: 200px; box-sizing: border-box; flex-shrink: 0;"
             >
               <button
-                class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeSmall makeStyles-iconBtn-17 toggle-panel css-1sx5uep-MuiButtonBase-root-MuiFab-root"
+                class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeSmall toggle-panel css-8cfj7d-MuiButtonBase-root-MuiFab-root"
                 data-mui-internal-clone-element="true"
                 tabindex="0"
                 type="button"
@@ -1213,10 +1217,10 @@ Object {
                 />
               </button>
               <div
-                class="MuiPaper-root MuiPaper-outlined makeStyles-paper-11 makeStyles-content-16 resizable-panel-content css-mta8o9-MuiPaper-root"
+                class="MuiPaper-root MuiPaper-outlined resizable-panel-content css-1qvsjo2-MuiPaper-root"
               >
                 <div
-                  class="makeStyles-grid-12 css-1p5q5e5-MuiStack-root"
+                  class="css-zwbr96-MuiStack-root"
                 >
                   <h6
                     class="MuiTypography-root MuiTypography-h6 css-5d68dr-MuiTypography-root"
@@ -1262,10 +1266,10 @@ Object {
                       </div>
                       <fieldset
                         aria-hidden="true"
-                        class="MuiOutlinedInput-notchedOutline css-1o2jng6-MuiOutlinedInput-notchedOutline"
+                        class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
                       >
                         <legend
-                          class="css-1br1jja"
+                          class="css-1a1ihhj"
                         >
                           <span
                             class="notranslate"
@@ -1277,24 +1281,24 @@ Object {
                     </div>
                   </div>
                   <ul
-                    class="MuiList-root MuiList-padding makeStyles-list-13 css-h4y409-MuiList-root"
+                    class="MuiList-root MuiList-padding css-n1y23x-MuiList-root"
                   >
                     <li
-                      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding makeStyles-tile-19 item-Action css-10hr97i-MuiListItem-root"
+                      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding FlowBuilderSidebarItem-tile item-Action css-1v9fd58-MuiListItem-root"
                       draggable="true"
                     >
                       <div
                         class="MuiListItemIcon-root css-cveggr-MuiListItemIcon-root"
                       >
                         <div
-                          class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded makeStyles-paper-21 action-node-box css-172kgz0-MuiPaper-root"
+                          class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded action-node-box css-1hpjjg8-MuiPaper-root"
                           style="width: 50px; height: 50px; position: relative;"
                         >
                           <div
                             class="centered MuiBox-root css-9hmjl0"
                           >
                             <span
-                              class="makeStyles-span-22"
+                              class="MuiBox-root css-vxcmzt"
                             >
                               <svg
                                 aria-hidden="true"
@@ -1312,7 +1316,7 @@ Object {
                         </div>
                       </div>
                       <div
-                        class="MuiListItemText-root makeStyles-text-20 css-tlelie-MuiListItemText-root"
+                        class="MuiListItemText-root FlowBuilderSidebarItem-text css-tlelie-MuiListItemText-root"
                       >
                         <span
                           class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-18fn6n9-MuiTypography-root"
@@ -1322,17 +1326,17 @@ Object {
                       </div>
                     </li>
                     <li
-                      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding makeStyles-tile-19 item-Conditional css-10hr97i-MuiListItem-root"
+                      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding FlowBuilderSidebarItem-tile item-Conditional css-1v9fd58-MuiListItem-root"
                       draggable="true"
                     >
                       <div
                         class="MuiListItemIcon-root css-cveggr-MuiListItemIcon-root"
                       >
                         <div
-                          class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded makeStyles-diamond-25 makeStyles-diamond-26 conditional-node css-172kgz0-MuiPaper-root"
+                          class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded conditional-node css-taj9at-MuiPaper-root"
                         >
                           <div
-                            class="centered makeStyles-content-24 MuiBox-root css-9hmjl0"
+                            class="centered MuiBox-root css-1v69lcx"
                           >
                             <span>
                               <svg
@@ -1351,7 +1355,7 @@ Object {
                         </div>
                       </div>
                       <div
-                        class="MuiListItemText-root makeStyles-text-20 css-tlelie-MuiListItemText-root"
+                        class="MuiListItemText-root FlowBuilderSidebarItem-text css-tlelie-MuiListItemText-root"
                       >
                         <span
                           class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-18fn6n9-MuiTypography-root"
@@ -1361,21 +1365,21 @@ Object {
                       </div>
                     </li>
                     <li
-                      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding makeStyles-tile-19 item-End css-10hr97i-MuiListItem-root"
+                      class="MuiListItem-root MuiListItem-gutters MuiListItem-padding FlowBuilderSidebarItem-tile item-End css-1v9fd58-MuiListItem-root"
                       draggable="true"
                     >
                       <div
                         class="MuiListItemIcon-root css-cveggr-MuiListItemIcon-root"
                       >
                         <div
-                          class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded ActionNodeBox-root-29 Styled(ActionNodeBox)-root-27 Styled(ActionNodeBox)-root-28 makeStyles-paper-21 action-node-box css-172kgz0-MuiPaper-root"
+                          class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded action-node-box css-1mggujv-MuiPaper-root"
                           style="width: 50px; height: 50px; position: relative;"
                         >
                           <div
                             class="centered MuiBox-root css-9hmjl0"
                           >
                             <span
-                              class="makeStyles-span-22"
+                              class="MuiBox-root css-vxcmzt"
                             >
                               <svg
                                 aria-hidden="true"
@@ -1393,7 +1397,7 @@ Object {
                         </div>
                       </div>
                       <div
-                        class="MuiListItemText-root makeStyles-text-20 css-tlelie-MuiListItemText-root"
+                        class="MuiListItemText-root FlowBuilderSidebarItem-text css-tlelie-MuiListItemText-root"
                       >
                         <span
                           class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-18fn6n9-MuiTypography-root"
@@ -1406,7 +1410,7 @@ Object {
                 </div>
               </div>
               <div
-                class="makeStyles-handle-14 makeStyles-handle-18"
+                class="panel-handle"
               >
                 <div
                   class=""
@@ -1415,10 +1419,10 @@ Object {
               </div>
             </div>
             <div
-              class="makeStyles-paper-30 flow-builder-canvas"
+              class="flow-builder-canvas MuiBox-root css-pqu56z"
             >
               <div
-                class="react-flow makeStyles-canvas-31"
+                class="react-flow"
               >
                 <div
                   class="react-flow__renderer react-flow__zoompane"
@@ -1433,14 +1437,14 @@ Object {
                       style="z-index: 3; transform: translate(100px,125px); pointer-events: all; opacity: 0;"
                     >
                       <div
-                        class="flow-builder-node flow-builder-node-Action"
+                        class="flow-builder-node flow-builder-node-Action css-37h7p1"
                         id="node-1"
                       >
                         <div
                           class="MuiBox-root css-iykhn8"
                         >
                           <button
-                            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall makeStyles-dropdownIcon-44 node-dropdown-trigger css-1is4vhy-MuiButtonBase-root-MuiIconButton-root"
+                            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge FlowBuilderNode-dropdownIcon node-dropdown-trigger css-1nvo327-MuiButtonBase-root-MuiIconButton-root"
                             tabindex="0"
                             type="button"
                           >
@@ -1460,14 +1464,14 @@ Object {
                             />
                           </button>
                           <div
-                            class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded makeStyles-paper-21 action-node-box css-172kgz0-MuiPaper-root"
+                            class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded action-node-box css-jx39ho-MuiPaper-root"
                             style="width: 90px; height: 90px; position: relative;"
                           >
                             <div
                               class="centered MuiBox-root css-9hmjl0"
                             >
                               <span
-                                class="makeStyles-icon-48 makeStyles-span-22"
+                                class="FlowBuilderNodeBoxIcon-icon MuiBox-root css-vxcmzt"
                               >
                                 <svg
                                   aria-hidden="true"
@@ -1496,7 +1500,7 @@ Object {
                             />
                           </div>
                           <div
-                            class="makeStyles-text-46 css-nen11g-MuiStack-root"
+                            class="FlowBuilderNode-text css-nen11g-MuiStack-root"
                           >
                             <span
                               class="MuiTypography-root MuiTypography-caption css-1kjdt4l-MuiTypography-root"
@@ -1513,14 +1517,14 @@ Object {
                       style="z-index: 3; transform: translate(150px,125px); pointer-events: all; opacity: 0;"
                     >
                       <div
-                        class="flow-builder-node flow-builder-node-Action"
+                        class="flow-builder-node flow-builder-node-Action css-37h7p1"
                         id="node-2"
                       >
                         <div
                           class="MuiBox-root css-iykhn8"
                         >
                           <button
-                            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall makeStyles-dropdownIcon-44 node-dropdown-trigger css-1is4vhy-MuiButtonBase-root-MuiIconButton-root"
+                            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge FlowBuilderNode-dropdownIcon node-dropdown-trigger css-1nvo327-MuiButtonBase-root-MuiIconButton-root"
                             tabindex="0"
                             type="button"
                           >
@@ -1540,14 +1544,14 @@ Object {
                             />
                           </button>
                           <div
-                            class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded makeStyles-paper-21 action-node-box css-172kgz0-MuiPaper-root"
+                            class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded action-node-box css-jx39ho-MuiPaper-root"
                             style="width: 90px; height: 90px; position: relative;"
                           >
                             <div
                               class="centered MuiBox-root css-9hmjl0"
                             >
                               <span
-                                class="makeStyles-icon-48 makeStyles-span-22"
+                                class="FlowBuilderNodeBoxIcon-icon MuiBox-root css-vxcmzt"
                               >
                                 <svg
                                   aria-hidden="true"
@@ -1596,7 +1600,7 @@ Object {
                             />
                           </div>
                           <div
-                            class="makeStyles-text-46 css-nen11g-MuiStack-root"
+                            class="FlowBuilderNode-text css-nen11g-MuiStack-root"
                           >
                             <span
                               class="MuiTypography-root MuiTypography-caption css-1kjdt4l-MuiTypography-root"
@@ -1613,14 +1617,14 @@ Object {
                       style="z-index: 3; transform: translate(200px,125px); pointer-events: all; opacity: 0;"
                     >
                       <div
-                        class="flow-builder-node flow-builder-node-Action"
+                        class="flow-builder-node flow-builder-node-Action css-37h7p1"
                         id="node-3"
                       >
                         <div
                           class="MuiBox-root css-iykhn8"
                         >
                           <button
-                            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeSmall makeStyles-dropdownIcon-44 node-dropdown-trigger css-1is4vhy-MuiButtonBase-root-MuiIconButton-root"
+                            class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge FlowBuilderNode-dropdownIcon node-dropdown-trigger css-1nvo327-MuiButtonBase-root-MuiIconButton-root"
                             tabindex="0"
                             type="button"
                           >
@@ -1640,14 +1644,14 @@ Object {
                             />
                           </button>
                           <div
-                            class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded makeStyles-paper-21 action-node-box css-172kgz0-MuiPaper-root"
+                            class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded action-node-box css-jx39ho-MuiPaper-root"
                             style="width: 90px; height: 90px; position: relative;"
                           >
                             <div
                               class="centered MuiBox-root css-9hmjl0"
                             >
                               <span
-                                class="makeStyles-icon-48 makeStyles-span-22"
+                                class="FlowBuilderNodeBoxIcon-icon MuiBox-root css-vxcmzt"
                               >
                                 <svg
                                   aria-hidden="true"
@@ -1676,7 +1680,7 @@ Object {
                             />
                           </div>
                           <div
-                            class="makeStyles-text-46 css-nen11g-MuiStack-root"
+                            class="FlowBuilderNode-text css-nen11g-MuiStack-root"
                           >
                             <span
                               class="MuiTypography-root MuiTypography-caption css-1kjdt4l-MuiTypography-root"
@@ -1744,22 +1748,22 @@ Object {
               </div>
             </div>
             <div
-              class="makeStyles-drawer-35 node-content-closed makeStyles-container-15"
+              class="panel-container css-vtxc8y"
               style="position: relative; user-select: auto; visibility: hidden; width: 20%; height: 100%; max-width: 900px; min-width: 500px; box-sizing: border-box; flex-shrink: 0;"
+              sx="[object Object]"
             >
               <div
-                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 makeStyles-paper-37 makeStyles-paper-39 makeStyles-content-16 resizable-panel-content css-1ps6pg7-MuiPaper-root"
+                class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 resizable-panel-content css-1vecl5b-MuiPaper-root"
                 style="webkit-transform: translateX(1024px); transform: translateX(1024px);"
               >
                 <div
-                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-undefined MuiGrid-direction-xs-column MuiGrid-wrap-xs-nowrap makeStyles-container-41 layout css-19kb62l-MuiGrid-root"
+                  class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-undefined MuiGrid-direction-xs-column MuiGrid-wrap-xs-nowrap layout css-13db0rd-MuiGrid-root"
                 >
                   <div
-                    class="MuiGrid-root MuiGrid-item makeStyles-body-42 makeStyles-body-43 layout-body css-13i4rnv-MuiGrid-root"
-                    style="height: calc(100% - 50px); flex: 1;"
+                    class="MuiGrid-root MuiGrid-item layout-body css-13m6jwh-MuiGrid-root"
                   >
                     <div
-                      class="makeStyles-content-33 node-content css-1lwbda4-MuiStack-root"
+                      class="node-content css-1pcxs97-MuiStack-root"
                     >
                       <h6
                         class="MuiTypography-root MuiTypography-h6 css-5d68dr-MuiTypography-root"
@@ -1772,37 +1776,41 @@ Object {
                     class="MuiGrid-root MuiGrid-item layout-footer css-13i4rnv-MuiGrid-root"
                     style="height: 50px;"
                   >
-                    <hr
-                      class="MuiDivider-root MuiDivider-fullWidth makeStyles-btnDivider-34 css-9mgopn-MuiDivider-root"
-                    />
                     <div
-                      class="MuiBox-root css-n085mf"
+                      class="MuiBox-root css-0"
                     >
-                      <button
-                        class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButtonBase-root Mui-focusVisible css-1f1sisq-MuiButtonBase-root-MuiButton-root"
-                        tabindex="0"
-                        type="button"
+                      <hr
+                        class="MuiDivider-root MuiDivider-fullWidth css-1s2c4sr-MuiDivider-root"
+                      />
+                      <div
+                        class="MuiBox-root css-n085mf"
                       >
-                        Close
-                        <span
-                          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                        <button
+                          class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButtonBase-root Mui-focusVisible css-1f1sisq-MuiButtonBase-root-MuiButton-root"
+                          tabindex="0"
+                          type="button"
                         >
+                          Close
                           <span
-                            class="css-y4cjyz-MuiTouchRipple-ripple MuiTouchRipple-ripple MuiTouchRipple-rippleVisible MuiTouchRipple-ripplePulsate"
-                            style="width: 1px; height: 1px; top: -0.5px; left: -0.5px;"
+                            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
                           >
                             <span
-                              class="MuiTouchRipple-child MuiTouchRipple-childPulsate"
-                            />
+                              class="css-y4cjyz-MuiTouchRipple-ripple MuiTouchRipple-ripple MuiTouchRipple-rippleVisible MuiTouchRipple-ripplePulsate"
+                              style="width: 1px; height: 1px; top: -0.5px; left: -0.5px;"
+                            >
+                              <span
+                                class="MuiTouchRipple-child MuiTouchRipple-childPulsate"
+                              />
+                            </span>
                           </span>
-                        </span>
-                      </button>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
               <div
-                class="makeStyles-handle-14 makeStyles-handle-40"
+                class="panel-handle"
               >
                 <div
                   class=""

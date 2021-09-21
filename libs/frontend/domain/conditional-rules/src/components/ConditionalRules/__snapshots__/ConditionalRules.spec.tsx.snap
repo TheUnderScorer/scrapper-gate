@@ -6,16 +6,16 @@ Object {
   "baseElement": <body>
     <div>
       <div
-        class="MuiBox-root css-0"
+        class="MuiBox-root css-guwuzz"
       >
         <div
           class="MuiBox-root css-1yuhvjn"
         />
         <div
-          class="centered makeStyles-btn-1 MuiBox-root css-9hmjl0"
+          class="centered ConditionalRules-btn MuiBox-root css-9hmjl0"
         >
           <button
-            class="MuiButtonBase-root MuiFab-root MuiFab-extended MuiFab-sizeSmall MuiFab-primary makeStyles-fab-2 add-rules-group css-fzzzik-MuiButtonBase-root-MuiFab-root"
+            class="MuiButtonBase-root MuiFab-root MuiFab-extended MuiFab-sizeSmall MuiFab-primary ConditionalRules-fab add-rules-group css-fzzzik-MuiButtonBase-root-MuiFab-root"
             tabindex="0"
             type="button"
           >
@@ -41,16 +41,16 @@ Object {
   </body>,
   "container": <div>
     <div
-      class="MuiBox-root css-0"
+      class="MuiBox-root css-guwuzz"
     >
       <div
         class="MuiBox-root css-1yuhvjn"
       />
       <div
-        class="centered makeStyles-btn-1 MuiBox-root css-9hmjl0"
+        class="centered ConditionalRules-btn MuiBox-root css-9hmjl0"
       >
         <button
-          class="MuiButtonBase-root MuiFab-root MuiFab-extended MuiFab-sizeSmall MuiFab-primary makeStyles-fab-2 add-rules-group css-fzzzik-MuiButtonBase-root-MuiFab-root"
+          class="MuiButtonBase-root MuiFab-root MuiFab-extended MuiFab-sizeSmall MuiFab-primary ConditionalRules-fab add-rules-group css-fzzzik-MuiButtonBase-root-MuiFab-root"
           tabindex="0"
           type="button"
         >

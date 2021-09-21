@@ -330,7 +330,7 @@ describe('<FlowBuilder />', () => {
     await wait(500);
 
     expect(
-      cmp.container.querySelector('.node-content-closed')
-    ).toBeInTheDocument();
+      cmp.container.querySelector('.node-content-panel')
+    ).not.toBeInTheDocument();
   });
 });

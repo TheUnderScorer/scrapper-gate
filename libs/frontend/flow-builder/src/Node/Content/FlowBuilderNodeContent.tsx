@@ -2,6 +2,7 @@ import { Box, Button, Divider, Slide, Stack, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Layout, ResizablePanel } from '@scrapper-gate/frontend/ui';
 import { getById } from '@scrapper-gate/shared/common';
+import classNames from 'classnames';
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { Node } from 'react-flow-renderer';
 import { useDebounce, usePrevious } from 'react-use';
@@ -108,7 +109,10 @@ export const FlowBuilderNodeContent = () => {
           height: '100%',
           zIndex: 4,
         }}
-        className={`node-content-${contentOpen ? 'open' : 'closed'}`}
+        className={classNames(
+          `node-content-${contentOpen ? 'open' : 'closed'}`,
+          'node-content-panel'
+        )}
         enable={{
           left: true,
         }}
