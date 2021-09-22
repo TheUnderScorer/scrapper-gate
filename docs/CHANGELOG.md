@@ -1,3 +1,10 @@
+# [1.0.0-test.7](https://github.com/TheUnderScorer/scrapper-gate/compare/v1.0.0-test.6...v1.0.0-test.7) (2021-09-22)
+
+
+### Features
+
+* **scrapper-run-result:** Hide duration if step is not completed ([23ed29a](https://github.com/TheUnderScorer/scrapper-gate/commit/23ed29af22816b35b995c9ddc94f28bb9c715ac5))
+
 # [1.0.0-test.6](https://github.com/TheUnderScorer/scrapper-gate/compare/v1.0.0-test.5...v1.0.0-test.6) (2021-09-17)
 
 
