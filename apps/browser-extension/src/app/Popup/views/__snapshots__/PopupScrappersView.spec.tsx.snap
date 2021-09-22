@@ -6,14 +6,13 @@ Object {
   "baseElement": <body>
     <div>
       <div
-        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-undefined MuiGrid-direction-xs-column MuiGrid-wrap-xs-nowrap makeStyles-container-5 layout css-19kb62l-MuiGrid-root"
+        class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-undefined MuiGrid-direction-xs-column MuiGrid-wrap-xs-nowrap layout css-13db0rd-MuiGrid-root"
       >
         <div
-          class="MuiGrid-root MuiGrid-item makeStyles-body-6 makeStyles-body-7 layout-body css-13i4rnv-MuiGrid-root"
-          style="height: calc(100% - 0px); flex: 1;"
+          class="MuiGrid-root MuiGrid-item layout-body css-h92ldy-MuiGrid-root"
         >
           <ul
-            class="MuiList-root MuiList-padding makeStyles-list-4 controlled-list css-h4y409-MuiList-root"
+            class="MuiList-root MuiList-padding ControlledList-list controlled-list css-h4y409-MuiList-root"
             id="my_scrappers_list"
           >
             <li
@@ -41,7 +40,7 @@ Object {
                 class="MuiListItemSecondaryAction-root css-518kzi-MuiListItemSecondaryAction-root"
               >
                 <button
-                  class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-4eo9e9-MuiButtonBase-root-MuiIconButton-root"
+                  class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-1nvo327-MuiButtonBase-root-MuiIconButton-root"
                   tabindex="0"
                   type="button"
                 >
@@ -135,14 +134,13 @@ Object {
   </body>,
   "container": <div>
     <div
-      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-undefined MuiGrid-direction-xs-column MuiGrid-wrap-xs-nowrap makeStyles-container-5 layout css-19kb62l-MuiGrid-root"
+      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-undefined MuiGrid-direction-xs-column MuiGrid-wrap-xs-nowrap layout css-13db0rd-MuiGrid-root"
     >
       <div
-        class="MuiGrid-root MuiGrid-item makeStyles-body-6 makeStyles-body-7 layout-body css-13i4rnv-MuiGrid-root"
-        style="height: calc(100% - 0px); flex: 1;"
+        class="MuiGrid-root MuiGrid-item layout-body css-h92ldy-MuiGrid-root"
       >
         <ul
-          class="MuiList-root MuiList-padding makeStyles-list-4 controlled-list css-h4y409-MuiList-root"
+          class="MuiList-root MuiList-padding ControlledList-list controlled-list css-h4y409-MuiList-root"
           id="my_scrappers_list"
         >
           <li
@@ -170,7 +168,7 @@ Object {
               class="MuiListItemSecondaryAction-root css-518kzi-MuiListItemSecondaryAction-root"
             >
               <button
-                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-4eo9e9-MuiButtonBase-root-MuiIconButton-root"
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge css-1nvo327-MuiButtonBase-root-MuiIconButton-root"
                 tabindex="0"
                 type="button"
               >
