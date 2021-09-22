@@ -55,6 +55,7 @@
     "@mui/material": "5.0.0",
     "@mui/styles": "5.0.0",
     "@mui/system": "^5.0.0",
+    "@material-ui/core": "npm:@mui/material@5.0.0",
     "@theunderscorer/when": "^1.0.1",
     "@tshio/security-client": "^0.0.20",
     "@welldone-software/why-did-you-render": "^6.2.0",
