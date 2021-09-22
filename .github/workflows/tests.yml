@@ -125,17 +125,17 @@ jobs:
       - name: Start docker
         run: sudo docker-compose up -d
 
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps && npm i ts-node -g
+
       - name: Wait for localstack
-        run: sudo AWS_S3_ENDPOINT=http://localhost:4566 sh docker/localstack/wait-for-it.sh
+        run: sudo AWS_S3_ENDPOINT=http://localhost:4566 node docker/localstack/waitForLocalStack.mjs
 
       - name: Setup localstack
         run: cd deploy/local && terraform init && terraform apply -auto-approve
 
       - name: Setup env
         run: cp .local.env.dist .local.env
-
-      - name: Install dependencies
-        run: npm ci --legacy-peer-deps && npm i ts-node -g
 
       - name: Test
         run: |
@@ -201,17 +201,17 @@ jobs:
       - name: Start docker
         run: sudo docker-compose up -d
 
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps && npm i ts-node -g
+
       - name: Wait for localstack
-        run: sudo AWS_S3_ENDPOINT=http://localhost:4566 sh docker/localstack/wait-for-it.sh
+        run: sudo AWS_S3_ENDPOINT=http://localhost:4566 node docker/localstack/waitForLocalStack.mjs
 
       - name: Setup localstack
         run: cd deploy/local && terraform init && terraform apply -auto-approve
 
       - name: Setup env
         run: cp .local.env.dist .local.env
-
-      - name: Install dependencies
-        run: npm ci --legacy-peer-deps && npm i ts-node -g
 
       - name: Test
         run: npx nx run-many --target=test --projects=api,browser-extension --parallel --maxParallel=2
@@ -237,17 +237,17 @@ jobs:
       - name: Start docker
         run: sudo docker-compose up -d
 
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps && npm i ts-node -g
+
       - name: Wait for localstack
-        run: sudo AWS_S3_ENDPOINT=http://localhost:4566 sh docker/localstack/wait-for-it.sh
+        run: sudo AWS_S3_ENDPOINT=http://localhost:4566 node docker/localstack/waitForLocalStack.mjs
 
       - name: Setup localstack
         run: cd deploy/local && terraform init && terraform apply -auto-approve
 
       - name: Setup env
         run: cp .local.env.dist .local.env
-
-      - name: Install dependencies
-        run: npm ci --legacy-peer-deps && npm i ts-node -g
 
       - name: Build extension
         run: cp apps/browser-extension/.local.env.dist apps/browser-extension/.env && npx nx build browser-extension --prod

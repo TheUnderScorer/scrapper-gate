@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { List, ListItem } from '@material-ui/core';
+import { List, ListItem } from '@mui/material';
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
 import { act, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { Description, Home } from '@material-ui/icons';
+import { Description, Home } from '@mui/icons-material';
 import { Selection } from '@scrapper-gate/frontend/common';
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
 import { act, render, RenderResult } from '@testing-library/react';

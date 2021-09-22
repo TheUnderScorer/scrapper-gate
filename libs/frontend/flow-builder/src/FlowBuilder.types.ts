@@ -1,5 +1,6 @@
-import { MenuItemProperties, Selection } from '@scrapper-gate/frontend/common';
+import { Selection } from '@scrapper-gate/frontend/common';
 import { FieldNameCreator } from '@scrapper-gate/frontend/form';
+import { MenuItemProperties } from '@scrapper-gate/frontend/ui';
 import { Perhaps } from '@scrapper-gate/shared/common';
 import { ComponentType, MouseEvent, ReactNode, Ref } from 'react';
 import {

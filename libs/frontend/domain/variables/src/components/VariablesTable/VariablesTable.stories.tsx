@@ -1,6 +1,6 @@
-import { Box } from '@material-ui/core';
-import { LocalizationProvider } from '@material-ui/lab';
-import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
+import { Box } from '@mui/material';
+import { LocalizationProvider } from '@mui/lab';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { VariableScope } from '@scrapper-gate/shared/schema';
 import React from 'react';
 import { Form } from 'react-final-form';

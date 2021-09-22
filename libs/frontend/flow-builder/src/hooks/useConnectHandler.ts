@@ -1,4 +1,4 @@
-import { useTheme } from '@material-ui/core';
+import { useTheme } from '@mui/material';
 import { getById } from '@scrapper-gate/shared/common';
 import { useCallback } from 'react';
 import { ArrowHeadType, Connection, Node, Position } from 'react-flow-renderer';

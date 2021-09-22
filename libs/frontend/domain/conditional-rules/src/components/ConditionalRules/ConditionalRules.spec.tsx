@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { LocalizationProvider } from '@material-ui/lab';
-import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
+import { LocalizationProvider } from '@mui/lab';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import '@scrapper-gate/frontend/block-editor';
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
 import '@scrapper-gate/frontend/theme';

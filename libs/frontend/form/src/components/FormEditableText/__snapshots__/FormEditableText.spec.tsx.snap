@@ -8,7 +8,7 @@ Object {
       <span>
         <p
           aria-label="Click to edit"
-          class="MuiTypography-root MuiTypography-body1 makeStyles-text-1 form-editable-text css-ahj2mt-MuiTypography-root"
+          class="MuiTypography-root MuiTypography-body1 FormEditableText-text form-editable-text css-ahj2mt-MuiTypography-root"
           data-mui-internal-clone-element="true"
         >
           Test
@@ -20,7 +20,7 @@ Object {
     <span>
       <p
         aria-label="Click to edit"
-        class="MuiTypography-root MuiTypography-body1 makeStyles-text-1 form-editable-text css-ahj2mt-MuiTypography-root"
+        class="MuiTypography-root MuiTypography-body1 FormEditableText-text form-editable-text css-ahj2mt-MuiTypography-root"
         data-mui-internal-clone-element="true"
       >
         Test

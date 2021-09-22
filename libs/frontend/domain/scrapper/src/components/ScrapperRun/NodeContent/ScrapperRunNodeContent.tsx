@@ -1,14 +1,4 @@
 import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Typography,
-} from '@material-ui/core';
-import {
   Assignment,
   EventAvailable,
   EventNote,
@@ -17,8 +7,18 @@ import {
   Schedule,
   Screenshot,
   Storage,
-} from '@material-ui/icons';
-import { makeStyles } from '@material-ui/styles';
+} from '@mui/icons-material';
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Typography,
+} from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { useReturnUrlProvider } from '@scrapper-gate/frontend/common';
 import { FileLink } from '@scrapper-gate/frontend/domain/files';
 import { NodeContentProps } from '@scrapper-gate/frontend/flow-builder';
@@ -28,8 +28,8 @@ import {
   ExcludeFalsy,
   toDisplayText,
 } from '@scrapper-gate/shared/common';
+import { isCompleted } from '@scrapper-gate/shared/run-states';
 import { Maybe } from '@scrapper-gate/shared/schema';
-import classNames from 'classnames';
 import { format } from 'date-fns';
 import React, { useCallback, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -39,26 +39,21 @@ import {
   ScrapperRunScrapper,
 } from '../ScrapperRun.types';
 
+const StyledList = styled(List)(({ theme }) => ({
+  '&.MuiList-root': {
+    marginTop: 0,
+  },
+
+  '& .MuiListItemIcon-root': {
+    minWidth: 0,
+    marginRight: theme.spacing(2),
+  },
+}));
+
 enum ScrapperRunNodeContentPanel {
   Details = 'Details',
   Duration = 'Duration',
 }
-
-const useStyles = makeStyles((theme) => ({
-  list: {
-    '&.MuiList-root': {
-      marginTop: 0,
-    },
-    '& .MuiListItemIcon-root': {
-      minWidth: 0,
-      marginRight: theme.spacing(2),
-    },
-  },
-  nestedList: {
-    paddingTop: 0,
-    marginLeft: theme.spacing(2),
-  },
-}));
 
 export interface ScrapperRunNodeContentProps
   extends NodeContentProps,
@@ -68,8 +63,6 @@ export const ScrapperRunNodeContent = ({
   getFieldName,
   scrapperUrlCreator,
 }: ScrapperRunNodeContentProps) => {
-  const classes = useStyles();
-
   const [expanded, setExpanded] = useState<Maybe<ScrapperRunNodeContentPanel>>(
     ScrapperRunNodeContentPanel.Details
   );
@@ -105,6 +98,8 @@ export const ScrapperRunNodeContent = ({
 
   const returnUrl = useReturnUrlProvider();
 
+  const completed = isCompleted(runResult?.state);
+
   return (
     <div>
       <Accordion
@@ -116,10 +111,7 @@ export const ScrapperRunNodeContent = ({
           <Typography>Details</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <List
-            disablePadding
-            className={classNames(classes.list, 'scrapper-run-node-content')}
-          >
+          <StyledList disablePadding className="scrapper-run-node-content">
             {values && (
               <ListItem disableGutters>
                 <ListItemIcon>
@@ -174,7 +166,13 @@ export const ScrapperRunNodeContent = ({
                   <ListItemText>Screenshots: </ListItemText>
                 </ListItem>
                 <ListItem disableGutters>
-                  <List className={classes.nestedList} dense>
+                  <List
+                    dense
+                    sx={{
+                      paddingTop: 0,
+                      marginLeft: (theme) => theme.spacing(2),
+                    }}
+                  >
                     {runResult?.screenshots
                       ?.filter(ExcludeFalsy)
                       .map((screenshot) => (
@@ -189,63 +187,65 @@ export const ScrapperRunNodeContent = ({
                 </ListItem>
               </>
             )}
-          </List>
+          </StyledList>
         </AccordionDetails>
       </Accordion>
-      <Accordion
-        variant="outlined"
-        expanded={expanded === ScrapperRunNodeContentPanel.Duration}
-        onChange={handleExpandedChange(ScrapperRunNodeContentPanel.Duration)}
-      >
-        <AccordionSummary expandIcon={<ExpandMore />}>
-          <Typography>Duration</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <List disablePadding>
-            {runResult?.startedAt && (
-              <ListItem disableGutters>
-                <ListItemIcon>
-                  <EventNote />
-                </ListItemIcon>
-                <ListItemText
-                  primary="Started at"
-                  secondary={format(
-                    new Date(runResult.startedAt),
-                    DateFormat.DateTime
-                  )}
-                />
-              </ListItem>
-            )}
+      {completed && (
+        <Accordion
+          variant="outlined"
+          expanded={expanded === ScrapperRunNodeContentPanel.Duration}
+          onChange={handleExpandedChange(ScrapperRunNodeContentPanel.Duration)}
+        >
+          <AccordionSummary expandIcon={<ExpandMore />}>
+            <Typography>Duration</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <StyledList disablePadding>
+              {runResult?.startedAt && (
+                <ListItem disableGutters>
+                  <ListItemIcon>
+                    <EventNote />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary="Started at"
+                    secondary={format(
+                      new Date(runResult.startedAt),
+                      DateFormat.DateTime
+                    )}
+                  />
+                </ListItem>
+              )}
 
-            {runResult?.endedAt && (
-              <ListItem disableGutters>
-                <ListItemIcon>
-                  <EventAvailable />
-                </ListItemIcon>
-                <ListItemText
-                  primary="Ended at"
-                  secondary={format(
-                    new Date(runResult.endedAt),
-                    DateFormat.DateTime
-                  )}
-                />
-              </ListItem>
-            )}
+              {runResult?.endedAt && (
+                <ListItem disableGutters>
+                  <ListItemIcon>
+                    <EventAvailable />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary="Ended at"
+                    secondary={format(
+                      new Date(runResult.endedAt),
+                      DateFormat.DateTime
+                    )}
+                  />
+                </ListItem>
+              )}
 
-            {runResult?.performance?.duration && (
-              <ListItem disableGutters>
-                <ListItemIcon>
-                  <Schedule />
-                </ListItemIcon>
-                <ListItemText>
-                  This step took{' '}
-                  <i>{runResult.performance.duration.toFixed(2)}MS</i>
-                </ListItemText>
-              </ListItem>
-            )}
-          </List>
-        </AccordionDetails>
-      </Accordion>
+              {runResult?.performance?.duration && (
+                <ListItem disableGutters>
+                  <ListItemIcon>
+                    <Schedule />
+                  </ListItemIcon>
+                  <ListItemText>
+                    This step took{' '}
+                    <i>{runResult.performance.duration.toFixed(2)}MS</i>
+                  </ListItemText>
+                </ListItem>
+              )}
+            </StyledList>
+          </AccordionDetails>
+        </Accordion>
+      )}
     </div>
   );
 };

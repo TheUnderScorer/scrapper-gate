@@ -5,7 +5,7 @@ import {
   PetsSharp,
   SaveSharp,
   StopSharp,
-} from '@material-ui/icons';
+} from '@mui/icons-material';
 import { QueryParamProvider, Selection } from '@scrapper-gate/frontend/common';
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
 import { wait } from '@scrapper-gate/shared/common';
@@ -330,7 +330,7 @@ describe('<FlowBuilder />', () => {
     await wait(500);
 
     expect(
-      cmp.container.querySelector('.node-content-closed')
-    ).toBeInTheDocument();
+      cmp.container.querySelector('.node-content-panel')
+    ).not.toBeInTheDocument();
   });
 });

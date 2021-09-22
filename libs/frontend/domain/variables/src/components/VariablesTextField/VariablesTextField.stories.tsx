@@ -1,4 +1,4 @@
-import { Box, Stack, Typography } from '@material-ui/core';
+import { Box, Stack, Typography } from '@mui/material';
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
 import { Scoped } from '@scrapper-gate/frontend/ui';
 import {

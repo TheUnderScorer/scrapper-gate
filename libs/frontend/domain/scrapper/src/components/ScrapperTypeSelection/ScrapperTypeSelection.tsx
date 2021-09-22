@@ -1,4 +1,4 @@
-import { Language, Web } from '@material-ui/icons';
+import { Language, Web } from '@mui/icons-material';
 import { Selection } from '@scrapper-gate/frontend/common';
 import { ScrapperType } from '@scrapper-gate/shared/schema';
 import { RadioGroup } from '@scrapper-gate/frontend/ui';

@@ -1,13 +1,11 @@
-import { Fade } from '@material-ui/core';
-import Box from '@material-ui/core/Box';
-import { Alert } from '@material-ui/lab';
-import { makeStyles } from '@material-ui/styles';
+import { Alert, Fade } from '@mui/material';
+import Box from '@mui/material/Box';
+import { ThemedSxProps } from '@scrapper-gate/frontend/theme';
 import { Perhaps } from '@scrapper-gate/shared/common';
-import classNames from 'classnames';
 
 import React, { useCallback, useEffect, useState } from 'react';
 
-export interface ErrorAlertProps {
+export interface ErrorAlertProps extends ThemedSxProps {
   /**
    * Error to display in alert
    * */
@@ -16,18 +14,12 @@ export interface ErrorAlertProps {
   className?: string;
 }
 
-const useStyles = makeStyles((theme) => ({
-  alert: {
-    '&.MuiPaper-root': {
-      backgroundColor: theme.palette.error.main,
-      color: theme.palette.error.contrastText,
-    },
-  },
-}));
-
-export const ErrorAlert = ({ error, onClose, className }: ErrorAlertProps) => {
-  const classes = useStyles();
-
+export const ErrorAlert = ({
+  error,
+  onClose,
+  className,
+  sx,
+}: ErrorAlertProps) => {
   const [currentError, setCurrentError] = useState<Perhaps<Error>>(error);
 
   useEffect(() => {
@@ -44,11 +36,11 @@ export const ErrorAlert = ({ error, onClose, className }: ErrorAlertProps) => {
 
   return (
     <Fade timeout={1000} in={Boolean(currentError)}>
-      <Box className={className}>
+      <Box className={className} sx={sx}>
         {currentError && (
           <Alert
             onClose={handleClose}
-            className={classNames(classes.alert, 'error-alert')}
+            className="error-alert"
             variant="filled"
             severity="error"
           >

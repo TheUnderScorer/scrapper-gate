@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { Form } from 'react-final-form';
-import React from 'react';
+import { ThemeProvider } from '@scrapper-gate/frontend/theme';
+import { first, prefix, wait } from '@scrapper-gate/shared/common';
 import { act, render, RenderResult, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import React from 'react';
+import { Form } from 'react-final-form';
 import { HtmlElementPicker } from './HtmlElementPicker';
 import {
   HtmlElementPickerProps,
   HtmlElementPickerValidationRules,
 } from './HtmlElementPicker.types';
-import { first, prefix, wait } from '@scrapper-gate/shared/common';
-import { ThemeProvider } from '@scrapper-gate/frontend/theme';
 
 const getCmp = (props: Partial<HtmlElementPickerProps>) => (
   <Form

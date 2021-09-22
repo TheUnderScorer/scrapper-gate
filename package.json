@@ -36,7 +36,7 @@
     "release": "npx semantic-release",
     "release:dry": "npx semantic-release -d",
     "typecheck": "tsc --noEmit -p tsconfig.base.json",
-    "start-local-env": "sh scripts/start-local-env.sh"
+    "start-local-env": "node scripts/startLocalEnv.mjs"
   },
   "private": true,
   "dependencies": {
@@ -49,11 +49,13 @@
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
     "@fortawesome/free-brands-svg-icons": "^5.15.3",
     "@fortawesome/react-fontawesome": "^0.1.14",
-    "@material-ui/core": "^5.0.0-beta.5",
     "@material-ui/data-grid": "^4.0.0-alpha.37",
-    "@material-ui/icons": "^5.0.0-beta.5",
-    "@material-ui/lab": "^5.0.0-alpha.44",
-    "@material-ui/styles": "^5.0.0-beta.5",
+    "@mui/icons-material": "5.0.0",
+    "@mui/lab": "^5.0.0-alpha.47",
+    "@mui/material": "5.0.0",
+    "@mui/styles": "5.0.0",
+    "@mui/system": "^5.0.0",
+    "@material-ui/core": "npm:@mui/material@5.0.0",
     "@theunderscorer/when": "^1.0.1",
     "@tshio/security-client": "^0.0.20",
     "@welldone-software/why-did-you-render": "^6.2.0",
@@ -89,6 +91,7 @@
     "lodash.lowercase": "^4.3.0",
     "lodash.mapvalues": "^4.6.0",
     "lodash.set": "^4.3.2",
+    "node-fetch": "^3.0.0",
     "notistack": "^2.0.1-alpha.5",
     "p-limit": "^3.1.0",
     "p-pipe": "^4.0.0",
@@ -248,7 +251,8 @@
     "webpack-node-externals": "^3.0.0",
     "webpack-sources": "^3.0.2",
     "webpack-target-webextension": "^0.4.0",
-    "yargs": "^15.4.1"
+    "yargs": "^15.4.1",
+    "zx": "^4.2.0"
   },
   "release": {
     "branches": [

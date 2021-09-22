@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { StylesFn } from './styles.types';
-import { useTheme } from '@material-ui/core';
+import { useTheme } from '@mui/material';
 import { Global } from '@emotion/react';
 
 export interface StylesProps {

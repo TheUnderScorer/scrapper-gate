@@ -1,23 +1,10 @@
-import { Paper } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import { Box, Paper } from '@mui/material';
 import { Centered } from '@scrapper-gate/frontend/ui';
 import classNames from 'classnames';
 import React from 'react';
 import { NodeIconBoxProps } from '../../FlowBuilder.types';
 
 export type ActionNodeBoxProps = NodeIconBoxProps;
-
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    '&.MuiPaper-root': {
-      backgroundColor: theme.palette.flowBuilderColors.action,
-      color: theme.palette.flowBuilderColors.actionText,
-    },
-  },
-  span: {
-    display: 'inline-flex',
-  },
-}));
 
 export const ActionNodeBox = ({
   icon,
@@ -28,11 +15,15 @@ export const ActionNodeBox = ({
   iconClassName,
   handles,
 }: ActionNodeBoxProps) => {
-  const classes = useStyles();
-
   return (
     <Paper
-      className={classNames(className, classes.paper, 'action-node-box')}
+      sx={{
+        '&.MuiPaper-root': {
+          backgroundColor: (theme) => theme.palette.flowBuilderColors.action,
+          color: (theme) => theme.palette.flowBuilderColors.actionText,
+        },
+      }}
+      className={classNames(className, 'action-node-box')}
       onDoubleClick={onDoubleClick}
       variant="outlined"
       style={{
@@ -42,7 +33,9 @@ export const ActionNodeBox = ({
       }}
     >
       <Centered>
-        <span className={classNames(iconClassName, classes.span)}>{icon}</span>
+        <Box component="span" display="inline-flex" className={iconClassName}>
+          {icon}
+        </Box>
       </Centered>
       {handles}
     </Paper>

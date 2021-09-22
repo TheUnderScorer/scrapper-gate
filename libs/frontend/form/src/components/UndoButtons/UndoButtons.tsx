@@ -1,5 +1,5 @@
-import { ButtonGroup, IconButton, Tooltip } from '@material-ui/core';
-import { RedoSharp, UndoSharp } from '@material-ui/icons';
+import { ButtonGroup, IconButton, Tooltip } from '@mui/material';
+import { RedoSharp, UndoSharp } from '@mui/icons-material';
 import { useKeyboardShortcuts } from '@scrapper-gate/frontend/keyboard-shortcuts';
 import { TextWithKeyHint } from '@scrapper-gate/frontend/ui';
 import React from 'react';
@@ -24,7 +24,7 @@ export const UndoButtons = () => {
             className="undo-btn"
             disabled={!undoMethods.canUndo}
             onClick={undoMethods.undo}
-          >
+            size="large">
             <UndoSharp />
           </IconButton>
         </span>
@@ -41,7 +41,7 @@ export const UndoButtons = () => {
             className="redo-btn"
             disabled={!undoMethods.canRedo}
             onClick={undoMethods.redo}
-          >
+            size="large">
             <RedoSharp />
           </IconButton>
         </span>

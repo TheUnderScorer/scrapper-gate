@@ -1,5 +1,4 @@
-import { Fab } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import { Fab } from '@mui/material';
 import { FetchPolicyProps } from '@scrapper-gate/frontend/common';
 import {
   MyScrappersList,
@@ -17,22 +16,7 @@ import { useContentToggle } from '../../../extension/browser/communication/hooks
 import { useActiveScrapperInContent } from '../hooks/useActiveScrapperInContent';
 import { useCreateScrapperExtension } from '../hooks/useCreateScrapperExtension';
 
-const useStyles = makeStyles((theme) => ({
-  empty: {
-    backgroundColor: theme.palette.primary.light,
-  },
-  text: {
-    marginTop: theme.spacing(4),
-    marginBottom: theme.spacing(3),
-  },
-  info: {
-    marginTop: theme.spacing(2),
-  },
-}));
-
 export const PopupScrappersView = ({ fetchPolicy }: FetchPolicyProps) => {
-  const classes = useStyles();
-
   const { asset, alt } = useAsset('notFoundSolid');
 
   const createScrapper = useCreateScrapperExtension();
@@ -68,11 +52,18 @@ export const PopupScrappersView = ({ fetchPolicy }: FetchPolicyProps) => {
       onClick={handleScrapperClick}
       onCreate={() => createScrapper()}
       emptyContent={
-        <Centered direction="column" className={classes.empty}>
+        <Centered
+          direction="column"
+          sx={{
+            backgroundColor: (theme) => theme.palette.primary.light,
+          }}
+        >
           <Image alt={alt} src={asset} />
           <InformationBox
             spacing={2}
-            className={classes.info}
+            sx={{
+              marginTop: (theme) => theme.spacing(2),
+            }}
             title="No scrappers found"
             subTitle="Scrappers lets you fetch data from sites in seconds."
             action={

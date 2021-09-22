@@ -1,4 +1,4 @@
-import { PlayArrowSharp } from '@material-ui/icons';
+import { PlayArrowSharp } from '@mui/icons-material';
 import React from 'react';
 import { Node, XYPosition } from 'react-flow-renderer';
 import { BaseNodeProperties, FlowBuilderNodeTypes } from '../FlowBuilder.types';

@@ -6,7 +6,7 @@ import {
   FormControlLabel,
   FormControlLabelProps,
   FormHelperText,
-} from '@material-ui/core';
+} from '@mui/material';
 import { useField } from 'react-final-form';
 import { useFieldHasError } from '../../hooks/useFieldHasError';
 import { FieldProps } from '../../types';

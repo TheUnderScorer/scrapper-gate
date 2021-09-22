@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
-import '@material-ui/core';
-import { colors, Theme } from '@material-ui/core';
-import { Palette } from '@material-ui/core/styles/createPalette';
+
+import { colors, Theme } from '@mui/material';
+import { Palette } from '@mui/material/styles';
 
 interface FlowBuilderColors {
   action: string;
@@ -36,7 +36,7 @@ export interface AppTheme extends Theme {
   emojis: Emojis;
 }
 
-declare module '@material-ui/core' {
+declare module '@mui/material/styles' {
   interface ThemeOptions {
     emojis: Emojis;
   }
@@ -46,17 +46,19 @@ declare module '@material-ui/core' {
   }
 }
 
-declare module '@material-ui/private-theming/defaultTheme' {
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore TS incorrectly assumes that this module does not exist
+declare module '@mui/styles/defaultTheme' {
   export interface DefaultTheme extends AppTheme {}
 }
 
-declare module '@material-ui/core/styles/createPalette' {
+declare module '@mui/material/styles/createPalette' {
   interface PaletteOptions extends BasePalette {}
 
   interface Palette extends BasePalette {}
 }
 
-declare module '@material-ui/core/styles/createMixins' {
+declare module '@mui/material/styles/createMixins' {
   interface Mixins {
     greyBorder: () => string;
   }
@@ -64,7 +66,7 @@ declare module '@material-ui/core/styles/createMixins' {
   interface MixinsOptions extends Partial<Mixins> {}
 }
 
-declare module '@material-ui/core/Button/Button' {
+declare module '@mui/material/Button/Button' {
   interface ButtonPropsColorOverrides {
     error: true;
     info: true;
@@ -73,7 +75,7 @@ declare module '@material-ui/core/Button/Button' {
   }
 }
 
-declare module '@material-ui/core/Paper/Paper' {
+declare module '@mui/material/Paper/Paper' {
   interface PaperPropsVariantOverrides {
     transparent: true;
   }

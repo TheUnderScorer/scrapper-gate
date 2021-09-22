@@ -1,6 +1,6 @@
 import { ApolloError } from '@apollo/client';
-import { Divider, Stack, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import { Divider, Stack, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { submitNotAllowed } from '@scrapper-gate/frontend/common';
 import {
   FlowBuilder,
@@ -32,6 +32,18 @@ import { ScrapperRunFormState, ScrapperRunProps } from './ScrapperRun.types';
 import { scrapperRunToNodes } from './scrapperRunToNodes';
 import { ScrapperRunValuesTable } from './ValuesTable/ScrapperRunValuesTable';
 
+const PREFIX = 'ScrapperRun';
+
+const classes = {
+  divider: `${PREFIX}-divider`,
+};
+
+const StyledStack = styled(Stack)(() => ({
+  [`& .${classes.divider}`]: {
+    height: '30px',
+  },
+}));
+
 const selection = createScrapperNodeSelection();
 
 const initialNodes = [
@@ -47,12 +59,6 @@ const initialNodes = [
 const handleConnect = flowBuilderUtils.basicHandleConnect();
 const handleAdd = flowBuilderUtils.basicHandleAddNode(() => v4());
 
-const useStyles = makeStyles(() => ({
-  divider: {
-    height: '30px',
-  },
-}));
-
 export const ScrapperRun = ({
   runId,
   onQueryError,
@@ -61,8 +67,6 @@ export const ScrapperRun = ({
   ...rest
 }: ScrapperRunProps) => {
   const formRef = useRef<Maybe<FormApi<ScrapperRunFormState>>>();
-
-  const classes = useStyles();
 
   const snackbarOnError = useSnackbarOnError();
 
@@ -170,7 +174,7 @@ export const ScrapperRun = ({
             defaultNodeContent={nodeContent}
             readOnly
             title={
-              <Stack direction="row" spacing={2} alignItems="center">
+              <StyledStack direction="row" spacing={2} alignItems="center">
                 <ReturnBtn />
                 <span>
                   <Typography variant="h6">
@@ -201,7 +205,7 @@ export const ScrapperRun = ({
                     />
                   </Typography>
                 )}
-              </Stack>
+              </StyledStack>
             }
             {...rest}
           />

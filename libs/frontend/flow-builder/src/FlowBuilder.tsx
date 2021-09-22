@@ -1,6 +1,4 @@
-import { Box, Paper } from '@material-ui/core';
-
-import { makeStyles } from '@material-ui/styles';
+import { Box, Paper } from '@mui/material';
 import { FormUndoProvider } from '@scrapper-gate/frontend/form';
 import React, { useMemo } from 'react';
 import { DndProvider } from 'react-dnd';
@@ -28,25 +26,12 @@ import { FlowBuilderTabs, mainTab } from './Tabs/FlowBuilderTabs';
 
 const defaultNodeTypes = {};
 
-const useStyles = makeStyles(() => ({
-  paper: {
-    display: 'flex',
-    flexDirection: 'column',
-    width: '100%',
-    height: '100%',
-    overflow: 'hidden',
-    pointerEvents: 'all',
-  },
-}));
-
 export const FlowBuilder = <
   T extends BaseNodeProperties = BaseNodeProperties,
   S extends BaseNodeSelectionProperties = BaseNodeSelectionProperties
 >(
   props: FlowBuilderProps<T, S>
 ) => {
-  const classes = useStyles();
-
   const {
     tabs,
     mainTabLabel,
@@ -96,7 +81,17 @@ export const FlowBuilder = <
                 <FlowBuilderSelectionProvider selection={nodesSelection}>
                   <FlowBuilderActiveNodeProvider>
                     <FlowBuilderDragStateProvider>
-                      <Paper variant="outlined" className={classes.paper}>
+                      <Paper
+                        variant="outlined"
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'column',
+                          width: '100%',
+                          height: '100%',
+                          overflow: 'hidden',
+                          pointerEvents: 'all',
+                        }}
+                      >
                         <FlowBuilderHeader {...props} />
                         <FlowBuilderTabs
                           value={activeTab}

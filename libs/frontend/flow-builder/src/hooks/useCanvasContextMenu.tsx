@@ -1,8 +1,9 @@
-import { PopoverPosition } from '@material-ui/core';
-import { Sort } from '@material-ui/icons';
-import { MenuItemProperties, Selection } from '@scrapper-gate/frontend/common';
+import { Sort } from '@mui/icons-material';
+import { PopoverPosition } from '@mui/material';
+import { Selection } from '@scrapper-gate/frontend/common';
 import {
   FilterTextField,
+  MenuItemProperties,
   OpenCloseContextMenuBag,
 } from '@scrapper-gate/frontend/ui';
 import { Perhaps } from '@scrapper-gate/shared/common';

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { Button, DialogContentText } from '@material-ui/core';
+import { Button, DialogContentText } from '@mui/material';
 import { useReturnUrlProvider } from '@scrapper-gate/frontend/common';
 import { Dialog, useDialogMethods } from '@scrapper-gate/frontend/dialogs';
 import {

@@ -1,5 +1,4 @@
-import React, { ReactNode, useCallback } from 'react';
-import { useField } from 'react-final-form';
+import { Add, Remove } from '@mui/icons-material';
 import {
   Box,
   Button,
@@ -7,11 +6,10 @@ import {
   Input,
   InputLabel,
   Typography,
-} from '@material-ui/core';
-import { Add, Remove } from '@material-ui/icons';
-import classNames from 'classnames';
-import { useStyles } from './Incrementator.styles';
+} from '@mui/material';
 import { useLongPressValue } from '@scrapper-gate/frontend/common';
+import React, { ReactNode, useCallback } from 'react';
+import { useField } from 'react-final-form';
 
 export interface IncrementatorProps {
   name: string;
@@ -30,8 +28,6 @@ export const Incrementator = ({
   initialValue,
   label,
 }: IncrementatorProps) => {
-  const classes = useStyles();
-
   const { input } = useField(name, {
     type: 'number',
     parse: (value) => {
@@ -110,7 +106,12 @@ export const Incrementator = ({
         <Grid item>
           <Box width="50px">
             <Input
-              className={classNames(classes.input, 'incrementator-input')}
+              className="incrementator-input"
+              sx={{
+                '& .MuiInputBase-input': {
+                  textAlign: 'center',
+                },
+              }}
               disabled={disabled}
               type="number"
               {...input}

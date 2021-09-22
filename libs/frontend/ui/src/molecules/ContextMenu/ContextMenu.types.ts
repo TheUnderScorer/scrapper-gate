@@ -1,6 +1,6 @@
+import { MenuProps, PopoverPosition } from '@mui/material';
 import { MouseEventHandler, ReactNode } from 'react';
-import { MenuProps, PopoverPosition } from '@material-ui/core';
-import { MenuItemProperties } from '@scrapper-gate/frontend/common';
+import { MenuItemProperties } from '../../types/menuItemProperties';
 
 export interface ContextMenuChildrenBag {
   onContextMenu: MouseEventHandler;

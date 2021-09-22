@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, MenuItem } from '@material-ui/core';
+import { Box, MenuItem } from '@mui/material';
 import { ScrapperKey } from '../commonFields/ScrapperKey';
 import { useFormState } from 'react-final-form';
 import { Incrementator } from '@scrapper-gate/frontend/ui';

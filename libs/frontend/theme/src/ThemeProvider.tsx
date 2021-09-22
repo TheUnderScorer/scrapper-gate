@@ -1,7 +1,10 @@
 import { Global, ThemeProvider as EmotionThemeProvider } from '@emotion/react';
-import { createTheme, CssBaseline } from '@material-ui/core';
-import { SimplePaletteColorOptions } from '@material-ui/core/styles/createPalette';
-import { ThemeProvider as MuiThemeProvider } from '@material-ui/styles';
+import { CssBaseline } from '@mui/material';
+import {
+  createTheme,
+  SimplePaletteColorOptions,
+  ThemeProvider as MuiThemeProvider,
+} from '@mui/material/styles';
 import { useContainerStore } from '@scrapper-gate/frontend/common';
 import React, { KeyboardEvent, PropsWithChildren, useMemo } from 'react';
 import { Key } from 'ts-key-enum';
@@ -83,6 +86,7 @@ export const ThemeProvider = ({
           MuiModal: {
             defaultProps: {
               disableEnforceFocus: isContent,
+              container,
             },
           },
           MuiMenu: {
@@ -158,12 +162,12 @@ export const ThemeProvider = ({
   const styles = useMemo(() => themeStyles(theme), [theme]);
 
   return (
-    <EmotionThemeProvider theme={theme}>
-      <MuiThemeProvider theme={theme}>
+    <MuiThemeProvider theme={theme}>
+      <EmotionThemeProvider theme={theme}>
         <CssBaseline />
         <Global styles={styles} />
         {children}
-      </MuiThemeProvider>
-    </EmotionThemeProvider>
+      </EmotionThemeProvider>
+    </MuiThemeProvider>
   );
 };

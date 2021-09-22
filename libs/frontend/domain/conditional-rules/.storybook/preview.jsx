@@ -6,8 +6,8 @@ import { withActions } from '@storybook/addon-actions';
 import { SnackbarProvider } from '@scrapper-gate/frontend/snackbars';
 import React from 'react';
 import { ThemeProvider } from '../../../theme/src';
-import { LocalizationProvider } from '@material-ui/lab';
-import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
+import { LocalizationProvider } from '@mui/lab';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
 
 addDecorator(withKnobs);
 

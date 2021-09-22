@@ -1,4 +1,11 @@
 import {
+  Check,
+  KeyboardArrowDown,
+  KeyboardArrowLeft,
+  KeyboardArrowRight,
+  KeyboardArrowUp,
+} from '@mui/icons-material';
+import {
   Divider,
   Fab,
   IconButton,
@@ -7,15 +14,8 @@ import {
   Stack,
   Tooltip,
   Typography,
-} from '@material-ui/core';
-import {
-  Check,
-  KeyboardArrowDown,
-  KeyboardArrowLeft,
-  KeyboardArrowRight,
-  KeyboardArrowUp,
-} from '@material-ui/icons';
-import { makeStyles } from '@material-ui/styles';
+} from '@mui/material';
+import { styled } from '@mui/material/styles';
 import {
   canBeNavigated,
   ElementNavigatorDirection,
@@ -25,6 +25,34 @@ import { Perhaps } from '@scrapper-gate/shared/common';
 import classNames from 'classnames';
 import React, { forwardRef, useCallback, useMemo } from 'react';
 
+const PREFIX = 'HtmlElementPickerElementDropdown';
+
+const classes = {
+  popover: `${PREFIX}-popover`,
+  paper: `${PREFIX}-paper`,
+  divider: `${PREFIX}-divider`,
+};
+
+const StyledPopover = styled(Popover)(({ theme }) => ({
+  [`&.${classes.popover}`]: {
+    marginTop: theme.spacing(3),
+    pointerEvents: 'none',
+    zIndex: theme.zIndex.modal + 20,
+  },
+
+  [`& .${classes.paper}`]: {
+    padding: theme.spacing(2),
+    maxWidth: '500px',
+    minWidth: '250px',
+    pointerEvents: 'all',
+  },
+
+  [`& .${classes.divider}`]: {
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(2),
+  },
+}));
+
 export interface HtmlElementPickerElementDropdownProps {
   selectedElement?: Perhaps<HTMLElement>;
   selector?: Perhaps<string>;
@@ -32,30 +60,10 @@ export interface HtmlElementPickerElementDropdownProps {
   onSelectedElementChange?: (element: HTMLElement) => unknown;
 }
 
-const useStyles = makeStyles((theme) => ({
-  popover: {
-    marginTop: theme.spacing(3),
-    pointerEvents: 'none',
-    zIndex: theme.zIndex.modal + 20,
-  },
-  paper: {
-    padding: theme.spacing(2),
-    maxWidth: '500px',
-    minWidth: '250px',
-    pointerEvents: 'all',
-  },
-  divider: {
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(2),
-  },
-}));
-
 export const HtmlElementPickerElementDropdown = forwardRef<
   HTMLDivElement,
   HtmlElementPickerElementDropdownProps
 >(({ selectedElement, selector, onSelect, onSelectedElementChange }, ref) => {
-  const classes = useStyles();
-
   const canNavigate = useMemo(
     () => canBeNavigated(selectedElement),
     [selectedElement]
@@ -77,7 +85,7 @@ export const HtmlElementPickerElementDropdown = forwardRef<
   );
 
   return (
-    <Popover
+    <StyledPopover
       keepMounted={false}
       hideBackdrop
       className={classNames(classes.popover, 'element-dropdown')}
@@ -99,7 +107,11 @@ export const HtmlElementPickerElementDropdown = forwardRef<
             </Typography>
           </Stack>
           <Tooltip title="Select this element">
-            <IconButton className="select-element" onClick={onSelect}>
+            <IconButton
+              className="select-element"
+              onClick={onSelect}
+              size="large"
+            >
               <Check />
             </IconButton>
           </Tooltip>
@@ -156,6 +168,6 @@ export const HtmlElementPickerElementDropdown = forwardRef<
           </Tooltip>
         </Stack>
       </Paper>
-    </Popover>
+    </StyledPopover>
   );
 });

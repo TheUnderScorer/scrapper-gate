@@ -1,4 +1,4 @@
-import { Box, Typography } from '@material-ui/core';
+import { Box, Typography } from '@mui/material';
 import {
   AccountTreeSharp,
   ArrowBack,
@@ -7,7 +7,7 @@ import {
   PlayArrowSharp,
   StopSharp,
   Visibility,
-} from '@material-ui/icons';
+} from '@mui/icons-material';
 import { QueryParamProvider } from '@scrapper-gate/frontend/common';
 import { FormTextField } from '@scrapper-gate/frontend/form';
 import { PrimaryLightIconButton } from '@scrapper-gate/frontend/ui';

@@ -1,6 +1,6 @@
-import { Box, Button } from '@material-ui/core';
-import { LocalizationProvider } from '@material-ui/lab';
-import AdapterDateFns from '@material-ui/lab/AdapterDateFns';
+import { Box, Button } from '@mui/material';
+import { LocalizationProvider } from '@mui/lab';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { createVariable } from '@scrapper-gate/shared/domain/variables';
 import {
   Variable,

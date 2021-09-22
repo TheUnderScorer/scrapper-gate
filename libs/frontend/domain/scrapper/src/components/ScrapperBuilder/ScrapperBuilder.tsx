@@ -1,6 +1,6 @@
-import { IconButton, Stack } from '@material-ui/core';
-import { PlayArrow } from '@material-ui/icons';
-import { makeStyles } from '@material-ui/styles';
+import { PlayArrow } from '@mui/icons-material';
+import { IconButton, Stack } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { useIsUsingElementPicker } from '@scrapper-gate/frontend/common';
 import {
   VariablesProvider,
@@ -48,6 +48,11 @@ import {
 } from './ScrapperBuilder.types';
 import { ScrapperBuilderStartNodeContent } from './StartNodeContent/ScrapperBuilderStartNodeContent';
 
+const StyledForm = styled('form')({
+  width: '100%',
+  height: '100%',
+});
+
 const initialNodes = [
   flowBuilderUtils.createStartNode(
     {
@@ -67,13 +72,6 @@ const ensureCorrectSourcesCount =
   });
 
 const selection = createScrapperNodeSelection();
-
-const useStyles = makeStyles(() => ({
-  form: {
-    width: '100%',
-    height: '100%',
-  },
-}));
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const initialVariables: any[] = [];
@@ -100,8 +98,6 @@ export const ScrapperBuilder = ({
   const [updateScrapper, { data }] = useUpdateScrapperMutation();
 
   const [isUsingElementPicker] = useIsUsingElementPicker();
-
-  const classes = useStyles();
 
   const ContentComponent: NodeContentComponent = useCallback(
     (props) => (
@@ -250,7 +246,7 @@ export const ScrapperBuilder = ({
       render={(props) => (
         <VariablesProvider name="variables">
           <UnsavedFormAlert />
-          <form className={classes.form} onSubmit={props.handleSubmit}>
+          <StyledForm onSubmit={props.handleSubmit}>
             <FlowBuilder
               nodeKeyProperty="data.key"
               tabs={tabs}
@@ -266,7 +262,7 @@ export const ScrapperBuilder = ({
                 [FlowBuilderNodeTypes.Start]: ScrapperBuilderStartNodeContent,
               }}
               additionalActions={
-                <IconButton onClick={() => runScrapperDialog()}>
+                <IconButton onClick={() => runScrapperDialog()} size="large">
                   <PlayArrow />
                 </IconButton>
               }
@@ -297,7 +293,7 @@ export const ScrapperBuilder = ({
               nodesCreator={nodesCreator}
               {...rest}
             />
-          </form>
+          </StyledForm>
         </VariablesProvider>
       )}
     />

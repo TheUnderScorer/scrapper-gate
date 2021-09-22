@@ -1,5 +1,5 @@
-import { ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import { ListItem, ListItemIcon, ListItemText } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { Selection } from '@scrapper-gate/frontend/common';
 import classNames from 'classnames';
 import React, { useMemo } from 'react';
@@ -11,15 +11,15 @@ import {
 } from '../../FlowBuilder.types';
 import { useNodeMetadata } from '../../hooks/useNodeMetadata';
 
-export interface FlowBuilderSidebarItemProps<
-  S extends BaseNodeSelectionProperties
-> {
-  item: Selection<S>;
-  className?: string;
-}
+const PREFIX = 'FlowBuilderSidebarItem';
 
-const useStyles = makeStyles((theme) => ({
-  tile: {
+const classes = {
+  tile: `${PREFIX}-tile`,
+  text: `${PREFIX}-text`,
+};
+
+const StyledListItem = styled(ListItem)(({ theme }) => ({
+  [`&.${classes.tile}`]: {
     transform: 'translate3d(0,0,0)',
     cursor: 'pointer',
     marginBottom: theme.spacing(2),
@@ -27,17 +27,23 @@ const useStyles = makeStyles((theme) => ({
       opacity: 0.5,
     },
   },
-  text: {
+
+  [`& .${classes.text}`]: {
     marginLeft: theme.spacing(1),
   },
 }));
+
+export interface FlowBuilderSidebarItemProps<
+  S extends BaseNodeSelectionProperties
+> {
+  item: Selection<S>;
+  className?: string;
+}
 
 export const FlowBuilderSidebarItem = <S extends BaseNodeSelectionProperties>({
   item,
   className,
 }: FlowBuilderSidebarItemProps<S>) => {
-  const classes = useStyles();
-
   const metaData = useNodeMetadata(item.value.type);
 
   const boxWithIcon = useMemo(() => {
@@ -59,12 +65,12 @@ export const FlowBuilderSidebarItem = <S extends BaseNodeSelectionProperties>({
   });
 
   return (
-    <ListItem
+    <StyledListItem
       ref={drag}
       className={classNames(classes.tile, className, { isDragging })}
     >
       <ListItemIcon>{boxWithIcon}</ListItemIcon>
       <ListItemText className={classes.text}>{item.label}</ListItemText>
-    </ListItem>
+    </StyledListItem>
   );
 };

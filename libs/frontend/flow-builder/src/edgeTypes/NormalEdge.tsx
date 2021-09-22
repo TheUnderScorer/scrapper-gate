@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/styles';
+import { styled } from '@mui/material/styles';
 import { getById } from '@scrapper-gate/shared/common';
 import { elseBranch, when } from '@theunderscorer/when';
 import classNames from 'classnames';
@@ -17,6 +17,23 @@ import {
 } from '../providers/FlowBuilderItems.provider';
 import { useFlowBuilderContextSelector } from '../providers/FlowBuilderProps.provider';
 import { NormalEdgeVariations } from './NormalEdge.types';
+
+const PREFIX = 'NormalEdge';
+
+const classes = {
+  text: `${PREFIX}-text`,
+  path: `${PREFIX}-path`,
+};
+
+const Root = styled('g')(({ theme }) => ({
+  [`& .${classes.text}`]: {
+    ...theme.typography.body1,
+  },
+
+  [`& .${classes.path}`]: {
+    stroke: theme.palette.primary.dark,
+  },
+}));
 
 export interface NormalEdgeProps
   extends Pick<
@@ -37,15 +54,6 @@ export interface NormalEdgeProps
     Pick<Partial<EdgeProps<BaseNodeProperties>>, 'source' | 'sourceHandleId'> {
   variant?: NormalEdgeVariations;
 }
-
-const useStyles = makeStyles((theme) => ({
-  text: {
-    ...theme.typography.body1,
-  },
-  path: {
-    stroke: theme.palette.primary.dark,
-  },
-}));
 
 export const NormalEdge = ({
   id,
@@ -122,12 +130,10 @@ export const NormalEdge = ({
     variantValue,
   ]);
 
-  const classes = useStyles();
-
   const markerEnd = getMarkerEnd(arrowHeadType, markerEndId);
 
   return (
-    <g id={`edge-${id}`}>
+    <Root id={`edge-${id}`}>
       <path
         data-target={target}
         data-source={source}
@@ -143,6 +149,6 @@ export const NormalEdge = ({
           {labelValue}
         </text>
       </g>
-    </g>
+    </Root>
   );
 };

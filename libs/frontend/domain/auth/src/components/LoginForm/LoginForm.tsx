@@ -5,8 +5,8 @@ import {
   Link as MuiLink,
   Stack,
   Typography,
-} from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+} from '@mui/material';
+import { styled } from '@mui/material/styles';
 import {
   FormCheckbox,
   FormTextField,
@@ -20,22 +20,8 @@ import { LoginFormProps, LoginFormType } from './LoginForm.types';
 import { LoginFormDto } from './LoginFormDto';
 import { useLoginForm } from './useLoginForm';
 
-const useStyles = makeStyles((theme) => ({
-  form: {
-    width: '100%',
-  },
-  alert: {
-    marginBottom: 0,
-    marginTop: theme.spacing(3),
-  },
-  action: {
-    width: '100%',
-  },
-  fab: {
-    '&.MuiButtonBase-root': {
-      minWidth: '150px',
-    },
-  },
+const StyledForm = styled('form')(() => ({
+  width: '100%',
 }));
 
 const validate = joiValidationResolver(LoginFormDto);
@@ -46,7 +32,6 @@ export const LoginForm = ({
   type = LoginFormType.Login,
   afterCreate,
 }: LoginFormProps) => {
-  const classes = useStyles();
   const { error, loading, handleSubmit } = useLoginForm({
     type,
     afterLogin,
@@ -64,9 +49,15 @@ export const LoginForm = ({
       validateOnBlur={false}
       onSubmit={handleSubmit}
       render={(props) => (
-        <form className={classes.form} onSubmit={props.handleSubmit}>
+        <StyledForm onSubmit={props.handleSubmit}>
           <Stack direction="column" spacing={3} alignItems="center">
-            <ErrorAlert className={classes.alert} error={error} />
+            <ErrorAlert
+              sx={{
+                marginBottom: 0,
+                marginTop: (theme) => theme.spacing(3),
+              }}
+              error={error}
+            />
             <FormTextField
               label="E-mail"
               fullWidth
@@ -101,7 +92,9 @@ export const LoginForm = ({
               />
             )}
             <Stack
-              className={classes.action}
+              sx={{
+                width: '100%',
+              }}
               spacing={2}
               direction="row"
               alignItems="center"
@@ -110,7 +103,11 @@ export const LoginForm = ({
               }
             >
               <Fab
-                className={classes.fab}
+                sx={{
+                  '&.MuiButtonBase-root': {
+                    minWidth: '150px',
+                  },
+                }}
                 id={type === LoginFormType.Login ? 'login' : 'signup'}
                 disabled={loading}
                 type="submit"
@@ -142,7 +139,7 @@ export const LoginForm = ({
               )}
             </Stack>
           </Stack>
-        </form>
+        </StyledForm>
       )}
     />
   );

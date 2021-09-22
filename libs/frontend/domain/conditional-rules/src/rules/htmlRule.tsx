@@ -1,5 +1,5 @@
-import { TextFieldProps } from '@material-ui/core';
-import { Code } from '@material-ui/icons';
+import { TextFieldProps } from '@mui/material';
+import { Code } from '@mui/icons-material';
 import { HtmlElementPickerProps } from '@scrapper-gate/frontend/ui';
 import { toDisplayText } from '@scrapper-gate/shared/common';
 import {

@@ -1,4 +1,4 @@
-import { Avatar, Tooltip } from '@material-ui/core';
+import { Avatar, Tooltip } from '@mui/material';
 import { first, toDisplayText } from '@scrapper-gate/shared/common';
 import { VariableScope } from '@scrapper-gate/shared/schema';
 import React, { useMemo } from 'react';

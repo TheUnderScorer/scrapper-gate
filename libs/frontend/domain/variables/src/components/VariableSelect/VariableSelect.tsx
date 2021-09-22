@@ -1,4 +1,4 @@
-import { MenuItem } from '@material-ui/core';
+import { MenuItem } from '@mui/material';
 import { useVariablesContextSelector } from '../../providers/VariablesProvider';
 import { FormSelect } from '@scrapper-gate/frontend/form';
 import React from 'react';

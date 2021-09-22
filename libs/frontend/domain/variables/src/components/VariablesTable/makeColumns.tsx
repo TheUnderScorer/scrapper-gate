@@ -1,6 +1,6 @@
-import { IconButton, Tooltip } from '@material-ui/core';
+import { IconButton, Tooltip } from '@mui/material';
 import { GridCellParams, GridColumns } from '@material-ui/data-grid';
-import { Delete } from '@material-ui/icons';
+import { Delete } from '@mui/icons-material';
 import { stopPropagation } from '@scrapper-gate/frontend/common';
 import { EditRow, RowTextField } from '@scrapper-gate/frontend/data-grid';
 import { EnumSelect } from '@scrapper-gate/frontend/form';
@@ -106,7 +106,7 @@ export const makeColumns = ({
         <IconButton
           onClick={() => onRemove(params)}
           className={classNames(classes.delete, 'delete-variable')}
-        >
+          size="large">
           <Delete />
         </IconButton>
       </Tooltip>

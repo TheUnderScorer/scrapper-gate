@@ -1,3 +1,4 @@
+import { Add } from '@mui/icons-material';
 import {
   Box,
   Fab,
@@ -9,9 +10,8 @@ import {
   TableHead,
   TableRow,
   useTheme,
-} from '@material-ui/core';
-import { Add } from '@material-ui/icons';
-import { makeStyles } from '@material-ui/styles';
+} from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { useFieldArray } from '@scrapper-gate/frontend/form';
 import { Centered, Emoji, InformationBox } from '@scrapper-gate/frontend/ui';
 import { createVariable } from '@scrapper-gate/shared/domain/variables';
@@ -23,20 +23,28 @@ import {
 import React, { useCallback } from 'react';
 import { VariablesTableRow } from './Row/VariablesTableRow';
 
-export interface VariablesTableProps {
-  name: string;
-  scope: VariableScope;
-}
+const PREFIX = 'VariablesTable';
 
-const useStyles = makeStyles(() => ({
-  empty: {
+const classes = {
+  empty: `${PREFIX}-empty`,
+  container: `${PREFIX}-container`,
+};
+
+const StyledTableContainer = styled(TableContainer)(() => ({
+  [`& .${classes.empty}`]: {
     marginTop: '5%',
   },
-  container: {
+
+  [`&.${classes.container}`]: {
     position: 'relative',
     height: '100%',
   },
 }));
+
+export interface VariablesTableProps {
+  name: string;
+  scope: VariableScope;
+}
 
 export const VariablesTable = ({ name, scope }: VariablesTableProps) => {
   const theme = useTheme();
@@ -46,8 +54,6 @@ export const VariablesTable = ({ name, scope }: VariablesTableProps) => {
     append,
     remove,
   } = useFieldArray<Variable>(name);
-
-  const classes = useStyles();
 
   const addVariable = useCallback(() => {
     append(
@@ -91,7 +97,7 @@ export const VariablesTable = ({ name, scope }: VariablesTableProps) => {
   }
 
   return (
-    <TableContainer className={classes.container}>
+    <StyledTableContainer className={classes.container}>
       <Table>
         <TableHead>
           <TableRow>
@@ -119,6 +125,6 @@ export const VariablesTable = ({ name, scope }: VariablesTableProps) => {
       <Box display="flex" justifyContent="center" width="100%" marginTop={2}>
         {fab}
       </Box>
-    </TableContainer>
+    </StyledTableContainer>
   );
 };

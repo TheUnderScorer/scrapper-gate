@@ -1,70 +1,57 @@
-import { Checkbox, Fade, Stack, Typography } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import { Checkbox, Fade, Stack, Typography } from '@mui/material';
 import classNames from 'classnames';
 import React from 'react';
 import { SelectablePaper } from '../SelectablePaper/SelectablePaper';
 import { TileRadioProps } from './TileRadio.types';
-
-const useStyles = makeStyles((theme) => ({
-  text: {
-    userSelect: 'none',
-  },
-  paper: {
-    textAlign: 'center',
-    position: 'relative',
-  },
-  checkbox: ({
-    checkedBackgroundColor,
-  }: Pick<TileRadioProps, 'checkedBackgroundColor'>) => ({
-    position: 'absolute',
-    top: '0',
-    right: '0',
-    zIndex: 2,
-    pointerEvents: 'none',
-    color:
-      checkedBackgroundColor === 'primary'
-        ? theme.palette.primary.contrastText
-        : undefined,
-  }),
-}));
 
 export const TileRadio = ({
   icon,
   title,
   children,
   description,
-  ...paperProps
+  ...props
 }: TileRadioProps) => {
-  const classes = useStyles({
-    checkedBackgroundColor: paperProps?.checkedBackgroundColor,
-  });
-
   return (
     <SelectablePaper
-      {...paperProps}
-      className={classNames(classes.paper, paperProps.className)}
+      {...props}
+      className={props.className}
+      paperProps={{
+        ...props?.paperProps,
+        sx: {
+          textAlign: 'center',
+          position: 'relative',
+          ...props?.sx,
+        },
+      }}
     >
-      <Fade in={paperProps.checked}>
+      <Fade in={props.checked}>
         <Checkbox
-          checked={paperProps.checked}
-          disabled={paperProps.disabled}
+          sx={{
+            position: 'absolute',
+            top: '0',
+            right: '0',
+            zIndex: (theme) => theme.zIndex.tooltip,
+            pointerEvents: 'none',
+            color: (theme) =>
+              props?.checkedBackgroundColor === 'primary'
+                ? theme.palette.primary.contrastText
+                : undefined,
+          }}
+          checked={props.checked}
+          disabled={props.disabled}
           color={
-            paperProps?.checkedBackgroundColor === 'primary'
-              ? 'default'
-              : 'primary'
+            props?.checkedBackgroundColor === 'primary' ? 'default' : 'primary'
           }
-          className={classNames(
-            classes.checkbox,
-            'tile-radio-checkbox',
-            'vertical'
-          )}
+          className={classNames('tile-radio-checkbox', 'vertical')}
         />
       </Fade>
       <Stack
         alignItems="center"
         spacing={1}
         direction="column"
-        className={classes.text}
+        sx={{
+          userSelect: 'none',
+        }}
       >
         {icon}
         <Typography variant={description ? 'h6' : 'body2'}>{title}</Typography>

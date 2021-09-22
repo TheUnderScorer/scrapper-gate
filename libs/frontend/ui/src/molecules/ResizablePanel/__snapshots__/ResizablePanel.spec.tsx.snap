@@ -6,11 +6,11 @@ Object {
   "baseElement": <body>
     <div>
       <div
-        class="makeStyles-container-2"
+        class="panel-container css-1ng8ehx"
         style="position: relative; user-select: auto; width: 300px; height: 100%; max-width: 500px; min-width: 100px; box-sizing: border-box; flex-shrink: 0;"
       >
         <button
-          class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeSmall makeStyles-iconBtn-4 toggle-panel css-1sx5uep-MuiButtonBase-root-MuiFab-root"
+          class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeSmall toggle-panel css-8cfj7d-MuiButtonBase-root-MuiFab-root"
           data-mui-internal-clone-element="true"
           tabindex="0"
           type="button"
@@ -31,12 +31,12 @@ Object {
           />
         </button>
         <div
-          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 makeStyles-content-3 resizable-panel-content css-1ps6pg7-MuiPaper-root"
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 resizable-panel-content css-nnq56p-MuiPaper-root"
         >
           Panel contents
         </div>
         <div
-          class="makeStyles-handle-1 makeStyles-handle-5"
+          class="panel-handle"
         >
           <div
             class=""
@@ -76,11 +76,11 @@ Object {
   </body>,
   "container": <div>
     <div
-      class="makeStyles-container-2"
+      class="panel-container css-1ng8ehx"
       style="position: relative; user-select: auto; width: 300px; height: 100%; max-width: 500px; min-width: 100px; box-sizing: border-box; flex-shrink: 0;"
     >
       <button
-        class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeSmall makeStyles-iconBtn-4 toggle-panel css-1sx5uep-MuiButtonBase-root-MuiFab-root"
+        class="MuiButtonBase-root MuiFab-root MuiFab-circular MuiFab-sizeSmall toggle-panel css-8cfj7d-MuiButtonBase-root-MuiFab-root"
         data-mui-internal-clone-element="true"
         tabindex="0"
         type="button"
@@ -101,12 +101,12 @@ Object {
         />
       </button>
       <div
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 makeStyles-content-3 resizable-panel-content css-1ps6pg7-MuiPaper-root"
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 resizable-panel-content css-nnq56p-MuiPaper-root"
       >
         Panel contents
       </div>
       <div
-        class="makeStyles-handle-1 makeStyles-handle-5"
+        class="panel-handle"
       >
         <div
           class=""

@@ -1,4 +1,4 @@
-import { Link } from '@material-ui/core';
+import { Link } from '@mui/material';
 import { VariablesTextField } from '@scrapper-gate/frontend/domain/variables';
 import { FieldNameCreator } from '@scrapper-gate/frontend/form';
 import React from 'react';

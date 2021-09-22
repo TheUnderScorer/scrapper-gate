@@ -1,4 +1,16 @@
+import { Close, ExpandMore } from '@mui/icons-material';
+import {
+  Accordion,
+  AccordionActions,
+  AccordionDetails,
+  AccordionProps,
+  AccordionSummary,
+  Grid,
+  IconButton,
+  Typography,
+} from '@mui/material';
 import { setRefValue } from '@scrapper-gate/frontend/common';
+import classNames from 'classnames';
 import React, {
   ChangeEvent,
   forwardRef,
@@ -9,19 +21,6 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import {
-  Accordion,
-  AccordionActions,
-  AccordionDetails,
-  AccordionProps,
-  AccordionSummary,
-  Grid,
-  IconButton,
-  Typography,
-} from '@material-ui/core';
-import { Close, ExpandMore } from '@material-ui/icons';
-import classNames from 'classnames';
-import { useStyles } from './CollapsableCard.styles';
 
 export interface CollapsableCardProps
   extends Omit<
@@ -59,8 +58,6 @@ export const CollapsableCard = forwardRef<HTMLElement, CollapsableCardProps>(
     ref
   ) => {
     const panelRef = useRef<HTMLDivElement>();
-
-    const classes = useStyles();
 
     const [expanded, setExpanded] = useState(initialExpanded);
 
@@ -104,7 +101,20 @@ export const CollapsableCard = forwardRef<HTMLElement, CollapsableCardProps>(
         elevation={3}
         {...props}
       >
-        <AccordionSummary className={classNames(classes.summary, { primary })}>
+        <AccordionSummary
+          className={classNames({ primary })}
+          sx={{
+            '&.primary': {
+              backgroundColor: (theme) => theme.palette.primary.main,
+              '& *': {
+                color: (theme) => theme.palette.primary.contrastText,
+              },
+            },
+            '& .MuiAccordionSummary-content': {
+              cursor: 'default',
+            },
+          }}
+        >
           <Grid container justifyContent="space-between" alignItems="center">
             <Grid item>
               <Grid container spacing={1} direction="column">
@@ -119,7 +129,9 @@ export const CollapsableCard = forwardRef<HTMLElement, CollapsableCardProps>(
                 </Grid>
                 <Grid item>
                   <Typography
-                    className={classes.secondary}
+                    sx={{
+                      color: (theme) => theme.palette.grey['400'],
+                    }}
                     variant="caption"
                     color="secondary"
                   >
@@ -133,12 +145,24 @@ export const CollapsableCard = forwardRef<HTMLElement, CollapsableCardProps>(
                 {showCollapsableBtn && (
                   <Grid item>
                     <IconButton
+                      sx={{
+                        '&, &:hover, &:active': {
+                          marginRight: (theme) => theme.spacing(0.5),
+                        },
+                        '& svg': {
+                          transition: (theme) =>
+                            theme.transitions.create('all'),
+                        },
+                        '&:not(.expanded) svg': {
+                          transform: 'rotate(180deg)',
+                        },
+                      }}
                       className={classNames(
-                        classes.cardExpandBtn,
                         { expanded },
                         'collapsable-card-btn'
                       )}
                       onClick={toggle}
+                      size="large"
                     >
                       <ExpandMore />
                     </IconButton>
@@ -149,6 +173,7 @@ export const CollapsableCard = forwardRef<HTMLElement, CollapsableCardProps>(
                     <IconButton
                       className="close-collapsable-card"
                       onClick={onClose}
+                      size="large"
                     >
                       <Close />
                     </IconButton>

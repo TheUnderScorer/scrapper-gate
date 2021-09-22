@@ -1,12 +1,5 @@
-import {
-  Box,
-  Button,
-  Divider,
-  Slide,
-  Stack,
-  Typography,
-} from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import { Box, Button, Divider, Slide, Stack, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { Layout, ResizablePanel } from '@scrapper-gate/frontend/ui';
 import { getById } from '@scrapper-gate/shared/common';
 import classNames from 'classnames';
@@ -21,51 +14,12 @@ import {
 } from '../../providers/FlowBuilderItems.provider';
 import { useFlowBuilderContextSelector } from '../../providers/FlowBuilderProps.provider';
 
-interface StyleProps {
-  isUsingElementPicker?: boolean;
-  open: boolean;
-}
-
-const useStyles = makeStyles((theme) => ({
-  content: {
-    padding: `0 ${theme.spacing(2)}`,
-  },
-  btnDivider: {
-    marginBottom: theme.spacing(1),
-  },
-  drawer: {
-    position: 'absolute !important' as 'absolute',
-    top: 0,
-    right: 0,
-    height: '100%',
-    zIndex: 4,
-  },
-  title: {
-    marginBottom: theme.spacing(2),
-  },
-  paper: (props: StyleProps) => {
-    const defaults = {
-      transition: theme.transitions.create('opacity'),
-      borderRadius: 0,
-    };
-
-    if (!props.isUsingElementPicker) {
-      return defaults;
-    }
-
-    return {
-      ...defaults,
-      opacity: 0,
-      visibility: 'hidden',
-    };
-  },
-  slide: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    height: '100%',
-    zIndex: theme.zIndex.drawer,
-  },
+const StyledSlide = styled(Slide)(({ theme }) => ({
+  position: 'absolute',
+  top: 0,
+  right: 0,
+  height: '100%',
+  zIndex: theme.zIndex.drawer,
 }));
 
 export const FlowBuilderNodeContent = () => {
@@ -76,8 +30,6 @@ export const FlowBuilderNodeContent = () => {
 
   const { activeNodeId, contentOpen, setContentOpen, setActiveNodeId } =
     useFlowBuilderActiveNode();
-
-  const classes = useStyles({ isUsingElementPicker, open: contentOpen });
 
   const getItems = useFlowBuilderItemsSelector((ctx) => ctx.getItems);
 
@@ -135,19 +87,31 @@ export const FlowBuilderNodeContent = () => {
   );
 
   return (
-    <Slide direction="left" in={contentOpen}>
+    <StyledSlide direction="left" in={contentOpen}>
       <ResizablePanel
         disableKeyShortcut
         hideArrow
         paperProps={{
-          className: classes.paper,
+          sx: {
+            transition: (theme) => theme.transitions.create('opacity'),
+            borderRadius: 0,
+            opacity: isUsingElementPicker ? 0 : 1,
+            visibility: isUsingElementPicker ? 'hidden' : 'visible',
+          },
         }}
         initialWidth="20%"
         minWidth="500px"
         maxWidth="900px"
+        sx={{
+          position: 'absolute !important' as 'absolute',
+          top: 0,
+          right: 0,
+          height: '100%',
+          zIndex: 4,
+        }}
         className={classNames(
-          classes.drawer,
-          `node-content-${contentOpen ? 'open' : 'closed'}`
+          `node-content-${contentOpen ? 'open' : 'closed'}`,
+          'node-content-panel'
         )}
         enable={{
           left: true,
@@ -156,8 +120,11 @@ export const FlowBuilderNodeContent = () => {
         <Layout
           body={
             <Stack
+              sx={{
+                padding: (theme) => `0 ${theme.spacing(2)}`,
+              }}
               spacing={3}
-              className={classNames(classes.content, 'node-content')}
+              className="node-content"
             >
               <Typography variant="h6">{title ?? 'Edit step'}</Typography>
               {ContentComponent && (
@@ -176,8 +143,13 @@ export const FlowBuilderNodeContent = () => {
           }
           footerHeight={50}
           footer={
-            <>
-              <Divider className={classes.btnDivider} variant="fullWidth" />
+            <Box>
+              <Divider
+                sx={{
+                  marginBottom: (theme) => theme.spacing(1),
+                }}
+                variant="fullWidth"
+              />
               <Box paddingLeft={2}>
                 <Button
                   variant="outlined"
@@ -188,10 +160,10 @@ export const FlowBuilderNodeContent = () => {
                   Close
                 </Button>
               </Box>
-            </>
+            </Box>
           }
         />
       </ResizablePanel>
-    </Slide>
+    </StyledSlide>
   );
 };

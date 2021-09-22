@@ -1,15 +1,14 @@
-import React, { PropsWithChildren, useCallback } from 'react';
-import { BooleanParam, useQueryParam } from 'use-query-params';
-import { Box, Fab, Toolbar } from '@material-ui/core';
-import classNames from 'classnames';
-import { KeyboardArrowLeft, Menu } from '@material-ui/icons';
+import { KeyboardArrowLeft, Menu } from '@mui/icons-material';
+import { Box, Fab, Toolbar } from '@mui/material';
 import {
   Layout,
   LayoutProps,
   QueryDrawer,
   QueryDrawerProps,
 } from '@scrapper-gate/frontend/ui';
-import { useStyles } from './ContentDrawer.styles';
+import classNames from 'classnames';
+import React, { PropsWithChildren, useCallback } from 'react';
+import { BooleanParam, useQueryParam } from 'use-query-params';
 import { FadeIfPicking } from '../FadeIfPicking/FadeIfPicking';
 
 export interface ContentDrawerProps
@@ -26,10 +25,6 @@ export const ContentDrawer = ({
   width: propWidth = '80vw',
   queryKey,
 }: PropsWithChildren<ContentDrawerProps>) => {
-  const classes = useStyles({
-    width: propWidth,
-  });
-
   const [drawerOpen, setDrawerOpen] = useQueryParam(queryKey, BooleanParam);
 
   const toggleDrawer = useCallback(() => {
@@ -41,8 +36,15 @@ export const ContentDrawer = ({
       <FadeIfPicking>
         <Fab
           onClick={toggleDrawer}
-          className={classNames(classes.fab, { drawerOpen })}
+          className={classNames({ drawerOpen })}
           color={drawerOpen ? 'default' : 'primary'}
+          sx={{
+            position: 'absolute',
+            pointerEvents: 'all',
+            top: (theme) => theme.spacing(2),
+            left: (theme) => theme.spacing(2),
+            zIndex: (theme) => theme.zIndex.modal - 1,
+          }}
         >
           <Menu />
         </Fab>
@@ -53,20 +55,29 @@ export const ContentDrawer = ({
           disableScrollLock
           disableEscapeKeyDown
           PaperProps={{
-            className: classes.paper,
+            sx: {
+              width: propWidth,
+              overflowY: 'visible',
+            },
           }}
-          className={classNames(
-            classes.drawer,
-            classes.item,
-            'manage-scrapper-drawer'
-          )}
+          className="manage-scrapper-drawer"
+          sx={{
+            zIndex: (theme) => theme.zIndex.modal,
+            width: propWidth,
+            pointerEvents: 'all',
+          }}
           disablePortal
           keepMounted
           anchor="left"
         >
           <Fab
             onClick={toggleDrawer}
-            className={classes.fabDrawer}
+            sx={{
+              top: '50%',
+              right: '-30px',
+              position: 'absolute',
+              zIndex: (theme) => theme.zIndex.modal + 1,
+            }}
             color="default"
           >
             <KeyboardArrowLeft />
@@ -76,7 +87,14 @@ export const ContentDrawer = ({
             headerHeight={header ? 100 : 0}
             header={
               header && (
-                <Toolbar className={classNames(classes.toolbar, 'toolbar')}>
+                <Toolbar
+                  sx={{
+                    display: 'flex',
+                    height: '100%',
+                    alignItems: 'center',
+                  }}
+                  className="toolbar"
+                >
                   {header}
                 </Toolbar>
               )

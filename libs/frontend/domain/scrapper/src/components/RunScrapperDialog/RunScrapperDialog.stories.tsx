@@ -1,4 +1,4 @@
-import { Button } from '@material-ui/core';
+import { Button } from '@mui/material';
 import { DialogController, useDialog } from '@scrapper-gate/frontend/dialogs';
 import { ScrapperType } from '@scrapper-gate/shared/schema';
 import { RunScrapperDialog, runScrapperDialogId } from './RunScrapperDialog';

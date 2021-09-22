@@ -1,4 +1,4 @@
-import { Typography } from '@material-ui/core';
+import { Typography } from '@mui/material';
 import { SimpleDialog } from '@scrapper-gate/frontend/ui';
 import { PropsWithChildren } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';

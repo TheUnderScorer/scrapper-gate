@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
-import { Box } from '@material-ui/core';
+import { Box } from '@mui/material';
 import { QueryParamProvider } from '@scrapper-gate/frontend/common';
 import {
   FlowBuilderItem,

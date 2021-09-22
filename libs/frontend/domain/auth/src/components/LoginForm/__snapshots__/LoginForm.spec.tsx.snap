@@ -6,13 +6,13 @@ Object {
   "baseElement": <body>
     <div>
       <form
-        class="makeStyles-form-1"
+        class="css-8atqhb"
       >
         <div
           class="css-kttiti-MuiStack-root"
         >
           <div
-            class="makeStyles-alert-2 MuiBox-root css-0"
+            class="MuiBox-root css-11x10el"
             style="opacity: 0; visibility: hidden;"
           />
           <div
@@ -64,10 +64,10 @@ Object {
             </div>
           </div>
           <div
-            class="makeStyles-action-3 css-guojqh-MuiStack-root"
+            class="css-113v0mb-MuiStack-root"
           >
             <button
-              class="MuiButtonBase-root MuiFab-root MuiFab-extended MuiFab-sizeLarge MuiFab-primary makeStyles-fab-4 css-2yq0w0-MuiButtonBase-root-MuiFab-root"
+              class="MuiButtonBase-root MuiFab-root MuiFab-extended MuiFab-sizeLarge MuiFab-primary css-c2pc86-MuiButtonBase-root-MuiFab-root"
               id="login"
               tabindex="0"
               type="submit"
@@ -84,13 +84,13 @@ Object {
   </body>,
   "container": <div>
     <form
-      class="makeStyles-form-1"
+      class="css-8atqhb"
     >
       <div
         class="css-kttiti-MuiStack-root"
       >
         <div
-          class="makeStyles-alert-2 MuiBox-root css-0"
+          class="MuiBox-root css-11x10el"
           style="opacity: 0; visibility: hidden;"
         />
         <div
@@ -142,10 +142,10 @@ Object {
           </div>
         </div>
         <div
-          class="makeStyles-action-3 css-guojqh-MuiStack-root"
+          class="css-113v0mb-MuiStack-root"
         >
           <button
-            class="MuiButtonBase-root MuiFab-root MuiFab-extended MuiFab-sizeLarge MuiFab-primary makeStyles-fab-4 css-2yq0w0-MuiButtonBase-root-MuiFab-root"
+            class="MuiButtonBase-root MuiFab-root MuiFab-extended MuiFab-sizeLarge MuiFab-primary css-c2pc86-MuiButtonBase-root-MuiFab-root"
             id="login"
             tabindex="0"
             type="submit"

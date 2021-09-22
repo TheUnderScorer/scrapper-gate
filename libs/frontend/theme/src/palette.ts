@@ -1,4 +1,4 @@
-import { colors, createTheme, PaletteOptions } from '@material-ui/core';
+import { colors, createTheme, PaletteOptions } from '@mui/material';
 import { getContrast } from '@scrapper-gate/shared/common';
 import tinycolor from 'tinycolor2';
 

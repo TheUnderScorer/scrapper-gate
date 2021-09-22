@@ -1,10 +1,10 @@
+import { Avatar, Box, Stack, StackProps, Typography } from '@mui/material';
+import { User } from '@scrapper-gate/shared/schema';
 import classNames from 'classnames';
 import React, { useMemo } from 'react';
-import { Avatar, Box, Stack, StackProps, Typography } from '@material-ui/core';
-import { User } from '@scrapper-gate/shared/schema';
 
 export interface UserAvatarProps
-  extends Pick<StackProps, 'justifyContent' | 'alignItems'> {
+  extends Pick<StackProps, 'justifyContent' | 'alignItems' | 'sx'> {
   user: Pick<User, 'email' | 'firstName' | 'lastName'>;
   className?: string;
   showName?: boolean;
@@ -16,6 +16,7 @@ export const UserAvatar = ({
   showName,
   justifyContent = 'center',
   alignItems = 'center',
+  sx,
 }: UserAvatarProps) => {
   const display = useMemo(() => {
     if (!user.firstName || !user.lastName) {
@@ -30,6 +31,7 @@ export const UserAvatar = ({
       className={classNames(className, 'user-avatar')}
       justifyContent={justifyContent}
       alignItems={alignItems}
+      sx={sx}
     >
       <Avatar>{display}</Avatar>
       {showName && (

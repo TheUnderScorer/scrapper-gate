@@ -1,4 +1,4 @@
-import { Stack } from '@material-ui/core';
+import { Stack } from '@mui/material';
 import { PrimaryLightChip } from '@scrapper-gate/frontend/ui';
 import { ConditionalRule } from '@scrapper-gate/shared/schema';
 import React, { memo } from 'react';

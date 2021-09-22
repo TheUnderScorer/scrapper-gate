@@ -1,8 +1,10 @@
-import { Button } from '@material-ui/core';
-import { Add } from '@material-ui/icons';
-import { makeStyles } from '@material-ui/styles';
-import { MenuItemProperties } from '@scrapper-gate/frontend/common';
-import { Centered, Dropdown } from '@scrapper-gate/frontend/ui';
+import { Add } from '@mui/icons-material';
+import { Button } from '@mui/material';
+import {
+  Centered,
+  Dropdown,
+  MenuItemProperties,
+} from '@scrapper-gate/frontend/ui';
 import { ConditionalRule } from '@scrapper-gate/shared/schema';
 import React, { useMemo } from 'react';
 import { ConditionalRulesSelection } from '../../../types';
@@ -12,25 +14,10 @@ export interface ConditionalRulesSelectionDropdownProps {
   definitions: ConditionalRulesSelection[];
 }
 
-const useStyles = makeStyles((theme) => ({
-  btn: {
-    '&, &:hover': {
-      borderColor: theme.palette.grey.A400,
-    },
-    padding: theme.spacing(1),
-    color: theme.palette.common.black,
-  },
-  menuItem: {
-    minWidth: '200px',
-  },
-}));
-
 export const ConditionalRulesSelectionDropdown = ({
   onAdd,
   definitions,
 }: ConditionalRulesSelectionDropdownProps) => {
-  const classes = useStyles();
-
   const items = useMemo<MenuItemProperties[]>(
     () => [
       {
@@ -42,7 +29,9 @@ export const ConditionalRulesSelectionDropdown = ({
         id: definition.value.type,
         content: definition.label,
         icon: definition.icon,
-        className: classes.menuItem,
+        sx: {
+          minWidth: '200px',
+        },
         onClick: () =>
           onAdd({
             type: definition.value.type,
@@ -50,7 +39,7 @@ export const ConditionalRulesSelectionDropdown = ({
           }),
       })),
     ],
-    [classes, definitions, onAdd]
+    [definitions, onAdd]
   );
 
   return (

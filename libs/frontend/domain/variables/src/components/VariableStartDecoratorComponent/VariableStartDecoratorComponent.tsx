@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/styles';
+import { Box } from '@mui/material';
 import {
   DecoratorComponentProps,
   useBlockEditorContext,
@@ -13,19 +13,11 @@ import React, { MutableRefObject, useCallback, useMemo, useRef } from 'react';
 import { Transforms } from 'slate';
 import { VariableSuggestions } from '../VariableSuggestions/VariableSuggestions';
 
-const useStyles = makeStyles({
-  container: {
-    display: 'inline-block',
-  },
-});
-
 export const VariableStartDecoratorComponent = ({
   children,
   leaf,
   attributes,
 }: DecoratorComponentProps) => {
-  const classes = useStyles();
-
   const containerRef = useRef<HTMLElement>();
 
   const { focused, editor } = useBlockEditorContext();
@@ -68,7 +60,7 @@ export const VariableStartDecoratorComponent = ({
   }, [leaf, selectionEnd, selectionStart]);
 
   return (
-    <div {...attributes} className={classes.container}>
+    <Box {...attributes} display="inline-block">
       <LightTooltip
         TransitionProps={{ timeout: 0 }}
         open={isSelectionWithinBounds && focused}
@@ -83,6 +75,6 @@ export const VariableStartDecoratorComponent = ({
           {children}
         </span>
       </LightTooltip>
-    </div>
+    </Box>
   );
 };

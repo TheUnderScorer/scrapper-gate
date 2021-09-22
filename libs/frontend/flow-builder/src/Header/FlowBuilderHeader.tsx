@@ -1,3 +1,4 @@
+import { CloseSharp, SortSharp } from '@mui/icons-material';
 import {
   AppBar,
   Divider,
@@ -7,14 +8,13 @@ import {
   Stack,
   Toolbar,
   Tooltip,
-} from '@material-ui/core';
-import { CloseSharp, SortSharp } from '@material-ui/icons';
-import { makeStyles } from '@material-ui/styles';
-import { MenuItemProperties } from '@scrapper-gate/frontend/common';
+} from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { UndoButtons } from '@scrapper-gate/frontend/form';
 import {
   Dropdown,
   FormStateIcon,
+  MenuItemProperties,
   SkeletonComponentOrIcon,
   TooltipText,
 } from '@scrapper-gate/frontend/ui';
@@ -26,6 +26,40 @@ import { useFlowBuilderContextSelector } from '../providers/FlowBuilderProps.pro
 import { mainTab } from '../Tabs/FlowBuilderTabs';
 import { buildBasicGraph } from '../utils/graph';
 
+const PREFIX = 'FlowBuilderHeader';
+
+const classes = {
+  iconButton: `${PREFIX}-iconButton`,
+  appBar: `${PREFIX}-appBar`,
+  mainGrid: `${PREFIX}-mainGrid`,
+  divider: `${PREFIX}-divider`,
+  fab: `${PREFIX}-fab`,
+};
+
+const StyledAppBar = styled(AppBar)(() => ({
+  [`& .${classes.iconButton}`]: {
+    padding: 0,
+  },
+
+  [`& .${classes.appBar}`]: {
+    height: '40px',
+  },
+
+  [`& .${classes.mainGrid}`]: {
+    height: '100%',
+    width: '100%',
+  },
+
+  [`& .${classes.divider}`]: {
+    height: '30px',
+  },
+
+  [`& .${classes.fab}`]: {
+    width: '100px !important',
+    boxShadow: 'none',
+  },
+}));
+
 export interface FlowBuilderHeaderProps {
   title?: ReactNode;
   onClose?: () => unknown;
@@ -34,33 +68,12 @@ export interface FlowBuilderHeaderProps {
   menu?: MenuItemProperties[];
 }
 
-const useStyles = makeStyles(() => ({
-  iconButton: {
-    padding: 0,
-  },
-  appBar: {
-    height: '40px',
-  },
-  mainGrid: {
-    height: '100%',
-    width: '100%',
-  },
-  divider: {
-    height: '30px',
-  },
-  fab: {
-    width: '100px !important',
-    boxShadow: 'none',
-  },
-}));
-
 export const FlowBuilderHeader = ({
   onClose,
   title,
   additionalActions,
   menu,
 }: FlowBuilderHeaderProps) => {
-  const classes = useStyles();
   const formState = useFormState({
     subscription: {
       submitting: true,
@@ -88,7 +101,7 @@ export const FlowBuilderHeader = ({
   }, [getItems, setItems]);
 
   return (
-    <AppBar elevation={0} color="transparent" position="static">
+    <StyledAppBar elevation={0} color="transparent" position="static">
       <Toolbar className={classes.appBar}>
         <Stack
           justifyContent="space-between"
@@ -100,7 +113,11 @@ export const FlowBuilderHeader = ({
             {!loading && (
               <>
                 {onClose && (
-                  <IconButton className={classes.iconButton} onClick={onClose}>
+                  <IconButton
+                    className={classes.iconButton}
+                    onClick={onClose}
+                    size="large"
+                  >
                     <CloseSharp />
                   </IconButton>
                 )}
@@ -124,7 +141,7 @@ export const FlowBuilderHeader = ({
                     height={30}
                   >
                     <Tooltip title={<TooltipText>Sort items</TooltipText>}>
-                      <IconButton onClick={handleSort}>
+                      <IconButton onClick={handleSort} size="large">
                         <SortSharp />
                       </IconButton>
                     </Tooltip>
@@ -187,6 +204,6 @@ export const FlowBuilderHeader = ({
           </Stack>
         </Stack>
       </Toolbar>
-    </AppBar>
+    </StyledAppBar>
   );
 };

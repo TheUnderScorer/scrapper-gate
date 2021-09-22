@@ -2,10 +2,10 @@ import { wait } from '@scrapper-gate/shared/common';
 import { logger } from '@scrapper-gate/shared/logger/console';
 import { apiRoutes } from '@scrapper-gate/shared/routing';
 import fs from 'fs';
+import { request } from 'http';
 import path from 'path';
 import { chromium } from 'playwright';
 import { URL } from 'url';
-import fetch from 'node-fetch';
 
 const extensionPath = path.join(
   __dirname,
@@ -23,11 +23,15 @@ async function apiHealthCheck() {
 
   url.pathname = apiRoutes.health;
 
-  const response = await fetch(url.toString());
+  return new Promise<void>((resolve, reject) => {
+    request(url, (res) => {
+      if (res.statusCode !== 200) {
+        reject(new Error('Unable to connect to API.'));
+      }
 
-  if (!response.ok) {
-    throw new Error('API health check failed');
-  }
+      resolve();
+    }).end();
+  });
 }
 
 beforeAll(async () => {

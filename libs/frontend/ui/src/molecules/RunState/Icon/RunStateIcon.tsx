@@ -1,5 +1,5 @@
-import { CircularProgress, Tooltip } from '@material-ui/core';
-import { Check, Warning } from '@material-ui/icons';
+import { CircularProgress, Tooltip } from '@mui/material';
+import { Check, Warning } from '@mui/icons-material';
 import { isRunning } from '@scrapper-gate/shared/run-states';
 import { RunState } from '@scrapper-gate/shared/schema';
 import { useMemo } from 'react';
@@ -20,6 +20,7 @@ export const RunStateIcon = ({
   runMutationLoading,
   className,
   showTooltip,
+  sx,
 }: RunStateIconProps) => {
   const icon = useMemo(() => {
     const running = isRunning(state);
@@ -44,7 +45,7 @@ export const RunStateIcon = ({
   }
 
   return (
-    <Tooltip title={showTooltip && state ? titleStateMap[state] : ''}>
+    <Tooltip sx={sx} title={showTooltip && state ? titleStateMap[state] : ''}>
       <span className={className}>{icon}</span>
     </Tooltip>
   );

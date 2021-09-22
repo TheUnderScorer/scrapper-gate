@@ -6,14 +6,15 @@ import {
   ListItemText,
   ListSubheader,
   Tooltip,
-} from '@material-ui/core';
-import { Remove } from '@material-ui/icons';
+} from '@mui/material';
+import { Remove } from '@mui/icons-material';
+import { ThemedSxProps } from '@scrapper-gate/frontend/theme';
 import { getSelectorWithElementsAggregate } from '@scrapper-gate/shared/common';
 import { Selector } from '@scrapper-gate/shared/schema';
 import classNames from 'classnames';
 import React, { useMemo } from 'react';
 
-export interface SelectorsListProps {
+export interface SelectorsListProps extends ThemedSxProps {
   value: Selector[];
   onDelete?: (index: number) => unknown;
   hideHeader?: boolean;
@@ -27,6 +28,7 @@ export const SelectorsList = ({
   onDelete,
   className,
   ignoredElementsContainer,
+  sx,
 }: SelectorsListProps) => {
   const selectorsAggr = useMemo(() => {
     if (!value.length) {
@@ -60,6 +62,7 @@ export const SelectorsList = ({
 
   return (
     <List
+      sx={sx}
       className={classNames('selectors-list', className)}
       subheader={
         hideHeader ? undefined : (
@@ -86,6 +89,7 @@ export const SelectorsList = ({
                     onDelete(index);
                   }
                 }}
+                size="large"
               >
                 <Remove />
               </IconButton>

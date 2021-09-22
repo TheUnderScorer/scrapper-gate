@@ -4,14 +4,15 @@ import {
   ListItemText,
   ListSubheader,
   Stack,
-} from '@material-ui/core';
+} from '@mui/material';
+import { ThemedSxProps } from '@scrapper-gate/frontend/theme';
 import { getDisplayValue } from '@scrapper-gate/shared/common';
 import { Variable, VariableType } from '@scrapper-gate/shared/schema';
 import classNames from 'classnames';
 import React from 'react';
 import { VariableIcon } from '../VariableIcon/VariableIcon';
 
-export interface VariableDetailsProps {
+export interface VariableDetailsProps extends ThemedSxProps {
   variable: Variable;
   className?: string;
   hideTitle?: boolean;
@@ -21,6 +22,7 @@ export const VariableDetails = ({
   variable,
   className,
   hideTitle,
+  sx,
 }: VariableDetailsProps) => {
   const isDate = variable.type === VariableType.Date;
 
@@ -29,6 +31,7 @@ export const VariableDetails = ({
       disablePadding
       dense
       className={classNames(className, 'variable-details')}
+      sx={sx}
       subheader={
         hideTitle ? undefined : (
           <ListSubheader disableGutters>

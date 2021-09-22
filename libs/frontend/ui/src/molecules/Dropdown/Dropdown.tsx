@@ -1,17 +1,12 @@
+import { MoreVertSharp } from '@mui/icons-material';
+import { IconButton, IconButtonProps, Menu, MenuProps } from '@mui/material';
 import React, {
   MouseEventHandler,
   ReactNode,
   useCallback,
   useState,
 } from 'react';
-import {
-  IconButton,
-  IconButtonProps,
-  Menu,
-  MenuProps,
-} from '@material-ui/core';
-import { MoreVertSharp } from '@material-ui/icons';
-import { MenuItemProperties as MenuItemType } from '@scrapper-gate/frontend/common';
+import { MenuItemProperties as MenuItemType } from '../../types/menuItemProperties';
 import { GenericMenuItem } from '../GenericMenuItem/GenericMenuItem';
 
 export interface DropdownActivatorBag {
@@ -46,7 +41,7 @@ export const Dropdown = ({
       {activator ? (
         activator({ onClick: handleClick })
       ) : (
-        <IconButton onClick={handleClick} {...iconButtonProps}>
+        <IconButton onClick={handleClick} {...iconButtonProps} size="large">
           <MoreVertSharp />
         </IconButton>
       )}

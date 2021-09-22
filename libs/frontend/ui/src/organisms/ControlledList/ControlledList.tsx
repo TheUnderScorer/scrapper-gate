@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { DocumentNode, useQuery } from '@apollo/client';
 import {
+  Alert,
   CircularProgress,
   List,
   Pagination as PaginationComponent,
   Typography,
-} from '@material-ui/core';
-import { Alert } from '@material-ui/lab';
-import { makeStyles } from '@material-ui/styles';
+} from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { FetchPolicyProps } from '@scrapper-gate/frontend/common';
 import { QueryResult } from '@scrapper-gate/shared/common';
 import {
@@ -32,15 +32,14 @@ import { Layout } from '../../molecules/Layout/Layout';
 import { useInfiniteScrollPagination } from './useInfiniteScrollPagination';
 import { useNormalPagination } from './useNormalPagination';
 
-export interface RenderItemParams<
-  Entity extends Pick<BaseEntity, 'id'> = BaseEntity
-> {
-  item: Entity;
-  style: unknown;
-}
+const PREFIX = 'ControlledList';
 
-const useStyles = makeStyles(() => ({
-  list: {
+const classes = {
+  list: `${PREFIX}-list`,
+};
+
+const StyledCentered = styled(Centered)(() => ({
+  [`& .${classes.list}`]: {
     width: '100%',
     height: '100%',
     overflow: 'hidden',
@@ -48,6 +47,13 @@ const useStyles = makeStyles(() => ({
     overflowX: 'hidden !important' as 'hidden',
   },
 }));
+
+export interface RenderItemParams<
+  Entity extends Pick<BaseEntity, 'id'> = BaseEntity
+> {
+  item: Entity;
+  style: unknown;
+}
 
 export interface ControlledListProps<
   Entity extends Pick<BaseEntity, 'id'> = BaseEntity,
@@ -96,8 +102,6 @@ export const ControlledList = <
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
 
-  const classes = useStyles();
-
   const [didInitialFetch, setDidInitialFetch] = useState(false);
   const [pagination, setPagination] = useState<Pagination>(defaultPagination);
   const [order] = useState<Order | undefined>(defaultOrder);
@@ -143,7 +147,7 @@ export const ControlledList = <
         {items.map((item) => renderItem({ item, style: {} }))}
       </List>
     );
-  }, [className, classes.list, component, id, items, renderItem]);
+  }, [className, component, id, items, renderItem]);
 
   useEffect(() => {
     if (onLoadingChange) {
@@ -176,9 +180,9 @@ export const ControlledList = <
   if (!loading && !result?.total) {
     return (
       (emptyContent as ReactElement) ?? (
-        <Centered>
+        <StyledCentered>
           <Typography>No results found.</Typography>
-        </Centered>
+        </StyledCentered>
       )
     );
   }

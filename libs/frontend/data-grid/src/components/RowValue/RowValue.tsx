@@ -1,4 +1,4 @@
-import { Tooltip, Typography } from '@material-ui/core';
+import { Tooltip, Typography } from '@mui/material';
 import { GridCellParams } from '@material-ui/data-grid';
 import { getDisplayValue } from '@scrapper-gate/shared/common';
 import React, { useMemo } from 'react';

@@ -1,5 +1,5 @@
 import { PropsOf } from '@emotion/react';
-import { TextFieldProps } from '@material-ui/core';
+import { TextFieldProps } from '@mui/material';
 import { Ref } from 'react';
 import { Editor } from 'slate';
 import { Slate } from 'slate-react';

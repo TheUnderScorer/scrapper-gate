@@ -1,4 +1,4 @@
-import { Box, CircularProgress } from '@material-ui/core';
+import { Box, CircularProgress } from '@mui/material';
 import { AppType, useAppType } from '@scrapper-gate/frontend/common';
 import { useIsAuthorized } from '@scrapper-gate/frontend/domain/auth';
 import { Centered, Layout } from '@scrapper-gate/frontend/ui';

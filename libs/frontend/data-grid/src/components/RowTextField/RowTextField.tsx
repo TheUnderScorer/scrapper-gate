@@ -1,4 +1,4 @@
-import { TextFieldProps } from '@material-ui/core';
+import { TextFieldProps } from '@mui/material';
 import { FormTextField } from '@scrapper-gate/frontend/form';
 import { EditRow } from '../EditRow/EditRow';
 import { EditRowProps } from '../EditRow/EditRow.types';

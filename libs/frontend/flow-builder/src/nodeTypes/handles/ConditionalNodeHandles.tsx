@@ -1,55 +1,50 @@
-import { makeStyles } from '@material-ui/styles';
+import { styled } from '@mui/material/styles';
 import { stopPropagation } from '@scrapper-gate/frontend/common';
 import React from 'react';
 import { Handle, Position } from 'react-flow-renderer';
 import { BaseNodeProperties, HandleBag } from '../../FlowBuilder.types';
 
-export type ConditionalNodeHandlesProps = HandleBag<BaseNodeProperties>;
+const StyledLeftHandle = styled(Handle)({
+  left: '-16px',
+});
 
-const useStyles = makeStyles(() => ({
-  left: {
-    left: '-16px',
-  },
-  top: {
-    top: '-16px',
-    marginLeft: '-5px',
-  },
-  bottom: {
-    bottom: '-16px',
-    marginLeft: '-5px',
-  },
-}));
+const StyledTopHandle = styled(Handle)({
+  top: '-16px',
+  marginLeft: '-5px',
+});
+
+const StyledBottomHandle = styled(Handle)({
+  bottom: '-16px',
+  marginLeft: '-5px',
+});
+
+export type ConditionalNodeHandlesProps = HandleBag<BaseNodeProperties>;
 
 export const ConditionalNodeHandles = ({
   isValidConnectionChecker,
 }: ConditionalNodeHandlesProps) => {
-  const classes = useStyles();
-
   return (
     <>
-      <Handle
+      <StyledLeftHandle
         onClick={stopPropagation}
         type="target"
         position={Position.Left}
         id={Position.Left}
         isValidConnection={isValidConnectionChecker}
-        className={classes.left}
       />
-      <Handle
+      <StyledTopHandle
         onClick={stopPropagation}
         type="source"
         position={Position.Top}
         id={Position.Top}
         isValidConnection={isValidConnectionChecker}
-        className={classes.top}
       />
-      <Handle
+      <StyledBottomHandle
         onClick={stopPropagation}
         type="source"
         position={Position.Bottom}
         isValidConnection={isValidConnectionChecker}
         id={Position.Bottom}
-        className={classes.bottom}
       />
     </>
   );

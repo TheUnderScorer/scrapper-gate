@@ -7,7 +7,7 @@ import React, {
   useState,
 } from 'react';
 import root from 'react-shadow';
-import { jssPreset, StylesProvider } from '@material-ui/styles';
+import { jssPreset, StylesProvider } from '@mui/styles';
 import { create } from 'jss';
 import { useContainerStore } from '@scrapper-gate/frontend/common';
 import createCache from '@emotion/cache';

@@ -1,4 +1,4 @@
-import { ListItemProps } from '@material-ui/core';
+import { ListItemProps } from '@mui/material';
 import { Scrapper } from '@scrapper-gate/shared/schema';
 
 export type ScrapperListItemScrapper = Pick<

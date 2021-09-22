@@ -1,3 +1,4 @@
+import { Add } from '@mui/icons-material';
 import {
   Box,
   Divider,
@@ -6,9 +7,8 @@ import {
   FormLabel,
   Stack,
   Typography,
-} from '@material-ui/core';
-import { Add } from '@material-ui/icons';
-import { makeStyles } from '@material-ui/styles';
+} from '@mui/material';
+import { styled } from '@mui/material/styles';
 import {
   FieldProps,
   useFieldArray,
@@ -27,6 +27,37 @@ import {
   ConditionalRulesGroupProps,
 } from './Group/ConditionalRulesGroup';
 
+const PREFIX = 'ConditionalRules';
+
+const classes = {
+  btn: `${PREFIX}-btn`,
+  fab: `${PREFIX}-fab`,
+  divider: `${PREFIX}-divider`,
+  dividerText: `${PREFIX}-dividerText`,
+};
+
+const StyledBox = styled(Box)(({ theme }) => ({
+  [`& .${classes.btn}`]: {
+    marginTop: theme.spacing(4),
+  },
+
+  [`& .${classes.fab}`]: {
+    boxShadow: 'none',
+  },
+
+  [`& .${classes.divider}`]: {
+    alignSelf: 'center',
+    margin: `${theme.spacing(1)} 0`,
+    height: '40px',
+  },
+
+  [`& .${classes.dividerText}`]: {
+    position: 'absolute',
+    top: '19px',
+    background: theme.palette.background.paper,
+  },
+}));
+
 export interface ConditionalRulesProps
   extends FieldProps<Omit<ConditionalRuleGroupInput, 'id'>[]>,
     Pick<ConditionalRulesGroupProps, 'fieldVariant'> {
@@ -35,25 +66,6 @@ export interface ConditionalRulesProps
   helperText?: string;
   label?: string;
 }
-
-const useStyles = makeStyles((theme) => ({
-  btn: {
-    marginTop: theme.spacing(4),
-  },
-  fab: {
-    boxShadow: 'none',
-  },
-  divider: {
-    alignSelf: 'center',
-    margin: `${theme.spacing(1)} 0`,
-    height: '40px',
-  },
-  dividerText: {
-    position: 'absolute',
-    top: '19px',
-    background: theme.palette.background.paper,
-  },
-}));
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const defaultValue: any[] = [];
@@ -66,8 +78,6 @@ export const ConditionalRules = ({
   helperText,
   ...rest
 }: ConditionalRulesProps) => {
-  const classes = useStyles();
-
   const [activeRole, setActiveRole] = useState<string | undefined>();
   const [activeGroupId, setActiveGroupId] = useState<string | undefined>();
 
@@ -96,7 +106,7 @@ export const ConditionalRules = ({
   }, [append]);
 
   return (
-    <Box>
+    <StyledBox>
       {label && <FormLabel error={hasError}>{label}</FormLabel>}
       {helperText && (
         <FormHelperText error={hasError}>{helperText}</FormHelperText>
@@ -151,6 +161,6 @@ export const ConditionalRules = ({
       {hasError && (
         <FormHelperText error={hasError}>{meta.error.message}</FormHelperText>
       )}
-    </Box>
+    </StyledBox>
   );
 };

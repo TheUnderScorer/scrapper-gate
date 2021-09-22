@@ -1,4 +1,4 @@
-import { makeStyles } from '@material-ui/styles';
+import { styled } from '@mui/material/styles';
 import React, { useCallback, useMemo } from 'react';
 import { Connection, NodeProps } from 'react-flow-renderer';
 import { BaseNodeProperties } from '../../FlowBuilder.types';
@@ -8,23 +8,19 @@ import { useFlowBuilderActiveNodeSelector } from '../../providers/FlowBuilderAct
 import { useFlowBuilderItemsSelector } from '../../providers/FlowBuilderItems.provider';
 import { useFlowBuilderContextSelector } from '../../providers/FlowBuilderProps.provider';
 
+const PREFIX = 'FlowBuilderNodeBoxIcon';
+
+const classes = {
+  icon: `${PREFIX}-icon`,
+};
+
 export interface FlowBuilderNodeBoxIconProps {
   node: NodeProps<BaseNodeProperties>;
 }
 
-const useStyles = makeStyles((theme) => ({
-  icon: {
-    '& svg': {
-      fontSize: theme.typography.h4.fontSize,
-    },
-  },
-}));
-
 export const FlowBuilderNodeBoxIcon = ({
   node,
 }: FlowBuilderNodeBoxIconProps) => {
-  const classes = useStyles();
-
   const {
     data: { icon, onClick },
   } = node;
@@ -39,6 +35,17 @@ export const FlowBuilderNodeBoxIcon = ({
   );
 
   const Component = metaData.boxWithIcon;
+  const StyledComponent = useMemo(
+    () =>
+      styled(Component)(({ theme }) => ({
+        [`& .${classes.icon}`]: {
+          '& svg': {
+            fontSize: theme.typography.h4.fontSize,
+          },
+        },
+      })),
+    [Component]
+  );
 
   const isValidConnectionChecker = useCallback(
     (connection: Connection) => {
@@ -71,7 +78,7 @@ export const FlowBuilderNodeBoxIcon = ({
   );
 
   return (
-    <Component
+    <StyledComponent
       width={defaultNodeSize}
       height={defaultNodeSize}
       iconClassName={classes.icon}

@@ -1,8 +1,6 @@
-import { ClickAwayListener, Menu, PopoverPosition } from '@material-ui/core';
-import { makeStyles } from '@material-ui/styles';
+import { ClickAwayListener, Menu, PopoverPosition } from '@mui/material';
 import { preventDefault } from '@scrapper-gate/frontend/common';
 import { Perhaps } from '@scrapper-gate/shared/common';
-import classNames from 'classnames';
 import React, {
   forwardRef,
   MouseEventHandler,
@@ -12,20 +10,8 @@ import React, {
 import { GenericMenuItem } from '../GenericMenuItem/GenericMenuItem';
 import { ContextMenuProps } from './ContextMenu.types';
 
-const useStyles = makeStyles({
-  menu: {
-    pointerEvents: 'none !important' as 'none',
-
-    '& > .MuiPaper-root': {
-      pointerEvents: 'all !important' as 'all',
-    },
-  },
-});
-
 export const ContextMenu = forwardRef<HTMLDivElement, ContextMenuProps>(
   ({ children, menuItems, onOpen, onClose, ...menuProps }, ref) => {
-    const classes = useStyles();
-
     const [mouseState, setMouseState] =
       useState<Perhaps<PopoverPosition>>(null);
 
@@ -60,7 +46,14 @@ export const ContextMenu = forwardRef<HTMLDivElement, ContextMenuProps>(
             <Menu
               ref={ref}
               onContextMenu={preventDefault}
-              className={classNames('context-menu', classes.menu)}
+              className="context-menu"
+              sx={{
+                pointerEvents: 'none !important' as 'none',
+
+                '& > .MuiPaper-root': {
+                  pointerEvents: 'all !important' as 'all',
+                },
+              }}
               hideBackdrop
               keepMounted={false}
               open={Boolean(mouseState)}

@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { toDisplayText } from '@scrapper-gate/shared/common';
-import { MenuItem } from '@material-ui/core';
+import { MenuItem } from '@mui/material';
 import { FormSelect, FormSelectProps } from '../FormSelect/FormSelect';
 
 export interface EnumSelectProps extends FormSelectProps {

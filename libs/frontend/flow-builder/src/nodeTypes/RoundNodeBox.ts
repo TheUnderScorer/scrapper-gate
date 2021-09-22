@@ -1,4 +1,4 @@
-import { styled } from '@material-ui/styles';
+import { styled } from '@mui/material/styles';
 import { ActionNodeBox } from './boxes/ActionNodeBox';
 
 export const RoundNodeBox = styled(ActionNodeBox)({

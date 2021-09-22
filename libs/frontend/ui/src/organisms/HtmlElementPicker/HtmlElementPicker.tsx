@@ -1,5 +1,5 @@
-import { Box, Button, Divider, Grid, Tooltip } from '@material-ui/core';
-import { Colorize } from '@material-ui/icons';
+import { Box, Button, Divider, Grid, Tooltip } from '@mui/material';
+import { Colorize } from '@mui/icons-material';
 import { addHighlight, removeHighlight } from '@scrapper-gate/frontend/common';
 import { makeUniqueSelector } from '@scrapper-gate/frontend/html-picker';
 import {
@@ -153,7 +153,6 @@ export const HtmlElementPicker = ({
       (item) => `${item.value}${item.type}`
     );
 
-    setTextFieldValue('');
     onChange(newValue);
   }, [
     textFieldValue,

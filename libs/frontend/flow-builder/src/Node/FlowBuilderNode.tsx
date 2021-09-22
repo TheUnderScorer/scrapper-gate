@@ -1,11 +1,12 @@
-import { Box, Stack, Tooltip, Typography } from '@material-ui/core';
-import { DeleteSharp, ErrorSharp } from '@material-ui/icons';
-import { makeStyles } from '@material-ui/styles';
+import { DeleteSharp, ErrorSharp } from '@mui/icons-material';
+import { Box, Stack, Tooltip, Typography } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { stopPropagation } from '@scrapper-gate/frontend/common';
 import {
+  Dropdown,
   MenuItemProperties,
-  stopPropagation,
-} from '@scrapper-gate/frontend/common';
-import { Dropdown, TooltipText } from '@scrapper-gate/frontend/ui';
+  TooltipText,
+} from '@scrapper-gate/frontend/ui';
 import classNames from 'classnames';
 import get from 'lodash.get';
 import React, { forwardRef, memo, useMemo } from 'react';
@@ -17,36 +18,48 @@ import { defaultNodeSize } from '../nodeTypes/constants';
 import { useFlowBuilderContextSelector } from '../providers/FlowBuilderProps.provider';
 import { FlowBuilderNodeBoxIcon } from './BoxIcon/FlowBuilderNodeBoxIcon';
 
-export type FlowBuilderNodeProps = NodeProps<BaseNodeProperties>;
+const PREFIX = 'FlowBuilderNode';
 
-const useStyles = makeStyles((theme) => ({
-  dropdownIcon: {
+const classes = {
+  dropdownIcon: `${PREFIX}-dropdownIcon`,
+  errorIcon: `${PREFIX}-errorIcon`,
+  text: `${PREFIX}-text`,
+  deleteStep: `${PREFIX}-deleteStep`,
+};
+
+const Root = styled('div')(({ theme }) => ({
+  [`& .${classes.dropdownIcon}`]: {
     position: 'absolute',
     top: '-35%',
     right: '-15%',
   },
-  errorIcon: {
+
+  [`& .${classes.errorIcon}`]: {
     position: 'absolute',
     top: '-35%',
     left: '-15%',
   },
-  text: {
+
+  [`& .${classes.text}`]: {
     backgroundColor: 'rgba(255,255,255,0.6)',
     padding: theme.spacing(0.3),
     marginTop: theme.spacing(1),
     textAlign: 'center',
   },
-  deleteStep: {
+
+  [`& .${classes.deleteStep}`]: {
     '&, & svg': {
       color: theme.palette.error.main,
     },
   },
 }));
 
+export type FlowBuilderNodeProps = NodeProps<BaseNodeProperties>;
+
 const BaseFlowBuilderNode = forwardRef<HTMLDivElement, FlowBuilderNodeProps>(
   (node, ref) => {
     const error = useNodeError(node.id);
-    const classes = useStyles();
+
     const removeItems = useRemoveItems();
 
     const readOnly = useFlowBuilderContextSelector((ctx) => ctx.readOnly);
@@ -83,10 +96,10 @@ const BaseFlowBuilderNode = forwardRef<HTMLDivElement, FlowBuilderNodeProps>(
           onClick: () => removeItems([node]),
         },
       ];
-    }, [classes.deleteStep, dropdownMenu, node, readOnly, removeItems]);
+    }, [dropdownMenu, node, readOnly, removeItems]);
 
     return (
-      <div
+      <Root
         id={`node-${node.id}`}
         onContextMenu={stopPropagation}
         ref={ref}
@@ -132,7 +145,7 @@ const BaseFlowBuilderNode = forwardRef<HTMLDivElement, FlowBuilderNodeProps>(
             )}
           </Stack>
         </Box>
-      </div>
+      </Root>
     );
   }
 );
