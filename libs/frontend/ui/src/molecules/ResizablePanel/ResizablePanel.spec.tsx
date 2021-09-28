@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import '@scrapper-gate/frontend/theme';
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
-import { act, render } from '@testing-library/react';
+import { act, render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ResizablePanel } from './ResizablePanel';
 
@@ -32,7 +32,8 @@ describe('<ResizablePanel />', () => {
     });
 
     const content = cmp.container.querySelector('.resizable-panel-content');
-    expect(content!.textContent).toEqual('');
+
+    await waitFor(() => expect(content!.textContent).toEqual(''));
 
     act(() => {
       userEvent.click(btn!);

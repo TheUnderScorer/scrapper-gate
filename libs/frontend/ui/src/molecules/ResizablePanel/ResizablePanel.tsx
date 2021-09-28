@@ -1,18 +1,20 @@
 import { ChevronLeft } from '@mui/icons-material';
 import { Fab, Paper, Tooltip } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { makeUseMemoryOpenState } from '@scrapper-gate/frontend/common';
 import { useKeyboardShortcuts } from '@scrapper-gate/frontend/keyboard-shortcuts';
 import classNames from 'classnames';
 import { Resizable } from 're-resizable';
 import {
   forwardRef,
   MutableRefObject,
+  useCallback,
   useEffect,
   useRef,
   useState,
 } from 'react';
 import { useHotkeys } from 'react-hotkeys-hook';
-import { usePrevious, useToggle } from 'react-use';
+import { usePrevious } from 'react-use';
 import { TextWithKeyHint } from '../TextWithKeyHint/TextWithKeyHint';
 import { ResizablePanelProps } from './ResizablePanel.types';
 
@@ -49,11 +51,15 @@ export const ResizablePanel = forwardRef<HTMLDivElement, ResizablePanelProps>(
       disableKeyShortcut,
       initialWidth,
       hideArrow,
+      useOpenStateProvider = makeUseMemoryOpenState(true),
       ...props
     },
     ref
   ) => {
-    const [open, toggleOpen] = useToggle(true);
+    const { setOpen, open } = useOpenStateProvider();
+    const toggleOpen = useCallback(() => {
+      setOpen((prev) => !prev);
+    }, [setOpen]);
 
     const [isResize, setIsResize] = useState(false);
 
@@ -134,7 +140,7 @@ export const ResizablePanel = forwardRef<HTMLDivElement, ResizablePanelProps>(
             }
           >
             <Fab
-              onClick={() => toggleOpen()}
+              onClick={toggleOpen}
               size="small"
               sx={{
                 position: 'absolute',
