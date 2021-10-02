@@ -1,5 +1,9 @@
 import { Box, List, Skeleton, Stack, Typography } from '@mui/material';
-import { Selection } from '@scrapper-gate/frontend/common';
+import {
+  makeUseQueryParamOpenState,
+  Selection,
+} from '@scrapper-gate/frontend/common';
+import { flowBuilderSidebarQueryKey } from '../constants';
 import {
   Centered,
   FilterTextField,
@@ -13,6 +17,10 @@ import { useFlowBuilderContextSelector } from '../providers/FlowBuilderProps.pro
 import { useFlowBuilderSelection } from '../providers/FlowBuilderSelection.provider';
 import { FlowBuilderSidebarItem } from './Item/FlowBuilderSidebarItem';
 
+const useOpenStateProvider = makeUseQueryParamOpenState(
+  flowBuilderSidebarQueryKey
+);
+
 export const FlowBuilderSidebar = () => {
   const { selection } = useFlowBuilderSelection();
 
@@ -22,6 +30,7 @@ export const FlowBuilderSidebar = () => {
 
   return (
     <ResizablePanel
+      useOpenStateProvider={useOpenStateProvider}
       initialWidth="25%"
       enable={{
         right: true,
