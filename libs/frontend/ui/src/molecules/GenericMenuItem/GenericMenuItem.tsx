@@ -18,7 +18,7 @@ export const GenericMenuItem = forwardRef<HTMLLIElement, MenuItemProperties>(
         <ListSubheader
           sx={{
             lineHeight: 'inherit',
-            marginBottom: (theme) => theme.spacing(0.3),
+            marginBottom: (theme) => theme.spacing(1),
             ...sx,
           }}
         >

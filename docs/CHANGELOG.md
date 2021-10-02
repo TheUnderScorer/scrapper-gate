@@ -1,3 +1,10 @@
+# [1.0.0-test.8](https://github.com/TheUnderScorer/scrapper-gate/compare/v1.0.0-test.7...v1.0.0-test.8) (2021-09-28)
+
+
+### Features
+
+* **ui:** Persist open state of resizable panel ([1d44f11](https://github.com/TheUnderScorer/scrapper-gate/commit/1d44f115ed2fa05875a8b3875b5dde98f34f4cdc))
+
 # [1.0.0-test.7](https://github.com/TheUnderScorer/scrapper-gate/compare/v1.0.0-test.6...v1.0.0-test.7) (2021-09-22)
 
 
