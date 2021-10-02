@@ -1,23 +1,21 @@
-import { useLocation } from 'react-router';
 import { useMemo } from 'react';
-import { useMessageSender } from '../../browser/hooks/useMessageSender/useMessageSender';
+import { useLocation } from 'react-router';
+import { useDebounce } from 'react-use';
 import { MessageTypes } from '../../browser/communication/messageResult.types';
+import { useMessageSender } from '../../browser/hooks/useMessageSender/useMessageSender';
 import { Target } from '../../browser/hooks/useMessageSender/useMessageSender.types';
 import { useOnMessageListener } from '../../browser/hooks/useOnMessageListener/useOnMessageListener';
-import { useDebounce } from 'react-use';
 
 /**
  * Sends message every time content route changes, in order to keep track of it.
  * Thanks to it, if user refreshes page we can restore content state.
  * */
 export const useContentRouteStorage = () => {
-  const [
-    send,
-    { loading },
-  ] = useMessageSender<MessageTypes.ContentRouteChanged>({
-    type: MessageTypes.ContentRouteChanged,
-    target: Target.background,
-  });
+  const [send, { loading }] =
+    useMessageSender<MessageTypes.ContentRouteChanged>({
+      type: MessageTypes.ContentRouteChanged,
+      target: Target.background,
+    });
 
   const location = useLocation();
 
@@ -34,7 +32,7 @@ export const useContentRouteStorage = () => {
     () => {
       send(route).catch(console.error);
     },
-    1000,
+    250,
     [route, send]
   );
 

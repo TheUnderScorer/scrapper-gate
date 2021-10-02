@@ -223,5 +223,9 @@ export const scrapperSchema = gql`
       @auth
     getMyScrapper(id: ID!): Scrapper! @auth
     getMyScrapperRun(id: ID!): ScrapperRun @auth
+    getMyScrapperRuns(
+      pagination: Pagination
+      order: Order
+    ): ScrapperRunQueryResult!
   }
 `;

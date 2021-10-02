@@ -1,5 +1,5 @@
-import { browserExtensionRoutes } from './browserExtensionRoutes';
-import { extractScrapperIdFromRoute } from './extractScrapperIdFromRoute';
+import { browserExtensionRoutes } from '../browserExtensionRoutes';
+import { extractScrapperIdFromPathname } from './extractScrapperIdFromPathname';
 
 describe('Extract scrapper id from route', () => {
   it('should extract scrapper id', () => {
@@ -8,6 +8,6 @@ describe('Extract scrapper id from route', () => {
       drawerOpen: true,
     });
 
-    expect(extractScrapperIdFromRoute(route)).toEqual('#id');
+    expect(extractScrapperIdFromPathname(route)).toEqual('#id');
   });
 });

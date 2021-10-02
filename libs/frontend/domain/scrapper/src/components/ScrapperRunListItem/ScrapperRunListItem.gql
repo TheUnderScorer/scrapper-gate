@@ -1,0 +1,15 @@
+fragment ScrapperRunListItem on ScrapperRun {
+  id
+  createdAt
+  startedAt
+  endedAt
+  index
+  scrapper {
+    id
+    name
+    type
+  }
+  name
+  state
+  progress
+}

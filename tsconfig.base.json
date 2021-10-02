@@ -26,6 +26,7 @@
       "@scrapper-gate/backend/base-model": [
         "libs/backend/base-model/src/index.ts"
       ],
+      "@scrapper-gate/backend/common": ["libs/backend/common/src/index.ts"],
       "@scrapper-gate/backend/cqrs": ["libs/backend/cqrs/src/index.ts"],
       "@scrapper-gate/backend/crud": ["libs/backend/crud/src/index.ts"],
       "@scrapper-gate/backend/database": ["libs/backend/database/src/index.ts"],

@@ -52,13 +52,12 @@ export const PopupDrawer = () => {
       },
       {
         icon: <Assignment />,
-        id: 'scrapper_results',
-        content: 'Scrapper results',
+        id: 'scrapper_runs',
+        content: 'Scrapper runs',
         selected: location.pathname.includes(
-          browserExtensionRoutes.popup.scrapperResults
+          browserExtensionRoutes.popup.scrapperRuns
         ),
-        onClick: () =>
-          history.push(browserExtensionRoutes.popup.scrapperResults),
+        onClick: () => history.push(browserExtensionRoutes.popup.scrapperRuns),
       },
       {
         type: 'divider',

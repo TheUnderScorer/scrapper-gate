@@ -117,7 +117,7 @@
     "react-truncate-markup": "^5.1.0",
     "react-use": "^17.2.4",
     "regenerator-runtime": "0.13.7",
-    "remeda": "^0.0.27",
+    "remeda": "^0.0.30",
     "scheduler": "^0.20.2",
     "slate": "^0.65.3",
     "slate-react": "^0.65.3",

@@ -3,8 +3,7 @@ import {
   GraphQLScalarType,
   GraphQLScalarTypeConfig,
 } from 'graphql';
-import { ConditionalRuleValue, WhatValue } from './scalars';
-
+import { WhatValue, ConditionalRuleValue } from './scalars';
 export type Maybe<T> = T | undefined;
 export type Exact<T extends { [key: string]: unknown }> = {
   [K in keyof T]: T[K];
@@ -257,6 +256,7 @@ export type Query = {
   _?: Maybe<Scalars['Boolean']>;
   getMyScrapper: Scrapper;
   getMyScrapperRun?: Maybe<ScrapperRun>;
+  getMyScrapperRuns: ScrapperRunQueryResult;
   getMyScrappers: ScrapperQueryResult;
   isAutenthicated?: Maybe<IsAutenthicatedResponse>;
   me?: Maybe<User>;
@@ -268,6 +268,11 @@ export type QueryGetMyScrapperArgs = {
 
 export type QueryGetMyScrapperRunArgs = {
   id: Scalars['ID'];
+};
+
+export type QueryGetMyScrapperRunsArgs = {
+  pagination?: Maybe<Pagination>;
+  order?: Maybe<Order>;
 };
 
 export type QueryGetMyScrappersArgs = {
@@ -612,6 +617,17 @@ export type CreateUserMutation = {
 
 export type FileLinkFileFragment = Pick<File, 'id' | 'url' | 'name' | 'kind'>;
 
+export type MyScrapperRunsQueryVariables = Exact<{
+  pagination?: Maybe<Pagination>;
+  order?: Maybe<Order>;
+}>;
+
+export type MyScrapperRunsQuery = {
+  getMyScrapperRuns: Pick<ScrapperRunQueryResult, 'total'> & {
+    items?: Maybe<Array<ScrapperRunListItemFragment>>;
+  };
+};
+
 export type MyScrappersQueryVariables = Exact<{
   pagination?: Maybe<Pagination>;
   order?: Maybe<Order>;
@@ -619,9 +635,7 @@ export type MyScrappersQueryVariables = Exact<{
 
 export type MyScrappersQuery = {
   getMyScrappers: Pick<ScrapperQueryResult, 'total'> & {
-    items?: Maybe<
-      Array<Pick<Scrapper, 'id' | 'name' | 'isRunning' | 'createdAt'>>
-    >;
+    items?: Maybe<Array<ScrapperListItemFragment>>;
   };
 };
 
@@ -725,6 +739,13 @@ export type ScrapperBuilderStepFragment = Pick<
   >;
 };
 
+export type ScrapperListItemFragment = Pick<
+  Scrapper,
+  'id' | 'name' | 'isRunning' | 'createdAt' | 'type'
+> & {
+  lastRun?: Maybe<Pick<ScrapperRun, 'id' | 'state' | 'endedAt' | 'startedAt'>>;
+};
+
 export type GetMyScrapperRunQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -805,6 +826,18 @@ export type GetMyScrapperRunStateQuery = {
     }
   >;
 };
+
+export type ScrapperRunListItemFragment = Pick<
+  ScrapperRun,
+  | 'id'
+  | 'createdAt'
+  | 'startedAt'
+  | 'endedAt'
+  | 'index'
+  | 'name'
+  | 'state'
+  | 'progress'
+> & { scrapper?: Maybe<Pick<Scrapper, 'id' | 'name' | 'type'>> };
 
 export type CreateScrapperMutationVariables = Exact<{
   input: CreateScrapperInput;
@@ -1432,6 +1465,12 @@ export type QueryResolvers<
     ParentType,
     ContextType,
     RequireFields<QueryGetMyScrapperRunArgs, 'id'>
+  >;
+  getMyScrapperRuns?: Resolver<
+    ResolversTypes['ScrapperRunQueryResult'],
+    ParentType,
+    ContextType,
+    RequireFields<QueryGetMyScrapperRunsArgs, never>
   >;
   getMyScrappers?: Resolver<
     ResolversTypes['ScrapperQueryResult'],

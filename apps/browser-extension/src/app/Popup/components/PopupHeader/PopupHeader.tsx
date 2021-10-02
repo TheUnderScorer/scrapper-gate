@@ -45,6 +45,9 @@ export const PopupHeader = () => {
             <Route path={browserExtensionRoutes.popup.scrappers}>
               Scrappers
             </Route>
+            <Route path={browserExtensionRoutes.popup.scrapperRuns}>
+              Scrapper runs
+            </Route>
           </Switch>
         </Typography>
         <Switch>

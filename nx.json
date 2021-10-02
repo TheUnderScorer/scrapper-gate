@@ -38,6 +38,9 @@
     "backend-base-model": {
       "tags": []
     },
+    "backend-common": {
+      "tags": []
+    },
     "backend-cqrs": {
       "tags": []
     },

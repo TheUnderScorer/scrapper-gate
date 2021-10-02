@@ -21,4 +21,6 @@ export interface RunStateProps extends ReturnableRoute {
   runId?: string;
   onRunUrlClick?: MouseEventHandler;
   showIcon?: boolean;
+  showMessageAndIcon?: boolean;
+  showMessage?: boolean;
 }

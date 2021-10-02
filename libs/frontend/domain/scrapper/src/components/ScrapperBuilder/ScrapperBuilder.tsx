@@ -1,5 +1,4 @@
-import { PlayArrow } from '@mui/icons-material';
-import { IconButton, Stack } from '@mui/material';
+import { IconButton, Stack, useTheme } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useIsUsingElementPicker } from '@scrapper-gate/frontend/common';
 import {
@@ -92,6 +91,8 @@ export const ScrapperBuilder = ({
   runUrlCreator,
   ...rest
 }: ScrapperBuilderProps) => {
+  const theme = useTheme();
+
   const snackbarOnError = useSnackbarOnError();
   const snackbarOnSuccess = useSnackbarOnSuccess();
 
@@ -263,7 +264,7 @@ export const ScrapperBuilder = ({
               }}
               additionalActions={
                 <IconButton onClick={() => runScrapperDialog()} size="large">
-                  <PlayArrow />
+                  {theme.icons.run}
                 </IconButton>
               }
               title={

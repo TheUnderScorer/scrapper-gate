@@ -9,7 +9,10 @@ import React, { forwardRef } from 'react';
 import { MenuItemProperties } from '../../types/menuItemProperties';
 
 export const GenericMenuItem = forwardRef<HTMLLIElement, MenuItemProperties>(
-  ({ onClick, icon, className, content, sx, type, id }, ref) => {
+  (props, ref) => {
+    const { onClick, icon, className, content, sx, type, id, color, disabled } =
+      props;
+
     if (type === 'subHeader') {
       return (
         <ListSubheader
@@ -27,6 +30,7 @@ export const GenericMenuItem = forwardRef<HTMLLIElement, MenuItemProperties>(
     if (type === 'divider') {
       return (
         <ListItem
+          color={color}
           disableGutters
           sx={{
             padding: 0,
@@ -38,11 +42,17 @@ export const GenericMenuItem = forwardRef<HTMLLIElement, MenuItemProperties>(
     }
 
     if (type === 'input') {
-      return <ListItem sx={sx}>{content}</ListItem>;
+      return (
+        <ListItem disabled={disabled} color={color} sx={sx}>
+          {content}
+        </ListItem>
+      );
     }
 
     return (
       <MenuItem
+        disabled={disabled}
+        color={color}
         ref={ref}
         id={id}
         onClick={onClick}

@@ -47,7 +47,7 @@ export const createUser = async () => {
 
   const user = await global.container
     .resolve<UserRepository>('userRepository')
-    .findOne(result.data.createUser.user.id);
+    .findOneOrFail(result.data.createUser.user.id);
 
   return {
     tokens: result.data.createUser.tokens as Required<AuthTokens>,

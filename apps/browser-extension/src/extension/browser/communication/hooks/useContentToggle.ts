@@ -7,9 +7,9 @@ import {
 } from '../../hooks/useMessageSender/useMessageSender.types';
 import { useTokensStore } from '@scrapper-gate/frontend/domain/auth';
 
-type Callback = (
-  payload: Omit<ContentToggleHookPayload, 'tokens'>
-) => Promise<void>;
+export type ToggleContentParams = Omit<ContentToggleHookPayload, 'tokens'>;
+
+type Callback = (payload: ToggleContentParams) => Promise<void>;
 
 /**
  * Hook for handling message that toggles contentScript
@@ -22,7 +22,7 @@ export const useContentToggle = (): [Callback, MessageSenderState] => {
   });
 
   const sendMessage = useCallback(
-    async (payload: Omit<ContentToggleHookPayload, 'tokens'>) => {
+    async (payload: ToggleContentParams) => {
       if (!tokensVal) {
         throw new TypeError('No tokens found, unable to open content overlay.');
       }
