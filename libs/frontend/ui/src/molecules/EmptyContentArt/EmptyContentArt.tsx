@@ -1,8 +1,10 @@
 import { Fab } from '@mui/material';
-import { Centered, Image, InformationBox } from '@scrapper-gate/frontend/ui';
 import { useAsset } from '../../assets/useAsset';
 import React from 'react';
 import { EmptyContentArtProps } from './EmptyContentArt.types';
+import { Centered } from '../../atoms/Centered/Centered';
+import { InformationBox } from '../InformationBox/InformationBox';
+import { Image } from '../../atoms/Image/Image';
 
 export const EmptyContentArt = ({
   onCreate,

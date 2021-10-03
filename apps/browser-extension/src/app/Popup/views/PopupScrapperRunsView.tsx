@@ -1,8 +1,8 @@
 import { MyScrapperRunsList } from '@scrapper-gate/frontend/domain/scrapper';
+import { EmptyContentArt } from '@scrapper-gate/frontend/ui';
 import { browserExtensionRoutes } from '@scrapper-gate/shared/routing';
 import { ScrapperRunListItemFragment } from '@scrapper-gate/shared/schema';
 import { useHistory } from 'react-router-dom';
-import { EmptyContentArt } from '../../../../../../libs/frontend/ui/src/molecules/EmptyContentArt/EmptyContentArt';
 import { useActiveScrapperRunIdInContent } from '../hooks/useActiveScrapperRunIdInContent';
 import { useContentEntityToggle } from '../hooks/useContentEntityToggle';
 

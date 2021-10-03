@@ -1,9 +1,9 @@
 import { FetchPolicyProps } from '@scrapper-gate/frontend/common';
 import { MyScrappersList } from '@scrapper-gate/frontend/domain/scrapper';
+import { EmptyContentArt } from '@scrapper-gate/frontend/ui';
 import { browserExtensionRoutes } from '@scrapper-gate/shared/routing';
 import { ScrapperListItemFragment } from '@scrapper-gate/shared/schema';
 import React from 'react';
-import { EmptyContentArt } from '../../../../../../libs/frontend/ui/src/molecules/EmptyContentArt/EmptyContentArt';
 import { useActiveScrapperIdInContent } from '../hooks/useActiveScrapperIdInContent';
 import { useContentEntityToggle } from '../hooks/useContentEntityToggle';
 import { useCreateScrapperExtension } from '../hooks/useCreateScrapperExtension';

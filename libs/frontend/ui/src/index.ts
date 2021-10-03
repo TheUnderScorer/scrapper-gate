@@ -45,3 +45,5 @@ export * from './molecules/Skeleton/ListItem/SkeletonListItem';
 export * from './molecules/FormStateIcon/FormStateIcon';
 export * from './types/menuItemProperties';
 export * from './organisms/Controlled';
+export * from './molecules/EmptyContentArt/EmptyContentArt';
+export * from './molecules/EmptyContentArt/EmptyContentArt.types';
