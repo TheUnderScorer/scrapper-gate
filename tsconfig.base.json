@@ -152,5 +152,5 @@
     }
   },
   "exclude": ["node_modules", "tmp"],
-  "files": ["node_modules/@nrwl/react/typings/image.d.ts"]
+  "files": ["./node_modules/@nrwl/react/typings/image.d.ts"]
 }
