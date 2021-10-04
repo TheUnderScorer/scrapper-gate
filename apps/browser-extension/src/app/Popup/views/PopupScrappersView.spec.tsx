@@ -36,7 +36,12 @@ const defaultMocks: MockedResponse[] = [
       data: {
         getMyScrappers: {
           total: 1,
-          items: [scrapper],
+          items: [
+            {
+              ...scrapper,
+              __typename: 'Scrapper',
+            },
+          ],
         },
       } as MyScrappersQuery,
     },
