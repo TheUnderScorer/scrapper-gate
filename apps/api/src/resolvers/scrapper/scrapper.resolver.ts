@@ -3,6 +3,7 @@ import {
   GetMyScrapperRunQuery,
   GetScrapperByUserQuery,
   GetScrapperLastRunQuery,
+  GetScrapperRunsByUserQuery,
   GetScrappersByUserQuery,
   SendScrapperToRunnerQueueCommand,
   UpdateScrapperCommand,
@@ -18,6 +19,15 @@ export const scrapperResolver = (): Resolvers<ServerContext> => ({
       ctx.unitOfWork.run(({ queriesBus }) =>
         queriesBus.query(
           new GetScrappersByUserQuery({
+            ...args,
+            userId: ctx.user!.id,
+          })
+        )
+      ),
+    getMyScrapperRuns: (_, args, ctx) =>
+      ctx.unitOfWork.run(({ queriesBus }) =>
+        queriesBus.query(
+          new GetScrapperRunsByUserQuery({
             ...args,
             userId: ctx.user!.id,
           })

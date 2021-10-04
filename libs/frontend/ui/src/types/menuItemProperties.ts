@@ -5,9 +5,11 @@ export interface MenuItemProperties extends ThemedSxProps {
   title?: ReactNode;
   content?: ReactNode;
   icon?: ReactNode;
+  disabled?: boolean;
   onClick?: MouseEventHandler;
   href?: string;
   id: string;
+  color?: string;
   className?: string;
   children?: MenuItemProperties[];
   selected?: boolean;

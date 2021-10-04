@@ -1,8 +1,8 @@
-import { Language, Web } from '@mui/icons-material';
 import { Selection } from '@scrapper-gate/frontend/common';
-import { ScrapperType } from '@scrapper-gate/shared/schema';
 import { RadioGroup } from '@scrapper-gate/frontend/ui';
+import { ScrapperType } from '@scrapper-gate/shared/schema';
 import React from 'react';
+import { scrapperTypeIconMap } from '../../dictionary/scrapperTypeIconMap';
 
 export interface ScrapperTypeSelectionProps {
   name: string;
@@ -11,7 +11,7 @@ export interface ScrapperTypeSelectionProps {
 const options: Selection[] = [
   {
     label: 'Simple',
-    icon: <Web fontSize="large" />,
+    icon: scrapperTypeIconMap[ScrapperType.Simple],
     description: `Site is accessed via simple HTTP request. Data is scrapped very quickly, but no user interactions are supported.
 
       Recommended for: blogs, articles.`,
@@ -19,7 +19,7 @@ const options: Selection[] = [
   },
   {
     label: 'Real browser',
-    icon: <Language fontSize="large" />,
+    icon: scrapperTypeIconMap[ScrapperType.RealBrowser],
     description: `Site is accessed via real browser. Data is scrapped more slowly, but all user interactions are supported.
 
       Recommended for: sites that require authorized access, web apps.`,

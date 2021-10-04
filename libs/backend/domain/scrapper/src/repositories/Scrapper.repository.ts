@@ -1,17 +1,13 @@
 import { applyQueryVariables } from '@scrapper-gate/backend/db-utils';
 import { ScrapperNotFoundError } from '@scrapper-gate/shared/errors';
 import { completedRunStates } from '@scrapper-gate/shared/run-states';
-import { BaseQueryVariables, RunState } from '@scrapper-gate/shared/schema';
+import { QueryVariablesWithUser, RunState } from '@scrapper-gate/shared/schema';
 import { Brackets, EntityRepository, Repository } from 'typeorm';
 import { ScrapperModel } from '../models/Scrapper.model';
 
-export interface GetScrappersByUserParams extends BaseQueryVariables {
-  userId: string;
-}
-
 @EntityRepository(ScrapperModel)
 export class ScrapperRepository extends Repository<ScrapperModel> {
-  async getByUser({ userId, ...rest }: GetScrappersByUserParams) {
+  async getByUser({ userId, ...rest }: QueryVariablesWithUser) {
     const queryBuilder = this.createQueryBuilder('scrapper');
 
     applyQueryVariables({

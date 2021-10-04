@@ -8,10 +8,7 @@ import {
   flowBuilderUtils,
   NodeContentProps,
 } from '@scrapper-gate/frontend/flow-builder';
-import {
-  useGetMyScrapperRunQuery,
-  useGetMyScrapperRunStateQuery,
-} from '@scrapper-gate/frontend/schema';
+import { useGetMyScrapperRunQuery } from '@scrapper-gate/frontend/schema';
 import { useSnackbarOnError } from '@scrapper-gate/frontend/snackbars';
 import {
   ButtonRouteLink,
@@ -79,26 +76,20 @@ export const ScrapperRun = ({
     [onQueryError, snackbarOnError]
   );
 
-  const { startPolling, stopPolling } = useGetMyScrapperRunStateQuery({
-    variables: {
-      id: runId,
-    },
-    onError: handleError,
-    fetchPolicy,
-  });
-
-  const { data, loading } = useGetMyScrapperRunQuery({
-    variables: {
-      id: runId,
-    },
-    onError: handleError,
-    fetchPolicy,
-    onCompleted: (data) => {
-      if (!isCompleted(data?.getMyScrapperRun?.state)) {
-        startPolling(scrapperRunPollMs);
-      }
-    },
-  });
+  const { data, loading, startPolling, stopPolling } = useGetMyScrapperRunQuery(
+    {
+      variables: {
+        id: runId,
+      },
+      onError: handleError,
+      fetchPolicy,
+      onCompleted: (data) => {
+        if (!isCompleted(data?.getMyScrapperRun?.state)) {
+          startPolling(scrapperRunPollMs);
+        }
+      },
+    }
+  );
 
   useEffect(() => {
     if (isCompleted(data?.getMyScrapperRun?.state)) {

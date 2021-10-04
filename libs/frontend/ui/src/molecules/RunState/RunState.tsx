@@ -8,6 +8,7 @@ import { ButtonRouteLink } from '../ButtonRouteLink/ButtonRouteLink';
 import { RunStateIcon } from './Icon/RunStateIcon';
 import { RunStateProps } from './RunState.types';
 
+// TODO Refactor this
 export const RunState = ({
   state,
   entity,
@@ -20,6 +21,8 @@ export const RunState = ({
   onRunUrlClick,
   returnUrl,
   showIcon,
+  showMessageAndIcon = true,
+  showMessage = true,
 }: RunStateProps) => {
   const running = isRunning(state);
 
@@ -98,17 +101,19 @@ export const RunState = ({
 
   return (
     <Stack className="run-state-container" spacing={1}>
-      <Stack alignItems="center" direction="row" spacing={1}>
-        {showIcon && (
-          <RunStateIcon
-            entity={entity}
-            state={state}
-            runMutationCalled={runMutationCalled}
-            runMutationLoading={runMutationLoading}
-          />
-        )}
-        <span>{message}</span>
-      </Stack>
+      {showMessageAndIcon && (
+        <Stack alignItems="center" direction="row" spacing={1}>
+          {showIcon && (
+            <RunStateIcon
+              entity={entity}
+              state={state}
+              runMutationCalled={runMutationCalled}
+              runMutationLoading={runMutationLoading}
+            />
+          )}
+          {showMessage && <span>{message}</span>}
+        </Stack>
+      )}
       {lastRunDate && !running && !runMutationCalled && (
         <Typography variant="subtitle2">
           Last run finished at <i>{format(lastRunDate, DateFormat.DateTime)}</i>

@@ -54,5 +54,6 @@ module.exports = {
     '<rootDir>/libs/frontend/block-editor',
     '<rootDir>/libs/shared/domain/scrapper/mocks',
     '<rootDir>/libs/shared/domain/user/mocks',
+    '<rootDir>/libs/backend/common',
   ],
 };

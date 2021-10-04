@@ -120,7 +120,7 @@ export const ScrapperRunNodeContent = ({
                 {<ListItemText primary="Value" secondary={values} />}
               </ListItem>
             )}
-            {runResult?.step?.key && (
+            {runResult?.step && (
               <ListItem disableGutters disablePadding>
                 <ListItemIcon>
                   <Assignment />
@@ -136,10 +136,10 @@ export const ScrapperRunNodeContent = ({
                           returnUrl,
                         })}
                       >
-                        {runResult.step.key}
+                        {runResult.step.key ?? 'View step'}
                       </Link>
                     ) : (
-                      runResult.step.key
+                      runResult.step.key ?? 'View step'
                     )
                   }
                 />

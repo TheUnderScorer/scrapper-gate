@@ -1,4 +1,5 @@
 import { Global, ThemeProvider as EmotionThemeProvider } from '@emotion/react';
+import { Delete, PlayArrow } from '@mui/icons-material';
 import { CssBaseline } from '@mui/material';
 import {
   createTheme,
@@ -154,6 +155,10 @@ export const ThemeProvider = ({
           empty: '😯',
           error: '😵',
           success: '😁',
+        },
+        icons: {
+          run: <PlayArrow />,
+          delete: <Delete />,
         },
       }),
     [container, htmlFontSize, isContent, rest.htmlFontSize]

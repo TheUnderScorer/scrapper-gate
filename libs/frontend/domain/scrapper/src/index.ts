@@ -9,4 +9,7 @@ export * from './components/RunScrapperDialog/useRunScraperDialog';
 export * from './shared/scrapperNodeSelection';
 export * from './components/ScrapperRun/ScrapperRun';
 export * from './components/ScrapperRun/ScrapperRun.types';
-export { ScrapperBuilderStep } from './shared/types';
+export * from './shared/types';
+export * from './components/MyScrapperRunsList/MyScrapperRunsList';
+export * from './components/ScrapperRunListItem/ScrapperRunListItem';
+export * from './components/ScrapperRunListItem/ScrapperRunListItem.types';

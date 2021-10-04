@@ -1,11 +1,9 @@
 import { Box, Paper } from '@mui/material';
 import { FormUndoProvider } from '@scrapper-gate/frontend/form';
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-
 import { ReactFlowProvider } from 'react-flow-renderer';
-import { useMount } from 'react-use';
 import { StringParam, useQueryParam } from 'use-query-params';
 import { FlowBuilderContent } from './Content/FlowBuilderContent';
 import {
@@ -59,11 +57,11 @@ export const FlowBuilder = <
     [propsNodeTypes]
   );
 
-  useMount(() => {
+  useEffect(() => {
     if (!activeTab) {
       setActiveTab(mainTab);
     }
-  });
+  }, [activeTab, setActiveTab]);
 
   return (
     <ReactFlowProvider>

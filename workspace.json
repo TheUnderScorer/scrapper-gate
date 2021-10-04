@@ -136,6 +136,28 @@
         }
       }
     },
+    "backend-common": {
+      "root": "libs/backend/common",
+      "sourceRoot": "libs/backend/common/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["libs/backend/common/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/backend/common"],
+          "options": {
+            "jestConfig": "libs/backend/common/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "backend-cqrs": {
       "root": "libs/backend/cqrs",
       "sourceRoot": "libs/backend/cqrs/src",

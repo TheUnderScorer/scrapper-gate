@@ -1,0 +1,8 @@
+query MyScrapperRuns($pagination: Pagination, $order: Order) {
+  getMyScrapperRuns(pagination: $pagination, order: $order) {
+    total
+    items {
+      ...ScrapperRunListItem
+    }
+  }
+}

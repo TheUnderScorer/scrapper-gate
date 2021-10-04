@@ -9,6 +9,7 @@ import { useMount } from 'react-use';
 import { PopupDrawer } from './components/PopupDrawer/PopupDrawer';
 import { PopupHeader } from './components/PopupHeader/PopupHeader';
 import { PopupAuthView } from './views/PopupAuthView';
+import { PopupScrapperRunsView } from './views/PopupScrapperRunsView';
 import { PopupScrappersView } from './views/PopupScrappersView';
 
 export const Popup = () => {
@@ -55,9 +56,14 @@ export const Popup = () => {
                 header={<PopupHeader />}
                 headerHeight={56}
                 body={
-                  <Route path={browserExtensionRoutes.popup.scrappers}>
-                    <PopupScrappersView />
-                  </Route>
+                  <>
+                    <Route path={browserExtensionRoutes.popup.scrappers}>
+                      <PopupScrappersView />
+                    </Route>
+                    <Route path={browserExtensionRoutes.popup.scrapperRuns}>
+                      <PopupScrapperRunsView />
+                    </Route>
+                  </>
                 }
               />
             </Box>

@@ -1,9 +1,34 @@
+import { applyQueryVariables } from '@scrapper-gate/backend/db-utils';
 import { ensureIdsOrder } from '@scrapper-gate/shared/common';
+import {
+  OrderDirection,
+  QueryVariablesWithUser,
+} from '@scrapper-gate/shared/schema';
 import { EntityRepository, Repository, SelectQueryBuilder } from 'typeorm';
 import { ScrapperRunModel } from '../models/ScrapperRun.model';
 
 @EntityRepository(ScrapperRunModel)
 export class ScrapperRunRepository extends Repository<ScrapperRunModel> {
+  async getByUser({ userId, ...rest }: QueryVariablesWithUser) {
+    const queryBuilder = this.createQueryBuilder('scrapperRun');
+
+    applyQueryVariables({
+      queryBuilder,
+      alias: 'scrapperRun',
+      ...rest,
+      order: rest.order ?? {
+        column: 'createdAt',
+        direction: OrderDirection.Desc,
+      },
+    });
+
+    return queryBuilder
+      .leftJoinAndSelect('scrapperRun.scrapper', 'scrapper')
+      .leftJoinAndSelect('scrapperRun.createdBy', 'createdBy')
+      .where('createdBy.id = :userId', { userId })
+      .getManyAndCount();
+  }
+
   async findLastForScrapper(
     scrapperId: string,
     queryBuilder?: SelectQueryBuilder<ScrapperRunModel>

@@ -2,6 +2,7 @@
 
 import { colors, Theme } from '@mui/material';
 import { Palette } from '@mui/material/styles';
+import { ReactNode } from 'react';
 
 interface FlowBuilderColors {
   action: string;
@@ -25,6 +26,11 @@ export interface BasePalette {
   gradients: Gradients;
 }
 
+export interface DomainIcons {
+  run: ReactNode;
+  delete: ReactNode;
+}
+
 export interface Emojis {
   empty: string;
   success: string;
@@ -34,15 +40,18 @@ export interface Emojis {
 export interface AppTheme extends Theme {
   palette: Palette & BasePalette & FlowBuilderColors;
   emojis: Emojis;
+  icons: DomainIcons;
 }
 
 declare module '@mui/material/styles' {
   interface ThemeOptions {
     emojis: Emojis;
+    icons: DomainIcons;
   }
 
   interface Theme {
     emojis: Emojis;
+    icons: DomainIcons;
   }
 }
 

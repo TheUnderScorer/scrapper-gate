@@ -1,7 +1,7 @@
-import * as Apollo from '@apollo/client';
-import { gql } from '@apollo/client';
 import * as Types from '@scrapper-gate/shared/schema';
 
+import { gql } from '@apollo/client';
+import * as Apollo from '@apollo/client';
 const defaultOptions = {};
 export const FileLinkFileFragmentDoc = gql`
   fragment FileLinkFile on File {
@@ -100,6 +100,38 @@ export const ScrapperBuilderScrapperFragmentDoc = gql`
     }
   }
   ${ScrapperBuilderStepFragmentDoc}
+`;
+export const ScrapperListItemFragmentDoc = gql`
+  fragment ScrapperListItem on Scrapper {
+    id
+    name
+    isRunning
+    createdAt
+    lastRun {
+      id
+      state
+      endedAt
+      startedAt
+    }
+    type
+  }
+`;
+export const ScrapperRunListItemFragmentDoc = gql`
+  fragment ScrapperRunListItem on ScrapperRun {
+    id
+    createdAt
+    startedAt
+    endedAt
+    index
+    scrapper {
+      id
+      name
+      type
+    }
+    name
+    state
+    progress
+  }
 `;
 export const GetScrapperForBuilderDocument = gql`
   query GetScrapperForBuilder($id: ID!) {
@@ -334,18 +366,79 @@ export type CreateUserMutationOptions = Apollo.BaseMutationOptions<
   Types.CreateUserMutation,
   Types.CreateUserMutationVariables
 >;
+export const MyScrapperRunsDocument = gql`
+  query MyScrapperRuns($pagination: Pagination, $order: Order) {
+    getMyScrapperRuns(pagination: $pagination, order: $order) {
+      total
+      items {
+        ...ScrapperRunListItem
+      }
+    }
+  }
+  ${ScrapperRunListItemFragmentDoc}
+`;
+
+/**
+ * __useMyScrapperRunsQuery__
+ *
+ * To run a query within a React component, call `useMyScrapperRunsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMyScrapperRunsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMyScrapperRunsQuery({
+ *   variables: {
+ *      pagination: // value for 'pagination'
+ *      order: // value for 'order'
+ *   },
+ * });
+ */
+export function useMyScrapperRunsQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    Types.MyScrapperRunsQuery,
+    Types.MyScrapperRunsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    Types.MyScrapperRunsQuery,
+    Types.MyScrapperRunsQueryVariables
+  >(MyScrapperRunsDocument, options);
+}
+export function useMyScrapperRunsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    Types.MyScrapperRunsQuery,
+    Types.MyScrapperRunsQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    Types.MyScrapperRunsQuery,
+    Types.MyScrapperRunsQueryVariables
+  >(MyScrapperRunsDocument, options);
+}
+export type MyScrapperRunsQueryHookResult = ReturnType<
+  typeof useMyScrapperRunsQuery
+>;
+export type MyScrapperRunsLazyQueryHookResult = ReturnType<
+  typeof useMyScrapperRunsLazyQuery
+>;
+export type MyScrapperRunsQueryResult = Apollo.QueryResult<
+  Types.MyScrapperRunsQuery,
+  Types.MyScrapperRunsQueryVariables
+>;
 export const MyScrappersDocument = gql`
   query MyScrappers($pagination: Pagination, $order: Order) {
     getMyScrappers(order: $order, pagination: $pagination) {
       total
       items {
-        id
-        name
-        isRunning
-        createdAt
+        ...ScrapperListItem
       }
     }
   }
+  ${ScrapperListItemFragmentDoc}
 `;
 
 /**

@@ -1,5 +1,8 @@
 import { ListItemProps } from '@mui/material';
-import { Scrapper } from '@scrapper-gate/shared/schema';
+import {
+  Scrapper,
+  ScrapperListItemFragment,
+} from '@scrapper-gate/shared/schema';
 
 export type ScrapperListItemScrapper = Pick<
   Scrapper,
@@ -7,6 +10,6 @@ export type ScrapperListItemScrapper = Pick<
 >;
 
 export interface ScrapperListItemProps extends Pick<ListItemProps, 'selected'> {
-  scrapper: ScrapperListItemScrapper;
-  onClick?: (scrapper: ScrapperListItemScrapper) => unknown;
+  scrapper: ScrapperListItemFragment;
+  onScrapperClick?: (scrapper: ScrapperListItemFragment) => unknown;
 }
