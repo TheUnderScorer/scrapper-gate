@@ -1,3 +1,10 @@
+# [1.0.0-test.9](https://github.com/TheUnderScorer/scrapper-gate/compare/v1.0.0-test.8...v1.0.0-test.9) (2021-10-04)
+
+
+### Features
+
+* **browser-extension:** Add scrapper results list view ([69bae04](https://github.com/TheUnderScorer/scrapper-gate/commit/69bae04fa51604ffa9de4d8009ee4ce03906a95d))
+
 # [1.0.0-test.8](https://github.com/TheUnderScorer/scrapper-gate/compare/v1.0.0-test.7...v1.0.0-test.8) (2021-09-28)
 
 
