@@ -6,6 +6,8 @@
 /dist
 /tmp
 /out-tsc
+/tools/**/*.js
+/tools/**/*.js.map
 
 # dependencies
 /node_modules
