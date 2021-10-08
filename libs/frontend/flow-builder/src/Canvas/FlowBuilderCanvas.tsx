@@ -130,11 +130,15 @@ export const FlowBuilderCanvas = () => {
 
   const handleLoad = useCallback(
     (instance: OnLoadParams) => {
-      instance.fitView();
+      if (flowInstance) {
+        return;
+      }
+
+      setTimeout(() => instance.fitView(), 100);
 
       setFlowInstance?.(instance);
     },
-    [setFlowInstance]
+    [setFlowInstance, flowInstance]
   );
 
   const [{ canDrop }, drop] = useDrop({

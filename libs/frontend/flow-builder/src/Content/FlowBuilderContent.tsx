@@ -1,4 +1,5 @@
 import { Stack } from '@mui/material';
+import { ThemedSxProps } from '@scrapper-gate/frontend/theme';
 import { FlowBuilderCanvas } from '../Canvas/FlowBuilderCanvas';
 import { FlowBuilderProps } from '../FlowBuilder.types';
 import { useNodesCreatorHandler } from '../hooks/useNodesCreatorHandler';
@@ -7,7 +8,10 @@ import { FlowBuilderNodeContent } from '../Node/Content/FlowBuilderNodeContent';
 import { useFlowBuilderContextSelector } from '../providers/FlowBuilderProps.provider';
 import { FlowBuilderSidebar } from '../Sidebar/FlowBuilderSidebar';
 
-export const FlowBuilderContent = (props: Pick<FlowBuilderProps, 'apiRef'>) => {
+export type FlowBuilderContentProps = Pick<FlowBuilderProps, 'apiRef'> &
+  ThemedSxProps;
+
+export const FlowBuilderContent = (props: FlowBuilderContentProps) => {
   const readOnly = useFlowBuilderContextSelector((ctx) => ctx.readOnly);
 
   // Called here in order to make sure that we have access to whole context
@@ -21,6 +25,7 @@ export const FlowBuilderContent = (props: Pick<FlowBuilderProps, 'apiRef'>) => {
       sx={{
         height: '100%',
         position: 'relative',
+        ...props.sx,
       }}
     >
       {!readOnly && <FlowBuilderSidebar />}
