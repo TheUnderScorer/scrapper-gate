@@ -1,8 +1,8 @@
-import { CircularProgress, Tooltip } from '@mui/material';
-import { Check, Warning } from '@mui/icons-material';
+import { Box, CircularProgress, Tooltip } from '@mui/material';
+import { Check, Pending, Warning } from '@mui/icons-material';
 import { isRunning } from '@scrapper-gate/shared/run-states';
 import { RunState } from '@scrapper-gate/shared/schema';
-import { useMemo } from 'react';
+import { ReactNode, useMemo } from 'react';
 import { RunStateIconProps } from './RunStateIcon.types';
 
 const titleStateMap: Record<RunState, string> = {
@@ -12,6 +12,13 @@ const titleStateMap: Record<RunState, string> = {
   [RunState.Failed]: 'This step has failed.',
   [RunState.Skipped]: 'This step was skipped.',
   [RunState.InProgress]: 'This step is currently running',
+};
+
+const stateIcons: {
+  [Key in RunState]?: ReactNode;
+} = {
+  [RunState.Skipped]: <Warning />,
+  [RunState.Pending]: <Pending />,
 };
 
 export const RunStateIcon = ({
@@ -33,8 +40,8 @@ export const RunStateIcon = ({
       return <Check />;
     }
 
-    if (state === RunState.Skipped) {
-      return <Warning />;
+    if (state && stateIcons[state]) {
+      return stateIcons[state];
     }
 
     return running ? <CircularProgress size={20} /> : null;
@@ -45,8 +52,10 @@ export const RunStateIcon = ({
   }
 
   return (
-    <Tooltip sx={sx} title={showTooltip && state ? titleStateMap[state] : ''}>
-      <span className={className}>{icon}</span>
+    <Tooltip title={showTooltip && state ? titleStateMap[state] : ''}>
+      <Box component="span" sx={sx} className={className}>
+        {icon}
+      </Box>
     </Tooltip>
   );
 };

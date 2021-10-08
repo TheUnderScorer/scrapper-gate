@@ -19,7 +19,7 @@ interface Options {
 
 type ResolvedOptions = Required<Options>;
 
-export default async function echo(options: Options) {
+export default async function build(options: Options) {
   logger.info('Starting ttsc build...');
 
   const resolvedOptions = resolveOptions(options);
@@ -82,9 +82,7 @@ export default async function echo(options: Options) {
     } catch {
       logger.error('Build failed :(');
 
-      return {
-        success: false,
-      };
+      return false;
     }
 
     logger.log('Api built!');
@@ -99,18 +97,20 @@ export default async function echo(options: Options) {
 
     logger.log('Created package.json file.');
 
-    return newPkg;
+    return true;
   }
 
+  let success = false;
+
   try {
-    await pipe(init, setupPackage, setupDependencies, build)();
+    success = await pipe(init, setupPackage, setupDependencies, build)();
   } finally {
     logger.log('Cleaning up...');
     await restoreTsConfig();
   }
 
   return {
-    success: true,
+    success,
   };
 }
 

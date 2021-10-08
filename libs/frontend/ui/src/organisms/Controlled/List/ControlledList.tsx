@@ -76,6 +76,10 @@ export const ControlledList = <
         id={id}
         component={component!}
         className={classNames(className, 'controlled-list')}
+        sx={{
+          height: '100%',
+          overflowY: 'auto',
+        }}
       >
         {items.map((item) => renderItem({ item, style: {} }))}
       </List>
