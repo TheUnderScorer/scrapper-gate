@@ -151,6 +151,5 @@
       ]
     }
   },
-  "exclude": ["node_modules", "tmp"],
-  "files": ["./node_modules/@nrwl/react/typings/image.d.ts"]
+  "exclude": ["node_modules", "tmp"]
 }

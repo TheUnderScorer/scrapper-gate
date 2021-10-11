@@ -1,4 +1,4 @@
-import { browser } from 'webextension-polyfill-ts';
+import browser from 'webextension-polyfill';
 import { StoredRoute } from '../browser/communication/messageResult.types';
 
 export const getContentRoute = async (

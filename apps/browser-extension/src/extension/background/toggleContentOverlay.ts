@@ -1,5 +1,5 @@
 import { getActiveTab } from '../browser/tabsQuery/getActiveTab';
-import { browser, Tabs } from 'webextension-polyfill-ts';
+import browser, { Tabs } from 'webextension-polyfill';
 import { uniq } from 'remeda';
 
 export const toggleContentOverlay = async (active: boolean, tab?: Tabs.Tab) => {

@@ -4,7 +4,7 @@ import {
   useCurrentUrl,
 } from '@scrapper-gate/frontend/common';
 import { useEffect } from 'react';
-import { browser } from 'webextension-polyfill-ts';
+import browser from 'webextension-polyfill';
 import { getActiveTab } from '../tabsQuery/getActiveTab';
 
 export const useCurrentUrlUpdater = () => {

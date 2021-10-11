@@ -11,9 +11,8 @@ COPY ./typings ./typings
 COPY ./tools ./tools
 
 RUN npm ci
-
 RUN npm run gql-codegen
-
+RUN npm run build:tools
 RUN npx nx run api:build
 
 FROM node:16-alpine

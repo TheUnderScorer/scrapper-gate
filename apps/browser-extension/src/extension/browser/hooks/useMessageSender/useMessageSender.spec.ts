@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import 'mockzilla-webextension';
 import { act, renderHook } from '@testing-library/react-hooks';
-import { useMessageSender } from './useMessageSender';
+import 'mockzilla-webextension';
 import { MessageTypes } from '../../communication/messageResult.types';
+import { useMessageSender } from './useMessageSender';
 import { Target } from './useMessageSender.types';
 
 describe('useMessageSender hook', () => {
@@ -14,7 +14,7 @@ describe('useMessageSender hook', () => {
         } as any)
     );
 
-    mockBrowser.tabs.query.mock(async (args) => [
+    mockBrowser.tabs.query.mock(async () => [
       {
         id: '#tab_id',
       } as any,

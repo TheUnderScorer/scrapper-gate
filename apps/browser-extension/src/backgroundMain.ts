@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { browser } from 'webextension-polyfill-ts';
+import browser from 'webextension-polyfill';
 import { handlers } from './extension/background/messageHandlers/handlers';
 import {
   Message,

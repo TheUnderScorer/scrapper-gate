@@ -26,17 +26,23 @@
       "sourceRoot": "apps/api/src",
       "projectType": "application",
       "targets": {
-        "echo": {
-          "executor": "./tools/executors/echo:echo",
-          "options": {
-            "textToEcho": "Hello world!"
-          }
-        },
         "build": {
-          "executor": "@nrwl/workspace:run-commands",
+          "executor": "./tools/executors/ttsc:build",
           "options": {
-            "parallel": false,
-            "command": "node apps/api/build.mjs"
+            "targetDirectory": "apps/api",
+            "appName": "scrapper-gate-api",
+            "tsConfigPath": "apps/api/tsconfig.app.json",
+            "depCheckIgnorePatterns": [
+              "libs/frontend/*",
+              "jest.*",
+              "package.*",
+              ".eslint*",
+              "serverless*",
+              "tests*",
+              "webpack*",
+              "apps/browser-extension*",
+              "apps/lambdas*"
+            ]
           }
         },
         "serve-docker": {

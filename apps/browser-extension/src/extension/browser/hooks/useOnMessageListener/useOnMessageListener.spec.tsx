@@ -1,3 +1,4 @@
+import 'mockzilla-webextension';
 import { renderHook } from '@testing-library/react-hooks';
 import { useOnMessageListener } from './useOnMessageListener';
 import {

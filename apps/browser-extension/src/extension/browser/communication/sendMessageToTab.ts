@@ -1,6 +1,6 @@
 import { NoActiveTabFoundError } from '@scrapper-gate/shared/errors';
 import { logger } from '@scrapper-gate/shared/logger/console';
-import { browser, Tabs } from 'webextension-polyfill-ts';
+import browser, { Tabs } from 'webextension-polyfill';
 import { isBrowserExtensionUrl } from '../../isBrowserExtensionUrl';
 import { getActiveTab } from '../tabsQuery/getActiveTab';
 import { createActiveTab } from './createActiveTab';

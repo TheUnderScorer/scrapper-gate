@@ -1,0 +1,9 @@
+{
+  "executors": {
+    "build": {
+      "implementation": "./build.impl",
+      "schema": "./schema.json",
+      "description": "Builds using ttsc."
+    }
+  }
+}

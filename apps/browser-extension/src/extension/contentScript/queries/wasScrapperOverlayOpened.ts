@@ -1,5 +1,5 @@
 import { getActiveTabFromBackground } from '../../browser/tabsQuery/getActiveTabFromBackground';
-import { browser } from 'webextension-polyfill-ts';
+import browser from 'webextension-polyfill';
 
 export const wasScrapperOverlayOpened = async () => {
   const activeTab = await getActiveTabFromBackground();

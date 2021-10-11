@@ -1,7 +1,7 @@
 import { Perhaps } from '@scrapper-gate/shared/common';
 import { logger } from '@scrapper-gate/shared/logger/console';
 import { useEffect, useState } from 'react';
-import { browser, Runtime } from 'webextension-polyfill-ts';
+import browser, { Runtime } from 'webextension-polyfill';
 import {
   Message,
   MessageResult,

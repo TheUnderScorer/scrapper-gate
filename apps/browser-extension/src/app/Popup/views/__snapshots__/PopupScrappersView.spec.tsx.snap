@@ -12,7 +12,7 @@ Object {
           class="MuiGrid-root MuiGrid-item layout-body css-h92ldy-MuiGrid-root"
         >
           <ul
-            class="MuiList-root MuiList-padding controlled-list css-h4y409-MuiList-root"
+            class="MuiList-root MuiList-padding controlled-list css-fnpe1r-MuiList-root"
             id="my_scrappers_list"
           >
             <li
@@ -201,7 +201,7 @@ Object {
         class="MuiGrid-root MuiGrid-item layout-body css-h92ldy-MuiGrid-root"
       >
         <ul
-          class="MuiList-root MuiList-padding controlled-list css-h4y409-MuiList-root"
+          class="MuiList-root MuiList-padding controlled-list css-fnpe1r-MuiList-root"
           id="my_scrappers_list"
         >
           <li

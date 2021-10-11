@@ -308,7 +308,7 @@ describe('<FlowBuilder />', () => {
     });
 
     expect(onAdd).toHaveBeenCalledTimes(1);
-    expect(onAdd.mock.calls[0][1].position.x).toEqual(49);
+    expect(onAdd.mock.calls[0][1].position.x).toEqual(48);
     expect(onAdd.mock.calls[0][0].label).toEqual('Open in browser');
   });
 

@@ -98,9 +98,13 @@ export const FlowBuilder = <
                           mainTabLabel={mainTabLabel}
                         />
                         <Box flex={1} overflow="hidden">
-                          {activeTab === mainTab && (
-                            <FlowBuilderContent apiRef={apiRef} />
-                          )}
+                          <FlowBuilderContent
+                            sx={{
+                              display:
+                                activeTab === mainTab ? undefined : 'none',
+                            }}
+                            apiRef={apiRef}
+                          />
                           {activeTab !== mainTab && tabContent}
                         </Box>
                       </Paper>

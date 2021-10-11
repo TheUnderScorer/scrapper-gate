@@ -36,7 +36,7 @@ jobs:
           node-version: 16.x
 
       - name: Install dependencies
-        run: npm ci --legacy-peer-deps
+        run: npm ci --legacy-peer-deps && npm run build:tools
 
       - name: Build
         run: npx nx build browser-extension --prod && npx nx build api
@@ -238,7 +238,7 @@ jobs:
         run: sudo docker-compose up -d
 
       - name: Install dependencies
-        run: npm ci --legacy-peer-deps && npm i ts-node -g
+        run: npm ci --legacy-peer-deps && npm i ts-node -g && npm run build:tools
 
       - name: Wait for localstack
         run: sudo AWS_S3_ENDPOINT=http://localhost:4566 node docker/localstack/waitForLocalStack.mjs

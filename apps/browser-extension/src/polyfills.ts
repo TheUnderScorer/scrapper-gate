@@ -6,7 +6,7 @@
  */
 import 'core-js/stable';
 import 'webextension-polyfill';
-import { browser } from 'webextension-polyfill-ts';
+import browser from 'webextension-polyfill';
 
 (window as any).browser = browser;
 (window as any).global = window;

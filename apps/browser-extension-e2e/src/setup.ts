@@ -80,7 +80,9 @@ beforeEach(async () => {
 
   await wait(2000);
 
-  global.browser = ctx;
+  // Typescript incorrectly assumes that this should be BrowserContext & typeof Browser
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  global.browser = ctx as any;
 
   ctx.on('page', (page) => {
     page.on('request', (request) => {
