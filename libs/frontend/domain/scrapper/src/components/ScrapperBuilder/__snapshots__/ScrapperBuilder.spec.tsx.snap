@@ -677,7 +677,7 @@ Object {
                     >
                       <div
                         class="react-flow__nodes"
-                        style="transform: translate(250px,250px) scale(2);"
+                        style="transform: translate(0px,0px) scale(1);"
                       >
                         <div
                           class="react-flow__node react-flow__node-Start selectable"
@@ -780,7 +780,7 @@ Object {
                           </marker>
                         </defs>
                         <g
-                          transform="translate(250,250) scale(2)"
+                          transform="translate(0,0) scale(1)"
                         />
                       </svg>
                       <div
@@ -1540,7 +1540,7 @@ Object {
                   >
                     <div
                       class="react-flow__nodes"
-                      style="transform: translate(250px,250px) scale(2);"
+                      style="transform: translate(0px,0px) scale(1);"
                     >
                       <div
                         class="react-flow__node react-flow__node-Start selectable"
@@ -1643,7 +1643,7 @@ Object {
                         </marker>
                       </defs>
                       <g
-                        transform="translate(250,250) scale(2)"
+                        transform="translate(0,0) scale(1)"
                       />
                     </svg>
                     <div

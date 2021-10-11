@@ -1,5 +1,5 @@
 import { StoredRoutes } from '../browser/communication/messageResult.types';
-import { browser } from 'webextension-polyfill-ts';
+import browser from 'webextension-polyfill';
 import { logger } from '@scrapper-gate/shared/logger/console';
 
 interface CleanupStoresForTabParams {

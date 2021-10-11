@@ -1,4 +1,4 @@
-import { Runtime } from 'webextension-polyfill-ts';
+import { Runtime } from 'webextension-polyfill';
 import { AuthTokens } from '@scrapper-gate/shared/schema';
 
 export enum MessageTypes {

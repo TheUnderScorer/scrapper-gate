@@ -1,4 +1,4 @@
-import { browser, Tabs } from 'webextension-polyfill-ts';
+import browser, { Tabs } from 'webextension-polyfill';
 import { StoredRoute } from '../browser/communication/messageResult.types';
 import { getActiveTab } from '../browser/tabsQuery/getActiveTab';
 

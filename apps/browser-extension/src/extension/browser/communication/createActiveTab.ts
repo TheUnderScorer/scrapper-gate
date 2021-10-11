@@ -1,5 +1,5 @@
 import { wait } from '@scrapper-gate/shared/common';
-import { browser } from 'webextension-polyfill-ts';
+import browser from 'webextension-polyfill';
 
 export const initialActiveTabUrl = 'https://www.google.com';
 

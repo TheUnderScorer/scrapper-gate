@@ -189,7 +189,7 @@ describe('<ScrapperRun />', () => {
     await waitForNodes(cmp);
 
     const element = cmp.container.querySelector(
-      `#node-${run.results![0].step.id} .step-in-progress`
+      `#node-${run.results![0].step.id} .scrapper-run-state`
     );
 
     expect(element).toBeInTheDocument();

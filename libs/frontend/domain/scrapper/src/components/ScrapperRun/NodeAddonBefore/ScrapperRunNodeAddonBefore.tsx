@@ -14,6 +14,7 @@ export const ScrapperRunNodeAddonBefore = ({
         top: '-30%',
         right: '-0',
       }}
+      className="scrapper-run-state"
       entity={RunStateEntity.Scrapper}
       state={state}
       runMutationCalled

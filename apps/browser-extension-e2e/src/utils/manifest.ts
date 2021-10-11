@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import path from 'path';
-import { Manifest } from 'webextension-polyfill-ts';
+import { Manifest } from 'webextension-polyfill';
 
 let manifset: BrowserExtensionManifest;
 

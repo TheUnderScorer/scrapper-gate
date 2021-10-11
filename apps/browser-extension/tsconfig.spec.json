@@ -14,7 +14,8 @@
   ],
   "files": [
     "../../node_modules/@nrwl/react/typings/cssmodule.d.ts",
-    "../../../node_modules/@nrwl/react/typings/image.d.ts",
+    "../../node_modules/@nrwl/react/typings/image.d.ts",
+    "../../node_modules/mockzilla-webextension/dist/mockBrowser.d.ts",
     "../../libs/frontend/block-editor/src/typings/slate/index.d.ts"
   ]
 }

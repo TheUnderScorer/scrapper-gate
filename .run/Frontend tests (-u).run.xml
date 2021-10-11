@@ -1,0 +1,30 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Frontend tests (-u)" type="js.build_tools.nx">
+    <node-interpreter value="project" />
+    <nxfile value="$PROJECT_DIR$/nx.json" />
+    <tasks>
+      <task value="frontend-api-client:test" />
+      <task value="frontend-domain-auth:test" />
+      <task value="frontend-html-picker:test" />
+      <task value="frontend-snackbars:test" />
+      <task value="frontend-block-editor:test" />
+      <task value="frontend-domain-conditional-rules:test" />
+      <task value="frontend-domain-variables:test" />
+      <task value="frontend-domain-files:test" />
+      <task value="frontend-schema:test" />
+      <task value="frontend-keyboard-shortcuts:test" />
+      <task value="frontend-form:test" />
+      <task value="frontend-data-grid:test" />
+      <task value="frontend-dialogs:test" />
+      <task value="frontend-common:test" />
+      <task value="frontend-ui:test" />
+      <task value="frontend-domain-user:test" />
+      <task value="frontend-theme:test" />
+      <task value="frontend-domain-scrapper:test" />
+      <task value="frontend-flow-builder:test" />
+    </tasks>
+    <arguments value="-u" />
+    <envs />
+    <method v="2" />
+  </configuration>
+</component>

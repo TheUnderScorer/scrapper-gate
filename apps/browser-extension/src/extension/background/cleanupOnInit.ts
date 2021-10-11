@@ -1,11 +1,9 @@
-import { browser } from 'webextension-polyfill-ts';
+import browser from 'webextension-polyfill';
 import { cleanupStoresForTab } from './cleanupStoresForTab';
 
 export const cleanupOnInit = async () => {
-  const {
-    contentRoutes = {},
-    activeOverlays = [],
-  } = await browser.storage.local.get(['contentRoutes', 'activeOverlays']);
+  const { contentRoutes = {}, activeOverlays = [] } =
+    await browser.storage.local.get(['contentRoutes', 'activeOverlays']);
 
   const tabs = await browser.tabs.query({});
 

@@ -13,7 +13,7 @@ import {
 import { act, render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { mockEvent, MockzillaEventOf } from 'mockzilla-webextension';
-import { Tabs } from 'webextension-polyfill-ts';
+import { Tabs } from 'webextension-polyfill';
 import {
   MessageTypes,
   StoredRoute,
