@@ -34,6 +34,9 @@
       "@scrapper-gate/backend/domain/auth": [
         "libs/backend/domain/auth/src/index.ts"
       ],
+      "@scrapper-gate/backend/domain/conditional-rules": [
+        "libs/backend/domain/conditional-rules/src/index.ts"
+      ],
       "@scrapper-gate/backend/domain/files": [
         "libs/backend/domain/files/src/index.ts"
       ],

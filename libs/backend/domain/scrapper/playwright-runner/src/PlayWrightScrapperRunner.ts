@@ -420,7 +420,7 @@ export class PlayWrightScrapperRunner implements ScrapperRunner {
       this.logger.debug('Not navigating to other page.', this.page.url());
     }
 
-    return this.getElements(step.selectors ?? []);
+    return this.getElements(step.allSelectors ?? []);
   }
 
   // TODO Screenshot on error?

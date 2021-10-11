@@ -55,5 +55,6 @@ module.exports = {
     '<rootDir>/libs/shared/domain/scrapper/mocks',
     '<rootDir>/libs/shared/domain/user/mocks',
     '<rootDir>/libs/backend/common',
+    '<rootDir>/libs/backend/domain/conditional-rules',
   ],
 };

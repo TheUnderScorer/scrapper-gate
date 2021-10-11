@@ -1,8 +1,9 @@
 import { BaseModel } from '@scrapper-gate/backend/base-model';
+import { makeDataObjectTransformer } from '@scrapper-gate/backend/db-utils';
+import { ConditionalRuleGroupModel } from '@scrapper-gate/backend/domain/conditional-rules';
 import { UserModel } from '@scrapper-gate/backend/domain/user';
 import { Entities } from '@scrapper-gate/shared/common';
 import {
-  ConditionalRuleGroup,
   MouseButton,
   NodePosition,
   ScrapperAction,
@@ -120,8 +121,9 @@ export class ScrapperStepModel
   @Column({
     nullable: true,
     type: 'jsonb',
+    transformer: makeDataObjectTransformer(ConditionalRuleGroupModel),
   })
-  conditionalRules?: ConditionalRuleGroup[];
+  conditionalRules?: ConditionalRuleGroupModel[];
 
   @Column({
     nullable: true,
@@ -132,4 +134,16 @@ export class ScrapperStepModel
     nullable: true,
   })
   fullPageScreenshot?: boolean;
+
+  get allSelectors() {
+    const selectors = [...(this.selectors ?? [])];
+
+    if (this.conditionalRules?.length) {
+      this.conditionalRules.forEach((group) => {
+        selectors.push(...group.selectors);
+      });
+    }
+
+    return selectors;
+  }
 }

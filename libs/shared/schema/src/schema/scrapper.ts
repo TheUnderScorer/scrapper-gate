@@ -56,6 +56,8 @@ export const scrapperSchema = gql`
     useUrlFromPreviousStep: Boolean
     action: ScrapperAction!
     selectors: [Selector!]
+    # Aggregate of all selectors (selectors + selectors from conditional rules)
+    allSelectors: [Selector!]
     clickTimes: Int
     position: NodePosition
     key: String

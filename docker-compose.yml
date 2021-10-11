@@ -12,7 +12,7 @@ services:
       DEFAULT_REGION: eu-west-1
     ports:
       - '4563-4599:4563-4599'
-      - 8055:8081
+      - "8055:8081"
 
   app-postgres:
     image: postgres:13.2-alpine
@@ -23,13 +23,13 @@ services:
     networks:
       - app
     ports:
-      - 5432:5432
+      - "5432:5432"
 
   redis:
     image: redis:6.2.1-alpine
     hostname: redis
     ports:
-      - 6379:6379
+      - "6379:6379"
     networks:
       - app
 
@@ -40,7 +40,7 @@ services:
     command: api
     hostname: security
     ports:
-      - 50050:50050
+      - "50050:50050"
     environment:
       API_URL: 'https://api.lvh.me'
       OAUTH_ENABLED_PROVIDERS: 'google,facebook'
@@ -87,15 +87,15 @@ services:
     networks:
       - app
     ports:
-      - 1025:1025
-      - 8025:8025
+      - "1025:1025"
+      - "8025:8025"
     environment:
       - MH_HOSTNAME=mailhog
 
   test-sites:
     image: nginx:latest
     ports:
-      - 8080:80
+      - "8080:80"
     volumes:
       - ./test-sites:/usr/share/nginx/html
 
