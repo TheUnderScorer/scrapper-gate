@@ -37,8 +37,8 @@ const resolveValue = (
 };
 
 // Create element definition from html element that is parsable by html element resolver
-export const createHtmlElementResolverElementDefinition = (
-  element: Element
+export const createHtmlResolverElementDefinition = (
+  element: Pick<Element, 'tagName' | 'textContent' | 'attributes'>
 ): HtmlElementResolverElementDefinition => {
   return {
     tag: element.tagName,
@@ -52,26 +52,26 @@ export const createHtmlElementResolverElementDefinition = (
   };
 };
 
-export const makeHtmlElementResolver = ({
-  elements,
-}: HtmlElementResolverParams): RuleResolver => (rule) => {
-  const meta = rule.meta as HtmlElementRuleMeta;
+export const makeHtmlElementResolver =
+  ({ elements }: HtmlElementResolverParams): RuleResolver =>
+  (rule) => {
+    const meta = rule.meta as HtmlElementRuleMeta;
 
-  if (!rule.what) {
-    return arrayValueResolver(rule, elements, meta.type);
-  }
+    if (!rule.what) {
+      return arrayValueResolver(rule, elements, meta.type);
+    }
 
-  const value = resolveValue(rule, elements ?? [], meta);
+    const value = resolveValue(rule, elements ?? [], meta);
 
-  return arrayValueResolver(
-    {
-      ...rule,
-      value:
-        rule.what === HtmlElementWhat.Tag
-          ? rule.value?.toString().toLowerCase()
-          : rule.value,
-    },
-    value,
-    meta.type
-  );
-};
+    return arrayValueResolver(
+      {
+        ...rule,
+        value:
+          rule.what === HtmlElementWhat.Tag
+            ? rule.value?.toString().toLowerCase()
+            : rule.value,
+      },
+      value,
+      meta.type
+    );
+  };

@@ -27,16 +27,15 @@ import playwright, { Browser, LaunchOptions } from 'playwright';
 import { v4 } from 'uuid';
 import { persistTestArtifact } from '../../../../../../tests/utils/artifacts';
 import '../../../../../../typings/global';
+import { createScrapperStepForConditionalTest } from './__mocks__/scrapperStep';
 import { PlayWrightScrapperRunner } from './PlayWrightScrapperRunner';
-
-const timeout = 900000;
 
 let runners: PlayWrightScrapperRunner[] = [];
 let browsers: Browser[] = [];
 
 let container: AwilixContainer;
 
-jest.retryTimes(4);
+jest.retryTimes(4).setTimeout(900000);
 
 describe('PlayWright scrapper runner', () => {
   const ignoredBrowserTypes =
@@ -115,245 +114,263 @@ describe('PlayWright scrapper runner', () => {
     browsers = [];
   };
 
-  describe.each(browserTypes)(
-    'Popup test site - %s',
-    (type) => {
-      afterEach(async () => {
-        await cleanup();
-      });
+  describe.each(browserTypes)('Popup test site - %s', (type) => {
+    afterEach(async () => {
+      await cleanup();
+    });
 
-      const scrapperRun: ScrapperRun = {
-        index: 0,
-        id: v4(),
-        steps: [],
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        state: RunState.InProgress,
-      };
+    const scrapperRun: ScrapperRun = {
+      index: 0,
+      id: v4(),
+      steps: [],
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      state: RunState.InProgress,
+    };
 
-      it(
-        'should handle clicking multiple links',
-        async () => {
-          const runner = await bootstrapRunner(type);
+    it('should handle clicking multiple links', async () => {
+      const runner = await bootstrapRunner(type);
 
-          await runner.Click({
-            scrapperRun,
-            variables: [],
-            step: {
-              ...(await createMockScrapperStep({})),
-              action: ScrapperAction.Click,
-              useUrlFromPreviousStep: false,
-              url: 'http://localhost:8080/blog/index.html',
-              selectors: [
-                {
-                  value: 'a',
-                },
-              ],
-            },
-          });
-
-          await runner.currentPage.waitForLoadState('networkidle');
-
-          expect(runner.currentPage.url()).toEqual(
-            'http://localhost:8080/blog/article1.html'
-          );
-        },
-        timeout
-      );
-
-      it('should make screenshot of a whole page and save it into s3', async () => {
-        const runner = await bootstrapRunner(type);
-        const filesService = container.resolve<FilesService>('filesService');
-
-        const step: ScrapperStep = {
+      await runner.Click({
+        scrapperRun,
+        variables: [],
+        step: {
           ...(await createMockScrapperStep({})),
-          action: ScrapperAction.Screenshot,
+          action: ScrapperAction.Click,
           useUrlFromPreviousStep: false,
-          url: 'http://localhost:8080/blog/article1.html',
-        };
-
-        const result = await runner.Screenshot({
-          scrapperRun,
-          variables: [],
-          step,
-        });
-
-        expect(result.values).toHaveLength(1);
-
-        const file = (await filesService.get(
-          generateScrapperScreenshotFileKey(scrapperRun.id, step.id),
-          FileType.ScrapperScreenshot
-        )) as Buffer;
-
-        expect(file).toBeDefined();
-
-        await persistTestArtifact('full-page-screenshot.png', file);
-      });
-
-      it('should make screenshot of selected elements and save it into s3', async () => {
-        const runner = await bootstrapRunner(type);
-        const filesService = container.resolve<FilesService>('filesService');
-
-        const step: ScrapperStep = {
-          ...(await createMockScrapperStep({})),
-          action: ScrapperAction.Screenshot,
-          useUrlFromPreviousStep: false,
-          url: 'http://localhost:8080/blog/article1.html',
-          selectors: [
+          url: 'http://localhost:8080/blog/index.html',
+          allSelectors: [
             {
-              value: 'h1',
-            },
-            {
-              value: 'p',
+              value: 'a',
             },
           ],
-        };
-
-        const result = await runner.Screenshot({
-          scrapperRun,
-          variables: [],
-          step,
-        });
-
-        expect(result.values).toHaveLength(2);
-
-        const files = await Promise.all([
-          filesService.get(
-            generateScrapperScreenshotFileKey(scrapperRun.id, step.id),
-            FileType.ScrapperScreenshot
-          ),
-          filesService.get(
-            generateScrapperScreenshotFileKey(scrapperRun.id, step.id, 2),
-            FileType.ScrapperScreenshot
-          ),
-        ]);
-
-        expect(files.every((file) => file instanceof Buffer)).toEqual(true);
-
-        await Promise.all(
-          (files as Buffer[]).map(async (file, index) => {
-            await persistTestArtifact(`element-screenshot-${index}.png`, file);
-          })
-        );
+        },
       });
 
-      it(
-        'should handle dynamic elements',
-        async () => {
-          const runner = await bootstrapRunner(type);
+      await runner.currentPage.waitForLoadState('networkidle');
 
-          const { values } = await runner.ReadText({
-            scrapperRun,
-            variables: [],
-            step: {
-              ...(await createMockScrapperStep({})),
-              action: ScrapperAction.Click,
-              useUrlFromPreviousStep: false,
-              url: 'http://localhost:8080/dynamic-elements.html',
-              selectors: [
-                {
-                  value: '#result',
-                },
-              ],
-            },
-          });
-
-          expect(values).toHaveLength(1);
-          expect(values[0].value).toEqual('Loaded successfully.');
-        },
-        timeout
+      expect(runner.currentPage.url()).toEqual(
+        'http://localhost:8080/blog/article1.html'
       );
+    });
 
-      it(
-        'should read text from popup and text that shows after closing it',
-        async () => {
-          const runner = await bootstrapRunner(type);
+    it('should make screenshot of a whole page and save it into s3', async () => {
+      const runner = await bootstrapRunner(type);
+      const filesService = container.resolve<FilesService>('filesService');
 
-          const clickStep = await createMockScrapperStep({});
-          clickStep.url = 'http://localhost:8080/popup.html';
-          clickStep.action = ScrapperAction.Click;
-          clickStep.selectors = [
+      const step: ScrapperStep = {
+        ...(await createMockScrapperStep({})),
+        action: ScrapperAction.Screenshot,
+        useUrlFromPreviousStep: false,
+        url: 'http://localhost:8080/blog/article1.html',
+      };
+
+      const result = await runner.Screenshot({
+        scrapperRun,
+        variables: [],
+        step,
+      });
+
+      expect(result.values).toHaveLength(1);
+
+      const file = (await filesService.get(
+        generateScrapperScreenshotFileKey(scrapperRun.id, step.id),
+        FileType.ScrapperScreenshot
+      )) as Buffer;
+
+      expect(file).toBeDefined();
+
+      await persistTestArtifact('full-page-screenshot.png', file);
+    });
+
+    it('should make screenshot of selected elements and save it into s3', async () => {
+      const runner = await bootstrapRunner(type);
+      const filesService = container.resolve<FilesService>('filesService');
+
+      const step: ScrapperStep = {
+        ...(await createMockScrapperStep({})),
+        action: ScrapperAction.Screenshot,
+        useUrlFromPreviousStep: false,
+        url: 'http://localhost:8080/blog/article1.html',
+        allSelectors: [
+          {
+            value: 'h1',
+          },
+          {
+            value: 'p',
+          },
+        ],
+      };
+
+      const result = await runner.Screenshot({
+        scrapperRun,
+        variables: [],
+        step,
+      });
+
+      expect(result.values).toHaveLength(2);
+
+      const files = await Promise.all([
+        filesService.get(
+          generateScrapperScreenshotFileKey(scrapperRun.id, step.id),
+          FileType.ScrapperScreenshot
+        ),
+        filesService.get(
+          generateScrapperScreenshotFileKey(scrapperRun.id, step.id, 2),
+          FileType.ScrapperScreenshot
+        ),
+      ]);
+
+      expect(files.every((file) => file instanceof Buffer)).toEqual(true);
+
+      await Promise.all(
+        (files as Buffer[]).map(async (file, index) => {
+          await persistTestArtifact(`element-screenshot-${index}.png`, file);
+        })
+      );
+    });
+
+    it('should handle dynamic elements', async () => {
+      const runner = await bootstrapRunner(type);
+
+      const { values } = await runner.ReadText({
+        scrapperRun,
+        variables: [],
+        step: {
+          ...(await createMockScrapperStep({})),
+          action: ScrapperAction.Click,
+          useUrlFromPreviousStep: false,
+          url: 'http://localhost:8080/dynamic-elements.html',
+          allSelectors: [
             {
-              value: '#popup_trigger',
+              value: '#result',
             },
-          ];
-          clickStep.clickTimes = 1;
-          clickStep.key = 'Trigger popup';
-          clickStep.useUrlFromPreviousStep = false;
-          clickStep.mouseButton = MouseButton.Left;
-
-          const { performance } = await runner.Click({
-            scrapperRun,
-            step: clickStep,
-            variables: [],
-          });
-
-          expect(performance.duration).toBeGreaterThan(0);
-
-          const { values } = await runner.ReadText({
-            scrapperRun,
-            variables: [],
-            step: {
-              ...(await createMockScrapperStep({})),
-              useUrlFromPreviousStep: true,
-              action: ScrapperAction.ReadText,
-              key: 'Read close popup',
-              selectors: [
-                {
-                  value: '#close_popup',
-                },
-              ],
-            },
-          });
-
-          expect(values).toHaveLength(1);
-          expect(values[0].value).toEqual('Close popup.');
-
-          expect(runner.currentContext.pages()).toHaveLength(2);
-          expect(runner.currentPage.url()).toEqual(
-            'http://localhost:8080/popup.html?popup=1'
-          );
-
-          await runner.Click({
-            variables: [],
-            scrapperRun,
-            step: {
-              ...(await createMockScrapperStep({})),
-              clickTimes: 1,
-              useUrlFromPreviousStep: true,
-              action: ScrapperAction.Click,
-              key: 'Click close popup',
-              mouseButton: MouseButton.Left,
-              selectors: [
-                {
-                  value: '#close_popup',
-                },
-              ],
-            },
-          });
-
-          const { values: secondValues } = await runner.ReadText({
-            scrapperRun,
-            variables: [],
-            step: {
-              ...(await createMockScrapperStep({})),
-              useUrlFromPreviousStep: true,
-              action: ScrapperAction.ReadText,
-              key: 'Read popup closed',
-              selectors: [
-                {
-                  value: '#popup_closed',
-                },
-              ],
-            },
-          });
-
-          expect(secondValues).toHaveLength(1);
-          expect(secondValues[0].value).toEqual('Popup was closed.');
+          ],
         },
-        timeout
+      });
+
+      expect(values).toHaveLength(1);
+      expect(values[0].value).toEqual('Loaded successfully.');
+    });
+
+    it('should read text from popup and text that shows after closing it', async () => {
+      const runner = await bootstrapRunner(type);
+
+      const clickStep = await createMockScrapperStep({});
+      clickStep.url = 'http://localhost:8080/popup.html';
+      clickStep.action = ScrapperAction.Click;
+      clickStep.allSelectors = [
+        {
+          value: '#popup_trigger',
+        },
+      ];
+      clickStep.clickTimes = 1;
+      clickStep.key = 'Trigger popup';
+      clickStep.useUrlFromPreviousStep = false;
+      clickStep.mouseButton = MouseButton.Left;
+
+      const { performance } = await runner.Click({
+        scrapperRun,
+        step: clickStep,
+        variables: [],
+      });
+
+      expect(performance.duration).toBeGreaterThan(0);
+
+      const { values } = await runner.ReadText({
+        scrapperRun,
+        variables: [],
+        step: {
+          ...(await createMockScrapperStep({})),
+          useUrlFromPreviousStep: true,
+          action: ScrapperAction.ReadText,
+          key: 'Read close popup',
+          allSelectors: [
+            {
+              value: '#close_popup',
+            },
+          ],
+        },
+      });
+
+      expect(values).toHaveLength(1);
+      expect(values[0].value).toEqual('Close popup.');
+
+      expect(runner.currentContext.pages()).toHaveLength(2);
+      expect(runner.currentPage.url()).toEqual(
+        'http://localhost:8080/popup.html?popup=1'
       );
-    },
-    timeout
-  );
+
+      await runner.Click({
+        variables: [],
+        scrapperRun,
+        step: {
+          ...(await createMockScrapperStep({})),
+          clickTimes: 1,
+          useUrlFromPreviousStep: true,
+          action: ScrapperAction.Click,
+          key: 'Click close popup',
+          mouseButton: MouseButton.Left,
+          allSelectors: [
+            {
+              value: '#close_popup',
+            },
+          ],
+        },
+      });
+
+      const { values: secondValues } = await runner.ReadText({
+        scrapperRun,
+        variables: [],
+        step: {
+          ...(await createMockScrapperStep({})),
+          useUrlFromPreviousStep: true,
+          action: ScrapperAction.ReadText,
+          key: 'Read popup closed',
+          allSelectors: [
+            {
+              value: '#popup_closed',
+            },
+          ],
+        },
+      });
+
+      expect(secondValues).toHaveLength(1);
+      expect(secondValues[0].value).toEqual('Popup was closed.');
+    });
+
+    it('should pass conditional rule for html element - true result case', async () => {
+      const runner = await bootstrapRunner(type);
+      const step = await createScrapperStepForConditionalTest([
+        {
+          value: 'h1',
+        },
+      ]);
+
+      const { result } = await runner.Condition({
+        step,
+        variables: [],
+        scrapperRun,
+      });
+
+      expect(result).toEqual(true);
+    });
+
+    it('should pass conditional rule for html element - false result case', async () => {
+      const runner = await bootstrapRunner(type);
+      const step = await createScrapperStepForConditionalTest([
+        {
+          value: '#test',
+        },
+      ]);
+
+      const { result } = await runner.Condition({
+        step,
+        variables: [],
+        scrapperRun,
+      });
+
+      expect(result).toEqual(false);
+    });
+  });
 });

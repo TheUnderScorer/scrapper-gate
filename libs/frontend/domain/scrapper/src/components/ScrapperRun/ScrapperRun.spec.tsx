@@ -1,10 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 import { QueryParamProvider } from '@scrapper-gate/frontend/common';
-import {
-  GetMyScrapperRunDocument,
-  GetMyScrapperRunStateDocument,
-} from '@scrapper-gate/frontend/schema';
+import { GetMyScrapperRunDocument } from '@scrapper-gate/frontend/schema';
 import { SnackbarProvider } from '@scrapper-gate/frontend/snackbars';
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
 import {
@@ -14,7 +11,6 @@ import {
 } from '@scrapper-gate/shared/domain/scrapper/mocks';
 import {
   GetMyScrapperRunQueryVariables,
-  GetMyScrapperRunStateQueryVariables,
   RunState,
   ScrapperAction,
   ScrapperRun as Run,
@@ -140,19 +136,6 @@ describe('<ScrapperRun />', () => {
     run = await createRun();
 
     mocks = [
-      {
-        request: {
-          query: GetMyScrapperRunStateDocument,
-          variables: {
-            id: run.id,
-          } as GetMyScrapperRunStateQueryVariables,
-        },
-        result: {
-          data: {
-            getMyScrapperRun: run,
-          },
-        },
-      },
       {
         request: {
           query: GetMyScrapperRunDocument,

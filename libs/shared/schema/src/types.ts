@@ -471,6 +471,7 @@ export type ScrapperStep = BaseEntity &
     useUrlFromPreviousStep?: Maybe<Scalars['Boolean']>;
     action: ScrapperAction;
     selectors?: Maybe<Array<Selector>>;
+    allSelectors?: Maybe<Array<Selector>>;
     clickTimes?: Maybe<Scalars['Int']>;
     position?: Maybe<NodePosition>;
     key?: Maybe<Scalars['String']>;
@@ -776,44 +777,6 @@ export type GetMyScrapperRunQuery = {
               Array<
                 Pick<ScrapperRunValue, 'id' | 'value'> & {
                   screenshot?: Maybe<FileLinkFileFragment>;
-                  sourceElement?: Maybe<
-                    Pick<ScrapperRunValueElement, 'id' | 'classNames' | 'tag'>
-                  >;
-                }
-              >
-            >;
-          }
-        >
-      >;
-    }
-  >;
-};
-
-export type GetMyScrapperRunStateQueryVariables = Exact<{
-  id: Scalars['ID'];
-}>;
-
-export type GetMyScrapperRunStateQuery = {
-  getMyScrapperRun?: Maybe<
-    Pick<ScrapperRun, 'id' | 'state' | 'keyPairValues'> & {
-      scrapper?: Maybe<
-        Pick<Scrapper, 'id' | 'name'> & {
-          steps?: Maybe<Array<Pick<ScrapperStep, 'id'>>>;
-          lastRun?: Maybe<Pick<ScrapperRun, 'id' | 'state' | 'endedAt'>>;
-        }
-      >;
-      results?: Maybe<
-        Array<
-          Pick<
-            ScrapperRunStepResult,
-            'id' | 'state' | 'endedAt' | 'startedAt'
-          > & {
-            performance?: Maybe<Pick<RunnerPerformanceEntry, 'duration'>>;
-            error?: Maybe<Pick<ErrorObject, 'date' | 'message' | 'name'>>;
-            step: Pick<ScrapperStep, 'id' | 'key'>;
-            values?: Maybe<
-              Array<
-                Pick<ScrapperRunValue, 'id' | 'value'> & {
                   sourceElement?: Maybe<
                     Pick<ScrapperRunValueElement, 'id' | 'classNames' | 'tag'>
                   >;
@@ -1816,6 +1779,11 @@ export type ScrapperStepResolvers<
   >;
   action?: Resolver<ResolversTypes['ScrapperAction'], ParentType, ContextType>;
   selectors?: Resolver<
+    Maybe<Array<ResolversTypes['Selector']>>,
+    ParentType,
+    ContextType
+  >;
+  allSelectors?: Resolver<
     Maybe<Array<ResolversTypes['Selector']>>,
     ParentType,
     ContextType

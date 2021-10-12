@@ -1,2 +1,2 @@
-export * from './dataObjects/QueryResult.model';
+export * from './models/QueryResult.model';
 export * from './types';

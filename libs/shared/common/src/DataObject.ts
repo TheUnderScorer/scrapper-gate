@@ -2,7 +2,7 @@ import { Constructor } from '@scrapper-gate/shared/constructor';
 import type { PartialDeep } from 'type-fest';
 import { Dictionary, Jsonable, OmitFunctions } from './types';
 
-export interface DataObjectConstructor<T> {
+export interface DataObjectConstructor<T> extends Constructor<DataObject<T>> {
   create(payload: PartialDeep<OmitFunctions<T>>): T;
 }
 

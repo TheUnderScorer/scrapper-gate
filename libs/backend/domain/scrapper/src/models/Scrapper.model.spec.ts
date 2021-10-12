@@ -53,6 +53,7 @@ describe('ScrapperModel', () => {
           action: ScrapperAction.Click,
           mouseButton: MouseButton.Right,
           url: faker.internet.url(),
+          conditionalRules: [],
         }),
       ],
     });
@@ -73,6 +74,7 @@ describe('ScrapperModel', () => {
       action: ScrapperAction.Click,
       mouseButton: MouseButton.Right,
       url: faker.internet.url(),
+      conditionalRules: [],
     });
 
     const scrapper = ScrapperModel.create({
