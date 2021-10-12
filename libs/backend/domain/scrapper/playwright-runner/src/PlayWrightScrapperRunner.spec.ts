@@ -139,7 +139,7 @@ describe('PlayWright scrapper runner', () => {
           action: ScrapperAction.Click,
           useUrlFromPreviousStep: false,
           url: 'http://localhost:8080/blog/index.html',
-          selectors: [
+          allSelectors: [
             {
               value: 'a',
             },
@@ -192,7 +192,7 @@ describe('PlayWright scrapper runner', () => {
         action: ScrapperAction.Screenshot,
         useUrlFromPreviousStep: false,
         url: 'http://localhost:8080/blog/article1.html',
-        selectors: [
+        allSelectors: [
           {
             value: 'h1',
           },
@@ -241,7 +241,7 @@ describe('PlayWright scrapper runner', () => {
           action: ScrapperAction.Click,
           useUrlFromPreviousStep: false,
           url: 'http://localhost:8080/dynamic-elements.html',
-          selectors: [
+          allSelectors: [
             {
               value: '#result',
             },
@@ -285,7 +285,7 @@ describe('PlayWright scrapper runner', () => {
           useUrlFromPreviousStep: true,
           action: ScrapperAction.ReadText,
           key: 'Read close popup',
-          selectors: [
+          allSelectors: [
             {
               value: '#close_popup',
             },
@@ -311,7 +311,7 @@ describe('PlayWright scrapper runner', () => {
           action: ScrapperAction.Click,
           key: 'Click close popup',
           mouseButton: MouseButton.Left,
-          selectors: [
+          allSelectors: [
             {
               value: '#close_popup',
             },
@@ -327,7 +327,7 @@ describe('PlayWright scrapper runner', () => {
           useUrlFromPreviousStep: true,
           action: ScrapperAction.ReadText,
           key: 'Read popup closed',
-          selectors: [
+          allSelectors: [
             {
               value: '#popup_closed',
             },
