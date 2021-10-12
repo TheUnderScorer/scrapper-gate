@@ -45,6 +45,7 @@ import {
   ScrapperBuilderNodeProperties,
   ScrapperBuilderProps,
 } from './ScrapperBuilder.types';
+import { ScrapperBuilderSettings } from './Settings/ScrapperBuilderSettings';
 import { ScrapperBuilderStartNodeContent } from './StartNodeContent/ScrapperBuilderStartNodeContent';
 
 const StyledForm = styled('form')({
@@ -80,6 +81,11 @@ const tabs = [
     label: 'Variables',
     value: 'variables',
     content: <VariablesTable scope={VariableScope.Scrapper} name="variables" />,
+  },
+  {
+    label: 'Settings',
+    value: 'settings',
+    content: <ScrapperBuilderSettings />,
   },
 ];
 
