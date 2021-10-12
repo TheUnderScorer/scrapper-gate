@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Alert tests</title>
+    <style>
+      .buttons {
+        display: flex;
+      }
+
+      .buttons button {
+        margin-right: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="buttons">
+        <button id="view_prompt">View prompt</button>
+        <button id="view_confirm">View confirm</button>
+      </div>
+      <div class="prompt-content"></div>
+      <div class="confirm-result"></div>
+    </main>
+  </body>
+  <script>
+    const buttons = {
+      viewPrompt: document.querySelector('#view_prompt'),
+      viewConfirm: document.querySelector('#view_confirm'),
+    };
+
+    const promptContent = document.querySelector('.prompt-content');
+    const viewConfirmContent = document.querySelector('.confirm-result');
+
+    buttons.viewPrompt.addEventListener('click', () => {
+      promptContent.textContent = null;
+
+      promptContent.textContent = window.prompt('Enter text.');
+    });
+
+    buttons.viewConfirm.addEventListener('click', () => {
+      const result = window.confirm('Are you sure?');
+
+      promptContent.textContent = result ? 'Confirmed' : 'Not confirmed';
+    });
+  </script>
+</html>

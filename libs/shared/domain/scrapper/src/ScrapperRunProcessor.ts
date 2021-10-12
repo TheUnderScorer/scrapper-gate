@@ -24,13 +24,12 @@ import { Typed } from 'emittery';
 import { createScrapperRunVariables } from './createScrapperRunVariables';
 import {
   ConditionalRunScrapperStepResult,
-  InitialiseScrapperRunnerParams,
   RunScrapperStepResult,
   ScrapperRunner,
   ScrapperStepFinishedPayload,
 } from './types';
 
-export interface ProcessParams extends InitialiseScrapperRunnerParams {
+export interface ProcessParams {
   scrapperRun: ScrapperRun;
   scrapper: Scrapper;
 }
@@ -54,7 +53,7 @@ export class ScrapperRunProcessor implements Disposable {
     };
   }>();
 
-  async process({ scrapperRun, scrapper, ...rest }: ProcessParams) {
+  async process({ scrapperRun }: ProcessParams) {
     let failed = false;
 
     if (!scrapperRun.steps?.length) {
@@ -63,7 +62,7 @@ export class ScrapperRunProcessor implements Disposable {
       };
     }
 
-    await this.runner.initialize?.(rest);
+    await this.runner.initialize?.();
 
     scrapperRun.state = RunState.InProgress;
     scrapperRun.startedAt = new Date();

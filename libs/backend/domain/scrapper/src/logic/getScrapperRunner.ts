@@ -3,7 +3,7 @@ import { PlayWrightScrapperRunner } from '@scrapper-gate/backend/domain/scrapper
 import { Logger } from '@scrapper-gate/shared/logger';
 import { BrowserType, ScrapperType } from '@scrapper-gate/shared/schema';
 import type { Browser } from 'playwright';
-import { ScrapperModel } from '../models/Scrapper.model';
+import { ScrapperRunModel } from '../models/ScrapperRun.model';
 
 export interface GetScrapperRunnerDependencies {
   browser: Browser;
@@ -15,13 +15,22 @@ export interface GetScrapperRunnerDependencies {
 
 export const makeGetScrapperRunner =
   (dependencies: GetScrapperRunnerDependencies) =>
-  (scrapper: ScrapperModel) => {
-    switch (scrapper.type) {
+  (scrapperRun: ScrapperRunModel) => {
+    if (!scrapperRun.scrapper) {
+      throw new TypeError('Scrapper is missing in scrapper run.');
+    }
+
+    switch (scrapperRun.scrapper.type) {
       case ScrapperType.RealBrowser:
-        return new PlayWrightScrapperRunner(dependencies);
+        return new PlayWrightScrapperRunner({
+          ...dependencies,
+          scrapperRun,
+        });
 
       default:
-        throw new TypeError(`Unsupported scrapper type: ${scrapper.type}`);
+        throw new TypeError(
+          `Unsupported scrapper type: ${scrapperRun.scrapper.type}`
+        );
     }
   };
 

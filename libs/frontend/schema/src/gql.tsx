@@ -30,6 +30,7 @@ export const ScrapperForRunFragmentDoc = gql`
       initialUrl
       noElementsFoundBehavior
       timeoutMs
+      promptText
     }
   }
 `;
@@ -108,6 +109,7 @@ export const ScrapperBuilderScrapperFragmentDoc = gql`
       initialUrl
       noElementsFoundBehavior
       timeoutMs
+      promptText
     }
     variables {
       id

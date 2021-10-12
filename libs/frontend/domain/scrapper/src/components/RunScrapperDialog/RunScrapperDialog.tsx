@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import { useReturnUrlProvider } from '@scrapper-gate/frontend/common';
 import { Dialog, useDialogMethods } from '@scrapper-gate/frontend/dialogs';
+import { joiValidationResolver } from '@scrapper-gate/frontend/form';
 import {
   useGetScrapperStateQuery,
   useSendScrapperToQueueMutation,
@@ -21,8 +22,9 @@ import {
   Maybe,
   RunState as RunStateEnum,
   ScrapperForRunFragment,
-  ScrapperRunSettings,
+  ScrapperRunSettingsInput,
 } from '@scrapper-gate/shared/schema';
+import { ScrapperRunSettingsInputDto } from '@scrapper-gate/shared/validation';
 import React from 'react';
 import { Form } from 'react-final-form';
 import { useMount } from 'react-use';
@@ -31,6 +33,8 @@ import { ScrapperRunSettingsForm } from '../ScrapperRunSettingsForm/ScrapperRunS
 import { RunScrapperDialogProps } from './RunScrapperDialog.types';
 
 export const runScrapperDialogId = 'RUN_SCRAPPER';
+
+const validate = joiValidationResolver(ScrapperRunSettingsInputDto);
 
 export const RunScrapperDialog = ({
   scrapper,
@@ -114,8 +118,10 @@ export const RunScrapperDialog = ({
   );
 
   return (
-    <Form<ScrapperRunSettings>
+    <Form<ScrapperRunSettingsInput>
+      validate={validate}
       onSubmit={() => sendScrapper()}
+      initialValues={actualScrapper.runSettings}
       render={() => (
         <Dialog
           maxWidth="sm"
@@ -157,10 +163,7 @@ export const RunScrapperDialog = ({
                 <Typography>Run configuration</Typography>
               </AccordionSummary>
               <AccordionDetails>
-                <ScrapperRunSettingsForm
-                  initialValue={actualScrapper?.runSettings}
-                  getFieldName={(name) => name ?? ''}
-                />
+                <ScrapperRunSettingsForm getFieldName={(name) => name ?? ''} />
               </AccordionDetails>
             </Accordion>
           )}

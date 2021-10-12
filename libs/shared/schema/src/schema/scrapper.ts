@@ -164,6 +164,7 @@ export const scrapperSchema = gql`
     noElementsFoundBehavior: ScrapperNoElementsFoundBehavior
     timeoutMs: Float
     initialUrl: String
+    promptText: String
   }
 
   input ScrapperRunSettingsInput {
@@ -171,6 +172,7 @@ export const scrapperSchema = gql`
     noElementsFoundBehavior: ScrapperNoElementsFoundBehavior
     timeoutMs: Float
     initialUrl: String
+    promptText: String
   }
 
   enum ScrapperAction {
@@ -203,6 +205,7 @@ export const scrapperSchema = gql`
   input StartScrapperInput {
     scrapperId: ID!
     browserType: BrowserType
+    runSettings: ScrapperRunSettingsInput
   }
 
   type SendScrapperToQueueResult {

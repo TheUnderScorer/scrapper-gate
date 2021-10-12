@@ -35,5 +35,6 @@ fragment ScrapperForRun on Scrapper {
     initialUrl
     noElementsFoundBehavior
     timeoutMs
+    promptText
   }
 }

@@ -9,19 +9,24 @@ import {
   mapSelectorsToXpathExpression,
 } from '@scrapper-gate/shared/common';
 import {
-  InitialiseScrapperRunnerParams,
   resolveScrapperStepRules,
   ScrapperRunner,
   ScrapperRunScreenshotValue,
   ScrapperStepHandlerParams,
   ScreenshotRunScrapperStepResult,
 } from '@scrapper-gate/shared/domain/scrapper';
-import { ScrapperRunError } from '@scrapper-gate/shared/errors';
+import {
+  NoElementsFoundError,
+  ScrapperRunError,
+} from '@scrapper-gate/shared/errors';
 import { Logger } from '@scrapper-gate/shared/logger';
 import {
   BrowserType,
   FileType,
   RunnerPerformanceEntry,
+  ScrapperDialogBehaviour,
+  ScrapperNoElementsFoundBehavior,
+  ScrapperRun,
   ScrapperRunValue,
   ScrapperStep,
   Selector,
@@ -38,6 +43,7 @@ export interface PlayWrightScrapperRunnerDependencies {
   logger: Logger;
   browserType: BrowserType;
   filesService: FilesService;
+  scrapperRun: ScrapperRun;
 }
 
 interface AfterRunResult {
@@ -61,6 +67,7 @@ export class PlayWrightScrapperRunner implements ScrapperRunner {
   private readonly traceId: string;
   private readonly performanceManager = new PerformanceManager();
   private readonly filesService: FilesService;
+  private readonly scrapperRun: ScrapperRun;
 
   constructor({
     browser,
@@ -68,15 +75,17 @@ export class PlayWrightScrapperRunner implements ScrapperRunner {
     logger,
     browserType,
     filesService,
+    scrapperRun,
   }: PlayWrightScrapperRunnerDependencies) {
     this.browser = browser;
     this.traceId = traceId;
     this.logger = logger;
     this.browserType = browserType;
     this.filesService = filesService;
+    this.scrapperRun = scrapperRun;
   }
 
-  async initialize({ initialUrl }: InitialiseScrapperRunnerParams = {}) {
+  async initialize() {
     if (this.context) {
       this.logger.error('Runner already initialized.');
 
@@ -90,8 +99,8 @@ export class PlayWrightScrapperRunner implements ScrapperRunner {
     this.page = await this.context.newPage();
     this.initialPage = this.page;
 
-    if (initialUrl) {
-      await this.page.goto(initialUrl, {
+    if (this.scrapperRun?.runSettings?.initialUrl) {
+      await this.page.goto(this.scrapperRun.runSettings.initialUrl, {
         waitUntil: 'networkidle',
       });
     }
@@ -109,7 +118,14 @@ export class PlayWrightScrapperRunner implements ScrapperRunner {
 
     // TODO Support all kind of dialogs
     this.page.on('dialog', async (dialog) => {
-      await dialog.accept();
+      switch (this.scrapperRun.runSettings?.dialogBehaviour) {
+        case ScrapperDialogBehaviour.AlwaysReject:
+          await dialog.dismiss();
+          break;
+
+        default:
+          await dialog.accept(this.scrapperRun.runSettings?.promptText);
+      }
     });
 
     this.page.on('popup', async (page) => {
@@ -368,11 +384,17 @@ export class PlayWrightScrapperRunner implements ScrapperRunner {
       waitPromises.push(this.page.waitForSelector(xpathSelector));
     }
 
-    // TODO Option to either fail or continue if no elements were found
     try {
       await Promise.all(waitPromises);
     } catch (e) {
       this.logger.error(e);
+
+      if (
+        this.scrapperRun.runSettings?.noElementsFoundBehavior ===
+        ScrapperNoElementsFoundBehavior.Fail
+      ) {
+        throw new NoElementsFoundError();
+      }
     }
 
     const elementsByQuerySelector = querySelector

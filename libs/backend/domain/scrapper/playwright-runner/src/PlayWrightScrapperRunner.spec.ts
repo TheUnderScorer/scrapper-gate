@@ -37,6 +37,15 @@ let container: AwilixContainer;
 
 jest.retryTimes(4).setTimeout(900000);
 
+const scrapperRun: Readonly<ScrapperRun> = {
+  index: 0,
+  id: v4(),
+  steps: [],
+  createdAt: new Date(),
+  updatedAt: new Date(),
+  state: RunState.InProgress,
+};
+
 describe('PlayWright scrapper runner', () => {
   const ignoredBrowserTypes =
     process.env.IGNORED_BROWSER_TYPES?.split(',') ?? [];
@@ -88,6 +97,7 @@ describe('PlayWright scrapper runner', () => {
       browser,
       browserType,
       filesService: container.resolve<FilesService>('filesService'),
+      scrapperRun,
     });
 
     browsers.push(browser);
@@ -119,17 +129,10 @@ describe('PlayWright scrapper runner', () => {
       await cleanup();
     });
 
-    const scrapperRun: ScrapperRun = {
-      index: 0,
-      id: v4(),
-      steps: [],
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      state: RunState.InProgress,
-    };
-
-    it('should handle clicking multiple links', async () => {
-      const runner = await bootstrapRunner(type);
+      it(
+        'should handle clicking multiple links',
+        async () => {
+          const runner = await bootstrapRunner(type);
 
       await runner.Click({
         scrapperRun,

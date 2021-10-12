@@ -410,6 +410,7 @@ export type ScrapperRunSettings = {
   noElementsFoundBehavior?: Maybe<ScrapperNoElementsFoundBehavior>;
   timeoutMs?: Maybe<Scalars['Float']>;
   initialUrl?: Maybe<Scalars['String']>;
+  promptText?: Maybe<Scalars['String']>;
 };
 
 export type ScrapperRunSettingsInput = {
@@ -417,6 +418,7 @@ export type ScrapperRunSettingsInput = {
   noElementsFoundBehavior?: Maybe<ScrapperNoElementsFoundBehavior>;
   timeoutMs?: Maybe<Scalars['Float']>;
   initialUrl?: Maybe<Scalars['String']>;
+  promptText?: Maybe<Scalars['String']>;
 };
 
 export type ScrapperRunStepResult = BaseEntity & {
@@ -530,6 +532,7 @@ export type SendScrapperToQueueResult = {
 export type StartScrapperInput = {
   scrapperId: Scalars['ID'];
   browserType?: Maybe<BrowserType>;
+  runSettings?: Maybe<ScrapperRunSettingsInput>;
 };
 
 export type Subscription = {
@@ -666,7 +669,11 @@ export type ScrapperForRunFragment = Pick<
   runSettings?: Maybe<
     Pick<
       ScrapperRunSettings,
-      'dialogBehaviour' | 'initialUrl' | 'noElementsFoundBehavior' | 'timeoutMs'
+      | 'dialogBehaviour'
+      | 'initialUrl'
+      | 'noElementsFoundBehavior'
+      | 'timeoutMs'
+      | 'promptText'
     >
   >;
 };
@@ -689,7 +696,11 @@ export type ScrapperBuilderScrapperFragment = Pick<
   runSettings?: Maybe<
     Pick<
       ScrapperRunSettings,
-      'dialogBehaviour' | 'initialUrl' | 'noElementsFoundBehavior' | 'timeoutMs'
+      | 'dialogBehaviour'
+      | 'initialUrl'
+      | 'noElementsFoundBehavior'
+      | 'timeoutMs'
+      | 'promptText'
     >
   >;
   variables?: Maybe<
@@ -1643,6 +1654,11 @@ export type ScrapperRunSettingsResolvers<
   >;
   timeoutMs?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   initialUrl?: Resolver<
+    Maybe<ResolversTypes['String']>,
+    ParentType,
+    ContextType
+  >;
+  promptText?: Resolver<
     Maybe<ResolversTypes['String']>,
     ParentType,
     ContextType
