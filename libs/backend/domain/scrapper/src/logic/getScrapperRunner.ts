@@ -1,7 +1,11 @@
 import { FilesService } from '@scrapper-gate/backend/domain/files';
 import { PlayWrightScrapperRunner } from '@scrapper-gate/backend/domain/scrapper/playwright-runner';
 import { Logger } from '@scrapper-gate/shared/logger';
-import { BrowserType, ScrapperType } from '@scrapper-gate/shared/schema';
+import {
+  BrowserType,
+  ScrapperRunSettings,
+  ScrapperType,
+} from '@scrapper-gate/shared/schema';
 import type { Browser } from 'playwright';
 import { ScrapperRunModel } from '../models/ScrapperRun.model';
 
@@ -15,7 +19,7 @@ export interface GetScrapperRunnerDependencies {
 
 export const makeGetScrapperRunner =
   (dependencies: GetScrapperRunnerDependencies) =>
-  (scrapperRun: ScrapperRunModel) => {
+  (scrapperRun: ScrapperRunModel, runSettings?: ScrapperRunSettings) => {
     if (!scrapperRun.scrapper) {
       throw new TypeError('Scrapper is missing in scrapper run.');
     }
@@ -25,6 +29,7 @@ export const makeGetScrapperRunner =
         return new PlayWrightScrapperRunner({
           ...dependencies,
           scrapperRun,
+          runSettings,
         });
 
       default:

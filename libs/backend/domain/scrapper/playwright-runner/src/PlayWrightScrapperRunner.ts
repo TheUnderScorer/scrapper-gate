@@ -27,6 +27,7 @@ import {
   ScrapperDialogBehaviour,
   ScrapperNoElementsFoundBehavior,
   ScrapperRun,
+  ScrapperRunSettings,
   ScrapperRunValue,
   ScrapperStep,
   Selector,
@@ -44,6 +45,7 @@ export interface PlayWrightScrapperRunnerDependencies {
   browserType: BrowserType;
   filesService: FilesService;
   scrapperRun: ScrapperRun;
+  runSettings?: ScrapperRunSettings;
 }
 
 interface AfterRunResult {
@@ -68,6 +70,7 @@ export class PlayWrightScrapperRunner implements ScrapperRunner {
   private readonly performanceManager = new PerformanceManager();
   private readonly filesService: FilesService;
   private readonly scrapperRun: ScrapperRun;
+  private runSettings?: ScrapperRunSettings;
 
   constructor({
     browser,
@@ -76,6 +79,7 @@ export class PlayWrightScrapperRunner implements ScrapperRunner {
     browserType,
     filesService,
     scrapperRun,
+    runSettings,
   }: PlayWrightScrapperRunnerDependencies) {
     this.browser = browser;
     this.traceId = traceId;
@@ -83,6 +87,7 @@ export class PlayWrightScrapperRunner implements ScrapperRunner {
     this.browserType = browserType;
     this.filesService = filesService;
     this.scrapperRun = scrapperRun;
+    this.runSettings = runSettings ?? scrapperRun.runSettings;
   }
 
   async initialize() {
@@ -99,8 +104,8 @@ export class PlayWrightScrapperRunner implements ScrapperRunner {
     this.page = await this.context.newPage();
     this.initialPage = this.page;
 
-    if (this.scrapperRun?.runSettings?.initialUrl) {
-      await this.page.goto(this.scrapperRun.runSettings.initialUrl, {
+    if (this?.runSettings?.initialUrl) {
+      await this.page.goto(this.runSettings.initialUrl, {
         waitUntil: 'networkidle',
       });
     }
@@ -118,13 +123,13 @@ export class PlayWrightScrapperRunner implements ScrapperRunner {
 
     // TODO Support all kind of dialogs
     this.page.on('dialog', async (dialog) => {
-      switch (this.scrapperRun.runSettings?.dialogBehaviour) {
-        case ScrapperDialogBehaviour.AlwaysReject:
-          await dialog.dismiss();
+      switch (this.runSettings?.dialogBehaviour) {
+        case ScrapperDialogBehaviour.AlwaysConfirm:
+          await dialog.accept(this.runSettings?.promptText);
           break;
 
         default:
-          await dialog.accept(this.scrapperRun.runSettings?.promptText);
+          await dialog.dismiss();
       }
     });
 
@@ -384,7 +389,7 @@ export class PlayWrightScrapperRunner implements ScrapperRunner {
       this.logger.error(e);
 
       if (
-        this.scrapperRun.runSettings?.noElementsFoundBehavior ===
+        this.runSettings?.noElementsFoundBehavior ===
         ScrapperNoElementsFoundBehavior.Fail
       ) {
         throw new NoElementsFoundError();

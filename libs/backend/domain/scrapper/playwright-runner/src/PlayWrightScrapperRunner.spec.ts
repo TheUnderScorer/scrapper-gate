@@ -29,6 +29,7 @@ import { v4 } from 'uuid';
 import { persistTestArtifact } from '../../../../../../tests/utils/artifacts';
 import '../../../../../../typings/global';
 import { createScrapperStepForConditionalTest } from './__mocks__/scrapperStep';
+import { setupConfirmationTest } from './__tests__/setupConfirmationTest';
 import { setupPromptTest } from './__tests__/setupPromptTest';
 import { PlayWrightScrapperRunner } from './PlayWrightScrapperRunner';
 
@@ -386,25 +387,52 @@ describe('PlayWright scrapper runner', () => {
     });
 
     it('should support writing text into prompt', async () => {
-      const runner = await bootstrapRunner(type);
-
-      const { promptText, values } = await setupPromptTest(runner, scrapperRun);
+      const { promptText, values } = await setupPromptTest({
+        createRunner: () => bootstrapRunner(type),
+        scrapperRun: scrapperRun,
+      });
 
       expect(values).toHaveLength(1);
       expect(first(values)?.value).toEqual(promptText);
     });
 
     it('should not write prompt text it alert behaviour is to reject', async () => {
-      const runner = await bootstrapRunner(type);
-
-      const { values } = await setupPromptTest(
-        runner,
-        scrapperRun,
-        ScrapperDialogBehaviour.AlwaysReject
-      );
+      const { values } = await setupPromptTest({
+        createRunner: () => bootstrapRunner(type),
+        scrapperRun: scrapperRun,
+        dialogBehaviour: ScrapperDialogBehaviour.AlwaysReject,
+      });
 
       expect(values).toHaveLength(1);
       expect(first(values)?.value).toEqual('');
+    });
+
+    it('should accept confirmation dialog', async () => {
+      scrapperRun.runSettings = {
+        dialogBehaviour: ScrapperDialogBehaviour.AlwaysConfirm,
+      };
+
+      const values = await setupConfirmationTest(
+        scrapperRun,
+        await bootstrapRunner(type)
+      );
+
+      expect(values).toHaveLength(1);
+      expect(first(values)?.value).toEqual('Confirmed');
+    });
+
+    it('should reject confirmation dialog', async () => {
+      scrapperRun.runSettings = {
+        dialogBehaviour: ScrapperDialogBehaviour.AlwaysReject,
+      };
+
+      const values = await setupConfirmationTest(
+        scrapperRun,
+        await bootstrapRunner(type)
+      );
+
+      expect(values).toHaveLength(1);
+      expect(first(values)?.value).toEqual('Not confirmed');
     });
   });
 });

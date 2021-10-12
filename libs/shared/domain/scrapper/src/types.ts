@@ -3,6 +3,7 @@ import {
   RunnerTrigger,
   ScrapperAction,
   ScrapperRun,
+  ScrapperRunSettings,
   ScrapperRunStepResult,
   ScrapperRunValue,
   ScrapperStep,
@@ -76,6 +77,7 @@ export interface ScrapperStepHandlerParams {
 export interface ScrapperRunnerMessagePayload {
   runId: string;
   trigger: RunnerTrigger;
+  runSettings?: ScrapperRunSettings;
 }
 
 export type ScrapperRunResultKeyPairValues = Record<string, string[]>;

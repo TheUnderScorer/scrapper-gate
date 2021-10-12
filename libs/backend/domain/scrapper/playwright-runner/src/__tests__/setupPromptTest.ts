@@ -6,11 +6,17 @@ import {
   ScrapperRun,
 } from '@scrapper-gate/shared/schema';
 
-export async function setupPromptTest(
-  runner: PlayWrightScrapperRunner,
-  scrapperRun: ScrapperRun,
-  dialogBehaviour: ScrapperDialogBehaviour = ScrapperDialogBehaviour.AlwaysConfirm
-) {
+interface SetupPromptTestParams {
+  scrapperRun: ScrapperRun;
+  dialogBehaviour?: ScrapperDialogBehaviour;
+  createRunner: () => Promise<PlayWrightScrapperRunner>;
+}
+
+export async function setupPromptTest({
+  scrapperRun,
+  dialogBehaviour = ScrapperDialogBehaviour.AlwaysConfirm,
+  createRunner,
+}: SetupPromptTestParams) {
   const promptText = 'Test prompt text';
 
   scrapperRun.runSettings = {
@@ -18,7 +24,7 @@ export async function setupPromptTest(
     promptText,
   };
 
-  await runner.initialize();
+  const runner = await createRunner();
 
   await runner.Click({
     step: {
