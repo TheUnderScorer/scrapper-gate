@@ -259,7 +259,7 @@ describe('PlayWright scrapper runner', () => {
       const clickStep = await createMockScrapperStep({});
       clickStep.url = 'http://localhost:8080/popup.html';
       clickStep.action = ScrapperAction.Click;
-      clickStep.selectors = [
+      clickStep.allSelectors = [
         {
           value: '#popup_trigger',
         },

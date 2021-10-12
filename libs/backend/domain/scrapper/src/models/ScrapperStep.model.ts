@@ -1,5 +1,5 @@
 import { BaseModel } from '@scrapper-gate/backend/base-model';
-import { makeDataObjectTransformer } from '@scrapper-gate/backend/db-utils';
+import { makeDataObjectArrayTransformer } from '@scrapper-gate/backend/db-utils';
 import { ConditionalRuleGroupModel } from '@scrapper-gate/backend/domain/conditional-rules';
 import { UserModel } from '@scrapper-gate/backend/domain/user';
 import { Entities } from '@scrapper-gate/shared/common';
@@ -121,7 +121,7 @@ export class ScrapperStepModel
   @Column({
     nullable: true,
     type: 'jsonb',
-    transformer: makeDataObjectTransformer(ConditionalRuleGroupModel),
+    transformer: makeDataObjectArrayTransformer(ConditionalRuleGroupModel),
   })
   conditionalRules?: ConditionalRuleGroupModel[];
 
