@@ -646,11 +646,7 @@ export type SendScrapperToQueueMutationVariables = Exact<{
 
 export type SendScrapperToQueueMutation = {
   sendScrapperToRunnerQueue: {
-    scrapper?: Maybe<
-      Pick<Scrapper, 'id' | 'name'> & {
-        lastRun?: Maybe<Pick<ScrapperRun, 'id' | 'endedAt' | 'state'>>;
-      }
-    >;
+    scrapper?: Maybe<ScrapperForRunFragment>;
     run?: Maybe<Pick<ScrapperRun, 'id' | 'endedAt' | 'state'>>;
   };
 };
@@ -659,10 +655,20 @@ export type GetScrapperStateQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
-export type GetScrapperStateQuery = {
-  getMyScrapper: Pick<Scrapper, 'id' | 'name'> & {
-    lastRun?: Maybe<Pick<ScrapperRun, 'id' | 'endedAt' | 'state'>>;
-  };
+export type GetScrapperStateQuery = { getMyScrapper: ScrapperForRunFragment };
+
+export type ScrapperForRunFragment = Pick<
+  Scrapper,
+  'id' | 'isRunning' | 'name' | 'type'
+> & {
+  steps?: Maybe<Array<Pick<ScrapperStep, 'id'>>>;
+  lastRun?: Maybe<Pick<ScrapperRun, 'id' | 'endedAt' | 'state'>>;
+  runSettings?: Maybe<
+    Pick<
+      ScrapperRunSettings,
+      'dialogBehaviour' | 'initialUrl' | 'noElementsFoundBehavior' | 'timeoutMs'
+    >
+  >;
 };
 
 export type UpdateScrapperMutationVariables = Exact<{

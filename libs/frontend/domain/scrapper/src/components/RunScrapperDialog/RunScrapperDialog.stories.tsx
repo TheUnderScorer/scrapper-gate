@@ -1,8 +1,12 @@
+import { MockedProvider } from '@apollo/client/testing';
 import { Button } from '@mui/material';
 import { DialogController, useDialog } from '@scrapper-gate/frontend/dialogs';
-import { ScrapperType } from '@scrapper-gate/shared/schema';
+import {
+  ScrapperForRunFragment,
+  ScrapperType,
+} from '@scrapper-gate/shared/schema';
+import { MemoryRouter } from 'react-router-dom';
 import { RunScrapperDialog, runScrapperDialogId } from './RunScrapperDialog';
-import { ScrapperForRun } from './RunScrapperDialog.types';
 
 export default {
   title: 'Run scrapper dialog',
@@ -10,13 +14,19 @@ export default {
 
 export const Component = () => {
   return (
-    <DialogController>
-      <BaseComponent />
-    </DialogController>
+    <div>
+      <MockedProvider mocks={[]}>
+        <MemoryRouter>
+          <DialogController>
+            <BaseComponent />
+          </DialogController>
+        </MemoryRouter>
+      </MockedProvider>
+    </div>
   );
 };
 
-const scrapper: ScrapperForRun = {
+const scrapper: ScrapperForRunFragment = {
   id: 'id',
   type: ScrapperType.RealBrowser,
   isRunning: false,

@@ -1,13 +1,7 @@
 mutation SendScrapperToQueue($input: StartScrapperInput!) {
   sendScrapperToRunnerQueue(input: $input) {
     scrapper {
-      id
-      name
-      lastRun {
-        id
-        endedAt
-        state
-      }
+      ...ScrapperForRun
     }
     run {
       id
@@ -19,12 +13,27 @@ mutation SendScrapperToQueue($input: StartScrapperInput!) {
 
 query GetScrapperState($id: ID!) {
   getMyScrapper(id: $id) {
+    ...ScrapperForRun
+  }
+}
+
+fragment ScrapperForRun on Scrapper {
+  id
+  isRunning
+  name
+  type
+  steps {
     id
-    name
-    lastRun {
-      id
-      endedAt
-      state
-    }
+  }
+  lastRun {
+    id
+    endedAt
+    state
+  }
+  runSettings {
+    dialogBehaviour
+    initialUrl
+    noElementsFoundBehavior
+    timeoutMs
   }
 }
