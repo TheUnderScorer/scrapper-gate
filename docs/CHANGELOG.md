@@ -1,3 +1,10 @@
+# [1.0.0-test.11](https://github.com/TheUnderScorer/scrapper-gate/compare/v1.0.0-test.10...v1.0.0-test.11) (2021-10-12)
+
+
+### Bug Fixes
+
+* **scrapper-runner:** Use selectors from conditional rules as well ([34fa00d](https://github.com/TheUnderScorer/scrapper-gate/commit/34fa00d86b0313d3306624e4e78412ec719a3b4d))
+
 # [1.0.0-test.10](https://github.com/TheUnderScorer/scrapper-gate/compare/v1.0.0-test.9...v1.0.0-test.10) (2021-10-12)
 
 
