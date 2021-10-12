@@ -3,7 +3,7 @@ import {
   FilesService,
   generateScrapperScreenshotFileKey,
 } from '@scrapper-gate/backend/domain/files';
-import { Environment, wait } from '@scrapper-gate/shared/common';
+import { Environment, first, wait } from '@scrapper-gate/shared/common';
 import { createMockScrapperStep } from '@scrapper-gate/shared/domain/scrapper/mocks';
 import { logger } from '@scrapper-gate/shared/logger/console';
 import {
@@ -12,6 +12,7 @@ import {
   MouseButton,
   RunState,
   ScrapperAction,
+  ScrapperDialogBehaviour,
   ScrapperRun,
   ScrapperStep,
 } from '@scrapper-gate/shared/schema';
@@ -28,6 +29,7 @@ import { v4 } from 'uuid';
 import { persistTestArtifact } from '../../../../../../tests/utils/artifacts';
 import '../../../../../../typings/global';
 import { createScrapperStepForConditionalTest } from './__mocks__/scrapperStep';
+import { setupPromptTest } from './__tests__/setupPromptTest';
 import { PlayWrightScrapperRunner } from './PlayWrightScrapperRunner';
 
 let runners: PlayWrightScrapperRunner[] = [];
@@ -37,14 +39,7 @@ let container: AwilixContainer;
 
 jest.retryTimes(4).setTimeout(900000);
 
-const scrapperRun: Readonly<ScrapperRun> = {
-  index: 0,
-  id: v4(),
-  steps: [],
-  createdAt: new Date(),
-  updatedAt: new Date(),
-  state: RunState.InProgress,
-};
+let scrapperRun: ScrapperRun;
 
 describe('PlayWright scrapper runner', () => {
   const ignoredBrowserTypes =
@@ -53,7 +48,10 @@ describe('PlayWright scrapper runner', () => {
     (type) => !ignoredBrowserTypes.includes(type)
   );
 
-  const bootstrapRunner = async (browserType: BrowserType) => {
+  const bootstrapRunner = async (
+    browserType: BrowserType,
+    initialize = true
+  ) => {
     const options: LaunchOptions = {
       headless: true,
     };
@@ -102,7 +100,9 @@ describe('PlayWright scrapper runner', () => {
 
     browsers.push(browser);
 
-    await runner.initialize();
+    if (initialize) {
+      await runner.initialize();
+    }
 
     runners.push(runner);
 
@@ -124,15 +124,24 @@ describe('PlayWright scrapper runner', () => {
     browsers = [];
   };
 
+  beforeEach(() => {
+    scrapperRun = {
+      index: 0,
+      id: v4(),
+      steps: [],
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      state: RunState.InProgress,
+    };
+  });
+
   describe.each(browserTypes)('Popup test site - %s', (type) => {
     afterEach(async () => {
       await cleanup();
     });
 
-      it(
-        'should handle clicking multiple links',
-        async () => {
-          const runner = await bootstrapRunner(type);
+    it('should handle clicking multiple links', async () => {
+      const runner = await bootstrapRunner(type);
 
       await runner.Click({
         scrapperRun,
@@ -374,6 +383,28 @@ describe('PlayWright scrapper runner', () => {
       });
 
       expect(result).toEqual(false);
+    });
+
+    it('should support writing text into prompt', async () => {
+      const runner = await bootstrapRunner(type);
+
+      const { promptText, values } = await setupPromptTest(runner, scrapperRun);
+
+      expect(values).toHaveLength(1);
+      expect(first(values)?.value).toEqual(promptText);
+    });
+
+    it('should not write prompt text it alert behaviour is to reject', async () => {
+      const runner = await bootstrapRunner(type);
+
+      const { values } = await setupPromptTest(
+        runner,
+        scrapperRun,
+        ScrapperDialogBehaviour.AlwaysReject
+      );
+
+      expect(values).toHaveLength(1);
+      expect(first(values)?.value).toEqual('');
     });
   });
 });

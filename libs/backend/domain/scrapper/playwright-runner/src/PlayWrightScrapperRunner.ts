@@ -157,7 +157,7 @@ export class PlayWrightScrapperRunner implements ScrapperRunner {
   // TODO Handle popup windows https://playwright.dev/docs/1.0.0/verification#page-events
   async Click(params: ScrapperStepHandlerParams) {
     try {
-      const { querySelector, xpathSelector } = await this.preRun(params);
+      const { elements } = await this.preRun(params);
       const { step } = params;
 
       const options = {
@@ -165,13 +165,7 @@ export class PlayWrightScrapperRunner implements ScrapperRunner {
         button: step.mouseButton ? mouseButtonMap[step.mouseButton] : 'left',
       };
 
-      if (querySelector) {
-        await this.page.click(querySelector, options);
-      }
-
-      if (xpathSelector) {
-        await this.page.click(xpathSelector, options);
-      }
+      await Promise.all(elements.map((element) => element.click(options)));
 
       const { performance } = await this.afterRun(params);
 
