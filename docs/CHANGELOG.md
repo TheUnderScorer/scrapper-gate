@@ -1,3 +1,15 @@
+# [1.0.0-test.10](https://github.com/TheUnderScorer/scrapper-gate/compare/v1.0.0-test.9...v1.0.0-test.10) (2021-10-12)
+
+
+### Bug Fixes
+
+* **flow-builder:** Fix flickering after toggling tabs ([335363d](https://github.com/TheUnderScorer/scrapper-gate/commit/335363d6cd420de5c25d9c57d35df57f834aa48b))
+
+
+### Features
+
+* Add better run state indicators ([f2e5eec](https://github.com/TheUnderScorer/scrapper-gate/commit/f2e5eecdca21116432d6b64a6d33c6f065c9a945))
+
 # [1.0.0-test.9](https://github.com/TheUnderScorer/scrapper-gate/compare/v1.0.0-test.8...v1.0.0-test.9) (2021-10-04)
 
 
