@@ -35,7 +35,7 @@ jobs:
         run: npm ci --legacy-peer-deps
 
       - name: Build
-        run: npx nx build && npx nx build api
+        run: npm run build:tools && npx nx build && npx nx build api
 
       - name: Release
         run: npm run release
