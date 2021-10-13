@@ -11,6 +11,7 @@ import {
   findFirstNode,
   getNextStepIdFromCondition,
 } from '@scrapper-gate/shared/node';
+import { canBeSkipped } from '@scrapper-gate/shared/run-states';
 import {
   RunState,
   Scrapper,
@@ -104,7 +105,7 @@ export class ScrapperRunProcessor implements Disposable {
 
     scrapperRun.results.forEach((result) => {
       // Mark all not completed steps as skipped
-      if (result.state !== RunState.Completed) {
+      if (canBeSkipped(result.state)) {
         result.state = RunState.Skipped;
       }
     });
@@ -183,11 +184,13 @@ export class ScrapperRunProcessor implements Disposable {
     } catch (error) {
       const errorObject = ErrorObjectDto.createFromError(error);
 
+      // Persist error on step level
       stepResult.state = RunState.Failed;
       stepResult.error = errorObject;
 
       await this.events.emit('scrapperRunChanged', scrapperRun);
 
+      // Throw error again in order to store it on run level as well
       throw error;
     }
   }

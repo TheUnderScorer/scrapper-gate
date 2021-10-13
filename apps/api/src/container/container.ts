@@ -35,7 +35,6 @@ import { fileResolver } from '../resolvers/file/file.resolver';
 import { rootResolver } from '../resolvers/root.resolver';
 import { scrapperResolver } from '../resolvers/scrapper/scrapper.resolver';
 import { userResolver } from '../resolvers/user/user.resolver';
-import { setupDataLoaders } from './dataLoaders';
 import { setupServices } from './services';
 
 export interface CreateContainerDependencies {
@@ -83,7 +82,6 @@ export const createContainer = async ({
   });
 
   await setupServices(container, skipMessageQueueHealthCheck);
-  setupDataLoaders(container);
 
   container.register({
     port: asValue(port),

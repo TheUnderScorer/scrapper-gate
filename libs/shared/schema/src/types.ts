@@ -309,7 +309,7 @@ export type RunnerError = ErrorObjectInterface & {
   name: Scalars['String'];
   message?: Maybe<Scalars['String']>;
   date: Scalars['Date'];
-  stepId: Scalars['ID'];
+  stepId?: Maybe<Scalars['ID']>;
 };
 
 export type RunnerPerformanceEntry = {
@@ -1502,7 +1502,7 @@ export type RunnerErrorResolvers<
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   message?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   date?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
-  stepId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  stepId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 

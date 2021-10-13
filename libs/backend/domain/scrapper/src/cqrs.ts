@@ -1,8 +1,10 @@
 import { CreateScrapper } from './commands/CreateScrapper.command';
+import { HandleFailedScrapperRunStart } from './commands/HandleFailedScrapperRunStart.command';
 import { RunScrapper } from './commands/RunScrapper.command';
 import { SendScrapperToRunnerQueue } from './commands/SendScrapperToRunnerQueue.command';
 import { UpdateScrapper } from './commands/UpdateScrapper.command';
 import { createScrapperHandler } from './handlers/createScrapper.handler';
+import { handleFailedScrapperRunStartHandler } from './handlers/handleFailedScrapperRunStart.handler';
 import { RunScrapperHandler } from './handlers/RunScrapper.handler';
 import { sendScrapperToRunnerQueueHandler } from './handlers/sendScrapperToRunnerQueue.handler';
 import { updateScrapperHandler } from './handlers/updateScrapper.handler';
@@ -23,6 +25,7 @@ export const cqrs = {
     [UpdateScrapper]: updateScrapperHandler,
     [SendScrapperToRunnerQueue]: sendScrapperToRunnerQueueHandler,
     [RunScrapper]: RunScrapperHandler,
+    [HandleFailedScrapperRunStart]: handleFailedScrapperRunStartHandler,
   },
   queryHandlers: {
     [GetScrapperByUser]: getScrapperByUserHandler,
