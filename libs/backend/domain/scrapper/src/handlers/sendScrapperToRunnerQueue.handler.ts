@@ -45,6 +45,7 @@ export const sendScrapperToRunnerQueueHandler =
       scrapper,
       getNextIndex(lastRun)
     );
+    run.runSettings = input.runSettings;
 
     await scrapperRunRepository.save(run);
 
@@ -55,6 +56,7 @@ export const sendScrapperToRunnerQueueHandler =
         payload: {
           runId: run.id,
           trigger: RunnerTrigger.Manual,
+          runSettings: input.runSettings,
         },
       },
       input.browserType ?? BrowserType.Chrome

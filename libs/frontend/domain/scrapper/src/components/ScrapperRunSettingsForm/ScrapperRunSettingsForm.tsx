@@ -1,7 +1,8 @@
 import { Stack } from '@mui/material';
 import { VariablesTextField } from '@scrapper-gate/frontend/domain/variables';
-import { EnumSelect } from '@scrapper-gate/frontend/form';
+import { EnumSelect, useFormFieldValue } from '@scrapper-gate/frontend/form';
 import {
+  Maybe,
   ScrapperDialogBehaviour,
   ScrapperNoElementsFoundBehavior,
 } from '@scrapper-gate/shared/schema';
@@ -11,6 +12,10 @@ import { ScrapperRunSettingsFormProps } from './ScrapperRunSettingsForm.types';
 export const ScrapperRunSettingsForm = ({
   getFieldName,
 }: ScrapperRunSettingsFormProps) => {
+  const dialogBehaviour = useFormFieldValue<Maybe<ScrapperDialogBehaviour>>(
+    getFieldName('dialogBehaviour')
+  );
+
   return (
     <Stack spacing={4}>
       <EnumSelect
@@ -30,6 +35,7 @@ export const ScrapperRunSettingsForm = ({
         name={getFieldName('noElementsFoundBehavior')}
       />
       <VariablesTextField
+        disabled={dialogBehaviour === ScrapperDialogBehaviour.AlwaysReject}
         name={getFieldName('promptText')}
         label="Prompt text"
         helperText="Text to enter into prompt alerts."

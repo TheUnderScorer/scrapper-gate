@@ -8,6 +8,7 @@ import {
   DialogContentText,
   Typography,
 } from '@mui/material';
+import { removeTypename } from '@scrapper-gate/frontend/api-client';
 import { useReturnUrlProvider } from '@scrapper-gate/frontend/common';
 import { Dialog, useDialogMethods } from '@scrapper-gate/frontend/dialogs';
 import { joiValidationResolver } from '@scrapper-gate/frontend/form';
@@ -25,7 +26,7 @@ import {
   ScrapperRunSettingsInput,
 } from '@scrapper-gate/shared/schema';
 import { ScrapperRunSettingsInputDto } from '@scrapper-gate/shared/validation';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Form } from 'react-final-form';
 import { useMount } from 'react-use';
 import { scrapperRunPollMs } from '../../shared/constants';
@@ -103,26 +104,43 @@ export const RunScrapperDialog = ({
     }
   });
 
+  const makeActions = useCallback(
+    (onRun: () => unknown) =>
+      running ? (
+        <Button variant="contained" color="error">
+          Cancel
+        </Button>
+      ) : (
+        <Button onClick={onRun} variant="contained">
+          {called ? 'Run again' : 'Confirm'}
+        </Button>
+      ),
+    [called, running]
+  );
+
   if (!actualScrapper) {
     return null;
   }
 
-  const baseActions = running ? (
-    <Button variant="contained" color="error">
-      Cancel
-    </Button>
-  ) : (
-    <Button onClick={() => sendScrapper()} variant="contained">
-      {called ? 'Run again' : 'Confirm'}
-    </Button>
-  );
+  const initialValues = removeTypename(actualScrapper.runSettings);
+
+  console.log({ initialValues });
 
   return (
     <Form<ScrapperRunSettingsInput>
       validate={validate}
-      onSubmit={() => sendScrapper()}
-      initialValues={actualScrapper.runSettings}
-      render={() => (
+      onSubmit={(values) =>
+        sendScrapper({
+          variables: {
+            input: {
+              scrapperId: scrapper?.id as string,
+              runSettings: values,
+            },
+          },
+        })
+      }
+      initialValues={initialValues}
+      render={(props) => (
         <Dialog
           maxWidth="sm"
           fullWidth
@@ -131,7 +149,7 @@ export const RunScrapperDialog = ({
           onCancel={onCancel}
           id={runScrapperDialogId}
           title="Run scrapper"
-          actions={baseActions}
+          actions={makeActions(props.handleSubmit)}
         >
           <DialogContentText component="div" whiteSpace="pre-wrap">
             <RunState
