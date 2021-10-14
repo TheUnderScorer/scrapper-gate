@@ -174,7 +174,26 @@ export class PlayWrightScrapperRunner
         button: step.mouseButton ? mouseButtonMap[step.mouseButton] : 'left',
       };
 
-      await Promise.all(elements.map((element) => element.click(options)));
+      await Promise.all(
+        elements.map(async (element) => {
+          try {
+            await element.click(options);
+          } catch (error) {
+            const messages = [
+              'Protocol error (DOM.scrollIntoViewIfNeeded): Cannot find context with specified id',
+              'elementHandle.click: Unable to adopt element handle from a different document',
+            ];
+
+            const isValidError = messages.some((msg) =>
+              error.message.includes(msg)
+            );
+
+            if (!isValidError) {
+              throw error;
+            }
+          }
+        })
+      );
 
       const { performance } = await this.afterRun(params);
 
