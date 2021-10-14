@@ -2,11 +2,12 @@ import { BaseModel } from '@scrapper-gate/backend/base-model';
 import { makeDataObjectArrayTransformer } from '@scrapper-gate/backend/db-utils';
 import { ConditionalRuleGroupModel } from '@scrapper-gate/backend/domain/conditional-rules';
 import { UserModel } from '@scrapper-gate/backend/domain/user';
-import { Entities } from '@scrapper-gate/shared/common';
+import { Entities, Setter } from '@scrapper-gate/shared/common';
 import {
   MouseButton,
   NodePosition,
   ScrapperAction,
+  ScrapperRunSettings,
   ScrapperStep,
   Selector,
 } from '@scrapper-gate/shared/schema';
@@ -123,6 +124,9 @@ export class ScrapperStepModel
     type: 'jsonb',
     transformer: makeDataObjectArrayTransformer(ConditionalRuleGroupModel),
   })
+  @Setter((value?: ConditionalRuleGroupModel[]) =>
+    value?.map((val) => ConditionalRuleGroupModel.create(val))
+  )
   conditionalRules?: ConditionalRuleGroupModel[];
 
   @Column({
@@ -134,6 +138,12 @@ export class ScrapperStepModel
     nullable: true,
   })
   fullPageScreenshot?: boolean;
+
+  @Column({
+    nullable: true,
+    type: 'jsonb',
+  })
+  newRunSettings?: ScrapperRunSettings;
 
   get allSelectors() {
     const selectors = [...(this.selectors ?? [])];

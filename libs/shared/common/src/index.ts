@@ -34,3 +34,4 @@ export * from './indexable';
 export * from './fns';
 export * from './pickId';
 export * from './matchAll';
+export * from './decorators/setter';

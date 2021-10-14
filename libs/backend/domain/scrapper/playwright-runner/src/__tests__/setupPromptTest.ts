@@ -1,4 +1,4 @@
-import { PlayWrightScrapperRunner } from '@scrapper-gate/backend/domain/scrapper/playwright-runner';
+import { PlayWrightScrapperRunner } from '../PlayWrightScrapperRunner';
 import { createMockScrapperStep } from '@scrapper-gate/shared/domain/scrapper/mocks';
 import {
   ScrapperAction,

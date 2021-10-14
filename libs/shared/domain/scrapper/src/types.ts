@@ -52,13 +52,13 @@ export interface ScreenshotRunScrapperStepResult
   values: ScrapperRunScreenshotValue[];
 }
 
-type BaseStepHandlers = {
+export type BaseScrapperStepHandlers = {
   [Key in ScrapperAction]: (
     params: ScrapperStepHandlerParams
   ) => MaybePromise<RunScrapperStepResult>;
 };
 
-export type ScrapperStepHandlers = BaseStepHandlers & {
+export type ScrapperStepHandlers = BaseScrapperStepHandlers & {
   [ScrapperAction.Condition]: (
     params: ScrapperStepHandlerParams
   ) => MaybePromise<ConditionalRunScrapperStepResult>;

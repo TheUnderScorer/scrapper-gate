@@ -16,16 +16,14 @@ describe('Remove typename', () => {
 
     const result = removeTypename(obj);
 
-    expect(result).toMatchInlineSnapshot(`
-      Object {
-        "a": 1,
-        "arr": Object {
-          "0": Object {
-            "c": 1,
-          },
+    expect(result).toEqual({
+      a: 1,
+      b: 2,
+      arr: [
+        {
+          c: 1,
         },
-        "b": 2,
-      }
-    `);
+      ],
+    });
   });
 });

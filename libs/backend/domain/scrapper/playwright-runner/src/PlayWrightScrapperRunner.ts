@@ -2,6 +2,7 @@ import {
   FilesService,
   generateScrapperScreenshotFileKey,
 } from '@scrapper-gate/backend/domain/files';
+import { BaseScrapperRunner } from '@scrapper-gate/backend/domain/scrapper/base-runner';
 import { PerformanceManager } from '@scrapper-gate/backend/perf-hooks-utils';
 import {
   areUrlsEqual,
@@ -58,7 +59,10 @@ interface RawScrapperRunScreenshotValue
 }
 
 // TODO Extract common logic + performance logic
-export class PlayWrightScrapperRunner implements ScrapperRunner {
+export class PlayWrightScrapperRunner
+  extends BaseScrapperRunner
+  implements ScrapperRunner
+{
   private context: BrowserContext;
   private page: Page;
   private initialPage: Page;
@@ -70,7 +74,6 @@ export class PlayWrightScrapperRunner implements ScrapperRunner {
   private readonly performanceManager = new PerformanceManager();
   private readonly filesService: FilesService;
   private readonly scrapperRun: ScrapperRun;
-  private runSettings?: ScrapperRunSettings;
 
   constructor({
     browser,
@@ -81,13 +84,14 @@ export class PlayWrightScrapperRunner implements ScrapperRunner {
     scrapperRun,
     runSettings,
   }: PlayWrightScrapperRunnerDependencies) {
+    super(scrapperRun, runSettings);
+
     this.browser = browser;
     this.traceId = traceId;
     this.logger = logger;
     this.browserType = browserType;
     this.filesService = filesService;
     this.scrapperRun = scrapperRun;
-    this.runSettings = runSettings ?? scrapperRun.runSettings;
   }
 
   async initialize() {
@@ -331,6 +335,18 @@ export class PlayWrightScrapperRunner implements ScrapperRunner {
     } catch (e) {
       throw await this.onError(e, params);
     }
+  }
+
+  async ChangeRunSettings(params: ScrapperStepHandlerParams) {
+    await this.preRun(params);
+
+    await super.ChangeRunSettings(params);
+
+    const { performance } = await this.afterRun(params);
+
+    return {
+      performance,
+    };
   }
 
   async Type(params: ScrapperStepHandlerParams) {

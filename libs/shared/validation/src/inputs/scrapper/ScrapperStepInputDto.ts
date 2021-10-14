@@ -1,6 +1,7 @@
 import {
   MouseButton,
   ScrapperAction,
+  ScrapperRunSettingsInput,
   ScrapperStep,
   ScrapperStepInput,
 } from '@scrapper-gate/shared/schema';
@@ -13,10 +14,12 @@ import { unique } from '../../decorators/unique';
 import { uuid } from '../../decorators/uuid';
 import { SelectorDto } from '../SelectorDto';
 import { ScrapperConditionalRuleGroupInputDto } from './ScrapperConditionalRuleGroupInputDto';
+import { ScrapperRunSettingsInputDto } from './ScrapperRunSettingsInputDto';
 
 export class ScrapperStepInputDto
   extends BaseSchema<ScrapperStepInput>
-  implements ScrapperStepInput {
+  implements ScrapperStepInput
+{
   @(uuid().allow(null, ''))
   id: string;
 
@@ -81,4 +84,13 @@ export class ScrapperStepInputDto
     .array({ elementClass: ScrapperConditionalRuleGroupInputDto })
     .allow(null))
   conditionalRules?: ScrapperConditionalRuleGroupInputDto[];
+
+  @(jf.object({ objectClass: ScrapperRunSettingsInputDto }).allow(null))
+  newRunSettings?: ScrapperRunSettingsInput;
+
+  @(jf.boolean().allow(null))
+  fullPageScreenshot?: boolean;
+
+  @(jf.boolean().allow(null))
+  isFirst?: boolean;
 }

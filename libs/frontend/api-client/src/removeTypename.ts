@@ -1,13 +1,28 @@
 import { clone, mapValues } from 'remeda';
 
+type Typename = {
+  __typename?: string;
+};
+
+const hasTypename = (value: unknown): value is Typename => {
+  return Boolean(value && typeof value === 'object' && '__typename' in value);
+};
+
 export const removeTypename = <T>(value: T): T => {
   if (value && typeof value === 'object') {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const target = clone(value as any);
+    const target = clone(value);
 
-    delete target.__typename;
+    if (hasTypename(target)) {
+      delete (target as Typename).__typename;
+    }
 
-    return mapValues(target, removeTypename);
+    return mapValues(target, (value) => {
+      if (Array.isArray(value)) {
+        return value.map(removeTypename);
+      }
+
+      return removeTypename(value);
+    }) as T;
   }
 
   return value;

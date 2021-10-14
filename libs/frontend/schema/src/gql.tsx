@@ -65,6 +65,11 @@ export const ScrapperBuilderStepFragmentDoc = gql`
     url
     typeDelay
     useUrlFromPreviousStep
+    newRunSettings {
+      dialogBehaviour
+      noElementsFoundBehavior
+      promptText
+    }
     position {
       x
       y

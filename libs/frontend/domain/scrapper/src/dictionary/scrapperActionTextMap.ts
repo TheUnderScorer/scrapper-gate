@@ -7,6 +7,7 @@ export const scrapperActionTextMap: Record<ScrapperAction, string> = {
   [ScrapperAction.ReadText]: 'Read text',
   [ScrapperAction.ReloadPage]: 'Reload Page',
   [ScrapperAction.Type]: 'Type text',
-  [ScrapperAction.Condition]: 'Conditional',
   [ScrapperAction.Screenshot]: 'Screenshot',
+  [ScrapperAction.ChangeRunSettings]: 'Change run settings',
+  [ScrapperAction.Condition]: 'Conditional',
 };

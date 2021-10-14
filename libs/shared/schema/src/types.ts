@@ -342,13 +342,14 @@ export type Scrapper = BaseEntity &
 
 export enum ScrapperAction {
   Click = 'Click',
-  Condition = 'Condition',
   GoBack = 'GoBack',
   NavigateTo = 'NavigateTo',
   ReadText = 'ReadText',
   ReloadPage = 'ReloadPage',
   Type = 'Type',
   Screenshot = 'Screenshot',
+  ChangeRunSettings = 'ChangeRunSettings',
+  Condition = 'Condition',
 }
 
 export enum ScrapperDialogBehaviour {
@@ -480,6 +481,7 @@ export type ScrapperStep = BaseEntity &
     conditionalRules?: Maybe<Array<ConditionalRuleGroup>>;
     isFirst?: Maybe<Scalars['Boolean']>;
     fullPageScreenshot?: Maybe<Scalars['Boolean']>;
+    newRunSettings?: Maybe<ScrapperRunSettings>;
   };
 
 export type ScrapperStepInput = {
@@ -502,6 +504,7 @@ export type ScrapperStepInput = {
   conditionalRules?: Maybe<Array<ConditionalRuleGroupInput>>;
   isFirst?: Maybe<Scalars['Boolean']>;
   fullPageScreenshot?: Maybe<Scalars['Boolean']>;
+  newRunSettings?: Maybe<ScrapperRunSettingsInput>;
 };
 
 export enum ScrapperType {
@@ -742,6 +745,12 @@ export type ScrapperBuilderStepFragment = Pick<
   stepOnTrue?: Maybe<Pick<ScrapperStep, 'id'>>;
   stepOnFalse?: Maybe<Pick<ScrapperStep, 'id'>>;
   selectors?: Maybe<Array<Pick<Selector, 'type' | 'value'>>>;
+  newRunSettings?: Maybe<
+    Pick<
+      ScrapperRunSettings,
+      'dialogBehaviour' | 'noElementsFoundBehavior' | 'promptText'
+    >
+  >;
   position?: Maybe<Pick<NodePosition, 'x' | 'y'>>;
   conditionalRules?: Maybe<
     Array<
@@ -1825,6 +1834,11 @@ export type ScrapperStepResolvers<
   isFirst?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   fullPageScreenshot?: Resolver<
     Maybe<ResolversTypes['Boolean']>,
+    ParentType,
+    ContextType
+  >;
+  newRunSettings?: Resolver<
+    Maybe<ResolversTypes['ScrapperRunSettings']>,
     ParentType,
     ContextType
   >;

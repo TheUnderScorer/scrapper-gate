@@ -366,6 +366,30 @@
         }
       }
     },
+    "backend-domain-scrapper-base-runner": {
+      "root": "libs/backend/domain/scrapper/base-runner",
+      "sourceRoot": "libs/backend/domain/scrapper/base-runner/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": [
+              "libs/backend/domain/scrapper/base-runner/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/backend/domain/scrapper/base-runner"],
+          "options": {
+            "jestConfig": "libs/backend/domain/scrapper/base-runner/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "backend-domain-scrapper-playwright-runner": {
       "root": "libs/backend/domain/scrapper/playwright-runner",
       "sourceRoot": "libs/backend/domain/scrapper/playwright-runner/src",

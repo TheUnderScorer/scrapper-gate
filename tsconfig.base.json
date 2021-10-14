@@ -46,6 +46,9 @@
       "@scrapper-gate/backend/domain/scrapper": [
         "libs/backend/domain/scrapper/src/index.ts"
       ],
+      "@scrapper-gate/backend/domain/scrapper/base-runner": [
+        "libs/backend/domain/scrapper/base-runner/src/index.ts"
+      ],
       "@scrapper-gate/backend/domain/scrapper/playwright-runner": [
         "libs/backend/domain/scrapper/playwright-runner/src/index.ts"
       ],

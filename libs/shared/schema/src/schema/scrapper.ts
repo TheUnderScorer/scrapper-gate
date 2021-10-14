@@ -64,6 +64,7 @@ export const scrapperSchema = gql`
     conditionalRules: [ConditionalRuleGroup!]
     isFirst: Boolean
     fullPageScreenshot: Boolean
+    newRunSettings: ScrapperRunSettings
   }
 
   input ScrapperStepInput {
@@ -86,6 +87,7 @@ export const scrapperSchema = gql`
     conditionalRules: [ConditionalRuleGroupInput!]
     isFirst: Boolean
     fullPageScreenshot: Boolean
+    newRunSettings: ScrapperRunSettingsInput
   }
 
   type ScrapperRunStepResult implements BaseEntity {
@@ -177,13 +179,14 @@ export const scrapperSchema = gql`
 
   enum ScrapperAction {
     Click
-    Condition
     GoBack
     NavigateTo
     ReadText
     ReloadPage
     Type
     Screenshot
+    ChangeRunSettings
+    Condition
   }
 
   enum ScrapperType {
