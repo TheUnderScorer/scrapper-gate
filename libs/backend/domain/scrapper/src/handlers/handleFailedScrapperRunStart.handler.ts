@@ -1,4 +1,4 @@
-import { ScrapperRunRepository } from '@scrapper-gate/backend/domain/scrapper';
+import { ScrapperRunRepository } from '../repositories/ScrapperRun.repository';
 import {
   ErrorObjectDto,
   RunFailedToStartError,
