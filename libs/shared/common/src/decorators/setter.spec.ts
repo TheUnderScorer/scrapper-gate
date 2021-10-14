@@ -17,5 +17,8 @@ describe('Setter decorator', () => {
 
     expect(test.a).toEqual(4);
     expect(test.b).toEqual(6);
+    expect(JSON.stringify(test)).toMatchInlineSnapshot(
+      `"{\\"b\\":6,\\"a\\":4}"`
+    );
   });
 });
