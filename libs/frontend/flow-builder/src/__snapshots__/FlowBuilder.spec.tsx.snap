@@ -840,7 +840,7 @@ Object {
           tabindex="-1"
         >
           <li
-            class="MuiMenuItem-root MuiMenuItem-gutters MuiButtonBase-root FlowBuilderNode-deleteStep css-soz1h5-MuiButtonBase-root-MuiMenuItem-root"
+            class="MuiMenuItem-root MuiMenuItem-gutters MuiButtonBase-root FlowBuilderNode-deleteStep css-1krmi1q-MuiButtonBase-root-MuiMenuItem-root"
             id="delete-step-1"
             role="menuitem"
             tabindex="-1"
@@ -906,7 +906,7 @@ Object {
           tabindex="-1"
         >
           <li
-            class="MuiMenuItem-root MuiMenuItem-gutters MuiButtonBase-root FlowBuilderNode-deleteStep css-soz1h5-MuiButtonBase-root-MuiMenuItem-root"
+            class="MuiMenuItem-root MuiMenuItem-gutters MuiButtonBase-root FlowBuilderNode-deleteStep css-1krmi1q-MuiButtonBase-root-MuiMenuItem-root"
             id="delete-step-2"
             role="menuitem"
             tabindex="-1"
@@ -972,7 +972,7 @@ Object {
           tabindex="-1"
         >
           <li
-            class="MuiMenuItem-root MuiMenuItem-gutters MuiButtonBase-root FlowBuilderNode-deleteStep css-soz1h5-MuiButtonBase-root-MuiMenuItem-root"
+            class="MuiMenuItem-root MuiMenuItem-gutters MuiButtonBase-root FlowBuilderNode-deleteStep css-1krmi1q-MuiButtonBase-root-MuiMenuItem-root"
             id="delete-step-3"
             role="menuitem"
             tabindex="-1"

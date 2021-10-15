@@ -215,6 +215,18 @@ Object {
                         class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
                       />
                     </button>
+                    <button
+                      aria-selected="false"
+                      class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary css-160wo69-MuiButtonBase-root-MuiTab-root"
+                      role="tab"
+                      tabindex="-1"
+                      type="button"
+                    >
+                      Settings
+                      <span
+                        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                      />
+                    </button>
                   </div>
                   <span
                     class="MuiTabs-indicator css-78exr-MuiTabs-indicator"
@@ -360,45 +372,6 @@ Object {
                               class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-18fn6n9-MuiTypography-root"
                             >
                               Click
-                            </span>
-                          </div>
-                        </li>
-                        <li
-                          class="MuiListItem-root MuiListItem-gutters MuiListItem-padding FlowBuilderSidebarItem-tile item-Conditional css-1v9fd58-MuiListItem-root"
-                          draggable="true"
-                        >
-                          <div
-                            class="MuiListItemIcon-root css-cveggr-MuiListItemIcon-root"
-                          >
-                            <div
-                              class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded conditional-node css-taj9at-MuiPaper-root"
-                            >
-                              <div
-                                class="centered MuiBox-root css-1v69lcx"
-                              >
-                                <span>
-                                  <svg
-                                    aria-hidden="true"
-                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-egrpcv-MuiSvgIcon-root"
-                                    data-testid="AccountTreeSharpIcon"
-                                    focusable="false"
-                                    viewBox="0 0 24 24"
-                                  >
-                                    <path
-                                      d="M22 11V3h-7v3H9V3H2v8h7V8h2v10h4v3h7v-8h-7v3h-2V8h2v3z"
-                                    />
-                                  </svg>
-                                </span>
-                              </div>
-                            </div>
-                          </div>
-                          <div
-                            class="MuiListItemText-root FlowBuilderSidebarItem-text css-tlelie-MuiListItemText-root"
-                          >
-                            <span
-                              class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-18fn6n9-MuiTypography-root"
-                            >
-                              Conditional
                             </span>
                           </div>
                         </li>
@@ -651,6 +624,87 @@ Object {
                               class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-18fn6n9-MuiTypography-root"
                             >
                               Screenshot
+                            </span>
+                          </div>
+                        </li>
+                        <li
+                          class="MuiListItem-root MuiListItem-gutters MuiListItem-padding FlowBuilderSidebarItem-tile item-Action css-1v9fd58-MuiListItem-root"
+                          draggable="true"
+                        >
+                          <div
+                            class="MuiListItemIcon-root css-cveggr-MuiListItemIcon-root"
+                          >
+                            <div
+                              class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded action-node-box css-1hpjjg8-MuiPaper-root"
+                              style="width: 50px; height: 50px; position: relative;"
+                            >
+                              <div
+                                class="centered MuiBox-root css-9hmjl0"
+                              >
+                                <span
+                                  class="MuiBox-root css-vxcmzt"
+                                >
+                                  <svg
+                                    aria-hidden="true"
+                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-egrpcv-MuiSvgIcon-root"
+                                    data-testid="SettingsIcon"
+                                    focusable="false"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"
+                                    />
+                                  </svg>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div
+                            class="MuiListItemText-root FlowBuilderSidebarItem-text css-tlelie-MuiListItemText-root"
+                          >
+                            <span
+                              class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-18fn6n9-MuiTypography-root"
+                            >
+                              Change run settings
+                            </span>
+                          </div>
+                        </li>
+                        <li
+                          class="MuiListItem-root MuiListItem-gutters MuiListItem-padding FlowBuilderSidebarItem-tile item-Conditional css-1v9fd58-MuiListItem-root"
+                          draggable="true"
+                        >
+                          <div
+                            class="MuiListItemIcon-root css-cveggr-MuiListItemIcon-root"
+                          >
+                            <div
+                              class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded conditional-node css-taj9at-MuiPaper-root"
+                            >
+                              <div
+                                class="centered MuiBox-root css-1v69lcx"
+                              >
+                                <span>
+                                  <svg
+                                    aria-hidden="true"
+                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-egrpcv-MuiSvgIcon-root"
+                                    data-testid="AccountTreeSharpIcon"
+                                    focusable="false"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      d="M22 11V3h-7v3H9V3H2v8h7V8h2v10h4v3h7v-8h-7v3h-2V8h2v3z"
+                                    />
+                                  </svg>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div
+                            class="MuiListItemText-root FlowBuilderSidebarItem-text css-tlelie-MuiListItemText-root"
+                          >
+                            <span
+                              class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-18fn6n9-MuiTypography-root"
+                            >
+                              Conditional
                             </span>
                           </div>
                         </li>
@@ -1078,6 +1132,18 @@ Object {
                       class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
                     />
                   </button>
+                  <button
+                    aria-selected="false"
+                    class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary css-160wo69-MuiButtonBase-root-MuiTab-root"
+                    role="tab"
+                    tabindex="-1"
+                    type="button"
+                  >
+                    Settings
+                    <span
+                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                    />
+                  </button>
                 </div>
                 <span
                   class="MuiTabs-indicator css-78exr-MuiTabs-indicator"
@@ -1223,45 +1289,6 @@ Object {
                             class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-18fn6n9-MuiTypography-root"
                           >
                             Click
-                          </span>
-                        </div>
-                      </li>
-                      <li
-                        class="MuiListItem-root MuiListItem-gutters MuiListItem-padding FlowBuilderSidebarItem-tile item-Conditional css-1v9fd58-MuiListItem-root"
-                        draggable="true"
-                      >
-                        <div
-                          class="MuiListItemIcon-root css-cveggr-MuiListItemIcon-root"
-                        >
-                          <div
-                            class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded conditional-node css-taj9at-MuiPaper-root"
-                          >
-                            <div
-                              class="centered MuiBox-root css-1v69lcx"
-                            >
-                              <span>
-                                <svg
-                                  aria-hidden="true"
-                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-egrpcv-MuiSvgIcon-root"
-                                  data-testid="AccountTreeSharpIcon"
-                                  focusable="false"
-                                  viewBox="0 0 24 24"
-                                >
-                                  <path
-                                    d="M22 11V3h-7v3H9V3H2v8h7V8h2v10h4v3h7v-8h-7v3h-2V8h2v3z"
-                                  />
-                                </svg>
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                        <div
-                          class="MuiListItemText-root FlowBuilderSidebarItem-text css-tlelie-MuiListItemText-root"
-                        >
-                          <span
-                            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-18fn6n9-MuiTypography-root"
-                          >
-                            Conditional
                           </span>
                         </div>
                       </li>
@@ -1514,6 +1541,87 @@ Object {
                             class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-18fn6n9-MuiTypography-root"
                           >
                             Screenshot
+                          </span>
+                        </div>
+                      </li>
+                      <li
+                        class="MuiListItem-root MuiListItem-gutters MuiListItem-padding FlowBuilderSidebarItem-tile item-Action css-1v9fd58-MuiListItem-root"
+                        draggable="true"
+                      >
+                        <div
+                          class="MuiListItemIcon-root css-cveggr-MuiListItemIcon-root"
+                        >
+                          <div
+                            class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded action-node-box css-1hpjjg8-MuiPaper-root"
+                            style="width: 50px; height: 50px; position: relative;"
+                          >
+                            <div
+                              class="centered MuiBox-root css-9hmjl0"
+                            >
+                              <span
+                                class="MuiBox-root css-vxcmzt"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-egrpcv-MuiSvgIcon-root"
+                                  data-testid="SettingsIcon"
+                                  focusable="false"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"
+                                  />
+                                </svg>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="MuiListItemText-root FlowBuilderSidebarItem-text css-tlelie-MuiListItemText-root"
+                        >
+                          <span
+                            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-18fn6n9-MuiTypography-root"
+                          >
+                            Change run settings
+                          </span>
+                        </div>
+                      </li>
+                      <li
+                        class="MuiListItem-root MuiListItem-gutters MuiListItem-padding FlowBuilderSidebarItem-tile item-Conditional css-1v9fd58-MuiListItem-root"
+                        draggable="true"
+                      >
+                        <div
+                          class="MuiListItemIcon-root css-cveggr-MuiListItemIcon-root"
+                        >
+                          <div
+                            class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded conditional-node css-taj9at-MuiPaper-root"
+                          >
+                            <div
+                              class="centered MuiBox-root css-1v69lcx"
+                            >
+                              <span>
+                                <svg
+                                  aria-hidden="true"
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-egrpcv-MuiSvgIcon-root"
+                                  data-testid="AccountTreeSharpIcon"
+                                  focusable="false"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    d="M22 11V3h-7v3H9V3H2v8h7V8h2v10h4v3h7v-8h-7v3h-2V8h2v3z"
+                                  />
+                                </svg>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="MuiListItemText-root FlowBuilderSidebarItem-text css-tlelie-MuiListItemText-root"
+                        >
+                          <span
+                            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-18fn6n9-MuiTypography-root"
+                          >
+                            Conditional
                           </span>
                         </div>
                       </li>
