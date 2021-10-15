@@ -2,6 +2,7 @@ import {
   FilesService,
   generateScrapperScreenshotFileKey,
 } from '@scrapper-gate/backend/domain/files';
+import { BaseScrapperRunner } from '@scrapper-gate/backend/domain/scrapper/base-runner';
 import { PerformanceManager } from '@scrapper-gate/backend/perf-hooks-utils';
 import {
   areUrlsEqual,
@@ -9,19 +10,25 @@ import {
   mapSelectorsToXpathExpression,
 } from '@scrapper-gate/shared/common';
 import {
-  InitialiseScrapperRunnerParams,
   resolveScrapperStepRules,
   ScrapperRunner,
   ScrapperRunScreenshotValue,
   ScrapperStepHandlerParams,
   ScreenshotRunScrapperStepResult,
 } from '@scrapper-gate/shared/domain/scrapper';
-import { ScrapperRunError } from '@scrapper-gate/shared/errors';
+import {
+  NoElementsFoundError,
+  ScrapperRunError,
+} from '@scrapper-gate/shared/errors';
 import { Logger } from '@scrapper-gate/shared/logger';
 import {
   BrowserType,
   FileType,
   RunnerPerformanceEntry,
+  ScrapperDialogBehaviour,
+  ScrapperNoElementsFoundBehavior,
+  ScrapperRun,
+  ScrapperRunSettings,
   ScrapperRunValue,
   ScrapperStep,
   Selector,
@@ -38,6 +45,8 @@ export interface PlayWrightScrapperRunnerDependencies {
   logger: Logger;
   browserType: BrowserType;
   filesService: FilesService;
+  scrapperRun: ScrapperRun;
+  runSettings?: ScrapperRunSettings;
 }
 
 interface AfterRunResult {
@@ -50,7 +59,10 @@ interface RawScrapperRunScreenshotValue
 }
 
 // TODO Extract common logic + performance logic
-export class PlayWrightScrapperRunner implements ScrapperRunner {
+export class PlayWrightScrapperRunner
+  extends BaseScrapperRunner
+  implements ScrapperRunner
+{
   private context: BrowserContext;
   private page: Page;
   private initialPage: Page;
@@ -61,6 +73,7 @@ export class PlayWrightScrapperRunner implements ScrapperRunner {
   private readonly traceId: string;
   private readonly performanceManager = new PerformanceManager();
   private readonly filesService: FilesService;
+  private readonly scrapperRun: ScrapperRun;
 
   constructor({
     browser,
@@ -68,15 +81,20 @@ export class PlayWrightScrapperRunner implements ScrapperRunner {
     logger,
     browserType,
     filesService,
+    scrapperRun,
+    runSettings,
   }: PlayWrightScrapperRunnerDependencies) {
+    super(scrapperRun, runSettings);
+
     this.browser = browser;
     this.traceId = traceId;
     this.logger = logger;
     this.browserType = browserType;
     this.filesService = filesService;
+    this.scrapperRun = scrapperRun;
   }
 
-  async initialize({ initialUrl }: InitialiseScrapperRunnerParams = {}) {
+  async initialize() {
     if (this.context) {
       this.logger.error('Runner already initialized.');
 
@@ -90,8 +108,8 @@ export class PlayWrightScrapperRunner implements ScrapperRunner {
     this.page = await this.context.newPage();
     this.initialPage = this.page;
 
-    if (initialUrl) {
-      await this.page.goto(initialUrl, {
+    if (this?.runSettings?.initialUrl) {
+      await this.page.goto(this.runSettings.initialUrl, {
         waitUntil: 'networkidle',
       });
     }
@@ -109,7 +127,14 @@ export class PlayWrightScrapperRunner implements ScrapperRunner {
 
     // TODO Support all kind of dialogs
     this.page.on('dialog', async (dialog) => {
-      await dialog.accept();
+      switch (this.runSettings?.dialogBehaviour) {
+        case ScrapperDialogBehaviour.AlwaysConfirm:
+          await dialog.accept(this.runSettings?.promptText);
+          break;
+
+        default:
+          await dialog.dismiss();
+      }
     });
 
     this.page.on('popup', async (page) => {
@@ -141,7 +166,7 @@ export class PlayWrightScrapperRunner implements ScrapperRunner {
   // TODO Handle popup windows https://playwright.dev/docs/1.0.0/verification#page-events
   async Click(params: ScrapperStepHandlerParams) {
     try {
-      const { querySelector, xpathSelector } = await this.preRun(params);
+      const { elements } = await this.preRun(params);
       const { step } = params;
 
       const options = {
@@ -149,13 +174,26 @@ export class PlayWrightScrapperRunner implements ScrapperRunner {
         button: step.mouseButton ? mouseButtonMap[step.mouseButton] : 'left',
       };
 
-      if (querySelector) {
-        await this.page.click(querySelector, options);
-      }
+      await Promise.all(
+        elements.map(async (element) => {
+          try {
+            await element.click(options);
+          } catch (error) {
+            const messages = [
+              'Protocol error (DOM.scrollIntoViewIfNeeded): Cannot find context with specified id',
+              'elementHandle.click: Unable to adopt element handle from a different document',
+            ];
 
-      if (xpathSelector) {
-        await this.page.click(xpathSelector, options);
-      }
+            const isValidError = messages.some((msg) =>
+              error.message.includes(msg)
+            );
+
+            if (!isValidError) {
+              throw error;
+            }
+          }
+        })
+      );
 
       const { performance } = await this.afterRun(params);
 
@@ -318,6 +356,18 @@ export class PlayWrightScrapperRunner implements ScrapperRunner {
     }
   }
 
+  async ChangeRunSettings(params: ScrapperStepHandlerParams) {
+    await this.preRun(params);
+
+    await super.ChangeRunSettings(params);
+
+    const { performance } = await this.afterRun(params);
+
+    return {
+      performance,
+    };
+  }
+
   async Type(params: ScrapperStepHandlerParams) {
     try {
       const { elements } = await this.preRun(params);
@@ -368,11 +418,17 @@ export class PlayWrightScrapperRunner implements ScrapperRunner {
       waitPromises.push(this.page.waitForSelector(xpathSelector));
     }
 
-    // TODO Option to either fail or continue if no elements were found
     try {
       await Promise.all(waitPromises);
     } catch (e) {
       this.logger.error(e);
+
+      if (
+        this.runSettings?.noElementsFoundBehavior ===
+        ScrapperNoElementsFoundBehavior.Fail
+      ) {
+        throw new NoElementsFoundError();
+      }
     }
 
     const elementsByQuerySelector = querySelector

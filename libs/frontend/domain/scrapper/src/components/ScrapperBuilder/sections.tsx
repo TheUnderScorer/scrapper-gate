@@ -1,6 +1,7 @@
 import { ScrapperAction } from '@scrapper-gate/shared/schema';
 import { ComponentType } from 'react';
 import { ScrapperStepFormProps } from './ScrapperBuilder.types';
+import { ChangeRunSettingsSections } from './stepSections/ChangeRunSettingsSections';
 import { ClickSections } from './stepSections/ClickSections';
 import { ConditionalSections } from './stepSections/ConditionalSections';
 import { GoBackSections } from './stepSections/GoBackSections';
@@ -11,7 +12,7 @@ import { ScreenshotSections } from './stepSections/ScreenshotSections';
 import { TypeSections } from './stepSections/TypeSections';
 
 export type Sections = {
-  [Key in ScrapperAction]?: ComponentType<ScrapperStepFormProps>;
+  [Key in ScrapperAction]: ComponentType<ScrapperStepFormProps>;
 };
 
 export const sections: Sections = {
@@ -23,4 +24,5 @@ export const sections: Sections = {
   [ScrapperAction.ReloadPage]: ReloadSections,
   [ScrapperAction.Condition]: ConditionalSections,
   [ScrapperAction.Screenshot]: ScreenshotSections,
+  [ScrapperAction.ChangeRunSettings]: ChangeRunSettingsSections,
 };

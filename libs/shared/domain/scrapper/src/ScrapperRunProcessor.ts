@@ -11,6 +11,7 @@ import {
   findFirstNode,
   getNextStepIdFromCondition,
 } from '@scrapper-gate/shared/node';
+import { canBeSkipped } from '@scrapper-gate/shared/run-states';
 import {
   RunState,
   Scrapper,
@@ -24,13 +25,12 @@ import { Typed } from 'emittery';
 import { createScrapperRunVariables } from './createScrapperRunVariables';
 import {
   ConditionalRunScrapperStepResult,
-  InitialiseScrapperRunnerParams,
   RunScrapperStepResult,
   ScrapperRunner,
   ScrapperStepFinishedPayload,
 } from './types';
 
-export interface ProcessParams extends InitialiseScrapperRunnerParams {
+export interface ProcessParams {
   scrapperRun: ScrapperRun;
   scrapper: Scrapper;
 }
@@ -54,7 +54,7 @@ export class ScrapperRunProcessor implements Disposable {
     };
   }>();
 
-  async process({ scrapperRun, scrapper, ...rest }: ProcessParams) {
+  async process({ scrapperRun }: ProcessParams) {
     let failed = false;
 
     if (!scrapperRun.steps?.length) {
@@ -63,7 +63,7 @@ export class ScrapperRunProcessor implements Disposable {
       };
     }
 
-    await this.runner.initialize?.(rest);
+    await this.runner.initialize?.();
 
     scrapperRun.state = RunState.InProgress;
     scrapperRun.startedAt = new Date();
@@ -105,7 +105,7 @@ export class ScrapperRunProcessor implements Disposable {
 
     scrapperRun.results.forEach((result) => {
       // Mark all not completed steps as skipped
-      if (result.state !== RunState.Completed) {
+      if (canBeSkipped(result.state)) {
         result.state = RunState.Skipped;
       }
     });
@@ -184,11 +184,13 @@ export class ScrapperRunProcessor implements Disposable {
     } catch (error) {
       const errorObject = ErrorObjectDto.createFromError(error);
 
+      // Persist error on step level
       stepResult.state = RunState.Failed;
       stepResult.error = errorObject;
 
       await this.events.emit('scrapperRunChanged', scrapperRun);
 
+      // Throw error again in order to store it on run level as well
       throw error;
     }
   }

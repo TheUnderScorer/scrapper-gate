@@ -3,6 +3,7 @@ import {
   RunnerTrigger,
   ScrapperAction,
   ScrapperRun,
+  ScrapperRunSettings,
   ScrapperRunStepResult,
   ScrapperRunValue,
   ScrapperStep,
@@ -20,12 +21,8 @@ export interface RunScrapperResult {
   durationMs: number;
 }
 
-export interface InitialiseScrapperRunnerParams {
-  initialUrl?: string;
-}
-
 export interface ScrapperRunner extends ScrapperStepHandlers, Disposable {
-  initialize?: (params?: InitialiseScrapperRunnerParams) => Promise<void>;
+  initialize?: () => Promise<void>;
 }
 
 export type RunScrapperStepResult =
@@ -55,13 +52,13 @@ export interface ScreenshotRunScrapperStepResult
   values: ScrapperRunScreenshotValue[];
 }
 
-type BaseStepHandlers = {
+export type BaseScrapperStepHandlers = {
   [Key in ScrapperAction]: (
     params: ScrapperStepHandlerParams
   ) => MaybePromise<RunScrapperStepResult>;
 };
 
-export type ScrapperStepHandlers = BaseStepHandlers & {
+export type ScrapperStepHandlers = BaseScrapperStepHandlers & {
   [ScrapperAction.Condition]: (
     params: ScrapperStepHandlerParams
   ) => MaybePromise<ConditionalRunScrapperStepResult>;
@@ -80,6 +77,7 @@ export interface ScrapperStepHandlerParams {
 export interface ScrapperRunnerMessagePayload {
   runId: string;
   trigger: RunnerTrigger;
+  runSettings?: ScrapperRunSettings;
 }
 
 export type ScrapperRunResultKeyPairValues = Record<string, string[]>;

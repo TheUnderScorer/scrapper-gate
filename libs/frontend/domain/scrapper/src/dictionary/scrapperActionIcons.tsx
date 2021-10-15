@@ -6,6 +6,7 @@ import {
   Mouse,
   Refresh,
   Screenshot,
+  Settings,
   Visibility,
 } from '@mui/icons-material';
 import { ScrapperAction } from '@scrapper-gate/shared/schema';
@@ -19,4 +20,5 @@ export const scrapperActionIcons = {
   [ScrapperAction.Type]: <Input />,
   [ScrapperAction.Condition]: <AccountTreeSharp />,
   [ScrapperAction.Screenshot]: <Screenshot />,
+  [ScrapperAction.ChangeRunSettings]: <Settings />,
 };

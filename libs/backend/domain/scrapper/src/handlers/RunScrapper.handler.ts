@@ -26,14 +26,14 @@ export interface RunScrapperHandlerDependencies {
 export class RunScrapperHandler implements CommandHandler<RunScrapperCommand> {
   constructor(private readonly dependencies: RunScrapperHandlerDependencies) {}
 
-  async handle({ payload: { runId, initialUrl } }: RunScrapperCommand) {
+  async handle({ payload: { runId, runSettings } }: RunScrapperCommand) {
     const { scrapperRunRepository, getScrapperRunner, logger } =
       this.dependencies;
 
-    const scrapperRun = await scrapperRunRepository.getOneForRun(runId);
+    const scrapperRun = await scrapperRunRepository.getOneAggregate(runId);
     const { scrapper } = scrapperRun;
 
-    const runner = getScrapperRunner(scrapper);
+    const runner = getScrapperRunner(scrapperRun, runSettings);
 
     const processor = new ScrapperRunProcessor(runner, logger);
 
@@ -43,7 +43,6 @@ export class RunScrapperHandler implements CommandHandler<RunScrapperCommand> {
       await processor.process({
         scrapperRun,
         scrapper,
-        initialUrl: initialUrl ?? scrapperRun.runSettings?.initialUrl,
       });
     } finally {
       await processor.dispose();

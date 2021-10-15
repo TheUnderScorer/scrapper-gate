@@ -46,7 +46,6 @@ module.exports = {
     '<rootDir>/libs/backend/aws',
     '<rootDir>/libs/backend/domain/message-queue-service',
     '<rootDir>/apps/lambdas',
-    '<rootDir>/libs/backend/domain/scrapper/data-loaders',
     '<rootDir>/libs/shared/node',
     '<rootDir>/libs/backend/domain/files',
     '<rootDir>/libs/frontend/domain/files',
@@ -56,5 +55,6 @@ module.exports = {
     '<rootDir>/libs/shared/domain/user/mocks',
     '<rootDir>/libs/backend/common',
     '<rootDir>/libs/backend/domain/conditional-rules',
+    '<rootDir>/libs/backend/domain/scrapper/base-runner',
   ],
 };

@@ -28,6 +28,7 @@ fragment ScrapperBuilderScrapper on Scrapper {
     initialUrl
     noElementsFoundBehavior
     timeoutMs
+    promptText
   }
   variables {
     id
@@ -72,6 +73,11 @@ fragment ScrapperBuilderStep on ScrapperStep {
   url
   typeDelay
   useUrlFromPreviousStep
+  newRunSettings {
+    dialogBehaviour
+    noElementsFoundBehavior
+    promptText
+  }
   position {
     x
     y

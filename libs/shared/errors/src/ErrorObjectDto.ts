@@ -2,19 +2,17 @@ import { ErrorObject } from '@scrapper-gate/shared/schema';
 import { AppError } from './AppError';
 
 export class ErrorObjectDto implements ErrorObject {
-  message?: string;
-
-  name: string;
-
-  date: Date;
+  constructor(
+    public name: string,
+    public date: Date,
+    public message?: string
+  ) {}
 
   static createFromError(error: Error) {
-    const obj = new this();
-
-    obj.message = error.message;
-    obj.name = error.name;
-    obj.date = error instanceof AppError ? error.date : new Date();
-
-    return obj;
+    return new this(
+      error.name,
+      error instanceof AppError ? error.date : new Date(),
+      error.message
+    );
   }
 }

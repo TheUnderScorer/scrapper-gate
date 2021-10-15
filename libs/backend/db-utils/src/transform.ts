@@ -1,6 +1,7 @@
 import {
   DataObject,
   DataObjectConstructor,
+  ExcludeFalsy,
   OmitFunctions,
 } from '@scrapper-gate/shared/common';
 import { PartialDeep } from 'type-fest';
@@ -25,5 +26,6 @@ export const makeDataObjectArrayTransformer = <
 ): ValueTransformer => ({
   from: (value?: PartialDeep<OmitFunctions<Obj>>[]) =>
     value ? value.map((val) => DataObject.create(val)) : undefined,
-  to: (value?: DataObject<Obj>[]) => value?.map((val) => val.toJSON()),
+  to: (value?: DataObject<Obj>[]) =>
+    value?.filter(ExcludeFalsy).map((val) => val.toJSON()),
 });

@@ -3,7 +3,7 @@ import {
   FilesService,
   generateScrapperScreenshotFileKey,
 } from '@scrapper-gate/backend/domain/files';
-import { Environment, wait } from '@scrapper-gate/shared/common';
+import { Environment, first, wait } from '@scrapper-gate/shared/common';
 import { createMockScrapperStep } from '@scrapper-gate/shared/domain/scrapper/mocks';
 import { logger } from '@scrapper-gate/shared/logger/console';
 import {
@@ -12,6 +12,7 @@ import {
   MouseButton,
   RunState,
   ScrapperAction,
+  ScrapperDialogBehaviour,
   ScrapperRun,
   ScrapperStep,
 } from '@scrapper-gate/shared/schema';
@@ -28,6 +29,8 @@ import { v4 } from 'uuid';
 import { persistTestArtifact } from '../../../../../../tests/utils/artifacts';
 import '../../../../../../typings/global';
 import { createScrapperStepForConditionalTest } from './__mocks__/scrapperStep';
+import { setupConfirmationTest } from './__tests__/setupConfirmationTest';
+import { setupPromptTest } from './__tests__/setupPromptTest';
 import { PlayWrightScrapperRunner } from './PlayWrightScrapperRunner';
 
 let runners: PlayWrightScrapperRunner[] = [];
@@ -37,6 +40,8 @@ let container: AwilixContainer;
 
 jest.retryTimes(4).setTimeout(900000);
 
+let scrapperRun: ScrapperRun;
+
 describe('PlayWright scrapper runner', () => {
   const ignoredBrowserTypes =
     process.env.IGNORED_BROWSER_TYPES?.split(',') ?? [];
@@ -44,7 +49,10 @@ describe('PlayWright scrapper runner', () => {
     (type) => !ignoredBrowserTypes.includes(type)
   );
 
-  const bootstrapRunner = async (browserType: BrowserType) => {
+  const bootstrapRunner = async (
+    browserType: BrowserType,
+    initialize = true
+  ) => {
     const options: LaunchOptions = {
       headless: true,
     };
@@ -88,11 +96,14 @@ describe('PlayWright scrapper runner', () => {
       browser,
       browserType,
       filesService: container.resolve<FilesService>('filesService'),
+      scrapperRun,
     });
 
     browsers.push(browser);
 
-    await runner.initialize();
+    if (initialize) {
+      await runner.initialize();
+    }
 
     runners.push(runner);
 
@@ -114,12 +125,8 @@ describe('PlayWright scrapper runner', () => {
     browsers = [];
   };
 
-  describe.each(browserTypes)('Popup test site - %s', (type) => {
-    afterEach(async () => {
-      await cleanup();
-    });
-
-    const scrapperRun: ScrapperRun = {
+  beforeEach(() => {
+    scrapperRun = {
       index: 0,
       id: v4(),
       steps: [],
@@ -127,6 +134,12 @@ describe('PlayWright scrapper runner', () => {
       updatedAt: new Date(),
       state: RunState.InProgress,
     };
+  });
+
+  describe.each(browserTypes)('Popup test site - %s', (type) => {
+    afterEach(async () => {
+      await cleanup();
+    });
 
     it('should handle clicking multiple links', async () => {
       const runner = await bootstrapRunner(type);
@@ -371,6 +384,55 @@ describe('PlayWright scrapper runner', () => {
       });
 
       expect(result).toEqual(false);
+    });
+
+    it('should support writing text into prompt', async () => {
+      const { promptText, values } = await setupPromptTest({
+        createRunner: () => bootstrapRunner(type),
+        scrapperRun: scrapperRun,
+      });
+
+      expect(values).toHaveLength(1);
+      expect(first(values)?.value).toEqual(promptText);
+    });
+
+    it('should not write prompt text it alert behaviour is to reject', async () => {
+      const { values } = await setupPromptTest({
+        createRunner: () => bootstrapRunner(type),
+        scrapperRun: scrapperRun,
+        dialogBehaviour: ScrapperDialogBehaviour.AlwaysReject,
+      });
+
+      expect(values).toHaveLength(1);
+      expect(first(values)?.value).toEqual('');
+    });
+
+    it('should accept confirmation dialog', async () => {
+      scrapperRun.runSettings = {
+        dialogBehaviour: ScrapperDialogBehaviour.AlwaysConfirm,
+      };
+
+      const values = await setupConfirmationTest(
+        scrapperRun,
+        await bootstrapRunner(type)
+      );
+
+      expect(values).toHaveLength(1);
+      expect(first(values)?.value).toEqual('Confirmed');
+    });
+
+    it('should reject confirmation dialog', async () => {
+      scrapperRun.runSettings = {
+        dialogBehaviour: ScrapperDialogBehaviour.AlwaysReject,
+      };
+
+      const values = await setupConfirmationTest(
+        scrapperRun,
+        await bootstrapRunner(type)
+      );
+
+      expect(values).toHaveLength(1);
+      expect(first(values)?.value).toEqual('Not confirmed');
     });
   });
 });

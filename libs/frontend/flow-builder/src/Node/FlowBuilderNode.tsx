@@ -94,6 +94,11 @@ const BaseFlowBuilderNode = forwardRef<HTMLDivElement, FlowBuilderNodeProps>(
           icon: <DeleteSharp />,
           content: 'Delete step',
           onClick: () => removeItems([node]),
+          sx: {
+            '&, & svg': {
+              color: (theme) => theme.palette.error.main,
+            },
+          },
         },
       ];
     }, [dropdownMenu, node, readOnly, removeItems]);

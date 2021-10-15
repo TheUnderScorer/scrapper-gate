@@ -1,14 +1,29 @@
 import { applyQueryVariables } from '@scrapper-gate/backend/db-utils';
 import { ensureIdsOrder } from '@scrapper-gate/shared/common';
 import {
+  Maybe,
   OrderDirection,
   QueryVariablesWithUser,
 } from '@scrapper-gate/shared/schema';
+import DataLoader from 'dataloader';
 import { EntityRepository, Repository, SelectQueryBuilder } from 'typeorm';
 import { ScrapperRunModel } from '../models/ScrapperRun.model';
 
 @EntityRepository(ScrapperRunModel)
 export class ScrapperRunRepository extends Repository<ScrapperRunModel> {
+  private lastScrapperRunLoader: DataLoader<string, Maybe<ScrapperRunModel>>;
+
+  constructor() {
+    super();
+
+    this.lastScrapperRunLoader = new DataLoader<
+      string,
+      Maybe<ScrapperRunModel>
+    >((ids) => this.loadLastForScrappers(ids), {
+      cache: false,
+    });
+  }
+
   async getByUser({ userId, ...rest }: QueryVariablesWithUser) {
     const queryBuilder = this.createQueryBuilder('scrapperRun');
 
@@ -29,11 +44,8 @@ export class ScrapperRunRepository extends Repository<ScrapperRunModel> {
       .getManyAndCount();
   }
 
-  async findLastForScrapper(
-    scrapperId: string,
-    queryBuilder?: SelectQueryBuilder<ScrapperRunModel>
-  ) {
-    return this.getLastForScrapperQuery(scrapperId, queryBuilder).getOne();
+  async findLastForScrapper(scrapperId: string) {
+    return this.lastScrapperRunLoader.load(scrapperId);
   }
 
   async findLastForScrapperWithValues(scrapperId: string) {
@@ -63,7 +75,7 @@ export class ScrapperRunRepository extends Repository<ScrapperRunModel> {
     });
   }
 
-  async getOneForRun(runId: string) {
+  async getOneAggregate(runId: string) {
     return this.findOneOrFail(runId, {
       relations: ['scrapper', 'results', 'results.values'],
     });
@@ -79,9 +91,11 @@ export class ScrapperRunRepository extends Repository<ScrapperRunModel> {
       .orderBy('scrapperRun.createdAt', 'DESC');
   }
 
-  async loadLastForScrappers(scrapperIds: ReadonlyArray<string>) {
+  private async loadLastForScrappers(scrapperIds: ReadonlyArray<string>) {
     const models = await Promise.all(
-      scrapperIds.map((scrapperId) => this.findLastForScrapper(scrapperId))
+      scrapperIds.map((scrapperId) =>
+        this.getLastForScrapperQuery(scrapperId).getOne()
+      )
     );
 
     return ensureIdsOrder(

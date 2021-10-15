@@ -8,6 +8,7 @@ import { makeRepositoriesProviderFromDefinitions } from '@scrapper-gate/backend/
 import { FilesService } from '@scrapper-gate/backend/domain/files';
 import { MessageQueueService } from '@scrapper-gate/backend/domain/message-queue-service';
 import {
+  HandleFailedScrapperRunStartCommand,
   makeGetScrapperRunner,
   RunScrapperCommand,
 } from '@scrapper-gate/backend/domain/scrapper';
@@ -56,10 +57,11 @@ export const scrapperRunner = async (
     await Promise.all(
       event.Records.map((record) =>
         limit(async () => {
+          const body = JSON.parse(
+            record.body
+          ) as Message<ScrapperRunnerMessagePayload>;
+
           try {
-            const body = JSON.parse(
-              record.body
-            ) as Message<ScrapperRunnerMessagePayload>;
             const message = ScrapperRunnerMessageDto.validate(body.payload);
 
             await unitOfWork.run(
@@ -77,6 +79,16 @@ export const scrapperRunner = async (
             );
           } catch (error) {
             logger.error(`Scrapper runner error: ${error.message}`);
+
+            if (body?.payload?.runId) {
+              await unitOfWork.run((ctx) =>
+                ctx.commandsBus.execute(
+                  new HandleFailedScrapperRunStartCommand({
+                    runId: body.payload.runId,
+                  })
+                )
+              );
+            }
           }
         })
       )

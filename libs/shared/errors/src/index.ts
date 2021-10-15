@@ -9,3 +9,5 @@ export * from './browserExtension/NoActiveTabFoundError';
 export * from './scrapper/ScrapperAlreadyRunningError';
 export * from './ErrorObjectDto';
 export * from './OperationTimeoutError';
+export * from './scrapperRun/NoElementsFoundError';
+export * from './run/RunFailedToStartError';

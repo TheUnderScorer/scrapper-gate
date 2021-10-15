@@ -64,6 +64,7 @@ export const scrapperSchema = gql`
     conditionalRules: [ConditionalRuleGroup!]
     isFirst: Boolean
     fullPageScreenshot: Boolean
+    newRunSettings: ScrapperRunSettings
   }
 
   input ScrapperStepInput {
@@ -86,6 +87,7 @@ export const scrapperSchema = gql`
     conditionalRules: [ConditionalRuleGroupInput!]
     isFirst: Boolean
     fullPageScreenshot: Boolean
+    newRunSettings: ScrapperRunSettingsInput
   }
 
   type ScrapperRunStepResult implements BaseEntity {
@@ -164,6 +166,7 @@ export const scrapperSchema = gql`
     noElementsFoundBehavior: ScrapperNoElementsFoundBehavior
     timeoutMs: Float
     initialUrl: String
+    promptText: String
   }
 
   input ScrapperRunSettingsInput {
@@ -171,17 +174,19 @@ export const scrapperSchema = gql`
     noElementsFoundBehavior: ScrapperNoElementsFoundBehavior
     timeoutMs: Float
     initialUrl: String
+    promptText: String
   }
 
   enum ScrapperAction {
     Click
-    Condition
     GoBack
     NavigateTo
     ReadText
     ReloadPage
     Type
     Screenshot
+    ChangeRunSettings
+    Condition
   }
 
   enum ScrapperType {
@@ -203,6 +208,7 @@ export const scrapperSchema = gql`
   input StartScrapperInput {
     scrapperId: ID!
     browserType: BrowserType
+    runSettings: ScrapperRunSettingsInput
   }
 
   type SendScrapperToQueueResult {

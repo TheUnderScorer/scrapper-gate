@@ -11,6 +11,29 @@ export const FileLinkFileFragmentDoc = gql`
     kind
   }
 `;
+export const ScrapperForRunFragmentDoc = gql`
+  fragment ScrapperForRun on Scrapper {
+    id
+    isRunning
+    name
+    type
+    steps {
+      id
+    }
+    lastRun {
+      id
+      endedAt
+      state
+    }
+    runSettings {
+      dialogBehaviour
+      initialUrl
+      noElementsFoundBehavior
+      timeoutMs
+      promptText
+    }
+  }
+`;
 export const ScrapperBuilderStepFragmentDoc = gql`
   fragment ScrapperBuilderStep on ScrapperStep {
     id
@@ -42,6 +65,11 @@ export const ScrapperBuilderStepFragmentDoc = gql`
     url
     typeDelay
     useUrlFromPreviousStep
+    newRunSettings {
+      dialogBehaviour
+      noElementsFoundBehavior
+      promptText
+    }
     position {
       x
       y
@@ -86,6 +114,7 @@ export const ScrapperBuilderScrapperFragmentDoc = gql`
       initialUrl
       noElementsFoundBehavior
       timeoutMs
+      promptText
     }
     variables {
       id
@@ -494,13 +523,7 @@ export const SendScrapperToQueueDocument = gql`
   mutation SendScrapperToQueue($input: StartScrapperInput!) {
     sendScrapperToRunnerQueue(input: $input) {
       scrapper {
-        id
-        name
-        lastRun {
-          id
-          endedAt
-          state
-        }
+        ...ScrapperForRun
       }
       run {
         id
@@ -509,6 +532,7 @@ export const SendScrapperToQueueDocument = gql`
       }
     }
   }
+  ${ScrapperForRunFragmentDoc}
 `;
 export type SendScrapperToQueueMutationFn = Apollo.MutationFunction<
   Types.SendScrapperToQueueMutation,
@@ -556,15 +580,10 @@ export type SendScrapperToQueueMutationOptions = Apollo.BaseMutationOptions<
 export const GetScrapperStateDocument = gql`
   query GetScrapperState($id: ID!) {
     getMyScrapper(id: $id) {
-      id
-      name
-      lastRun {
-        id
-        endedAt
-        state
-      }
+      ...ScrapperForRun
     }
   }
+  ${ScrapperForRunFragmentDoc}
 `;
 
 /**

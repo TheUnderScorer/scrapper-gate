@@ -78,6 +78,7 @@ const BlockEditorField = forwardRef<
           renderLeaf={renderLeaf}
           decorate={decorate}
           {...(props as any)}
+          readOnly={props.disabled}
         />
       </SlateComponent>
     );

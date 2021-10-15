@@ -24,7 +24,7 @@ export const runnerSchema = gql`
     name: String!
     message: String
     date: Date!
-    stepId: ID!
+    stepId: ID
   }
 
   interface Runnable {

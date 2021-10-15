@@ -68,7 +68,7 @@
     "backend-domain-scrapper": {
       "tags": []
     },
-    "backend-domain-scrapper-data-loaders": {
+    "backend-domain-scrapper-base-runner": {
       "tags": []
     },
     "backend-domain-scrapper-playwright-runner": {

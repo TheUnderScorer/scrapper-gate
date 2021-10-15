@@ -309,7 +309,7 @@ export type RunnerError = ErrorObjectInterface & {
   name: Scalars['String'];
   message?: Maybe<Scalars['String']>;
   date: Scalars['Date'];
-  stepId: Scalars['ID'];
+  stepId?: Maybe<Scalars['ID']>;
 };
 
 export type RunnerPerformanceEntry = {
@@ -342,13 +342,14 @@ export type Scrapper = BaseEntity &
 
 export enum ScrapperAction {
   Click = 'Click',
-  Condition = 'Condition',
   GoBack = 'GoBack',
   NavigateTo = 'NavigateTo',
   ReadText = 'ReadText',
   ReloadPage = 'ReloadPage',
   Type = 'Type',
   Screenshot = 'Screenshot',
+  ChangeRunSettings = 'ChangeRunSettings',
+  Condition = 'Condition',
 }
 
 export enum ScrapperDialogBehaviour {
@@ -410,6 +411,7 @@ export type ScrapperRunSettings = {
   noElementsFoundBehavior?: Maybe<ScrapperNoElementsFoundBehavior>;
   timeoutMs?: Maybe<Scalars['Float']>;
   initialUrl?: Maybe<Scalars['String']>;
+  promptText?: Maybe<Scalars['String']>;
 };
 
 export type ScrapperRunSettingsInput = {
@@ -417,6 +419,7 @@ export type ScrapperRunSettingsInput = {
   noElementsFoundBehavior?: Maybe<ScrapperNoElementsFoundBehavior>;
   timeoutMs?: Maybe<Scalars['Float']>;
   initialUrl?: Maybe<Scalars['String']>;
+  promptText?: Maybe<Scalars['String']>;
 };
 
 export type ScrapperRunStepResult = BaseEntity & {
@@ -478,6 +481,7 @@ export type ScrapperStep = BaseEntity &
     conditionalRules?: Maybe<Array<ConditionalRuleGroup>>;
     isFirst?: Maybe<Scalars['Boolean']>;
     fullPageScreenshot?: Maybe<Scalars['Boolean']>;
+    newRunSettings?: Maybe<ScrapperRunSettings>;
   };
 
 export type ScrapperStepInput = {
@@ -500,6 +504,7 @@ export type ScrapperStepInput = {
   conditionalRules?: Maybe<Array<ConditionalRuleGroupInput>>;
   isFirst?: Maybe<Scalars['Boolean']>;
   fullPageScreenshot?: Maybe<Scalars['Boolean']>;
+  newRunSettings?: Maybe<ScrapperRunSettingsInput>;
 };
 
 export enum ScrapperType {
@@ -530,6 +535,7 @@ export type SendScrapperToQueueResult = {
 export type StartScrapperInput = {
   scrapperId: Scalars['ID'];
   browserType?: Maybe<BrowserType>;
+  runSettings?: Maybe<ScrapperRunSettingsInput>;
 };
 
 export type Subscription = {
@@ -646,11 +652,7 @@ export type SendScrapperToQueueMutationVariables = Exact<{
 
 export type SendScrapperToQueueMutation = {
   sendScrapperToRunnerQueue: {
-    scrapper?: Maybe<
-      Pick<Scrapper, 'id' | 'name'> & {
-        lastRun?: Maybe<Pick<ScrapperRun, 'id' | 'endedAt' | 'state'>>;
-      }
-    >;
+    scrapper?: Maybe<ScrapperForRunFragment>;
     run?: Maybe<Pick<ScrapperRun, 'id' | 'endedAt' | 'state'>>;
   };
 };
@@ -659,10 +661,24 @@ export type GetScrapperStateQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
-export type GetScrapperStateQuery = {
-  getMyScrapper: Pick<Scrapper, 'id' | 'name'> & {
-    lastRun?: Maybe<Pick<ScrapperRun, 'id' | 'endedAt' | 'state'>>;
-  };
+export type GetScrapperStateQuery = { getMyScrapper: ScrapperForRunFragment };
+
+export type ScrapperForRunFragment = Pick<
+  Scrapper,
+  'id' | 'isRunning' | 'name' | 'type'
+> & {
+  steps?: Maybe<Array<Pick<ScrapperStep, 'id'>>>;
+  lastRun?: Maybe<Pick<ScrapperRun, 'id' | 'endedAt' | 'state'>>;
+  runSettings?: Maybe<
+    Pick<
+      ScrapperRunSettings,
+      | 'dialogBehaviour'
+      | 'initialUrl'
+      | 'noElementsFoundBehavior'
+      | 'timeoutMs'
+      | 'promptText'
+    >
+  >;
 };
 
 export type UpdateScrapperMutationVariables = Exact<{
@@ -683,7 +699,11 @@ export type ScrapperBuilderScrapperFragment = Pick<
   runSettings?: Maybe<
     Pick<
       ScrapperRunSettings,
-      'dialogBehaviour' | 'initialUrl' | 'noElementsFoundBehavior' | 'timeoutMs'
+      | 'dialogBehaviour'
+      | 'initialUrl'
+      | 'noElementsFoundBehavior'
+      | 'timeoutMs'
+      | 'promptText'
     >
   >;
   variables?: Maybe<
@@ -725,6 +745,12 @@ export type ScrapperBuilderStepFragment = Pick<
   stepOnTrue?: Maybe<Pick<ScrapperStep, 'id'>>;
   stepOnFalse?: Maybe<Pick<ScrapperStep, 'id'>>;
   selectors?: Maybe<Array<Pick<Selector, 'type' | 'value'>>>;
+  newRunSettings?: Maybe<
+    Pick<
+      ScrapperRunSettings,
+      'dialogBehaviour' | 'noElementsFoundBehavior' | 'promptText'
+    >
+  >;
   position?: Maybe<Pick<NodePosition, 'x' | 'y'>>;
   conditionalRules?: Maybe<
     Array<
@@ -1485,7 +1511,7 @@ export type RunnerErrorResolvers<
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   message?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   date?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
-  stepId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  stepId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -1637,6 +1663,11 @@ export type ScrapperRunSettingsResolvers<
   >;
   timeoutMs?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
   initialUrl?: Resolver<
+    Maybe<ResolversTypes['String']>,
+    ParentType,
+    ContextType
+  >;
+  promptText?: Resolver<
     Maybe<ResolversTypes['String']>,
     ParentType,
     ContextType
@@ -1803,6 +1834,11 @@ export type ScrapperStepResolvers<
   isFirst?: Resolver<Maybe<ResolversTypes['Boolean']>, ParentType, ContextType>;
   fullPageScreenshot?: Resolver<
     Maybe<ResolversTypes['Boolean']>,
+    ParentType,
+    ContextType
+  >;
+  newRunSettings?: Resolver<
+    Maybe<ResolversTypes['ScrapperRunSettings']>,
     ParentType,
     ContextType
   >;
