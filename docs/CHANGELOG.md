@@ -1,3 +1,12 @@
+# [1.0.0-test.12](https://github.com/TheUnderScorer/scrapper-gate/compare/v1.0.0-test.11...v1.0.0-test.12) (2021-10-15)
+
+
+### Features
+
+* **flow-builder:** Change "delete node" action color to error ([79bdd37](https://github.com/TheUnderScorer/scrapper-gate/commit/79bdd3796c396fa28dd39c7ddbb9733b28bf1d8d))
+* **scrapper-runner:** Support setting run settings for individual run ([f524806](https://github.com/TheUnderScorer/scrapper-gate/commit/f5248068690bd332d777f02067e11b1cc650dcf7))
+* **scrapper:** Add "Change run settings" step ([b03b75b](https://github.com/TheUnderScorer/scrapper-gate/commit/b03b75b16d820c8e42ccbafec2c75c04ef44f9e3))
+
 # [1.0.0-test.11](https://github.com/TheUnderScorer/scrapper-gate/compare/v1.0.0-test.10...v1.0.0-test.11) (2021-10-12)
 
 
