@@ -1,4 +1,4 @@
-import { DataObject } from '@scrapper-gate/shared/common';
+import { DataObject, Enumerable } from '@scrapper-gate/shared/common';
 import {
   ConditionalRuleTypes,
   HtmlElementRuleMeta,
@@ -20,6 +20,7 @@ export class ConditionalRuleGroupModel
 
   type: ConditionalRuleGroupType;
 
+  @Enumerable(false)
   get selectors(): Selector[] {
     return this.rules.flatMap((rule) =>
       rule.type === ConditionalRuleTypes.HtmlElement

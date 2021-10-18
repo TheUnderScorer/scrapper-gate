@@ -77,6 +77,8 @@ describe('ScrapperModel', () => {
       conditionalRules: [],
     });
 
+    const stepJson = step.toJSON();
+
     const scrapper = ScrapperModel.create({
       name: faker.random.word(),
       createdBy: user,
@@ -84,13 +86,13 @@ describe('ScrapperModel', () => {
       type: ScrapperType.RealBrowser,
       runs: [
         ScrapperRunModel.create({
-          steps: [step.toJSON()],
+          steps: [stepJson],
           state: RunState.Pending,
           key: 'test',
           index: 0,
           results: [
             ScrapperRunStepResultModel.create({
-              step: step.toJSON(),
+              step: stepJson,
               state: RunState.Pending,
               performance: {
                 duration: 25,

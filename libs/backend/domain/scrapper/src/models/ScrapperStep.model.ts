@@ -150,14 +150,6 @@ export class ScrapperStepModel
   })
   attributeToRead?: string;
 
-  toJSON() {
-    const json = super.toJSON();
-
-    json.allSelectors = this.allSelectors;
-
-    return json;
-  }
-
   get allSelectors() {
     const selectors = [...(this.selectors ?? [])];
 
