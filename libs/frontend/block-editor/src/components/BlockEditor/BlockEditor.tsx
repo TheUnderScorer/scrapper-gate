@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { TextField } from '@mui/material';
+import { Box, TextField } from '@mui/material';
 import { InputBaseComponentProps } from '@mui/material/InputBase/InputBase';
 import { setRefValue } from '@scrapper-gate/frontend/common';
 import classNames from 'classnames';
@@ -7,12 +7,9 @@ import React, {
   ComponentType,
   FocusEvent,
   forwardRef,
-  MutableRefObject,
   useCallback,
   useEffect,
-  useImperativeHandle,
   useMemo,
-  useRef,
   useState,
 } from 'react';
 import { pipe } from 'remeda';
@@ -26,37 +23,20 @@ import { BlockEditorProvider } from './BlockEditor.provider';
 import { BlockEditorProps, SlateProps } from './BlockEditor.types';
 
 const BlockEditorField = forwardRef<
-  HTMLElement,
+  HTMLDivElement,
   InputBaseComponentProps &
     Pick<BlockEditorProps, 'decorators' | 'name'> & {
       onEditorChange: SlateProps['onChange'];
-      editorRef: MutableRefObject<HTMLElement>;
       editorValue: SlateProps['value'];
       editor: Editor;
     }
 >(
   (
-    {
-      onEditorChange,
-      editorRef,
-      editorValue,
-      value,
-      decorators = [],
-      editor,
-      ...props
-    },
+    { onEditorChange, editorValue, value, decorators = [], editor, ...props },
     ref
   ) => {
     const renderLeaf = useMemo(() => composeLeafs(decorators), [decorators]);
     const decorate = useMemo(() => composeDecorators(decorators), [decorators]);
-
-    useImperativeHandle(ref, () => ({
-      ...editorRef.current,
-      focus: () => {
-        editorRef.current?.focus();
-      },
-      value,
-    }));
 
     // Extended type in order to support passing name - it is used in tests
     const SlateComponent = Slate as ComponentType<
@@ -66,21 +46,34 @@ const BlockEditorField = forwardRef<
     >;
 
     return (
-      <SlateComponent
-        editor={editor}
-        onChange={onEditorChange}
-        value={editorValue}
-        name={props.name}
+      <Box
+        sx={{
+          '& .MuiAutocomplete-input': {
+            width: '100% !important',
+          },
+        }}
+        width="100%"
+        ref={ref}
       >
-        <Editable
-          className={classNames(props.className, 'block-editor-slate-editable')}
-          aria-multiline={false}
-          renderLeaf={renderLeaf}
-          decorate={decorate}
-          {...(props as any)}
-          readOnly={props.disabled}
-        />
-      </SlateComponent>
+        <SlateComponent
+          editor={editor}
+          onChange={onEditorChange}
+          value={editorValue}
+          name={props.name}
+        >
+          <Editable
+            className={classNames(
+              props.className,
+              'block-editor-slate-editable'
+            )}
+            aria-multiline={false}
+            renderLeaf={renderLeaf}
+            decorate={decorate}
+            {...(props as any)}
+            readOnly={props.disabled}
+          />
+        </SlateComponent>
+      </Box>
     );
   }
 );
@@ -111,8 +104,6 @@ export const BlockEditor = forwardRef<HTMLInputElement, BlockEditorProps>(
     },
     ref
   ) => {
-    const editorRef = useRef<HTMLElement>();
-
     const editor = useMemo(
       () => pipe(createEditor() as ReactEditor, withReact, withSingleLine),
       []
@@ -191,7 +182,7 @@ export const BlockEditor = forwardRef<HTMLInputElement, BlockEditorProps>(
           InputProps={{
             ...props.InputProps,
             inputProps: {
-              editorRef,
+              ...props.inputProps,
               editorValue: state,
               onEditorChange: handleStateChange,
               decorators,

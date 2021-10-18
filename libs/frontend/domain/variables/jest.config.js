@@ -6,4 +6,5 @@ module.exports = {
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   coverageDirectory: '../../../../coverage/libs/frontend/domain/variables',
+  setupFilesAfterEnv: [`${process.cwd()}/tests/setupFrontendTests.ts`],
 };

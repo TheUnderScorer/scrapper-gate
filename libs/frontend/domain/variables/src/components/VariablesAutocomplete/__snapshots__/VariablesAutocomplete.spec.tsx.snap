@@ -1,0 +1,198 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<VariablesAutocomplete /> should render without crashing 1`] = `
+Object {
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div
+        class="MuiBox-root css-8atqhb"
+      >
+        <div
+          class="MuiFormControl-root MuiTextField-root block-editor-text-field css-136h9lv-MuiFormControl-root-MuiTextField-root"
+        >
+          <div
+            class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl css-11zt3ho-MuiInputBase-root-MuiOutlinedInput-root"
+          >
+            <div
+              class="MuiBox-root css-1yyq5vx"
+            >
+              <div
+                aria-invalid="false"
+                aria-multiline="false"
+                autocapitalize="false"
+                autocorrect="false"
+                class="MuiOutlinedInput-input MuiInputBase-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+                contenteditable="true"
+                data-gramm="false"
+                data-slate-editor="true"
+                data-slate-node="value"
+                name="variable"
+                role="textbox"
+                spellcheck="false"
+                style="position: relative; outline: none; white-space: pre-wrap; word-wrap: break-word;"
+                type="text"
+              >
+                <div
+                  data-slate-node="element"
+                  style="position: relative;"
+                >
+                  <span
+                    data-slate-node="text"
+                  >
+                    <span
+                      data-slate-leaf="true"
+                    >
+                      <span
+                        data-slate-length="0"
+                        data-slate-zero-width="n"
+                      >
+                        ﻿
+                        <br />
+                      </span>
+                    </span>
+                  </span>
+                </div>
+              </div>
+            </div>
+            <fieldset
+              aria-hidden="true"
+              class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+            >
+              <legend
+                class="css-1a1ihhj"
+              >
+                <span
+                  class="notranslate"
+                >
+                  ​
+                </span>
+              </legend>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="MuiBox-root css-8atqhb"
+    >
+      <div
+        class="MuiFormControl-root MuiTextField-root block-editor-text-field css-136h9lv-MuiFormControl-root-MuiTextField-root"
+      >
+        <div
+          class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl css-11zt3ho-MuiInputBase-root-MuiOutlinedInput-root"
+        >
+          <div
+            class="MuiBox-root css-1yyq5vx"
+          >
+            <div
+              aria-invalid="false"
+              aria-multiline="false"
+              autocapitalize="false"
+              autocorrect="false"
+              class="MuiOutlinedInput-input MuiInputBase-input css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input"
+              contenteditable="true"
+              data-gramm="false"
+              data-slate-editor="true"
+              data-slate-node="value"
+              name="variable"
+              role="textbox"
+              spellcheck="false"
+              style="position: relative; outline: none; white-space: pre-wrap; word-wrap: break-word;"
+              type="text"
+            >
+              <div
+                data-slate-node="element"
+                style="position: relative;"
+              >
+                <span
+                  data-slate-node="text"
+                >
+                  <span
+                    data-slate-leaf="true"
+                  >
+                    <span
+                      data-slate-length="0"
+                      data-slate-zero-width="n"
+                    >
+                      ﻿
+                      <br />
+                    </span>
+                  </span>
+                </span>
+              </div>
+            </div>
+          </div>
+          <fieldset
+            aria-hidden="true"
+            class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+          >
+            <legend
+              class="css-1a1ihhj"
+            >
+              <span
+                class="notranslate"
+              >
+                ​
+              </span>
+            </legend>
+          </fieldset>
+        </div>
+      </div>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

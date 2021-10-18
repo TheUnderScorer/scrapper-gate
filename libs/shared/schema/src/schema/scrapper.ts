@@ -182,6 +182,7 @@ export const scrapperSchema = gql`
     GoBack
     NavigateTo
     ReadText
+    ReadAttribute
     ReloadPage
     Type
     Screenshot

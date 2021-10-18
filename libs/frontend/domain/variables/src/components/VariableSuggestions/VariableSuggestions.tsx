@@ -11,20 +11,12 @@ import {
   useTheme,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { useListNavigation } from '@scrapper-gate/frontend/common';
 import { AppTheme } from '@scrapper-gate/frontend/theme';
 import { Emoji, Highlight } from '@scrapper-gate/frontend/ui';
-import { first, getLastIndex } from '@scrapper-gate/shared/common';
 import { Variable } from '@scrapper-gate/shared/schema';
 import classNames from 'classnames';
-import React, {
-  MouseEvent,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
-import { useKey } from 'react-use';
-import { Key } from 'ts-key-enum';
+import React, { MouseEvent, useMemo } from 'react';
 import { useVariablesContextSelector } from '../../providers/VariablesProvider';
 import { VariableDetails } from '../VariableDetails/VariableDetails';
 
@@ -66,6 +58,11 @@ export interface VariableSuggestionsProps {
   onVariableClick?: (variable: Variable) => unknown;
 }
 
+const filter = createFilterOptions<Variable>({
+  matchFrom: 'any',
+  stringify: (option) => option.key ?? option.id,
+});
+
 export const VariableSuggestions = ({
   text,
   onVariableClick,
@@ -84,86 +81,17 @@ export const VariableSuggestions = ({
       return variables;
     }
 
-    return createFilterOptions<Variable>({
-      matchFrom: 'any',
-      stringify: (option) => option.key ?? option.id,
-    })(variables, {
+    return filter(variables, {
       inputValue: rawText,
       getOptionLabel: (option) => option.key ?? option.id,
     });
   }, [rawText, variables]);
 
-  const [selectedVariable, setSelectedVariable] = useState(
-    first(filteredVariables)
-  );
-
-  // TODO Make this more generic
-  const handleNavigation = useCallback(
-    (direction: 'top' | 'bottom') => {
-      const index = filteredVariables.indexOf(selectedVariable);
-      const lastIndex = getLastIndex(filteredVariables);
-
-      let newIndex = direction === 'top' ? index - 1 : index + 1;
-
-      if (newIndex === -1) {
-        newIndex = lastIndex;
-      } else if (newIndex > lastIndex) {
-        newIndex = 0;
-      }
-
-      const newVariable = filteredVariables[newIndex];
-
-      setSelectedVariable(newVariable ?? first(filteredVariables));
-    },
-    [filteredVariables, selectedVariable]
-  );
-
-  useKey(
-    Key.Enter,
-    (event) => {
-      event.preventDefault();
-      event.stopPropagation();
-
-      const variable = filteredVariables.find(
-        (variable) => variable.id === selectedVariable.id
-      );
-
-      if (variable) {
-        onVariableClick?.(variable);
-      }
-    },
-    {},
-    [filteredVariables, selectedVariable, onVariableClick]
-  );
-
-  useKey(
-    Key.ArrowUp,
-    (event) => {
-      event.stopPropagation();
-      event.preventDefault();
-
-      handleNavigation('top');
-    },
-    {},
-    [handleNavigation]
-  );
-  useKey(
-    Key.ArrowDown,
-    (event) => {
-      event.stopPropagation();
-      event.preventDefault();
-
-      handleNavigation('bottom');
-    },
-    {},
-    [handleNavigation]
-  );
-
-  useEffect(() => {
-    if (!filteredVariables.includes(selectedVariable)) {
-      setSelectedVariable(first(filteredVariables));
-    }
-  }, [filteredVariables, selectedVariable]);
+  const { activeItem: selectedVariable, setActiveItem: setSelectedVariable } =
+    useListNavigation({
+      items: filteredVariables,
+      onEnter: onVariableClick,
+    });
 
   return (
     <StyledStack

@@ -47,3 +47,5 @@ export * from './types/menuItemProperties';
 export * from './organisms/Controlled';
 export * from './molecules/EmptyContentArt/EmptyContentArt';
 export * from './molecules/EmptyContentArt/EmptyContentArt.types';
+export * from './molecules/Autocomplete/Autocomplete';
+export * from './molecules/Autocomplete/Autocomplete.types';

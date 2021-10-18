@@ -8,6 +8,7 @@ export const FormBlockEditor = ({
   decorators,
   name,
   fieldProps,
+  blockEditorRef,
   ...rest
 }: FormBlockEditorProps) => {
   const { input, meta } = useField(name);
@@ -22,6 +23,15 @@ export const FormBlockEditor = ({
       decorators={decorators}
       {...rest}
       {...input}
+      onFocus={(event) => {
+        input.onFocus(event);
+        rest.onFocus?.(event);
+      }}
+      onBlur={(event) => {
+        input.onBlur(event);
+        rest.onBlur?.(event);
+      }}
+      ref={blockEditorRef}
       error={hasError}
       helperText={hasError ? meta.error.message : rest.helperText}
     />

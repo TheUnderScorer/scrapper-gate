@@ -345,6 +345,7 @@ export enum ScrapperAction {
   GoBack = 'GoBack',
   NavigateTo = 'NavigateTo',
   ReadText = 'ReadText',
+  ReadAttribute = 'ReadAttribute',
   ReloadPage = 'ReloadPage',
   Type = 'Type',
   Screenshot = 'Screenshot',
