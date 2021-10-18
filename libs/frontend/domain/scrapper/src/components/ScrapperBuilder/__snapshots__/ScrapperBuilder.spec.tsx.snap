@@ -521,6 +521,48 @@ Object {
                                   <svg
                                     aria-hidden="true"
                                     class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-egrpcv-MuiSvgIcon-root"
+                                    data-testid="ReadMoreIcon"
+                                    focusable="false"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      d="M13 7h9v2h-9zm0 8h9v2h-9zm3-4h6v2h-6zm-3 1L8 7v4H2v2h6v4z"
+                                    />
+                                  </svg>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div
+                            class="MuiListItemText-root FlowBuilderSidebarItem-text css-tlelie-MuiListItemText-root"
+                          >
+                            <span
+                              class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-18fn6n9-MuiTypography-root"
+                            >
+                              Read attribute
+                            </span>
+                          </div>
+                        </li>
+                        <li
+                          class="MuiListItem-root MuiListItem-gutters MuiListItem-padding FlowBuilderSidebarItem-tile item-Action css-1v9fd58-MuiListItem-root"
+                          draggable="true"
+                        >
+                          <div
+                            class="MuiListItemIcon-root css-cveggr-MuiListItemIcon-root"
+                          >
+                            <div
+                              class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded action-node-box css-1hpjjg8-MuiPaper-root"
+                              style="width: 50px; height: 50px; position: relative;"
+                            >
+                              <div
+                                class="centered MuiBox-root css-9hmjl0"
+                              >
+                                <span
+                                  class="MuiBox-root css-vxcmzt"
+                                >
+                                  <svg
+                                    aria-hidden="true"
+                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-egrpcv-MuiSvgIcon-root"
                                     data-testid="RefreshIcon"
                                     focusable="false"
                                     viewBox="0 0 24 24"
@@ -1415,6 +1457,48 @@ Object {
                             class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-18fn6n9-MuiTypography-root"
                           >
                             Read text
+                          </span>
+                        </div>
+                      </li>
+                      <li
+                        class="MuiListItem-root MuiListItem-gutters MuiListItem-padding FlowBuilderSidebarItem-tile item-Action css-1v9fd58-MuiListItem-root"
+                        draggable="true"
+                      >
+                        <div
+                          class="MuiListItemIcon-root css-cveggr-MuiListItemIcon-root"
+                        >
+                          <div
+                            class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded action-node-box css-1hpjjg8-MuiPaper-root"
+                            style="width: 50px; height: 50px; position: relative;"
+                          >
+                            <div
+                              class="centered MuiBox-root css-9hmjl0"
+                            >
+                              <span
+                                class="MuiBox-root css-vxcmzt"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-egrpcv-MuiSvgIcon-root"
+                                  data-testid="ReadMoreIcon"
+                                  focusable="false"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    d="M13 7h9v2h-9zm0 8h9v2h-9zm3-4h6v2h-6zm-3 1L8 7v4H2v2h6v4z"
+                                  />
+                                </svg>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="MuiListItemText-root FlowBuilderSidebarItem-text css-tlelie-MuiListItemText-root"
+                        >
+                          <span
+                            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-18fn6n9-MuiTypography-root"
+                          >
+                            Read attribute
                           </span>
                         </div>
                       </li>

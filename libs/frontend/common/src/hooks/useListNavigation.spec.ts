@@ -1,7 +1,4 @@
-import {
-  NavigationDirection,
-  useListNavigation,
-} from '@scrapper-gate/frontend/common';
+import { NavigationDirection, useListNavigation } from './useListNavigation';
 import { act, renderHook } from '@testing-library/react-hooks';
 
 describe('useListNavigation', () => {

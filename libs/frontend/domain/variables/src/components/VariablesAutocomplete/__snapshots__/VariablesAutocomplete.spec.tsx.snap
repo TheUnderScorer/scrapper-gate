@@ -3,8 +3,12 @@
 exports[`<VariablesAutocomplete /> should render without crashing 1`] = `
 Object {
   "asFragment": [Function],
-  "baseElement": <body>
-    <div>
+  "baseElement": <body
+    style="padding-right: 1024px; overflow: hidden;"
+  >
+    <div
+      aria-hidden="true"
+    >
       <div
         class="MuiBox-root css-8atqhb"
       >
@@ -71,10 +75,79 @@ Object {
             </fieldset>
           </div>
         </div>
+        <div
+          class="MuiModal-root MuiPopover-root variables-autocomplete-suggestions css-18l9qlm-MuiModal-root-MuiPopover-root-MuiMenu-root"
+          role="presentation"
+          style="pointer-events: all;"
+        >
+          <div
+            aria-hidden="true"
+            class="MuiBackdrop-root MuiBackdrop-invisible css-g3hgs1-MuiBackdrop-root-MuiModal-backdrop"
+            style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+          />
+          <div
+            data-test="sentinelStart"
+            tabindex="0"
+          />
+          <div
+            class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiMenu-paper MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiPopover-paper css-1poimk-MuiPaper-root-MuiMenu-paper-MuiPaper-root-MuiPopover-paper"
+            style="opacity: 1; transform: scale(1, 1); transition: opacity 0ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,transform 0ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; top: 16px; left: 16px; transform-origin: -16px -16px;"
+            tabindex="-1"
+          >
+            <ul
+              class="MuiList-root MuiList-padding MuiMenu-list css-6hp17o-MuiList-root-MuiMenu-list"
+              role="menu"
+              tabindex="-1"
+            >
+              <li
+                class="MuiMenuItem-root MuiMenuItem-gutters Mui-selected MuiButtonBase-root variables-autocomplete-suggestion selected css-soz1h5-MuiButtonBase-root-MuiMenuItem-root"
+                role="menuitem"
+                tabindex="0"
+              >
+                <span>
+                  Test
+                </span>
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </li>
+              <li
+                class="MuiMenuItem-root MuiMenuItem-gutters MuiButtonBase-root variables-autocomplete-suggestion css-soz1h5-MuiButtonBase-root-MuiMenuItem-root"
+                role="menuitem"
+                tabindex="-1"
+              >
+                <span>
+                  Cool
+                </span>
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </li>
+              <li
+                class="MuiMenuItem-root MuiMenuItem-gutters MuiButtonBase-root variables-autocomplete-suggestion css-soz1h5-MuiButtonBase-root-MuiMenuItem-root"
+                role="menuitem"
+                tabindex="-1"
+              >
+                <span>
+                  Another
+                </span>
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </li>
+            </ul>
+          </div>
+          <div
+            data-test="sentinelEnd"
+            tabindex="0"
+          />
+        </div>
       </div>
     </div>
   </body>,
-  "container": <div>
+  "container": <div
+    aria-hidden="true"
+  >
     <div
       class="MuiBox-root css-8atqhb"
     >
@@ -140,6 +213,73 @@ Object {
             </legend>
           </fieldset>
         </div>
+      </div>
+      <div
+        class="MuiModal-root MuiPopover-root variables-autocomplete-suggestions css-18l9qlm-MuiModal-root-MuiPopover-root-MuiMenu-root"
+        role="presentation"
+        style="pointer-events: all;"
+      >
+        <div
+          aria-hidden="true"
+          class="MuiBackdrop-root MuiBackdrop-invisible css-g3hgs1-MuiBackdrop-root-MuiModal-backdrop"
+          style="opacity: 1; webkit-transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; transition: opacity 225ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;"
+        />
+        <div
+          data-test="sentinelStart"
+          tabindex="0"
+        />
+        <div
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiMenu-paper MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiPopover-paper css-1poimk-MuiPaper-root-MuiMenu-paper-MuiPaper-root-MuiPopover-paper"
+          style="opacity: 1; transform: scale(1, 1); transition: opacity 0ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,transform 0ms cubic-bezier(0.4, 0, 0.2, 1) 0ms; top: 16px; left: 16px; transform-origin: -16px -16px;"
+          tabindex="-1"
+        >
+          <ul
+            class="MuiList-root MuiList-padding MuiMenu-list css-6hp17o-MuiList-root-MuiMenu-list"
+            role="menu"
+            tabindex="-1"
+          >
+            <li
+              class="MuiMenuItem-root MuiMenuItem-gutters Mui-selected MuiButtonBase-root variables-autocomplete-suggestion selected css-soz1h5-MuiButtonBase-root-MuiMenuItem-root"
+              role="menuitem"
+              tabindex="0"
+            >
+              <span>
+                Test
+              </span>
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
+            </li>
+            <li
+              class="MuiMenuItem-root MuiMenuItem-gutters MuiButtonBase-root variables-autocomplete-suggestion css-soz1h5-MuiButtonBase-root-MuiMenuItem-root"
+              role="menuitem"
+              tabindex="-1"
+            >
+              <span>
+                Cool
+              </span>
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
+            </li>
+            <li
+              class="MuiMenuItem-root MuiMenuItem-gutters MuiButtonBase-root variables-autocomplete-suggestion css-soz1h5-MuiButtonBase-root-MuiMenuItem-root"
+              role="menuitem"
+              tabindex="-1"
+            >
+              <span>
+                Another
+              </span>
+              <span
+                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              />
+            </li>
+          </ul>
+        </div>
+        <div
+          data-test="sentinelEnd"
+          tabindex="0"
+        />
       </div>
     </div>
   </div>,

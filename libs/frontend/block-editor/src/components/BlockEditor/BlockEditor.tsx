@@ -25,13 +25,6 @@ import { textSerializeStrategy } from '../../serializeStrategies/textSerialize.s
 import { BlockEditorProvider } from './BlockEditor.provider';
 import { BlockEditorProps, SlateProps } from './BlockEditor.types';
 
-// Extended type in order to support passing name - it is used in tests
-const SlateComponent = Slate as ComponentType<
-  SlateProps & {
-    name?: string;
-  }
->;
-
 const BlockEditorField = forwardRef<
   HTMLElement,
   InputBaseComponentProps &
@@ -64,6 +57,13 @@ const BlockEditorField = forwardRef<
       },
       value,
     }));
+
+    // Extended type in order to support passing name - it is used in tests
+    const SlateComponent = Slate as ComponentType<
+      SlateProps & {
+        name?: string;
+      }
+    >;
 
     return (
       <Box
