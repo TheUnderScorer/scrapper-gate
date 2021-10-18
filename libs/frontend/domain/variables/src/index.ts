@@ -5,3 +5,4 @@ export * from './components/VariablesDateField/VariablesDateField';
 export * from './createVariablesDecorators';
 export * from './components/VariableSelect/VariableSelect';
 export * from './components/VariableSelect/VariableSelect.types';
+export * from './components/VariablesAutocomplete/VariablesAutocomplete';

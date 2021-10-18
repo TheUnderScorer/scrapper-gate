@@ -40,7 +40,7 @@ export const Component = () => {
       render={() => (
         <Box width="600px">
           <VariablesProvider name="variables">
-            <VariablesAutocomplete name="test" options={options} freeSolo />
+            <VariablesAutocomplete name="test" options={options} />
           </VariablesProvider>
         </Box>
       )}

@@ -7,9 +7,12 @@ import React, {
   ComponentType,
   FocusEvent,
   forwardRef,
+  MutableRefObject,
   useCallback,
   useEffect,
+  useImperativeHandle,
   useMemo,
+  useRef,
   useState,
 } from 'react';
 import { pipe } from 'remeda';
@@ -22,28 +25,45 @@ import { textSerializeStrategy } from '../../serializeStrategies/textSerialize.s
 import { BlockEditorProvider } from './BlockEditor.provider';
 import { BlockEditorProps, SlateProps } from './BlockEditor.types';
 
+// Extended type in order to support passing name - it is used in tests
+const SlateComponent = Slate as ComponentType<
+  SlateProps & {
+    name?: string;
+  }
+>;
+
 const BlockEditorField = forwardRef<
-  HTMLDivElement,
+  HTMLElement,
   InputBaseComponentProps &
     Pick<BlockEditorProps, 'decorators' | 'name'> & {
       onEditorChange: SlateProps['onChange'];
+      editorRef: MutableRefObject<HTMLElement>;
       editorValue: SlateProps['value'];
       editor: Editor;
     }
 >(
   (
-    { onEditorChange, editorValue, value, decorators = [], editor, ...props },
+    {
+      onEditorChange,
+      editorValue,
+      value,
+      decorators = [],
+      editor,
+      editorRef,
+      ...props
+    },
     ref
   ) => {
     const renderLeaf = useMemo(() => composeLeafs(decorators), [decorators]);
     const decorate = useMemo(() => composeDecorators(decorators), [decorators]);
 
-    // Extended type in order to support passing name - it is used in tests
-    const SlateComponent = Slate as ComponentType<
-      SlateProps & {
-        name?: string;
-      }
-    >;
+    useImperativeHandle(ref, () => ({
+      ...editorRef.current,
+      focus: () => {
+        editorRef.current?.focus();
+      },
+      value,
+    }));
 
     return (
       <Box
@@ -104,6 +124,8 @@ export const BlockEditor = forwardRef<HTMLInputElement, BlockEditorProps>(
     },
     ref
   ) => {
+    const editorRef = useRef<HTMLElement>();
+
     const editor = useMemo(
       () => pipe(createEditor() as ReactEditor, withReact, withSingleLine),
       []
@@ -183,6 +205,7 @@ export const BlockEditor = forwardRef<HTMLInputElement, BlockEditorProps>(
             ...props.InputProps,
             inputProps: {
               ...props.inputProps,
+              editorRef,
               editorValue: state,
               onEditorChange: handleStateChange,
               decorators,

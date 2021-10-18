@@ -4,6 +4,7 @@ import {
   ArrowForward,
   Input,
   Mouse,
+  ReadMore,
   Refresh,
   Screenshot,
   Settings,
@@ -14,6 +15,7 @@ import { ScrapperAction } from '@scrapper-gate/shared/schema';
 export const scrapperActionIcons = {
   [ScrapperAction.Click]: <Mouse />,
   [ScrapperAction.ReadText]: <Visibility />,
+  [ScrapperAction.ReadAttribute]: <ReadMore />,
   [ScrapperAction.GoBack]: <ArrowBack />,
   [ScrapperAction.NavigateTo]: <ArrowForward />,
   [ScrapperAction.ReloadPage]: <Refresh />,

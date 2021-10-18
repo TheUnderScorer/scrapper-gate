@@ -27,7 +27,7 @@ export const Setter =
 
     Object.assign(target, {
       toJSON() {
-        const orgJson = orgToJson ? orgToJson() : { ...this };
+        const orgJson = orgToJson ? orgToJson.call(this) : { ...this };
 
         orgJson[propertyKey] = (this as any)[internalKey];
 

@@ -18,7 +18,7 @@ import { KeyHint } from '../../../atoms/KeyHint/KeyHint';
 import {
   SelectorsList,
   SelectorsListProps,
-} from '../../../molecules/SelectorsList/SelectorsList';
+} from '../../SelectorsList/SelectorsList';
 
 export interface HtmlElementPickerSnackbarProps {
   open?: boolean;

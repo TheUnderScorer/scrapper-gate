@@ -23,6 +23,7 @@ export const scrapperStepInputKeys = getAllObjectKeys<ScrapperStepInput>({
   isFirst: true,
   fullPageScreenshot: true,
   newRunSettings: true,
+  attributeToRead: true,
 });
 
 export const pickScrapperInput = pick<

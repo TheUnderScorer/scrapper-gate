@@ -34,8 +34,8 @@ export interface VariablesAutocompleteChildrenBag {
 }
 
 export interface VariablesAutocompleteProps<T>
-  extends Omit<AutocompleteProps<T>, 'renderInput'>,
-    Pick<VariablesTextFieldProps, 'fieldProps' | 'label'>,
+  extends Omit<AutocompleteProps<T>, 'renderInput' | 'freeSolo'>,
+    Pick<VariablesTextFieldProps, 'fieldProps' | 'label' | 'helperText'>,
     Pick<BlockEditorProps, 'editorInstanceRef' | 'initialFocused'> {
   name: string;
 }
@@ -50,6 +50,7 @@ export const VariablesAutocomplete = ({
   name,
   fieldProps,
   label,
+  helperText,
   value,
   getOptionLabel: getOptionLabelProp,
   editorInstanceRef: propEditorInstanceRef,
@@ -78,7 +79,7 @@ export const VariablesAutocomplete = ({
 
   const handleOptionSelect = useCallback(
     (option: string) => {
-      if (!editorRef.current) {
+      if (!editorRef.current || !option) {
         return;
       }
 
@@ -93,17 +94,19 @@ export const VariablesAutocomplete = ({
 
       field.input.onChange(label);
 
-      Transforms.select(editorRef.current, {
-        ...prevSelection,
-        focus: {
-          path: prevSelection.focus?.path,
-          offset: label.length,
-        },
-        anchor: {
-          path: prevSelection.anchor?.path,
-          offset: label.length,
-        },
-      });
+      if (label) {
+        Transforms.select(editorRef.current, {
+          ...prevSelection,
+          focus: {
+            path: prevSelection.focus?.path,
+            offset: label.length,
+          },
+          anchor: {
+            path: prevSelection.anchor?.path,
+            offset: label.length,
+          },
+        });
+      }
     },
     [field.input, getOptionLabel]
   );
@@ -142,6 +145,7 @@ export const VariablesAutocomplete = ({
           width: '100%',
         }}
         label={label}
+        helperText={helperText}
       />
 
       <Menu

@@ -11,6 +11,7 @@ import { ScrapperRunSettingsFormProps } from './ScrapperRunSettingsForm.types';
 
 export const ScrapperRunSettingsForm = ({
   getFieldName,
+  disabled,
 }: ScrapperRunSettingsFormProps) => {
   const dialogBehaviour = useFormFieldValue<Maybe<ScrapperDialogBehaviour>>(
     getFieldName('dialogBehaviour')
@@ -19,12 +20,14 @@ export const ScrapperRunSettingsForm = ({
   return (
     <Stack spacing={4}>
       <EnumSelect
+        disabled={disabled}
         enumObj={ScrapperDialogBehaviour}
         name={getFieldName('dialogBehaviour')}
         label="Alert behaviour"
         helperText="Decides what action should be taken after browser alert is shown."
       />
       <EnumSelect
+        disabled={disabled}
         label="No elements found behaviour"
         helperText="Decides what action should be taken if no HTML elements were found for current step."
         dictionary={{
@@ -35,7 +38,9 @@ export const ScrapperRunSettingsForm = ({
         name={getFieldName('noElementsFoundBehavior')}
       />
       <VariablesTextField
-        disabled={dialogBehaviour === ScrapperDialogBehaviour.AlwaysReject}
+        disabled={
+          dialogBehaviour === ScrapperDialogBehaviour.AlwaysReject || disabled
+        }
         name={getFieldName('promptText')}
         label="Prompt text"
         helperText="Text to enter into prompt alerts."
