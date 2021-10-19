@@ -10,6 +10,7 @@ export enum MessageTypes {
   GetContentRoute = 'GetContentRoute',
   Logout = 'Logout',
   GetActiveTab = 'GetActiveTab',
+  GetActiveTabId = 'GetActiveTabId',
   Test = 'Test',
 }
 
@@ -27,6 +28,10 @@ export interface StoredRoute {
   state?: unknown;
 }
 
+export interface ToggleContentResult {
+  tabCreated: boolean;
+}
+
 export type StoredRoutes = Record<string, StoredRoute>;
 
 export type MessagesPayloadMap = {
@@ -39,6 +44,7 @@ export type MessagesPayloadMap = {
   [MessageTypes.Logout]: never;
   [MessageTypes.InjectContentScript]: never;
   [MessageTypes.GetContentRoute]: never;
+  [MessageTypes.GetActiveTabId]: never;
 };
 
 export interface Message<Type, Payload = unknown> {

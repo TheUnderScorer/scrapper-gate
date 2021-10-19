@@ -1,4 +1,5 @@
 import {
+  MessageResult,
   MessagesPayloadMap,
   MessageTypes,
 } from '../../communication/messageResult.types';
@@ -13,9 +14,9 @@ export interface MessageSenderHookProps<Type extends MessageTypes> {
   type: Type;
 }
 
-export type MessageSenderSend<Type extends MessageTypes> = (
+export type MessageSenderSend<Type extends MessageTypes, Data> = (
   payload?: MessagesPayloadMap[Type]
-) => Promise<void>;
+) => Promise<MessageResult<Data> | null>;
 
 export interface MessageSenderState<Data = unknown> {
   data: Data | null;
@@ -25,6 +26,6 @@ export interface MessageSenderState<Data = unknown> {
 }
 
 export type MessageSenderResult<Type extends MessageTypes, Data = unknown> = [
-  MessageSenderSend<Type>,
+  MessageSenderSend<Type, Data>,
   MessageSenderState<Data>
 ];

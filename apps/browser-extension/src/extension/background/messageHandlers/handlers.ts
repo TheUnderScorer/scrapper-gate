@@ -3,13 +3,16 @@ import {
   HandlersMap,
   MessageTypes,
   StoredRoute,
+  ToggleContentResult,
 } from '../../browser/communication/messageResult.types';
+import { sendMessageToActiveTab } from '../../browser/communication/sendMessageToTab';
 import { getActiveTab } from '../../browser/tabsQuery/getActiveTab';
 import { toggleContentOverlay } from '../toggleContentOverlay';
 import { updateContentRoute } from '../updateContentRoute';
-import { sendMessageToActiveTab } from '../../browser/communication/sendMessageToTab';
 
 export const handlers: HandlersMap = {
+  [MessageTypes.GetActiveTabId]: async (_, sender) =>
+    successMessageResult(sender.tab?.id),
   [MessageTypes.ScrapperOverlayToggled]: async (message) => {
     const activeTab = await getActiveTab();
 
@@ -29,11 +32,15 @@ export const handlers: HandlersMap = {
     };
   },
   [MessageTypes.ToggleContent]: async (message) => {
+    let tabCreated = false;
+
     await sendMessageToActiveTab(message, {
       /**
        * If new tab was created the message won't reach it, so we will just update content routes for this tab, and after opening it content will *magically* open!
        * */
       onTabCreated: (tab) => {
+        tabCreated = true;
+
         if (message.payload?.path && message.payload?.visible) {
           updateContentRoute(
             {
@@ -46,9 +53,9 @@ export const handlers: HandlersMap = {
       },
     });
 
-    return {
-      result: true,
-    };
+    return successMessageResult<ToggleContentResult>({
+      tabCreated,
+    });
   },
   [MessageTypes.GetContentRoute]: async () => {
     const result = await sendMessageToActiveTab<StoredRoute | undefined>({

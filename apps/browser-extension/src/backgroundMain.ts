@@ -25,7 +25,11 @@ browser.runtime.onMessage.addListener(
       return response;
     }
 
-    return true;
+    logger.debug(`No handlers found for message type: ${message.type}`);
+
+    return {
+      result: false,
+    };
   }
 );
 

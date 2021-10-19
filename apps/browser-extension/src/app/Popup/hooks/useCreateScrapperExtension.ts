@@ -6,11 +6,13 @@ export const useCreateScrapperExtension = () => {
   const [toggleContent] = useContentToggle();
 
   return useCallback(async () => {
-    await toggleContent({
+    const result = await toggleContent({
       visible: true,
       path: browserExtensionRoutes.content.createScrapper,
     });
 
-    window.close();
+    if (result && !result.payload?.tabCreated) {
+      window.close();
+    }
   }, [toggleContent]);
 };

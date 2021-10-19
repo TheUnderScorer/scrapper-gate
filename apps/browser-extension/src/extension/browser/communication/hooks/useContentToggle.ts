@@ -1,5 +1,10 @@
 import { useCallback } from 'react';
-import { ContentToggleHookPayload, MessageTypes } from '../messageResult.types';
+import {
+  ContentToggleHookPayload,
+  MessageResult,
+  MessageTypes,
+  ToggleContentResult,
+} from '../messageResult.types';
 import { useMessageSender } from '../../hooks/useMessageSender/useMessageSender';
 import {
   MessageSenderState,
@@ -9,14 +14,19 @@ import { useTokensStore } from '@scrapper-gate/frontend/domain/auth';
 
 export type ToggleContentParams = Omit<ContentToggleHookPayload, 'tokens'>;
 
-type Callback = (payload: ToggleContentParams) => Promise<void>;
+type Callback = (
+  payload: ToggleContentParams
+) => Promise<MessageResult<ToggleContentResult> | null>;
 
 /**
  * Hook for handling message that toggles contentScript
  * */
 export const useContentToggle = (): [Callback, MessageSenderState] => {
   const tokensVal = useTokensStore((store) => store.tokens);
-  const [send, data] = useMessageSender({
+  const [send, data] = useMessageSender<
+    MessageTypes.ToggleContent,
+    ToggleContentResult
+  >({
     type: MessageTypes.ToggleContent,
     target: Target.background,
   });
@@ -27,7 +37,7 @@ export const useContentToggle = (): [Callback, MessageSenderState] => {
         throw new TypeError('No tokens found, unable to open content overlay.');
       }
 
-      await send({
+      return send({
         tokens: tokensVal,
         ...payload,
       });

@@ -65,6 +65,8 @@ function setupShims(config) {
 }
 
 function modifyBundle(config) {
+  config.output.publicPath = '/';
+
   if (config.mode === 'development') {
     config.devtool = 'cheap-module-source-map';
     config.optimization.removeAvailableModules = false;

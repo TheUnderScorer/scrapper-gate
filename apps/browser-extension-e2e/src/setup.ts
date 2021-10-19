@@ -1,11 +1,9 @@
 import { wait } from '@scrapper-gate/shared/common';
 import { logger } from '@scrapper-gate/shared/logger/console';
-import { apiRoutes } from '@scrapper-gate/shared/routing';
 import fs from 'fs';
-import { request } from 'http';
 import path from 'path';
 import { chromium } from 'playwright';
-import { URL } from 'url';
+import { apiHealthCheck } from './apiHealthCheck';
 
 const extensionPath = path.join(
   __dirname,
@@ -14,25 +12,7 @@ const extensionPath = path.join(
 
 let contextPaths: string[] = [];
 
-async function apiHealthCheck() {
-  if (!process.env.SERVER_URL) {
-    throw new Error('SERVER_URL is missing in environment!');
-  }
-
-  const url = new URL(process.env.SERVER_URL);
-
-  url.pathname = apiRoutes.health;
-
-  return new Promise<void>((resolve, reject) => {
-    request(url, (res) => {
-      if (res.statusCode !== 200) {
-        reject(new Error('Unable to connect to API.'));
-      }
-
-      resolve();
-    }).end();
-  });
-}
+jest.retryTimes(3);
 
 beforeAll(async () => {
   await apiHealthCheck();
@@ -43,8 +23,6 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
-  jest.retryTimes(3);
-
   if (global.browser) {
     return;
   }
@@ -85,10 +63,6 @@ beforeEach(async () => {
   global.browser = ctx as any;
 
   ctx.on('page', (page) => {
-    page.on('request', (request) => {
-      logger.info(`Performing request to ${request.url()}`);
-    });
-
     page.on('requestfailed', async (request) => {
       const response = await request.response();
 
@@ -109,6 +83,8 @@ afterAll(async () => {
   contextPaths.forEach((path) => {
     if (fs.existsSync(path)) {
       try {
+        console.log(`Removing context: ${path}`);
+
         fs.unlinkSync(path);
       } catch {
         /// Nothing here :0

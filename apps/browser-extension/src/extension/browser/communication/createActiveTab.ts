@@ -1,7 +1,6 @@
 import { wait } from '@scrapper-gate/shared/common';
+import { initialActiveTabUrl } from '@scrapper-gate/shared/routing';
 import browser from 'webextension-polyfill';
-
-export const initialActiveTabUrl = 'https://www.google.com';
 
 export async function createActiveTab() {
   const activeTab = await browser.tabs.create({
@@ -13,7 +12,7 @@ export async function createActiveTab() {
     tabs: activeTab.index,
   });
 
-  await wait(750);
+  await wait(1500);
 
   return activeTab;
 }

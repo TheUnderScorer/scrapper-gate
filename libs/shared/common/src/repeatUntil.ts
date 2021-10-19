@@ -1,11 +1,11 @@
 import { OperationTimeoutError } from '@scrapper-gate/shared/errors';
-import { MaybePromise } from './promise';
+import { MaybePromise, UnpackPromise } from './promise';
 import { wait } from './timeout';
 
 export const repeatUntil = async <T>(
   handler: (iteration: number) => MaybePromise<T>,
   conditionChecker?: (
-    value: T,
+    value: UnpackPromise<T>,
     iteration: number
   ) => boolean | Promise<boolean>,
   timeout = 10000
@@ -25,7 +25,10 @@ export const repeatUntil = async <T>(
       if (conditionChecker) {
         value = await handler(iteration);
 
-        lastResult = await conditionChecker(value, iteration);
+        lastResult = await conditionChecker(
+          value as UnpackPromise<T>,
+          iteration
+        );
       } else {
         try {
           value = await handler(iteration);

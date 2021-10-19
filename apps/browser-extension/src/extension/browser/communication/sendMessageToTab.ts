@@ -52,6 +52,8 @@ export const sendMessageToActiveTab = async <Result>(
   }
 
   if (tabCreated) {
+    logger.info(`Active tab was not found, so it was created: `, activeTab);
+
     onTabCreated?.(activeTab);
   }
 

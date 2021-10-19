@@ -1,19 +1,19 @@
-import { Message, MessageResult } from './messageResult.types';
-import browser from 'webextension-polyfill';
 import { logger } from '@scrapper-gate/shared/logger/console';
+import browser from 'webextension-polyfill';
+import { Message, MessageResult } from './messageResult.types';
 
 export const sendMessageToBackground = async <Result>(
   message: Message<unknown>
 ): Promise<MessageResult<Result>> => {
   logger.debug('Sending message to bg', message);
 
-  const result = await browser.runtime.sendMessage(message);
+  const response = await browser.runtime.sendMessage(message);
 
-  logger.debug('Message result', { message, result });
+  logger.debug(`Message ${message.type} result`, { message, response });
 
-  if (result?.error) {
-    throw result.error;
+  if (response?.error) {
+    throw response.error;
   }
 
-  return result;
+  return response;
 };
