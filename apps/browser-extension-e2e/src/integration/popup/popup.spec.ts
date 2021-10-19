@@ -1,6 +1,10 @@
 import { repeatUntil } from '@scrapper-gate/shared/common';
-import { initialActiveTabUrl } from '@scrapper-gate/shared/routing';
+import { registerToMatchImageSnapshot } from '../../../../../tests/jestExtensions/toMatchImageSnapshot';
 import { register } from '../../actions/popup';
+import { createNewUserWithScrapper } from '../../actions/createNewUserWithScrapper';
+import { navigateToPopup } from '../../utils/navigation';
+
+registerToMatchImageSnapshot();
 
 describe('Popup', () => {
   describe('Scrappers list', () => {
@@ -15,37 +19,32 @@ describe('Popup', () => {
     });
 
     it('should let user create new scrapper', async () => {
-      const { page } = await register();
-
-      const createScrapperPage = await repeatUntil(async () => {
-        const btn = await page.$('.MuiFab-root');
-
-        await btn?.click();
-
-        const createScrapperPage = global.browser
-          .pages()
-          .find((page) => page.url().includes(initialActiveTabUrl));
-
-        expect(createScrapperPage).toBeTruthy();
-
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        return createScrapperPage!;
-      });
+      const page = await createNewUserWithScrapper();
 
       await repeatUntil(async () => {
-        const form = await createScrapperPage.$('.create-scrapper-form');
+        const form = await page.$('.scrapper-builder-form');
 
         expect(form).toBeTruthy();
       });
+    });
 
-      await createScrapperPage.click('text=Real browser');
-      await createScrapperPage.type('[name="name"]', 'Test scrapper');
-      await createScrapperPage.click('[type="submit"]');
+    it('should list user scrappers', async () => {
+      await createNewUserWithScrapper();
 
-      await repeatUntil(async () => {
-        const form = await createScrapperPage.$('.scrapper-builder-form');
+      const page = await global.browser.newPage();
 
-        expect(form).toBeTruthy();
+      await navigateToPopup(page);
+
+      const listItems = await page.$$('.scrapper-list-item');
+
+      expect(listItems).toHaveLength(1);
+
+      const popupContent = await page.$('.popup-content');
+
+      const screenshot = await popupContent?.screenshot();
+
+      expect(screenshot).toMatchImageSnapshot({
+        customSnapshotIdentifier: 'List with scrapper',
       });
     });
   });

@@ -49,7 +49,7 @@ export const Popup = () => {
             </Route>
           )}
           {isAuthorized && (
-            <Box width="500px" height="500px">
+            <Box className="popup-content" width="500px" height="500px">
               <PopupDrawer />
               <Layout
                 noGutters
