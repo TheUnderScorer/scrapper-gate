@@ -342,6 +342,30 @@ export class PlayWrightScrapperRunner
     }
   }
 
+  async ReadAttribute(params: ScrapperStepHandlerParams) {
+    try {
+      const { elements } = await this.preRun(params);
+
+      const attributes: Pick<ScrapperRunValue, 'value' | 'sourceElement'>[] =
+        await Promise.all(
+          elements.map(async (element) => ({
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            value: await element.getAttribute(params.step.attributeToRead!),
+            sourceElement: await handleToSourceElement(element),
+          }))
+        );
+
+      const { performance } = await this.afterRun(params);
+
+      return {
+        performance,
+        values: attributes,
+      };
+    } catch (error) {
+      throw await this.onError(error, params);
+    }
+  }
+
   async ReloadPage(params: ScrapperStepHandlerParams) {
     try {
       await this.preRun(params);

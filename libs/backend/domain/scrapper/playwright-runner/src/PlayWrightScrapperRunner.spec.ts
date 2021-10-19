@@ -434,5 +434,82 @@ describe('PlayWright scrapper runner', () => {
       expect(values).toHaveLength(1);
       expect(first(values)?.value).toEqual('Not confirmed');
     });
+
+    it('should read element attributes', async () => {
+      const runner = await bootstrapRunner(type);
+
+      const { values } = await runner.ReadAttribute({
+        scrapperRun,
+        variables: [],
+        step: {
+          ...(await createMockScrapperStep({})),
+          action: ScrapperAction.ReadAttribute,
+          useUrlFromPreviousStep: false,
+          url: 'http://localhost:8080',
+          attributeToRead: 'href',
+          allSelectors: [
+            {
+              value: 'a',
+            },
+          ],
+        },
+      });
+
+      expect(values).toHaveLength(5);
+      expect(values).toMatchInlineSnapshot(`
+        Array [
+          Object {
+            "sourceElement": Object {
+              "classNames": Array [
+                "",
+              ],
+              "id": "",
+              "tag": "a",
+            },
+            "value": "article.html",
+          },
+          Object {
+            "sourceElement": Object {
+              "classNames": Array [
+                "",
+              ],
+              "id": "",
+              "tag": "a",
+            },
+            "value": "popup.html",
+          },
+          Object {
+            "sourceElement": Object {
+              "classNames": Array [
+                "",
+              ],
+              "id": "",
+              "tag": "a",
+            },
+            "value": "dynamic-elements.html",
+          },
+          Object {
+            "sourceElement": Object {
+              "classNames": Array [
+                "",
+              ],
+              "id": "",
+              "tag": "a",
+            },
+            "value": "blog/index.html",
+          },
+          Object {
+            "sourceElement": Object {
+              "classNames": Array [
+                "",
+              ],
+              "id": "",
+              "tag": "a",
+            },
+            "value": "alert/index.html",
+          },
+        ]
+      `);
+    });
   });
 });

@@ -28,6 +28,7 @@ export interface BlockEditorProps
     | 'onBlur'
     | 'error'
     | 'name'
+    | 'sx'
   > {
   initialFocused?: boolean;
   editorInstanceRef?: Ref<Editor>;

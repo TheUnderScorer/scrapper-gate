@@ -26,6 +26,7 @@ export interface ScrapperElementPickerProps
   label?: string;
   name?: string;
   variant?: TextFieldProps['variant'];
+  onElements?: (elements: HTMLElement[]) => unknown;
 }
 
 export type ScrapperBuilderNode = Node<ScrapperBuilderNodeProperties>;

@@ -51,10 +51,11 @@ export const Dropdown = ({
         anchorEl={anchorEl}
         onClose={handleClose}
         disablePortal={false}
-        style={{
-          pointerEvents: 'all',
-        }}
         {...rest}
+        sx={{
+          pointerEvents: 'all',
+          ...rest.sx,
+        }}
       >
         {items.map((item) => (
           <GenericMenuItem

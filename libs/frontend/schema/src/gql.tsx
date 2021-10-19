@@ -65,6 +65,7 @@ export const ScrapperBuilderStepFragmentDoc = gql`
     url
     typeDelay
     useUrlFromPreviousStep
+    attributeToRead
     newRunSettings {
       dialogBehaviour
       noElementsFoundBehavior

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { TextField } from '@mui/material';
+import { Box, TextField } from '@mui/material';
 import { InputBaseComponentProps } from '@mui/material/InputBase/InputBase';
 import { setRefValue } from '@scrapper-gate/frontend/common';
 import classNames from 'classnames';
@@ -38,11 +38,11 @@ const BlockEditorField = forwardRef<
   (
     {
       onEditorChange,
-      editorRef,
       editorValue,
       value,
       decorators = [],
       editor,
+      editorRef,
       ...props
     },
     ref
@@ -66,21 +66,34 @@ const BlockEditorField = forwardRef<
     >;
 
     return (
-      <SlateComponent
-        editor={editor}
-        onChange={onEditorChange}
-        value={editorValue}
-        name={props.name}
+      <Box
+        sx={{
+          '& .MuiAutocomplete-input': {
+            width: '100% !important',
+          },
+        }}
+        width="100%"
+        ref={ref}
       >
-        <Editable
-          className={classNames(props.className, 'block-editor-slate-editable')}
-          aria-multiline={false}
-          renderLeaf={renderLeaf}
-          decorate={decorate}
-          {...(props as any)}
-          readOnly={props.disabled}
-        />
-      </SlateComponent>
+        <SlateComponent
+          editor={editor}
+          onChange={onEditorChange}
+          value={editorValue}
+          name={props.name}
+        >
+          <Editable
+            className={classNames(
+              props.className,
+              'block-editor-slate-editable'
+            )}
+            aria-multiline={false}
+            renderLeaf={renderLeaf}
+            decorate={decorate}
+            {...(props as any)}
+            readOnly={props.disabled}
+          />
+        </SlateComponent>
+      </Box>
     );
   }
 );
@@ -191,6 +204,7 @@ export const BlockEditor = forwardRef<HTMLInputElement, BlockEditorProps>(
           InputProps={{
             ...props.InputProps,
             inputProps: {
+              ...props.inputProps,
               editorRef,
               editorValue: state,
               onEditorChange: handleStateChange,

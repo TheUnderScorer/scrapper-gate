@@ -43,6 +43,7 @@ export const ScrapperElementPicker = ({
   label = 'HTML Elements',
   name,
   variant,
+  onElements,
 }: ScrapperElementPickerProps) => {
   const {
     root,
@@ -93,6 +94,7 @@ export const ScrapperElementPicker = ({
       label={label}
       highlightId="selectors"
       elementsValidator={elementsValidator}
+      onElements={onElements}
     />
   );
 };

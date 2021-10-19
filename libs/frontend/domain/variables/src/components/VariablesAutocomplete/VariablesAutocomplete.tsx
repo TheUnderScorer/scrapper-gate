@@ -1,16 +1,30 @@
 import {
-  Autocomplete,
-  AutocompleteProps,
   AutocompleteRenderInputParams,
+  Box,
   createFilterOptions,
-  FilterOptionsState,
+  Menu,
+  MenuItem,
 } from '@mui/material';
-import { FieldProps, useFieldHasError } from '@scrapper-gate/frontend/form';
-import { Highlight } from '@scrapper-gate/frontend/ui';
-import { Variable } from '@scrapper-gate/shared/schema';
-import React, { useCallback } from 'react';
+import { BlockEditorProps } from '@scrapper-gate/frontend/block-editor';
+import { setRefValue, useListNavigation } from '@scrapper-gate/frontend/common';
+
+import { AutocompleteProps, Highlight } from '@scrapper-gate/frontend/ui';
+import { variableStartRegex } from '@scrapper-gate/shared/domain/variables';
+import classNames from 'classnames';
+import React, {
+  MutableRefObject,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { FieldInputProps, FieldMetaState, useField } from 'react-final-form';
-import { useVariablesContextSelector } from '../../providers/VariablesProvider';
+import { BaseRange, Editor, Transforms } from 'slate';
+import {
+  VariablesTextField,
+  VariablesTextFieldProps,
+} from '../VariablesTextField/VariablesTextField';
 
 export interface VariablesAutocompleteChildrenBag {
   autoCompleteParams: AutocompleteRenderInputParams;
@@ -19,71 +33,150 @@ export interface VariablesAutocompleteChildrenBag {
   hasError?: boolean;
 }
 
-export interface VariablesAutocompleteProps
-  extends Omit<
-    AutocompleteProps<Variable, boolean, boolean, boolean>,
-    'options' | 'renderInput'
-  > {
-  children: (params: VariablesAutocompleteChildrenBag) => JSX.Element;
-  fieldProps: FieldProps<string>;
+export interface VariablesAutocompleteProps<T>
+  extends Omit<AutocompleteProps<T>, 'renderInput' | 'freeSolo'>,
+    Pick<VariablesTextFieldProps, 'fieldProps' | 'label' | 'helperText'>,
+    Pick<BlockEditorProps, 'editorInstanceRef' | 'initialFocused'> {
   name: string;
 }
 
+const filter = createFilterOptions<string>({
+  trim: true,
+  ignoreCase: true,
+  matchFrom: 'any',
+});
+
 export const VariablesAutocomplete = ({
   name,
-  children,
   fieldProps,
+  label,
+  helperText,
+  value,
+  getOptionLabel: getOptionLabelProp,
+  editorInstanceRef: propEditorInstanceRef,
+  initialFocused = false,
   ...rest
-}: VariablesAutocompleteProps) => {
-  const { meta, input } = useField(name, fieldProps);
+}: VariablesAutocompleteProps<string>) => {
+  const editorRef = useRef<Editor>();
 
-  const hasError = useFieldHasError({
-    meta: meta,
-    showErrorOnlyOnTouched: fieldProps?.showErrorOnlyOnTouched,
-  });
+  const field = useField(name, fieldProps);
+  const anchorRef = useRef<HTMLDivElement>();
 
-  const variables = useVariablesContextSelector((ctx) => ctx.variables);
-
-  const filterOptions = useCallback(
-    (options: Variable[], state: FilterOptionsState<Variable>) => {
-      if (!state.inputValue.startsWith('{{')) {
-        return [];
-      }
-
-      return createFilterOptions<Variable>({
-        matchFrom: 'any',
-        stringify: (option) => option.key ?? option.id,
-      })(options, state);
-    },
-    []
+  const hasVariableStart = useMemo(
+    () => variableStartRegex.test(field.input.value),
+    [field.input.value]
   );
 
-  return (
-    <Autocomplete<Variable, boolean, boolean, boolean>
-      {...rest}
-      {...input}
-      onChange={(event, newValue) => input.onChange(newValue)}
-      id={input.name}
-      freeSolo
-      disableClearable
-      renderInput={(params) =>
-        children({
-          autoCompleteParams: params,
-          meta,
-          input,
-          hasError,
-        })
+  const getOptionLabel = useCallback(
+    (option: string) =>
+      getOptionLabelProp ? getOptionLabelProp(option) : (option as string),
+
+    [getOptionLabelProp]
+  );
+
+  const [focused, setFocused] = useState(initialFocused);
+  const [filteredOptions, setFilteredOptions] = useState(rest.options);
+
+  const handleOptionSelect = useCallback(
+    (option: string) => {
+      if (!editorRef.current || !option) {
+        return;
       }
-      getOptionLabel={(option) => {
-        return option?.key ?? '';
-      }}
-      filterOptions={filterOptions}
-      options={variables}
-      renderOption={(props, variable, state) => {
-        return (
-          <Highlight text={variable.key ?? ''} value={state.inputValue ?? ''} />
-        );
-      }}
-    />
+
+      const label = getOptionLabel(option);
+      const prevSelection: BaseRange = {
+        ...editorRef.current?.selection,
+      };
+
+      if (!prevSelection) {
+        return;
+      }
+
+      field.input.onChange(label);
+
+      if (label) {
+        Transforms.select(editorRef.current, {
+          ...prevSelection,
+          focus: {
+            path: prevSelection.focus?.path,
+            offset: label.length,
+          },
+          anchor: {
+            path: prevSelection.anchor?.path,
+            offset: label.length,
+          },
+        });
+      }
+    },
+    [field.input, getOptionLabel]
+  );
+
+  const { activeItem, setActiveItem } = useListNavigation({
+    items: filteredOptions as string[],
+    disabled: hasVariableStart,
+    onEnter: handleOptionSelect,
+  });
+
+  useEffect(() => {
+    setFilteredOptions(
+      filter(rest.options as string[], {
+        getOptionLabel,
+        inputValue: field.input.value,
+      })
+    );
+  }, [field.input.value, getOptionLabel, rest.options]);
+
+  useEffect(() => {
+    if (propEditorInstanceRef) {
+      setRefValue(propEditorInstanceRef, editorRef.current);
+    }
+  }, [propEditorInstanceRef]);
+
+  return (
+    <Box ref={anchorRef} width="100%">
+      <VariablesTextField
+        editorInstanceRef={editorRef as MutableRefObject<Editor>}
+        name={name}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
+        initialFocused={initialFocused}
+        fieldProps={fieldProps}
+        sx={{
+          width: '100%',
+        }}
+        label={label}
+        helperText={helperText}
+      />
+
+      <Menu
+        className="variables-autocomplete-suggestions"
+        anchorEl={anchorRef.current}
+        open={filteredOptions.length > 0 && focused}
+        disableAutoFocus
+        disablePortal
+        autoFocus={false}
+      >
+        {filteredOptions.map((option, index) => {
+          const selected = activeItem === option;
+
+          return (
+            <MenuItem
+              className={classNames('variables-autocomplete-suggestion', {
+                selected,
+              })}
+              onMouseOver={() => setActiveItem(option)}
+              selected={selected}
+              onClick={() => handleOptionSelect(option)}
+              key={index}
+            >
+              <Highlight
+                text={getOptionLabel(option) ?? ''}
+                value={field.input.value ?? ''}
+              />
+            </MenuItem>
+          );
+        })}
+      </Menu>
+    </Box>
   );
 };

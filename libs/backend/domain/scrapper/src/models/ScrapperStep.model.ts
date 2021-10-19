@@ -145,6 +145,11 @@ export class ScrapperStepModel
   })
   newRunSettings?: ScrapperRunSettings;
 
+  @Column({
+    nullable: true,
+  })
+  attributeToRead?: string;
+
   get allSelectors() {
     const selectors = [...(this.selectors ?? [])];
 

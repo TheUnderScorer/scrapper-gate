@@ -1,4 +1,5 @@
 import { Constructor } from '@scrapper-gate/shared/constructor';
+import { filter, pipe, reduce } from 'remeda';
 import type { PartialDeep } from 'type-fest';
 import { Dictionary, Jsonable, OmitFunctions } from './types';
 
@@ -24,7 +25,21 @@ export abstract class DataObject<Entity> implements Jsonable {
   }
 
   toJSON() {
-    return Object.assign({}, this) as Dictionary;
+    const initialKeys = [
+      ...Object.keys(this),
+      ...Object.keys(Object.getPrototypeOf(this)),
+    ];
+
+    return pipe(
+      initialKeys,
+      filter((key) => typeof this[key as keyof this] !== 'function'),
+      reduce((acc, key) => {
+        return {
+          ...acc,
+          [key]: this[key as keyof this],
+        };
+      }, {})
+    ) as Dictionary;
   }
 
   static create<T extends DataObject<unknown>>(

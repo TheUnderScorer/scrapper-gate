@@ -73,6 +73,7 @@ fragment ScrapperBuilderStep on ScrapperStep {
   url
   typeDelay
   useUrlFromPreviousStep
+  attributeToRead
   newRunSettings {
     dialogBehaviour
     noElementsFoundBehavior

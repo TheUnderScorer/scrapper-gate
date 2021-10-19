@@ -28,4 +28,5 @@ export interface HtmlElementPickerProps {
   filterSelectorsForValidation?: (selectors: Selector[]) => Selector[];
   shouldAddSelectorOnEnter?: (event: KeyboardEvent<HTMLElement>) => boolean;
   TextFieldComponent?: ComponentType<TextFieldProps>;
+  onElements?: (elements: HTMLElement[]) => unknown;
 }

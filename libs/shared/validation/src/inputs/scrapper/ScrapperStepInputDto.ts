@@ -12,6 +12,7 @@ import { noSpecialChars } from '../../decorators/noSpecialChars';
 import { supportsVariables } from '../../decorators/supportsVariables';
 import { unique } from '../../decorators/unique';
 import { uuid } from '../../decorators/uuid';
+import { JoiMessages } from '../../types';
 import { SelectorDto } from '../SelectorDto';
 import { ScrapperConditionalRuleGroupInputDto } from './ScrapperConditionalRuleGroupInputDto';
 import { ScrapperRunSettingsInputDto } from './ScrapperRunSettingsInputDto';
@@ -93,4 +94,17 @@ export class ScrapperStepInputDto
 
   @(jf.boolean().allow(null))
   isFirst?: boolean;
+
+  @(jf.string().custom(({ joi }) =>
+    joi.when('action', {
+      is: ScrapperAction.ReadAttribute,
+      then: joi
+        .string()
+        .required()
+        .messages({
+          [JoiMessages.Required]: 'Provide attribute to read.',
+        }),
+    })
+  ))
+  attributeToRead?: string;
 }

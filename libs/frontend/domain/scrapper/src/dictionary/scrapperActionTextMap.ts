@@ -5,6 +5,7 @@ export const scrapperActionTextMap: Record<ScrapperAction, string> = {
   [ScrapperAction.GoBack]: 'Go back',
   [ScrapperAction.NavigateTo]: 'Navigate to',
   [ScrapperAction.ReadText]: 'Read text',
+  [ScrapperAction.ReadAttribute]: 'Read attribute',
   [ScrapperAction.ReloadPage]: 'Reload Page',
   [ScrapperAction.Type]: 'Type text',
   [ScrapperAction.Screenshot]: 'Screenshot',

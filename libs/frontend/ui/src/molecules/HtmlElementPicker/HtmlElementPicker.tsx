@@ -22,7 +22,7 @@ import { useDebounce, useKey, useToggle, useUnmount } from 'react-use';
 import { uniqBy } from 'remeda';
 import { Key } from 'ts-key-enum';
 import { TooltipText } from '../../atoms/TooltipText/TooltipText';
-import { SelectorsList } from '../../molecules/SelectorsList/SelectorsList';
+import { SelectorsList } from '../SelectorsList/SelectorsList';
 import { HtmlElementPickerElementDropdown } from './ElementDropdown/HtmlElementPickerElementDropdown';
 import {
   HtmlElementPickerProps,
@@ -54,6 +54,7 @@ export const HtmlElementPicker = ({
   filterSelectorsForValidation,
   shouldAddSelectorOnEnter,
   TextFieldComponent,
+  onElements,
 }: HtmlElementPickerProps) => {
   const [open, toggleOpen] = useToggle(false);
   const [clickEnabled, toggleClickEnabled] = useToggle(false);
@@ -252,6 +253,8 @@ export const HtmlElementPicker = ({
           );
 
           if (elements.length) {
+            onElements?.(elements);
+
             addHighlight(elements, id);
           }
         } catch (e) {

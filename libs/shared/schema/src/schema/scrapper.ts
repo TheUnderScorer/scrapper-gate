@@ -65,6 +65,7 @@ export const scrapperSchema = gql`
     isFirst: Boolean
     fullPageScreenshot: Boolean
     newRunSettings: ScrapperRunSettings
+    attributeToRead: String
   }
 
   input ScrapperStepInput {
@@ -88,6 +89,7 @@ export const scrapperSchema = gql`
     isFirst: Boolean
     fullPageScreenshot: Boolean
     newRunSettings: ScrapperRunSettingsInput
+    attributeToRead: String
   }
 
   type ScrapperRunStepResult implements BaseEntity {
@@ -182,6 +184,7 @@ export const scrapperSchema = gql`
     GoBack
     NavigateTo
     ReadText
+    ReadAttribute
     ReloadPage
     Type
     Screenshot

@@ -48,6 +48,15 @@ export const createMockScrapperStep = async ({
 
       break;
 
+    case ScrapperAction.ReadAttribute:
+      baseStep.attributeToRead = faker.random.arrayElement([
+        'href',
+        'class',
+        'id',
+        'data-test',
+      ]);
+      break;
+
     case ScrapperAction.Type:
       baseStep.typeDelay = faker.datatype.number(1500);
       baseStep.typeValue = faker.lorem.words();

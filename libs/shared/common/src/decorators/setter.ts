@@ -6,7 +6,7 @@ import { Jsonable } from '../types';
 export const Setter =
   <Raw, Transformed>(transform: (value: Raw) => Transformed) =>
   (target: any, propertyKey: string) => {
-    const internalKey = Symbol(propertyKey);
+    const internalKey = Symbol.for(propertyKey);
 
     Reflect.defineProperty(target, internalKey, {
       enumerable: true,
@@ -27,7 +27,7 @@ export const Setter =
 
     Object.assign(target, {
       toJSON() {
-        const orgJson = orgToJson ? orgToJson() : { ...this };
+        const orgJson = orgToJson ? orgToJson.call(this) : { ...this };
 
         orgJson[propertyKey] = (this as any)[internalKey];
 

@@ -33,7 +33,14 @@ export const VariablesDateField = (props: VariablesDateFieldProps) => {
     []
   );
 
-  const field = useField<string | null>(props.name);
+  const field = useField<string | null>(props.name, {
+    format: (value) =>
+      getDisplayValue({
+        value,
+        dateFormat: props.inputFormat,
+        isDate: true,
+      }),
+  });
   const fieldValue = field.input.value;
 
   const formatValue = useCallback(
@@ -61,26 +68,10 @@ export const VariablesDateField = (props: VariablesDateFieldProps) => {
         name={props.name}
         {...fieldProps}
         className={classNames(fieldProps.className, props.className)}
-        value={value as any}
-        onChange={(text) => {
-          const formattedText = getDisplayValue({
-            value: text,
-            dateFormat: props.inputFormat,
-            isDate: true,
-          });
-
-          // Ensure that we won't overwrite Date value from date picker with value from TextFieldBlock
-          // The reason for that is after user picks value from date picker text field block will automatically trigger change with string as value
-          // Not working atm because we still receive string in the end from somewhere :/
-          // TODO Investigate if we will actually need Date objects from this field
-          if (formattedText !== text) {
-            field.input.onChange(text?.trim());
-          }
-        }}
         dateFormat={props.inputFormat}
       />
     ),
-    [field.input, props]
+    [props]
   );
 
   return (

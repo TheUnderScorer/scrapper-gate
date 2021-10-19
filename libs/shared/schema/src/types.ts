@@ -345,6 +345,7 @@ export enum ScrapperAction {
   GoBack = 'GoBack',
   NavigateTo = 'NavigateTo',
   ReadText = 'ReadText',
+  ReadAttribute = 'ReadAttribute',
   ReloadPage = 'ReloadPage',
   Type = 'Type',
   Screenshot = 'Screenshot',
@@ -482,6 +483,7 @@ export type ScrapperStep = BaseEntity &
     isFirst?: Maybe<Scalars['Boolean']>;
     fullPageScreenshot?: Maybe<Scalars['Boolean']>;
     newRunSettings?: Maybe<ScrapperRunSettings>;
+    attributeToRead?: Maybe<Scalars['String']>;
   };
 
 export type ScrapperStepInput = {
@@ -505,6 +507,7 @@ export type ScrapperStepInput = {
   isFirst?: Maybe<Scalars['Boolean']>;
   fullPageScreenshot?: Maybe<Scalars['Boolean']>;
   newRunSettings?: Maybe<ScrapperRunSettingsInput>;
+  attributeToRead?: Maybe<Scalars['String']>;
 };
 
 export enum ScrapperType {
@@ -739,6 +742,7 @@ export type ScrapperBuilderStepFragment = Pick<
   | 'url'
   | 'typeDelay'
   | 'useUrlFromPreviousStep'
+  | 'attributeToRead'
 > & {
   nextStep?: Maybe<Pick<ScrapperStep, 'id'>>;
   previousSteps?: Maybe<Array<Pick<ScrapperStep, 'id'>>>;
@@ -1839,6 +1843,11 @@ export type ScrapperStepResolvers<
   >;
   newRunSettings?: Resolver<
     Maybe<ResolversTypes['ScrapperRunSettings']>,
+    ParentType,
+    ContextType
+  >;
+  attributeToRead?: Resolver<
+    Maybe<ResolversTypes['String']>,
     ParentType,
     ContextType
   >;

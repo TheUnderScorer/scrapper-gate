@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { ThemeProvider } from '@scrapper-gate/frontend/theme';
 import { wait } from '@scrapper-gate/shared/common';
 import {
   createVariable,
@@ -7,13 +6,11 @@ import {
 } from '@scrapper-gate/shared/domain/variables';
 import { Variable, VariableScope } from '@scrapper-gate/shared/schema';
 import '@testing-library/jest-dom';
-import { act, render } from '@testing-library/react';
+import { act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
-import { Form, FormSpy } from 'react-final-form';
-import { Editor, Transforms } from 'slate';
-import { VariablesProvider } from '../../providers/VariablesProvider';
-import { VariablesTextField } from './VariablesTextField';
+import { Transforms } from 'slate';
+import { renderVariablesBlockEditor } from '../../../../../../../tests/ui/blockEditor/renderBlockEditor';
 
 const variables: Variable[] = [
   createVariable({
@@ -35,54 +32,18 @@ const variables: Variable[] = [
   }),
 ];
 
-const renderCmp = async (initialValue?: string, onChange = jest.fn()) => {
-  let editor: Editor | undefined;
-
-  const cmp = render(
-    <ThemeProvider>
-      <Form
-        initialValues={{
-          variables,
-          variable: initialValue,
-        }}
-        onSubmit={jest.fn()}
-        render={() => (
-          <VariablesProvider name="variables">
-            <VariablesTextField
-              editorInstanceRef={(instance) => {
-                if (instance) {
-                  editor = instance;
-                }
-              }}
-              initialFocused
-              name="variable"
-            />
-            <FormSpy onChange={onChange} />
-          </VariablesProvider>
-        )}
-      />
-    </ThemeProvider>
-  );
-
-  while (!editor) {
-    await wait(250);
-  }
-
-  return {
-    editor,
-    cmp,
-  };
-};
-
 describe('<VariablesTextField />', () => {
   it('should render without crashing', async () => {
-    const { cmp } = await renderCmp();
+    const { cmp } = await renderVariablesBlockEditor({ variables: variables });
 
     expect(cmp).toBeDefined();
   });
 
   it('should show variables suggestions', async () => {
-    const { cmp, editor } = await renderCmp('{{');
+    const { cmp, editor } = await renderVariablesBlockEditor({
+      variables: variables,
+      initialValue: '{{',
+    });
     cmp.container.querySelector<HTMLDivElement>('[contenteditable]');
     act(() => {
       Transforms.select(editor, {
@@ -108,7 +69,11 @@ describe('<VariablesTextField />', () => {
 
   it('should add suggestion to value after clicking it', async () => {
     const onChange = jest.fn();
-    const { cmp, editor } = await renderCmp('{{Myvar', onChange);
+    const { cmp, editor } = await renderVariablesBlockEditor({
+      variables: variables,
+      initialValue: '{{Myvar',
+      onChange: onChange,
+    });
     cmp.container.querySelector<HTMLDivElement>('[contenteditable=true]');
     act(() => {
       Transforms.select(editor, {
@@ -141,9 +106,10 @@ describe('<VariablesTextField />', () => {
   });
 
   it('should display variable component on variable', async () => {
-    const { cmp } = await renderCmp(
-      generateVariableKeyTemplate(variables[0].key!)
-    );
+    const { cmp } = await renderVariablesBlockEditor({
+      variables: variables,
+      initialValue: generateVariableKeyTemplate(variables[0].key!),
+    });
     const variable = cmp.container.querySelector('.variable-content');
 
     expect(variable).toBeInTheDocument();

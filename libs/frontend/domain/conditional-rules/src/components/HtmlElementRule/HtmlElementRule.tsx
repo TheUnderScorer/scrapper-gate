@@ -99,7 +99,7 @@ export const HtmlElementRule = ({
             <>
               Element attribute to check. For example: class or id.
               <ExternalLink href="https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes">
-                Learn more about attributes
+                Learn more about attributes.
               </ExternalLink>
             </>
           }
