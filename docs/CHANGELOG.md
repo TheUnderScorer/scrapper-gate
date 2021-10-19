@@ -1,3 +1,10 @@
+# [1.0.0-test.13](https://github.com/TheUnderScorer/scrapper-gate/compare/v1.0.0-test.12...v1.0.0-test.13) (2021-10-19)
+
+
+### Features
+
+* **scrapper:** Add "Read attribute" action ([f8fe84f](https://github.com/TheUnderScorer/scrapper-gate/commit/f8fe84f9fe517a806b74a5643bed4abf59206e5d))
+
 # [1.0.0-test.12](https://github.com/TheUnderScorer/scrapper-gate/compare/v1.0.0-test.11...v1.0.0-test.12) (2021-10-15)
 
 
