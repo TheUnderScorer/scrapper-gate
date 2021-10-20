@@ -11,7 +11,9 @@ export const getActiveTab = async (): Promise<Tabs.Tab> => {
         active: true,
         currentWindow: true,
       }),
-    (result) => result && result.length > 0
+    {
+      conditionChecker: (result) => result && result.length > 0,
+    }
   );
 
   logger.debug('Active tabs:', tabs);

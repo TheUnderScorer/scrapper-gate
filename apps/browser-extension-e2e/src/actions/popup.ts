@@ -1,11 +1,11 @@
 import * as faker from 'faker';
-import { Page } from 'playwright';
+import { BrowserContext, Page } from 'playwright';
 import { navigateToPopup } from '../utils/navigation';
 
 const password = 'testpassword123';
 
-export async function register() {
-  const page = await global.browser.newPage();
+export async function register(browser: BrowserContext) {
+  const page = await browser.newPage();
 
   await navigateToPopup(page, {
     logoutIfAuthorized: true,

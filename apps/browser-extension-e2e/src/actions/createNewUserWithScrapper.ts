@@ -1,16 +1,19 @@
 import { repeatUntil } from '@scrapper-gate/shared/common';
 import { initialActiveTabUrl } from '@scrapper-gate/shared/routing';
+import { BrowserContext } from 'playwright';
 import { register } from './popup';
 
-export async function createNewUserWithScrapper() {
-  const { page } = await register();
+const waitAfterIteration = 1000;
+
+export async function createNewUserWithScrapper(browser: BrowserContext) {
+  const { page } = await register(browser);
 
   const createScrapperPage = await repeatUntil(async () => {
     const btn = await page.$('.MuiFab-root');
 
     await btn?.click();
 
-    const createScrapperPage = global.browser
+    const createScrapperPage = browser
       .pages()
       .find((page) => page.url().includes(initialActiveTabUrl));
 
@@ -20,11 +23,14 @@ export async function createNewUserWithScrapper() {
     return createScrapperPage!;
   });
 
-  await repeatUntil(async () => {
-    const form = await createScrapperPage.$('.create-scrapper-form');
+  await repeatUntil(
+    async () => {
+      const form = await createScrapperPage.$('.create-scrapper-form');
 
-    expect(form).toBeTruthy();
-  });
+      expect(form).toBeTruthy();
+    },
+    { waitAfterIteration }
+  );
 
   await createScrapperPage.click('text=Real browser');
   await createScrapperPage.type('[name="name"]', 'Test scrapper');

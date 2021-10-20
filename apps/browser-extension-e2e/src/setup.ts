@@ -1,16 +1,6 @@
-import { wait } from '@scrapper-gate/shared/common';
-import { logger } from '@scrapper-gate/shared/logger/console';
 import fs from 'fs';
-import path from 'path';
-import { chromium } from 'playwright';
 import { apiHealthCheck } from './apiHealthCheck';
-
-const extensionPath = path.join(
-  __dirname,
-  '../../../dist/apps/browser-extension'
-);
-
-let contextPaths: string[] = [];
+import { cleanup, extensionPath } from './browser';
 
 jest.retryTimes(3);
 
@@ -22,75 +12,6 @@ beforeAll(async () => {
   }
 });
 
-beforeEach(async () => {
-  if (global.browser) {
-    return;
-  }
-
-  const { currentTestName } = expect.getState();
-  const fullContextPath = path.resolve(
-    __dirname,
-    'contexts',
-    currentTestName,
-    '.ctx'
-  );
-
-  contextPaths.push(fullContextPath);
-
-  const ctx = await chromium.launchPersistentContext(fullContextPath, {
-    args: [
-      // We use the smallest size we support both because we want to ensure functionality works there
-      // and also because it improves test runtime to render fewer pixels, especially in environments
-      // that can't hardware-accelerate rendering (eg, docker)
-      '--window-size=320x240',
-      // Required to work around https://github.com/GoogleChrome/puppeteer/pull/774
-      `--disable-extensions-except=${extensionPath}`,
-      `--load-extension=${extensionPath}`,
-      '--no-sandbox',
-      // Causes crash dumps to be saved locally (in ${userDataDir}/Crashpad/reports)
-      '--noerrdialogs',
-      // Writes a verbose chrome log at ${userDataDir}/chrome_debug.log, useful for debugging page crashes
-      '--enable-logging',
-      '--v=1',
-    ],
-    headless: false,
-  });
-
-  await wait(2000);
-
-  // Typescript incorrectly assumes that this should be BrowserContext & typeof Browser
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  global.browser = ctx as any;
-
-  ctx.on('page', (page) => {
-    page.on('requestfailed', async (request) => {
-      const response = await request.response();
-
-      logger.error(
-        `Request to ${request.url()} failed with status: ${response?.status()}`
-      );
-    });
-  });
-
-  console.log('e2e tests setup ready!');
-});
-
 afterAll(async () => {
-  if (global.browser) {
-    await global.browser.close();
-  }
-
-  contextPaths.forEach((path) => {
-    if (fs.existsSync(path)) {
-      try {
-        console.log(`Removing context: ${path}`);
-
-        fs.unlinkSync(path);
-      } catch {
-        /// Nothing here :0
-      }
-    }
-  });
-
-  contextPaths = [];
+  await cleanup();
 });

@@ -2,13 +2,22 @@ import { OperationTimeoutError } from '@scrapper-gate/shared/errors';
 import { MaybePromise, UnpackPromise } from './promise';
 import { wait } from './timeout';
 
-export const repeatUntil = async <T>(
-  handler: (iteration: number) => MaybePromise<T>,
+export interface RepeatUntilOptions<T> {
   conditionChecker?: (
     value: UnpackPromise<T>,
     iteration: number
-  ) => boolean | Promise<boolean>,
-  timeout = 10000
+  ) => MaybePromise<boolean>;
+  timeout?: number;
+  waitAfterIteration?: number;
+}
+
+export const repeatUntil = async <T>(
+  handler: (iteration: number) => MaybePromise<T>,
+  {
+    conditionChecker,
+    timeout = 10000,
+    waitAfterIteration = 5,
+  }: RepeatUntilOptions<T> = {}
 ): Promise<T> =>
   // eslint-disable-next-line no-async-promise-executor
   new Promise<T>(async (resolve, reject) => {
@@ -45,7 +54,7 @@ export const repeatUntil = async <T>(
       /**
        * Without the "wait" here above "setTimeout" is never triggered!
        * */
-      await wait(5);
+      await wait(waitAfterIteration);
     } while (!lastResult);
 
     clearTimeout(timeoutId);

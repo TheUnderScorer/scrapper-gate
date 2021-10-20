@@ -1,11 +1,12 @@
 import { repeatUntil } from '@scrapper-gate/shared/common';
 import { browserExtensionRoutes } from '@scrapper-gate/shared/routing';
 import { logout, register } from '../../actions/popup';
+import { createBrowser } from '../../browser';
 import { navigateToPopup } from '../../utils/navigation';
 
 describe('Popup login', () => {
   it('should let user login', async () => {
-    const { page, email, password } = await register();
+    const { page, email, password } = await register(await createBrowser());
 
     await logout(page);
 
@@ -24,7 +25,8 @@ describe('Popup login', () => {
   });
 
   it('should show error if provided credentials are not valid', async () => {
-    const page = await global.browser.newPage();
+    const browser = await createBrowser();
+    const page = await browser.newPage();
 
     await navigateToPopup(page, {
       logoutIfAuthorized: true,

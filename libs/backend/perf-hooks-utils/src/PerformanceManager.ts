@@ -48,10 +48,9 @@ export class PerformanceManager implements Disposable {
     // Await just in case if entry is not present, if it should be it will be available after this delay
     await wait(500);
 
-    return repeatUntil(
-      () => this.items.find((item) => item.name === name),
-      (value) => Boolean(value)
-    );
+    return repeatUntil(() => this.items.find((item) => item.name === name), {
+      conditionChecker: (value) => Boolean(value),
+    });
   }
 
   mark(mark: string) {
