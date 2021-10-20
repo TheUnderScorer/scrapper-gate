@@ -1,3 +1,4 @@
+import { wait } from '@scrapper-gate/shared/common';
 import { logger } from '@scrapper-gate/shared/logger/console';
 import fs from 'fs';
 import path from 'path';
@@ -54,6 +55,9 @@ export async function createBrowser() {
       );
     });
   });
+
+  // Wait for extensions to load
+  await wait(1500);
 
   return ctx;
 }
