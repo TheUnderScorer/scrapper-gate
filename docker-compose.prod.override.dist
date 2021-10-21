@@ -1,0 +1,10 @@
+version: '3.4'
+
+services:
+  browser-extension-e2e:
+    volumes:
+      - ./apps/browser-extension-e2e:/app/apps/browser-extension-e2e
+      - ./dist:/app/dist
+      - ./tests:/app/tests
+      - ./jest.config.js:/app/jest.config.js
+      - ./jest.preset.js:/app/jest.preset.js
