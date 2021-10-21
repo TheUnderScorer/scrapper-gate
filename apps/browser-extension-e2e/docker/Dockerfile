@@ -3,7 +3,8 @@ WORKDIR /app
 
 RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
     apt-get update -y && \
-    apt-get install -y xvfb
+    apt-get install -y xvfb && \
+    apt install chromium -y
 
 COPY ./package.json ./package-lock.json ./workspace.json ./tsconfig.json ./tsconfig.base.json ./tsconfig.node.json ./.eslintrc.json ./babel.config.json ./nx.json ./codegen.yml ./jest.preset.js /jest.config.js ./
 
