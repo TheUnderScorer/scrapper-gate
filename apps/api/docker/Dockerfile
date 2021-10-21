@@ -1,7 +1,7 @@
-FROM node:16-alpine as builder
+FROM node:16 as builder
 WORKDIR /app
 
-RUN apk update
+RUN apt-get update
 
 COPY ./package.json ./package-lock.json ./workspace.json ./tsconfig.json ./tsconfig.base.json ./tsconfig.node.json ./.eslintrc.json ./babel.config.json ./nx.json ./codegen.yml ./
 
@@ -15,10 +15,10 @@ RUN npm run gql-codegen
 RUN npm run build:tools
 RUN npx nx run api:build
 
-FROM node:16-alpine
+FROM node:16
 WORKDIR /app
 
-RUN apk update
+RUN apt-get update
 
 COPY --from=builder /app/dist/apps/api ./
 

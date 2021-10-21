@@ -1,9 +1,7 @@
-import { repeatUntil } from '@scrapper-gate/shared/common';
 import { initialActiveTabUrl } from '@scrapper-gate/shared/routing';
 import { BrowserContext } from 'playwright';
+import { repeatUntil } from '../utils/repeatUntil';
 import { register } from './popup';
-
-const waitAfterIteration = 1000;
 
 export async function createNewUserWithScrapper(browser: BrowserContext) {
   const { page } = await register(browser);
@@ -23,14 +21,11 @@ export async function createNewUserWithScrapper(browser: BrowserContext) {
     return createScrapperPage!;
   });
 
-  await repeatUntil(
-    async () => {
-      const form = await createScrapperPage.$('.create-scrapper-form');
+  await repeatUntil(async () => {
+    const form = await createScrapperPage.$('.create-scrapper-form');
 
-      expect(form).toBeTruthy();
-    },
-    { waitAfterIteration }
-  );
+    expect(form).toBeTruthy();
+  });
 
   await createScrapperPage.click('text=Real browser');
   await createScrapperPage.type('[name="name"]', 'Test scrapper');

@@ -11,8 +11,10 @@ export interface RepeatUntilOptions<T> {
   waitAfterIteration?: number;
 }
 
+type RepeatUntilHandler<T> = (iteration: number) => MaybePromise<T>;
+
 export const repeatUntil = async <T>(
-  handler: (iteration: number) => MaybePromise<T>,
+  handler: RepeatUntilHandler<T>,
   {
     conditionChecker,
     timeout = 10000,
@@ -62,3 +64,11 @@ export const repeatUntil = async <T>(
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     resolve(value!);
   });
+
+repeatUntil.make =
+  (options: RepeatUntilOptions<unknown>) =>
+  <T>(handler: RepeatUntilHandler<T>, partialOptions?: RepeatUntilOptions<T>) =>
+    repeatUntil(handler, {
+      ...options,
+      ...partialOptions,
+    });

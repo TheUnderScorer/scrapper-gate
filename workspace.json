@@ -671,6 +671,13 @@
             }
           }
         },
+        "e2e-docker": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "parallel": false,
+            "command": "docker-compose -f docker-compose.prod.yml up browser-extension-e2e"
+          }
+        },
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {

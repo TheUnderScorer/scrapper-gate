@@ -1,6 +1,24 @@
 version: '3.4'
 
 services:
+  browser-extension-e2e:
+    networks:
+      - app
+    build:
+      context: .
+      dockerfile: apps/browser-extension-e2e/docker/Dockerfile
+    environment:
+      SERVER_URL: http://api:3000
+    command: [sh, -c, "xvfb-run --auto-servernum -- npx nx run browser-extension-e2e:e2e"]
+    volumes:
+      - ./apps/browser-extension-e2e:/app/apps/browser-extension-e2e
+      - ./dist:/app/dist
+      - ./tests:/app/tests
+      - ./jest.config.js:/app/jest.config.js
+      - ./jest.preset.js:/app/jest.preset.js
+    depends_on:
+      - api
+
   api:
     networks:
       - app
@@ -14,7 +32,7 @@ services:
       DB_NAME: app
       HASH_ROUNDS: 10
       JWT_SECRET: SECRET
-      NODE_ENV: development
+      NODE_ENV: production
       MAIL_USER: przemyslawzydek@gmail.com
       MAIL_PASS: drpkguyoyjoqoprt
       SITE_EMAIL: przemyslawzydek@gmail.com

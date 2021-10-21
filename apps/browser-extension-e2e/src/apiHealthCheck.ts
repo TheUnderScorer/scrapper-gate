@@ -13,6 +13,8 @@ export async function apiHealthCheck() {
 
   url.pathname = apiRoutes.health;
 
+  console.log(`Performing health check at: ${url.toString()}`);
+
   return new Promise<void>((resolve, reject) => {
     request(url, (res) => {
       if (res.statusCode !== 200) {

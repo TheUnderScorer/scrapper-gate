@@ -14,16 +14,19 @@ const doCleanup = true;
 
 export async function createBrowser() {
   const { currentTestName } = expect.getState();
-  const fullContextPath = path.resolve(
-    __dirname,
-    'contexts',
-    currentTestName,
-    '.ctx'
-  );
+  const contextsPath = path.resolve(__dirname, 'contexts');
+
+  if (!fs.existsSync(contextsPath)) {
+    fs.mkdirSync(contextsPath);
+  }
+
+  const fullContextPath = path.join(contextsPath, currentTestName, '.ctx');
 
   if (browsers[fullContextPath]) {
     return browsers[fullContextPath];
   }
+
+  console.log(`Creating browser context: ${fullContextPath}`);
 
   const ctx = await chromium.launchPersistentContext(fullContextPath, {
     args: [
@@ -76,8 +79,8 @@ export async function cleanup() {
           console.log(`Removing context: ${ctxPath}`);
 
           fs.unlinkSync(ctxPath);
-        } catch {
-          /// Nothing here :0
+        } catch (error) {
+          console.error(`Failed to delete ${ctxPath}`, error);
         }
       }
     })

@@ -1,8 +1,8 @@
-import { repeatUntil } from '@scrapper-gate/shared/common';
 import { browserExtensionRoutes } from '@scrapper-gate/shared/routing';
 import { openDrawer, register } from '../../actions/popup';
 import { createBrowser } from '../../browser';
 import { navigateToPopup } from '../../utils/navigation';
+import { repeatUntil } from '../../utils/repeatUntil';
 
 describe('Popup register', () => {
   it('should show login form if user is not logged in', async () => {

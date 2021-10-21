@@ -2,6 +2,8 @@ import fs from 'fs';
 import { apiHealthCheck } from './apiHealthCheck';
 import { cleanup, extensionPath } from './browser';
 
+console.log('Starting E2E tests...');
+
 jest.retryTimes(3);
 
 beforeAll(async () => {
