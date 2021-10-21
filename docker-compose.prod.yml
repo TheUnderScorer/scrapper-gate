@@ -10,12 +10,6 @@ services:
     environment:
       SERVER_URL: http://api:3000
     command: [sh, -c, "xvfb-run --auto-servernum -- npx nx run browser-extension-e2e:e2e"]
-    volumes:
-      - ./apps/browser-extension-e2e:/app/apps/browser-extension-e2e
-      - ./dist:/app/dist
-      - ./tests:/app/tests
-      - ./jest.config.js:/app/jest.config.js
-      - ./jest.preset.js:/app/jest.preset.js
     depends_on:
       - api
 

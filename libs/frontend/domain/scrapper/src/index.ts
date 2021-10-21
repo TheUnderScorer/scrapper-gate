@@ -13,3 +13,4 @@ export * from './shared/types';
 export * from './components/MyScrapperRunsList/MyScrapperRunsList';
 export * from './components/ScrapperRunListItem/ScrapperRunListItem';
 export * from './components/ScrapperRunListItem/ScrapperRunListItem.types';
+export * from './components/ScrapperTypeSelection/ScrapperTypeSelection';

@@ -675,7 +675,14 @@
           "executor": "@nrwl/workspace:run-commands",
           "options": {
             "parallel": false,
-            "command": "docker-compose -f docker-compose.prod.yml up browser-extension-e2e"
+            "command": "docker-compose -f docker-compose.prod.yml up browser-extension-e2e --exit-code-from"
+          }
+        },
+        "e2e-docker-local": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "parallel": false,
+            "command": "docker compose -f docker-compose.prod.yml -f docker-compose.prod.override.yml up browser-extension-e2e --exit-code-from"
           }
         },
         "lint": {

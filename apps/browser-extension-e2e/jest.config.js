@@ -9,7 +9,7 @@ module.exports = {
   coverageDirectory: '../../../coverage/apps/browser-extension-e2e',
   setupFilesAfterEnv: ['./src/setup.ts'],
   testTimeout: 9999999,
-  testEnvironment: 'node',
+  testEnvironment: 'jsdom',
   globals: {
     'ts-jest': {
       tsConfig: '<rootDir>/tsconfig.spec.json',

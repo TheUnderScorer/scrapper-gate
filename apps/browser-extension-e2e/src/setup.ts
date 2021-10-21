@@ -2,6 +2,9 @@ import fs from 'fs';
 import { apiHealthCheck } from './apiHealthCheck';
 import { cleanup, extensionPath } from './browser';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+(global as any).setImmediate = (cb: any) => setTimeout(cb, 1);
+
 console.log('Starting E2E tests...');
 
 jest.retryTimes(3);

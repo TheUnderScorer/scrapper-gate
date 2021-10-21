@@ -1,3 +1,4 @@
+import { ScrapperType } from '@scrapper-gate/shared/schema';
 import { registerToMatchImageSnapshot } from '../../../../../tests/jestExtensions/toMatchImageSnapshot';
 import { createNewUserWithScrapper } from '../../actions/createNewUserWithScrapper';
 import { register } from '../../actions/popup';
@@ -19,15 +20,21 @@ describe('Popup', () => {
       });
     });
 
-    it('should let user create new scrapper', async () => {
-      const page = await createNewUserWithScrapper(await createBrowser());
+    it.each(Object.values(ScrapperType))(
+      'should let user create new scrapper %s',
+      async (type) => {
+        const page = await createNewUserWithScrapper(
+          await createBrowser(),
+          type
+        );
 
-      await repeatUntil(async () => {
-        const form = await page.$('.scrapper-builder-form');
+        await repeatUntil(async () => {
+          const form = await page.$('.scrapper-builder-form');
 
-        expect(form).toBeTruthy();
-      });
-    });
+          expect(form).toBeTruthy();
+        });
+      }
+    );
 
     it('should list user scrappers', async () => {
       const browser = await createBrowser();

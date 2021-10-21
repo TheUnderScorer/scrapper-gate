@@ -8,7 +8,7 @@ export interface ScrapperTypeSelectionProps {
   name: string;
 }
 
-const options: Selection[] = [
+export const scrapperTypeSelectionOptions: Selection[] = [
   {
     label: 'Simple',
     icon: scrapperTypeIconMap[ScrapperType.Simple],
@@ -36,7 +36,7 @@ export const ScrapperTypeSelection = ({ name }: ScrapperTypeSelectionProps) => {
         checkedBackgroundColor: 'primary',
       }}
       name={name}
-      options={options}
+      options={scrapperTypeSelectionOptions}
     />
   );
 };
