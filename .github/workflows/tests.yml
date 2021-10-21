@@ -253,7 +253,7 @@ jobs:
         run: cp .local.env.dist .local.env
 
       - name: Test
-        run: nx run browser-extension-e2e:e2e-docker
+        run: npx nx run browser-extension-e2e:e2e-docker
 
       - name: Write API logs
         run: docker-compose -f docker-compose.prod.yml logs api > api-logs.log
