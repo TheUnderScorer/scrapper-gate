@@ -37,6 +37,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 16.x
+          cache: 'npm'
 
       - name: Setup deps
         run: npx playwright install-deps
@@ -58,6 +59,9 @@ jobs:
 
       - name: Setup env
         run: cp .local.env.dist .local.env
+
+      - name: Build extension
+        run: cp apps/browser-extension/.local.env.dist apps/browser-extension/.env && npx nx build browser-extension --prod
 
       - name: Test
         run: npx nx run browser-extension-e2e:e2e-docker
