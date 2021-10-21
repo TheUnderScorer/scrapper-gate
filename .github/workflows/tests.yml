@@ -57,8 +57,13 @@ jobs:
       - name: Setup localstack
         run: cd deploy/local && terraform init && terraform apply -auto-approve
 
-      - name: Setup env
-        run: cp .local.env.dist .local.env
+      - name: Make envfile
+        uses: SpicyPizza/create-envfile@v1
+        with:
+          envkey_NX_API_URL: "http://api:3000"
+          envkey_NX_SECURITY_URL: "http://security:50050"
+          directory: apps/browser-extension
+          file_name: .local.env
 
       - name: Build extension
         run: cp apps/browser-extension/.local.env.dist apps/browser-extension/.env && npx nx build browser-extension --prod
