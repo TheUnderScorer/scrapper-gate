@@ -4,6 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import { BrowserContext, chromium } from 'playwright';
 import { v4 } from 'uuid';
+import { createArtifactStream } from '../../../tests/utils/artifacts';
 
 export const extensionPath = path.join(
   __dirname,
@@ -57,6 +58,11 @@ export async function createBrowser() {
   browsers[fullContextPath] = ctx;
 
   ctx.on('page', (page) => {
+    const pageId = v4();
+    const logStream = createArtifactStream(
+      `browser-${browserId}-page-${pageId}.log`
+    );
+
     page.on('requestfailed', async (request) => {
       const response = await request.response();
 
@@ -66,11 +72,25 @@ export async function createBrowser() {
     });
 
     page.on('console', async (msg) => {
-      const args = await Promise.all(msg.args().map((arg) => arg.jsonValue()));
+      try {
+        const url = page.url();
+        const args = await Promise.all(
+          msg.args().map((arg) => arg.jsonValue())
+        );
 
-      args.forEach((arg) => {
-        console.log(arg);
-      });
+        const logs = args
+          .map((arg) => (typeof arg === 'object' ? JSON.stringify(arg) : arg))
+          .map((message) => `[${url}] - ${message}`)
+          .join('\n');
+
+        logStream.write(logs);
+      } catch (error) {
+        console.error('Failed to write logs: ', error);
+      }
+    });
+
+    page.on('close', () => {
+      logStream.close();
     });
   });
 
