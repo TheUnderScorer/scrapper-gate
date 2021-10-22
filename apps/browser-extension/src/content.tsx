@@ -16,26 +16,30 @@ async function createContentScript() {
   });
 }
 
+function fixEmotionStyles() {
+  logger.debug('Fix for emotion styles...');
+
+  const emotion10Styles = document.querySelectorAll(
+    `style[data-emotion]:not([data-s])`
+  );
+
+  logger.debug(`Found ${emotion10Styles.length} emotion styles.`);
+
+  emotion10Styles.forEach((node) => {
+    node.setAttribute('data-s', '');
+    node.removeAttribute('data-emotion');
+  });
+
+  logger.debug('Fix for emotion styles done ;)');
+}
+
 function main() {
   if (didInit) {
     return;
   }
 
   setTimeout(() => {
-    logger.debug('Fix for emotion styles...');
-
-    const emotion10Styles = document.querySelectorAll(
-      `style[data-emotion]:not([data-s])`
-    );
-
-    logger.debug(`Found ${emotion10Styles.length} emotion styles.`);
-
-    emotion10Styles.forEach((node) => {
-      node.setAttribute('data-s', '');
-      node.removeAttribute('data-emotion');
-    });
-
-    logger.debug('Fix for emotion styles done ;)');
+    fixEmotionStyles();
 
     createContentScript().then(() => logger.debug('Content script loaded'));
 

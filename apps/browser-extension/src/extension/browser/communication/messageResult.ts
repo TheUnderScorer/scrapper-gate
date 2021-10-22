@@ -7,7 +7,6 @@ export const errorMessageResult = <Result>(
   result: false,
 });
 
-// TODO Start using that
 export const successMessageResult = <Result>(
   result?: Result
 ): MessageResult<Result> => ({
