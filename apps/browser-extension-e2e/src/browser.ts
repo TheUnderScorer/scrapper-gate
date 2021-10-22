@@ -3,6 +3,7 @@ import { logger } from '@scrapper-gate/shared/logger/console';
 import fs from 'fs';
 import path from 'path';
 import { BrowserContext, chromium } from 'playwright';
+import { persistTestArtifact } from '../../../tests/utils/artifacts';
 
 export const extensionPath = path.join(
   __dirname,
@@ -50,6 +51,18 @@ export async function createBrowser() {
   browsers[fullContextPath] = ctx;
 
   ctx.on('page', (page) => {
+    page.on('pageerror', async (error) => {
+      const screenshot = await page.screenshot({
+        fullPage: true,
+        type: 'png',
+      });
+
+      await persistTestArtifact(
+        `${page.url()}-${error.name}.error.png`,
+        screenshot
+      );
+    });
+
     page.on('requestfailed', async (request) => {
       const response = await request.response();
 

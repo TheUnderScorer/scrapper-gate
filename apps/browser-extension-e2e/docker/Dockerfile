@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 node:16.10.0
+FROM node:16.10.0
 WORKDIR /app
 
 RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
