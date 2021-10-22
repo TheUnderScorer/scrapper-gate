@@ -15,6 +15,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 16.x
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
@@ -34,6 +35,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 16.x
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm ci --legacy-peer-deps && npm run build:tools
@@ -55,6 +57,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 16.x
+          cache: 'npm'
 
       - name: Configure CI Git User
         run: |
@@ -83,6 +86,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 16.x
+          cache: 'npm'
 
       - name: Start docker
         run: docker-compose up -d
@@ -113,6 +117,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 16.x
+          cache: 'npm'
 
       # Remove apt repos that are known to break from time to time
       # See https://github.com/actions/virtual-environments/issues/323
@@ -167,6 +172,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 16.x
+          cache: 'npm'
 
       - name: Start docker
         run: docker-compose up -d
@@ -197,6 +203,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 16.x
+          cache: 'npm'
 
       - name: Start docker
         run: sudo docker-compose up -d
