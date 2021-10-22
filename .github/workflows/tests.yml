@@ -22,6 +22,199 @@ jobs:
       - name: Typecheck
         run: npm run typecheck
 
+  build:
+    needs:
+      - typecheck
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps && npm run build:tools
+
+      - name: Build
+        run: npx nx build browser-extension --prod && npx nx build api
+
+  lint:
+    needs:
+      - typecheck
+    name: Run linter
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      - name: Set Node.js 16.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+
+      - name: Configure CI Git User
+        run: |
+          git config --global user.name 'TheUnderScorer'
+          git config --global user.email 'przemyslawzydek@gmail.com'
+          git remote set-url origin https://TheUnderScorer:$GITHUB_TOKEN@github.com/TheUnderScorer/scrapper-gate
+          git fetch --no-tags --prune origin master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Lint
+        run: npm run lint
+
+  test-shared:
+    needs:
+      - typecheck
+    name: Run shared tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set Node.js 16.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+
+      - name: Start docker
+        run: docker-compose up -d
+
+      - name: Setup env
+        run: cp .local.env.dist .local.env
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps && npm i ts-node -g
+
+      - name: Test
+        run: |
+          PROJECTS=$(TS_NODE_PROJECT=tsconfig.node.json ts-node tools/scripts/gatherProjects.ts --filter="shared-*")
+          echo "$PROJECTS"
+          npx nx run-many --target=test --projects=$PROJECTS --parallel --maxParallel=2
+
+  test-backend:
+    needs:
+      - typecheck
+    name: Run backend tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: hashicorp/setup-terraform@v1
+
+      - name: Set Node.js 16.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+
+      # Remove apt repos that are known to break from time to time
+      # See https://github.com/actions/virtual-environments/issues/323
+      - name: Remove broken apt repos [Ubuntu]
+        run: |
+          for apt_file in `grep -lr microsoft /etc/apt/sources.list.d/`; do sudo rm $apt_file; done
+
+      - uses: leonardodino/setup-playwright@main
+
+      - name: Start docker
+        run: sudo docker-compose up -d
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps && npm i ts-node -g
+
+      - name: Wait for localstack
+        run: sudo AWS_S3_ENDPOINT=http://localhost:4566 node docker/localstack/waitForLocalStack.mjs
+
+      - name: Setup localstack
+        run: cd deploy/local && terraform init && terraform apply -auto-approve
+
+      - name: Setup env
+        run: cp .local.env.dist .local.env
+
+      - name: Test
+        run: |
+          PROJECTS=$(TS_NODE_PROJECT=tsconfig.node.json ts-node tools/scripts/gatherProjects.ts --filter="backend-*")
+          echo "$PROJECTS"
+          npx nx run-many --target=test --projects=$PROJECTS --parallel --maxParallel=2
+
+      - uses: actions/upload-artifact@v2
+        if: ${{ failure() }}
+        with:
+          name: test-artifact
+          path: artifacts
+
+      - uses: actions/upload-artifact@v2
+        if: ${{ failure() }}
+        with:
+          name: test-artifact
+          path: libs/backend/domain/scrapper/playwright-runner/src/__image_snapshots__/__diff_output__
+
+  test-frontend:
+    needs:
+      - typecheck
+    name: Run frontend tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set Node.js 16.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+
+      - name: Start docker
+        run: docker-compose up -d
+
+      - name: Setup env
+        run: cp .local.env.dist .local.env
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps && npm i ts-node -g
+
+      - name: Test
+        run: |
+          PROJECTS=$(TS_NODE_PROJECT=tsconfig.node.json ts-node tools/scripts/gatherProjects.ts --filter="frontend-*")
+          echo "$PROJECTS"
+          npx nx run-many --target=test --projects=$PROJECTS --parallel --maxParallel=2
+
+  test-apps:
+    needs:
+      - typecheck
+    name: Run apps tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: hashicorp/setup-terraform@v1
+
+      - name: Set Node.js 16.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+
+      - name: Start docker
+        run: sudo docker-compose up -d
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps && npm i ts-node -g
+
+      - name: Wait for localstack
+        run: sudo AWS_S3_ENDPOINT=http://localhost:4566 node docker/localstack/waitForLocalStack.mjs
+
+      - name: Setup localstack
+        run: cd deploy/local && terraform init && terraform apply -auto-approve
+
+      - name: Setup env
+        run: cp .local.env.dist .local.env
+
+      - name: Test
+        run: npx nx run-many --target=test --projects=api,browser-extension --parallel --maxParallel=2
 
   test-e2e:
     needs:
