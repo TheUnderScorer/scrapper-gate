@@ -3,6 +3,7 @@ import { logger } from '@scrapper-gate/shared/logger/console';
 import fs from 'fs';
 import path from 'path';
 import { BrowserContext, chromium } from 'playwright';
+import { v4 } from 'uuid';
 
 export const extensionPath = path.join(
   __dirname,
@@ -13,6 +14,8 @@ const browsers: Record<string, BrowserContext> = {};
 const doCleanup = true;
 
 export async function createBrowser() {
+  const browserId = v4();
+
   const { currentTestName } = expect.getState();
   const contextsPath = path.resolve(__dirname, 'contexts');
 
@@ -20,7 +23,11 @@ export async function createBrowser() {
     fs.mkdirSync(contextsPath);
   }
 
-  const fullContextPath = path.join(contextsPath, currentTestName, '.ctx');
+  const fullContextPath = path.join(
+    contextsPath,
+    currentTestName.concat(browserId),
+    '.ctx'
+  );
 
   if (browsers[fullContextPath]) {
     return browsers[fullContextPath];
@@ -56,6 +63,11 @@ export async function createBrowser() {
       logger.error(
         `Request to ${request.url()} failed with status: ${response?.status()}`
       );
+    });
+
+    page.on('console', async (msg) => {
+      for (let i = 0; i < msg.args().length; ++i)
+        console.log(`${i}: ${await msg.args()[i].jsonValue()}`);
     });
   });
 
