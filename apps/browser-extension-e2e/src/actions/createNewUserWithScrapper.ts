@@ -2,7 +2,7 @@ import { scrapperTypeSelectionOptions } from '@scrapper-gate/frontend/domain/scr
 import { initialActiveTabUrl } from '@scrapper-gate/shared/routing';
 import { ScrapperType } from '@scrapper-gate/shared/schema';
 import { BrowserContext } from 'playwright';
-import { createTestArtifact } from '../integration/popup/createTestArtifact';
+import { debugPage } from '../utils/debug';
 import { repeatUntil } from '../utils/repeatUntil';
 import { register } from './popup';
 
@@ -30,8 +30,7 @@ export async function createNewUserWithScrapper(
       .find((page) => page.url().includes(initialActiveTabUrl));
 
     if (!createScrapperPage) {
-      console.log(`There are ${browser.pages().length} pages atm.`);
-      await createTestArtifact(page);
+      await debugPage(page);
     }
 
     expect(createScrapperPage).toBeTruthy();
@@ -44,7 +43,7 @@ export async function createNewUserWithScrapper(
     const form = await createScrapperPage.$('.create-scrapper-form');
 
     if (!form) {
-      await createTestArtifact(createScrapperPage);
+      await debugPage(createScrapperPage);
     }
 
     expect(form).toBeTruthy();

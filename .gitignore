@@ -55,5 +55,5 @@ test-results
 # Browser contexts
 **/.ctx
 
+# Test artifacts
 artifacts
-docker-compose.prod.override.yml

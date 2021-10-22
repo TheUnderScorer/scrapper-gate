@@ -8,7 +8,7 @@ export async function createTestArtifact(page: Page) {
     type: 'png',
   });
 
-  const url = page.url().replace(/\//g, '-');
+  const url = page.url().replace(/[/:#,<>*?]/g, '-');
 
   await persistTestArtifact(`${url}-${currentTestName}.png`, screenshot);
 }
