@@ -28,6 +28,7 @@ jobs:
       - typecheck
     name: Run e2e tests
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v2
 
