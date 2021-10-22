@@ -5,6 +5,7 @@ import { register } from '../../actions/popup';
 import { createBrowser } from '../../browser';
 import { navigateToPopup } from '../../utils/navigation';
 import { repeatUntil } from '../../utils/repeatUntil';
+import { createTestArtifact } from './createTestArtifact';
 
 registerToMatchImageSnapshot();
 
@@ -15,6 +16,10 @@ describe('Popup', () => {
 
       await repeatUntil(async () => {
         const list = await page.$('#my_scrappers_list');
+
+        if (!list) {
+          await createTestArtifact(page);
+        }
 
         expect(list).toBeTruthy();
       });
