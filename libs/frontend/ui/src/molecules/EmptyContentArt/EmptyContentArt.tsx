@@ -10,12 +10,14 @@ export const EmptyContentArt = ({
   onCreate,
   sx,
   createText,
+  id,
   ...rest
 }: EmptyContentArtProps) => {
   const { asset, alt } = useAsset('notFoundSolid');
 
   return (
     <Centered
+      id={id}
       direction="column"
       sx={{
         backgroundColor: (theme) => theme.palette.primary.light,

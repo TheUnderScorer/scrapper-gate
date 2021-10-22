@@ -9,6 +9,7 @@ import { Message, MessageResult } from './messageResult.types';
 
 export interface SendMessageParams {
   onTabCreated?: (tab: Tabs.Tab) => unknown;
+  newTabQueryParams?: URLSearchParams;
 }
 
 export const sendMessageToTab = async <Result>(
@@ -30,7 +31,7 @@ export const sendMessageToTab = async <Result>(
 
 export const sendMessageToActiveTab = async <Result>(
   message: Message<unknown>,
-  { onTabCreated }: SendMessageParams = {}
+  { onTabCreated, newTabQueryParams }: SendMessageParams = {}
 ) => {
   let activeTab: Tabs.Tab | undefined;
   let tabCreated = false;
@@ -38,12 +39,12 @@ export const sendMessageToActiveTab = async <Result>(
   try {
     activeTab = await getActiveTab();
   } catch {
-    activeTab = await createActiveTab();
+    activeTab = await createActiveTab(newTabQueryParams);
     tabCreated = true;
   }
 
   if (isBrowserExtensionUrl(activeTab?.url ?? '')) {
-    activeTab = await createActiveTab();
+    activeTab = await createActiveTab(newTabQueryParams);
     tabCreated = true;
   }
 

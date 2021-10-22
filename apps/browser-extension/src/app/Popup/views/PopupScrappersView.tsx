@@ -32,6 +32,7 @@ export const PopupScrappersView = ({ fetchPolicy }: FetchPolicyProps) => {
       onCreate={createScrapper}
       emptyContent={
         <EmptyContentArt
+          id="my_scrappers_list"
           onCreate={createScrapper}
           createText="Create scrapper"
           title="No scrappers found."

@@ -1,3 +1,4 @@
+import { contentScriptPathQueryKey } from '@scrapper-gate/shared/routing';
 import { successMessageResult } from '../../browser/communication/messageResult';
 import {
   HandlersMap,
@@ -51,6 +52,15 @@ export const handlers: HandlersMap = {
           );
         }
       },
+      newTabQueryParams: (() => {
+        const params = new URLSearchParams();
+
+        if (message.payload?.path) {
+          params.set(contentScriptPathQueryKey, message.payload?.path);
+        }
+
+        return params;
+      })(),
     });
 
     return successMessageResult<ToggleContentResult>({

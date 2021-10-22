@@ -17,6 +17,6 @@ beforeAll(async () => {
   }
 });
 
-afterAll(async () => {
+afterEach(async () => {
   await cleanup();
 });

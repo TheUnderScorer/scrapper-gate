@@ -1,1 +1,3 @@
-export const initialActiveTabUrl = 'http://localhost:8080/?sg=1';
+export const initialActiveTabUrl = 'http://localhost:8080';
+
+export const contentScriptPathQueryKey = 'sgContentScriptPath';

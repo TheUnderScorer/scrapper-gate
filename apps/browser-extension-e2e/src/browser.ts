@@ -66,8 +66,11 @@ export async function createBrowser() {
     });
 
     page.on('console', async (msg) => {
-      for (let i = 0; i < msg.args().length; ++i)
-        console.log(`${i}: ${await msg.args()[i].jsonValue()}`);
+      const args = await Promise.all(msg.args().map((arg) => arg.jsonValue()));
+
+      args.forEach((arg) => {
+        console.log(arg);
+      });
     });
   });
 
