@@ -1,8 +1,23 @@
 import { logger } from '@scrapper-gate/shared/logger/console';
+import browser from 'webextension-polyfill';
 import { MessageTypes } from './extension/browser/communication/messageResult.types';
 import { sendMessageToBackground } from './extension/browser/communication/sendMessageToBackground';
 
 let didInit = false;
+
+const port = browser.runtime.connect({
+  name: 'test',
+});
+
+logger.debug('Connected to port:', port.name);
+
+port.onMessage.addListener((message) => {
+  logger.debug('Received message from port:', message);
+});
+
+port.postMessage({
+  test: true,
+});
 
 async function createContentScript() {
   if (didInit) {
