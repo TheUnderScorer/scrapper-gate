@@ -1,5 +1,4 @@
 import { AppType, useAppType } from '@scrapper-gate/frontend/common';
-import { useTokensStore } from '@scrapper-gate/frontend/domain/auth';
 import { browserExtensionRoutes } from '@scrapper-gate/shared/routing';
 import React, { useState } from 'react';
 import { Route, Switch, useHistory } from 'react-router-dom';
@@ -13,6 +12,7 @@ import { useCurrentUrlUpdater } from '../../extension/browser/hooks/useCurrentUr
 import { useOnMessageListener } from '../../extension/browser/hooks/useOnMessageListener/useOnMessageListener';
 import Root from '../../extension/contentScript/components/Root';
 import { useContentRouteStorage } from '../../extension/contentScript/hooks/useContentRouteStorage';
+import { useTokensStore } from '../auth/useTokensStore';
 import { CreateScrapperView } from './views/CreateScrapperView';
 import { ScrapperBuilderView } from './views/ScrapperBuilderView/ScrapperBuilderView';
 import { ScrapperRunView } from './views/ScrapperRunView/ScrapperRunView';

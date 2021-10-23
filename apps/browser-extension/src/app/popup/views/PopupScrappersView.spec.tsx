@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any,@typescript-eslint/no-non-null-assertion */
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
-import { useTokensStore } from '@scrapper-gate/frontend/domain/auth';
 import { MyScrappersDocument } from '@scrapper-gate/frontend/schema';
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
 import { initialPagination } from '@scrapper-gate/frontend/ui';
@@ -18,6 +17,7 @@ import {
   MessageTypes,
   StoredRoute,
 } from '../../../extension/browser/communication/messageResult.types';
+import { useTokensStore } from '../../auth/useTokensStore';
 import { PopupScrappersView } from './PopupScrappersView';
 
 const scrapper = createMockScrapper();

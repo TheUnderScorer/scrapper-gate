@@ -21,6 +21,7 @@ import { browserExtensionRoutes } from '@scrapper-gate/shared/routing';
 import React, { useMemo } from 'react';
 import { useLocation } from 'react-router';
 import { useHistory } from 'react-router-dom';
+import { useTokensStore } from '../../../auth/useTokensStore';
 
 export const popupDrawerQueryKey = 'popupDrawer';
 
@@ -32,7 +33,7 @@ export const PopupDrawer = () => {
   const location = useLocation();
   const history = useHistory();
 
-  const logout = useLogout();
+  const logout = useLogout(useTokensStore);
 
   const drawerItems: MenuItemProperties[] = useMemo(
     () => [

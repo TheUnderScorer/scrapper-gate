@@ -53,9 +53,16 @@ const StyledGrid = styled(Grid)(({ theme }) => ({
   },
 }));
 
-export type AuthProps = Pick<LoginFormProps, 'afterLogin' | 'afterCreate'>;
+export type AuthProps = Pick<
+  LoginFormProps,
+  'afterLogin' | 'afterCreate' | 'useTokensStore'
+>;
 
-export const Auth = ({ afterLogin, afterCreate }: AuthProps) => {
+export const Auth = ({
+  afterLogin,
+  afterCreate,
+  useTokensStore,
+}: AuthProps) => {
   const match = useRouteMatch();
   const history = useHistory();
 
@@ -102,7 +109,11 @@ export const Auth = ({ afterLogin, afterCreate }: AuthProps) => {
           direction="column"
           spacing={2}
         >
-          <LoginForm afterLogin={afterLogin} signupUrl={signupUrl} />
+          <LoginForm
+            useTokensStore={useTokensStore}
+            afterLogin={afterLogin}
+            signupUrl={signupUrl}
+          />
           <Box width="100%">
             <Divider variant="fullWidth">OR</Divider>
           </Box>
@@ -115,6 +126,7 @@ export const Auth = ({ afterLogin, afterCreate }: AuthProps) => {
       <Route path={signupUrl}>
         <Box paddingLeft={2} paddingRight={2}>
           <LoginForm
+            useTokensStore={useTokensStore}
             signupUrl={signupUrl}
             afterCreate={afterCreate}
             type={LoginFormType.Signup}

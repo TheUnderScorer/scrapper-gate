@@ -6,6 +6,7 @@ import { browserExtensionRoutes } from '@scrapper-gate/shared/routing';
 import React, { useEffect } from 'react';
 import { Route, Switch, useHistory } from 'react-router-dom';
 import { useMount } from 'react-use';
+import { useTokensStore } from '../auth/useTokensStore';
 import { PopupDrawer } from './components/PopupDrawer/PopupDrawer';
 import { PopupHeader } from './components/PopupHeader/PopupHeader';
 import { PopupAuthView } from './views/PopupAuthView';
@@ -13,7 +14,7 @@ import { PopupScrapperRunsView } from './views/PopupScrapperRunsView';
 import { PopupScrappersView } from './views/PopupScrappersView';
 
 export const Popup = () => {
-  const { isAuthorized, loading } = useIsAuthorized();
+  const { isAuthorized, loading } = useIsAuthorized(useTokensStore);
   const history = useHistory();
 
   const setAppType = useAppType((store) => store.setAppType);

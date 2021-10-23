@@ -21,6 +21,7 @@ import '../../content.css';
 import { ContentRouter } from '../../extension/contentScript/components/ContentRouter';
 import { contentContainer } from '../../extension/contentScript/contentContainer';
 import '../../wdyr';
+import { useTokensStore } from '../auth/useTokensStore';
 import { Content } from './Content';
 import { ContentErrorBoundary } from './ContentErrorBoundary';
 
@@ -41,7 +42,7 @@ ReactDOM.render(
                   <Global
                     styles={[reactFlowBuilderStyles, hiddenNumericArrows]}
                   />
-                  <ApiClientProvider>
+                  <ApiClientProvider useTokensStore={useTokensStore}>
                     <SnackbarProvider
                       domRoot={container}
                       transitionDuration={{

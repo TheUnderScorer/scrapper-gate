@@ -4,14 +4,15 @@ import { ThemeProvider } from '@scrapper-gate/frontend/theme';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter } from 'react-router-dom';
-import { Popup } from './app/Popup/Popup';
+import { useTokensStore } from './app/auth/useTokensStore';
+import { Popup } from './app/popup/Popup';
 
 ReactDOM.render(
   <React.StrictMode>
     <HashRouter>
       <QueryParamProvider>
         <ThemeProvider>
-          <ApiClientProvider>
+          <ApiClientProvider useTokensStore={useTokensStore}>
             <Popup />
           </ApiClientProvider>
         </ThemeProvider>

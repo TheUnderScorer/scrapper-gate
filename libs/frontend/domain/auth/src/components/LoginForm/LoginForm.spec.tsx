@@ -17,7 +17,8 @@ import { act, render, RenderResult, waitFor } from '@testing-library/react';
 import fireEvent from '@testing-library/user-event';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
-import { useTokensStore } from '../../store/useTokensStore';
+import { localStorageTokensStore } from '../../persistentStores/LocalStorageTokensStore';
+import { makeUseTokenStore } from '../../store/useTokensStore';
 import { LoginForm } from './LoginForm';
 import { LoginFormProps, LoginFormType } from './LoginForm.types';
 
@@ -30,6 +31,8 @@ const createUserResult = {
   },
   user,
 };
+
+const useTokensStore = makeUseTokenStore(localStorageTokensStore);
 
 const mocks: MockedResponse[] = [
   {
@@ -70,14 +73,16 @@ const mocks: MockedResponse[] = [
   },
 ];
 
-const renderComponent = (props?: LoginFormProps): RenderResult => {
+const renderComponent = (
+  props?: Omit<LoginFormProps, 'useTokensStore'>
+): RenderResult => {
   let cmp: RenderResult;
 
   act(() => {
     cmp = render(
       <MockedProvider mocks={mocks}>
         <ThemeProvider>
-          <LoginForm {...props} />
+          <LoginForm {...props} useTokensStore={useTokensStore} />
         </ThemeProvider>
       </MockedProvider>
     );

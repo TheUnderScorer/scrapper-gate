@@ -50,9 +50,11 @@ describe('Popup', () => {
 
       await navigateToPopup(page);
 
-      const listItems = await page.$$('.scrapper-list-item');
+      await repeatUntil(async () => {
+        const listItems = await page.$$('.scrapper-list-item');
 
-      expect(listItems).toHaveLength(1);
+        expect(listItems).toHaveLength(1);
+      });
 
       const popupContent = await page.$('.popup-content');
 
@@ -60,32 +62,6 @@ describe('Popup', () => {
 
       expect(screenshot).toMatchImageSnapshot({
         customSnapshotIdentifier: 'List with scrapper',
-      });
-    });
-
-    it('should open scrapper after clicking it in list', async () => {
-      const browser = await createBrowser();
-
-      await createNewUserWithScrapper(browser).then((page) => page.close());
-
-      const page = await browser.newPage();
-
-      await navigateToPopup(page);
-
-      await page.click('.scrapper-list-item');
-
-      await repeatUntil(async () => {
-        const result = await Promise.allSettled(
-          browser.pages().map(async (page) => {
-            const form = await page.$('.scrapper-builder-form');
-
-            expect(form).toBeTruthy();
-          })
-        );
-
-        expect(
-          result.some((promiseResult) => promiseResult.status === 'fulfilled')
-        ).toEqual(true);
       });
     });
   });

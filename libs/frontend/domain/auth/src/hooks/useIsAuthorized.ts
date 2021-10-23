@@ -1,8 +1,8 @@
 import { useGetCurrentUserQuery } from '@scrapper-gate/frontend/schema';
-import { useTokensStore } from '../store/useTokensStore';
 import { useDebounce } from 'react-use';
+import { UseTokenStoreHook } from '../store/useTokensStore';
 
-export const useIsAuthorized = () => {
+export const useIsAuthorized = (useTokensStore: UseTokenStoreHook) => {
   const { data, loading, refetch } = useGetCurrentUserQuery();
   const tokens = useTokensStore((store) => store.tokens);
 
@@ -10,7 +10,7 @@ export const useIsAuthorized = () => {
     async () => {
       await refetch();
     },
-    100,
+    500,
     [tokens, refetch]
   );
 

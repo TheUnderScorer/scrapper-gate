@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import { useTokensStore } from '../../../../app/auth/useTokensStore';
 import {
   ContentToggleHookPayload,
   MessageResult,
@@ -10,7 +11,6 @@ import {
   MessageSenderState,
   Target,
 } from '../../hooks/useMessageSender/useMessageSender.types';
-import { useTokensStore } from '@scrapper-gate/frontend/domain/auth';
 
 export type ToggleContentParams = Omit<ContentToggleHookPayload, 'tokens'>;
 
