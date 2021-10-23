@@ -1,4 +1,5 @@
 import { RunStateEntity, RunStateIcon } from '@scrapper-gate/frontend/ui';
+import { RunState } from '@scrapper-gate/shared/schema';
 import React from 'react';
 import { ScrapperRunNodeAddonBeforeProps } from './ScrapperRunNodeAddonBefore.types';
 
@@ -19,6 +20,11 @@ export const ScrapperRunNodeAddonBefore = ({
       state={state}
       runMutationCalled
       showTooltip
+      title={
+        state === RunState.Failed
+          ? `This step has failed, click for more details.`
+          : undefined
+      }
     />
   );
 };

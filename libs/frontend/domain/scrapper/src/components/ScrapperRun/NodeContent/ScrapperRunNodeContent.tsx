@@ -1,5 +1,6 @@
 import {
   Assignment,
+  Error,
   EventAvailable,
   EventNote,
   ExpandMore,
@@ -153,6 +154,18 @@ export const ScrapperRunNodeContent = ({
                 <ListItemText
                   primary="Status"
                   secondary={toDisplayText(runResult.state)}
+                />
+              </ListItem>
+            )}
+
+            {runResult?.error && (
+              <ListItem disableGutters>
+                <ListItemIcon>
+                  <Error />
+                </ListItemIcon>
+                <ListItemText
+                  primary="Error"
+                  secondary={runResult.error.message}
                 />
               </ListItem>
             )}

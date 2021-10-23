@@ -1,5 +1,5 @@
 import { Box, CircularProgress, Tooltip } from '@mui/material';
-import { Check, Pending, Warning } from '@mui/icons-material';
+import { Check, Error, Pending, Warning } from '@mui/icons-material';
 import { isRunning } from '@scrapper-gate/shared/run-states';
 import { RunState } from '@scrapper-gate/shared/schema';
 import { ReactNode, useMemo } from 'react';
@@ -19,6 +19,7 @@ const stateIcons: {
 } = {
   [RunState.Skipped]: <Warning />,
   [RunState.Pending]: <Pending />,
+  [RunState.Failed]: <Error />,
 };
 
 export const RunStateIcon = ({
@@ -28,6 +29,7 @@ export const RunStateIcon = ({
   className,
   showTooltip,
   sx,
+  title,
 }: RunStateIconProps) => {
   const icon = useMemo(() => {
     const running = isRunning(state);
@@ -52,7 +54,7 @@ export const RunStateIcon = ({
   }
 
   return (
-    <Tooltip title={showTooltip && state ? titleStateMap[state] : ''}>
+    <Tooltip title={showTooltip && state ? title ?? titleStateMap[state] : ''}>
       <Box component="span" sx={sx} className={className}>
         {icon}
       </Box>

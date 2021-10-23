@@ -41,6 +41,11 @@ query GetMyScrapperRun($id: ID!) {
       screenshots {
         ...FileLinkFile
       }
+      error {
+        date
+        message
+        name
+      }
       values {
         id
         screenshot {
