@@ -93,6 +93,8 @@ services:
       - MH_HOSTNAME=mailhog
 
   test-sites:
+    networks:
+      - app
     image: nginx:latest
     ports:
       - "8080:80"
