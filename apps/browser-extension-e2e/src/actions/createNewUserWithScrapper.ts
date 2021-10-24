@@ -36,7 +36,11 @@ export async function createNewUserWithScrapper(
     expect(form).toBeTruthy();
   });
 
-  await createScrapperPage.click(`text=${label}`);
+  // Simple is default pre-selected value
+  if (type !== ScrapperType.Simple) {
+    await createScrapperPage.click(`text=${label}`);
+  }
+
   await createScrapperPage.type('[name="name"]', 'Test scrapper');
   await createScrapperPage.click('[type="submit"]');
 
