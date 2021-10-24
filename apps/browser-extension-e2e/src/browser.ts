@@ -67,7 +67,9 @@ export async function createBrowser() {
       const response = await request.response();
 
       logger.error(
-        `Request to ${request.url()} failed with status: ${response?.status()}`
+        `Request to ${request.url()} failed with status: ${response?.status()}. Reason: ${
+          request.failure()?.errorText
+        }`
       );
     });
 
