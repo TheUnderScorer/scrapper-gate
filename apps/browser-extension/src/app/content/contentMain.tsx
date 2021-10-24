@@ -45,11 +45,6 @@ ReactDOM.render(
                   <ApiClientProvider useTokensStore={useTokensStore}>
                     <SnackbarProvider
                       domRoot={container}
-                      transitionDuration={{
-                        appear: 0,
-                        enter: 0,
-                        exit: 0,
-                      }}
                       action={(key) => <SnackbarActions key={key} />}
                       anchorOrigin={{
                         vertical: 'top',

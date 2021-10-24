@@ -1,5 +1,5 @@
 export enum SnackbarVariant {
-  Error = 'Error',
-  Info = 'Info',
-  Success = 'Success',
+  Error = 'error',
+  Info = 'info',
+  Success = 'success',
 }

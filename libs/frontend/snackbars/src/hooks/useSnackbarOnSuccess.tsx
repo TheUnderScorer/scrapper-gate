@@ -1,5 +1,6 @@
 import { useSnackbar } from 'notistack';
 import { useCallback } from 'react';
+import { v4 } from 'uuid';
 import { SnackbarVariant } from '../types';
 
 export const useSnackbarOnSuccess = () => {
@@ -7,12 +8,11 @@ export const useSnackbarOnSuccess = () => {
 
   return useCallback(
     (message: string) => {
-      snackbar.enqueueSnackbar({
-        message,
+      snackbar.enqueueSnackbar(message, {
         variant: SnackbarVariant.Success,
         title: 'Success',
         persist: false,
-        key: 'success',
+        key: `success-${v4()}`,
       });
     },
     [snackbar]
