@@ -1,11 +1,11 @@
 import fs, { createWriteStream } from 'fs';
 import path from 'path';
 
-const getArtifactDirectoryPath = (cwd: string) => path.join(cwd, 'artifacts');
+export const getArtifactDirectoryPath = (cwd = process.cwd()) =>
+  path.join(cwd, 'artifacts');
 
 function getArtifactPaths(name: string) {
-  const cwd = process.cwd();
-  const artifactPath = getArtifactDirectoryPath(cwd);
+  const artifactPath = getArtifactDirectoryPath();
   const filePath = path.join(artifactPath, name);
 
   console.log(`Resolved artifact path: ${artifactPath}`);
