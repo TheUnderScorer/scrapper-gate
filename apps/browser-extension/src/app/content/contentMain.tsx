@@ -17,12 +17,12 @@ import { logger } from '@scrapper-gate/shared/logger/console';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import 'react-flow-renderer/dist/style.css';
-import '../../content.css';
+import './content.css';
 import { ContentRouter } from '../../extension/contentScript/components/ContentRouter';
 import { contentContainer } from '../../extension/contentScript/contentContainer';
 import '../../wdyr';
 import { useTokensStore } from '../auth/useTokensStore';
-import { Content } from './Content';
+import { ContentRoot } from './views/ContentRoot';
 import { ContentErrorBoundary } from './ContentErrorBoundary';
 
 logger.debug('Starting content script... ;)');
@@ -57,7 +57,7 @@ ReactDOM.render(
                       }}
                     >
                       <DialogController>
-                        <Content />
+                        <ContentRoot />
                       </DialogController>
                     </SnackbarProvider>
                   </ApiClientProvider>

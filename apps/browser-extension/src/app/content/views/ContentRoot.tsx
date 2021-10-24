@@ -7,15 +7,15 @@ import {
   ContentToggleHookPayload,
   MessagesPayloadMap,
   MessageTypes,
-} from '../../extension/browser/communication/messageResult.types';
-import { useCurrentUrlUpdater } from '../../extension/browser/hooks/useCurrentUrlUpdater';
-import { useOnMessageListener } from '../../extension/browser/hooks/useOnMessageListener/useOnMessageListener';
-import Root from '../../extension/contentScript/components/Root';
-import { useContentRouteStorage } from '../../extension/contentScript/hooks/useContentRouteStorage';
-import { useTokensStore } from '../auth/useTokensStore';
-import { CreateScrapperView } from './views/CreateScrapperView';
-import { ScrapperBuilderView } from './views/ScrapperBuilderView/ScrapperBuilderView';
-import { ScrapperRunView } from './views/ScrapperRunView/ScrapperRunView';
+} from '../../../extension/browser/communication/messageResult.types';
+import { useCurrentUrlUpdater } from '../../../extension/browser/hooks/useCurrentUrlUpdater';
+import { useOnMessageListener } from '../../../extension/browser/hooks/useOnMessageListener/useOnMessageListener';
+import Root from '../../../extension/contentScript/components/Root';
+import { useContentRouteStorage } from '../../../extension/contentScript/hooks/useContentRouteStorage';
+import { useTokensStore } from '../../auth/useTokensStore';
+import { CreateScrapperView } from './CreateScrapperView';
+import { ScrapperBuilderView } from './ScrapperBuilderView/ScrapperBuilderView';
+import { ScrapperRunView } from './ScrapperRunView/ScrapperRunView';
 
 const initialState: ContentToggleHookPayload = {
   visible: false,
@@ -23,7 +23,7 @@ const initialState: ContentToggleHookPayload = {
 };
 const initialValue = async () => initialState;
 
-export const Content = () => {
+export const ContentRoot = () => {
   const setTokens = useTokensStore((store) => store.setTokens);
   const setAppType = useAppType((store) => store.setAppType);
 

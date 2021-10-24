@@ -110,10 +110,12 @@ function cleanupEntries(config) {
 }
 
 function setupEntries(config) {
-  config.entry.main = [path.resolve(__dirname, './src/popup.tsx')];
-  config.entry.content = [path.resolve(__dirname, './src/content.tsx')];
-  config.entry.contentRoot = [
-    path.resolve(__dirname, './src/app/Content/contentRoot.tsx'),
+  config.entry.main = [path.resolve(__dirname, './src/app/popup/popup.tsx')];
+  config.entry.content = [
+    path.resolve(__dirname, './src/app/content/content.tsx'),
+  ];
+  config.entry.contentMain = [
+    path.resolve(__dirname, './src/app/content/contentMain.tsx'),
   ];
   config.entry.background = [path.resolve(__dirname, './src/background.ts')];
   config.entry.backgroundMain = [

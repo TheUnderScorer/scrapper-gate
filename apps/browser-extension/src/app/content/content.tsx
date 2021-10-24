@@ -1,7 +1,7 @@
 import { logger } from '@scrapper-gate/shared/logger/console';
 import browser from 'webextension-polyfill';
-import { MessageTypes } from './extension/browser/communication/messageResult.types';
-import { sendMessageToBackground } from './extension/browser/communication/sendMessageToBackground';
+import { MessageTypes } from '../../extension/browser/communication/messageResult.types';
+import { sendMessageToBackground } from '../../extension/browser/communication/sendMessageToBackground';
 
 let didInit = false;
 

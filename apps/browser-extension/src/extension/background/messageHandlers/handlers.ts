@@ -89,7 +89,7 @@ export const handlers: HandlersMap = {
     }
 
     chrome.scripting.executeScript({
-      files: ['contentRoot.js'],
+      files: ['contentMain.js'],
       target: {
         tabId: sender.tab.id,
       },
