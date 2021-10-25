@@ -129,18 +129,13 @@ jobs:
         run: sudo docker-compose up -d
 
       - name: Install dependencies
-        run: npm ci --legacy-peer-deps && npm i ts-node -g && npm ci --prefix deploy
+        run: npm ci --legacy-peer-deps && npm i ts-node -g && npm ci --prefix deploy && curl -fsSL https://get.pulumi.com | sh
 
       - name: Wait for localstack
         run: sudo AWS_S3_ENDPOINT=http://localhost:4566 node docker/localstack/waitForLocalStack.mjs
 
-      - uses: pulumi/actions@v3
-        name: Pulumi up
-        with:
-          command: up
-          stack-name: development
-          work-dir: ./deploy
-          cloud-url: file://~
+      - name: Start pulumi
+        run: cd deploy && pulumi login --local && pulumi stack init development && pulumi stack select development && pulumi up
 
       - name: Setup env
         run: cp .local.env.dist .local.env
