@@ -111,7 +111,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: hashicorp/setup-terraform@v1
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: test
+          aws-region: eu-west-1
+          aws-secret-access-key: test
 
       - name: Set Node.js 16.x
         uses: actions/setup-node@v2
@@ -131,13 +136,19 @@ jobs:
         run: sudo docker-compose up -d
 
       - name: Install dependencies
-        run: npm ci --legacy-peer-deps && npm i ts-node -g
+        run: npm ci --legacy-peer-deps && npm i ts-node -g && npm ci --prefix deploy
 
       - name: Wait for localstack
         run: sudo AWS_S3_ENDPOINT=http://localhost:4566 node docker/localstack/waitForLocalStack.mjs
 
-      - name: Setup localstack
-        run: cd deploy/local && terraform init && terraform apply -auto-approve
+      - uses: pulumi/actions@v3
+        name: Pulumi up
+        with:
+          command: up
+          stack-name: development
+          work-dir: ./deploy
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
 
       - name: Setup env
         run: cp .local.env.dist .local.env
@@ -197,7 +208,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: hashicorp/setup-terraform@v1
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: test
+          aws-region: eu-west-1
+          aws-secret-access-key: test
 
       - name: Set Node.js 16.x
         uses: actions/setup-node@v2
@@ -209,13 +225,19 @@ jobs:
         run: sudo docker-compose up -d
 
       - name: Install dependencies
-        run: npm ci --legacy-peer-deps && npm i ts-node -g
+        run: npm ci --legacy-peer-deps && npm i ts-node -g && npm ci --prefix deploy
 
       - name: Wait for localstack
         run: sudo AWS_S3_ENDPOINT=http://localhost:4566 node docker/localstack/waitForLocalStack.mjs
 
-      - name: Setup localstack
-        run: cd deploy/local && terraform init && terraform apply -auto-approve
+      - uses: pulumi/actions@v3
+        name: Pulumi up
+        with:
+          command: up
+          stack-name: development
+          work-dir: ./deploy
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
 
       - name: Setup env
         run: cp .local.env.dist .local.env
@@ -238,7 +260,12 @@ jobs:
       - name: Output docker version
         run: docker --version
 
-      - uses: hashicorp/setup-terraform@v1
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: test
+          aws-region: eu-west-1
+          aws-secret-access-key: test
 
       - name: Set Node.js 16.x
         uses: actions/setup-node@v2
@@ -253,13 +280,19 @@ jobs:
         run: sudo docker-compose up -d
 
       - name: Install dependencies
-        run: npm ci --legacy-peer-deps && npm i ts-node -g && npm run build:tools
+        run: npm ci --legacy-peer-deps && npm i ts-node -g && npm run build:tools && npm ci --prefix deploy
 
       - name: Wait for localstack
         run: sudo AWS_S3_ENDPOINT=http://localhost:4566 node docker/localstack/waitForLocalStack.mjs
 
-      - name: Setup localstack
-        run: cd deploy/local && terraform init && terraform apply -auto-approve
+      - uses: pulumi/actions@v3
+        name: Pulumi up
+        with:
+          command: up
+          stack-name: development
+          work-dir: ./deploy
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
 
       - name: Make envfile
         uses: SpicyPizza/create-envfile@v1
