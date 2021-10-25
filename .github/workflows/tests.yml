@@ -135,7 +135,7 @@ jobs:
         run: sudo AWS_S3_ENDPOINT=http://localhost:4566 node docker/localstack/waitForLocalStack.mjs
 
       - name: Start pulumi
-        run: cd deploy && pulumi login --local && pulumi stack init development && pulumi stack select development && pulumi up
+        run: cd deploy && pulumi login --local && pulumi stack init development && pulumi stack select development && pulumi up -y
         env:
           PULUMI_CONFIG_PASSPHRASE: test
 
