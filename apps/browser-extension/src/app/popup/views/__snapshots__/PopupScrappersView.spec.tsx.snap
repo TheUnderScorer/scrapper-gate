@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`PopupRoot scrappers view should render without crashing 1`] = `
+exports[`Popup scrappers view should render without crashing 1`] = `
 Object {
   "asFragment": [Function],
   "baseElement": <body>

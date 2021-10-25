@@ -13,6 +13,7 @@ import { act, render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { mockEvent, MockzillaEventOf } from 'mockzilla-webextension';
 import { Tabs } from 'webextension-polyfill';
+import '../../../../../../typings/global/index';
 import {
   MessageTypes,
   StoredRoute,
@@ -83,11 +84,9 @@ const tokens = {
 };
 
 function defaultStoreMock() {
-  mockBrowser.storage.local.get.mock(async () => ({
-    contentRoutes: {
-      [mockTab.id]: {},
-    },
-  }));
+  global.browserExtensionStores.local.set('contentRoutes', {
+    [mockTab.id]: {},
+  });
 }
 
 describe('Popup scrappers view', () => {
@@ -149,16 +148,14 @@ describe('Popup scrappers view', () => {
       sendMessage(...args)
     );
 
-    mockBrowser.storage.local.get.mock(async () => ({
-      contentRoutes: {
-        [mockTab.id]: {
-          pathname: browserExtensionRoutes.content.scrapper({
-            scrapperId: scrapper.id,
-            drawerOpen: true,
-          }),
-        } as StoredRoute,
-      },
-    }));
+    global.browserExtensionStores.local.set('contentRoutes', {
+      [mockTab.id]: {
+        pathname: browserExtensionRoutes.content.scrapper({
+          scrapperId: scrapper.id,
+          drawerOpen: true,
+        }),
+      } as StoredRoute,
+    });
 
     const cmp = mountCmp();
 
