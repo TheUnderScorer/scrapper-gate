@@ -8,4 +8,4 @@ logger.info('Waiting for local services...');
 
 await waitForLocalStack('http://localhost:4566');
 
-await $`cd deploy/local && terraform apply -auto-approve`;
+await $`cd deploy && pulumi stack select development && pulumi up -y`;

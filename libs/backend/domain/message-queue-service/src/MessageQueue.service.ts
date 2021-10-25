@@ -5,8 +5,6 @@ import { BrowserType } from '@scrapper-gate/shared/schema';
 export interface MessageQueueServiceDependencies {
   messageQueue: MessageQueue;
   chromiumScraperQueueUrl: string;
-  mozillaScrapperQueueUrl: string;
-  webkitScrapperQueueUrl: string;
 }
 
 export class MessageQueueService {
@@ -30,23 +28,13 @@ export class MessageQueueService {
   }
 
   get queueUrls() {
-    return [
-      this.dependencies.chromiumScraperQueueUrl,
-      this.dependencies.mozillaScrapperQueueUrl,
-      this.dependencies.webkitScrapperQueueUrl,
-    ];
+    return [this.dependencies.chromiumScraperQueueUrl];
   }
 
   private getScrapperQueueUrlByBrowser(type: BrowserType) {
     switch (type) {
       case BrowserType.Chrome:
         return this.dependencies.chromiumScraperQueueUrl;
-
-      case BrowserType.Firefox:
-        return this.dependencies.mozillaScrapperQueueUrl;
-
-      case BrowserType.Safari:
-        return this.dependencies.webkitScrapperQueueUrl;
 
       default:
         throw new TypeError('Invalid browser type provided.');
