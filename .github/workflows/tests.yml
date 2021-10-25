@@ -136,6 +136,8 @@ jobs:
 
       - name: Start pulumi
         run: cd deploy && pulumi login --local && pulumi stack init development && pulumi stack select development && pulumi up
+        env:
+          PULUMI_CONFIG_PASSPHRASE: test
 
       - name: Setup env
         run: cp .local.env.dist .local.env
