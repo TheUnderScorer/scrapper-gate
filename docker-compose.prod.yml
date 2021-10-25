@@ -9,6 +9,8 @@ services:
       dockerfile: apps/browser-extension-e2e/docker/Dockerfile
     environment:
       SERVER_URL: http://api:3000
+      NX_API_URL: http://api:3000
+      NX_SECURITY_URL: http://security:50050
     command: [sh, -c, "xvfb-run --auto-servernum -- npx nx run browser-extension-e2e:e2e"]
     volumes:
       - ./apps/browser-extension-e2e:/app/apps/browser-extension-e2e
