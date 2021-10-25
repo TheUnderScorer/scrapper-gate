@@ -111,13 +111,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: test
-          aws-region: eu-west-1
-          aws-secret-access-key: test
-
       - name: Set Node.js 16.x
         uses: actions/setup-node@v2
         with:
@@ -207,13 +200,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: test
-          aws-region: eu-west-1
-          aws-secret-access-key: test
-
       - name: Set Node.js 16.x
         uses: actions/setup-node@v2
         with:
@@ -257,13 +243,6 @@ jobs:
 
       - name: Output docker version
         run: docker --version
-
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: test
-          aws-region: eu-west-1
-          aws-secret-access-key: test
 
       - name: Set Node.js 16.x
         uses: actions/setup-node@v2
