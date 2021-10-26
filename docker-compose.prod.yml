@@ -13,12 +13,6 @@ services:
       NX_SECURITY_URL: http://security:50050
     command: [sh, -c, "xvfb-run --auto-servernum -- npx nx run browser-extension-e2e:e2e"]
     volumes:
-      - ./apps/browser-extension-e2e:/app/apps/browser-extension-e2e
-      - ./dist/apps/browser-extension:/app/dist/apps/browser-extension
-      - ./tests:/app/tests
-      - ./libs:/app/libs
-      - ./jest.config.js:/app/jest.config.js
-      - ./jest.preset.js:/app/jest.preset.js
       - ./artifacts:/app/artifacts
     depends_on:
       - api

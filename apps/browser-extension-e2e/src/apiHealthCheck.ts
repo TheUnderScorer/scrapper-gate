@@ -16,6 +16,8 @@ export async function apiHealthCheck() {
       }
 
       resolve();
-    }).end();
+    })
+      .setTimeout(50000)
+      .end();
   });
 }
