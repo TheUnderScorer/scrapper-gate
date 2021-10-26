@@ -23,7 +23,7 @@ jobs:
       - name: Typecheck
         run: npm run typecheck
 
-  buildBaseImage:
+  build-base-image:
     name: Build base image
     runs-on: ubuntu-latest
     steps:
@@ -36,13 +36,22 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.DOCKER_TOKEN }}
 
+      - name: Set Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+          cache: 'npm'
+
+      - name: Setup deps
+        run: npm install ts-node -g && npm ci
+
       - name: Maybe build base image
         run: TS_NODE_PROJECT=tools/tsconfig.tools.json ts-node tools/scripts/maybeRebuildBaseImage.ts
 
   build:
     needs:
       - typecheck
-      - buildBaseImage
+      - build-base-image
     name: Build
     runs-on: ubuntu-latest
     steps:
@@ -63,7 +72,7 @@ jobs:
   lint:
     needs:
       - typecheck
-      - buildBaseImage
+      - build-base-image
     name: Run linter
     runs-on: ubuntu-latest
     steps:
@@ -95,7 +104,7 @@ jobs:
   test-shared:
     needs:
       - typecheck
-      - buildBaseImage
+      - build-base-image
     name: Run shared tests
     runs-on: ubuntu-latest
     steps:
@@ -125,7 +134,7 @@ jobs:
   test-backend:
     needs:
       - typecheck
-      - buildBaseImage
+      - build-base-image
     name: Run backend tests
     runs-on: ubuntu-latest
     steps:
@@ -190,7 +199,7 @@ jobs:
   test-frontend:
     needs:
       - typecheck
-      - buildBaseImage
+      - build-base-image
     name: Run frontend tests
     runs-on: ubuntu-latest
     steps:
@@ -220,7 +229,7 @@ jobs:
   test-apps:
     needs:
       - typecheck
-      - buildBaseImage
+      - build-base-image
     name: Run apps tests
     runs-on: ubuntu-latest
     steps:
@@ -262,7 +271,7 @@ jobs:
   test-e2e:
     needs:
       - typecheck
-      - buildBaseImage
+      - build-base-image
     name: Run e2e tests
     runs-on: ubuntu-latest
     timeout-minutes: 90
