@@ -5,6 +5,7 @@ RUN apt-get update -y
 
 COPY ./apps/api ./apps/api
 
+RUN npm run gql-codegen
 RUN npx nx run api:build
 
 FROM node:16.10.0

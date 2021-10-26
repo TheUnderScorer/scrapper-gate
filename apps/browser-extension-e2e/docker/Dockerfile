@@ -8,6 +8,7 @@ RUN apt-get update -y && \
 COPY ./apps/browser-extension ./apps/browser-extension
 COPY ./apps/browser-extension-e2e ./apps/browser-extension-e2e
 
+RUN npm run gql-codegen
 RUN npx nx run browser-extension:build:production
 
 RUN export DISPLAY=:99

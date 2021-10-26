@@ -23,9 +23,26 @@ jobs:
       - name: Typecheck
         run: npm run typecheck
 
+  buildBaseImage:
+    name: Build base image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Maybe build base image
+        run: TS_NODE_PROJECT=tools/tsconfig.tools.json ts-node tools/scripts/maybeRebuildBaseImage.ts
+
   build:
     needs:
       - typecheck
+      - buildBaseImage
     name: Build
     runs-on: ubuntu-latest
     steps:
@@ -46,6 +63,7 @@ jobs:
   lint:
     needs:
       - typecheck
+      - buildBaseImage
     name: Run linter
     runs-on: ubuntu-latest
     steps:
@@ -77,6 +95,7 @@ jobs:
   test-shared:
     needs:
       - typecheck
+      - buildBaseImage
     name: Run shared tests
     runs-on: ubuntu-latest
     steps:
@@ -106,6 +125,7 @@ jobs:
   test-backend:
     needs:
       - typecheck
+      - buildBaseImage
     name: Run backend tests
     runs-on: ubuntu-latest
     steps:
@@ -170,6 +190,7 @@ jobs:
   test-frontend:
     needs:
       - typecheck
+      - buildBaseImage
     name: Run frontend tests
     runs-on: ubuntu-latest
     steps:
@@ -199,6 +220,7 @@ jobs:
   test-apps:
     needs:
       - typecheck
+      - buildBaseImage
     name: Run apps tests
     runs-on: ubuntu-latest
     steps:
@@ -240,6 +262,7 @@ jobs:
   test-e2e:
     needs:
       - typecheck
+      - buildBaseImage
     name: Run e2e tests
     runs-on: ubuntu-latest
     timeout-minutes: 90
