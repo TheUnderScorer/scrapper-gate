@@ -1,21 +1,13 @@
-FROM node:16 as builder
+FROM ghcr.io/theunderscorer/scrapper-gate-base:latest as builder
 WORKDIR /app
 
-RUN apt-get update
-
-COPY ./package.json ./package-lock.json ./workspace.json ./tsconfig.json ./tsconfig.base.json ./tsconfig.node.json ./.eslintrc.json ./babel.config.json ./nx.json ./codegen.yml ./
+RUN apt-get update -y
 
 COPY ./apps/api ./apps/api
-COPY ./libs ./libs
-COPY ./typings ./typings
-COPY ./tools ./tools
 
-RUN npm ci
-RUN npm run gql-codegen
-RUN npm run build:tools
 RUN npx nx run api:build
 
-FROM node:16
+FROM node:16.10.0
 WORKDIR /app
 
 RUN apt-get update

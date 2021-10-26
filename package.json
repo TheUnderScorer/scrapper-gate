@@ -7,6 +7,7 @@
     "postnx": "node tools/removeFileExtensionFromTsPaths.ts",
     "start": "nx serve",
     "build": "nx build --prod",
+    "build:docker-base": "docker build -f ./docker/base/Dockerfile -t schemik/scrapper-gate-base:latest .",
     "remove-file-extensions-from-ts-paths": "node tools/removeFileExtensionFromTsPaths.ts",
     "build:tools": "cd tools && tsc -p tsconfig.tools.json",
     "watch:tools": "npm run build:tools -- -w",

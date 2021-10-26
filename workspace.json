@@ -45,6 +45,13 @@
             ]
           }
         },
+        "build-docker": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "parallel": false,
+            "command": "docker build -f ./apps/api/docker/Dockerfile -t scrapper-gate-api:latest --pull=false ."
+          }
+        },
         "serve-docker": {
           "executor": "@nrwl/workspace:run-commands",
           "options": {
