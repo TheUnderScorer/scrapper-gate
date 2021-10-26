@@ -45,12 +45,12 @@ jobs:
       - name: Setup deps
         run: npm install ts-node -g && npm ci
 
-      - uses: nelonoel/branch-name@v1.0.1
-      # Use branch name for whatever purpose
-      - run: echo ${BRANCH_NAME}
+      - name: Get branch name
+        id: branch-name
+        uses: tj-actions/branch-names@v5
 
       - name: Maybe build base image
-        run: TS_NODE_PROJECT=tools/tsconfig.tools.json ts-node tools/scripts/maybeRebuildBaseImage.ts --create-docker-builder=true --branch=${BRANCH_NAME}
+        run: TS_NODE_PROJECT=tools/tsconfig.tools.json ts-node tools/scripts/maybeRebuildBaseImage.ts --create-docker-builder=true --branch=${{steps.branch-name.outputs.current_branch}}
 
   build:
     needs:
