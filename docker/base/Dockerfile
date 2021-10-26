@@ -1,6 +1,7 @@
+FROM node:16.10.0
+
 ENV APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1
 
-FROM node:16.10.0
 WORKDIR /app
 
 RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - && \
