@@ -16,10 +16,15 @@ const args = yargs(process.argv)
   .option('createDockerBuilder', {
     type: 'boolean',
     default: false,
+    alias: 'create-docker-builder',
   })
   .option('rebuildCacheOnly', {
     type: 'boolean',
     default: false,
+    alias: 'rebuild-cache-only',
+  })
+  .option('branch', {
+    type: 'string',
   }).argv;
 
 const depsDataPath = path.resolve(__dirname, '.baseImageDepsData.json');
@@ -78,7 +83,7 @@ const imageExists = async (image: string) => {
 };
 
 const main = async (): Promise<void> => {
-  const branch = await getGitBranch();
+  const branch = args.branch ?? (await getGitBranch());
   const imageTag = branch === 'master' ? 'latest' : branch.replace(/\//g, '-');
 
   const { depsChanged, newCacheData } = hasDepsChanged();
