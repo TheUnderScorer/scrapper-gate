@@ -34,7 +34,7 @@ function copyManifest(config) {
   return config;
 }
 
-function resolveCorrectQueryString(config) {
+function setupAliases(config) {
   config.resolve.alias['query-string'] = path.resolve(
     __dirname,
     '../../node_modules/query-string'
@@ -131,7 +131,7 @@ module.exports = createPipe(
   setupEntries,
   cleanupEntries,
   copyManifest,
-  resolveCorrectQueryString,
+  setupAliases,
   setupDevServer,
   setupShims,
   modifyBundle

@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, TextField } from '@mui/material';
-import { InputBaseComponentProps } from '@mui/material/InputBase/InputBase';
+// eslint-disable-next-line no-restricted-imports
+import type { InputBaseComponentProps } from '@mui/material/InputBase/InputBase';
 import { setRefValue } from '@scrapper-gate/frontend/common';
 import classNames from 'classnames';
 import React, {

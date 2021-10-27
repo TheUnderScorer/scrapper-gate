@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { TextFieldProps as MuiTextFieldPropsType } from '@mui/material/TextField/TextField';
-
+// eslint-disable-next-line no-restricted-imports
+import type { TextFieldProps as MuiTextFieldPropsType } from '@mui/material/TextField/TextField';
 import {
   FormDatePicker,
   FormDatePickerProps,
