@@ -10,7 +10,7 @@ console.log('Starting E2E tests...');
 jest.retryTimes(3);
 
 beforeAll(async () => {
-  await apiHealthCheck();
+  apiHealthCheck().catch(console.error);
 
   if (!fs.existsSync(extensionPath)) {
     throw new Error('Extension must be built before launching e2e tests!');
