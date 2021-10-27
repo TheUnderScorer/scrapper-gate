@@ -1,0 +1,25 @@
+{
+  "root": "libs/backend/domain/scrapper/playwright-runner",
+  "sourceRoot": "libs/backend/domain/scrapper/playwright-runner/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/backend/domain/scrapper/playwright-runner/**/*.ts"
+        ]
+      },
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/backend/domain/scrapper/playwright-runner"],
+      "options": {
+        "jestConfig": "libs/backend/domain/scrapper/playwright-runner/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

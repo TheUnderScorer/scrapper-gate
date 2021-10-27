@@ -1,0 +1,23 @@
+{
+  "root": "libs/backend/message-queue",
+  "sourceRoot": "libs/backend/message-queue/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/backend/message-queue/**/*.ts"]
+      },
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/backend/message-queue"],
+      "options": {
+        "jestConfig": "libs/backend/message-queue/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

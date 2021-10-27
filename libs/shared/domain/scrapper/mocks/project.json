@@ -1,0 +1,23 @@
+{
+  "root": "libs/shared/domain/scrapper/mocks",
+  "sourceRoot": "libs/shared/domain/scrapper/mocks/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/shared/domain/scrapper/mocks/**/*.ts"]
+      },
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/shared/domain/scrapper/mocks"],
+      "options": {
+        "jestConfig": "libs/shared/domain/scrapper/mocks/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

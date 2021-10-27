@@ -1,0 +1,23 @@
+{
+  "root": "libs/frontend/snackbars",
+  "sourceRoot": "libs/frontend/snackbars/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/frontend/snackbars/**/*.{ts,tsx,js,jsx}"]
+      },
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/frontend/snackbars"],
+      "options": {
+        "jestConfig": "libs/frontend/snackbars/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

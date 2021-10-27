@@ -1,0 +1,23 @@
+{
+  "root": "libs/backend/unit-of-work",
+  "sourceRoot": "libs/backend/unit-of-work/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/backend/unit-of-work/**/*.ts"]
+      },
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/backend/unit-of-work"],
+      "options": {
+        "jestConfig": "libs/backend/unit-of-work/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

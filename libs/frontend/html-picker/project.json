@@ -1,0 +1,23 @@
+{
+  "root": "libs/frontend/html-picker",
+  "sourceRoot": "libs/frontend/html-picker/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/frontend/html-picker/**/*.ts"]
+      },
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/frontend/html-picker"],
+      "options": {
+        "jestConfig": "libs/frontend/html-picker/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

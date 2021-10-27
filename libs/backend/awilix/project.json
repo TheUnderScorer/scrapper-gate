@@ -1,0 +1,23 @@
+{
+  "root": "libs/backend/awilix",
+  "sourceRoot": "libs/backend/awilix/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/backend/awilix/**/*.ts"]
+      },
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/backend/awilix"],
+      "options": {
+        "jestConfig": "libs/backend/awilix/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

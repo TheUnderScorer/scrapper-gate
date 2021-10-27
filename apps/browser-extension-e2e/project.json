@@ -1,0 +1,45 @@
+{
+  "root": "apps/browser-extension-e2e",
+  "sourceRoot": "apps/browser-extension-e2e/src",
+  "projectType": "application",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/browser-extension-e2e"],
+      "options": {
+        "jestConfig": "apps/browser-extension-e2e/jest.config.js",
+        "passWithNoTests": true,
+        "runInBand": true
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "browser-extension:serve:production",
+          "runInBand": true
+        }
+      }
+    },
+    "e2e-docker": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "parallel": false,
+        "command": "docker-compose -f docker-compose.prod.yml up --exit-code-from browser-extension-e2e browser-extension-e2e"
+      }
+    },
+    "e2e-docker-local": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "parallel": false,
+        "command": "docker compose -f docker-compose.prod.yml up browser-extension-e2e --exit-code-from browser-extension-e2e"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["apps/browser-extension-e2e/**/*.{js,ts}"]
+      },
+      "outputs": ["{options.outputFile}"]
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["browser-extension", "api"]
+}

@@ -1,0 +1,23 @@
+{
+  "root": "libs/backend/base-model",
+  "sourceRoot": "libs/backend/base-model/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/backend/base-model/**/*.ts"]
+      },
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/backend/base-model"],
+      "options": {
+        "jestConfig": "libs/backend/base-model/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

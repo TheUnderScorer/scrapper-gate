@@ -1,0 +1,23 @@
+{
+  "root": "libs/backend/domain/auth",
+  "sourceRoot": "libs/backend/domain/auth/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/backend/domain/auth/**/*.ts"]
+      },
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/backend/domain/auth"],
+      "options": {
+        "jestConfig": "libs/backend/domain/auth/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

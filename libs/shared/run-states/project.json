@@ -1,0 +1,23 @@
+{
+  "root": "libs/shared/run-states",
+  "sourceRoot": "libs/shared/run-states/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libs/shared/run-states/**/*.ts"]
+      },
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/shared/run-states"],
+      "options": {
+        "jestConfig": "libs/shared/run-states/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
