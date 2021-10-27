@@ -36,23 +36,17 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.DOCKER_TOKEN }}
 
-      - name: Set Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 16.x
-          cache: 'npm'
-
-      - name: Setup deps
-        run: npm install ts-node -g && npm ci
-
       - name: Get branch name
         id: branch-name
         uses: tj-actions/branch-names@v5
 
+      - name: Create base image tag
+        run: echo "BASE_IMAGE_TAG=$(echo ${{steps.branch-name.outputs.current_branch}} | tr / -)" >> $GITHUB_ENV
+
       - name: Maybe build base image
         run: |
-          docker build -f ./docker/base/Dockerfile -t ghcr.io/theunderscorer/scrapper-gate-base:${{steps.branch-name.outputs.current_branch}}
-          docker push ghcr.io/theunderscorer/scrapper-gate-base:${{steps.branch-name.outputs.current_branch}}
+          docker build -f ./docker/base/Dockerfile -t ghcr.io/theunderscorer/scrapper-gate-base:${{env.BASE_IMAGE_TAG}} .
+          docker push ghcr.io/theunderscorer/scrapper-gate-base:${{env.BASE_IMAGE_TAG}}
 
   build:
     needs:
