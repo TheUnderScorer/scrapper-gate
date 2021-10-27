@@ -1,4 +1,5 @@
-FROM ghcr.io/theunderscorer/scrapper-gate-base:latest as builder
+ARG VERSION=latest
+FROM ghcr.io/theunderscorer/scrapper-gate-base:${VERSION} as builder
 WORKDIR /app
 
 RUN apt-get update -y

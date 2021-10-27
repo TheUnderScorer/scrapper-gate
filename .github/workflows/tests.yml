@@ -288,11 +288,12 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.DOCKER_TOKEN }}
 
-      - name: Output docker-compose version
-        run: docker-compose --version
+      - name: Get branch name
+        id: branch-name
+        uses: tj-actions/branch-names@v5
 
-      - name: Output docker version
-        run: docker --version
+      - name: Create base image tag
+        run: echo "BASE_IMAGE_TAG=$(echo ${{steps.branch-name.outputs.current_branch}} | tr / -)" >> $GITHUB_ENV
 
       - name: Set Node.js 16.x
         uses: actions/setup-node@v2
@@ -324,6 +325,8 @@ jobs:
 
       - name: Test
         run: npx nx run browser-extension-e2e:e2e-docker
+        env:
+          VERSION: ${{env.BASE_IMAGE_TAG}}
 
       - name: Write API logs
         run: docker-compose -f docker-compose.prod.yml logs api > api-logs.log
