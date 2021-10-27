@@ -50,7 +50,9 @@ jobs:
         uses: tj-actions/branch-names@v5
 
       - name: Maybe build base image
-        run: TS_NODE_PROJECT=tools/tsconfig.tools.json ts-node tools/scripts/maybeRebuildBaseImage.ts --create-docker-builder=true --branch=${{steps.branch-name.outputs.current_branch}}
+        run: |
+          docker build -f ./docker/base/Dockerfile -t ghcr.io/theunderscorer/scrapper-gate-base:${{steps.branch-name.outputs.current_branch}}
+          docker push ghcr.io/theunderscorer/scrapper-gate-base:${{steps.branch-name.outputs.current_branch}}
 
   build:
     needs:
