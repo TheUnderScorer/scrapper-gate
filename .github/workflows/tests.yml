@@ -322,6 +322,9 @@ jobs:
       - name: Setup env
         run: cp .local.env.dist .local.env
 
+      - name: Setup extension env
+        run: cp apps/browser-extension/.local.env.dist apps/browser-extension/.env
+
       - name: Make envfile
         uses: SpicyPizza/create-envfile@v1
         with:
