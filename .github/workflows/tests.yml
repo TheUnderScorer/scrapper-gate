@@ -43,6 +43,9 @@ jobs:
       - name: Create base image tag
         run: echo "BASE_IMAGE_TAG=$(echo ${{steps.branch-name.outputs.current_branch}} | tr / -)" >> $GITHUB_ENV
 
+      - uses: satackey/action-docker-layer-caching@v0.0.11
+        continue-on-error: true
+
       - name: Maybe build base image
         run: |
           docker build -f ./docker/base/Dockerfile -t ghcr.io/theunderscorer/scrapper-gate-base:${{env.BASE_IMAGE_TAG}} .
