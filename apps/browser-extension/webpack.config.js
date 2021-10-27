@@ -24,7 +24,7 @@ function copyManifest(config) {
     new CopyPlugin({
       patterns: [
         {
-          from: '../manifest.json',
+          from: './manifest.json',
           to: '../../../dist/apps/browser-extension',
         },
       ],
