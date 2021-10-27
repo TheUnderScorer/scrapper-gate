@@ -25,192 +25,6 @@
       }
     }
   },
-  "projects": {
-    "api": {
-      "tags": []
-    },
-    "backend-awilix": {
-      "tags": []
-    },
-    "backend-aws": {
-      "tags": []
-    },
-    "backend-base-model": {
-      "tags": []
-    },
-    "backend-common": {
-      "tags": []
-    },
-    "backend-cqrs": {
-      "tags": []
-    },
-    "backend-crud": {
-      "tags": []
-    },
-    "backend-database": {
-      "tags": []
-    },
-    "backend-db-utils": {
-      "tags": []
-    },
-    "backend-domain-auth": {
-      "tags": []
-    },
-    "backend-domain-conditional-rules": {
-      "tags": []
-    },
-    "backend-domain-files": {
-      "tags": []
-    },
-    "backend-domain-message-queue-service": {
-      "tags": []
-    },
-    "backend-domain-scrapper": {
-      "tags": []
-    },
-    "backend-domain-scrapper-base-runner": {
-      "tags": []
-    },
-    "backend-domain-scrapper-playwright-runner": {
-      "tags": []
-    },
-    "backend-domain-user": {
-      "tags": []
-    },
-    "backend-domain-variables": {
-      "tags": []
-    },
-    "backend-message-queue": {
-      "tags": []
-    },
-    "backend-perf-hooks-utils": {
-      "tags": []
-    },
-    "backend-server": {
-      "tags": []
-    },
-    "backend-unit-of-work": {
-      "tags": []
-    },
-    "backend-validation": {
-      "tags": []
-    },
-    "browser-extension": {
-      "tags": []
-    },
-    "browser-extension-e2e": {
-      "tags": [],
-      "implicitDependencies": ["browser-extension", "api"]
-    },
-    "frontend-api-client": {
-      "tags": []
-    },
-    "frontend-block-editor": {
-      "tags": []
-    },
-    "frontend-common": {
-      "tags": []
-    },
-    "frontend-data-grid": {
-      "tags": []
-    },
-    "frontend-dialogs": {
-      "tags": []
-    },
-    "frontend-domain-auth": {
-      "tags": []
-    },
-    "frontend-domain-conditional-rules": {
-      "tags": []
-    },
-    "frontend-domain-files": {
-      "tags": []
-    },
-    "frontend-domain-scrapper": {
-      "tags": []
-    },
-    "frontend-domain-user": {
-      "tags": []
-    },
-    "frontend-domain-variables": {
-      "tags": []
-    },
-    "frontend-flow-builder": {
-      "tags": []
-    },
-    "frontend-form": {
-      "tags": []
-    },
-    "frontend-html-picker": {
-      "tags": []
-    },
-    "frontend-keyboard-shortcuts": {
-      "tags": []
-    },
-    "frontend-schema": {
-      "tags": []
-    },
-    "frontend-snackbars": {
-      "tags": []
-    },
-    "frontend-theme": {
-      "tags": []
-    },
-    "frontend-ui": {
-      "tags": []
-    },
-    "lambdas": {
-      "tags": []
-    },
-    "shared-common": {
-      "tags": []
-    },
-    "shared-constructor": {
-      "tags": []
-    },
-    "shared-domain-auth": {
-      "tags": []
-    },
-    "shared-domain-conditional-rules": {
-      "tags": []
-    },
-    "shared-domain-scrapper": {
-      "tags": []
-    },
-    "shared-domain-scrapper-mocks": {
-      "tags": []
-    },
-    "shared-domain-user-mocks": {
-      "tags": []
-    },
-    "shared-domain-variables": {
-      "tags": []
-    },
-    "shared-errors": {
-      "tags": []
-    },
-    "shared-logger": {
-      "tags": []
-    },
-    "shared-logger-console": {
-      "tags": []
-    },
-    "shared-node": {
-      "tags": []
-    },
-    "shared-routing": {
-      "tags": []
-    },
-    "shared-run-states": {
-      "tags": []
-    },
-    "shared-schema": {
-      "tags": []
-    },
-    "shared-validation": {
-      "tags": []
-    }
-  },
   "targetDependencies": {
     "build": [
       {
@@ -218,5 +32,25 @@
         "projects": "dependencies"
       }
     ]
-  }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/react"
+  },
+  "generators": {
+    "@nrwl/react": {
+      "application": {
+        "style": "css",
+        "linter": "eslint",
+        "babel": true
+      },
+      "component": {
+        "style": "css"
+      },
+      "library": {
+        "style": "css",
+        "linter": "eslint"
+      }
+    }
+  },
+  "defaultProject": "browser-extension"
 }
