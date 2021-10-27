@@ -10,14 +10,18 @@ export async function apiHealthCheck() {
   console.log(`Performing health check at: ${url.toString()}`);
 
   return new Promise<void>((resolve, reject) => {
-    request(url, (res) => {
+    const req = request(url, (res) => {
       if (res.statusCode !== 200) {
         reject(new Error('Unable to connect to API.'));
       }
 
+      req.end();
+
       resolve();
-    })
-      .setTimeout(50000)
-      .end();
+    }).setTimeout(50000);
+
+    req.on('error', (error) => {
+      reject(error);
+    });
   });
 }
