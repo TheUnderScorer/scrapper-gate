@@ -45,6 +45,10 @@ jobs:
 
       - uses: satackey/action-docker-layer-caching@v0.0.11
         continue-on-error: true
+        with:
+          key: base-image-cache-{hash}
+          restore-keys: |
+            base-image-cache-
 
       - name: Maybe build base image
         run: |
