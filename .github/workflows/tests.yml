@@ -319,6 +319,9 @@ jobs:
         env:
           PULUMI_CONFIG_PASSPHRASE: test
 
+      - name: Setup env
+        run: cp .local.env.dist .local.env
+
       - name: Make envfile
         uses: SpicyPizza/create-envfile@v1
         with:
