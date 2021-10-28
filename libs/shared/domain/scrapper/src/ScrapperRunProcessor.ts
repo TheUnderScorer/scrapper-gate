@@ -4,7 +4,10 @@ import {
   Disposable,
   Perhaps,
 } from '@scrapper-gate/shared/common';
-import { resolveVariables } from '@scrapper-gate/shared/domain/variables';
+import {
+  createVariable,
+  resolveVariables,
+} from '@scrapper-gate/shared/domain/variables';
 import { ErrorObjectDto } from '@scrapper-gate/shared/errors';
 import { Logger } from '@scrapper-gate/shared/logger';
 import {
@@ -20,11 +23,14 @@ import {
   ScrapperRunStepResult,
   ScrapperRunValue,
   ScrapperStep,
+  Variable,
+  VariableScope,
+  VariableType,
 } from '@scrapper-gate/shared/schema';
 import { Typed } from 'emittery';
-import { createScrapperRunVariables } from './createScrapperRunVariables';
 import {
   ConditionalRunScrapperStepResult,
+  isReadTextScrapperStepResult,
   RunScrapperStepResult,
   ScrapperRunner,
   ScrapperStepFinishedPayload,
@@ -36,11 +42,6 @@ export interface ProcessParams {
 }
 
 export class ScrapperRunProcessor implements Disposable {
-  constructor(
-    private readonly runner: ScrapperRunner,
-    private readonly logger: Logger
-  ) {}
-
   readonly events = new Typed<{
     scrapperRunChanged: ScrapperRun;
     stepFinished: ScrapperStepFinishedPayload;
@@ -54,8 +55,28 @@ export class ScrapperRunProcessor implements Disposable {
     };
   }>();
 
-  async process({ scrapperRun }: ProcessParams) {
+  private completed = false;
+
+  private readonly variables: Variable[] = [];
+
+  constructor(
+    private readonly runner: ScrapperRunner,
+    private readonly logger: Logger,
+    private readonly scrapperRun: ScrapperRun
+  ) {
+    this.variables = [...(scrapperRun.variables ?? [])];
+  }
+
+  async process() {
+    if (this.completed) {
+      throw new Error(
+        'Run was already completed, in order to start a new one create new processor instance.'
+      );
+    }
+
     let failed = false;
+
+    const scrapperRun = this.scrapperRun;
 
     if (!scrapperRun.steps?.length) {
       return {
@@ -78,7 +99,7 @@ export class ScrapperRunProcessor implements Disposable {
 
     try {
       while (step) {
-        const { nextStep } = await this.runStep(step, scrapperRun);
+        const { nextStep } = await this.runStep(step);
 
         step = nextStep!;
       }
@@ -100,6 +121,8 @@ export class ScrapperRunProcessor implements Disposable {
       failed = true;
     }
 
+    this.completed = true;
+
     scrapperRun.endedAt = new Date();
     scrapperRun.state = failed ? RunState.Failed : RunState.Completed;
 
@@ -119,8 +142,10 @@ export class ScrapperRunProcessor implements Disposable {
     };
   }
 
-  private async runStep(step: ScrapperStep, scrapperRun: ScrapperRun) {
-    const variables = createScrapperRunVariables(scrapperRun);
+  private async runStep(step: ScrapperStep) {
+    const scrapperRun = this.scrapperRun;
+
+    const variables = this.variables;
 
     const stepResult = scrapperRun.results!.find(
       (result) => result.step.id === step.id
@@ -151,6 +176,7 @@ export class ScrapperRunProcessor implements Disposable {
       });
 
       await this.fillStepResultAfterRun(runResult, stepResult);
+      this.maybeCreateVariableFromResult(runResult, preparedStep);
 
       stepResult.state = RunState.Completed;
 
@@ -192,6 +218,24 @@ export class ScrapperRunProcessor implements Disposable {
 
       // Throw error again in order to store it on run level as well
       throw error;
+    }
+  }
+
+  private maybeCreateVariableFromResult(
+    result: RunScrapperStepResult,
+    step: ScrapperStep
+  ) {
+    if ('values' in result) {
+      this.variables.push(
+        createVariable({
+          value: result.values?.map(
+            (value) => isReadTextScrapperStepResult(value) && value.value
+          ),
+          type: step.valueType ?? VariableType.Text,
+          scope: VariableScope.Scrapper,
+          key: step.key,
+        })
+      );
     }
   }
 

@@ -31,19 +31,15 @@ export class RunScrapperHandler implements CommandHandler<RunScrapperCommand> {
       this.dependencies;
 
     const scrapperRun = await scrapperRunRepository.getOneAggregate(runId);
-    const { scrapper } = scrapperRun;
 
     const runner = getScrapperRunner(scrapperRun, runSettings);
 
-    const processor = new ScrapperRunProcessor(runner, logger);
+    const processor = new ScrapperRunProcessor(runner, logger, scrapperRun);
 
     try {
       this.setupEvents(processor);
 
-      await processor.process({
-        scrapperRun,
-        scrapper,
-      });
+      await processor.process();
     } finally {
       await processor.dispose();
     }

@@ -55,13 +55,43 @@ async function setupRun() {
   return { stepOnTrue, stepOnFalse, initialScrapperRun, scrapper };
 }
 
+async function setupConditionSteps() {
+  const firstStep = await createMockScrapperStep({
+    intercept: (step) => {
+      step.action = ScrapperAction.Condition;
+      step.isFirst = true;
+
+      return step;
+    },
+  });
+  const stepOnTrue = await createMockScrapperStep({
+    intercept: (step) => {
+      step.action = ScrapperAction.ReadText;
+
+      return step;
+    },
+  });
+  const stepOnFalse = await createMockScrapperStep({
+    intercept: (step) => {
+      step.action = ScrapperAction.ReadText;
+
+      return step;
+    },
+  });
+  return { firstStep, stepOnTrue, stepOnFalse };
+}
+
 describe('Scrapper run processor', () => {
   it('should process run - true condition', async () => {
     const runner = createMockProxy<ScrapperRunner>();
 
-    const processor = new ScrapperRunProcessor(runner, logger);
-    const { stepOnTrue, stepOnFalse, initialScrapperRun, scrapper } =
-      await setupRun();
+    const { stepOnTrue, stepOnFalse, initialScrapperRun } = await setupRun();
+
+    const processor = new ScrapperRunProcessor(
+      runner,
+      logger,
+      initialScrapperRun
+    );
 
     runner.Click.mockResolvedValue({
       values: [],
@@ -77,10 +107,7 @@ describe('Scrapper run processor', () => {
       },
     });
 
-    const { scrapperRun } = await processor.process({
-      scrapperRun: initialScrapperRun,
-      scrapper,
-    });
+    const { scrapperRun } = await processor.process();
 
     expect(scrapperRun).toBeDefined();
     expect(scrapperRun.state).toEqual(RunState.Completed);
@@ -96,9 +123,13 @@ describe('Scrapper run processor', () => {
   it('should process run - false condition', async () => {
     const runner = createMockProxy<ScrapperRunner>();
 
-    const processor = new ScrapperRunProcessor(runner, logger);
-    const { stepOnTrue, stepOnFalse, initialScrapperRun, scrapper } =
-      await setupRun();
+    const { stepOnTrue, stepOnFalse, initialScrapperRun } = await setupRun();
+
+    const processor = new ScrapperRunProcessor(
+      runner,
+      logger,
+      initialScrapperRun
+    );
 
     runner.Click.mockResolvedValue({
       values: [],
@@ -114,10 +145,7 @@ describe('Scrapper run processor', () => {
       },
     });
 
-    await processor.process({
-      scrapperRun: initialScrapperRun,
-      scrapper,
-    });
+    await processor.process();
 
     expect(
       runner.Click.mock.calls.find((call) => call[0].step.id === stepOnTrue.id)
@@ -131,8 +159,12 @@ describe('Scrapper run processor', () => {
   it('should handle errors', async () => {
     const runner = createMockProxy<ScrapperRunner>();
 
-    const processor = new ScrapperRunProcessor(runner, logger);
-    const { initialScrapperRun, scrapper } = await setupRun();
+    const { initialScrapperRun } = await setupRun();
+    const processor = new ScrapperRunProcessor(
+      runner,
+      logger,
+      initialScrapperRun
+    );
 
     runner.Click.mockImplementation(async () => {
       throw new ScrapperRunError({
@@ -145,10 +177,7 @@ describe('Scrapper run processor', () => {
       });
     });
 
-    const { scrapperRun } = await processor.process({
-      scrapperRun: initialScrapperRun,
-      scrapper,
-    });
+    const { scrapperRun } = await processor.process();
 
     expect(scrapperRun.error).toBeDefined();
   });
@@ -196,12 +225,9 @@ describe('Scrapper run processor', () => {
       },
     });
 
-    const processor = new ScrapperRunProcessor(runner, logger);
+    const processor = new ScrapperRunProcessor(runner, logger, scrapperRun);
 
-    await processor.process({
-      scrapperRun,
-      scrapper,
-    });
+    await processor.process();
 
     expect(scrapperRun.results).toHaveLength(steps.length);
 
@@ -211,28 +237,7 @@ describe('Scrapper run processor', () => {
   });
 
   it('should mark skipped steps from condition as skipped - true case', async () => {
-    const firstStep = await createMockScrapperStep({
-      intercept: (step) => {
-        step.action = ScrapperAction.Condition;
-        step.isFirst = true;
-
-        return step;
-      },
-    });
-    const stepOnTrue = await createMockScrapperStep({
-      intercept: (step) => {
-        step.action = ScrapperAction.ReadText;
-
-        return step;
-      },
-    });
-    const stepOnFalse = await createMockScrapperStep({
-      intercept: (step) => {
-        step.action = ScrapperAction.ReadText;
-
-        return step;
-      },
-    });
+    const { firstStep, stepOnTrue, stepOnFalse } = await setupConditionSteps();
     const stepAfterFalse = await createMockScrapperStep({});
 
     stepOnFalse.nextStep = stepAfterFalse;
@@ -270,12 +275,9 @@ describe('Scrapper run processor', () => {
       },
     });
 
-    const processor = new ScrapperRunProcessor(runner, logger);
+    const processor = new ScrapperRunProcessor(runner, logger, scrapperRun);
 
-    await processor.process({
-      scrapperRun,
-      scrapper,
-    });
+    await processor.process();
 
     const skippedSteps = scrapperRun.results!.filter((result) =>
       [stepOnFalse.id, stepAfterFalse.id].includes(result.step.id)
@@ -294,28 +296,7 @@ describe('Scrapper run processor', () => {
   });
 
   it('should mark skipped steps from condition as skipped - false case', async () => {
-    const firstStep = await createMockScrapperStep({
-      intercept: (step) => {
-        step.action = ScrapperAction.Condition;
-        step.isFirst = true;
-
-        return step;
-      },
-    });
-    const stepOnTrue = await createMockScrapperStep({
-      intercept: (step) => {
-        step.action = ScrapperAction.ReadText;
-
-        return step;
-      },
-    });
-    const stepOnFalse = await createMockScrapperStep({
-      intercept: (step) => {
-        step.action = ScrapperAction.ReadText;
-
-        return step;
-      },
-    });
+    const { stepOnTrue, stepOnFalse, firstStep } = await setupConditionSteps();
 
     firstStep.stepOnTrue = stepOnTrue;
     firstStep.stepOnFalse = stepOnFalse;
@@ -351,12 +332,9 @@ describe('Scrapper run processor', () => {
       },
     });
 
-    const processor = new ScrapperRunProcessor(runner, logger);
+    const processor = new ScrapperRunProcessor(runner, logger, scrapperRun);
 
-    await processor.process({
-      scrapperRun,
-      scrapper,
-    });
+    await processor.process();
 
     const falseResult = scrapperRun.results!.find(
       (result) => result.step.id === stepOnFalse.id
@@ -369,7 +347,7 @@ describe('Scrapper run processor', () => {
     expect(falseResult?.state).toEqual(RunState.Completed);
   });
 
-  it('should handle variables', async () => {
+  it('should add variables from finished steps', async () => {
     const typeStep: ScrapperStep = {
       ...(await createMockScrapperStep({})),
       action: ScrapperAction.Type,
@@ -398,8 +376,12 @@ describe('Scrapper run processor', () => {
 
     const runner = createMockProxy<ScrapperRunner>();
 
-    const processor = new ScrapperRunProcessor(runner, logger);
     const { initialScrapperRun, scrapper } = await setupRun();
+    const processor = new ScrapperRunProcessor(
+      runner,
+      logger,
+      initialScrapperRun
+    );
 
     scrapper.steps = steps;
     initialScrapperRun.steps = steps;
@@ -437,10 +419,7 @@ describe('Scrapper run processor', () => {
       values: [],
     });
 
-    await processor.process({
-      scrapper,
-      scrapperRun: initialScrapperRun,
-    });
+    await processor.process();
 
     const clickCall = runner.Click.mock.calls[0];
     const typeCall = runner.Type.mock.calls[0];

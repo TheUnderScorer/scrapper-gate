@@ -1,4 +1,4 @@
-import { Perhaps } from '../types';
+import { Perhaps } from '../../types';
 
 export enum TemplateType {
   Braces = 'Braces',
@@ -10,11 +10,19 @@ export type TemplateVariables = Record<
   Perhaps<string | number | boolean>
 >;
 
-export const applyVariablesToText = (
-  text: string,
-  variables: TemplateVariables,
-  type: TemplateType = TemplateType.Braces
-) => {
+export interface ApplyVariablesToTextParams {
+  text: string;
+  variables: TemplateVariables;
+  type?: TemplateType;
+  arraySeparator?: string;
+}
+
+export const applyVariablesToText = ({
+  text,
+  variables,
+  type = TemplateType.Braces,
+  arraySeparator = ',',
+}: ApplyVariablesToTextParams) => {
   return Object.entries(variables).reduce((currentText, [key, value]) => {
     if (!value || !key) {
       return currentText;
@@ -22,11 +30,14 @@ export const applyVariablesToText = (
 
     const regExp = getTemplateRegexByType(key, type);
 
-    return currentText.replace(regExp, convertValue(value));
+    return currentText.replace(regExp, convertValue(value, { arraySeparator }));
   }, text);
 };
 
-const convertValue = (value: unknown) => {
+const convertValue = (
+  value: unknown,
+  { arraySeparator = ',' }: Pick<ApplyVariablesToTextParams, 'arraySeparator'>
+) => {
   switch (typeof value) {
     case 'boolean':
       return value ? '1' : '0';
@@ -38,7 +49,7 @@ const convertValue = (value: unknown) => {
 
     case 'object':
       if (Array.isArray(value)) {
-        return value.join(',');
+        return value.join(arraySeparator);
       }
 
       return JSON.stringify(value);
