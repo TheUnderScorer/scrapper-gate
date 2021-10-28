@@ -1,3 +1,16 @@
+# [1.0.0-test.14](https://github.com/TheUnderScorer/scrapper-gate/compare/v1.0.0-test.13...v1.0.0-test.14) (2021-10-28)
+
+
+### Features
+
+* **scrapper-run-result:** Show step errors ([8922fcc](https://github.com/TheUnderScorer/scrapper-gate/commit/8922fccab50ea5ca5766c886e073a7fef249504b))
+
+
+### Reverts
+
+* Revert "test: Don't use url navigation to content script" ([626311a](https://github.com/TheUnderScorer/scrapper-gate/commit/626311a8b18204eb6844d1b4beeb25d729854a1d))
+* Revert "ci: Temp keep only e2e tests" ([219bf60](https://github.com/TheUnderScorer/scrapper-gate/commit/219bf60ba86699c3771143889428f926e81d3ccc))
+
 # [1.0.0-test.13](https://github.com/TheUnderScorer/scrapper-gate/compare/v1.0.0-test.12...v1.0.0-test.13) (2021-10-19)
 
 
