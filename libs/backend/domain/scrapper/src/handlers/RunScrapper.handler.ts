@@ -5,7 +5,10 @@ import {
   ScrapperRunProcessor,
 } from '@scrapper-gate/shared/domain/scrapper';
 import { Logger } from '@scrapper-gate/shared/logger';
-import { ScrapperRunStepResult } from '@scrapper-gate/shared/schema';
+import {
+  ScrapperAction,
+  ScrapperRunStepResult,
+} from '@scrapper-gate/shared/schema';
 import { CommandHandler, EventsBus } from 'functional-cqrs';
 import { RunScrapperCommand } from '../commands/RunScrapper.command';
 import { ScrapperStepCompletedEvent } from '../events/ScrapperStepCompleted.event';
@@ -59,6 +62,10 @@ export class RunScrapperHandler implements CommandHandler<RunScrapperCommand> {
     processor.events.on(
       'filledStepResultAfterRun',
       async ({ runStepResult, result }) => {
+        if (result.step.action !== ScrapperAction.Screenshot) {
+          return;
+        }
+
         await this.connectFiles(runStepResult, result);
       }
     );
