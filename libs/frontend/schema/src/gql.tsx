@@ -62,6 +62,7 @@ export const ScrapperBuilderStepFragmentDoc = gql`
       type
       value
     }
+    valueType
     url
     typeDelay
     useUrlFromPreviousStep

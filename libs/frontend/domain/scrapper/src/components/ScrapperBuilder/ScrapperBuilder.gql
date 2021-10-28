@@ -70,6 +70,7 @@ fragment ScrapperBuilderStep on ScrapperStep {
     type
     value
   }
+  valueType
   url
   typeDelay
   useUrlFromPreviousStep

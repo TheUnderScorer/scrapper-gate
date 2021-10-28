@@ -1,3 +1,5 @@
+import { EnumSelect } from '@scrapper-gate/frontend/form';
+import { VariableType } from '@scrapper-gate/shared/schema';
 import React from 'react';
 import { ScrapperKey } from '../commonFields/ScrapperKey';
 import { ScrapperStepFormProps } from '../ScrapperBuilder.types';
@@ -25,6 +27,12 @@ export const ReadTextSections = ({
         nodeIndex={nodeIndex}
         fieldNameCreator={fieldNameCreator}
         disabled={formState.submitting}
+      />
+      <EnumSelect
+        enumObj={VariableType}
+        name="valueType"
+        label="Value type"
+        defaultValue={VariableType.Text}
       />
       <Url
         fieldNameCreator={fieldNameCreator}
