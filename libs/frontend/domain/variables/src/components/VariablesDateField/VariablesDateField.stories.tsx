@@ -9,7 +9,7 @@ import {
 } from '@scrapper-gate/shared/schema';
 import React from 'react';
 import { Form } from 'react-final-form';
-import { VariablesProvider } from '../../providers/VariablesProvider';
+import { FormVariablesProvider } from '../../providers/Form/FormVariablesProvider';
 import { VariablesDateField } from './VariablesDateField';
 
 export default {
@@ -42,13 +42,13 @@ export const Component = () => {
         onSubmit={console.log}
         render={(props) => (
           <form onSubmit={props.handleSubmit}>
-            <VariablesProvider name="variables">
+            <FormVariablesProvider name="variables">
               <VariablesDateField name="date" />
               <Box mt={2}>
                 <pre>{JSON.stringify(props.values, null, ' ')}</pre>
               </Box>
               <Button type="submit">Submit</Button>
-            </VariablesProvider>
+            </FormVariablesProvider>
           </form>
         )}
       />

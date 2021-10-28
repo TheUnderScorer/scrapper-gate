@@ -1,5 +1,5 @@
 import { variableRule } from '../../rules/variableRule';
-import { VariablesProvider } from '@scrapper-gate/frontend/domain/variables';
+import { FormVariablesProvider } from '@scrapper-gate/frontend/domain/variables';
 import {
   ConditionalRuleTypes,
   ConditionalRuleWhen,
@@ -74,7 +74,7 @@ export const Component = () => {
       }}
       onSubmit={console.log}
       render={(props) => (
-        <VariablesProvider name="variables">
+        <FormVariablesProvider name="variables">
           <form>
             <ConditionalRules
               fieldVariant="outlined"
@@ -85,7 +85,7 @@ export const Component = () => {
             />
             <pre>{JSON.stringify(props.values, null, ' ')}</pre>
           </form>
-        </VariablesProvider>
+        </FormVariablesProvider>
       )}
     />
   );

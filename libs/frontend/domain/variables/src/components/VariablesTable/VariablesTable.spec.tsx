@@ -15,7 +15,7 @@ import userEvent from '@testing-library/user-event';
 import { format } from 'date-fns';
 import React from 'react';
 import { Form } from 'react-final-form';
-import { VariablesProvider } from '../../providers/VariablesProvider';
+import { FormVariablesProvider } from '../../providers/Form/FormVariablesProvider';
 import { VariablesTable } from './VariablesTable';
 
 const variables: Variable[] = [
@@ -48,9 +48,9 @@ const getUi = (defaultVariables: Variable[]) => (
         }}
         onSubmit={jest.fn()}
         render={() => (
-          <VariablesProvider name="variables">
+          <FormVariablesProvider name="variables">
             <VariablesTable scope={VariableScope.Global} name="variables" />
-          </VariablesProvider>
+          </FormVariablesProvider>
         )}
       />
     </ThemeProvider>

@@ -1,6 +1,6 @@
 import { BlockEditorProps } from '@scrapper-gate/frontend/block-editor';
 import {
-  VariablesProvider,
+  FormVariablesProvider,
   VariablesTextField,
 } from '@scrapper-gate/frontend/domain/variables';
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
@@ -41,7 +41,7 @@ export const renderVariablesBlockEditor = async ({
         }}
         onSubmit={jest.fn()}
         render={() => (
-          <VariablesProvider name="variables">
+          <FormVariablesProvider name="variables">
             <Component
               editorInstanceRef={(instance) => {
                 if (instance) {
@@ -52,7 +52,7 @@ export const renderVariablesBlockEditor = async ({
               name="variable"
             />
             <FormSpy onChange={onChange} />
-          </VariablesProvider>
+          </FormVariablesProvider>
         )}
       />
     </ThemeProvider>

@@ -4,7 +4,7 @@ import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { VariableScope } from '@scrapper-gate/shared/schema';
 import React from 'react';
 import { Form } from 'react-final-form';
-import { VariablesProvider } from '../../providers/VariablesProvider';
+import { FormVariablesProvider } from '../../providers/Form/FormVariablesProvider';
 import { VariablesTextField } from '../VariablesTextField/VariablesTextField';
 import { VariablesTable } from './VariablesTable';
 
@@ -21,13 +21,13 @@ export const Component = () => {
           variables: [],
         }}
         render={(props) => (
-          <VariablesProvider name="variables">
+          <FormVariablesProvider name="variables">
             <Box width="100%" height="400px">
               <VariablesTable scope={VariableScope.Global} name="variables" />
               <VariablesTextField name="variable" />
               <pre>{JSON.stringify(props.values, null, ' ')}</pre>
             </Box>
-          </VariablesProvider>
+          </FormVariablesProvider>
         )}
       />
     </LocalizationProvider>

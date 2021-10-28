@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { VariablesProvider } from '../../providers/VariablesProvider';
+import { FormVariablesProvider } from '../../providers/Form/FormVariablesProvider';
 import { createVariable } from '@scrapper-gate/shared/domain/variables';
 import { Variable, VariableScope } from '@scrapper-gate/shared/schema';
 import { Form } from 'react-final-form';
@@ -39,9 +39,9 @@ export const Component = () => {
       onSubmit={console.log}
       render={() => (
         <Box width="600px">
-          <VariablesProvider name="variables">
+          <FormVariablesProvider name="variables">
             <VariablesAutocomplete name="test" options={options} />
-          </VariablesProvider>
+          </FormVariablesProvider>
         </Box>
       )}
     />

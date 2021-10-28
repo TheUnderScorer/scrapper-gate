@@ -3,7 +3,7 @@ import { LocalizationProvider } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import { Box } from '@mui/material';
 import '@scrapper-gate/frontend/block-editor';
-import { VariablesProvider } from '@scrapper-gate/frontend/domain/variables';
+import { FormVariablesProvider } from '@scrapper-gate/frontend/domain/variables';
 import '@scrapper-gate/frontend/theme';
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
 import { DateFormat, wait } from '@scrapper-gate/shared/common';
@@ -85,12 +85,12 @@ const renderCmpWithVariables = (props: Partial<ConditionalRulesProps> = {}) => {
           onSubmit={jest.fn()}
           render={() => (
             <Box width="1000px" height="1000px">
-              <VariablesProvider name="variables">
+              <FormVariablesProvider name="variables">
                 <ConditionalRules
                   definitions={props.definitions ?? baseRulesSelection}
                   name="rules"
                 />
-              </VariablesProvider>
+              </FormVariablesProvider>
             </Box>
           )}
         />

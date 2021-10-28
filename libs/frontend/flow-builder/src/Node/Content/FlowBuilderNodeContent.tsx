@@ -54,7 +54,11 @@ export const FlowBuilderNodeContent = () => {
   );
 
   const getFieldName = useMemo(() => {
-    return (name?: string) => `items[${activeNodeIndex}].data.${name}`;
+    return (name?: string) => {
+      const base = `items[${activeNodeIndex}].data`;
+
+      return name ? `${base}.${name}` : base;
+    };
   }, [activeNodeIndex]);
 
   const ContentComponent = useMemo(() => {
