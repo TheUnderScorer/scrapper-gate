@@ -1,17 +1,10 @@
 import { FileRepository } from '@scrapper-gate/backend/domain/files';
-import { ExcludeFalsy, getById } from '@scrapper-gate/shared/common';
-import {
-  RunScrapperStepResult,
-  ScrapperRunProcessor,
-} from '@scrapper-gate/shared/domain/scrapper';
+import { ScrapperRunProcessor } from '@scrapper-gate/shared/domain/scrapper';
 import { Logger } from '@scrapper-gate/shared/logger';
-import {
-  ScrapperAction,
-  ScrapperRunStepResult,
-} from '@scrapper-gate/shared/schema';
 import { CommandHandler, EventsBus } from 'functional-cqrs';
 import { RunScrapperCommand } from '../commands/RunScrapper.command';
 import { ScrapperStepCompletedEvent } from '../events/ScrapperStepCompleted.event';
+import { ScrapperStepResultFilledAfterRunEvent } from '../events/ScrapperStepResultFilledAfterRun.event';
 import { GetScrapperRunner } from '../logic/getScrapperRunner';
 import { ScrapperRunModel } from '../models/ScrapperRun.model';
 import { ScrapperRepository } from '../repositories/Scrapper.repository';
@@ -62,39 +55,13 @@ export class RunScrapperHandler implements CommandHandler<RunScrapperCommand> {
     processor.events.on(
       'filledStepResultAfterRun',
       async ({ runStepResult, result }) => {
-        if (result.step.action !== ScrapperAction.Screenshot) {
-          return;
-        }
-
-        await this.connectFiles(runStepResult, result);
+        await eventsBus.dispatch(
+          new ScrapperStepResultFilledAfterRunEvent({
+            runStepResult,
+            result,
+          })
+        );
       }
     );
-  }
-
-  private async connectFiles(
-    runStepResult: RunScrapperStepResult,
-    result: ScrapperRunStepResult
-  ) {
-    if ('values' in runStepResult) {
-      const fileIds = runStepResult.values
-        ?.map((item) =>
-          'screenshotFileId' in item ? item.screenshotFileId : undefined
-        )
-        .filter(ExcludeFalsy);
-
-      if (!fileIds?.length) {
-        return;
-      }
-
-      const files = await this.dependencies.fileRepository.findByIds(fileIds);
-
-      result.values?.forEach((value, index) => {
-        const fileId = fileIds[index];
-
-        if (fileId) {
-          value.screenshot = getById(files, fileId);
-        }
-      });
-    }
   }
 }
