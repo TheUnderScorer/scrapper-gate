@@ -76,7 +76,7 @@ export const CreateScrapperFormDialog = ({
           maxWidth="xl"
           title="Create scrapper"
         >
-          <Stack spacing={4}>
+          <Stack className="create-scrapper-form" spacing={4}>
             <ScrapperTypeSelection name="type" />
             <FormTextField
               label="Scrapper name"

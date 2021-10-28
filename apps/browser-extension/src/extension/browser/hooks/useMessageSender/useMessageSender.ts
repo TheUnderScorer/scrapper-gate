@@ -43,11 +43,15 @@ export const useMessageSender = <Type extends MessageTypes, Data = unknown>({
 
         setError(null);
         setData(response?.payload ?? null);
+
+        return response;
       } catch (e) {
         logger.error(`Message ${type} error:`, e);
 
         setError(e);
         setData(null);
+
+        return null;
       } finally {
         setLoading(false);
       }

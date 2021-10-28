@@ -253,7 +253,10 @@ export const ScrapperBuilder = ({
       render={(props) => (
         <VariablesProvider name="variables">
           <UnsavedFormAlert />
-          <StyledForm onSubmit={props.handleSubmit}>
+          <StyledForm
+            className="scrapper-builder-form"
+            onSubmit={props.handleSubmit}
+          >
             <FlowBuilder
               nodeKeyProperty="data.key"
               tabs={tabs}

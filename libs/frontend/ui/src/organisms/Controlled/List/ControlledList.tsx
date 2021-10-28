@@ -90,6 +90,7 @@ export const ControlledList = <
     return (
       (emptyContent as ReactElement) ?? (
         <Centered
+          id={id}
           sx={{
             width: '100%',
             height: '100%',

@@ -31,11 +31,13 @@ export const LoginForm = ({
   signupUrl,
   type = LoginFormType.Login,
   afterCreate,
+  useTokensStore,
 }: LoginFormProps) => {
   const { error, loading, handleSubmit } = useLoginForm({
     type,
     afterLogin,
     afterCreate,
+    useTokensStore,
   });
 
   return (

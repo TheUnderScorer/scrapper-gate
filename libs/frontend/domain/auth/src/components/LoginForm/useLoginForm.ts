@@ -1,22 +1,27 @@
-import { LoginFormInput, LoginFormType } from './LoginForm.types';
-import { AuthTokens, CreateUserResult } from '@scrapper-gate/shared/schema';
-import { useCallback, useState } from 'react';
 import {
   useCreateUserMutation,
   useLoginMutation,
 } from '@scrapper-gate/frontend/schema';
-import { useTokensStore } from '../../store/useTokensStore';
+import { useCallback, useState } from 'react';
+import {
+  LoginFormInput,
+  LoginFormProps,
+  LoginFormType,
+} from './LoginForm.types';
 
-interface UseLoginFormParams {
+interface UseLoginFormParams
+  extends Pick<
+    LoginFormProps,
+    'afterLogin' | 'afterCreate' | 'useTokensStore'
+  > {
   type: LoginFormType;
-  afterLogin?: (tokens: AuthTokens) => void;
-  afterCreate?: (result: CreateUserResult) => void;
 }
 
 export function useLoginForm({
   type,
   afterLogin,
   afterCreate,
+  useTokensStore,
 }: UseLoginFormParams) {
   const [error, setError] = useState<Error | null>(null);
   const [login, { loading: loginLoading }] = useLoginMutation();

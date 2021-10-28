@@ -11,6 +11,21 @@ import { cleanupOnInit } from './extension/background/cleanupOnInit';
 
 logger.debug('Background script started');
 
+browser.runtime.onConnect.addListener((port) => {
+  if (port.name === 'test') {
+    logger.debug('Test port connected.');
+
+    port.onMessage.addListener((msg, port) => {
+      logger.debug('Received message from port', { msg });
+
+      port.postMessage({
+        gotMessage: true,
+        sender: port.sender,
+      });
+    });
+  }
+});
+
 browser.runtime.onMessage.addListener(
   async (message: Message<MessageTypes>, sender) => {
     logger.debug('Received message:', message);
@@ -25,7 +40,11 @@ browser.runtime.onMessage.addListener(
       return response;
     }
 
-    return true;
+    logger.debug(`No handlers found for message type: ${message.type}`);
+
+    return {
+      result: false,
+    };
   }
 );
 

@@ -1,19 +1,28 @@
 import { wait } from '@scrapper-gate/shared/common';
+import { initialActiveTabUrl } from '@scrapper-gate/shared/routing';
 import browser from 'webextension-polyfill';
 
-export const initialActiveTabUrl = 'https://www.google.com';
+export async function createActiveTab(queryParams?: URLSearchParams) {
+  const url = new URL(initialActiveTabUrl);
 
-export async function createActiveTab() {
+  if (queryParams) {
+    queryParams.forEach((value, key) => {
+      url.searchParams.set(key, value);
+    });
+  }
+
+  url.searchParams.set('sg', '1');
+
   const activeTab = await browser.tabs.create({
     // TODO Replace with scrapper gate landing page url
-    url: initialActiveTabUrl,
+    url: url.toString(),
   });
 
   await browser.tabs.highlight({
     tabs: activeTab.index,
   });
 
-  await wait(750);
+  await wait(1500);
 
   return activeTab;
 }

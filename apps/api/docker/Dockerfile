@@ -1,24 +1,18 @@
-FROM node:16-alpine as builder
+ARG VERSION=latest
+FROM ghcr.io/theunderscorer/scrapper-gate-base:${VERSION} as builder
 WORKDIR /app
 
-RUN apk update
-
-COPY ./package.json ./package-lock.json ./workspace.json ./tsconfig.json ./tsconfig.base.json ./tsconfig.node.json ./.eslintrc.json ./babel.config.json ./nx.json ./codegen.yml ./
+RUN apt-get update -y
 
 COPY ./apps/api ./apps/api
-COPY ./libs ./libs
-COPY ./typings ./typings
-COPY ./tools ./tools
 
-RUN npm ci
 RUN npm run gql-codegen
-RUN npm run build:tools
 RUN npx nx run api:build
 
-FROM node:16-alpine
+FROM node:16.10.0
 WORKDIR /app
 
-RUN apk update
+RUN apt-get update
 
 COPY --from=builder /app/dist/apps/api ./
 

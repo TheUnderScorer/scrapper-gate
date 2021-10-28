@@ -10,12 +10,14 @@ export const EmptyContentArt = ({
   onCreate,
   sx,
   createText,
+  id,
   ...rest
 }: EmptyContentArtProps) => {
   const { asset, alt } = useAsset('notFoundSolid');
 
   return (
     <Centered
+      id={id}
       direction="column"
       sx={{
         backgroundColor: (theme) => theme.palette.primary.light,
@@ -29,7 +31,12 @@ export const EmptyContentArt = ({
           marginTop: (theme) => theme.spacing(2),
         }}
         action={
-          <Fab onClick={onCreate} color="primary" variant="extended">
+          <Fab
+            className="create-fab"
+            onClick={onCreate}
+            color="primary"
+            variant="extended"
+          >
             {createText}
           </Fab>
         }

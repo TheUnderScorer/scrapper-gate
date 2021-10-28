@@ -1,6 +1,7 @@
-import create from 'zustand';
+import { logger } from '@scrapper-gate/shared/logger/console';
 import { AuthTokens } from '@scrapper-gate/shared/schema';
-import { persist } from 'zustand/middleware';
+import create from 'zustand';
+import { PersistentTokensStorage } from '../types';
 
 export interface TokensStore {
   tokens?: AuthTokens;
@@ -9,18 +10,33 @@ export interface TokensStore {
   [key: string]: unknown;
 }
 
-export const useTokensStore = create<TokensStore>(
-  persist(
-    (set) => ({
-      tokens: undefined,
-      setTokens: (tokens) => {
-        set({
-          tokens,
-        });
-      },
-    }),
-    {
-      name: 'authTokensStore',
+export const makeUseTokenStore = (storage: PersistentTokensStorage) => {
+  const store = create<TokensStore>((set) => ({
+    tokens: undefined,
+    setTokens: (tokens) => {
+      set({
+        tokens,
+      });
+
+      storage.set(tokens).catch(logger.error);
+    },
+  }));
+
+  storage.get().then((tokens) => {
+    logger.debug('Tokens from storage:', tokens);
+
+    if (tokens) {
+      store.setState({
+        tokens,
+      });
     }
-  )
-);
+  });
+
+  return store;
+};
+
+export type UseTokenStoreHook = ReturnType<typeof makeUseTokenStore>;
+
+export interface WithUseTokenStoreHook {
+  useTokensStore: UseTokenStoreHook;
+}

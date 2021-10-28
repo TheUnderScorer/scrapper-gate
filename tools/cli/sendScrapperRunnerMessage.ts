@@ -38,8 +38,6 @@ async function main() {
   const messageQueueService = new MessageQueueService({
     messageQueue,
     chromiumScraperQueueUrl: process.env.AWS_SQS_SCRAPPER_CHROMIUM_QUEUE_URL!,
-    webkitScrapperQueueUrl: process.env.AWS_SQS_SCRAPPER_WEBKIT_QUEUE_URL!,
-    mozillaScrapperQueueUrl: process.env.AWS_SQS_SCRAPPER_MOZILLA_QUEUE_URL!,
   });
 
   const message: Message<ScrapperRunnerMessagePayload> = {

@@ -15,6 +15,9 @@ declare global {
     interface Global {
       connection: Connection;
       securityClient: SecurityClient;
+      browserExtensionStores: {
+        local: Map<string, unknown>;
+      };
     }
   }
 }

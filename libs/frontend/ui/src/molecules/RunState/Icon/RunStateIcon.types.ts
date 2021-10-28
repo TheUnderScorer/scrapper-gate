@@ -1,4 +1,5 @@
 import { ThemedSxProps } from '@scrapper-gate/frontend/theme';
+import { ReactNode } from 'react';
 import { RunStateProps } from '../RunState.types';
 
 export interface RunStateIconProps
@@ -9,4 +10,5 @@ export interface RunStateIconProps
     ThemedSxProps {
   className?: string;
   showTooltip?: boolean;
+  title?: ReactNode;
 }

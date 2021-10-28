@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
-import { useTokensStore } from '../store/useTokensStore';
+import { UseTokenStoreHook } from '../store/useTokensStore';
 
-export const useLogout = () => {
+export const useLogout = (useTokensStore: UseTokenStoreHook) => {
   const setTokens = useTokensStore((store) => store.setTokens);
 
   return useCallback(async () => {

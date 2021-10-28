@@ -22,7 +22,9 @@ export const createMockScrapperStep = async ({
 }: CreateMockScrapperStepArgs): Promise<ScrapperStep> => {
   const action = await repeatUntil(
     () => faker.random.arrayElement(Object.values(ScrapperAction)),
-    (action) => !disabledActions.includes(action)
+    {
+      conditionChecker: (action) => !disabledActions.includes(action),
+    }
   );
 
   const baseStep: ScrapperStep = {

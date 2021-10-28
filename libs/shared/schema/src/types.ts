@@ -803,6 +803,7 @@ export type GetMyScrapperRunQuery = {
             performance?: Maybe<Pick<RunnerPerformanceEntry, 'duration'>>;
             step: ScrapperBuilderStepFragment;
             screenshots?: Maybe<Array<Maybe<FileLinkFileFragment>>>;
+            error?: Maybe<Pick<ErrorObject, 'date' | 'message' | 'name'>>;
             values?: Maybe<
               Array<
                 Pick<ScrapperRunValue, 'id' | 'value'> & {

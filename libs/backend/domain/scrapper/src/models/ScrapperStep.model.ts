@@ -2,7 +2,7 @@ import { BaseModel } from '@scrapper-gate/backend/base-model';
 import { makeDataObjectArrayTransformer } from '@scrapper-gate/backend/db-utils';
 import { ConditionalRuleGroupModel } from '@scrapper-gate/backend/domain/conditional-rules';
 import { UserModel } from '@scrapper-gate/backend/domain/user';
-import { Entities, Setter } from '@scrapper-gate/shared/common';
+import { Entities, Enumerable, Setter } from '@scrapper-gate/shared/common';
 import {
   MouseButton,
   NodePosition,
@@ -150,6 +150,7 @@ export class ScrapperStepModel
   })
   attributeToRead?: string;
 
+  @Enumerable(true)
   get allSelectors() {
     const selectors = [...(this.selectors ?? [])];
 

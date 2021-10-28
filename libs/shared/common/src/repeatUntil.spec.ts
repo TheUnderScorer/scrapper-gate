@@ -6,7 +6,9 @@ describe('Repeat until', () => {
     const handler = jest.fn((iteration: number) => iteration);
     const checker = jest.fn((value: number) => value > 2);
 
-    const result = await repeatUntil(handler, checker);
+    const result = await repeatUntil(handler, {
+      conditionChecker: checker,
+    });
 
     expect(result).toEqual(3);
   });
@@ -18,12 +20,19 @@ describe('Repeat until', () => {
       throw error;
     });
 
-    await expect(repeatUntil(handler, undefined, 1000)).rejects.toThrow(error);
+    await expect(
+      repeatUntil(handler, {
+        timeout: 1000,
+      })
+    ).rejects.toThrow(error);
   });
 
   it('should timeout', async () => {
-    await expect(() => repeatUntil(jest.fn(), jest.fn(), 1000)).rejects.toThrow(
-      OperationTimeoutError
-    );
+    await expect(() =>
+      repeatUntil(jest.fn(), {
+        conditionChecker: jest.fn(),
+        timeout: 1000,
+      })
+    ).rejects.toThrow(OperationTimeoutError);
   });
 });

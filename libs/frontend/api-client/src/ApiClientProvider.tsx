@@ -1,17 +1,20 @@
-import React, { PropsWithChildren, useMemo } from 'react';
 import {
   ApolloClient,
   ApolloProvider,
   from,
   InMemoryCache,
 } from '@apollo/client';
-import { useTokensStore } from '@scrapper-gate/frontend/domain/auth';
+import { WithUseTokenStoreHook } from '@scrapper-gate/frontend/domain/auth';
+import React, { PropsWithChildren, useMemo } from 'react';
 import { httpLink } from './httpLink';
-import { restLink } from './restLink';
 import { onErrorLink } from './onErrorLink';
 import { removeTypenameLink } from './removeTypenameLink';
+import { restLink } from './restLink';
 
-export const ApiClientProvider = ({ children }: PropsWithChildren<unknown>) => {
+export const ApiClientProvider = ({
+  children,
+  useTokensStore,
+}: PropsWithChildren<WithUseTokenStoreHook>) => {
   const tokens = useTokensStore((store) => store.tokens);
   const setTokens = useTokensStore((store) => store.setTokens);
 

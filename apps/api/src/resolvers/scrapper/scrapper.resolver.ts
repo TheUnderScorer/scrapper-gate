@@ -94,7 +94,7 @@ export const scrapperResolver = (): Resolvers<ServerContext> => ({
 
       const result = root.results.reduce<ScrapperRunResultKeyPairValues>(
         (acc, result) => {
-          const key = result.step?.key;
+          const key = result.step?.key ?? result.step?.url;
 
           if (!key) {
             return acc;

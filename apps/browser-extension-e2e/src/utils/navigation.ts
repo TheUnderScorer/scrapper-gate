@@ -11,7 +11,7 @@ export const navigateToPopup = async (
   page: Page,
   { logoutIfAuthorized }: NavigateToPopupOptions = {}
 ) => {
-  const url = await getPopupUrl();
+  const url = await getPopupUrl(page.context());
 
   await page.goto(url.toString(), {
     waitUntil: 'networkidle',

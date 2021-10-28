@@ -9,7 +9,7 @@ Object {
         class="MuiBox-root css-4hbfir"
       >
         <form
-          class="css-uwwqev"
+          class="scrapper-builder-form css-uwwqev"
         >
           <div
             class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded css-19qxo0b-MuiPaper-root"
@@ -968,7 +968,7 @@ Object {
       class="MuiBox-root css-4hbfir"
     >
       <form
-        class="css-uwwqev"
+        class="scrapper-builder-form css-uwwqev"
       >
         <div
           class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded css-19qxo0b-MuiPaper-root"

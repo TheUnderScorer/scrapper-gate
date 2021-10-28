@@ -15,6 +15,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 16.x
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
@@ -22,9 +23,35 @@ jobs:
       - name: Typecheck
         run: npm run typecheck
 
+  build-base-image:
+    name: Build base image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Get branch name
+        id: branch-name
+        uses: tj-actions/branch-names@v5
+
+      - name: Create base image tag
+        run: echo "BASE_IMAGE_TAG=$(echo ${{steps.branch-name.outputs.current_branch}} | tr / -)" >> $GITHUB_ENV
+
+      - name: Maybe build base image
+        run: |
+          docker build -f ./docker/base/Dockerfile -t ghcr.io/theunderscorer/scrapper-gate-base:${{env.BASE_IMAGE_TAG}} .
+          docker push ghcr.io/theunderscorer/scrapper-gate-base:${{env.BASE_IMAGE_TAG}}
+
   build:
     needs:
       - typecheck
+      - build-base-image
     name: Build
     runs-on: ubuntu-latest
     steps:
@@ -34,6 +61,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 16.x
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm ci --legacy-peer-deps && npm run build:tools
@@ -44,6 +72,7 @@ jobs:
   lint:
     needs:
       - typecheck
+      - build-base-image
     name: Run linter
     runs-on: ubuntu-latest
     steps:
@@ -55,6 +84,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 16.x
+          cache: 'npm'
 
       - name: Configure CI Git User
         run: |
@@ -74,6 +104,7 @@ jobs:
   test-shared:
     needs:
       - typecheck
+      - build-base-image
     name: Run shared tests
     runs-on: ubuntu-latest
     steps:
@@ -83,6 +114,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 16.x
+          cache: 'npm'
 
       - name: Start docker
         run: docker-compose up -d
@@ -102,17 +134,24 @@ jobs:
   test-backend:
     needs:
       - typecheck
+      - build-base-image
     name: Run backend tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
 
-      - uses: hashicorp/setup-terraform@v1
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.DOCKER_TOKEN }}
 
       - name: Set Node.js 16.x
         uses: actions/setup-node@v2
         with:
           node-version: 16.x
+          cache: 'npm'
 
       # Remove apt repos that are known to break from time to time
       # See https://github.com/actions/virtual-environments/issues/323
@@ -126,13 +165,15 @@ jobs:
         run: sudo docker-compose up -d
 
       - name: Install dependencies
-        run: npm ci --legacy-peer-deps && npm i ts-node -g
+        run: npm ci --legacy-peer-deps && npm i ts-node -g && npm ci --prefix deploy && curl -fsSL https://get.pulumi.com | sh
 
       - name: Wait for localstack
         run: sudo AWS_S3_ENDPOINT=http://localhost:4566 node docker/localstack/waitForLocalStack.mjs
 
-      - name: Setup localstack
-        run: cd deploy/local && terraform init && terraform apply -auto-approve
+      - name: Start pulumi
+        run: cd deploy && pulumi login --local && pulumi stack init development && pulumi stack select development && pulumi up -y
+        env:
+          PULUMI_CONFIG_PASSPHRASE: test
 
       - name: Setup env
         run: cp .local.env.dist .local.env
@@ -158,6 +199,7 @@ jobs:
   test-frontend:
     needs:
       - typecheck
+      - build-base-image
     name: Run frontend tests
     runs-on: ubuntu-latest
     steps:
@@ -167,6 +209,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 16.x
+          cache: 'npm'
 
       - name: Start docker
         run: docker-compose up -d
@@ -186,29 +229,38 @@ jobs:
   test-apps:
     needs:
       - typecheck
+      - build-base-image
     name: Run apps tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
 
-      - uses: hashicorp/setup-terraform@v1
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.DOCKER_TOKEN }}
 
       - name: Set Node.js 16.x
         uses: actions/setup-node@v2
         with:
           node-version: 16.x
+          cache: 'npm'
 
       - name: Start docker
         run: sudo docker-compose up -d
 
       - name: Install dependencies
-        run: npm ci --legacy-peer-deps && npm i ts-node -g
+        run: npm ci --legacy-peer-deps && npm i ts-node -g && npm ci --prefix deploy && curl -fsSL https://get.pulumi.com | sh
 
       - name: Wait for localstack
         run: sudo AWS_S3_ENDPOINT=http://localhost:4566 node docker/localstack/waitForLocalStack.mjs
 
-      - name: Setup localstack
-        run: cd deploy/local && terraform init && terraform apply -auto-approve
+      - name: Start pulumi
+        run: cd deploy && pulumi login --local && pulumi stack init development && pulumi stack select development && pulumi up -y
+        env:
+          PULUMI_CONFIG_PASSPHRASE: test
 
       - name: Setup env
         run: cp .local.env.dist .local.env
@@ -219,44 +271,57 @@ jobs:
   test-e2e:
     needs:
       - typecheck
+      - build-base-image
     name: Run e2e tests
     runs-on: ubuntu-latest
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v2
 
-      - uses: hashicorp/setup-terraform@v1
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Get branch name
+        id: branch-name
+        uses: tj-actions/branch-names@v5
+
+      - name: Create base image tag
+        run: echo "BASE_IMAGE_TAG=$(echo ${{steps.branch-name.outputs.current_branch}} | tr / -)" >> $GITHUB_ENV
 
       - name: Set Node.js 16.x
         uses: actions/setup-node@v2
         with:
           node-version: 16.x
-
-      - name: Setup deps
-        run: npx playwright install-deps
+          cache: 'npm'
 
       - name: Start docker
         run: sudo docker-compose up -d
 
       - name: Install dependencies
-        run: npm ci --legacy-peer-deps && npm i ts-node -g && npm run build:tools
+        run: npm ci --legacy-peer-deps && npm i ts-node -g && npm run build:tools && npm ci --prefix deploy && curl -fsSL https://get.pulumi.com | sh
 
       - name: Wait for localstack
         run: sudo AWS_S3_ENDPOINT=http://localhost:4566 node docker/localstack/waitForLocalStack.mjs
 
-      - name: Setup localstack
-        run: cd deploy/local && terraform init && terraform apply -auto-approve
+      - name: Start pulumi
+        run: cd deploy && pulumi login --local && pulumi stack init development && pulumi stack select development && pulumi up -y
+        env:
+          PULUMI_CONFIG_PASSPHRASE: test
 
       - name: Setup env
         run: cp .local.env.dist .local.env
 
-      - name: Build extension
-        run: cp apps/browser-extension/.local.env.dist apps/browser-extension/.env && npx nx build browser-extension --prod
-
-      - name: Start api
-        run: npx nx run api:serve-docker
+      - name: Setup extension
+        run: cp apps/browser-extension/.local.env.dist apps/browser-extension/.env
 
       - name: Test
-        run: xvfb-run --auto-servernum -- npx nx run browser-extension-e2e:e2e
+        run: npx nx run browser-extension-e2e:e2e-docker
+        env:
+          VERSION: ${{env.BASE_IMAGE_TAG}}
 
       - name: Write API logs
         run: docker-compose -f docker-compose.prod.yml logs api > api-logs.log
@@ -265,5 +330,11 @@ jobs:
       - uses: actions/upload-artifact@v2
         if: ${{ failure() }}
         with:
-          name: test-artifact
+          name: api-logs
           path: api-logs.log
+
+      - uses: actions/upload-artifact@v2
+        if: ${{ failure() }}
+        with:
+          name: test-artifact
+          path: artifacts

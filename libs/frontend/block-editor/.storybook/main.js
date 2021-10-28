@@ -4,6 +4,7 @@ const rootWebpackConfig = require('../../../../.storybook/webpack.config');
 module.exports = {
   ...rootMain,
 
+  core: { ...rootMain.core, builder: 'webpack5' },
   stories: [
     ...rootMain.stories,
     '../src/**/*.stories.mdx',

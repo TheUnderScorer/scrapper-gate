@@ -1,25 +1,5 @@
 {
   "version": 2,
-  "cli": {
-    "defaultCollection": "@nrwl/react"
-  },
-  "defaultProject": "browser-extension",
-  "generators": {
-    "@nrwl/react": {
-      "application": {
-        "style": "css",
-        "linter": "eslint",
-        "babel": true
-      },
-      "component": {
-        "style": "css"
-      },
-      "library": {
-        "style": "css",
-        "linter": "eslint"
-      }
-    }
-  },
   "projects": {
     "api": {
       "root": "apps/api",
@@ -39,10 +19,15 @@
               ".eslint*",
               "serverless*",
               "tests*",
-              "webpack*",
-              "apps/browser-extension*",
-              "apps/lambdas*"
+              "webpack*"
             ]
+          }
+        },
+        "build-docker": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "parallel": false,
+            "command": "docker build -f ./apps/api/docker/Dockerfile -t scrapper-gate-api:latest --pull=false ."
           }
         },
         "serve-docker": {
@@ -74,7 +59,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "backend-awilix": {
       "root": "libs/backend/awilix",
@@ -96,7 +82,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "backend-aws": {
       "root": "libs/backend/aws",
@@ -118,7 +105,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "backend-base-model": {
       "root": "libs/backend/base-model",
@@ -140,7 +128,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "backend-common": {
       "root": "libs/backend/common",
@@ -162,7 +151,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "backend-cqrs": {
       "root": "libs/backend/cqrs",
@@ -184,7 +174,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "backend-crud": {
       "root": "libs/backend/crud",
@@ -206,7 +197,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "backend-database": {
       "root": "libs/backend/database",
@@ -228,7 +220,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "backend-db-utils": {
       "root": "libs/backend/db-utils",
@@ -250,7 +243,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "backend-domain-auth": {
       "root": "libs/backend/domain/auth",
@@ -272,7 +266,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "backend-domain-conditional-rules": {
       "root": "libs/backend/domain/conditional-rules",
@@ -296,7 +291,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "backend-domain-files": {
       "root": "libs/backend/domain/files",
@@ -318,7 +314,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "backend-domain-message-queue-service": {
       "root": "libs/backend/domain/message-queue-service",
@@ -342,7 +339,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "backend-domain-scrapper": {
       "root": "libs/backend/domain/scrapper",
@@ -364,7 +362,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "backend-domain-scrapper-base-runner": {
       "root": "libs/backend/domain/scrapper/base-runner",
@@ -388,7 +387,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "backend-domain-scrapper-playwright-runner": {
       "root": "libs/backend/domain/scrapper/playwright-runner",
@@ -414,7 +414,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "backend-domain-user": {
       "root": "libs/backend/domain/user",
@@ -436,7 +437,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "backend-domain-variables": {
       "root": "libs/backend/domain/variables",
@@ -458,7 +460,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "backend-message-queue": {
       "root": "libs/backend/message-queue",
@@ -480,7 +483,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "backend-perf-hooks-utils": {
       "root": "libs/backend/perf-hooks-utils",
@@ -502,7 +506,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "backend-server": {
       "root": "libs/backend/server",
@@ -524,7 +529,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "backend-unit-of-work": {
       "root": "libs/backend/unit-of-work",
@@ -546,7 +552,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "backend-validation": {
       "root": "libs/backend/validation",
@@ -568,7 +575,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "browser-extension": {
       "root": "apps/browser-extension",
@@ -649,7 +657,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "browser-extension-e2e": {
       "root": "apps/browser-extension-e2e",
@@ -671,6 +680,20 @@
             }
           }
         },
+        "e2e-docker": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "parallel": false,
+            "command": "docker-compose -f docker-compose.prod.yml up --exit-code-from browser-extension-e2e browser-extension-e2e"
+          }
+        },
+        "e2e-docker-local": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "parallel": false,
+            "command": "docker compose -f docker-compose.prod.yml up browser-extension-e2e --exit-code-from browser-extension-e2e"
+          }
+        },
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
@@ -678,7 +701,9 @@
           },
           "outputs": ["{options.outputFile}"]
         }
-      }
+      },
+      "tags": [],
+      "implicitDependencies": ["browser-extension", "api"]
     },
     "frontend-api-client": {
       "root": "libs/frontend/api-client",
@@ -702,7 +727,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "frontend-block-editor": {
       "root": "libs/frontend/block-editor",
@@ -757,7 +783,8 @@
             }
           }
         }
-      }
+      },
+      "tags": []
     },
     "frontend-common": {
       "root": "libs/frontend/common",
@@ -779,7 +806,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "frontend-data-grid": {
       "root": "libs/frontend/data-grid",
@@ -801,7 +829,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "frontend-dialogs": {
       "root": "libs/frontend/dialogs",
@@ -823,7 +852,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "frontend-domain-auth": {
       "root": "libs/frontend/domain/auth",
@@ -847,7 +877,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "frontend-domain-conditional-rules": {
       "root": "libs/frontend/domain/conditional-rules",
@@ -902,7 +933,8 @@
             }
           }
         }
-      }
+      },
+      "tags": []
     },
     "frontend-domain-files": {
       "root": "libs/frontend/domain/files",
@@ -926,7 +958,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "frontend-domain-scrapper": {
       "root": "libs/frontend/domain/scrapper",
@@ -981,7 +1014,8 @@
             }
           }
         }
-      }
+      },
+      "tags": []
     },
     "frontend-domain-user": {
       "root": "libs/frontend/domain/user",
@@ -1005,7 +1039,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "frontend-domain-variables": {
       "root": "libs/frontend/domain/variables",
@@ -1060,7 +1095,8 @@
             }
           }
         }
-      }
+      },
+      "tags": []
     },
     "frontend-flow-builder": {
       "root": "libs/frontend/flow-builder",
@@ -1115,7 +1151,8 @@
             }
           }
         }
-      }
+      },
+      "tags": []
     },
     "frontend-form": {
       "root": "libs/frontend/form",
@@ -1168,7 +1205,8 @@
             }
           }
         }
-      }
+      },
+      "tags": []
     },
     "frontend-html-picker": {
       "root": "libs/frontend/html-picker",
@@ -1190,7 +1228,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "frontend-keyboard-shortcuts": {
       "root": "libs/frontend/keyboard-shortcuts",
@@ -1214,7 +1253,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "frontend-schema": {
       "root": "libs/frontend/schema",
@@ -1236,7 +1276,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "frontend-snackbars": {
       "root": "libs/frontend/snackbars",
@@ -1258,7 +1299,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "frontend-theme": {
       "root": "libs/frontend/theme",
@@ -1280,7 +1322,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "frontend-ui": {
       "root": "libs/frontend/ui",
@@ -1333,7 +1376,8 @@
             }
           }
         }
-      }
+      },
+      "tags": []
     },
     "lambdas": {
       "root": "apps/lambdas",
@@ -1385,7 +1429,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "shared-common": {
       "root": "libs/shared/common",
@@ -1407,7 +1452,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "shared-constructor": {
       "root": "libs/shared/constructor",
@@ -1429,7 +1475,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "shared-domain-auth": {
       "root": "libs/shared/domain/auth",
@@ -1451,7 +1498,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "shared-domain-conditional-rules": {
       "root": "libs/shared/domain/conditional-rules",
@@ -1473,7 +1521,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "shared-domain-scrapper": {
       "root": "libs/shared/domain/scrapper",
@@ -1495,7 +1544,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "shared-domain-scrapper-mocks": {
       "root": "libs/shared/domain/scrapper/mocks",
@@ -1517,7 +1567,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "shared-domain-user-mocks": {
       "root": "libs/shared/domain/user/mocks",
@@ -1539,7 +1590,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "shared-domain-variables": {
       "root": "libs/shared/domain/variables",
@@ -1561,7 +1613,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "shared-errors": {
       "root": "libs/shared/errors",
@@ -1583,7 +1636,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "shared-logger": {
       "root": "libs/shared/logger",
@@ -1605,7 +1659,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "shared-logger-console": {
       "root": "libs/shared/logger/console",
@@ -1627,7 +1682,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "shared-node": {
       "root": "libs/shared/node",
@@ -1649,7 +1705,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "shared-routing": {
       "root": "libs/shared/routing",
@@ -1671,7 +1728,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "shared-run-states": {
       "root": "libs/shared/run-states",
@@ -1693,7 +1751,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "shared-schema": {
       "root": "libs/shared/schema",
@@ -1715,7 +1774,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     },
     "shared-validation": {
       "root": "libs/shared/validation",
@@ -1737,7 +1797,8 @@
             "passWithNoTests": true
           }
         }
-      }
+      },
+      "tags": []
     }
   }
 }

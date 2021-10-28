@@ -732,6 +732,11 @@ export const GetMyScrapperRunDocument = gql`
         screenshots {
           ...FileLinkFile
         }
+        error {
+          date
+          message
+          name
+        }
         values {
           id
           screenshot {

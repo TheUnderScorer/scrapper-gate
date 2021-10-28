@@ -1,5 +1,5 @@
 import { AutocompleteProps as BaseProps, TextFieldProps } from '@mui/material';
-import { ChipTypeMap } from '@mui/material/Chip';
+import type { ChipTypeMap } from '@mui/material/Chip';
 import * as React from 'react';
 
 export interface AutocompleteProps<

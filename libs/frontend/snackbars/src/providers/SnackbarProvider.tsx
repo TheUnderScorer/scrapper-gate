@@ -1,18 +1,7 @@
-import { SnackbarProps } from '@mui/material';
+import { Grow } from '@mui/material';
+import { TransitionProps } from '@mui/material/transitions';
 import { SnackbarProvider as Provider, SnackbarProviderProps } from 'notistack';
-import { PropsWithChildren } from 'react';
-import { Snackbar } from '../components/Snackbar/Snackbar';
-import { SnackbarVariant } from '../types';
-
-const makeSnackbarVariant =
-  (variant: SnackbarVariant) => (props: SnackbarProps) =>
-    <Snackbar variant={variant} {...props} key={variant} />;
-
-const components = {
-  [SnackbarVariant.Success]: makeSnackbarVariant(SnackbarVariant.Success),
-  [SnackbarVariant.Error]: makeSnackbarVariant(SnackbarVariant.Error),
-  [SnackbarVariant.Info]: makeSnackbarVariant(SnackbarVariant.Info),
-};
+import { ComponentType, PropsWithChildren } from 'react';
 
 export const SnackbarProvider = ({
   children,
@@ -20,9 +9,8 @@ export const SnackbarProvider = ({
 }: PropsWithChildren<SnackbarProviderProps>) => {
   return (
     <Provider
-      Components={components}
       {...rest}
-      TransitionComponent={(props) => <div>{props.children}</div>}
+      TransitionComponent={Grow as ComponentType<TransitionProps>}
     >
       {children}
     </Provider>
