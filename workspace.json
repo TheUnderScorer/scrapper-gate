@@ -19,9 +19,7 @@
               ".eslint*",
               "serverless*",
               "tests*",
-              "webpack*",
-              "apps/browser-extension*",
-              "apps/lambdas*"
+              "webpack*"
             ]
           }
         },
