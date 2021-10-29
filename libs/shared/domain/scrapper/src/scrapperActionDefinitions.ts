@@ -3,6 +3,7 @@ import { ScrapperAction } from '@scrapper-gate/shared/schema';
 export interface ScrapperStepActionDefinition {
   description: string;
   returnsValue: boolean;
+  returnsTextValue?: boolean;
 }
 
 export type ScrapperStepActionDefinitions = {
@@ -18,10 +19,12 @@ export const scrapperStepActionDefinitions: ScrapperStepActionDefinitions = {
   [ScrapperAction.ReadAttribute]: {
     description: 'Reads HTML attributes of selected elements.',
     returnsValue: true,
+    returnsTextValue: true,
   },
   [ScrapperAction.ReadText]: {
     description: 'Reads text content of selected elements.',
     returnsValue: true,
+    returnsTextValue: true,
   },
   [ScrapperAction.Click]: {
     description: 'Clicks selected elements in order provided.',

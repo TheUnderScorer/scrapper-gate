@@ -1,6 +1,6 @@
 import { useVariablesContext } from '@scrapper-gate/frontend/domain/variables';
 import { flowBuilderUtils } from '@scrapper-gate/frontend/flow-builder';
-import { scrapperActionHasValue } from '@scrapper-gate/shared/domain/scrapper';
+import { scrapperActionHasTextValue } from '@scrapper-gate/shared/domain/scrapper';
 import {
   containsVariableKey,
   createVariable,
@@ -15,13 +15,15 @@ import { useForm } from 'react-final-form';
 import { isNode } from 'react-flow-renderer';
 import { ScrapperBuilderFormState } from '../ScrapperBuilder.types';
 
-// TODO Z-index issues (ex. my portfolio site)
 // TODO In URL field select "Stay on page from previous step" automatically if previous step url is the same
 // TODO Validate if "Stay on page from previous step" can be selected (ex. it shouldn't be in first step)
-export const useScrapperStepVariables = (nodeIndex: number) => {
+export const useScrapperStepVariables = (
+  nodeIndex: number,
+  useFormHook: typeof useForm = useForm
+) => {
   const { variables } = useVariablesContext();
 
-  const { getState } = useForm();
+  const { getState } = useFormHook();
 
   return useMemo(() => {
     const values = getState().values as ScrapperBuilderFormState;
@@ -43,7 +45,7 @@ export const useScrapperStepVariables = (nodeIndex: number) => {
           node.data?.key &&
           !containsVariableKey(node.data.key) &&
           node.data.action &&
-          scrapperActionHasValue(node.data.action)
+          scrapperActionHasTextValue(node.data.action)
         ) {
           allVariables.push(
             createVariable({

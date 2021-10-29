@@ -28,9 +28,9 @@ export const travelNodes = <T extends BaseNodeProperties>({
 
     travelNodes({
       node: connectedNode,
-      items: items,
-      direction: direction,
-      callback: callback,
+      items,
+      direction,
+      callback,
     });
   }
 };

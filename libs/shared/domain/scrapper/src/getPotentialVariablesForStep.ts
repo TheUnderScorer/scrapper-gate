@@ -8,7 +8,7 @@ import {
   Variable,
   VariableScope,
 } from '@scrapper-gate/shared/schema';
-import { scrapperActionHasValue } from './scrapperActionHasValue';
+import { scrapperActionHasTextValue } from './scrapperActionHasTextValue';
 
 type Keys = keyof Pick<NodeLikeItem, 'stepOnFalse' | 'stepOnTrue' | 'nextStep'>;
 
@@ -34,7 +34,7 @@ export const getPotentialVariablesForStep = ({
   const result: Variable[] = [];
 
   const filteredSteps = steps.filter((step) =>
-    scrapperActionHasValue(step.action)
+    scrapperActionHasTextValue(step.action)
   );
 
   travelNodeLike({

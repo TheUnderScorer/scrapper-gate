@@ -5,5 +5,5 @@ const stepActionsWithValues = Object.entries(scrapperStepActionDefinitions)
   .filter(([, definition]) => definition.returnsValue)
   .map(([action]) => action as ScrapperAction);
 
-export const scrapperActionHasValue = (action: ScrapperAction) =>
+export const scrapperActionHasTextValue = (action: ScrapperAction) =>
   stepActionsWithValues.includes(action);
