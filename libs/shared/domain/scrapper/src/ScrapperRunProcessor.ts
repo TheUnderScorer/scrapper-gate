@@ -8,7 +8,7 @@ import {
   createVariable,
   resolveVariables,
 } from '@scrapper-gate/shared/domain/variables';
-import { ErrorObjectDto } from '@scrapper-gate/shared/errors';
+import { ErrorObjectDto, ScrapperRunError } from '@scrapper-gate/shared/errors';
 import { Logger } from '@scrapper-gate/shared/logger';
 import {
   findFirstNode,
@@ -213,6 +213,11 @@ export class ScrapperRunProcessor implements Disposable {
       // Persist error on step level
       stepResult.state = RunState.Failed;
       stepResult.error = errorObject;
+      stepResult.endedAt = new Date();
+
+      if (error instanceof ScrapperRunError) {
+        stepResult.performance = error.performance;
+      }
 
       await this.events.emit('scrapperRunChanged', scrapperRun);
 

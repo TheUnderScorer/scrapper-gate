@@ -15,8 +15,6 @@ import { useForm } from 'react-final-form';
 import { isNode } from 'react-flow-renderer';
 import { ScrapperBuilderFormState } from '../ScrapperBuilder.types';
 
-// TODO Changes are reflected only after user submits form
-// TODO Fix invalid tooltip width
 // TODO Duration in not showed correctly for failed steps
 // TODO Z-index issues (ex. my portfolio site)
 // TODO In URL field select "Stay on page from previous step" automatically if previous step url is the same
