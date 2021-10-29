@@ -70,7 +70,7 @@ function modifyBundle(config) {
   config.output.publicPath = '/';
 
   if (config.mode === 'development') {
-    config.devtool = 'cheap-module-source-map';
+    config.devtool = 'inline-source-map';
     config.optimization.removeAvailableModules = false;
     config.optimization.removeEmptyChunks = false;
 
