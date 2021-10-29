@@ -18,7 +18,6 @@ import { ScrapperBuilderFormState } from '../ScrapperBuilder.types';
 // TODO Z-index issues (ex. my portfolio site)
 // TODO In URL field select "Stay on page from previous step" automatically if previous step url is the same
 // TODO Validate if "Stay on page from previous step" can be selected (ex. it shouldn't be in first step)
-// TODO When field has a variable from previous step, and is visited from run view the variable is resolved, and it shouldn't be!
 export const useScrapperStepVariables = (nodeIndex: number) => {
   const { variables } = useVariablesContext();
 
