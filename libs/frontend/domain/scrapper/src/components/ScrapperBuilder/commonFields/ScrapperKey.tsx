@@ -1,6 +1,5 @@
 import { Link } from '@mui/material';
-import { VariablesTextField } from '@scrapper-gate/frontend/domain/variables';
-import { FieldNameCreator } from '@scrapper-gate/frontend/form';
+import { FieldNameCreator, FormTextField } from '@scrapper-gate/frontend/form';
 import React from 'react';
 
 interface ScrapperKeyProps {
@@ -12,7 +11,7 @@ export const ScrapperKey = ({
   disabled,
   fieldNameCreator,
 }: ScrapperKeyProps) => (
-  <VariablesTextField
+  <FormTextField
     helperText={
       <>
         It will be used as an identifier for this step. <Link>Learn more</Link>
