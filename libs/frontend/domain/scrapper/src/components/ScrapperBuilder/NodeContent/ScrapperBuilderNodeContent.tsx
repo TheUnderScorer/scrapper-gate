@@ -15,9 +15,9 @@ export interface ScrapperBuilderNodeContentProps
 const BaseScrapperBuilderNodeContent = (
   props: ScrapperBuilderNodeContentProps
 ) => {
-  const { getFieldName } = props;
+  const { getFieldName, nodeIndex } = props;
 
-  const variables = useScrapperStepVariables(getFieldName);
+  const variables = useScrapperStepVariables(nodeIndex);
 
   const action = useFormFieldValue<ScrapperAction>(getFieldName('action'));
 

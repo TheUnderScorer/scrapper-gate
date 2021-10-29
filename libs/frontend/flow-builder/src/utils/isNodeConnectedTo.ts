@@ -23,13 +23,23 @@ export const isNodeConnectedTo = (
     return result;
   };
 
-  travelNodes(node, items, 'in', travelNodeCallback);
+  travelNodes({
+    node: node,
+    items: items,
+    direction: 'in',
+    callback: travelNodeCallback,
+  });
 
   if (result) {
     return result;
   }
 
-  travelNodes(node, items, 'out', travelNodeCallback);
+  travelNodes({
+    node: node,
+    items: items,
+    direction: 'out',
+    callback: travelNodeCallback,
+  });
 
   return result;
 };

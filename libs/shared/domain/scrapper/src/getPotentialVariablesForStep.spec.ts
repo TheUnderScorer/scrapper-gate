@@ -17,10 +17,10 @@ describe('Get potential variables for step', () => {
 
     firstStep.nextStep = secondStep;
 
-    const result = getPotentialVariablesForStep(secondStep, [
-      secondStep,
-      firstStep,
-    ]);
+    const result = getPotentialVariablesForStep({
+      step: secondStep,
+      steps: [secondStep, firstStep],
+    });
 
     expect(result).toHaveLength(1);
 

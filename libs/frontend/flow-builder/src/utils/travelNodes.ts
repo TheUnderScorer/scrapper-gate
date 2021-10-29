@@ -1,12 +1,19 @@
 import { getIncomers, getOutgoers, Node } from 'react-flow-renderer';
 import { BaseNodeProperties, FlowBuilderItem } from '../FlowBuilder.types';
 
-export const travelNodes = <T extends BaseNodeProperties>(
-  node: Node<T>,
-  items: FlowBuilderItem<T>[],
-  direction: 'in' | 'out',
-  callback: (node: Node<T>) => boolean
-) => {
+interface TravelNodesParams<T extends BaseNodeProperties> {
+  node: Node<T>;
+  items: FlowBuilderItem<T>[];
+  direction: 'in' | 'out';
+  callback: (node: Node<T>) => boolean;
+}
+
+export const travelNodes = <T extends BaseNodeProperties>({
+  node,
+  items,
+  direction,
+  callback,
+}: TravelNodesParams<T>) => {
   const connectedNodes: Node<T>[] =
     direction === 'in' ? getIncomers(node, items) : getOutgoers(node, items);
 
@@ -19,6 +26,11 @@ export const travelNodes = <T extends BaseNodeProperties>(
       return;
     }
 
-    travelNodes(connectedNode, items, direction, callback);
+    travelNodes({
+      node: connectedNode,
+      items: items,
+      direction: direction,
+      callback: callback,
+    });
   }
 };

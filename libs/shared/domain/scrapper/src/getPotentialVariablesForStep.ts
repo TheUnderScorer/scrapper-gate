@@ -1,5 +1,8 @@
 import { createVariable } from '@scrapper-gate/shared/domain/variables';
-import { NodeLikeItem, travelNodeLike } from '@scrapper-gate/shared/node';
+import {
+  NodeLikeItem,
+  travelNodeLike as travel,
+} from '@scrapper-gate/shared/node';
 import {
   ScrapperStep,
   Variable,
@@ -17,10 +20,17 @@ export type GetPotentialVariablesStep = Pick<
     [Key in Keys]?: Pick<ScrapperStep, 'id'>;
   };
 
-export const getPotentialVariablesForStep = (
-  step: GetPotentialVariablesStep,
-  steps: GetPotentialVariablesStep[]
-) => {
+interface PotentialVariablesForStep {
+  step: GetPotentialVariablesStep;
+  steps: GetPotentialVariablesStep[];
+  travelNodeLike?: typeof travel;
+}
+
+export const getPotentialVariablesForStep = ({
+  step,
+  steps,
+  travelNodeLike = travel,
+}: PotentialVariablesForStep) => {
   const result: Variable[] = [];
 
   const filteredSteps = steps.filter((step) =>
