@@ -16,6 +16,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import { usePrevious } from 'react-use';
 import { pipe } from 'remeda';
 import { createEditor, Descendant, Editor } from 'slate';
 import { Editable, ReactEditor, Slate, withReact } from 'slate-react';
@@ -125,6 +126,8 @@ export const BlockEditor = forwardRef<HTMLInputElement, BlockEditorProps>(
     },
     ref
   ) => {
+    const previousValue = usePrevious(value);
+
     const editorRef = useRef<HTMLElement>();
 
     const editor = useMemo(
@@ -148,7 +151,7 @@ export const BlockEditor = forwardRef<HTMLInputElement, BlockEditorProps>(
 
         setState(newState);
 
-        setTimeout(() => setDidInternalChange(false), 25);
+        setTimeout(() => setDidInternalChange(false), 100);
       },
       [onChange]
     );
@@ -172,7 +175,7 @@ export const BlockEditor = forwardRef<HTMLInputElement, BlockEditorProps>(
     );
 
     useEffect(() => {
-      if (didInternalChange) {
+      if (didInternalChange || value === previousValue) {
         return;
       }
 
@@ -182,8 +185,15 @@ export const BlockEditor = forwardRef<HTMLInputElement, BlockEditorProps>(
         return;
       }
 
+      const point = { path: [0, 0], offset: 0 };
+
+      editor.selection = {
+        anchor: point,
+        focus: point,
+      };
+
       setState(textSerializeStrategy.deserialize(value));
-    }, [didInternalChange, value]);
+    }, [didInternalChange, editor, previousValue, value]);
 
     useEffect(() => {
       if (editor && editorInstanceRef) {
