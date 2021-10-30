@@ -52,20 +52,27 @@ export const scrapperSchema = gql`
     navigateToUrl: Url
     reloadDelay: Float
     typeDelay: Float
+    # Value to enter into input ("Type" action)
     typeValue: String
     useUrlFromPreviousStep: Boolean
     action: ScrapperAction!
     selectors: [Selector!]
     # Aggregate of all selectors (selectors + selectors from conditional rules)
     allSelectors: [Selector!]
+    # Indicates how many times we should click given elements ("Click" action)
     clickTimes: Int
+    # XY Position in flow builder
     position: NodePosition
     key: String
     conditionalRules: [ConditionalRuleGroup!]
     isFirst: Boolean
+    # Indicates if screenshot should include full page, or only current viewport ("Screenshot" action)
     fullPageScreenshot: Boolean
+    # Stores new run settings ("ChangeRunSettings" action)
     newRunSettings: ScrapperRunSettings
+    # HTML attribute to read ("ReadAttribute" action)
     attributeToRead: String
+    valueType: VariableType
   }
 
   input ScrapperStepInput {
@@ -90,6 +97,7 @@ export const scrapperSchema = gql`
     fullPageScreenshot: Boolean
     newRunSettings: ScrapperRunSettingsInput
     attributeToRead: String
+    valueType: VariableType
   }
 
   type ScrapperRunStepResult implements BaseEntity {

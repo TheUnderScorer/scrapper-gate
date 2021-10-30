@@ -1,6 +1,5 @@
-import { DateFormat, tryDateCast } from '@scrapper-gate/shared/common';
-import { VariableType } from '@scrapper-gate/shared/schema';
-import { format } from 'date-fns';
+import { DateFormat } from '@scrapper-gate/shared/common';
+import { parseVariableValue } from './parseVariableValue';
 import { ResolvableVariable } from './types';
 
 export const getVariableValue = (
@@ -9,19 +8,5 @@ export const getVariableValue = (
 ) => {
   const value = variable.value ?? variable.defaultValue;
 
-  switch (variable.type) {
-    case VariableType.Number:
-      return parseFloat(value);
-
-    case VariableType.Date: {
-      const castedDate = tryDateCast(value);
-
-      return castedDate instanceof Date
-        ? format(castedDate, dateFormat)
-        : value;
-    }
-
-    default:
-      return value;
-  }
+  return parseVariableValue(value, variable.type, dateFormat);
 };

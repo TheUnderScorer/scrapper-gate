@@ -42,4 +42,4 @@ custom:
     - staging
     - production
   sqs-scrapper-chromium:
-    development: 'arn:aws:sqs:eu-west-1:000000000000:development-scrapper-chromium.fifo'
+    development: 'arn:aws:sqs:eu-west-1:000000000000:development-scrapper-chromium'

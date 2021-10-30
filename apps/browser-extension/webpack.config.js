@@ -6,19 +6,6 @@ const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const webpack = require('webpack');
 const { createPipe } = require('remeda');
 
-function removeProgressPlugin(config) {
-  // There are two ProgressPlugins, and this causes build to fail
-  const index = config.plugins.findIndex(
-    (plugin) =>
-      plugin.constructor?.name === 'ProgressPlugin' &&
-      plugin.modulesCount === 500
-  );
-
-  config.plugins.splice(index, 1);
-
-  return config;
-}
-
 function copyManifest(config) {
   config.plugins.push(
     new CopyPlugin({
@@ -46,12 +33,27 @@ function setupAliases(config) {
 function setupDevServer(config) {
   if (config.devServer) {
     // config.devServer.hot = true;
-    config.devServer.writeToDisk = true;
-    config.devServer.disableHostCheck = true;
-    config.devServer.injectClient = false;
-    config.devServer.watchOptions = {
-      ignored: /node_modules/,
-    };
+    config.devServer.client = false;
+    config.devServer.allowedHosts = 'all';
+
+    if (!config.devServer.devMiddleware) {
+      config.devServer.devMiddleware = {};
+    }
+
+    if (!config.devServer.static) {
+      config.devServer.static = {};
+    }
+
+    Object.assign(config.devServer.static, {
+      watch: {
+        ...config.devServer.static.watch,
+        ignored: /node_modules/,
+      },
+    });
+
+    Object.assign(config.devServer.devMiddleware, {
+      writeToDisk: true,
+    });
   }
 
   return config;
@@ -127,7 +129,6 @@ function setupEntries(config) {
 
 module.exports = createPipe(
   createConfig,
-  removeProgressPlugin,
   setupEntries,
   cleanupEntries,
   copyManifest,

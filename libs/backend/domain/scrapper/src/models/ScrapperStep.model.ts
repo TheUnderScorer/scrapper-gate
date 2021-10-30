@@ -10,6 +10,7 @@ import {
   ScrapperRunSettings,
   ScrapperStep,
   Selector,
+  VariableType,
 } from '@scrapper-gate/shared/schema';
 import {
   Column,
@@ -149,6 +150,13 @@ export class ScrapperStepModel
     nullable: true,
   })
   attributeToRead?: string;
+
+  @Column({
+    nullable: true,
+    type: 'enum',
+    enum: VariableType,
+  })
+  valueType?: VariableType;
 
   @Enumerable(true)
   get allSelectors() {

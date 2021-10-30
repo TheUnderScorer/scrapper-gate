@@ -1,6 +1,8 @@
 import { VariablesAutocomplete } from '@scrapper-gate/frontend/domain/variables';
+import { EnumSelect } from '@scrapper-gate/frontend/form';
 import { ExternalLink } from '@scrapper-gate/frontend/ui';
-import { useCallback, useState } from 'react';
+import { VariableType } from '@scrapper-gate/shared/schema';
+import React, { useCallback, useState } from 'react';
 import { useFormState } from 'react-final-form';
 import { createPipe, flatMap, uniq } from 'remeda';
 import { ScrapperKey } from '../commonFields/ScrapperKey';
@@ -60,6 +62,12 @@ export const ReadAttributeSections = ({
             Learn more about HTML attributes
           </ExternalLink>
         }
+      />
+      <EnumSelect
+        enumObj={VariableType}
+        name="valueType"
+        label="Value type"
+        defaultValue={VariableType.Text}
       />
       <Url fieldNameCreator={fieldNameCreator} nodeIndex={nodeIndex} />
     </>
