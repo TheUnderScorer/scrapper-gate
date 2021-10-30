@@ -1,11 +1,15 @@
 import { Node } from 'react-flow-renderer';
-import { BaseNodeProperties, FlowBuilderProps } from '../FlowBuilder.types';
+import {
+  BaseNodeProperties,
+  FlowBuilderItem,
+  FlowBuilderProps,
+} from '../FlowBuilder.types';
 import { createNodeFromSelection } from './createNodeFromSelection';
 
 export const basicHandleAddNode =
   <T extends BaseNodeProperties>(
     idGenerator: () => string,
-    interceptor?: (node: Node<T>) => Node<T>
+    interceptor?: (node: Node<T>, items: FlowBuilderItem<T>[]) => Node<T>
   ): FlowBuilderProps<T>['onAdd'] =>
   (selection, { position, items }) => {
     if (!position) {
@@ -18,7 +22,7 @@ export const basicHandleAddNode =
       position
     ) as Node<T>;
 
-    const interceptedNode = interceptor ? interceptor(node) : node;
+    const interceptedNode = interceptor ? interceptor(node, items) : node;
 
     return {
       createdNodes: [interceptedNode],

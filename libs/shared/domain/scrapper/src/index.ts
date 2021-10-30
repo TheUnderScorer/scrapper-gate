@@ -6,5 +6,5 @@ export * from './events/ScrapperCreated.event';
 export * from './ScrapperRunProcessor';
 export * from './defaultRunSettings';
 export * from './getPotentialVariablesForStep';
-export * from './scrapperActionHasTextValue';
+export * from './logic/scrapperActionHasTextValue';
 export * from './scrapperActionDefinitions';

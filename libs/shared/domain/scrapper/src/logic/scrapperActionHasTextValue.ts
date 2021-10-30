@@ -1,5 +1,5 @@
 import { ScrapperAction } from '@scrapper-gate/shared/schema';
-import { scrapperStepActionDefinitions } from './scrapperActionDefinitions';
+import { scrapperStepActionDefinitions } from '../scrapperActionDefinitions';
 
 const stepActionsWithValues = Object.entries(scrapperStepActionDefinitions)
   .filter(([, definition]) => definition.returnsValue)

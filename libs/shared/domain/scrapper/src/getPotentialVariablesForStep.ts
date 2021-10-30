@@ -8,7 +8,7 @@ import {
   Variable,
   VariableScope,
 } from '@scrapper-gate/shared/schema';
-import { scrapperActionHasTextValue } from './scrapperActionHasTextValue';
+import { scrapperActionHasTextValue } from './logic/scrapperActionHasTextValue';
 
 type Keys = keyof Pick<NodeLikeItem, 'stepOnFalse' | 'stepOnTrue' | 'nextStep'>;
 
