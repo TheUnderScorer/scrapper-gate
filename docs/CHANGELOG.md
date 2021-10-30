@@ -1,3 +1,10 @@
+# [1.0.0-test.15](https://github.com/TheUnderScorer/scrapper-gate/compare/v1.0.0-test.14...v1.0.0-test.15) (2021-10-30)
+
+
+### Features
+
+* **scrapper:** Add value type to read text and read attribute step ([a85d2d8](https://github.com/TheUnderScorer/scrapper-gate/commit/a85d2d80b92130427f08185b100b89d5733e32f5))
+
 # [1.0.0-test.14](https://github.com/TheUnderScorer/scrapper-gate/compare/v1.0.0-test.13...v1.0.0-test.14) (2021-10-28)
 
 
