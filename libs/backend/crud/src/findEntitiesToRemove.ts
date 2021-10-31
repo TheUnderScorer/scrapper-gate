@@ -12,5 +12,5 @@ export const findEntitiesToRemove = <
 ) => {
   const inputIds = input.map((item) => item.id);
 
-  return existingEntities.filter((entity) => inputIds.includes(entity.id));
+  return existingEntities.filter((entity) => !inputIds.includes(entity.id));
 };

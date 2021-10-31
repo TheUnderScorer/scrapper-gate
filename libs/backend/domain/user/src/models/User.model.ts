@@ -1,4 +1,4 @@
-import { User } from '@scrapper-gate/shared/schema';
+import { Maybe, User } from '@scrapper-gate/shared/schema';
 import { Column, Entity } from 'typeorm';
 import { BaseModel } from '@scrapper-gate/backend/base-model';
 import { Entities } from '@scrapper-gate/shared/common';
@@ -11,12 +11,12 @@ export class UserModel extends BaseModel<User> implements User {
   @Column({
     nullable: true,
   })
-  firstName?: string;
+  firstName?: Maybe<string>;
 
   @Column({
     nullable: true,
   })
-  lastName?: string;
+  lastName?: Maybe<string>;
 
   @Column()
   acceptTerms: boolean;

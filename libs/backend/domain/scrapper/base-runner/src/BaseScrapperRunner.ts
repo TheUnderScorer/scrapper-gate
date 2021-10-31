@@ -5,6 +5,7 @@ import {
   ScrapperStepHandlerParams,
 } from '@scrapper-gate/shared/domain/scrapper';
 import {
+  Maybe,
   ScrapperAction,
   ScrapperRun,
   ScrapperRunSettings,
@@ -13,11 +14,11 @@ import {
 export class BaseScrapperRunner
   implements Pick<ScrapperRunner, ScrapperAction.ChangeRunSettings>
 {
-  protected runSettings?: ScrapperRunSettings;
+  protected runSettings?: Maybe<ScrapperRunSettings>;
 
   protected constructor(
     scrapperRun: ScrapperRun,
-    runSettings?: ScrapperRunSettings
+    runSettings?: Maybe<ScrapperRunSettings>
   ) {
     this.runSettings = runSettings ?? scrapperRun.runSettings;
   }

@@ -36,3 +36,4 @@ export * from './pickId';
 export * from './matchAll';
 export * from './decorators/setter';
 export * from './decorators/enumerable';
+export * from './partial.types';

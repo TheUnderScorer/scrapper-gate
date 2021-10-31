@@ -1,5 +1,5 @@
 import { DataObject } from '@scrapper-gate/shared/common';
-import { BaseEntity } from '@scrapper-gate/shared/schema';
+import { BaseEntity, Maybe } from '@scrapper-gate/shared/schema';
 import {
   BeforeInsert,
   Column,
@@ -22,7 +22,7 @@ export class BaseModel<T> extends DataObject<T> implements BaseEntity {
   updatedAt: Date;
 
   @DeleteDateColumn()
-  deletedAt?: Date;
+  deletedAt?: Maybe<Date>;
 
   @BeforeInsert()
   generateId(force?: boolean) {

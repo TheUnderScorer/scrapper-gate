@@ -11,4 +11,18 @@ export class ScrapperStepRepository extends Repository<ScrapperStepModel> {
       .where('scrapper.id = :scrapperId', { scrapperId })
       .delete();
   }
+
+  async detachAll(steps: ScrapperStepModel[]) {
+    const detachedSteps = steps.map((step) =>
+      step.fill({
+        nextStep: null,
+        stepOnTrue: null,
+        stepOnFalse: null,
+      })
+    );
+
+    await this.save(detachedSteps);
+
+    return detachedSteps;
+  }
 }

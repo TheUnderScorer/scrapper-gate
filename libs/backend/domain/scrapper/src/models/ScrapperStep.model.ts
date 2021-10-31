@@ -4,6 +4,7 @@ import { ConditionalRuleGroupModel } from '@scrapper-gate/backend/domain/conditi
 import { UserModel } from '@scrapper-gate/backend/domain/user';
 import { Entities, Enumerable, Setter } from '@scrapper-gate/shared/common';
 import {
+  Maybe,
   MouseButton,
   NodePosition,
   ScrapperAction,
@@ -30,7 +31,7 @@ export class ScrapperStepModel
   @Column({
     nullable: true,
   })
-  goBackSteps?: number;
+  goBackSteps?: Maybe<number>;
 
   @ManyToOne(() => UserModel)
   @JoinColumn()
@@ -39,50 +40,50 @@ export class ScrapperStepModel
   @ManyToOne(() => ScrapperStepModel, (model) => model.previousSteps, {
     cascade: true,
   })
-  nextStep?: ScrapperStepModel;
+  nextStep?: Maybe<ScrapperStepModel>;
 
   @OneToMany(() => ScrapperStepModel, (model) => model.nextStep)
-  previousSteps?: ScrapperStepModel[];
+  previousSteps?: Maybe<ScrapperStepModel[]>;
 
   @OneToOne(() => ScrapperStepModel)
   @JoinColumn()
-  stepOnFalse?: ScrapperStepModel;
+  stepOnFalse?: Maybe<ScrapperStepModel>;
 
   @OneToOne(() => ScrapperStepModel)
   @JoinColumn()
-  stepOnTrue?: ScrapperStepModel;
+  stepOnTrue?: Maybe<ScrapperStepModel>;
 
   @Column({
     nullable: true,
     type: 'enum',
     enum: MouseButton,
   })
-  mouseButton?: MouseButton;
+  mouseButton?: Maybe<MouseButton>;
 
   @Column({
     nullable: true,
   })
-  url?: string;
+  url?: Maybe<string>;
 
   @Column({
     nullable: true,
   })
-  navigateToUrl?: string;
+  navigateToUrl?: Maybe<string>;
 
   @Column({
     nullable: true,
   })
-  reloadDelay?: number;
+  reloadDelay?: Maybe<number>;
 
   @Column({
     nullable: true,
   })
-  typeDelay?: number;
+  typeDelay?: Maybe<number>;
 
   @Column({
     nullable: true,
   })
-  useUrlFromPreviousStep?: boolean;
+  useUrlFromPreviousStep?: Maybe<boolean>;
 
   @Column({
     type: 'enum',
@@ -93,13 +94,13 @@ export class ScrapperStepModel
   @Column({
     nullable: true,
   })
-  clickTimes?: number;
+  clickTimes?: Maybe<number>;
 
   @Column({
     type: 'jsonb',
     nullable: true,
   })
-  selectors?: Selector[];
+  selectors?: Maybe<Selector[]>;
 
   @ManyToOne(() => ScrapperModel, (model) => model.steps)
   scrapper: ScrapperModel;
@@ -108,17 +109,17 @@ export class ScrapperStepModel
     type: 'jsonb',
     nullable: true,
   })
-  position?: NodePosition;
+  position?: Maybe<NodePosition>;
 
   @Column({
     nullable: true,
   })
-  key?: string;
+  key?: Maybe<string>;
 
   @Column({
     nullable: true,
   })
-  typeValue?: string;
+  typeValue?: Maybe<string>;
 
   @Column({
     nullable: true,
@@ -128,38 +129,38 @@ export class ScrapperStepModel
   @Setter((value?: ConditionalRuleGroupModel[]) =>
     value?.map((val) => ConditionalRuleGroupModel.create(val))
   )
-  conditionalRules?: ConditionalRuleGroupModel[];
+  conditionalRules?: Maybe<ConditionalRuleGroupModel[]>;
 
   @Column({
     nullable: true,
   })
-  isFirst?: boolean;
+  isFirst?: Maybe<boolean>;
 
   @Column({
     nullable: true,
   })
-  fullPageScreenshot?: boolean;
+  fullPageScreenshot?: Maybe<boolean>;
 
   @Column({
     nullable: true,
     type: 'jsonb',
   })
-  newRunSettings?: ScrapperRunSettings;
+  newRunSettings?: Maybe<ScrapperRunSettings>;
 
   @Column({
     nullable: true,
   })
-  attributeToRead?: string;
+  attributeToRead?: Maybe<string>;
 
   @Column({
     nullable: true,
     type: 'enum',
     enum: VariableType,
   })
-  valueType?: VariableType;
+  valueType?: Maybe<VariableType>;
 
   @Enumerable(true)
-  get allSelectors() {
+  get allSelectors(): Maybe<Selector[]> {
     const selectors = [...(this.selectors ?? [])];
 
     if (this.conditionalRules?.length) {

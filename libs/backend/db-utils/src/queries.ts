@@ -1,5 +1,7 @@
+import { PartialMaybe } from '@scrapper-gate/shared/common';
 import { SelectQueryBuilder } from 'typeorm';
 import {
+  Maybe,
   Order,
   OrderDirection,
   Pagination,
@@ -20,8 +22,8 @@ interface ApplyOrderParams {
   alias: string;
 }
 
-interface ApplyQueryVariablesParams extends Partial<ApplyOrderParams> {
-  pagination?: Pagination;
+interface ApplyQueryVariablesParams extends PartialMaybe<ApplyOrderParams> {
+  pagination?: Maybe<Pagination>;
   queryBuilder: SelectQueryBuilder<unknown>;
 }
 

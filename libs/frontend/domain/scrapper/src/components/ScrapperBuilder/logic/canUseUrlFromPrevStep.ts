@@ -2,13 +2,14 @@ import {
   FlowBuilderItem,
   flowBuilderUtils,
 } from '@scrapper-gate/frontend/flow-builder';
+import { Maybe } from '@scrapper-gate/shared/schema';
 import { Node } from 'react-flow-renderer';
 import { ScrapperBuilderNodeProperties } from '../ScrapperBuilder.types';
 
 export function canUseUrlFromPrevStep(
   node: Node<ScrapperBuilderNodeProperties>,
   nodes: FlowBuilderItem<ScrapperBuilderNodeProperties>[],
-  initialUrl?: string
+  initialUrl?: Maybe<string>
 ) {
   let canUse = Boolean(initialUrl);
 

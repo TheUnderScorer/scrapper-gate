@@ -24,7 +24,7 @@ export const handleFailedScrapperRunStartHandler =
     run.state = RunState.Failed;
     run.error = error;
 
-    run.results.forEach((result) => {
+    run.results?.forEach((result) => {
       result.state = RunState.Failed;
     });
 

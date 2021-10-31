@@ -1,5 +1,6 @@
 import { Disposable, MaybePromise } from '@scrapper-gate/shared/common';
 import {
+  Maybe,
   RunnerTrigger,
   ScrapperAction,
   ScrapperRun,
@@ -84,7 +85,7 @@ export interface ScrapperStepHandlerParams {
 export interface ScrapperRunnerMessagePayload {
   runId: string;
   trigger: RunnerTrigger;
-  runSettings?: ScrapperRunSettings;
+  runSettings?: Maybe<ScrapperRunSettings>;
 }
 
 export type ScrapperRunResultKeyPairValues = Record<string, string[]>;

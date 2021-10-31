@@ -24,6 +24,7 @@ import { Logger } from '@scrapper-gate/shared/logger';
 import {
   BrowserType,
   FileType,
+  Maybe,
   RunnerPerformanceEntry,
   ScrapperDialogBehaviour,
   ScrapperNoElementsFoundBehavior,
@@ -46,7 +47,7 @@ export interface PlayWrightScrapperRunnerDependencies {
   browserType: BrowserType;
   filesService: FilesService;
   scrapperRun: ScrapperRun;
-  runSettings?: ScrapperRunSettings;
+  runSettings?: Maybe<ScrapperRunSettings>;
 }
 
 interface AfterRunResult {
@@ -129,7 +130,7 @@ export class PlayWrightScrapperRunner
     this.page.on('dialog', async (dialog) => {
       switch (this.runSettings?.dialogBehaviour) {
         case ScrapperDialogBehaviour.AlwaysConfirm:
-          await dialog.accept(this.runSettings?.promptText);
+          await dialog.accept(this.runSettings?.promptText ?? undefined);
           break;
 
         default:
@@ -402,7 +403,7 @@ export class PlayWrightScrapperRunner
         elements.map((el) =>
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           el.type(step.typeValue!, {
-            delay: step.typeDelay,
+            delay: step.typeDelay ?? undefined,
           })
         )
       );

@@ -1,13 +1,14 @@
-import '../../../../typings/global';
-import faker from 'faker';
-import { apiRoutes } from '@scrapper-gate/shared/routing';
+import { UserRepository } from '@scrapper-gate/backend/domain/user';
 import { makeGraphqlRequest } from '@scrapper-gate/backend/server';
+import { ExistsInObject } from '@scrapper-gate/shared/common';
+import { apiRoutes } from '@scrapper-gate/shared/routing';
 import {
   AuthTokens,
   MutationCreateUserArgs,
 } from '@scrapper-gate/shared/schema';
-import { UserRepository } from '@scrapper-gate/backend/domain/user';
+import faker from 'faker';
 import gql from 'graphql-tag';
+import '../../../../typings/global';
 
 const createUserMutation = gql`
   mutation CreateUser($input: CreateUserInput!) {
@@ -50,7 +51,7 @@ export const createUser = async () => {
     .findOneOrFail(result.data.createUser.user.id);
 
   return {
-    tokens: result.data.createUser.tokens as Required<AuthTokens>,
+    tokens: result.data.createUser.tokens as ExistsInObject<AuthTokens>,
     user,
   };
 };

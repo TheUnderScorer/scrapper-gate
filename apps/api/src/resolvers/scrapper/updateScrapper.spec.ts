@@ -1,8 +1,13 @@
 import '../../typings/global';
-import { ScrapperModel } from '@scrapper-gate/backend/domain/scrapper';
+import {
+  ScrapperModel,
+  ScrapperRepository,
+  ScrapperStepModel,
+} from '@scrapper-gate/backend/domain/scrapper';
 import { VariableModel } from '@scrapper-gate/backend/domain/variables';
 import { makeGraphqlRequest } from '@scrapper-gate/backend/server';
 import { getById } from '@scrapper-gate/shared/common';
+import { createMockScrapperStep } from '@scrapper-gate/shared/domain/scrapper/mocks';
 import { apiRoutes } from '@scrapper-gate/shared/routing';
 import {
   MouseButton,
@@ -79,18 +84,28 @@ const updateSteps = async (accessToken: string, scrapper: ScrapperModel) => {
 
   expect(updatedScrapper.steps).toHaveLength(2);
 
-  const firstStep = updatedScrapper.steps.find((step) =>
+  const firstStep = updatedScrapper.steps?.find((step) =>
     Boolean(step.nextStep)
   );
 
   expect(firstStep).toBeDefined();
 
-  const nextStep = getById(updatedScrapper.steps, firstStep!.nextStep!.id);
+  const nextStep = getById(
+    updatedScrapper.steps ?? [],
+    firstStep!.nextStep!.id
+  );
 
   expect(nextStep?.nextStep).toBeNull();
 };
 
 describe('Update scrapper', () => {
+  let scrapperRepository: ScrapperRepository;
+
+  beforeEach(() => {
+    scrapperRepository =
+      global.connection.getCustomRepository(ScrapperRepository);
+  });
+
   it('should update scrapper name', async () => {
     const {
       tokens: { accessToken },
@@ -220,10 +235,10 @@ describe('Update scrapper', () => {
 
     expect(updatedScrapper.variables).toHaveLength(2);
     expect(
-      getById(updatedScrapper.variables, existingVariable.id)?.value
+      getById(updatedScrapper.variables ?? [], existingVariable.id)?.value
     ).toEqual('value update');
     expect(
-      updatedScrapper.variables.find(
+      updatedScrapper.variables?.find(
         (variable) => variable.key === 'test_create'
       )
     ).toBeDefined();
@@ -281,6 +296,61 @@ describe('Update scrapper', () => {
 
     expect(updatedScrapper.name).toEqual(name);
     expect(updatedScrapper.steps).toHaveLength(2);
+  });
+
+  it('should detach deleted step from related steps', async () => {
+    const {
+      tokens: { accessToken },
+    } = await createUser();
+
+    const scrapper = await createScrapper(accessToken);
+
+    const firstStep = ScrapperStepModel.create({
+      ...(await createMockScrapperStep({
+        createdBy: scrapper.createdBy,
+      })),
+    });
+
+    const secondStep = ScrapperStepModel.create({
+      ...(await createMockScrapperStep({
+        createdBy: scrapper.createdBy,
+      })),
+    });
+
+    firstStep.nextStep = secondStep;
+
+    scrapper.steps = [firstStep, secondStep];
+
+    await scrapperRepository.save(scrapper);
+
+    const response = await global.server.inject({
+      method: 'POST',
+      path: apiRoutes.graphql,
+      headers: {
+        authorization: `Bearer ${accessToken}`,
+      },
+      payload: makeGraphqlRequest<{ input: ScrapperInput }>(mutation, {
+        input: {
+          id: scrapper.id,
+          steps: [
+            {
+              id: secondStep.id,
+              action: ScrapperAction.Condition,
+              clickTimes: 1,
+              mouseButton: MouseButton.Left,
+              position: {
+                x: 0,
+                y: 0,
+              },
+            },
+          ],
+        },
+      }),
+    });
+
+    const body = JSON.parse(response.body);
+
+    expect(body.data.updateScrapper.steps).toHaveLength(1);
   });
 
   it('should handle conditional steps', async () => {
@@ -353,7 +423,7 @@ describe('Update scrapper', () => {
         ],
       });
 
-    const firstStep = updatedScrapper.steps.find(
+    const firstStep = updatedScrapper.steps?.find(
       (step) => step.action === ScrapperAction.Condition
     );
 

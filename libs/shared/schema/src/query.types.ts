@@ -1,8 +1,8 @@
-import { Order, Pagination } from './types';
+import { Maybe, Order, Pagination } from './types';
 
 export interface BaseQueryVariables {
-  pagination?: Pagination;
-  order?: Order;
+  pagination?: Maybe<Pagination>;
+  order?: Maybe<Order>;
 }
 
 export interface QueryVariablesWithUser extends BaseQueryVariables {

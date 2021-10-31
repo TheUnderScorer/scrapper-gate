@@ -4,6 +4,7 @@ import {
   travelNodeLike as travel,
 } from '@scrapper-gate/shared/node';
 import {
+  Maybe,
   ScrapperStep,
   Variable,
   VariableScope,
@@ -17,7 +18,7 @@ export type GetPotentialVariablesStep = Pick<
   'key' | 'action' | 'id'
 > &
   {
-    [Key in Keys]?: Pick<ScrapperStep, 'id'>;
+    [Key in Keys]?: Maybe<Pick<ScrapperStep, 'id'>>;
   };
 
 interface PotentialVariablesForStep {

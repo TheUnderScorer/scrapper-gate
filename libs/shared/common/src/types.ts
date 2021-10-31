@@ -1,5 +1,3 @@
-export type Perhaps<T> = T | null | undefined;
-
 export type FindAndCountResult<T> = [T[], number];
 
 export interface QueryResult<T> {
@@ -18,4 +16,8 @@ export interface Jsonable {
   toJSON(): Dictionary;
 }
 
-export type Exists<T> = T extends undefined | null ? never : T;
+export type Exists<T> = Exclude<T, null | undefined>;
+
+export type ExistsInObject<T> = {
+  [Key in keyof T]-?: Exists<T[Key]>;
+};

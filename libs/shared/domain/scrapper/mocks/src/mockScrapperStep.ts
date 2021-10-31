@@ -1,6 +1,7 @@
-import { repeatUntil } from '@scrapper-gate/shared/common';
+import { Exists, repeatUntil } from '@scrapper-gate/shared/common';
 import { createMockUser } from '@scrapper-gate/shared/domain/user/mocks';
 import {
+  Maybe,
   MouseButton,
   ScrapperAction,
   ScrapperStep,
@@ -10,16 +11,19 @@ import faker from 'faker';
 import { v4 } from 'uuid';
 
 export interface CreateMockScrapperStepArgs {
-  createdBy?: User;
+  createdBy?: Maybe<User>;
   disabledActions?: ScrapperAction[];
   intercept?: (step: ScrapperStep) => ScrapperStep;
 }
+
+type MockScrapperStep = ScrapperStep &
+  Exists<Pick<ScrapperStep, 'allSelectors'>>;
 
 export const createMockScrapperStep = async ({
   createdBy = createMockUser(),
   disabledActions = [],
   intercept,
-}: CreateMockScrapperStepArgs): Promise<ScrapperStep> => {
+}: CreateMockScrapperStepArgs): Promise<MockScrapperStep> => {
   const action = await repeatUntil(
     () => faker.random.arrayElement(Object.values(ScrapperAction)),
     {
@@ -30,7 +34,8 @@ export const createMockScrapperStep = async ({
   const baseStep: ScrapperStep = {
     action,
     id: v4(),
-    createdBy,
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    createdBy: createdBy!,
     createdAt: new Date(),
     updatedAt: new Date(),
     url: faker.internet.url(),
@@ -39,6 +44,7 @@ export const createMockScrapperStep = async ({
       x: faker.datatype.number(500),
       y: faker.datatype.number(500),
     },
+    allSelectors: [],
   };
 
   switch (action) {

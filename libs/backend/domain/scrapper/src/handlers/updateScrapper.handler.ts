@@ -8,7 +8,7 @@ import {
 } from '@scrapper-gate/backend/domain/variables';
 import { performUpdate } from '@scrapper-gate/shared/common';
 import { ScrapperUpdatedEvent } from '@scrapper-gate/shared/domain/scrapper';
-import { VariableScope } from '@scrapper-gate/shared/schema';
+import { Variable, VariableScope } from '@scrapper-gate/shared/schema';
 import { CommandContext } from 'functional-cqrs';
 import { UpdateScrapperCommand } from '../commands/UpdateScrapper.command';
 import { ScrapperStepModel } from '../models/ScrapperStep.model';
@@ -43,25 +43,34 @@ export const updateScrapperHandler =
         steps: async (scrapper, steps) => {
           const stepsToRemove = findEntitiesToRemove(
             steps ?? [],
-            scrapper.steps
+            scrapper.steps ?? []
           );
 
           if (stepsToRemove.length) {
+            await scrapperStepRepository.detachAll(scrapper.steps ?? []);
             await scrapperStepRepository.remove(stepsToRemove);
           }
 
-          scrapper.steps = nodeLikeItemsToModels({
+          const existingSteps =
+            scrapper.steps?.filter(
+              (step) =>
+                !stepsToRemove.find(
+                  (stepToRemove) => stepToRemove.id === step.id
+                )
+            ) ?? [];
+
+          scrapper.steps = nodeLikeItemsToModels<ScrapperStepModel>({
             createModel: (payload) => ScrapperStepModel.create(payload),
             input: steps ?? [],
-            existingSteps: scrapper.steps,
+            existingSteps,
           });
 
           return scrapper;
         },
         variables: async (scrapper, variables) => {
           const variablesToRemove = findEntitiesToRemove(
-            variables ?? [],
-            scrapper.variables
+            (variables as Variable[]) ?? [],
+            scrapper.variables ?? []
           );
 
           if (variablesToRemove.length) {
@@ -74,6 +83,7 @@ export const updateScrapperHandler =
             variables?.map((variable) =>
               VariableModel.create({
                 ...variable,
+                id: variable.id ?? undefined,
                 createdBy: scrapper.createdBy,
               })
             ) ?? [];

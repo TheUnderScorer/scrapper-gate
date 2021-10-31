@@ -5,6 +5,7 @@ import {
 } from '@scrapper-gate/backend/domain/files';
 import { Environment, first, wait } from '@scrapper-gate/shared/common';
 import { createMockScrapperStep } from '@scrapper-gate/shared/domain/scrapper/mocks';
+import { createMockUser } from '@scrapper-gate/shared/domain/user/mocks';
 import { logger } from '@scrapper-gate/shared/logger/console';
 import {
   BrowserType,
@@ -133,6 +134,7 @@ describe('PlayWright scrapper runner', () => {
       createdAt: new Date(),
       updatedAt: new Date(),
       state: RunState.InProgress,
+      createdBy: createMockUser(),
     };
   });
 

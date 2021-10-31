@@ -234,7 +234,7 @@ export const ScrapperBuilder = ({
       scrapperStepsToNodes({
         steps: initialScrapper?.steps ?? [],
         selections: selection,
-        startNodePosition: initialScrapper?.startNodePosition,
+        startNodePosition: initialScrapper?.startNodePosition ?? undefined,
       }),
     [initialScrapper]
   );

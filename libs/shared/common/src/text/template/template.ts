@@ -1,4 +1,4 @@
-import { Perhaps } from '../../types';
+import { Perhaps } from '../../partial.types';
 
 export enum TemplateType {
   Braces = 'Braces',
