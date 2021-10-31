@@ -1,4 +1,3 @@
-import { ScrapperBuilderNodeProperties } from '@scrapper-gate/frontend/domain/scrapper';
 import { VariablesProvider } from '@scrapper-gate/frontend/domain/variables';
 import { FlowBuilderItem } from '@scrapper-gate/frontend/flow-builder';
 import { first } from '@scrapper-gate/shared/common';
@@ -6,6 +5,7 @@ import { ScrapperAction, VariableType } from '@scrapper-gate/shared/schema';
 import { renderHook } from '@testing-library/react-hooks';
 import { PartialDeep } from 'type-fest';
 import { v4 } from 'uuid';
+import { ScrapperBuilderNodeProperties } from '../ScrapperBuilder.types';
 import { useScrapperStepVariables } from './useScrapperStepVariables';
 
 describe('useScrapperStepVariables', () => {

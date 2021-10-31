@@ -1,10 +1,10 @@
-import { ScrapperBuilderNodeProperties } from '@scrapper-gate/frontend/domain/scrapper';
 import { FlowBuilderItem } from '@scrapper-gate/frontend/flow-builder';
 import { ScrapperAction } from '@scrapper-gate/shared/schema';
 import * as faker from 'faker';
 import { Node } from 'react-flow-renderer';
 import { PartialDeep } from 'type-fest';
 import { v4 } from 'uuid';
+import { ScrapperBuilderNodeProperties } from '../ScrapperBuilder.types';
 import { canUseUrlFromPrevStep } from './canUseUrlFromPrevStep';
 
 describe('Can use url from prev step', () => {

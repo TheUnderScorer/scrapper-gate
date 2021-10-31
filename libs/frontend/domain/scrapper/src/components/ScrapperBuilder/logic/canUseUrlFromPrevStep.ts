@@ -1,9 +1,9 @@
-import { ScrapperBuilderNodeProperties } from '@scrapper-gate/frontend/domain/scrapper';
 import {
   FlowBuilderItem,
   flowBuilderUtils,
 } from '@scrapper-gate/frontend/flow-builder';
 import { Node } from 'react-flow-renderer';
+import { ScrapperBuilderNodeProperties } from '../ScrapperBuilder.types';
 
 export function canUseUrlFromPrevStep(
   node: Node<ScrapperBuilderNodeProperties>,
