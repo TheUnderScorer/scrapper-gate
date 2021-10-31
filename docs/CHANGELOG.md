@@ -1,3 +1,18 @@
+# [1.0.0-test.16](https://github.com/TheUnderScorer/scrapper-gate/compare/v1.0.0-test.15...v1.0.0-test.16) (2021-10-31)
+
+
+### Bug Fixes
+
+* **block-editor:** Reset slate selection on external change ([b70f4cb](https://github.com/TheUnderScorer/scrapper-gate/commit/b70f4cb1e668addc8260d5ae64bb4537fc3e2609))
+* **scrapper:** Include performance info in failed steps ([b2d41e6](https://github.com/TheUnderScorer/scrapper-gate/commit/b2d41e6d8a05c1d402937644ae366d7fdfc2e241))
+
+
+### Features
+
+* **scrapper-builder:** Hide fields when not needed ([773ca4e](https://github.com/TheUnderScorer/scrapper-gate/commit/773ca4e62dd36ee2e350fd3279a1922191162c38))
+* **scrapper-builder:** Validate if previous step url can be used ([93606b5](https://github.com/TheUnderScorer/scrapper-gate/commit/93606b5559c7d29650af3b28720fdfa2bd037cf0))
+* **scrapper:** Create variables from finished steps ([8a26f5c](https://github.com/TheUnderScorer/scrapper-gate/commit/8a26f5cc62f753ec152a180f87a4838a45346db1))
+
 # [1.0.0-test.15](https://github.com/TheUnderScorer/scrapper-gate/compare/v1.0.0-test.14...v1.0.0-test.15) (2021-10-30)
 
 
