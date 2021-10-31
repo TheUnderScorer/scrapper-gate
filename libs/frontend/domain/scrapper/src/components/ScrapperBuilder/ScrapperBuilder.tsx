@@ -2,7 +2,7 @@ import { IconButton, Stack, useTheme } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useIsUsingElementPicker } from '@scrapper-gate/frontend/common';
 import {
-  VariablesProvider,
+  FormVariablesProvider,
   VariablesTable,
 } from '@scrapper-gate/frontend/domain/variables';
 import {
@@ -251,7 +251,7 @@ export const ScrapperBuilder = ({
       initialValues={initialValues}
       destroyOnUnregister={false}
       render={(props) => (
-        <VariablesProvider name="variables">
+        <FormVariablesProvider>
           <UnsavedFormAlert />
           <StyledForm
             className="scrapper-builder-form"
@@ -304,7 +304,7 @@ export const ScrapperBuilder = ({
               {...rest}
             />
           </StyledForm>
-        </VariablesProvider>
+        </FormVariablesProvider>
       )}
     />
   );

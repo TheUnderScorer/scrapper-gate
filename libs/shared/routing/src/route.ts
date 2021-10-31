@@ -23,10 +23,13 @@ export const paramRoute =
       return route.split('?')[0];
     }
 
-    return applyVariablesToText(route, allParams, TemplateType.Colon).replace(
-      /:\w+/g,
-      ''
-    );
+    return applyVariablesToText({
+      text: route,
+      variables: allParams,
+      type: TemplateType.Colon,
+    })
+      .toString()
+      .replace(/:\w+/g, '');
   };
 
 export type ParamRouteResult = ReturnType<typeof paramRoute>;

@@ -24,7 +24,10 @@ export const registerServerCqrs = (container: AwilixContainer) => {
       ...scrapperCqrs.queryHandlers,
       ...fileCqrs.queryHandlers,
     },
-    eventHandlers: mergeEventHandlers(fileCqrs.eventHandlers),
+    eventHandlers: mergeEventHandlers(
+      fileCqrs.eventHandlers,
+      scrapperCqrs.eventHandlers
+    ),
   };
 
   container.register({

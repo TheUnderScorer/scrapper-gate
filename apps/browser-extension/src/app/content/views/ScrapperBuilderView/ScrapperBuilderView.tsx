@@ -26,6 +26,7 @@ export const ScrapperBuilderView = () => {
 
       history.push('/');
     },
+    fetchPolicy: 'network-only',
   });
 
   const location = useLocation();

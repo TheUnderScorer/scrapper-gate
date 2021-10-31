@@ -6,3 +6,11 @@ export * from './createVariablesDecorators';
 export * from './components/VariableSelect/VariableSelect';
 export * from './components/VariableSelect/VariableSelect.types';
 export * from './components/VariablesAutocomplete/VariablesAutocomplete';
+export {
+  FormVariablesProvider,
+  defaultVariablesFormField,
+} from './providers/Form/FormVariablesProvider';
+export {
+  useVariablesContext,
+  VariablesProvider,
+} from './providers/VariablesProvider';

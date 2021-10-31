@@ -6,7 +6,6 @@ import {
   Stack,
   Tooltip,
 } from '@mui/material';
-import { styled } from '@mui/material/styles';
 import { BlockEditorProps } from '@scrapper-gate/frontend/block-editor';
 import { VariablesTextField } from '@scrapper-gate/frontend/domain/variables';
 import { NodeContentProps } from '@scrapper-gate/frontend/flow-builder';
@@ -20,23 +19,7 @@ import React, { useCallback } from 'react';
 import { useField } from 'react-final-form';
 import { useLocation } from 'react-use';
 import { useIsOnStepUrl } from '../../../hooks/useIsOnStepUrl';
-
-const PREFIX = 'Url';
-
-const classes = {
-  label: `${PREFIX}-label`,
-  infoBtn: `${PREFIX}-infoBtn`,
-};
-
-const StyledStack = styled(Stack)(({ theme }) => ({
-  [`& .${classes.label}`]: {
-    marginRight: 0,
-  },
-
-  [`& .${classes.infoBtn}`]: {
-    marginLeft: theme.spacing(1),
-  },
-}));
+import { useCanUseUrlFromPrevStep } from '../hooks/useCanUseUrlFromPrevStep';
 
 export interface UrlProps
   extends Pick<NodeContentProps, 'nodeIndex'>,
@@ -81,8 +64,10 @@ export const Url = ({
     useUrlFromPreviousStep,
   });
 
+  const canUsePreviousStepUrl = useCanUseUrlFromPrevStep(rest.nodeIndex);
+
   return (
-    <StyledStack spacing={1} direction="column">
+    <Stack spacing={1} direction="column">
       <VariablesTextField
         InputProps={{
           startAdornment: (
@@ -90,7 +75,7 @@ export const Url = ({
               <Language />
             </InputAdornment>
           ),
-          endAdornment: (
+          endAdornment: !isOnStepUrl && (
             <InputAdornment position="end">
               <Tooltip
                 placement="top"
@@ -115,30 +100,34 @@ export const Url = ({
         disabled={urlDisabled}
         {...rest}
       />
-      {allowPreviousStepUrl && (
-        <Stack
-          alignItems="center"
-          direction="row"
-          justifyContent="space-between"
-        >
+
+      <Stack alignItems="center" direction="row" justifyContent="space-between">
+        {allowPreviousStepUrl && canUsePreviousStepUrl && (
           <Stack direction="row" spacing={1}>
             <FormSwitch
               labelProps={{
-                className: classes.label,
+                sx: {
+                  marginRight: 0,
+                },
               }}
               name={fieldNameCreator('useUrlFromPreviousStep')}
               label="Stay on page from previous step"
               disabled={disabled}
             />
-            <IconButton className={classes.infoBtn} size="small">
+            <IconButton
+              sx={{
+                marginLeft: (theme) => theme.spacing(1),
+              }}
+              size="small"
+            >
               <Info />
             </IconButton>
           </Stack>
-          {!isOnStepUrl && !disabled && value && (
-            <Button href={value}>Open step URL</Button>
-          )}
-        </Stack>
-      )}
-    </StyledStack>
+        )}
+        {!isOnStepUrl && !disabled && value && (
+          <Button href={value}>Open step URL</Button>
+        )}
+      </Stack>
+    </Stack>
   );
 };

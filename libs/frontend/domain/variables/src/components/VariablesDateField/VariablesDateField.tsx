@@ -11,7 +11,7 @@ import classNames from 'classnames';
 import React, { useCallback } from 'react';
 import { useField } from 'react-final-form';
 import {
-  useVariablesContextSelector,
+  useVariablesContext,
   VariablesProvider,
 } from '../../providers/VariablesProvider';
 import { VariablesTextField } from '../VariablesTextField/VariablesTextField';
@@ -24,7 +24,7 @@ export type VariablesDateFieldProps = Omit<
 const defaultArray: any[] = [];
 
 export const VariablesDateField = (props: VariablesDateFieldProps) => {
-  const variablesName = useVariablesContextSelector((ctx) => ctx.name);
+  const { variables } = useVariablesContext();
 
   const filterVariables = useCallback(
     (variables: Variable[]) =>
@@ -75,7 +75,7 @@ export const VariablesDateField = (props: VariablesDateFieldProps) => {
   );
 
   return (
-    <VariablesProvider name={variablesName} filter={filterVariables}>
+    <VariablesProvider variables={variables} filter={filterVariables}>
       <FormDatePicker
         {...props}
         formatValue={formatValue}

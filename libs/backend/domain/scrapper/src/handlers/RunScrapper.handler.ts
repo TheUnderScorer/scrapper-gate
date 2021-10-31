@@ -1,14 +1,10 @@
 import { FileRepository } from '@scrapper-gate/backend/domain/files';
-import { ExcludeFalsy, getById } from '@scrapper-gate/shared/common';
-import {
-  RunScrapperStepResult,
-  ScrapperRunProcessor,
-} from '@scrapper-gate/shared/domain/scrapper';
+import { ScrapperRunProcessor } from '@scrapper-gate/shared/domain/scrapper';
 import { Logger } from '@scrapper-gate/shared/logger';
-import { ScrapperRunStepResult } from '@scrapper-gate/shared/schema';
 import { CommandHandler, EventsBus } from 'functional-cqrs';
 import { RunScrapperCommand } from '../commands/RunScrapper.command';
 import { ScrapperStepCompletedEvent } from '../events/ScrapperStepCompleted.event';
+import { ScrapperStepResultFilledAfterRunEvent } from '../events/ScrapperStepResultFilledAfterRun.event';
 import { GetScrapperRunner } from '../logic/getScrapperRunner';
 import { ScrapperRunModel } from '../models/ScrapperRun.model';
 import { ScrapperRepository } from '../repositories/Scrapper.repository';
@@ -31,19 +27,15 @@ export class RunScrapperHandler implements CommandHandler<RunScrapperCommand> {
       this.dependencies;
 
     const scrapperRun = await scrapperRunRepository.getOneAggregate(runId);
-    const { scrapper } = scrapperRun;
 
     const runner = getScrapperRunner(scrapperRun, runSettings);
 
-    const processor = new ScrapperRunProcessor(runner, logger);
+    const processor = new ScrapperRunProcessor(runner, logger, scrapperRun);
 
     try {
       this.setupEvents(processor);
 
-      await processor.process({
-        scrapperRun,
-        scrapper,
-      });
+      await processor.process();
     } finally {
       await processor.dispose();
     }
@@ -63,35 +55,13 @@ export class RunScrapperHandler implements CommandHandler<RunScrapperCommand> {
     processor.events.on(
       'filledStepResultAfterRun',
       async ({ runStepResult, result }) => {
-        await this.connectFiles(runStepResult, result);
+        await eventsBus.dispatch(
+          new ScrapperStepResultFilledAfterRunEvent({
+            runStepResult,
+            result,
+          })
+        );
       }
     );
-  }
-
-  private async connectFiles(
-    runStepResult: RunScrapperStepResult,
-    result: ScrapperRunStepResult
-  ) {
-    if ('values' in runStepResult) {
-      const fileIds = runStepResult.values
-        ?.map((item) =>
-          'screenshotFileId' in item ? item.screenshotFileId : undefined
-        )
-        .filter(ExcludeFalsy);
-
-      if (!fileIds?.length) {
-        return;
-      }
-
-      const files = await this.dependencies.fileRepository.findByIds(fileIds);
-
-      result.values?.forEach((value, index) => {
-        const fileId = fileIds[index];
-
-        if (fileId) {
-          value.screenshot = getById(files, fileId);
-        }
-      });
-    }
   }
 }

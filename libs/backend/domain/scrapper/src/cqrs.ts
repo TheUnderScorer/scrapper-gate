@@ -3,6 +3,8 @@ import { HandleFailedScrapperRunStart } from './commands/HandleFailedScrapperRun
 import { RunScrapper } from './commands/RunScrapper.command';
 import { SendScrapperToRunnerQueue } from './commands/SendScrapperToRunnerQueue.command';
 import { UpdateScrapper } from './commands/UpdateScrapper.command';
+import { connectScrapperRunFilesAfterFillHandler } from './eventHandlers/connectScrapperRunFilesAfterFillHandler';
+import { ScrapperStepResultFilledAfterRunEvent } from './events/ScrapperStepResultFilledAfterRun.event';
 import { createScrapperHandler } from './handlers/createScrapper.handler';
 import { handleFailedScrapperRunStartHandler } from './handlers/handleFailedScrapperRunStart.handler';
 import { RunScrapperHandler } from './handlers/RunScrapper.handler';
@@ -33,5 +35,10 @@ export const cqrs = {
     [GetScrapperLastRun]: getScrapperLastRunHandler,
     [GetMyScrapperRun]: getMyScrapperRunHandler,
     [GetScrapperRunsByUser]: getScrapperRunsByUserHandler,
+  },
+  eventHandlers: {
+    [ScrapperStepResultFilledAfterRunEvent.name]: [
+      connectScrapperRunFilesAfterFillHandler,
+    ],
   },
 };

@@ -37,14 +37,14 @@ export const ScrapperRunSettingsForm = ({
         enumObj={ScrapperNoElementsFoundBehavior}
         name={getFieldName('noElementsFoundBehavior')}
       />
-      <VariablesTextField
-        disabled={
-          dialogBehaviour === ScrapperDialogBehaviour.AlwaysReject || disabled
-        }
-        name={getFieldName('promptText')}
-        label="Prompt text"
-        helperText="Text to enter into prompt alerts."
-      />
+      {dialogBehaviour === ScrapperDialogBehaviour.AlwaysConfirm && (
+        <VariablesTextField
+          disabled={disabled}
+          name={getFieldName('promptText')}
+          label="Prompt text"
+          helperText="Text to enter into prompt alerts."
+        />
+      )}
     </Stack>
   );
 };

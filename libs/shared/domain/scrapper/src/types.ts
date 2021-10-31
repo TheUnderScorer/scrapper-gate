@@ -30,12 +30,19 @@ export type RunScrapperStepResult =
   | ConditionalRunScrapperStepResult
   | ScreenshotRunScrapperStepResult;
 
+export type ReadTextValue = Pick<ScrapperRunValue, 'value' | 'sourceElement'>;
+
 export type ReadTextScrapperStepResult = Pick<
   ScrapperRunStepResult,
   'performance'
 > & {
-  values?: Pick<ScrapperRunValue, 'value' | 'sourceElement'>[];
+  values?: ReadTextValue[];
 };
+
+export const isReadTextScrapperStepResult = (
+  value: unknown
+): value is ReadTextValue =>
+  Boolean(value && typeof value === 'object' && 'value' in value);
 
 export interface ConditionalRunScrapperStepResult
   extends Pick<ReadTextScrapperStepResult, 'performance'> {

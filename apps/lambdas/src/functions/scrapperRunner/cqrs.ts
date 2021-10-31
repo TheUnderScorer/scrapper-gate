@@ -1,6 +1,10 @@
 import { asCqrs } from '@scrapper-gate/backend/awilix';
-import { CqrsDefinition, cqrsFactory } from '@scrapper-gate/backend/cqrs';
-import { cqrs } from '@scrapper-gate/backend/domain/files';
+import {
+  CqrsDefinition,
+  cqrsFactory,
+  mergeEventHandlers,
+} from '@scrapper-gate/backend/cqrs';
+import { cqrs as filesCqrs } from '@scrapper-gate/backend/domain/files';
 import { cqrs as scrapperCqrs } from '@scrapper-gate/backend/domain/scrapper';
 import { asFunction, AwilixContainer } from 'awilix';
 
@@ -9,9 +13,10 @@ export const registerScrapperRunnerCqrs = (container: AwilixContainer) => {
     commandHandlers: {
       ...scrapperCqrs.commandHandlers,
     },
-    eventHandlers: {
-      ...cqrs.eventHandlers,
-    },
+    eventHandlers: mergeEventHandlers(
+      filesCqrs.eventHandlers,
+      scrapperCqrs.eventHandlers
+    ),
     queryHandlers: {},
   };
 

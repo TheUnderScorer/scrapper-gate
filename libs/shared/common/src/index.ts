@@ -7,7 +7,7 @@ export * from './entities';
 export * from './timeout';
 export * from './array/array';
 export * from './promise';
-export * from './text/template';
+export * from './text/template/template';
 export * from './i18n';
 export * from './throwError';
 export * from './text/prefix';

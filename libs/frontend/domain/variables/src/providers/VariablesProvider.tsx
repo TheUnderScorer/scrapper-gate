@@ -1,4 +1,3 @@
-import { useFormFieldValue } from '@scrapper-gate/frontend/form';
 import {
   getTextVariableTemplate,
   TemplateType,
@@ -11,8 +10,7 @@ import {
   useContextSelector,
 } from 'use-context-selector';
 
-export interface VariablesProviderContext
-  extends Pick<VariableProviderProps, 'name'> {
+export interface VariablesProviderContext {
   variables: Variable[];
   // Record with mapped keys and matching variable. Key is formatted with template brackets, ex. {{My Variable}}: Variable
   mappedVariables: Record<string, Variable>;
@@ -22,33 +20,30 @@ export interface VariablesProviderContext
 }
 
 export interface VariableProviderProps {
-  // Name of form field under which variables are stored
-  name: string;
   filter?: (variables: Variable[]) => Variable[];
+  variables: Variable[];
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const defaultValue: any[] = [];
+export const defaultValue: any[] = [];
 
-const Context = createContext<VariablesProviderContext>({
+export const VariablesContext = createContext<VariablesProviderContext>({
   variables: defaultValue,
   mappedVariables: {},
   filteredVariables: defaultValue,
-  name: '',
 });
 
-export const useVariablesContext = () => useContext(Context);
+export const useVariablesContext = () => useContext(VariablesContext);
 
 export const useVariablesContextSelector = <Value extends unknown>(
   selector: (ctx: VariablesProviderContext) => Value
-) => useContextSelector(Context, selector);
+) => useContextSelector(VariablesContext, selector);
 
 export const VariablesProvider = ({
-  name,
-  children,
   filter,
+  children,
+  variables,
 }: PropsWithChildren<VariableProviderProps>) => {
-  const variables = useFormFieldValue<Variable[]>(name, defaultValue);
   const filteredVariables = useMemo(() => {
     const variablesArray = Array.isArray(variables) ? variables : defaultValue;
 
@@ -78,10 +73,13 @@ export const VariablesProvider = ({
       variables: filteredVariables,
       mappedVariables,
       filteredVariables: variablesWithKeys,
-      name,
     }),
-    [filteredVariables, mappedVariables, name, variablesWithKeys]
+    [filteredVariables, mappedVariables, variablesWithKeys]
   );
 
-  return <Context.Provider value={value}>{children}</Context.Provider>;
+  return (
+    <VariablesContext.Provider value={value}>
+      {children}
+    </VariablesContext.Provider>
+  );
 };

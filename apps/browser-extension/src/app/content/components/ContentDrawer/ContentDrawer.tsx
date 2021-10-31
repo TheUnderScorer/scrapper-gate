@@ -32,18 +32,26 @@ export const ContentDrawer = ({
   }, [drawerOpen, setDrawerOpen]);
 
   return (
-    <Box width={propWidth} overflow="visible" position="fixed" height="100%">
+    <Box
+      width={drawerOpen ? propWidth : undefined}
+      overflow="visible"
+      position="fixed"
+      height="100%"
+      sx={{
+        zIndex: (theme) => theme.zIndex.drawer,
+      }}
+    >
       <FadeIfPicking>
         <Fab
           onClick={toggleDrawer}
-          className={classNames({ drawerOpen })}
+          className={classNames({ drawerOpen }, 'toggle-drawer')}
           color={drawerOpen ? 'default' : 'primary'}
           sx={{
-            position: 'absolute',
+            position: 'fixed',
             pointerEvents: 'all',
             top: (theme) => theme.spacing(2),
             left: (theme) => theme.spacing(2),
-            zIndex: (theme) => theme.zIndex.modal - 1,
+            zIndex: (theme) => theme.zIndex.drawer - 1,
           }}
         >
           <Menu />

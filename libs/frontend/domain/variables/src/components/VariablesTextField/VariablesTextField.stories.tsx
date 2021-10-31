@@ -8,7 +8,7 @@ import {
 import { Variable, VariableScope } from '@scrapper-gate/shared/schema';
 import React from 'react';
 import { Form } from 'react-final-form';
-import { VariablesProvider } from '../../providers/VariablesProvider';
+import { FormVariablesProvider } from '../../providers/Form/FormVariablesProvider';
 import { VariablesTextField } from './VariablesTextField';
 
 export default {
@@ -42,7 +42,7 @@ export const Component = () => {
       }}
       onSubmit={console.log}
       render={(props) => (
-        <VariablesProvider name="variables">
+        <FormVariablesProvider name="variables">
           <Stack spacing={2}>
             <VariablesTextField label="Variable" name="variable" />
             <Typography>Values:</Typography>
@@ -59,7 +59,7 @@ export const Component = () => {
               )}
             </pre>
           </Stack>
-        </VariablesProvider>
+        </FormVariablesProvider>
       )}
     />
   );

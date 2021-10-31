@@ -21,23 +21,31 @@ export const ScreenshotSections = ({
     fieldNameCreator('selectors')
   );
 
+  const fullPageScreenshot = useFormFieldValue<boolean>(
+    fieldNameCreator('fullPageScreenshot')
+  );
+
   return (
     <>
       <ScrapperKey
         fieldNameCreator={fieldNameCreator}
         disabled={formState.submitting}
       />
-      <FormSwitch
-        disabled={Boolean(selectors?.length)}
-        helperText="If selected, will take a full page screenshot rather than only current viewport."
-        name={fieldNameCreator('fullPageScreenshot')}
-        label="Take full page screenshot"
-      />
-      <ElementPicker
-        nodeIndex={nodeIndex}
-        fieldNameCreator={fieldNameCreator}
-        disabled={formState.submitting}
-      />
+      {!selectors?.length && (
+        <FormSwitch
+          helperText="If selected, will take a full page screenshot rather than only current viewport."
+          name={fieldNameCreator('fullPageScreenshot')}
+          label="Take full page screenshot"
+        />
+      )}
+
+      {!fullPageScreenshot && (
+        <ElementPicker
+          nodeIndex={nodeIndex}
+          fieldNameCreator={fieldNameCreator}
+          disabled={formState.submitting}
+        />
+      )}
       <Url
         fieldNameCreator={fieldNameCreator}
         nodeIndex={nodeIndex}
