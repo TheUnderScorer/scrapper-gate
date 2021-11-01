@@ -30,6 +30,7 @@ export class ScrapperStepModel
 {
   @Column({
     nullable: true,
+    type: 'smallint',
   })
   goBackSteps?: Maybe<number>;
 
@@ -62,26 +63,31 @@ export class ScrapperStepModel
 
   @Column({
     nullable: true,
+    type: 'text',
   })
   url?: Maybe<string>;
 
   @Column({
     nullable: true,
+    type: 'text',
   })
   navigateToUrl?: Maybe<string>;
 
   @Column({
     nullable: true,
+    type: 'integer',
   })
   reloadDelay?: Maybe<number>;
 
   @Column({
     nullable: true,
+    type: 'integer',
   })
   typeDelay?: Maybe<number>;
 
   @Column({
     nullable: true,
+    type: 'boolean',
   })
   useUrlFromPreviousStep?: Maybe<boolean>;
 
@@ -93,6 +99,7 @@ export class ScrapperStepModel
 
   @Column({
     nullable: true,
+    type: 'smallint',
   })
   clickTimes?: Maybe<number>;
 
@@ -113,11 +120,13 @@ export class ScrapperStepModel
 
   @Column({
     nullable: true,
+    type: 'text',
   })
   key?: Maybe<string>;
 
   @Column({
     nullable: true,
+    type: 'text',
   })
   typeValue?: Maybe<string>;
 
@@ -133,11 +142,13 @@ export class ScrapperStepModel
 
   @Column({
     nullable: true,
+    type: 'boolean',
   })
   isFirst?: Maybe<boolean>;
 
   @Column({
     nullable: true,
+    type: 'boolean',
   })
   fullPageScreenshot?: Maybe<boolean>;
 
@@ -149,6 +160,7 @@ export class ScrapperStepModel
 
   @Column({
     nullable: true,
+    type: 'text',
   })
   attributeToRead?: Maybe<string>;
 

@@ -33,6 +33,7 @@ export class ScrapperModel
 
   @Column({
     nullable: true,
+    type: 'text',
   })
   name?: Maybe<string>;
 

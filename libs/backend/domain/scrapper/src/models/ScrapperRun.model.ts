@@ -40,11 +40,13 @@ export class ScrapperRunModel
 
   @Column({
     nullable: true,
+    type: 'timestamptz',
   })
   endedAt?: Maybe<Date>;
 
   @Column({
     nullable: true,
+    type: 'timestamptz',
   })
   startedAt?: Maybe<Date>;
 
@@ -56,6 +58,7 @@ export class ScrapperRunModel
 
   @Column({
     nullable: true,
+    type: 'text',
   })
   key?: Maybe<string>;
 

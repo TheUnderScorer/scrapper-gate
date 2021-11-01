@@ -41,6 +41,7 @@ export class VariableModel
 
   @Column({
     nullable: true,
+    type: 'text',
   })
   key?: Maybe<string>;
 

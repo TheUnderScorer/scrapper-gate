@@ -10,11 +10,13 @@ export class UserModel extends BaseModel<User> implements User {
 
   @Column({
     nullable: true,
+    type: 'text',
   })
   firstName?: Maybe<string>;
 
   @Column({
     nullable: true,
+    type: 'text',
   })
   lastName?: Maybe<string>;
 
