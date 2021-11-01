@@ -6,7 +6,7 @@ import {
   VariableModel,
   VariableRepository,
 } from '@scrapper-gate/backend/domain/variables';
-import { performUpdate } from '@scrapper-gate/shared/common';
+import { mapToIds, performUpdate } from '@scrapper-gate/shared/common';
 import { ScrapperUpdatedEvent } from '@scrapper-gate/shared/domain/scrapper';
 import { Variable, VariableScope } from '@scrapper-gate/shared/schema';
 import { CommandContext } from 'functional-cqrs';
@@ -45,6 +45,7 @@ export const updateScrapperHandler =
             steps ?? [],
             scrapper.steps ?? []
           );
+          const stepsToRemoveIds = mapToIds(stepsToRemove);
 
           if (stepsToRemove.length) {
             await scrapperStepRepository.detachAll(scrapper.steps ?? []);
@@ -53,20 +54,23 @@ export const updateScrapperHandler =
 
           const existingSteps =
             scrapper.steps?.filter(
-              (step) =>
-                !stepsToRemove.find(
-                  (stepToRemove) => stepToRemove.id === step.id
-                )
+              (step) => !stepsToRemoveIds.includes(step.id)
             ) ?? [];
 
-          scrapper.steps = nodeLikeItemsToModels<ScrapperStepModel>({
-            createModel: (payload) => ScrapperStepModel.create(payload),
+          scrapper.steps = nodeLikeItemsToModels({
+            createModel: (payload) =>
+              ScrapperStepModel.create({
+                ...payload,
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                action: payload.action!,
+              }),
             input: steps ?? [],
             existingSteps,
           });
 
           return scrapper;
         },
+        // TODO Check if this is not creating duplicated variables without assigment to scrapper
         variables: async (scrapper, variables) => {
           const variablesToRemove = findEntitiesToRemove(
             (variables as Variable[]) ?? [],

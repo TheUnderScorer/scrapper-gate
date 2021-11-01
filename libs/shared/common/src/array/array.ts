@@ -11,6 +11,9 @@ export const getById = <T extends { id: unknown }>(arr: T[], id: unknown) => {
   return arr.find((item) => item?.id === id);
 };
 
+export const mapToIds = <T extends { id: unknown }>(arr: T[]) =>
+  arr.map((item) => item.id);
+
 export const mapToArray = <T>(map: Map<unknown, T>) => {
   return Array.from(map.values());
 };
