@@ -1,3 +1,11 @@
+# [1.0.0-test.17](https://github.com/TheUnderScorer/scrapper-gate/compare/v1.0.0-test.16...v1.0.0-test.17) (2021-11-02)
+
+
+### Bug Fixes
+
+* **scrapper-builder:** Delete connected steps ([1f4aa6b](https://github.com/TheUnderScorer/scrapper-gate/commit/1f4aa6b5ec467071770de2d9ae68b79c4f342b51))
+* **scrapper-builder:** Don't show duplicated variables ([77c5530](https://github.com/TheUnderScorer/scrapper-gate/commit/77c5530a21ef8da25f90cc3886bc4991eb6b1536))
+
 # [1.0.0-test.16](https://github.com/TheUnderScorer/scrapper-gate/compare/v1.0.0-test.15...v1.0.0-test.16) (2021-10-31)
 
 
