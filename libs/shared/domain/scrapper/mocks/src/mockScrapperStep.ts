@@ -1,4 +1,4 @@
-import { Exists, repeatUntil } from '@scrapper-gate/shared/common';
+import { repeatUntil } from '@scrapper-gate/shared/common';
 import { createMockUser } from '@scrapper-gate/shared/domain/user/mocks';
 import {
   Maybe,
@@ -15,15 +15,11 @@ export interface CreateMockScrapperStepArgs {
   disabledActions?: ScrapperAction[];
   intercept?: (step: ScrapperStep) => ScrapperStep;
 }
-
-type MockScrapperStep = ScrapperStep &
-  Exists<Pick<ScrapperStep, 'allSelectors'>>;
-
 export const createMockScrapperStep = async ({
   createdBy = createMockUser(),
   disabledActions = [],
   intercept,
-}: CreateMockScrapperStepArgs): Promise<MockScrapperStep> => {
+}: CreateMockScrapperStepArgs): Promise<ScrapperStep> => {
   const action = await repeatUntil(
     () => faker.random.arrayElement(Object.values(ScrapperAction)),
     {
@@ -44,7 +40,6 @@ export const createMockScrapperStep = async ({
       x: faker.datatype.number(500),
       y: faker.datatype.number(500),
     },
-    allSelectors: [],
   };
 
   switch (action) {
