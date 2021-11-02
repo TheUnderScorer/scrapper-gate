@@ -1,6 +1,7 @@
 import { repeatUntil } from '@scrapper-gate/shared/common';
 import { createMockUser } from '@scrapper-gate/shared/domain/user/mocks';
 import {
+  Maybe,
   MouseButton,
   ScrapperAction,
   ScrapperStep,
@@ -10,11 +11,10 @@ import faker from 'faker';
 import { v4 } from 'uuid';
 
 export interface CreateMockScrapperStepArgs {
-  createdBy?: User;
+  createdBy?: Maybe<User>;
   disabledActions?: ScrapperAction[];
   intercept?: (step: ScrapperStep) => ScrapperStep;
 }
-
 export const createMockScrapperStep = async ({
   createdBy = createMockUser(),
   disabledActions = [],
@@ -30,7 +30,8 @@ export const createMockScrapperStep = async ({
   const baseStep: ScrapperStep = {
     action,
     id: v4(),
-    createdBy,
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    createdBy: createdBy!,
     createdAt: new Date(),
     updatedAt: new Date(),
     url: faker.internet.url(),

@@ -7,7 +7,7 @@ export const scrapperSchema = gql`
     updatedAt: Date!
     isRunning: Boolean
     name: String
-    createdBy: User
+    createdBy: User!
     deletedAt: Date
     steps: [ScrapperStep!]
     variables: [Variable!]
@@ -41,7 +41,7 @@ export const scrapperSchema = gql`
     createdAt: Date!
     updatedAt: Date!
     deletedAt: Date
-    createdBy: User
+    createdBy: User!
     goBackSteps: Int
     nextStep: ScrapperStep
     previousSteps: [ScrapperStep!]
@@ -144,7 +144,7 @@ export const scrapperSchema = gql`
     deletedAt: Date
     updatedAt: Date!
     createdAt: Date!
-    steps: [ScrapperStep!]
+    steps: [ScrapperStep!]!
     state: RunState!
     endedAt: Date
     startedAt: Date
@@ -158,7 +158,7 @@ export const scrapperSchema = gql`
     variables: [Variable!]
     runSettings: ScrapperRunSettings
     scrapper: Scrapper
-    createdBy: User
+    createdBy: User!
   }
 
   enum ScrapperDialogBehaviour {

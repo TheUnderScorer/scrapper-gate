@@ -12,7 +12,8 @@ import {
 } from '@scrapper-gate/shared/routing';
 import {
   GetMyScrapperRunQuery,
-  Scrapper,
+  Maybe,
+  ScrapperRunScrapperFragment,
   ScrapperStep,
 } from '@scrapper-gate/shared/schema';
 import { Node } from 'react-flow-renderer';
@@ -33,13 +34,9 @@ export type ScrapperRunNodeProperties = BaseNodeProperties & {
   runResult?: Exists<Exists<ScrapperRunFlowBuilder>['results']>[number];
 };
 
-export interface ScrapperRunScrapper extends Pick<Scrapper, 'id'> {
-  steps?: ScrapperRunStep[];
-}
-
 export interface ScrapperRunFormState
   extends FlowBuilderFormState<ScrapperRunNodeProperties> {
-  scrapper?: ScrapperRunScrapper;
+  scrapper?: Maybe<ScrapperRunScrapperFragment>;
 }
 
 export type ScrapperRunFlowBuilder = GetMyScrapperRunQuery['getMyScrapperRun'];

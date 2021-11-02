@@ -13,6 +13,7 @@ import {
 import { useMemo } from 'react';
 import { useForm } from 'react-final-form';
 import { isNode } from 'react-flow-renderer';
+import { uniqBy } from 'remeda';
 import { ScrapperBuilderFormState } from '../ScrapperBuilder.types';
 
 export const useScrapperStepVariables = (
@@ -58,6 +59,6 @@ export const useScrapperStepVariables = (
       },
     });
 
-    return allVariables;
+    return uniqBy(allVariables, (variable) => variable.key);
   }, [getState, nodeIndex, variables]);
 };

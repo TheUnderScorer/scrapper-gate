@@ -14,7 +14,7 @@ generates:
       - ./libs/**/*.gql
     config:
       skipTypename: true
-      maybeValue: T | undefined
+      maybeValue: T | undefined | null
       scalars:
         Date: Date
         WhatValue: WhatValue
@@ -37,7 +37,7 @@ generates:
       - ./apps/**/*.gql
       - ./libs/**/*.gql
     config:
-      maybeValue: T | undefined
+      maybeValue: T | undefined | null
       skipTypename: true
       withComponent: false
       withHOC: false

@@ -101,7 +101,7 @@ export class ScrapperRunRepository extends Repository<ScrapperRunModel> {
     return ensureIdsOrder(
       models,
       scrapperIds as string[],
-      (item) => item?.scrapper.id
+      (item) => item?.scrapper?.id
     );
   }
 }

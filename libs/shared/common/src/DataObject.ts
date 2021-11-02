@@ -8,7 +8,7 @@ export interface DataObjectConstructor<T> extends Constructor<DataObject<T>> {
 }
 
 export abstract class DataObject<Entity> implements Jsonable {
-  fill(payload: Partial<Entity>): this {
+  fill(payload: PartialDeep<Entity>): this {
     Object.assign(this, payload);
 
     return this;

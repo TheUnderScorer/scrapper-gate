@@ -6,9 +6,9 @@ import {
   VariableModel,
   VariableRepository,
 } from '@scrapper-gate/backend/domain/variables';
-import { performUpdate } from '@scrapper-gate/shared/common';
+import { mapToIds, performUpdate } from '@scrapper-gate/shared/common';
 import { ScrapperUpdatedEvent } from '@scrapper-gate/shared/domain/scrapper';
-import { VariableScope } from '@scrapper-gate/shared/schema';
+import { Variable, VariableScope } from '@scrapper-gate/shared/schema';
 import { CommandContext } from 'functional-cqrs';
 import { UpdateScrapperCommand } from '../commands/UpdateScrapper.command';
 import { ScrapperStepModel } from '../models/ScrapperStep.model';
@@ -43,25 +43,38 @@ export const updateScrapperHandler =
         steps: async (scrapper, steps) => {
           const stepsToRemove = findEntitiesToRemove(
             steps ?? [],
-            scrapper.steps
+            scrapper.steps ?? []
           );
+          const stepsToRemoveIds = mapToIds(stepsToRemove);
 
           if (stepsToRemove.length) {
+            await scrapperStepRepository.detachAll(scrapper.steps ?? []);
             await scrapperStepRepository.remove(stepsToRemove);
           }
 
+          const existingSteps =
+            scrapper.steps?.filter(
+              (step) => !stepsToRemoveIds.includes(step.id)
+            ) ?? [];
+
           scrapper.steps = nodeLikeItemsToModels({
-            createModel: (payload) => ScrapperStepModel.create(payload),
+            createModel: (payload) =>
+              ScrapperStepModel.create({
+                ...payload,
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                action: payload.action!,
+              }),
             input: steps ?? [],
-            existingSteps: scrapper.steps,
+            existingSteps,
           });
 
           return scrapper;
         },
+        // TODO Check if this is not creating duplicated variables without assigment to scrapper
         variables: async (scrapper, variables) => {
           const variablesToRemove = findEntitiesToRemove(
-            variables ?? [],
-            scrapper.variables
+            (variables as Variable[]) ?? [],
+            scrapper.variables ?? []
           );
 
           if (variablesToRemove.length) {
@@ -74,6 +87,7 @@ export const updateScrapperHandler =
             variables?.map((variable) =>
               VariableModel.create({
                 ...variable,
+                id: variable.id ?? undefined,
                 createdBy: scrapper.createdBy,
               })
             ) ?? [];

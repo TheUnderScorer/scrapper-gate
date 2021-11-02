@@ -33,6 +33,9 @@ export const apolloServerFactory = ({
         auth: AuthDirective,
         validateDto: ValidateDtoDirective,
       },
+      resolverValidationOptions: {
+        requireResolversForResolveType: false,
+      },
       typeDefs,
       resolvers,
     }),

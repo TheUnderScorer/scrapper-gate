@@ -3,6 +3,7 @@ import { PlayWrightScrapperRunner } from '@scrapper-gate/backend/domain/scrapper
 import { Logger } from '@scrapper-gate/shared/logger';
 import {
   BrowserType,
+  Maybe,
   ScrapperRunSettings,
   ScrapperType,
 } from '@scrapper-gate/shared/schema';
@@ -19,7 +20,7 @@ export interface GetScrapperRunnerDependencies {
 
 export const makeGetScrapperRunner =
   (dependencies: GetScrapperRunnerDependencies) =>
-  (scrapperRun: ScrapperRunModel, runSettings?: ScrapperRunSettings) => {
+  (scrapperRun: ScrapperRunModel, runSettings?: Maybe<ScrapperRunSettings>) => {
     if (!scrapperRun.scrapper) {
       throw new TypeError('Scrapper is missing in scrapper run.');
     }

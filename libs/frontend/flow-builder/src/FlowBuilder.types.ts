@@ -2,6 +2,7 @@ import { Selection } from '@scrapper-gate/frontend/common';
 import { FieldNameCreator } from '@scrapper-gate/frontend/form';
 import { MenuItemProperties } from '@scrapper-gate/frontend/ui';
 import { Perhaps } from '@scrapper-gate/shared/common';
+import { Maybe } from '@scrapper-gate/shared/schema';
 import { ComponentType, MouseEvent, ReactNode, Ref } from 'react';
 import {
   Connection,
@@ -26,7 +27,7 @@ export interface FlowBuilderAddApi<T extends BaseNodeProperties> {
   getNodes: () => Node<T>[];
   getFurthestNode: (pos: 'x' | 'y') => Node<T>;
   sourceNode?: NodeProps<T>;
-  position?: XYPosition;
+  position?: Maybe<XYPosition>;
 }
 
 export type FlowBuilderItem<T extends BaseNodeProperties> = Node<T> | Edge<T>;
@@ -58,17 +59,17 @@ export interface FlowBuilderApiRef {
 }
 
 export interface BaseNodeProperties {
-  isFirst?: boolean;
-  isLast?: boolean;
-  hideHandles?: boolean;
-  hideDropdown?: boolean;
+  isFirst?: Maybe<boolean>;
+  isLast?: Maybe<boolean>;
+  hideHandles?: Maybe<boolean>;
+  hideDropdown?: Maybe<boolean>;
   onClick?: (node: NodeProps<this>) => unknown;
-  isForPlaceholder?: boolean;
-  prevNodeId?: string;
-  nextNodeId?: string;
-  targetPosition?: Position;
+  isForPlaceholder?: Maybe<boolean>;
+  prevNodeId?: Maybe<string>;
+  nextNodeId?: Maybe<string>;
+  targetPosition?: Maybe<Position>;
   icon?: ReactNode;
-  sourcePosition?: Position;
+  sourcePosition?: Maybe<Position>;
   title?: ReactNode;
   dropdownMenu?: (node: NodeProps<this>) => MenuItemProperties[];
   nodeAddonBefore?: (node: NodeProps<this>) => JSX.Element;
@@ -83,7 +84,7 @@ export interface BaseNodeProperties {
 export interface BaseNodeSelectionProperties extends BaseNodeProperties {
   type: string;
   id?: string;
-  position?: XYPosition;
+  position?: Maybe<XYPosition>;
 }
 
 export interface FlowBuilderPlaceholderProperties extends BaseNodeProperties {

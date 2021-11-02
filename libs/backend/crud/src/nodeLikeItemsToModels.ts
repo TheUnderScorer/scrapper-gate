@@ -26,8 +26,8 @@ interface MappedItems<T> extends NodeLikeItemInput {
  * Parses node like items and builds relation from them using given database model
  * */
 export const nodeLikeItemsToModels = <
-  Model extends BaseModel<NodeLikeItem> & NodeLikeItem,
-  Input extends NodeLikeItemInput
+  Model extends BaseModel<unknown> & NodeLikeItem,
+  Input extends NodeLikeItemInput = NodeLikeItemInput
 >({
   input,
   existingSteps,
@@ -36,15 +36,21 @@ export const nodeLikeItemsToModels = <
   const existingStepIds = existingSteps.map((step) => step.id);
 
   return input
-    .map(
-      (step) =>
-        ({
-          model: createModel(step),
-          nextStepId: step.nextStepId,
-          stepIdOnTrue: step.stepIdOnTrue,
-          stepIdOnFalse: step.stepIdOnFalse,
-        } as MappedItems<Model>)
-    )
+    .map((step) => {
+      const existingStep = existingSteps.find(
+        (existingStep) => existingStep.id === step.id
+      );
+
+      return {
+        model: createModel({
+          ...existingStep,
+          ...step,
+        }),
+        nextStepId: step.nextStepId,
+        stepIdOnTrue: step.stepIdOnTrue,
+        stepIdOnFalse: step.stepIdOnFalse,
+      } as MappedItems<Model>;
+    })
     .map(({ model }, index, array) => {
       const oldId = model.id;
 

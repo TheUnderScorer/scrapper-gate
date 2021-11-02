@@ -30,14 +30,16 @@ import {
   toDisplayText,
 } from '@scrapper-gate/shared/common';
 import { isCompleted } from '@scrapper-gate/shared/run-states';
-import { Maybe } from '@scrapper-gate/shared/schema';
+import {
+  Maybe,
+  ScrapperRunScrapperFragment,
+} from '@scrapper-gate/shared/schema';
 import { format } from 'date-fns';
 import React, { useCallback, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   ScrapperRunNodeProperties,
   ScrapperRunProps,
-  ScrapperRunScrapper,
 } from '../ScrapperRun.types';
 
 const StyledList = styled(List)(({ theme }) => ({
@@ -79,7 +81,7 @@ export const ScrapperRunNodeContent = ({
     getFieldName('runResult')
   );
 
-  const scrapper = useFormFieldValue<ScrapperRunScrapper>('scrapper');
+  const scrapper = useFormFieldValue<ScrapperRunScrapperFragment>('scrapper');
 
   const stepExists = useMemo(
     () =>

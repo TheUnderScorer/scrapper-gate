@@ -54,7 +54,7 @@ export const ScrapperListItem = ({
               id: 'run_scrapper',
               icon: theme.icons.run,
               content: 'Run scrapper',
-              disabled: scrapper.isRunning,
+              disabled: Boolean(scrapper.isRunning),
             },
             {
               id: 'separator',

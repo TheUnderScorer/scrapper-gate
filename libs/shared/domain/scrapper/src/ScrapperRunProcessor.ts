@@ -2,6 +2,7 @@
 import {
   createBaseEntity,
   Disposable,
+  isError,
   Perhaps,
 } from '@scrapper-gate/shared/common';
 import {
@@ -104,6 +105,10 @@ export class ScrapperRunProcessor implements Disposable {
         step = nextStep!;
       }
     } catch (error) {
+      if (!isError(error)) {
+        throw error;
+      }
+
       this.logger.error(`Step ${step?.id} failed: ${error.message}`);
 
       const errorObject = ErrorObjectDto.createFromError(error);
@@ -208,6 +213,10 @@ export class ScrapperRunProcessor implements Disposable {
         nextStep,
       };
     } catch (error) {
+      if (!isError(error)) {
+        throw error;
+      }
+
       const errorObject = ErrorObjectDto.createFromError(error);
 
       // Persist error on step level

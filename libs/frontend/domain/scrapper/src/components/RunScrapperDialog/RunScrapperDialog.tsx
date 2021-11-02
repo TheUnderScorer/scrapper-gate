@@ -124,8 +124,6 @@ export const RunScrapperDialog = ({
 
   const initialValues = removeTypename(actualScrapper.runSettings);
 
-  console.log({ initialValues });
-
   return (
     <Form<ScrapperRunSettingsInput>
       validate={validate}
@@ -139,7 +137,7 @@ export const RunScrapperDialog = ({
           },
         })
       }
-      initialValues={initialValues}
+      initialValues={initialValues ?? undefined}
       render={(props) => (
         <Dialog
           maxWidth="sm"

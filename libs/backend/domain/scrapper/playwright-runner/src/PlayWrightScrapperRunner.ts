@@ -6,6 +6,7 @@ import { BaseScrapperRunner } from '@scrapper-gate/backend/domain/scrapper/base-
 import { PerformanceManager } from '@scrapper-gate/backend/perf-hooks-utils';
 import {
   areUrlsEqual,
+  isError,
   last,
   mapSelectorsToXpathExpression,
 } from '@scrapper-gate/shared/common';
@@ -24,6 +25,7 @@ import { Logger } from '@scrapper-gate/shared/logger';
 import {
   BrowserType,
   FileType,
+  Maybe,
   RunnerPerformanceEntry,
   ScrapperDialogBehaviour,
   ScrapperNoElementsFoundBehavior,
@@ -46,7 +48,7 @@ export interface PlayWrightScrapperRunnerDependencies {
   browserType: BrowserType;
   filesService: FilesService;
   scrapperRun: ScrapperRun;
-  runSettings?: ScrapperRunSettings;
+  runSettings?: Maybe<ScrapperRunSettings>;
 }
 
 interface AfterRunResult {
@@ -129,7 +131,7 @@ export class PlayWrightScrapperRunner
     this.page.on('dialog', async (dialog) => {
       switch (this.runSettings?.dialogBehaviour) {
         case ScrapperDialogBehaviour.AlwaysConfirm:
-          await dialog.accept(this.runSettings?.promptText);
+          await dialog.accept(this.runSettings?.promptText ?? undefined);
           break;
 
         default:
@@ -179,13 +181,17 @@ export class PlayWrightScrapperRunner
           try {
             await element.click(options);
           } catch (error) {
+            if (!isError(error)) {
+              throw error;
+            }
+
             const messages = [
               'Protocol error (DOM.scrollIntoViewIfNeeded): Cannot find context with specified id',
               'elementHandle.click: Unable to adopt element handle from a different document',
             ];
 
             const isValidError = messages.some((msg) =>
-              error.message.includes(msg)
+              (error as Error).message.includes(msg)
             );
 
             if (!isValidError) {
@@ -402,7 +408,7 @@ export class PlayWrightScrapperRunner
         elements.map((el) =>
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
           el.type(step.typeValue!, {
-            delay: step.typeDelay,
+            delay: step.typeDelay ?? undefined,
           })
         )
       );
@@ -504,7 +510,11 @@ export class PlayWrightScrapperRunner
   }
 
   // TODO Screenshot on error?
-  private async onError(error: Error, params: ScrapperStepHandlerParams) {
+  private async onError(error: unknown, params: ScrapperStepHandlerParams) {
+    if (!isError(error)) {
+      throw error;
+    }
+
     const { performance } = await this.afterRun(params);
 
     return new ScrapperRunError({

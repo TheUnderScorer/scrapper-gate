@@ -47,7 +47,7 @@ describe('Get my scrapper runs', () => {
           index: 1,
           state: RunState.Pending,
           scrapper,
-          steps: scrapper.steps,
+          steps: scrapper.steps ?? [],
           createdBy: user,
         });
 

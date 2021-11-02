@@ -147,6 +147,15 @@ export const ScrapperListItemFragmentDoc = gql`
     type
   }
 `;
+export const ScrapperRunScrapperFragmentDoc = gql`
+  fragment ScrapperRunScrapper on Scrapper {
+    id
+    name
+    steps {
+      id
+    }
+  }
+`;
 export const ScrapperRunListItemFragmentDoc = gql`
   fragment ScrapperRunListItem on ScrapperRun {
     id
@@ -697,11 +706,7 @@ export const GetMyScrapperRunDocument = gql`
       endedAt
       name
       scrapper {
-        id
-        name
-        steps {
-          id
-        }
+        ...ScrapperRunScrapper
       }
       error {
         date
@@ -753,6 +758,7 @@ export const GetMyScrapperRunDocument = gql`
       }
     }
   }
+  ${ScrapperRunScrapperFragmentDoc}
   ${ScrapperBuilderStepFragmentDoc}
   ${FileLinkFileFragmentDoc}
 `;

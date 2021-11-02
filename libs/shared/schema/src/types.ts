@@ -4,7 +4,7 @@ import {
   GraphQLScalarTypeConfig,
 } from 'graphql';
 import { WhatValue, ConditionalRuleValue } from './scalars';
-export type Maybe<T> = T | undefined;
+export type Maybe<T> = T | undefined | null;
 export type Exact<T extends { [key: string]: unknown }> = {
   [K in keyof T]: T[K];
 };
@@ -105,7 +105,7 @@ export type CreateUserResult = {
 };
 
 export type CreatedBy = {
-  createdBy?: Maybe<User>;
+  createdBy: User;
 };
 
 export type ErrorObject = ErrorObjectInterface & {
@@ -330,7 +330,7 @@ export type Scrapper = BaseEntity &
     updatedAt: Scalars['Date'];
     isRunning?: Maybe<Scalars['Boolean']>;
     name?: Maybe<Scalars['String']>;
-    createdBy?: Maybe<User>;
+    createdBy: User;
     deletedAt?: Maybe<Scalars['Date']>;
     steps?: Maybe<Array<ScrapperStep>>;
     variables?: Maybe<Array<Variable>>;
@@ -385,7 +385,7 @@ export type ScrapperRun = BaseEntity &
     deletedAt?: Maybe<Scalars['Date']>;
     updatedAt: Scalars['Date'];
     createdAt: Scalars['Date'];
-    steps?: Maybe<Array<ScrapperStep>>;
+    steps: Array<ScrapperStep>;
     state: RunState;
     endedAt?: Maybe<Scalars['Date']>;
     startedAt?: Maybe<Scalars['Date']>;
@@ -399,7 +399,7 @@ export type ScrapperRun = BaseEntity &
     variables?: Maybe<Array<Variable>>;
     runSettings?: Maybe<ScrapperRunSettings>;
     scrapper?: Maybe<Scrapper>;
-    createdBy?: Maybe<User>;
+    createdBy: User;
   };
 
 export type ScrapperRunQueryResult = {
@@ -460,7 +460,7 @@ export type ScrapperStep = BaseEntity &
     createdAt: Scalars['Date'];
     updatedAt: Scalars['Date'];
     deletedAt?: Maybe<Scalars['Date']>;
-    createdBy?: Maybe<User>;
+    createdBy: User;
     goBackSteps?: Maybe<Scalars['Int']>;
     nextStep?: Maybe<ScrapperStep>;
     previousSteps?: Maybe<Array<ScrapperStep>>;
@@ -780,6 +780,10 @@ export type ScrapperListItemFragment = Pick<
   lastRun?: Maybe<Pick<ScrapperRun, 'id' | 'state' | 'endedAt' | 'startedAt'>>;
 };
 
+export type ScrapperRunScrapperFragment = Pick<Scrapper, 'id' | 'name'> & {
+  steps?: Maybe<Array<Pick<ScrapperStep, 'id'>>>;
+};
+
 export type GetMyScrapperRunQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -790,13 +794,9 @@ export type GetMyScrapperRunQuery = {
       ScrapperRun,
       'id' | 'createdAt' | 'endedAt' | 'name' | 'state' | 'keyPairValues'
     > & {
-      scrapper?: Maybe<
-        Pick<Scrapper, 'id' | 'name'> & {
-          steps?: Maybe<Array<Pick<ScrapperStep, 'id'>>>;
-        }
-      >;
+      scrapper?: Maybe<ScrapperRunScrapperFragment>;
       error?: Maybe<Pick<RunnerError, 'date' | 'message' | 'name' | 'stepId'>>;
-      steps?: Maybe<Array<ScrapperBuilderStepFragment>>;
+      steps: Array<ScrapperBuilderStepFragment>;
       results?: Maybe<
         Array<
           Pick<
@@ -1288,7 +1288,7 @@ export type CreatedByResolvers<
     ParentType,
     ContextType
   >;
-  createdBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  createdBy?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
 }>;
 
 export interface DateScalarConfig
@@ -1544,7 +1544,7 @@ export type ScrapperResolvers<
     ContextType
   >;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  createdBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  createdBy?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   deletedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   steps?: Resolver<
     Maybe<Array<ResolversTypes['ScrapperStep']>>,
@@ -1597,7 +1597,7 @@ export type ScrapperRunResolvers<
   updatedAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   steps?: Resolver<
-    Maybe<Array<ResolversTypes['ScrapperStep']>>,
+    Array<ResolversTypes['ScrapperStep']>,
     ParentType,
     ContextType
   >;
@@ -1638,7 +1638,7 @@ export type ScrapperRunResolvers<
     ParentType,
     ContextType
   >;
-  createdBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  createdBy?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -1767,7 +1767,7 @@ export type ScrapperStepResolvers<
   createdAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   deletedAt?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
-  createdBy?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
+  createdBy?: Resolver<ResolversTypes['User'], ParentType, ContextType>;
   goBackSteps?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   nextStep?: Resolver<
     Maybe<ResolversTypes['ScrapperStep']>,

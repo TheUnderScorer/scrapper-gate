@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { MenuItem } from '@mui/material';
 import { useVariablesContextSelector } from '../../providers/VariablesProvider';
 import { FormSelect } from '@scrapper-gate/frontend/form';
@@ -10,7 +11,7 @@ export const VariableSelect = (props: VariableSelectProps) => {
   return (
     <FormSelect {...props}>
       {variables.map((variable) => (
-        <MenuItem key={variable.key} value={variable.key}>
+        <MenuItem key={variable.key!} value={variable.key!}>
           {variable.key}
         </MenuItem>
       ))}

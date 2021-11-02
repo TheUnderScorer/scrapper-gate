@@ -4,6 +4,7 @@ import { VariableModel } from '@scrapper-gate/backend/domain/variables';
 import { Entities } from '@scrapper-gate/shared/common';
 import { defaultScrapperRunSettings } from '@scrapper-gate/shared/domain/scrapper';
 import {
+  Maybe,
   NodePosition,
   Scrapper,
   ScrapperRunSettings,
@@ -32,13 +33,14 @@ export class ScrapperModel
 
   @Column({
     nullable: true,
+    type: 'text',
   })
-  name?: string;
+  name?: Maybe<string>;
 
   @OneToMany(() => ScrapperStepModel, (model) => model.scrapper, {
     cascade: true,
   })
-  steps: ScrapperStepModel[];
+  steps?: Maybe<ScrapperStepModel[]>;
 
   @OneToMany(() => ScrapperRunModel, (model) => model.scrapper, {
     cascade: true,
@@ -49,7 +51,7 @@ export class ScrapperModel
     cascade: true,
   })
   @JoinTable()
-  variables: VariableModel[];
+  variables: Maybe<VariableModel[]>;
 
   @Column({
     type: 'enum',
@@ -62,11 +64,11 @@ export class ScrapperModel
     nullable: true,
     default: defaultScrapperRunSettings,
   })
-  runSettings?: ScrapperRunSettings;
+  runSettings?: Maybe<ScrapperRunSettings>;
 
   @Column({
     type: 'jsonb',
     nullable: true,
   })
-  startNodePosition?: NodePosition;
+  startNodePosition?: Maybe<NodePosition>;
 }

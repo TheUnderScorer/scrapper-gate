@@ -16,6 +16,7 @@ export const scrapperRunToNodes = (
   if (run?.results) {
     steps = run.results.map((result) => ({
       ...result.step,
+      position: result.step.position ?? undefined,
       runResult: result,
       nodeAddonBefore: (node: ScrapperRunNode) => (
         <ScrapperRunNodeAddonBefore node={node} />

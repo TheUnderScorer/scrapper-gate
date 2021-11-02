@@ -98,7 +98,7 @@ describe('Scrapper runner', () => {
     const updatedRun =
       await scrapperRunRepository.findLastForScrapperWithValues(scrapper.id);
 
-    const screenshot = updatedRun!.results[0].values![0].screenshot;
+    const screenshot = updatedRun!.results![0].values![0].screenshot;
 
     expect(screenshot).toBeDefined();
     expect(screenshot.kind).toEqual(FileKind.Image);
@@ -107,7 +107,7 @@ describe('Scrapper runner', () => {
     expect(screenshot.key).toEqual(
       generateScrapperScreenshotFileKey(
         updatedRun!.id,
-        updatedRun!.results[0].step.id
+        updatedRun!.results![0].step.id
       )
     );
   });
@@ -133,8 +133,8 @@ describe('Scrapper runner', () => {
       })
     );
 
-    const secondStep = ScrapperStepModel.create(
-      await createMockScrapperStep({
+    const secondStep = ScrapperStepModel.create({
+      ...(await createMockScrapperStep({
         createdBy: scrapper.createdBy,
         intercept: (step) => {
           step.useUrlFromPreviousStep = true;
@@ -147,8 +147,8 @@ describe('Scrapper runner', () => {
 
           return step;
         },
-      })
-    );
+      })),
+    });
 
     firstStep.nextStep = secondStep;
 

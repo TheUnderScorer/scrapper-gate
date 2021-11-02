@@ -3,6 +3,7 @@ import { UserModel } from '@scrapper-gate/backend/domain/user';
 import { Entities } from '@scrapper-gate/shared/common';
 import {
   CreatedBy,
+  Maybe,
   Variable,
   VariableScope,
   VariableType,
@@ -36,19 +37,20 @@ export class VariableModel
     transformer: valueTransformer,
     nullable: true,
   })
-  value: unknown;
+  value?: Maybe<unknown>;
 
   @Column({
     nullable: true,
+    type: 'text',
   })
-  key?: string;
+  key?: Maybe<string>;
 
   @Column({
     type: 'text',
     transformer: valueTransformer,
     nullable: true,
   })
-  defaultValue: unknown;
+  defaultValue?: Maybe<unknown>;
 
   @Column({
     type: 'enum',
@@ -65,5 +67,5 @@ export class VariableModel
     type: 'enum',
     enum: VariableType,
   })
-  type?: VariableType;
+  type?: Maybe<VariableType>;
 }

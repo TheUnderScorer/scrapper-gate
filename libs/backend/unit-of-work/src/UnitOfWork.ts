@@ -2,7 +2,7 @@
 import { asValueObject } from '@scrapper-gate/backend/awilix';
 import { RepositoriesProvider } from '@scrapper-gate/backend/database';
 import { MessageQueue } from '@scrapper-gate/backend/message-queue';
-import { Disposable } from '@scrapper-gate/shared/common';
+import { Disposable, isError } from '@scrapper-gate/shared/common';
 import { Logger } from '@scrapper-gate/shared/logger';
 import { asValue, AwilixContainer } from 'awilix';
 import { Typed } from 'emittery';
@@ -71,12 +71,14 @@ export class UnitOfWork<
     } catch (e) {
       await messageQueue.flush();
 
-      logger.error('Unit of work failed:', e.message);
+      if (isError(e)) {
+        logger.error('Unit of work failed:', e.message);
 
-      await this.events.emit('failed', {
-        error: e,
-        service: this,
-      });
+        await this.events.emit('failed', {
+          error: e,
+          service: this,
+        });
+      }
 
       throw e;
     } finally {

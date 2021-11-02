@@ -1,3 +1,4 @@
+import { isError } from '@scrapper-gate/shared/common';
 import { useCallback, useState } from 'react';
 import {
   MessagesPayloadMap,
@@ -46,9 +47,11 @@ export const useMessageSender = <Type extends MessageTypes, Data = unknown>({
 
         return response;
       } catch (e) {
-        logger.error(`Message ${type} error:`, e);
+        if (isError(e)) {
+          logger.error(`Message ${type} error:`, e);
 
-        setError(e);
+          setError(e);
+        }
         setData(null);
 
         return null;

@@ -54,6 +54,6 @@ export const rootSchema = gql`
   }
 
   interface CreatedBy {
-    createdBy: User
+    createdBy: User!
   }
 `;

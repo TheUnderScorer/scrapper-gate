@@ -1,3 +1,11 @@
+fragment ScrapperRunScrapper on Scrapper {
+  id
+  name
+  steps {
+    id
+  }
+}
+
 query GetMyScrapperRun($id: ID!) {
   getMyScrapperRun(id: $id) {
     id
@@ -5,11 +13,7 @@ query GetMyScrapperRun($id: ID!) {
     endedAt
     name
     scrapper {
-      id
-      name
-      steps {
-        id
-      }
+      ...ScrapperRunScrapper
     }
     error {
       date

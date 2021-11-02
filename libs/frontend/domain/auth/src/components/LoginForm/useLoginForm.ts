@@ -70,7 +70,8 @@ export function useLoginForm({
 
           setTokens(data.createUser.tokens);
         }
-      } catch (e) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (e: any) {
         if (e?.networkError?.result?.error) {
           setError(new Error(e.networkError.result.error));
         } else {
