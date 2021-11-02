@@ -108,6 +108,25 @@ export type CreatedBy = {
   createdBy: User;
 };
 
+export type Duration = {
+  ms: Scalars['Float'];
+  seconds: Scalars['Float'];
+  minutes: Scalars['Float'];
+  hours: Scalars['Float'];
+  enteredUnit: DurationUnit;
+};
+
+export type DurationInput = {
+  ms: Scalars['Float'];
+};
+
+export enum DurationUnit {
+  Milliseconds = 'Milliseconds',
+  Seconds = 'Seconds',
+  Minutes = 'Minutes',
+  Hours = 'Hours',
+}
+
 export type ErrorObject = ErrorObjectInterface & {
   name: Scalars['String'];
   message?: Maybe<Scalars['String']>;
@@ -995,6 +1014,10 @@ export type ResolversTypes = ResolversObject<{
     | ResolversTypes['ScrapperRun']
     | ResolversTypes['ScrapperStep'];
   Date: ResolverTypeWrapper<Scalars['Date']>;
+  Duration: ResolverTypeWrapper<Duration>;
+  Float: ResolverTypeWrapper<Scalars['Float']>;
+  DurationInput: DurationInput;
+  DurationUnit: DurationUnit;
   ErrorObject: ResolverTypeWrapper<ErrorObject>;
   ErrorObjectInterface:
     | ResolversTypes['ErrorObject']
@@ -1014,7 +1037,6 @@ export type ResolversTypes = ResolversObject<{
   MouseButton: MouseButton;
   Mutation: ResolverTypeWrapper<{}>;
   NodePosition: ResolverTypeWrapper<NodePosition>;
-  Float: ResolverTypeWrapper<Scalars['Float']>;
   NodePositionInput: NodePositionInput;
   Order: Order;
   OrderDirection: OrderDirection;
@@ -1090,6 +1112,9 @@ export type ResolversParentTypes = ResolversObject<{
     | ResolversParentTypes['ScrapperRun']
     | ResolversParentTypes['ScrapperStep'];
   Date: Scalars['Date'];
+  Duration: Duration;
+  Float: Scalars['Float'];
+  DurationInput: DurationInput;
   ErrorObject: ErrorObject;
   ErrorObjectInterface:
     | ResolversParentTypes['ErrorObject']
@@ -1105,7 +1130,6 @@ export type ResolversParentTypes = ResolversObject<{
   LoginResponse: LoginResponse;
   Mutation: {};
   NodePosition: NodePosition;
-  Float: Scalars['Float'];
   NodePositionInput: NodePositionInput;
   Order: Order;
   Pagination: Pagination;
@@ -1295,6 +1319,22 @@ export interface DateScalarConfig
   extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
   name: 'Date';
 }
+
+export type DurationResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['Duration'] = ResolversParentTypes['Duration']
+> = ResolversObject<{
+  ms?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  seconds?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  minutes?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  hours?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  enteredUnit?: Resolver<
+    ResolversTypes['DurationUnit'],
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
 
 export type ErrorObjectResolvers<
   ContextType = any,
@@ -1978,6 +2018,7 @@ export type Resolvers<ContextType = any> = ResolversObject<{
   CreateUserResult?: CreateUserResultResolvers<ContextType>;
   CreatedBy?: CreatedByResolvers<ContextType>;
   Date?: GraphQLScalarType;
+  Duration?: DurationResolvers<ContextType>;
   ErrorObject?: ErrorObjectResolvers<ContextType>;
   ErrorObjectInterface?: ErrorObjectInterfaceResolvers<ContextType>;
   File?: FileResolvers<ContextType>;

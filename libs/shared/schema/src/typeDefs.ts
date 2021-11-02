@@ -1,5 +1,6 @@
 import { authSchema } from './schema/auth';
 import { conditionalRulesSchema } from './schema/conditionalRules';
+import { durationSchema } from './schema/duration';
 import { errorSchema } from './schema/error';
 import { fileSchema } from './schema/file';
 import { nodesSchema } from './schema/nodes';
@@ -22,4 +23,5 @@ export const typeDefs = [
   runnerSchema,
   errorSchema,
   variablesSchema,
+  durationSchema,
 ];

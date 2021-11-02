@@ -38,3 +38,4 @@ export * from './decorators/setter';
 export * from './decorators/enumerable';
 export * from './partial.types';
 export * from './typeGuards/isError';
+export * from './Duration';
