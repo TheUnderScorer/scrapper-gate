@@ -38,7 +38,8 @@
     "release": "npx semantic-release",
     "release:dry": "npx semantic-release -d",
     "typecheck": "tsc --noEmit -p tsconfig.base.json",
-    "start-local-env": "node scripts/startLocalEnv.mjs"
+    "start-local-env": "node scripts/startLocalEnv.mjs",
+    "stop-local-env": "cd deploy && pulumi stack select development && pulumi destroy -y && cd .. && docker compose down -v"
   },
   "private": true,
   "sideEffects": false,
@@ -231,6 +232,7 @@
     "matcher": "^4.0.0",
     "mockzilla": "^0.12.0",
     "mockzilla-webextension": "^0.13.0",
+    "ora": "^6.0.1",
     "prettier": "2.3.2",
     "serverless": "2.58.0",
     "serverless-offline": "^7.0.0",
@@ -283,4 +285,3 @@
     ]
   }
 }
-
