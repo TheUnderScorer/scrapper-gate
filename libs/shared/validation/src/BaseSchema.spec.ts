@@ -34,6 +34,10 @@ describe('BaseSchema', () => {
     try {
       Obj.validate(nestedObj);
     } catch (e) {
+      if (!ValidationError.isValidationError(e)) {
+        throw e;
+      }
+
       expect(e).toBeInstanceOf(ValidationError);
       expect(e.message).toEqual(
         '"nested" failed custom validation because "value" must be a number'

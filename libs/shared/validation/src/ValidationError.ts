@@ -1,3 +1,4 @@
+import { isError } from '@scrapper-gate/shared/common';
 import {
   ValidationErrorItem,
   ValidationError as JoiValidationError,
@@ -7,6 +8,10 @@ import { JoiMessages } from './types';
 export class ValidationError extends Error {
   constructor(message: string, readonly details: ValidationErrorItem[]) {
     super(message);
+  }
+
+  static isValidationError(error: unknown): error is ValidationError {
+    return isError(error) && error instanceof ValidationError;
   }
 
   static fromJoiError(error: JoiValidationError) {

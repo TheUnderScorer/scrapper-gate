@@ -26,6 +26,7 @@ import {
   useSnackbarOnSuccess,
 } from '@scrapper-gate/frontend/snackbars';
 import { ReturnBtn } from '@scrapper-gate/frontend/ui';
+import { isError } from '@scrapper-gate/shared/common';
 import { extractVariableInput } from '@scrapper-gate/shared/domain/variables';
 import { logger } from '@scrapper-gate/shared/logger/console';
 import { VariableScope } from '@scrapper-gate/shared/schema';
@@ -213,7 +214,9 @@ export const ScrapperBuilder = ({
       } catch (error) {
         logger.error(error);
 
-        snackbarOnError(error);
+        if (isError(error)) {
+          snackbarOnError(error);
+        }
       }
     },
     [initialScrapper, snackbarOnError, snackbarOnSuccess, updateScrapper]

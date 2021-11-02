@@ -14,7 +14,7 @@ import {
 } from '@scrapper-gate/backend/domain/scrapper';
 import { Message, MessageQueue } from '@scrapper-gate/backend/message-queue';
 import { UnitOfWork } from '@scrapper-gate/backend/unit-of-work';
-import { getEnvironment } from '@scrapper-gate/shared/common';
+import { getEnvironment, isError } from '@scrapper-gate/shared/common';
 import { ScrapperRunnerMessagePayload } from '@scrapper-gate/shared/domain/scrapper';
 import { Logger } from '@scrapper-gate/shared/logger';
 import { logger } from '@scrapper-gate/shared/logger/console';
@@ -78,6 +78,10 @@ export const scrapperRunner = async (
               }
             );
           } catch (error) {
+            if (!isError(error)) {
+              throw error;
+            }
+
             logger.error(`Scrapper runner error: ${error.message}`);
 
             if (body?.payload?.runId) {

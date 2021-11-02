@@ -45,7 +45,8 @@ export const repeatUntil = async <T>(
           value = await handler(iteration);
 
           lastResult = true;
-        } catch (error) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
           lastError = error;
           lastResult = false;
         }
