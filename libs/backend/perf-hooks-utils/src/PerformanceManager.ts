@@ -1,4 +1,4 @@
-import { Disposable, repeatUntil, wait } from '@scrapper-gate/shared/common';
+import { Disposable, repeatUntil } from '@scrapper-gate/shared/common';
 import {
   performance,
   PerformanceEntry,
@@ -45,9 +45,6 @@ export class PerformanceManager implements Disposable {
 
   // Returns performance entry by name
   async getEntry(name: string): Promise<PerformanceEntry | undefined> {
-    // Await just in case if entry is not present, if it should be it will be available after this delay
-    await wait(500);
-
     return repeatUntil(() => this.items.find((item) => item.name === name), {
       conditionChecker: (value) => Boolean(value),
     });
