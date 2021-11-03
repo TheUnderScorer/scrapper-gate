@@ -28,6 +28,10 @@ import {
 import { ReturnBtn } from '@scrapper-gate/frontend/ui';
 import { isError } from '@scrapper-gate/shared/common';
 import {
+  ScrapperStepForVariable,
+  variableFromScrapperStep,
+} from '@scrapper-gate/shared/domain/scrapper';
+import {
   createVariable,
   extractVariableInput,
 } from '@scrapper-gate/shared/domain/variables';
@@ -176,13 +180,13 @@ export const ScrapperBuilder = ({
               variables: [
                 ...value.variables,
                 value.items
-                  .filter((item) => item?.data?.key)
+                  .filter((item) => item?.data?.key && item?.data?.action)
                   .map((item) =>
-                    createVariable({
-                      scope: VariableScope.Scrapper,
-                      key: item.data?.key,
-                      type: item.data?.valueType,
-                    })
+                    createVariable(
+                      variableFromScrapperStep(
+                        item.data as ScrapperStepForVariable
+                      )
+                    )
                   ),
               ],
             },

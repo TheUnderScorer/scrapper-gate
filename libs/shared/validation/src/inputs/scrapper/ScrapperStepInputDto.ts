@@ -1,3 +1,4 @@
+import { ExcludeFalsy } from '@scrapper-gate/shared/common';
 import {
   DurationInput,
   MouseButton,
@@ -6,6 +7,7 @@ import {
   ScrapperStep,
   ScrapperStepInput,
   ScrapperWaitType,
+  Variable,
   VariableType,
 } from '@scrapper-gate/shared/schema';
 import * as jf from 'joiful';
@@ -53,10 +55,14 @@ export class ScrapperStepInputDto
     .custom(noSpecialChars({ max: 50, supportsVariables: true }))
     .custom(
       unique({
-        getValueFromContext: (context: { steps: ScrapperStep[] }) =>
-          context.steps,
+        getValueFromContext: (context: {
+          steps: ScrapperStep[];
+          variables: Variable[];
+        }) => context.steps,
         getValue: (step) => step.key,
         isTarget: (parent, value) => parent.id === value.id,
+        getAdditionalKeys: (context) =>
+          context.variables.map((v) => v.key).filter(ExcludeFalsy),
       })
     ))
   key?: string;

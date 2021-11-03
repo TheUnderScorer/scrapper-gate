@@ -5,10 +5,7 @@ import {
   isError,
   Perhaps,
 } from '@scrapper-gate/shared/common';
-import {
-  createVariable,
-  resolveVariables,
-} from '@scrapper-gate/shared/domain/variables';
+import { resolveVariables } from '@scrapper-gate/shared/domain/variables';
 import {
   ErrorObjectDto,
   InvalidType,
@@ -29,8 +26,6 @@ import {
   ScrapperRunValue,
   ScrapperStep,
   Variable,
-  VariableScope,
-  VariableType,
 } from '@scrapper-gate/shared/schema';
 import { Typed } from 'emittery';
 import {
@@ -42,6 +37,7 @@ import {
   ScrapperRunner,
   ScrapperStepFinishedPayload,
 } from './types';
+import { variableFromScrapperStep } from './variableFromScrapperStep';
 
 export interface ProcessParams {
   scrapperRun: ScrapperRun;
@@ -247,13 +243,11 @@ export class ScrapperRunProcessor implements Disposable {
   ) {
     if ('values' in result) {
       this.variables.push(
-        createVariable({
+        variableFromScrapperStep({
+          ...step,
           value: result.values?.map(
             (value) => isReadTextScrapperStepResult(value) && value.value
           ),
-          type: step.valueType ?? VariableType.Text,
-          scope: VariableScope.Scrapper,
-          key: step.key,
         })
       );
     }
