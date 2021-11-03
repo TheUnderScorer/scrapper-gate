@@ -5,12 +5,7 @@ import {
 } from '@scrapper-gate/backend/db-utils';
 import { ConditionalRuleGroupModel } from '@scrapper-gate/backend/domain/conditional-rules';
 import { UserModel } from '@scrapper-gate/backend/domain/user';
-import {
-  Duration,
-  Entities,
-  Enumerable,
-  Setter,
-} from '@scrapper-gate/shared/common';
+import { Duration, Entities, Enumerable } from '@scrapper-gate/shared/common';
 import {
   Maybe,
   MouseButton,
@@ -144,9 +139,6 @@ export class ScrapperStepModel
     type: 'jsonb',
     transformer: makeDataObjectArrayTransformer(ConditionalRuleGroupModel),
   })
-  @Setter((value?: ConditionalRuleGroupModel[]) =>
-    value?.map((val) => ConditionalRuleGroupModel.create(val))
-  )
   conditionalRules?: Maybe<ConditionalRuleGroupModel[]>;
 
   @Column({

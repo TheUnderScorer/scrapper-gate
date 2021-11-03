@@ -2,12 +2,14 @@ import {
   findEntitiesToRemove,
   nodeLikeItemsToModels,
 } from '@scrapper-gate/backend/crud';
+import { ConditionalRuleGroupModel } from '@scrapper-gate/backend/domain/conditional-rules';
 import {
   VariableModel,
   VariableRepository,
 } from '@scrapper-gate/backend/domain/variables';
 import {
   Duration,
+  getById,
   mapToIds,
   performUpdate,
 } from '@scrapper-gate/shared/common';
@@ -70,6 +72,9 @@ export const updateScrapperHandler =
                 waitDuration: payload.waitDuration
                   ? Duration.fromInput(payload.waitDuration)
                   : null,
+                conditionalRules: payload.conditionalRules?.map((rule) =>
+                  ConditionalRuleGroupModel.create(rule)
+                ),
               }),
             input: steps ?? [],
             existingSteps,
@@ -91,13 +96,19 @@ export const updateScrapperHandler =
           }
 
           const variableModels =
-            variables?.map((variable) =>
-              VariableModel.create({
+            variables?.map((variable) => {
+              const existingVariable = getById(
+                scrapper.variables ?? [],
+                variable.id
+              );
+
+              return VariableModel.create({
+                ...existingVariable,
                 ...variable,
                 id: variable.id ?? undefined,
                 createdBy: scrapper.createdBy,
-              })
-            ) ?? [];
+              });
+            }) ?? [];
 
           scrapper.variables = variableModels.filter(
             (variable) => variable.scope === VariableScope.Scrapper

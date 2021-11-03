@@ -37,9 +37,11 @@ export const WaitSections = ({
         dictionary={{
           [ScrapperWaitType.Time]: {
             icon: scrapperActionIcons.Wait,
+            label: 'Wait for given time',
           },
           [ScrapperWaitType.Condition]: {
             icon: scrapperActionIcons.Condition,
+            label: 'Wait until given condition is true',
           },
         }}
         name={fieldNameCreator('waitType')}
@@ -62,6 +64,7 @@ export const WaitSections = ({
       )}
       {waitType === ScrapperWaitType.Time && (
         <FormDurationInputField
+          helperText="How long scrapper should wait."
           label="Wait time"
           name={fieldNameCreator('waitDuration')}
         />
