@@ -1,8 +1,16 @@
 import { BaseModel } from '@scrapper-gate/backend/base-model';
-import { makeDataObjectArrayTransformer } from '@scrapper-gate/backend/db-utils';
+import {
+  durationTransformer,
+  makeDataObjectArrayTransformer,
+} from '@scrapper-gate/backend/db-utils';
 import { ConditionalRuleGroupModel } from '@scrapper-gate/backend/domain/conditional-rules';
 import { UserModel } from '@scrapper-gate/backend/domain/user';
-import { Entities, Enumerable, Setter } from '@scrapper-gate/shared/common';
+import {
+  Duration,
+  Entities,
+  Enumerable,
+  Setter,
+} from '@scrapper-gate/shared/common';
 import {
   Maybe,
   MouseButton,
@@ -10,6 +18,7 @@ import {
   ScrapperAction,
   ScrapperRunSettings,
   ScrapperStep,
+  ScrapperWaitType,
   Selector,
   VariableType,
 } from '@scrapper-gate/shared/schema';
@@ -170,6 +179,20 @@ export class ScrapperStepModel
     enum: VariableType,
   })
   valueType?: Maybe<VariableType>;
+
+  @Column({
+    nullable: true,
+    type: 'jsonb',
+    transformer: durationTransformer,
+  })
+  waitDuration?: Maybe<Duration>;
+
+  @Column({
+    type: 'enum',
+    enum: ScrapperWaitType,
+    nullable: true,
+  })
+  waitType?: Maybe<ScrapperWaitType>;
 
   @Enumerable(true)
   get allSelectors(): Maybe<Selector[]> {

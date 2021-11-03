@@ -8,3 +8,4 @@ export * from './defaultRunSettings';
 export * from './getPotentialVariablesForStep';
 export * from './logic/scrapperActionHasTextValue';
 export * from './scrapperActionDefinitions';
+export * from './typeGuards';

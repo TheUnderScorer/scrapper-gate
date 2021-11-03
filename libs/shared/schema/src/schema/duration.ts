@@ -10,7 +10,8 @@ export const durationSchema = gql`
   }
 
   input DurationInput {
-    ms: Float!
+    value: Float!
+    unit: DurationUnit!
   }
 
   enum DurationUnit {

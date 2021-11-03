@@ -73,6 +73,8 @@ export const scrapperSchema = gql`
     # HTML attribute to read ("ReadAttribute" action)
     attributeToRead: String
     valueType: VariableType
+    waitType: ScrapperWaitType
+    waitDuration: Duration
   }
 
   input ScrapperStepInput {
@@ -98,6 +100,8 @@ export const scrapperSchema = gql`
     newRunSettings: ScrapperRunSettingsInput
     attributeToRead: String
     valueType: VariableType
+    waitType: ScrapperWaitType
+    waitDuration: DurationInput
   }
 
   type ScrapperRunStepResult implements BaseEntity {
@@ -197,7 +201,13 @@ export const scrapperSchema = gql`
     Type
     Screenshot
     ChangeRunSettings
+    Wait
     Condition
+  }
+
+  enum ScrapperWaitType {
+    Condition
+    Time
   }
 
   enum ScrapperType {

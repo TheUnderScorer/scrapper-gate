@@ -94,7 +94,6 @@ describe('Scrapper run processor', () => {
     );
 
     runner.Click.mockResolvedValue({
-      values: [],
       performance: {
         duration: 25,
       },
@@ -132,7 +131,6 @@ describe('Scrapper run processor', () => {
     );
 
     runner.Click.mockResolvedValue({
-      values: [],
       performance: {
         duration: 25,
       },
@@ -212,14 +210,12 @@ describe('Scrapper run processor', () => {
     const runner = createMockProxy<ScrapperRunner>();
 
     runner.Click.mockResolvedValue({
-      values: [],
       performance: {
         duration: 25,
       },
     });
 
     runner.ReadText.mockResolvedValue({
-      values: [],
       performance: {
         duration: 25,
       },
@@ -255,14 +251,12 @@ describe('Scrapper run processor', () => {
     const runner = createMockProxy<ScrapperRunner>();
 
     runner.Click.mockResolvedValue({
-      values: [],
       performance: {
         duration: 25,
       },
     });
 
     runner.ReadText.mockResolvedValue({
-      values: [],
       performance: {
         duration: 25,
       },
@@ -312,14 +306,12 @@ describe('Scrapper run processor', () => {
     const runner = createMockProxy<ScrapperRunner>();
 
     runner.Click.mockResolvedValue({
-      values: [],
       performance: {
         duration: 25,
       },
     });
 
     runner.ReadText.mockResolvedValue({
-      values: [],
       performance: {
         duration: 25,
       },
@@ -409,14 +401,12 @@ describe('Scrapper run processor', () => {
       performance: {
         duration: 5,
       },
-      values: [],
     });
 
     runner.Type.mockResolvedValue({
       performance: {
         duration: 5,
       },
-      values: [],
     });
 
     await processor.process();

@@ -15,7 +15,11 @@ import {
   createMockScrapper,
   createMockScrapperStep,
 } from '@scrapper-gate/shared/domain/scrapper/mocks';
-import { Scrapper, ScrapperAction } from '@scrapper-gate/shared/schema';
+import {
+  Scrapper,
+  ScrapperAction,
+  ScrapperStepInput,
+} from '@scrapper-gate/shared/schema';
 import { act, render, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { isEdge, isNode, Node, XYPosition } from 'react-flow-renderer';
@@ -259,7 +263,7 @@ describe('ScrapperBuilder', () => {
     });
 
     scrapper
-      .steps!.map((step) => pickScrapperInput(step))
+      .steps!.map((step) => pickScrapperInput(step as ScrapperStepInput))
       .forEach((stepInput) => {
         const stepVariable = getById(variables.input.steps, stepInput.id);
         const step = getById(scrapper.steps!, stepInput.id);

@@ -54,4 +54,8 @@ export const scrapperStepActionDefinitions: ScrapperStepActionDefinitions = {
     description: 'Types provided text into selected elements.',
     returnsValue: false,
   },
+  [ScrapperAction.Wait]: {
+    description: 'Waits until selected condition happens.',
+    returnsValue: false,
+  },
 };

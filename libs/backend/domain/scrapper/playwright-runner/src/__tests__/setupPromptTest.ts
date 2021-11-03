@@ -38,12 +38,10 @@ export async function setupPromptTest({
         },
       ],
     },
-    scrapperRun,
     variables: [],
   });
 
   const { values } = await runner.ReadText({
-    scrapperRun,
     variables: [],
     step: {
       ...(await createMockScrapperStep({})),

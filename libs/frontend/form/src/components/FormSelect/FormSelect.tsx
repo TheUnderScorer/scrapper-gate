@@ -31,6 +31,7 @@ export interface FormSelectProps
       | 'MenuProps'
       | 'open'
       | 'disabled'
+      | 'renderValue'
     >,
     Pick<TextFieldProps, 'label' | 'helperText'> {
   name: string;

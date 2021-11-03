@@ -1,6 +1,6 @@
-import 'reflect-metadata';
 import { Duration } from '@scrapper-gate/shared/common';
 import { useState } from 'react';
+import 'reflect-metadata';
 import { DurationInputField } from './DurationInputField';
 
 export default {
@@ -8,7 +8,7 @@ export default {
 };
 
 export const Component = () => {
-  const [value, setValue] = useState(Duration.fromMinutes(60));
+  const [value, setValue] = useState(Duration.fromMinutes(60).toInput());
 
   return (
     <>

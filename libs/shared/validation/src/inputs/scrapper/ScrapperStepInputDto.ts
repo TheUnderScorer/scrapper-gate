@@ -1,9 +1,12 @@
 import {
+  DurationInput,
   MouseButton,
   ScrapperAction,
   ScrapperRunSettingsInput,
   ScrapperStep,
   ScrapperStepInput,
+  ScrapperWaitType,
+  VariableType,
 } from '@scrapper-gate/shared/schema';
 import * as jf from 'joiful';
 import { BaseSchema } from '../../BaseSchema';
@@ -13,6 +16,7 @@ import { supportsVariables } from '../../decorators/supportsVariables';
 import { unique } from '../../decorators/unique';
 import { uuid } from '../../decorators/uuid';
 import { JoiMessages } from '../../types';
+import { DurationInputDto } from '../DurationInputDto';
 import { SelectorDto } from '../SelectorDto';
 import { ScrapperConditionalRuleGroupInputDto } from './ScrapperConditionalRuleGroupInputDto';
 import { ScrapperRunSettingsInputDto } from './ScrapperRunSettingsInputDto';
@@ -107,4 +111,18 @@ export class ScrapperStepInputDto
     })
   ))
   attributeToRead?: string;
+
+  @optionalEnum(VariableType)
+  valueType?: VariableType;
+
+  @(optionalEnum(ScrapperWaitType).custom(({ joi }) =>
+    joi.when('action', {
+      is: ScrapperAction.Wait,
+      then: joi.string().valid(...Object.values(ScrapperWaitType)),
+    })
+  ))
+  waitType?: ScrapperWaitType;
+
+  @(jf.object({ objectClass: DurationInputDto }).allow(null))
+  waitDuration?: DurationInput;
 }

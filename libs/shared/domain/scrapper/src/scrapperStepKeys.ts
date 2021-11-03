@@ -25,6 +25,8 @@ export const scrapperStepInputKeys = getAllObjectKeys<ScrapperStepInput>({
   newRunSettings: true,
   attributeToRead: true,
   valueType: true,
+  waitDuration: true,
+  waitType: true,
 });
 
 export const pickScrapperInput = pick<

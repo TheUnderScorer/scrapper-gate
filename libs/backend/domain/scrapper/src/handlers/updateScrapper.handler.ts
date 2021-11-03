@@ -6,7 +6,11 @@ import {
   VariableModel,
   VariableRepository,
 } from '@scrapper-gate/backend/domain/variables';
-import { mapToIds, performUpdate } from '@scrapper-gate/shared/common';
+import {
+  Duration,
+  mapToIds,
+  performUpdate,
+} from '@scrapper-gate/shared/common';
 import { ScrapperUpdatedEvent } from '@scrapper-gate/shared/domain/scrapper';
 import { Variable, VariableScope } from '@scrapper-gate/shared/schema';
 import { CommandContext } from 'functional-cqrs';
@@ -63,6 +67,9 @@ export const updateScrapperHandler =
                 ...payload,
                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                 action: payload.action!,
+                waitDuration: payload.waitDuration
+                  ? Duration.fromInput(payload.waitDuration)
+                  : null,
               }),
             input: steps ?? [],
             existingSteps,

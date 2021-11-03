@@ -8,6 +8,7 @@ export interface UniqueParams<Context, ValueFromContext> {
   isTarget: (parent: ValueFromContext, value: ValueFromContext) => boolean;
 }
 
+// TODO Add option to pass additional keys
 export const unique =
   <Context, ValueFromContext = unknown>({
     getValue,

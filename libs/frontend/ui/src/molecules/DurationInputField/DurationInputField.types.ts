@@ -1,8 +1,8 @@
 import { TextFieldProps } from '@mui/material';
-import { Duration } from '@scrapper-gate/shared/common';
+import { DurationInput, Duration } from '@scrapper-gate/shared/schema';
 
 export interface DurationInputFieldProps
   extends Omit<TextFieldProps, 'value' | 'onChange'> {
-  value?: Duration;
-  onChange?: (value: Duration) => unknown;
+  value?: DurationInput | Duration;
+  onChange?: (value: DurationInput) => unknown;
 }

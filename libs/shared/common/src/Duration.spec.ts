@@ -55,4 +55,10 @@ describe('Duration', () => {
 
     expect(duration.hours).toEqual(1);
   });
+
+  it('should get value by unit', () => {
+    const duration = Duration.fromMinutes(60);
+
+    expect(duration.byUnit(DurationUnit.Hours)).toEqual(1);
+  });
 });

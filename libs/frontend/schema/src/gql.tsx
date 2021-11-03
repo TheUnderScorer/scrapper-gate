@@ -34,6 +34,15 @@ export const ScrapperForRunFragmentDoc = gql`
     }
   }
 `;
+export const FullDurationFragmentDoc = gql`
+  fragment FullDuration on Duration {
+    enteredUnit
+    hours
+    minutes
+    ms
+    seconds
+  }
+`;
 export const ScrapperBuilderStepFragmentDoc = gql`
   fragment ScrapperBuilderStep on ScrapperStep {
     id
@@ -67,6 +76,10 @@ export const ScrapperBuilderStepFragmentDoc = gql`
     typeDelay
     useUrlFromPreviousStep
     attributeToRead
+    waitDuration {
+      ...FullDuration
+    }
+    waitType
     newRunSettings {
       dialogBehaviour
       noElementsFoundBehavior
@@ -90,6 +103,7 @@ export const ScrapperBuilderStepFragmentDoc = gql`
       }
     }
   }
+  ${FullDurationFragmentDoc}
 `;
 export const ScrapperBuilderScrapperFragmentDoc = gql`
   fragment ScrapperBuilderScrapper on Scrapper {

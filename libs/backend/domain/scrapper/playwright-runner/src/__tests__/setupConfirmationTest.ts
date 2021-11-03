@@ -1,13 +1,9 @@
-import { PlayWrightScrapperRunner } from '../PlayWrightScrapperRunner';
 import { createMockScrapperStep } from '@scrapper-gate/shared/domain/scrapper/mocks';
-import { ScrapperAction, ScrapperRun } from '@scrapper-gate/shared/schema';
+import { ScrapperAction } from '@scrapper-gate/shared/schema';
+import { PlayWrightScrapperRunner } from '../PlayWrightScrapperRunner';
 
-export async function setupConfirmationTest(
-  scrapperRun: ScrapperRun,
-  runner: PlayWrightScrapperRunner
-) {
+export async function setupConfirmationTest(runner: PlayWrightScrapperRunner) {
   await runner.Click({
-    scrapperRun,
     variables: [],
     step: {
       ...(await createMockScrapperStep({})),
@@ -22,7 +18,6 @@ export async function setupConfirmationTest(
   });
 
   const { values } = await runner.ReadText({
-    scrapperRun,
     variables: [],
     step: {
       ...(await createMockScrapperStep({})),

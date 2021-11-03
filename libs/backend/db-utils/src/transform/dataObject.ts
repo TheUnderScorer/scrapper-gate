@@ -1,8 +1,8 @@
 import {
-  DataObject,
   DataObjectConstructor,
   ExcludeFalsy,
   OmitFunctions,
+  DataObject,
 } from '@scrapper-gate/shared/common';
 import { PartialDeep } from 'type-fest';
 import { ValueTransformer } from 'typeorm';

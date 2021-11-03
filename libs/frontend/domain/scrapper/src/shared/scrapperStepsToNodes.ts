@@ -4,6 +4,7 @@ import {
   flowBuilderUtils,
   RecreateNodesParams,
 } from '@scrapper-gate/frontend/flow-builder';
+import { Duration } from '@scrapper-gate/shared/common';
 import { scrapperActionNodeTypeMap } from './scrapperActionNodeTypeMap';
 import { ScrapperBuilderNodeSelection } from './scrapperNodeSelection';
 import { ScrapperBuilderStep } from './types';
@@ -23,6 +24,9 @@ export const scrapperStepsToNodes = <T extends ScrapperBuilderStep>({
   const stepsWithTypes = steps.map((step) => ({
     ...step,
     type: scrapperActionNodeTypeMap[step.action] ?? FlowBuilderNodeTypes.Action,
+    waitDuration: step.waitDuration
+      ? Duration.fromDuration(step.waitDuration).toInput()
+      : undefined,
   }));
 
   return flowBuilderUtils.recreateNodes({

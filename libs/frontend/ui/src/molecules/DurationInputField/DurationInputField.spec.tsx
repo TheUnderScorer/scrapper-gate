@@ -17,7 +17,10 @@ describe('<DurationInputField />', () => {
 
     const cmp = render(
       <DurationInputField
-        value={initialDuration}
+        value={{
+          value: initialDuration.valueOf(),
+          unit: initialDuration.enteredUnit,
+        }}
         onChange={onChange}
         label="Duration"
       />
@@ -38,7 +41,10 @@ describe('<DurationInputField />', () => {
 
     const cmp = render(
       <DurationInputField
-        value={initialDuration}
+        value={{
+          value: initialDuration.valueOf(),
+          unit: initialDuration.enteredUnit,
+        }}
         onChange={onChange}
         label="Duration"
       />
@@ -53,6 +59,11 @@ describe('<DurationInputField />', () => {
     });
 
     expect(onChange).toHaveBeenCalledTimes(1);
-    expect(onChange).toHaveBeenCalledWith(Duration.fromSeconds(1));
+
+    const newDuration = Duration.fromSeconds(1);
+    expect(onChange).toHaveBeenCalledWith({
+      value: newDuration.valueOf(),
+      unit: newDuration.enteredUnit,
+    });
   });
 });

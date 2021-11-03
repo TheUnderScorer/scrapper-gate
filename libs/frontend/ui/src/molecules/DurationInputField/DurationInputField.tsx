@@ -1,7 +1,11 @@
 import { InputAdornment, MenuItem, Select, TextField } from '@mui/material';
-import { Duration, toDisplayText } from '@scrapper-gate/shared/common';
+import {
+  Duration,
+  saveParseFloat,
+  toDisplayText,
+} from '@scrapper-gate/shared/common';
 import { DurationUnit } from '@scrapper-gate/shared/schema';
-import React, { ChangeEventHandler, useCallback, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { DurationInputFieldProps } from './DurationInputField.types';
 
 const units = Object.values(DurationUnit).map((unit) => ({
@@ -14,47 +18,41 @@ export const DurationInputField = ({
   onChange,
   ...rest
 }: DurationInputFieldProps) => {
-  const duration = useMemo(
-    () =>
-      Duration.fromUnit(
-        value?.byEnteredUnit ?? 0,
-        value?.enteredUnit ?? DurationUnit.Milliseconds
-      ),
-    [value]
-  );
+  const inputValue = useMemo(() => {
+    if (value && 'value' in value) {
+      return value;
+    }
 
-  const displayValue = useMemo(
-    () => duration.byUnit(duration.enteredUnit),
-    [duration]
-  );
+    const newValue = value
+      ? Duration.fromDuration(value).toInput()
+      : Duration.fromMs(0).toInput();
 
-  const handleChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
-    (event) => {
-      const value = parseFloat(event.target.value);
+    onChange?.(newValue);
 
-      onChange?.(duration.modify(value));
-    },
-    [duration, onChange]
-  );
+    return newValue;
+  }, [onChange, value]);
 
   return (
     <TextField
       {...rest}
-      value={displayValue}
-      onChange={handleChange}
+      value={inputValue?.value}
+      onChange={(event) =>
+        onChange?.({
+          value: saveParseFloat(event.target.value),
+          unit: inputValue?.unit ?? DurationUnit.Milliseconds,
+        })
+      }
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">
             <Select
               variant="standard"
-              value={value?.enteredUnit ?? DurationUnit.Milliseconds}
+              value={inputValue?.unit ?? DurationUnit.Milliseconds}
               onChange={(event) => {
-                onChange?.(
-                  Duration.fromUnit(
-                    duration.byEnteredUnit,
-                    event.target.value as DurationUnit
-                  )
-                );
+                onChange?.({
+                  value: inputValue?.value ?? 0,
+                  unit: event.target.value as DurationUnit,
+                });
               }}
             >
               {units.map((unit) => (

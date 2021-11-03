@@ -147,7 +147,6 @@ describe('PlayWright scrapper runner', () => {
       const runner = await bootstrapRunner(type);
 
       await runner.Click({
-        scrapperRun,
         variables: [],
         step: {
           ...(await createMockScrapperStep({})),
@@ -181,7 +180,6 @@ describe('PlayWright scrapper runner', () => {
       };
 
       const result = await runner.Screenshot({
-        scrapperRun,
         variables: [],
         step,
       });
@@ -218,7 +216,6 @@ describe('PlayWright scrapper runner', () => {
       };
 
       const result = await runner.Screenshot({
-        scrapperRun,
         variables: [],
         step,
       });
@@ -249,7 +246,6 @@ describe('PlayWright scrapper runner', () => {
       const runner = await bootstrapRunner(type);
 
       const { values } = await runner.ReadText({
-        scrapperRun,
         variables: [],
         step: {
           ...(await createMockScrapperStep({})),
@@ -285,15 +281,13 @@ describe('PlayWright scrapper runner', () => {
       clickStep.mouseButton = MouseButton.Left;
 
       const { performance } = await runner.Click({
-        scrapperRun,
         step: clickStep,
         variables: [],
       });
 
-      expect(performance.duration).toBeGreaterThan(0);
+      expect(performance?.duration).toBeGreaterThan(0);
 
       const { values } = await runner.ReadText({
-        scrapperRun,
         variables: [],
         step: {
           ...(await createMockScrapperStep({})),
@@ -318,7 +312,6 @@ describe('PlayWright scrapper runner', () => {
 
       await runner.Click({
         variables: [],
-        scrapperRun,
         step: {
           ...(await createMockScrapperStep({})),
           clickTimes: 1,
@@ -335,7 +328,6 @@ describe('PlayWright scrapper runner', () => {
       });
 
       const { values: secondValues } = await runner.ReadText({
-        scrapperRun,
         variables: [],
         step: {
           ...(await createMockScrapperStep({})),
@@ -365,7 +357,6 @@ describe('PlayWright scrapper runner', () => {
       const { result } = await runner.Condition({
         step,
         variables: [],
-        scrapperRun,
       });
 
       expect(result).toEqual(true);
@@ -382,7 +373,6 @@ describe('PlayWright scrapper runner', () => {
       const { result } = await runner.Condition({
         step,
         variables: [],
-        scrapperRun,
       });
 
       expect(result).toEqual(false);
@@ -414,10 +404,7 @@ describe('PlayWright scrapper runner', () => {
         dialogBehaviour: ScrapperDialogBehaviour.AlwaysConfirm,
       };
 
-      const values = await setupConfirmationTest(
-        scrapperRun,
-        await bootstrapRunner(type)
-      );
+      const values = await setupConfirmationTest(await bootstrapRunner(type));
 
       expect(values).toHaveLength(1);
       expect(first(values)?.value).toEqual('Confirmed');
@@ -428,10 +415,7 @@ describe('PlayWright scrapper runner', () => {
         dialogBehaviour: ScrapperDialogBehaviour.AlwaysReject,
       };
 
-      const values = await setupConfirmationTest(
-        scrapperRun,
-        await bootstrapRunner(type)
-      );
+      const values = await setupConfirmationTest(await bootstrapRunner(type));
 
       expect(values).toHaveLength(1);
       expect(first(values)?.value).toEqual('Not confirmed');
@@ -441,7 +425,6 @@ describe('PlayWright scrapper runner', () => {
       const runner = await bootstrapRunner(type);
 
       const { values } = await runner.ReadAttribute({
-        scrapperRun,
         variables: [],
         step: {
           ...(await createMockScrapperStep({})),

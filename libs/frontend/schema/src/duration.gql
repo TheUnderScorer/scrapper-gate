@@ -1,0 +1,7 @@
+fragment FullDuration on Duration {
+  enteredUnit
+  hours
+  minutes
+  ms
+  seconds
+}

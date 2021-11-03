@@ -117,7 +117,8 @@ export type Duration = {
 };
 
 export type DurationInput = {
-  ms: Scalars['Float'];
+  value: Scalars['Float'];
+  unit: DurationUnit;
 };
 
 export enum DurationUnit {
@@ -369,6 +370,7 @@ export enum ScrapperAction {
   Type = 'Type',
   Screenshot = 'Screenshot',
   ChangeRunSettings = 'ChangeRunSettings',
+  Wait = 'Wait',
   Condition = 'Condition',
 }
 
@@ -504,6 +506,8 @@ export type ScrapperStep = BaseEntity &
     newRunSettings?: Maybe<ScrapperRunSettings>;
     attributeToRead?: Maybe<Scalars['String']>;
     valueType?: Maybe<VariableType>;
+    waitType?: Maybe<ScrapperWaitType>;
+    waitDuration?: Maybe<Duration>;
   };
 
 export type ScrapperStepInput = {
@@ -529,11 +533,18 @@ export type ScrapperStepInput = {
   newRunSettings?: Maybe<ScrapperRunSettingsInput>;
   attributeToRead?: Maybe<Scalars['String']>;
   valueType?: Maybe<VariableType>;
+  waitType?: Maybe<ScrapperWaitType>;
+  waitDuration?: Maybe<DurationInput>;
 };
 
 export enum ScrapperType {
   RealBrowser = 'RealBrowser',
   Simple = 'Simple',
+}
+
+export enum ScrapperWaitType {
+  Condition = 'Condition',
+  Time = 'Time',
 }
 
 export type Selector = {
@@ -765,12 +776,14 @@ export type ScrapperBuilderStepFragment = Pick<
   | 'typeDelay'
   | 'useUrlFromPreviousStep'
   | 'attributeToRead'
+  | 'waitType'
 > & {
   nextStep?: Maybe<Pick<ScrapperStep, 'id'>>;
   previousSteps?: Maybe<Array<Pick<ScrapperStep, 'id'>>>;
   stepOnTrue?: Maybe<Pick<ScrapperStep, 'id'>>;
   stepOnFalse?: Maybe<Pick<ScrapperStep, 'id'>>;
   selectors?: Maybe<Array<Pick<Selector, 'type' | 'value'>>>;
+  waitDuration?: Maybe<FullDurationFragment>;
   newRunSettings?: Maybe<
     Pick<
       ScrapperRunSettings,
@@ -865,6 +878,11 @@ export type CreateScrapperMutation = {
     'id' | 'name' | 'createdAt' | 'updatedAt' | 'isRunning'
   >;
 };
+
+export type FullDurationFragment = Pick<
+  Duration,
+  'enteredUnit' | 'hours' | 'minutes' | 'ms' | 'seconds'
+>;
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
 export type ResolversObject<TObject> = WithIndex<TObject>;
@@ -1067,6 +1085,7 @@ export type ResolversTypes = ResolversObject<{
   ScrapperStep: ResolverTypeWrapper<ScrapperStep>;
   ScrapperStepInput: ScrapperStepInput;
   ScrapperType: ScrapperType;
+  ScrapperWaitType: ScrapperWaitType;
   Selector: ResolverTypeWrapper<Selector>;
   SelectorInput: SelectorInput;
   SelectorType: SelectorType;
@@ -1897,6 +1916,16 @@ export type ScrapperStepResolvers<
   >;
   valueType?: Resolver<
     Maybe<ResolversTypes['VariableType']>,
+    ParentType,
+    ContextType
+  >;
+  waitType?: Resolver<
+    Maybe<ResolversTypes['ScrapperWaitType']>,
+    ParentType,
+    ContextType
+  >;
+  waitDuration?: Resolver<
+    Maybe<ResolversTypes['Duration']>,
     ParentType,
     ContextType
   >;
