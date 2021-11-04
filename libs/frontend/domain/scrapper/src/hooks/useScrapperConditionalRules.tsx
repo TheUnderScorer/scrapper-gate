@@ -4,10 +4,15 @@ import {
   makeHtmlElementRuleWithPicker,
   variableRule,
 } from '@scrapper-gate/frontend/domain/conditional-rules';
-import { ScrapperElementPicker } from '@scrapper-gate/frontend/domain/scrapper';
-import { FieldNameCreator } from '@scrapper-gate/frontend/form';
+import {
+  FieldNameCreator,
+  useFormFieldValue,
+} from '@scrapper-gate/frontend/form';
+import { scrapperStepActionDefinitions } from '@scrapper-gate/shared/domain/scrapper';
+import { ScrapperAction } from '@scrapper-gate/shared/schema';
 import React, { useMemo } from 'react';
 import { useFormState } from 'react-final-form';
+import { ScrapperElementPicker } from '../components/ScrapperBuilder/ScrapperBuilder.types';
 
 interface UseScrapperConditionalRulesParams {
   fieldNameCreator: FieldNameCreator;
@@ -26,8 +31,17 @@ export function useScrapperConditionalRules({
     },
   });
 
-  return useMemo<ConditionalRulesSelection[]>(
-    () => [
+  const action = useFormFieldValue<ScrapperAction>(fieldNameCreator('action'));
+  const actionDefinition = action
+    ? scrapperStepActionDefinitions[action]
+    : undefined;
+
+  return useMemo<ConditionalRulesSelection[]>(() => {
+    if (!actionDefinition) {
+      return [];
+    }
+
+    const rules = [
       dateRule,
       variableRule,
       makeHtmlElementRuleWithPicker(({ name, variant }) => (
@@ -39,7 +53,16 @@ export function useScrapperConditionalRules({
           variant={variant}
         />
       )),
-    ],
-    [ElementPicker, fieldNameCreator, formState.submitting, nodeIndex]
-  );
+    ];
+
+    return rules.filter((rule) =>
+      actionDefinition.supportedConditionalTypes?.includes(rule.value.type)
+    );
+  }, [
+    ElementPicker,
+    actionDefinition,
+    fieldNameCreator,
+    formState.submitting,
+    nodeIndex,
+  ]);
 }

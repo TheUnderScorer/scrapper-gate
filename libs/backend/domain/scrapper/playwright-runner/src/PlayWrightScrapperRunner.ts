@@ -8,9 +8,9 @@ import {
   isError,
   last,
   mapSelectorsToXpathExpression,
+  repeatUntil,
 } from '@scrapper-gate/shared/common';
 import {
-  resolveScrapperStepRules,
   ScrapperRunner,
   ScrapperRunScreenshotValue,
   ScrapperStepHandlerParams,
@@ -28,17 +28,18 @@ import {
   ScrapperNoElementsFoundBehavior,
   ScrapperRunValue,
   ScrapperStep,
+  ScrapperWaitType,
   Selector,
   SelectorType,
 } from '@scrapper-gate/shared/schema';
 import { Browser, BrowserContext, ElementHandle, Page } from 'playwright';
-import { elementHandlesToHtmlElementRuleDefinition } from './elementHandlesToHtmlElementRuleDefinition';
 import { handleToSourceElement } from './handleToSourceElement';
 import { mouseButtonMap } from './mouseButtonMap';
 import {
   PlayWrightScrapperRunnerDependencies,
   RawScrapperRunScreenshotValue,
 } from './PlayWrightScrapperRunner.types';
+import { resolveCondition } from './resolveCondition';
 
 export class PlayWrightScrapperRunner
   extends BaseScrapperRunner
@@ -256,12 +257,7 @@ export class PlayWrightScrapperRunner
     try {
       const { elements } = await this.preRun(params);
 
-      const { result } = await resolveScrapperStepRules(params.step, {
-        htmlResolver: {
-          elements: await elementHandlesToHtmlElementRuleDefinition(elements),
-        },
-        variables: params.variables ?? [],
-      });
+      const result = await resolveCondition(params, elements);
 
       const { performance } = await this.getCommonStepResult(params.step);
 
@@ -271,6 +267,27 @@ export class PlayWrightScrapperRunner
       };
     } catch (e) {
       throw await this.onError(e, params);
+    }
+  }
+
+  async Wait(params: ScrapperStepHandlerParams) {
+    try {
+      const { elements } = await this.preRun(params);
+
+      switch (params.step.waitType) {
+        case ScrapperWaitType.Time:
+          return super.Wait(params);
+
+        case ScrapperWaitType.Condition:
+          await repeatUntil(async () => resolveCondition(params, elements), {
+            conditionChecker: Boolean,
+          });
+          break;
+      }
+
+      return this.getCommonStepResult(params.step);
+    } catch (error) {
+      throw await this.onError(error, params);
     }
   }
 
