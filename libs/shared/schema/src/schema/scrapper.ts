@@ -75,6 +75,8 @@ export const scrapperSchema = gql`
     valueType: VariableType
     waitType: ScrapperWaitType
     waitDuration: Duration
+    waitIntervalCheck: Duration
+    waitIntervalTimeout: Duration
   }
 
   input ScrapperStepInput {
@@ -102,6 +104,8 @@ export const scrapperSchema = gql`
     valueType: VariableType
     waitType: ScrapperWaitType
     waitDuration: DurationInput
+    waitIntervalCheck: DurationInput
+    waitIntervalTimeout: DurationInput
   }
 
   type ScrapperRunStepResult implements BaseEntity {

@@ -186,6 +186,20 @@ export class ScrapperStepModel
   })
   waitType?: Maybe<ScrapperWaitType>;
 
+  @Column({
+    nullable: true,
+    type: 'jsonb',
+    transformer: durationTransformer,
+  })
+  waitIntervalCheck?: Maybe<Duration>;
+
+  @Column({
+    nullable: true,
+    type: 'jsonb',
+    transformer: durationTransformer,
+  })
+  waitIntervalTimeout?: Maybe<Duration>;
+
   @Enumerable(true)
   get allSelectors(): Maybe<Selector[]> {
     const selectors = [...(this.selectors ?? [])];

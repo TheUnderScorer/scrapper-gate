@@ -2,7 +2,9 @@ import {
   Duration as DurationType,
   DurationInput,
   DurationUnit,
+  Maybe,
 } from '@scrapper-gate/shared/schema';
+import { filter, map, pipe } from 'remeda';
 import { Clonable, WithValue } from './types';
 
 export class Duration implements WithValue<number>, DurationType, Clonable {
@@ -117,6 +119,36 @@ export class Duration implements WithValue<number>, DurationType, Clonable {
     const value = this.retrieveValueFromDuration(duration);
 
     return this.fromUnit(value, duration.enteredUnit);
+  }
+
+  static fromDurationRecords<T extends Record<string, Maybe<DurationType>>>(
+    record: T
+  ): {
+    [Key in keyof T]: T[Key] extends undefined | null ? never : Duration;
+  } {
+    return pipe(
+      Object.entries(record),
+      filter(([, value]) => Boolean(value)),
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      map(([key, value]) => [key, this.fromDuration(value!)]),
+      Object.fromEntries
+    );
+  }
+
+  static fromDurationRecordsToInput<
+    T extends Record<string, Maybe<DurationType>>
+  >(
+    record: T
+  ): {
+    [Key in keyof T]: T[Key] extends undefined | null
+      ? undefined
+      : DurationInput;
+  } {
+    return pipe(
+      Object.entries(this.fromDurationRecords(record)),
+      map(([key, val]) => [key, val.toInput()]),
+      Object.fromEntries
+    );
   }
 
   static fromMs(ms: number) {

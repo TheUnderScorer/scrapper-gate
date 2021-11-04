@@ -26,6 +26,7 @@ import { NodeContentProps } from '@scrapper-gate/frontend/flow-builder';
 import { useFormFieldValue } from '@scrapper-gate/frontend/form';
 import {
   DateFormat,
+  Duration,
   ExcludeFalsy,
   toDisplayText,
 } from '@scrapper-gate/shared/common';
@@ -253,7 +254,12 @@ export const ScrapperRunNodeContent = ({
                   </ListItemIcon>
                   <ListItemText>
                     This step took{' '}
-                    <i>{runResult.performance.duration.toFixed(2)}MS</i>
+                    <i>
+                      {Duration.fromMs(
+                        runResult.performance.duration
+                      ).seconds.toFixed(2)}{' '}
+                      seconds.
+                    </i>
                   </ListItemText>
                 </ListItem>
               )}

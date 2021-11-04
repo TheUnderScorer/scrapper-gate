@@ -34,6 +34,7 @@ export const useCanvasContextMenu = ({
   const { flowInstance } = useFlowBuilderInstanceContext();
   const addItem = useAddItem();
   const nodeLabel = useFlowBuilderContextSelector((ctx) => ctx.nodesLabel);
+  const readOnly = useFlowBuilderContextSelector((ctx) => ctx.readOnly);
 
   const menuRef = useRef<HTMLDivElement>();
 
@@ -56,21 +57,32 @@ export const useCanvasContextMenu = ({
     [flowInstance, containerRef, menuPos, addItem]
   );
 
-  const handleOpen = useCallback(({ position }: OpenCloseContextMenuBag) => {
-    setMenuPos(position);
+  const handleOpen = useCallback(
+    ({ position }: OpenCloseContextMenuBag) => {
+      if (readOnly) {
+        return;
+      }
 
-    setTimeout(() => {
-      menuRef.current
-        ?.querySelector<HTMLInputElement>('#nodes_filter_context_menu')
-        ?.focus();
-    }, 250);
-  }, []);
+      setMenuPos(position);
+
+      setTimeout(() => {
+        menuRef.current
+          ?.querySelector<HTMLInputElement>('#nodes_filter_context_menu')
+          ?.focus();
+      }, 250);
+    },
+    [readOnly]
+  );
 
   const handleClose = useCallback(() => {
     setMenuPos(null);
   }, []);
 
   const menuItems = useMemo<MenuItemProperties[]>(() => {
+    if (readOnly) {
+      return [];
+    }
+
     const nodeTypesItems: Perhaps<MenuItemProperties[]> =
       filteredSelection?.map((item) => {
         const { icon, label } = item;
@@ -114,7 +126,7 @@ export const useCanvasContextMenu = ({
         icon: <Sort />,
       },
     ];
-  }, [filteredSelection, nodeLabel, selection, handleAdd]);
+  }, [readOnly, filteredSelection, nodeLabel, selection, handleAdd]);
 
   return {
     menuItems,

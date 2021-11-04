@@ -508,6 +508,8 @@ export type ScrapperStep = BaseEntity &
     valueType?: Maybe<VariableType>;
     waitType?: Maybe<ScrapperWaitType>;
     waitDuration?: Maybe<Duration>;
+    waitIntervalCheck?: Maybe<Duration>;
+    waitIntervalTimeout?: Maybe<Duration>;
   };
 
 export type ScrapperStepInput = {
@@ -535,6 +537,8 @@ export type ScrapperStepInput = {
   valueType?: Maybe<VariableType>;
   waitType?: Maybe<ScrapperWaitType>;
   waitDuration?: Maybe<DurationInput>;
+  waitIntervalCheck?: Maybe<DurationInput>;
+  waitIntervalTimeout?: Maybe<DurationInput>;
 };
 
 export enum ScrapperType {
@@ -783,6 +787,8 @@ export type ScrapperBuilderStepFragment = Pick<
   stepOnTrue?: Maybe<Pick<ScrapperStep, 'id'>>;
   stepOnFalse?: Maybe<Pick<ScrapperStep, 'id'>>;
   selectors?: Maybe<Array<Pick<Selector, 'type' | 'value'>>>;
+  waitIntervalCheck?: Maybe<FullDurationFragment>;
+  waitIntervalTimeout?: Maybe<FullDurationFragment>;
   waitDuration?: Maybe<FullDurationFragment>;
   newRunSettings?: Maybe<
     Pick<
@@ -1925,6 +1931,16 @@ export type ScrapperStepResolvers<
     ContextType
   >;
   waitDuration?: Resolver<
+    Maybe<ResolversTypes['Duration']>,
+    ParentType,
+    ContextType
+  >;
+  waitIntervalCheck?: Resolver<
+    Maybe<ResolversTypes['Duration']>,
+    ParentType,
+    ContextType
+  >;
+  waitIntervalTimeout?: Resolver<
     Maybe<ResolversTypes['Duration']>,
     ParentType,
     ContextType

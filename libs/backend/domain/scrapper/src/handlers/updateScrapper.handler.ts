@@ -72,6 +72,12 @@ export const updateScrapperHandler =
                 waitDuration: payload.waitDuration
                   ? Duration.fromInput(payload.waitDuration)
                   : null,
+                waitIntervalCheck: payload.waitIntervalCheck
+                  ? Duration.fromInput(payload.waitIntervalCheck)
+                  : null,
+                waitIntervalTimeout: payload.waitIntervalTimeout
+                  ? Duration.fromInput(payload.waitIntervalTimeout)
+                  : null,
                 conditionalRules: payload.conditionalRules?.map((rule) =>
                   ConditionalRuleGroupModel.create(rule)
                 ),

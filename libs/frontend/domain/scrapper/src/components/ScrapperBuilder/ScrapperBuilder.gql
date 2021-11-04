@@ -70,6 +70,12 @@ fragment ScrapperBuilderStep on ScrapperStep {
     type
     value
   }
+  waitIntervalCheck {
+    ...FullDuration
+  }
+  waitIntervalTimeout {
+    ...FullDuration
+  }
   valueType
   url
   typeDelay

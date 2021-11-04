@@ -71,6 +71,12 @@ export const ScrapperBuilderStepFragmentDoc = gql`
       type
       value
     }
+    waitIntervalCheck {
+      ...FullDuration
+    }
+    waitIntervalTimeout {
+      ...FullDuration
+    }
     valueType
     url
     typeDelay

@@ -281,6 +281,8 @@ export class PlayWrightScrapperRunner
         case ScrapperWaitType.Condition:
           await repeatUntil(async () => resolveCondition(params, elements), {
             conditionChecker: Boolean,
+            timeout: params.step.waitIntervalTimeout?.ms,
+            waitAfterIteration: params.step.waitIntervalCheck?.ms,
           });
           break;
       }

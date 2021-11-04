@@ -16,8 +16,17 @@ const units = Object.values(DurationUnit).map((unit) => ({
 export const DurationInputField = ({
   value,
   onChange,
+  disabledUnits,
   ...rest
 }: DurationInputFieldProps) => {
+  const supportedUnits = useMemo(() => {
+    if (!disabledUnits?.length) {
+      return units;
+    }
+
+    return units.filter((unit) => !disabledUnits.includes(unit.value));
+  }, [disabledUnits]);
+
   const inputValue = useMemo(() => {
     if (value && 'value' in value) {
       return value;
@@ -55,7 +64,7 @@ export const DurationInputField = ({
                 });
               }}
             >
-              {units.map((unit) => (
+              {supportedUnits.map((unit) => (
                 <MenuItem key={unit.value} value={unit.value}>
                   {unit.label}
                 </MenuItem>

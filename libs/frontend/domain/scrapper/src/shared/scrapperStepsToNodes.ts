@@ -24,9 +24,11 @@ export const scrapperStepsToNodes = <T extends ScrapperBuilderStep>({
   const stepsWithTypes = steps.map((step) => ({
     ...step,
     type: scrapperActionNodeTypeMap[step.action] ?? FlowBuilderNodeTypes.Action,
-    waitDuration: step.waitDuration
-      ? Duration.fromDuration(step.waitDuration).toInput()
-      : undefined,
+    ...Duration.fromDurationRecordsToInput({
+      waitDuration: step.waitDuration,
+      waitIntervalTimeout: step.waitIntervalTimeout,
+      waitIntervalCheck: step.waitIntervalCheck,
+    }),
   }));
 
   return flowBuilderUtils.recreateNodes({
