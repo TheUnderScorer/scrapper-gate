@@ -786,6 +786,62 @@
       },
       "tags": []
     },
+    "frontend-code-editor": {
+      "root": "libs/frontend/code-editor",
+      "sourceRoot": "libs/frontend/code-editor/src",
+      "projectType": "library",
+      "tags": [],
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": [
+              "libs/frontend/code-editor/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/frontend/code-editor"],
+          "options": {
+            "jestConfig": "libs/frontend/code-editor/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "storybook": {
+          "executor": "@nrwl/storybook:storybook",
+          "options": {
+            "uiFramework": "@storybook/react",
+            "port": 4400,
+            "config": {
+              "configFolder": "libs/frontend/code-editor/.storybook"
+            }
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        },
+        "build-storybook": {
+          "executor": "@nrwl/storybook:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "uiFramework": "@storybook/react",
+            "outputPath": "dist/storybook/frontend-code-editor",
+            "config": {
+              "configFolder": "libs/frontend/code-editor/.storybook"
+            }
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        }
+      }
+    },
     "frontend-common": {
       "root": "libs/frontend/common",
       "sourceRoot": "libs/frontend/common/src",
