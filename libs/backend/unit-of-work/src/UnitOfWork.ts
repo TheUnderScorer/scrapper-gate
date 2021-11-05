@@ -72,7 +72,7 @@ export class UnitOfWork<
       await messageQueue.flush();
 
       if (isError(e)) {
-        logger.error('Unit of work failed:', e.message);
+        logger.error(`Unit of work failed: ${JSON.stringify(e)}`);
 
         await this.events.emit('failed', {
           error: e,

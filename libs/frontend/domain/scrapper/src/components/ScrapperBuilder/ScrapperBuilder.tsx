@@ -27,7 +27,14 @@ import {
 } from '@scrapper-gate/frontend/snackbars';
 import { ReturnBtn } from '@scrapper-gate/frontend/ui';
 import { isError } from '@scrapper-gate/shared/common';
-import { extractVariableInput } from '@scrapper-gate/shared/domain/variables';
+import {
+  ScrapperStepForVariable,
+  variableFromScrapperStep,
+} from '@scrapper-gate/shared/domain/scrapper';
+import {
+  createVariable,
+  extractVariableInput,
+} from '@scrapper-gate/shared/domain/variables';
 import { logger } from '@scrapper-gate/shared/logger/console';
 import { VariableScope } from '@scrapper-gate/shared/schema';
 import { ScrapperBuilderDto } from '@scrapper-gate/shared/validation';
@@ -170,7 +177,18 @@ export const ScrapperBuilder = ({
             presence: 'optional',
             context: {
               steps: value.items.map((item) => item.data),
-              variables: value.variables,
+              variables: [
+                ...value.variables,
+                value.items
+                  .filter((item) => item?.data?.key && item?.data?.action)
+                  .map((item) =>
+                    createVariable(
+                      variableFromScrapperStep(
+                        item.data as ScrapperStepForVariable
+                      )
+                    )
+                  ),
+              ],
             },
           })(value),
         flowBuilderValidation.ensureAllNodesAreConnected

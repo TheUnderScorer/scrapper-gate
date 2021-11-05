@@ -49,3 +49,5 @@ export * from './molecules/EmptyContentArt/EmptyContentArt';
 export * from './molecules/EmptyContentArt/EmptyContentArt.types';
 export * from './molecules/Autocomplete/Autocomplete';
 export * from './molecules/Autocomplete/Autocomplete.types';
+export * from './molecules/DurationInputField/DurationInputField';
+export * from './molecules/DurationInputField/DurationInputField.types';

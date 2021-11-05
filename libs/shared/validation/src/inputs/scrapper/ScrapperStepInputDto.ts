@@ -1,9 +1,14 @@
+import { ExcludeFalsy } from '@scrapper-gate/shared/common';
 import {
+  DurationInput,
   MouseButton,
   ScrapperAction,
   ScrapperRunSettingsInput,
   ScrapperStep,
   ScrapperStepInput,
+  ScrapperWaitType,
+  Variable,
+  VariableType,
 } from '@scrapper-gate/shared/schema';
 import * as jf from 'joiful';
 import { BaseSchema } from '../../BaseSchema';
@@ -13,6 +18,7 @@ import { supportsVariables } from '../../decorators/supportsVariables';
 import { unique } from '../../decorators/unique';
 import { uuid } from '../../decorators/uuid';
 import { JoiMessages } from '../../types';
+import { DurationInputDto } from '../DurationInputDto';
 import { SelectorDto } from '../SelectorDto';
 import { ScrapperConditionalRuleGroupInputDto } from './ScrapperConditionalRuleGroupInputDto';
 import { ScrapperRunSettingsInputDto } from './ScrapperRunSettingsInputDto';
@@ -49,10 +55,14 @@ export class ScrapperStepInputDto
     .custom(noSpecialChars({ max: 50, supportsVariables: true }))
     .custom(
       unique({
-        getValueFromContext: (context: { steps: ScrapperStep[] }) =>
-          context.steps,
+        getValueFromContext: (context: {
+          steps: ScrapperStep[];
+          variables: Variable[];
+        }) => context.steps,
         getValue: (step) => step.key,
         isTarget: (parent, value) => parent.id === value.id,
+        getAdditionalKeys: (context) =>
+          context.variables?.map((v) => v.key).filter(ExcludeFalsy),
       })
     ))
   key?: string;
@@ -107,4 +117,18 @@ export class ScrapperStepInputDto
     })
   ))
   attributeToRead?: string;
+
+  @optionalEnum(VariableType)
+  valueType?: VariableType;
+
+  @(optionalEnum(ScrapperWaitType).custom(({ joi }) =>
+    joi.when('action', {
+      is: ScrapperAction.Wait,
+      then: joi.string().valid(...Object.values(ScrapperWaitType)),
+    })
+  ))
+  waitType?: ScrapperWaitType;
+
+  @(jf.object({ objectClass: DurationInputDto }).allow(null))
+  waitDuration?: DurationInput;
 }

@@ -11,11 +11,11 @@ import { Perhaps } from '@scrapper-gate/shared/common';
 import {
   Scrapper,
   ScrapperBuilderScrapperFragment,
+  ScrapperStepInput,
   Variable,
 } from '@scrapper-gate/shared/schema';
 import { ComponentType } from 'react';
 import { Node } from 'react-flow-renderer';
-import { ScrapperBuilderStep } from '../../shared/types';
 import { RunScrapperDialogProps } from '../RunScrapperDialog/RunScrapperDialog.types';
 
 export interface ScrapperElementPickerProps
@@ -32,8 +32,8 @@ export interface ScrapperElementPickerProps
 export type ScrapperBuilderNode = Node<ScrapperBuilderNodeProperties>;
 
 export type ScrapperBuilderNodeProperties = BaseNodeProperties &
-  Omit<ScrapperBuilderStep, 'id' | 'action'> &
-  Pick<Partial<ScrapperBuilderStep>, 'id' | 'action'>;
+  Omit<ScrapperStepInput, 'id' | 'action' | 'waitDuration'> &
+  Pick<Partial<ScrapperStepInput>, 'id' | 'action'>;
 
 export type ScrapperElementPicker = ComponentType<ScrapperElementPickerProps>;
 

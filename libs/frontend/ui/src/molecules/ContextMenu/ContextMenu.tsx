@@ -17,6 +17,10 @@ export const ContextMenu = forwardRef<HTMLDivElement, ContextMenuProps>(
 
     const handleContextMenu: MouseEventHandler = useCallback(
       (event) => {
+        if (!menuItems.length) {
+          return;
+        }
+
         event.preventDefault();
 
         const position = {
@@ -27,7 +31,7 @@ export const ContextMenu = forwardRef<HTMLDivElement, ContextMenuProps>(
 
         onOpen?.({ position });
       },
-      [onOpen]
+      [menuItems.length, onOpen]
     );
 
     const handleClose = useCallback(() => {

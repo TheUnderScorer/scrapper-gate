@@ -16,6 +16,14 @@ export interface Jsonable {
   toJSON(): Dictionary;
 }
 
+export interface Clonable {
+  clone: () => this;
+}
+
+export interface WithValue<T> {
+  valueOf: () => T;
+}
+
 export type Exists<T> = Exclude<T, null | undefined>;
 
 export type ExistsInObject<T> = {

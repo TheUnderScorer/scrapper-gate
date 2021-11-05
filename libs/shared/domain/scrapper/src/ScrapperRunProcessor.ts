@@ -5,11 +5,12 @@ import {
   isError,
   Perhaps,
 } from '@scrapper-gate/shared/common';
+import { resolveVariables } from '@scrapper-gate/shared/domain/variables';
 import {
-  createVariable,
-  resolveVariables,
-} from '@scrapper-gate/shared/domain/variables';
-import { ErrorObjectDto, ScrapperRunError } from '@scrapper-gate/shared/errors';
+  ErrorObjectDto,
+  InvalidType,
+  ScrapperRunError,
+} from '@scrapper-gate/shared/errors';
 import { Logger } from '@scrapper-gate/shared/logger';
 import {
   findFirstNode,
@@ -25,17 +26,18 @@ import {
   ScrapperRunValue,
   ScrapperStep,
   Variable,
-  VariableScope,
-  VariableType,
 } from '@scrapper-gate/shared/schema';
 import { Typed } from 'emittery';
 import {
-  ConditionalRunScrapperStepResult,
+  isConditionalScrapperStepResult,
   isReadTextScrapperStepResult,
+} from './typeGuards';
+import {
   RunScrapperStepResult,
   ScrapperRunner,
   ScrapperStepFinishedPayload,
 } from './types';
+import { variableFromScrapperStep } from './variableFromScrapperStep';
 
 export interface ProcessParams {
   scrapperRun: ScrapperRun;
@@ -175,7 +177,6 @@ export class ScrapperRunProcessor implements Disposable {
 
     try {
       const runResult: RunScrapperStepResult = await this.runner[step.action!]({
-        scrapperRun,
         step: preparedStep,
         variables,
       });
@@ -197,10 +198,11 @@ export class ScrapperRunProcessor implements Disposable {
       if (step.action !== ScrapperAction.Condition) {
         nextStepId = step.nextStep?.id;
       } else {
-        nextStepId = getNextStepIdFromCondition(
-          preparedStep,
-          (runResult as ConditionalRunScrapperStepResult).result
-        );
+        if (!isConditionalScrapperStepResult(runResult)) {
+          throw new InvalidType('ConditionalRunScrapperStepResult');
+        }
+
+        nextStepId = getNextStepIdFromCondition(preparedStep, runResult.result);
       }
 
       const nextStep = nextStepId
@@ -241,13 +243,11 @@ export class ScrapperRunProcessor implements Disposable {
   ) {
     if ('values' in result) {
       this.variables.push(
-        createVariable({
+        variableFromScrapperStep({
+          ...step,
           value: result.values?.map(
             (value) => isReadTextScrapperStepResult(value) && value.value
           ),
-          type: step.valueType ?? VariableType.Text,
-          scope: VariableScope.Scrapper,
-          key: step.key,
         })
       );
     }

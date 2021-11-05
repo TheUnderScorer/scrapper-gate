@@ -3,15 +3,14 @@ import {
   generateScrapperScreenshotFileKey,
 } from '@scrapper-gate/backend/domain/files';
 import { BaseScrapperRunner } from '@scrapper-gate/backend/domain/scrapper/base-runner';
-import { PerformanceManager } from '@scrapper-gate/backend/perf-hooks-utils';
 import {
   areUrlsEqual,
   isError,
   last,
   mapSelectorsToXpathExpression,
+  repeatUntil,
 } from '@scrapper-gate/shared/common';
 import {
-  resolveScrapperStepRules,
   ScrapperRunner,
   ScrapperRunScreenshotValue,
   ScrapperStepHandlerParams,
@@ -25,42 +24,27 @@ import { Logger } from '@scrapper-gate/shared/logger';
 import {
   BrowserType,
   FileType,
-  Maybe,
-  RunnerPerformanceEntry,
   ScrapperDialogBehaviour,
   ScrapperNoElementsFoundBehavior,
-  ScrapperRun,
-  ScrapperRunSettings,
   ScrapperRunValue,
   ScrapperStep,
+  ScrapperWaitType,
   Selector,
   SelectorType,
 } from '@scrapper-gate/shared/schema';
 import { Browser, BrowserContext, ElementHandle, Page } from 'playwright';
-import { elementHandlesToHtmlElementRuleDefinition } from './elementHandlesToHtmlElementRuleDefinition';
 import { handleToSourceElement } from './handleToSourceElement';
 import { mouseButtonMap } from './mouseButtonMap';
+import {
+  GetElementsResult,
+  PlayWrightScrapperRunnerDependencies,
+  PreRunParams,
+  PreRunParamsWithElements,
+  PreRunParamsWithoutElements,
+  RawScrapperRunScreenshotValue,
+} from './PlayWrightScrapperRunner.types';
+import { resolveCondition } from './resolveCondition';
 
-export interface PlayWrightScrapperRunnerDependencies {
-  browser: Browser;
-  traceId: string;
-  logger: Logger;
-  browserType: BrowserType;
-  filesService: FilesService;
-  scrapperRun: ScrapperRun;
-  runSettings?: Maybe<ScrapperRunSettings>;
-}
-
-interface AfterRunResult {
-  performance: RunnerPerformanceEntry;
-}
-
-interface RawScrapperRunScreenshotValue
-  extends Pick<ScrapperRunScreenshotValue, 'sourceElement'> {
-  screenshotBuffer: Buffer;
-}
-
-// TODO Extract common logic + performance logic
 export class PlayWrightScrapperRunner
   extends BaseScrapperRunner
   implements ScrapperRunner
@@ -72,10 +56,7 @@ export class PlayWrightScrapperRunner
   private readonly browserType: BrowserType;
   private readonly browser: Browser;
   private readonly logger: Logger;
-  private readonly traceId: string;
-  private readonly performanceManager = new PerformanceManager();
   private readonly filesService: FilesService;
-  private readonly scrapperRun: ScrapperRun;
 
   constructor({
     browser,
@@ -86,14 +67,12 @@ export class PlayWrightScrapperRunner
     scrapperRun,
     runSettings,
   }: PlayWrightScrapperRunnerDependencies) {
-    super(scrapperRun, runSettings);
+    super(scrapperRun, traceId, runSettings);
 
     this.browser = browser;
-    this.traceId = traceId;
     this.logger = logger;
     this.browserType = browserType;
     this.filesService = filesService;
-    this.scrapperRun = scrapperRun;
   }
 
   async initialize() {
@@ -104,7 +83,6 @@ export class PlayWrightScrapperRunner
     }
 
     this.context = await this.browser.newContext({
-      // TODO Support downloads with size limit?
       acceptDownloads: false,
     });
     this.page = await this.context.newPage();
@@ -201,7 +179,7 @@ export class PlayWrightScrapperRunner
         })
       );
 
-      const { performance } = await this.afterRun(params);
+      const { performance } = await this.getCommonStepResult(params.step);
 
       return {
         values: [],
@@ -223,7 +201,7 @@ export class PlayWrightScrapperRunner
       const screenshots: ScrapperRunScreenshotValue[] = await Promise.all(
         rawScreenshots.map(async (screenshot, index) => {
           const key = generateScrapperScreenshotFileKey(
-            params.scrapperRun.id,
+            this.scrapperRun.id,
             params.step.id,
             index + 1
           );
@@ -239,7 +217,7 @@ export class PlayWrightScrapperRunner
         })
       );
 
-      const { performance } = await this.afterRun(params);
+      const { performance } = await this.getCommonStepResult(params.step);
 
       return {
         performance,
@@ -283,14 +261,9 @@ export class PlayWrightScrapperRunner
     try {
       const { elements } = await this.preRun(params);
 
-      const { result } = await resolveScrapperStepRules(params.step, {
-        htmlResolver: {
-          elements: await elementHandlesToHtmlElementRuleDefinition(elements),
-        },
-        variables: params.scrapperRun.variables ?? [],
-      });
+      const result = await resolveCondition(params, elements);
 
-      const { performance } = await this.afterRun(params);
+      const { performance } = await this.getCommonStepResult(params.step);
 
       return {
         result,
@@ -298,6 +271,42 @@ export class PlayWrightScrapperRunner
       };
     } catch (e) {
       throw await this.onError(e, params);
+    }
+  }
+
+  async Wait(params: ScrapperStepHandlerParams) {
+    try {
+      await this.preRun({
+        ...params,
+        getElements: false,
+      });
+
+      switch (params.step.waitType) {
+        case ScrapperWaitType.Time:
+          return super.Wait(params);
+
+        case ScrapperWaitType.Condition:
+          await repeatUntil(
+            async () => {
+              const { elements } = await this.getElements(
+                params.step.allSelectors ?? [],
+                ScrapperNoElementsFoundBehavior.Continue
+              );
+
+              return resolveCondition(params, elements);
+            },
+            {
+              conditionChecker: Boolean,
+              timeout: params.step.waitIntervalTimeout?.ms,
+              waitAfterIteration: params.step.waitIntervalCheck?.ms,
+            }
+          );
+          break;
+      }
+
+      return this.getCommonStepResult(params.step);
+    } catch (error) {
+      throw await this.onError(error, params);
     }
   }
 
@@ -309,7 +318,7 @@ export class PlayWrightScrapperRunner
         waitUntil: 'networkidle',
       });
 
-      return this.afterRun(params);
+      return this.getCommonStepResult(params.step);
     } catch (e) {
       throw await this.onError(e, params);
     }
@@ -319,7 +328,7 @@ export class PlayWrightScrapperRunner
     try {
       await this.preRun(params);
 
-      return this.afterRun(params);
+      return this.getCommonStepResult(params.step);
     } catch (e) {
       throw await this.onError(e, params);
     }
@@ -337,7 +346,7 @@ export class PlayWrightScrapperRunner
           }))
         );
 
-      const { performance } = await this.afterRun(params);
+      const { performance } = await this.getCommonStepResult(params.step);
 
       return {
         values,
@@ -361,7 +370,7 @@ export class PlayWrightScrapperRunner
           }))
         );
 
-      const { performance } = await this.afterRun(params);
+      const { performance } = await this.getCommonStepResult(params.step);
 
       return {
         performance,
@@ -380,7 +389,7 @@ export class PlayWrightScrapperRunner
         waitUntil: 'networkidle',
       });
 
-      return this.afterRun(params);
+      return this.getCommonStepResult(params.step);
     } catch (e) {
       throw await this.onError(e, params);
     }
@@ -391,7 +400,7 @@ export class PlayWrightScrapperRunner
 
     await super.ChangeRunSettings(params);
 
-    const { performance } = await this.afterRun(params);
+    const { performance } = await this.getCommonStepResult(params.step);
 
     return {
       performance,
@@ -413,13 +422,16 @@ export class PlayWrightScrapperRunner
         )
       );
 
-      return this.afterRun(params);
+      return this.getCommonStepResult(params.step);
     } catch (e) {
       throw await this.onError(e, params);
     }
   }
 
-  private async getElements(selectors: Selector[]) {
+  private async getElements(
+    selectors: Selector[],
+    noElementsFoundBehavior = this.runSettings?.noElementsFoundBehavior
+  ): Promise<GetElementsResult> {
     const target = this.page;
 
     const querySelector = selectors
@@ -453,10 +465,7 @@ export class PlayWrightScrapperRunner
     } catch (e) {
       this.logger.error(e);
 
-      if (
-        this.runSettings?.noElementsFoundBehavior ===
-        ScrapperNoElementsFoundBehavior.Fail
-      ) {
+      if (noElementsFoundBehavior === ScrapperNoElementsFoundBehavior.Fail) {
         throw new NoElementsFoundError();
       }
     }
@@ -475,14 +484,28 @@ export class PlayWrightScrapperRunner
     };
   }
 
-  private async preRun({ step }: ScrapperStepHandlerParams) {
+  private async preRun(params: PreRunParamsWithoutElements): Promise<void>;
+
+  private async preRun(
+    params: PreRunParamsWithElements
+  ): Promise<GetElementsResult>;
+
+  private async preRun(
+    params: ScrapperStepHandlerParams
+  ): Promise<GetElementsResult>;
+
+  private async preRun({
+    step,
+    noElementsFoundBehavior,
+    getElements = true,
+  }: PreRunParams): Promise<GetElementsResult | void> {
     if (!this.page) {
       throw new Error('Page was closed or was not initialized properly.');
     }
 
     this.logger.debug('Pre run:', step);
 
-    this.performanceManager.mark(`${this.traceId}-${step.id}-start`);
+    this.startPerformanceMark(step);
 
     const currentUrl = this.page.url();
 
@@ -506,7 +529,11 @@ export class PlayWrightScrapperRunner
       this.logger.debug('Not navigating to other page.', this.page.url());
     }
 
-    return this.getElements(step.allSelectors ?? []);
+    if (!getElements) {
+      return;
+    }
+
+    return this.getElements(step.allSelectors ?? [], noElementsFoundBehavior);
   }
 
   // TODO Screenshot on error?
@@ -515,7 +542,7 @@ export class PlayWrightScrapperRunner
       throw error;
     }
 
-    const { performance } = await this.afterRun(params);
+    const { performance } = await this.getCommonStepResult(params.step);
 
     return new ScrapperRunError({
       performance,
@@ -535,26 +562,5 @@ export class PlayWrightScrapperRunner
 
   get browserVersion() {
     return `${this.browserType} ${this.browser.version()}`;
-  }
-
-  private async afterRun({
-    step,
-  }: ScrapperStepHandlerParams): Promise<AfterRunResult> {
-    this.performanceManager.mark(`${this.traceId}-${step.id}-end`);
-    this.performanceManager.measure(
-      `${this.traceId}-${step.id}`,
-      `${this.traceId}-${step.id}-start`,
-      `${this.traceId}-${step.id}-end`
-    );
-
-    const entry = await this.performanceManager.getEntry(
-      `${this.traceId}-${step.id}`
-    );
-
-    return {
-      performance: {
-        duration: entry?.duration ?? 0,
-      },
-    };
   }
 }

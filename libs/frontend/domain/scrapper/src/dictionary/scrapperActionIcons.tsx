@@ -2,6 +2,7 @@ import {
   AccountTreeSharp,
   ArrowBack,
   ArrowForward,
+  AvTimer,
   Input,
   Mouse,
   ReadMore,
@@ -11,8 +12,9 @@ import {
   Visibility,
 } from '@mui/icons-material';
 import { ScrapperAction } from '@scrapper-gate/shared/schema';
+import { ReactNode } from 'react';
 
-export const scrapperActionIcons = {
+export const scrapperActionIcons: Record<ScrapperAction, ReactNode> = {
   [ScrapperAction.Click]: <Mouse />,
   [ScrapperAction.ReadText]: <Visibility />,
   [ScrapperAction.ReadAttribute]: <ReadMore />,
@@ -23,4 +25,5 @@ export const scrapperActionIcons = {
   [ScrapperAction.Condition]: <AccountTreeSharp />,
   [ScrapperAction.Screenshot]: <Screenshot />,
   [ScrapperAction.ChangeRunSettings]: <Settings />,
+  [ScrapperAction.Wait]: <AvTimer />,
 };

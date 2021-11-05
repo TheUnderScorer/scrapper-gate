@@ -41,11 +41,13 @@ export const nodeLikeItemsToModels = <
         (existingStep) => existingStep.id === step.id
       );
 
+      const model = createModel({
+        ...existingStep,
+        ...step,
+      });
+
       return {
-        model: createModel({
-          ...existingStep,
-          ...step,
-        }),
+        model: model,
         nextStepId: step.nextStepId,
         stepIdOnTrue: step.stepIdOnTrue,
         stepIdOnFalse: step.stepIdOnFalse,

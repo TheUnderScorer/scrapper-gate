@@ -2,11 +2,17 @@ import {
   findEntitiesToRemove,
   nodeLikeItemsToModels,
 } from '@scrapper-gate/backend/crud';
+import { ConditionalRuleGroupModel } from '@scrapper-gate/backend/domain/conditional-rules';
 import {
   VariableModel,
   VariableRepository,
 } from '@scrapper-gate/backend/domain/variables';
-import { mapToIds, performUpdate } from '@scrapper-gate/shared/common';
+import {
+  Duration,
+  getById,
+  mapToIds,
+  performUpdate,
+} from '@scrapper-gate/shared/common';
 import { ScrapperUpdatedEvent } from '@scrapper-gate/shared/domain/scrapper';
 import { Variable, VariableScope } from '@scrapper-gate/shared/schema';
 import { CommandContext } from 'functional-cqrs';
@@ -63,6 +69,18 @@ export const updateScrapperHandler =
                 ...payload,
                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                 action: payload.action!,
+                waitDuration: payload.waitDuration
+                  ? Duration.fromInput(payload.waitDuration)
+                  : null,
+                waitIntervalCheck: payload.waitIntervalCheck
+                  ? Duration.fromInput(payload.waitIntervalCheck)
+                  : null,
+                waitIntervalTimeout: payload.waitIntervalTimeout
+                  ? Duration.fromInput(payload.waitIntervalTimeout)
+                  : null,
+                conditionalRules: payload.conditionalRules?.map((rule) =>
+                  ConditionalRuleGroupModel.create(rule)
+                ),
               }),
             input: steps ?? [],
             existingSteps,
@@ -84,13 +102,19 @@ export const updateScrapperHandler =
           }
 
           const variableModels =
-            variables?.map((variable) =>
-              VariableModel.create({
+            variables?.map((variable) => {
+              const existingVariable = getById(
+                scrapper.variables ?? [],
+                variable.id
+              );
+
+              return VariableModel.create({
+                ...existingVariable,
                 ...variable,
                 id: variable.id ?? undefined,
                 createdBy: scrapper.createdBy,
-              })
-            ) ?? [];
+              });
+            }) ?? [];
 
           scrapper.variables = variableModels.filter(
             (variable) => variable.scope === VariableScope.Scrapper

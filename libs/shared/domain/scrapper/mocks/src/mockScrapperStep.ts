@@ -1,4 +1,4 @@
-import { repeatUntil } from '@scrapper-gate/shared/common';
+import { Duration, repeatUntil } from '@scrapper-gate/shared/common';
 import { createMockUser } from '@scrapper-gate/shared/domain/user/mocks';
 import {
   Maybe,
@@ -13,13 +13,24 @@ import { v4 } from 'uuid';
 export interface CreateMockScrapperStepArgs {
   createdBy?: Maybe<User>;
   disabledActions?: ScrapperAction[];
-  intercept?: (step: ScrapperStep) => ScrapperStep;
+  intercept?: (step: MockScrapperStep) => MockScrapperStep;
 }
+
+type MockScrapperStep = ScrapperStep & {
+  waitDuration?: Maybe<Duration>;
+  waitIntervalTimeout?: Maybe<Duration>;
+  waitIntervalCheck?: Maybe<Duration>;
+  nextStep?: Maybe<MockScrapperStep>;
+  stepOnTrue?: Maybe<MockScrapperStep>;
+  stepOnFalse?: Maybe<MockScrapperStep>;
+  previousSteps?: Maybe<MockScrapperStep[]>;
+};
+
 export const createMockScrapperStep = async ({
   createdBy = createMockUser(),
   disabledActions = [],
   intercept,
-}: CreateMockScrapperStepArgs): Promise<ScrapperStep> => {
+}: CreateMockScrapperStepArgs): Promise<MockScrapperStep> => {
   const action = await repeatUntil(
     () => faker.random.arrayElement(Object.values(ScrapperAction)),
     {
@@ -27,7 +38,7 @@ export const createMockScrapperStep = async ({
     }
   );
 
-  const baseStep: ScrapperStep = {
+  const baseStep: MockScrapperStep = {
     action,
     id: v4(),
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

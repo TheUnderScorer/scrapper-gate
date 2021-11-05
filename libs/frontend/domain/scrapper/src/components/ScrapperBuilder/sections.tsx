@@ -11,6 +11,7 @@ import { ReadTextSections } from './stepSections/ReadTextSections';
 import { ReloadSections } from './stepSections/ReloadSections';
 import { ScreenshotSections } from './stepSections/ScreenshotSections';
 import { TypeSections } from './stepSections/TypeSections';
+import { WaitSections } from './stepSections/WaitSections';
 
 export type Sections = {
   [Key in ScrapperAction]: ComponentType<ScrapperStepFormProps>;
@@ -27,4 +28,5 @@ export const sections: Sections = {
   [ScrapperAction.Condition]: ConditionalSections,
   [ScrapperAction.Screenshot]: ScreenshotSections,
   [ScrapperAction.ChangeRunSettings]: ChangeRunSettingsSections,
+  [ScrapperAction.Wait]: WaitSections,
 };

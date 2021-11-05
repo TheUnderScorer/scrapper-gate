@@ -3,12 +3,23 @@ import {
   FilesService,
   generateScrapperScreenshotFileKey,
 } from '@scrapper-gate/backend/domain/files';
-import { Environment, first, wait } from '@scrapper-gate/shared/common';
+import {
+  Duration,
+  Environment,
+  first,
+  wait,
+} from '@scrapper-gate/shared/common';
+import {
+  ConditionalRuleTypes,
+  ConditionalRuleWhen,
+  HtmlElementRuleMeta,
+} from '@scrapper-gate/shared/domain/conditional-rules';
 import { createMockScrapperStep } from '@scrapper-gate/shared/domain/scrapper/mocks';
 import { createMockUser } from '@scrapper-gate/shared/domain/user/mocks';
 import { logger } from '@scrapper-gate/shared/logger/console';
 import {
   BrowserType,
+  ConditionalRuleGroupType,
   FileType,
   MouseButton,
   RunState,
@@ -16,6 +27,7 @@ import {
   ScrapperDialogBehaviour,
   ScrapperRun,
   ScrapperStep,
+  ScrapperWaitType,
 } from '@scrapper-gate/shared/schema';
 import {
   asClass,
@@ -24,6 +36,7 @@ import {
   AwilixContainer,
   createContainer,
 } from 'awilix';
+import { addSeconds } from 'date-fns';
 import { createMockProxy } from 'jest-mock-proxy';
 import playwright, { Browser, LaunchOptions } from 'playwright';
 import { v4 } from 'uuid';
@@ -147,7 +160,6 @@ describe('PlayWright scrapper runner', () => {
       const runner = await bootstrapRunner(type);
 
       await runner.Click({
-        scrapperRun,
         variables: [],
         step: {
           ...(await createMockScrapperStep({})),
@@ -181,7 +193,6 @@ describe('PlayWright scrapper runner', () => {
       };
 
       const result = await runner.Screenshot({
-        scrapperRun,
         variables: [],
         step,
       });
@@ -218,7 +229,6 @@ describe('PlayWright scrapper runner', () => {
       };
 
       const result = await runner.Screenshot({
-        scrapperRun,
         variables: [],
         step,
       });
@@ -249,7 +259,6 @@ describe('PlayWright scrapper runner', () => {
       const runner = await bootstrapRunner(type);
 
       const { values } = await runner.ReadText({
-        scrapperRun,
         variables: [],
         step: {
           ...(await createMockScrapperStep({})),
@@ -285,15 +294,13 @@ describe('PlayWright scrapper runner', () => {
       clickStep.mouseButton = MouseButton.Left;
 
       const { performance } = await runner.Click({
-        scrapperRun,
         step: clickStep,
         variables: [],
       });
 
-      expect(performance.duration).toBeGreaterThan(0);
+      expect(performance?.duration?.ms).toBeGreaterThan(0);
 
       const { values } = await runner.ReadText({
-        scrapperRun,
         variables: [],
         step: {
           ...(await createMockScrapperStep({})),
@@ -318,7 +325,6 @@ describe('PlayWright scrapper runner', () => {
 
       await runner.Click({
         variables: [],
-        scrapperRun,
         step: {
           ...(await createMockScrapperStep({})),
           clickTimes: 1,
@@ -335,7 +341,6 @@ describe('PlayWright scrapper runner', () => {
       });
 
       const { values: secondValues } = await runner.ReadText({
-        scrapperRun,
         variables: [],
         step: {
           ...(await createMockScrapperStep({})),
@@ -365,7 +370,6 @@ describe('PlayWright scrapper runner', () => {
       const { result } = await runner.Condition({
         step,
         variables: [],
-        scrapperRun,
       });
 
       expect(result).toEqual(true);
@@ -382,7 +386,6 @@ describe('PlayWright scrapper runner', () => {
       const { result } = await runner.Condition({
         step,
         variables: [],
-        scrapperRun,
       });
 
       expect(result).toEqual(false);
@@ -391,7 +394,7 @@ describe('PlayWright scrapper runner', () => {
     it('should support writing text into prompt', async () => {
       const { promptText, values } = await setupPromptTest({
         createRunner: () => bootstrapRunner(type),
-        scrapperRun: scrapperRun,
+        scrapperRun,
       });
 
       expect(values).toHaveLength(1);
@@ -401,7 +404,7 @@ describe('PlayWright scrapper runner', () => {
     it('should not write prompt text it alert behaviour is to reject', async () => {
       const { values } = await setupPromptTest({
         createRunner: () => bootstrapRunner(type),
-        scrapperRun: scrapperRun,
+        scrapperRun,
         dialogBehaviour: ScrapperDialogBehaviour.AlwaysReject,
       });
 
@@ -414,10 +417,7 @@ describe('PlayWright scrapper runner', () => {
         dialogBehaviour: ScrapperDialogBehaviour.AlwaysConfirm,
       };
 
-      const values = await setupConfirmationTest(
-        scrapperRun,
-        await bootstrapRunner(type)
-      );
+      const values = await setupConfirmationTest(await bootstrapRunner(type));
 
       expect(values).toHaveLength(1);
       expect(first(values)?.value).toEqual('Confirmed');
@@ -428,20 +428,106 @@ describe('PlayWright scrapper runner', () => {
         dialogBehaviour: ScrapperDialogBehaviour.AlwaysReject,
       };
 
-      const values = await setupConfirmationTest(
-        scrapperRun,
-        await bootstrapRunner(type)
-      );
+      const values = await setupConfirmationTest(await bootstrapRunner(type));
 
       expect(values).toHaveLength(1);
       expect(first(values)?.value).toEqual('Not confirmed');
+    });
+
+    it('should wait for condition - date', async () => {
+      const runner = await bootstrapRunner(type);
+
+      const promise = runner.Wait({
+        step: {
+          ...(await createMockScrapperStep({})),
+          waitType: ScrapperWaitType.Condition,
+          url: 'http://localhost:8080',
+          action: ScrapperAction.Wait,
+          waitIntervalTimeout: Duration.fromSeconds(8),
+          conditionalRules: [
+            {
+              id: v4(),
+              type: ConditionalRuleGroupType.All,
+              rules: [
+                {
+                  id: v4(),
+                  type: ConditionalRuleTypes.Date,
+                  when: ConditionalRuleWhen.MoreThanOrEqual,
+                  value: addSeconds(new Date(), 5).toISOString(),
+                },
+              ],
+            },
+          ],
+        },
+        variables: [],
+      });
+
+      await expect(promise).resolves.not.toThrow();
+    });
+
+    it('should wait for condition - html element', async () => {
+      const runner = await bootstrapRunner(type);
+
+      const promise = runner.Wait({
+        step: {
+          ...(await createMockScrapperStep({})),
+          waitType: ScrapperWaitType.Condition,
+          url: 'http://localhost:8080',
+          action: ScrapperAction.Wait,
+          waitIntervalTimeout: Duration.fromSeconds(8),
+          allSelectors: [
+            {
+              value: 'a',
+            },
+          ],
+          conditionalRules: [
+            {
+              id: v4(),
+              type: ConditionalRuleGroupType.All,
+              rules: [
+                {
+                  id: v4(),
+                  type: ConditionalRuleTypes.HtmlElement,
+                  when: ConditionalRuleWhen.Exists,
+                  meta: {
+                    selectors: [
+                      {
+                        value: 'a',
+                      },
+                    ],
+                  } as HtmlElementRuleMeta,
+                },
+              ],
+            },
+          ],
+        },
+        variables: [],
+      });
+
+      await expect(promise).resolves.not.toThrow();
+    });
+
+    it('should handle waiting for given time', async () => {
+      const runner = await bootstrapRunner(type);
+
+      const waitDuration = Duration.fromSeconds(2);
+      const { performance } = await runner.Wait({
+        step: {
+          ...(await createMockScrapperStep({})),
+          url: 'http://localhost:8080',
+          waitDuration,
+          waitType: ScrapperWaitType.Time,
+        },
+        variables: [],
+      });
+
+      expect(performance?.duration?.ms).toBeGreaterThanOrEqual(waitDuration.ms);
     });
 
     it('should read element attributes', async () => {
       const runner = await bootstrapRunner(type);
 
       const { values } = await runner.ReadAttribute({
-        scrapperRun,
         variables: [],
         step: {
           ...(await createMockScrapperStep({})),

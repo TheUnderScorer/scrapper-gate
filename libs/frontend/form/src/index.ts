@@ -21,3 +21,5 @@ export * from './components/FormBlockEditor/FormBlockEditor.types';
 export * from './components/UnsavedFormAlert/UnsavedFormAlert';
 export * from './components/UnsavedFormAlert/UnsavedFormAlert.types';
 export * from './hooks/useSetFormAsNonDirty';
+export * from './components/FormDurationInputField/FormDurationInputField';
+export * from './components/FormDurationInputField/FormDurationInputField.types';

@@ -108,6 +108,26 @@ export type CreatedBy = {
   createdBy: User;
 };
 
+export type Duration = {
+  ms: Scalars['Float'];
+  seconds: Scalars['Float'];
+  minutes: Scalars['Float'];
+  hours: Scalars['Float'];
+  enteredUnit: DurationUnit;
+};
+
+export type DurationInput = {
+  value: Scalars['Float'];
+  unit: DurationUnit;
+};
+
+export enum DurationUnit {
+  Milliseconds = 'Milliseconds',
+  Seconds = 'Seconds',
+  Minutes = 'Minutes',
+  Hours = 'Hours',
+}
+
 export type ErrorObject = ErrorObjectInterface & {
   name: Scalars['String'];
   message?: Maybe<Scalars['String']>;
@@ -313,7 +333,7 @@ export type RunnerError = ErrorObjectInterface & {
 };
 
 export type RunnerPerformanceEntry = {
-  duration?: Maybe<Scalars['Float']>;
+  duration?: Maybe<Duration>;
 };
 
 export enum RunnerTrigger {
@@ -350,6 +370,7 @@ export enum ScrapperAction {
   Type = 'Type',
   Screenshot = 'Screenshot',
   ChangeRunSettings = 'ChangeRunSettings',
+  Wait = 'Wait',
   Condition = 'Condition',
 }
 
@@ -485,6 +506,10 @@ export type ScrapperStep = BaseEntity &
     newRunSettings?: Maybe<ScrapperRunSettings>;
     attributeToRead?: Maybe<Scalars['String']>;
     valueType?: Maybe<VariableType>;
+    waitType?: Maybe<ScrapperWaitType>;
+    waitDuration?: Maybe<Duration>;
+    waitIntervalCheck?: Maybe<Duration>;
+    waitIntervalTimeout?: Maybe<Duration>;
   };
 
 export type ScrapperStepInput = {
@@ -510,11 +535,20 @@ export type ScrapperStepInput = {
   newRunSettings?: Maybe<ScrapperRunSettingsInput>;
   attributeToRead?: Maybe<Scalars['String']>;
   valueType?: Maybe<VariableType>;
+  waitType?: Maybe<ScrapperWaitType>;
+  waitDuration?: Maybe<DurationInput>;
+  waitIntervalCheck?: Maybe<DurationInput>;
+  waitIntervalTimeout?: Maybe<DurationInput>;
 };
 
 export enum ScrapperType {
   RealBrowser = 'RealBrowser',
   Simple = 'Simple',
+}
+
+export enum ScrapperWaitType {
+  Condition = 'Condition',
+  Time = 'Time',
 }
 
 export type Selector = {
@@ -746,12 +780,16 @@ export type ScrapperBuilderStepFragment = Pick<
   | 'typeDelay'
   | 'useUrlFromPreviousStep'
   | 'attributeToRead'
+  | 'waitType'
 > & {
   nextStep?: Maybe<Pick<ScrapperStep, 'id'>>;
   previousSteps?: Maybe<Array<Pick<ScrapperStep, 'id'>>>;
   stepOnTrue?: Maybe<Pick<ScrapperStep, 'id'>>;
   stepOnFalse?: Maybe<Pick<ScrapperStep, 'id'>>;
   selectors?: Maybe<Array<Pick<Selector, 'type' | 'value'>>>;
+  waitIntervalCheck?: Maybe<FullDurationFragment>;
+  waitIntervalTimeout?: Maybe<FullDurationFragment>;
+  waitDuration?: Maybe<FullDurationFragment>;
   newRunSettings?: Maybe<
     Pick<
       ScrapperRunSettings,
@@ -803,7 +841,7 @@ export type GetMyScrapperRunQuery = {
             ScrapperRunStepResult,
             'id' | 'endedAt' | 'startedAt' | 'state'
           > & {
-            performance?: Maybe<Pick<RunnerPerformanceEntry, 'duration'>>;
+            performance?: Maybe<{ duration?: Maybe<FullDurationFragment> }>;
             step: ScrapperBuilderStepFragment;
             screenshots?: Maybe<Array<Maybe<FileLinkFileFragment>>>;
             error?: Maybe<Pick<ErrorObject, 'date' | 'message' | 'name'>>;
@@ -846,6 +884,11 @@ export type CreateScrapperMutation = {
     'id' | 'name' | 'createdAt' | 'updatedAt' | 'isRunning'
   >;
 };
+
+export type FullDurationFragment = Pick<
+  Duration,
+  'enteredUnit' | 'hours' | 'minutes' | 'ms' | 'seconds'
+>;
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
 export type ResolversObject<TObject> = WithIndex<TObject>;
@@ -995,6 +1038,10 @@ export type ResolversTypes = ResolversObject<{
     | ResolversTypes['ScrapperRun']
     | ResolversTypes['ScrapperStep'];
   Date: ResolverTypeWrapper<Scalars['Date']>;
+  Duration: ResolverTypeWrapper<Duration>;
+  Float: ResolverTypeWrapper<Scalars['Float']>;
+  DurationInput: DurationInput;
+  DurationUnit: DurationUnit;
   ErrorObject: ResolverTypeWrapper<ErrorObject>;
   ErrorObjectInterface:
     | ResolversTypes['ErrorObject']
@@ -1014,7 +1061,6 @@ export type ResolversTypes = ResolversObject<{
   MouseButton: MouseButton;
   Mutation: ResolverTypeWrapper<{}>;
   NodePosition: ResolverTypeWrapper<NodePosition>;
-  Float: ResolverTypeWrapper<Scalars['Float']>;
   NodePositionInput: NodePositionInput;
   Order: Order;
   OrderDirection: OrderDirection;
@@ -1045,6 +1091,7 @@ export type ResolversTypes = ResolversObject<{
   ScrapperStep: ResolverTypeWrapper<ScrapperStep>;
   ScrapperStepInput: ScrapperStepInput;
   ScrapperType: ScrapperType;
+  ScrapperWaitType: ScrapperWaitType;
   Selector: ResolverTypeWrapper<Selector>;
   SelectorInput: SelectorInput;
   SelectorType: SelectorType;
@@ -1090,6 +1137,9 @@ export type ResolversParentTypes = ResolversObject<{
     | ResolversParentTypes['ScrapperRun']
     | ResolversParentTypes['ScrapperStep'];
   Date: Scalars['Date'];
+  Duration: Duration;
+  Float: Scalars['Float'];
+  DurationInput: DurationInput;
   ErrorObject: ErrorObject;
   ErrorObjectInterface:
     | ResolversParentTypes['ErrorObject']
@@ -1105,7 +1155,6 @@ export type ResolversParentTypes = ResolversObject<{
   LoginResponse: LoginResponse;
   Mutation: {};
   NodePosition: NodePosition;
-  Float: Scalars['Float'];
   NodePositionInput: NodePositionInput;
   Order: Order;
   Pagination: Pagination;
@@ -1295,6 +1344,22 @@ export interface DateScalarConfig
   extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
   name: 'Date';
 }
+
+export type DurationResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['Duration'] = ResolversParentTypes['Duration']
+> = ResolversObject<{
+  ms?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  seconds?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  minutes?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  hours?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  enteredUnit?: Resolver<
+    ResolversTypes['DurationUnit'],
+    ParentType,
+    ContextType
+  >;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
 
 export type ErrorObjectResolvers<
   ContextType = any,
@@ -1527,7 +1592,11 @@ export type RunnerPerformanceEntryResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['RunnerPerformanceEntry'] = ResolversParentTypes['RunnerPerformanceEntry']
 > = ResolversObject<{
-  duration?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  duration?: Resolver<
+    Maybe<ResolversTypes['Duration']>,
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -1860,6 +1929,26 @@ export type ScrapperStepResolvers<
     ParentType,
     ContextType
   >;
+  waitType?: Resolver<
+    Maybe<ResolversTypes['ScrapperWaitType']>,
+    ParentType,
+    ContextType
+  >;
+  waitDuration?: Resolver<
+    Maybe<ResolversTypes['Duration']>,
+    ParentType,
+    ContextType
+  >;
+  waitIntervalCheck?: Resolver<
+    Maybe<ResolversTypes['Duration']>,
+    ParentType,
+    ContextType
+  >;
+  waitIntervalTimeout?: Resolver<
+    Maybe<ResolversTypes['Duration']>,
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -1978,6 +2067,7 @@ export type Resolvers<ContextType = any> = ResolversObject<{
   CreateUserResult?: CreateUserResultResolvers<ContextType>;
   CreatedBy?: CreatedByResolvers<ContextType>;
   Date?: GraphQLScalarType;
+  Duration?: DurationResolvers<ContextType>;
   ErrorObject?: ErrorObjectResolvers<ContextType>;
   ErrorObjectInterface?: ErrorObjectInterfaceResolvers<ContextType>;
   File?: FileResolvers<ContextType>;

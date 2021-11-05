@@ -43,6 +43,8 @@ export const createUser = async () => {
   const result = JSON.parse(response.body);
 
   if (!result.data) {
+    console.error(result);
+
     throw new Error('Failed to create user');
   }
 

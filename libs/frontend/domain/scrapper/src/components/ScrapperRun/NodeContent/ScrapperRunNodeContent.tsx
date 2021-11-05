@@ -253,7 +253,10 @@ export const ScrapperRunNodeContent = ({
                   </ListItemIcon>
                   <ListItemText>
                     This step took{' '}
-                    <i>{runResult.performance.duration.toFixed(2)}MS</i>
+                    <i>
+                      {runResult.performance.duration.seconds.toFixed(2)}{' '}
+                      seconds.
+                    </i>
                   </ListItemText>
                 </ListItem>
               )}

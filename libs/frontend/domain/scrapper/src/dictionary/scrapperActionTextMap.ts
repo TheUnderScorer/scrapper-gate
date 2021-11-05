@@ -11,4 +11,5 @@ export const scrapperActionTextMap: Record<ScrapperAction, string> = {
   [ScrapperAction.Screenshot]: 'Screenshot',
   [ScrapperAction.ChangeRunSettings]: 'Change run settings',
   [ScrapperAction.Condition]: 'Conditional',
+  [ScrapperAction.Wait]: 'Wait',
 };

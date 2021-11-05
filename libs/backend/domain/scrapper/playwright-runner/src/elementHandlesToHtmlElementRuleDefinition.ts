@@ -9,11 +9,21 @@ export const elementHandlesToHtmlElementRuleDefinition = async (
 ): Promise<HtmlElementResolverElementDefinition[]> => {
   const promises = elements.map(async (element) =>
     createHtmlResolverElementDefinition(
-      await element.evaluate((el) => ({
-        tagName: el.tagName,
-        textContent: el.textContent,
-        attributes: el.attributes,
-      }))
+      await element.evaluate((el) => {
+        const attributes = Array.from(el.attributes).reduce(
+          (acc, { name, value }) => ({
+            ...acc,
+            [name]: value,
+          }),
+          {}
+        );
+
+        return {
+          tagName: el.tagName,
+          textContent: el.textContent,
+          attributes,
+        };
+      })
     )
   );
 

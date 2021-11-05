@@ -1,15 +1,10 @@
-import { createVariable } from '@scrapper-gate/shared/domain/variables';
 import {
   NodeLikeItem,
   travelNodeLike as travel,
 } from '@scrapper-gate/shared/node';
-import {
-  Maybe,
-  ScrapperStep,
-  Variable,
-  VariableScope,
-} from '@scrapper-gate/shared/schema';
+import { Maybe, ScrapperStep, Variable } from '@scrapper-gate/shared/schema';
 import { scrapperActionHasTextValue } from './logic/scrapperActionHasTextValue';
+import { variableFromScrapperStep } from './variableFromScrapperStep';
 
 type Keys = keyof Pick<NodeLikeItem, 'stepOnFalse' | 'stepOnTrue' | 'nextStep'>;
 
@@ -44,12 +39,7 @@ export const getPotentialVariablesForStep = ({
     direction: 'in',
     callback: (currentStep) => {
       if (currentStep.key) {
-        result.push(
-          createVariable({
-            key: currentStep.key,
-            scope: VariableScope.Scrapper,
-          })
-        );
+        result.push(variableFromScrapperStep(currentStep));
       }
     },
   });

@@ -15,7 +15,7 @@ describe('Start Scrapper Input ', () => {
       },
     });
 
-    expect(result.error).not.toBeNull();
+    expect(result.error).toBeTruthy();
     expect(result.error?.message).toEqual('"browserType" is required');
   });
 

@@ -1,3 +1,4 @@
+import { Duration } from '@scrapper-gate/shared/common';
 import {
   createMockScrapperRun,
   createMockScrapperStep,
@@ -7,6 +8,7 @@ import {
   ScrapperNoElementsFoundBehavior,
   ScrapperRun,
   ScrapperRunSettings,
+  ScrapperWaitType,
 } from '@scrapper-gate/shared/schema';
 import * as faker from 'faker';
 import { BaseScrapperRunner } from './BaseScrapperRunner';
@@ -14,7 +16,7 @@ import { BaseScrapperRunner } from './BaseScrapperRunner';
 class Runner extends BaseScrapperRunner {
   // eslint-disable-next-line @typescript-eslint/no-useless-constructor
   constructor(run: ScrapperRun) {
-    super(run);
+    super(run, 'test');
   }
 
   get currentRunSettings() {
@@ -39,12 +41,11 @@ describe('BaseScrapperRunner', () => {
       promptText: 'Test',
     };
 
-    runner.ChangeRunSettings({
+    await runner.ChangeRunSettings({
       step: {
         ...(await createMockScrapperStep({})),
         newRunSettings,
       },
-      scrapperRun: run,
       variables: [],
     });
 
@@ -52,5 +53,20 @@ describe('BaseScrapperRunner', () => {
       initialUrl: run.runSettings?.initialUrl,
       ...newRunSettings,
     });
+  });
+
+  it('should wait', async () => {
+    const runner = new Runner(run);
+
+    const result = await runner.Wait({
+      step: {
+        ...(await createMockScrapperStep({})),
+        waitType: ScrapperWaitType.Time,
+        waitDuration: Duration.fromSeconds(2),
+      },
+      variables: [],
+    });
+
+    expect(result.performance?.duration?.seconds).toBeGreaterThanOrEqual(2);
   });
 });

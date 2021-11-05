@@ -31,8 +31,12 @@ export const ScrapperRunSettingsForm = ({
         label="No elements found behaviour"
         helperText="Decides what action should be taken if no HTML elements were found for current step."
         dictionary={{
-          [ScrapperNoElementsFoundBehavior.Fail]: 'Exit run',
-          [ScrapperNoElementsFoundBehavior.Continue]: 'Continue run',
+          [ScrapperNoElementsFoundBehavior.Fail]: {
+            label: 'Exit run',
+          },
+          [ScrapperNoElementsFoundBehavior.Continue]: {
+            label: 'Continue run',
+          },
         }}
         enumObj={ScrapperNoElementsFoundBehavior}
         name={getFieldName('noElementsFoundBehavior')}

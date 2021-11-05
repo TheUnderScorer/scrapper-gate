@@ -27,26 +27,23 @@ export interface ScrapperRunner extends ScrapperStepHandlers, Disposable {
 }
 
 export type RunScrapperStepResult =
-  | ReadTextScrapperStepResult
+  | ReadValueScrapperStepResult
   | ConditionalRunScrapperStepResult
   | ScreenshotRunScrapperStepResult;
 
 export type ReadTextValue = Pick<ScrapperRunValue, 'value' | 'sourceElement'>;
 
-export type ReadTextScrapperStepResult = Pick<
+export interface ReadValueScrapperStepResult extends CommonScrapperStepResult {
+  values?: ReadTextValue[];
+}
+
+export type CommonScrapperStepResult = Pick<
   ScrapperRunStepResult,
   'performance'
-> & {
-  values?: ReadTextValue[];
-};
-
-export const isReadTextScrapperStepResult = (
-  value: unknown
-): value is ReadTextValue =>
-  Boolean(value && typeof value === 'object' && 'value' in value);
+>;
 
 export interface ConditionalRunScrapperStepResult
-  extends Pick<ReadTextScrapperStepResult, 'performance'> {
+  extends CommonScrapperStepResult {
   result: boolean;
 }
 
@@ -56,14 +53,14 @@ export interface ScrapperRunScreenshotValue
 }
 
 export interface ScreenshotRunScrapperStepResult
-  extends Pick<ReadTextScrapperStepResult, 'performance'> {
+  extends CommonScrapperStepResult {
   values: ScrapperRunScreenshotValue[];
 }
 
 export type BaseScrapperStepHandlers = {
   [Key in ScrapperAction]: (
     params: ScrapperStepHandlerParams
-  ) => MaybePromise<RunScrapperStepResult>;
+  ) => MaybePromise<CommonScrapperStepResult>;
 };
 
 export type ScrapperStepHandlers = BaseScrapperStepHandlers & {
@@ -71,13 +68,20 @@ export type ScrapperStepHandlers = BaseScrapperStepHandlers & {
     params: ScrapperStepHandlerParams
   ) => MaybePromise<ConditionalRunScrapperStepResult>;
 
+  [ScrapperAction.ReadText]: (
+    params: ScrapperStepHandlerParams
+  ) => MaybePromise<ReadValueScrapperStepResult>;
+
+  [ScrapperAction.ReadAttribute]: (
+    params: ScrapperStepHandlerParams
+  ) => MaybePromise<ReadValueScrapperStepResult>;
+
   [ScrapperAction.Screenshot]: (
     params: ScrapperStepHandlerParams
   ) => MaybePromise<ScreenshotRunScrapperStepResult>;
 };
 
 export interface ScrapperStepHandlerParams {
-  scrapperRun: ScrapperRun;
   step: ScrapperStep;
   variables: Variable[];
 }
