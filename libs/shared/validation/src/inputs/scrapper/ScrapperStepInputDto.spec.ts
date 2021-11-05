@@ -1,6 +1,6 @@
 import { createVariable } from '@scrapper-gate/shared/domain/variables';
 import { VariableScope } from '@scrapper-gate/shared/schema';
-import { ScrapperStepInputDto } from '@scrapper-gate/shared/validation';
+import { ScrapperStepInputDto } from './ScrapperStepInputDto';
 import { validateAsClass } from 'joiful';
 import { validationMessages } from '../../validationMessages';
 

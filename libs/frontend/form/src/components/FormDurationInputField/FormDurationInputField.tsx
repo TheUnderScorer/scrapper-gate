@@ -1,7 +1,7 @@
-import { useFieldHasError } from '@scrapper-gate/frontend/form';
 import { DurationInputField } from '@scrapper-gate/frontend/ui';
 import React from 'react';
 import { useField } from 'react-final-form';
+import { useFieldHasError } from '../../hooks/useFieldHasError';
 import { FormDurationInputFieldProps } from './FormDurationInputField.types';
 
 export const FormDurationInputField = ({
