@@ -1,4 +1,5 @@
 import { UserModel } from '@scrapper-gate/backend/domain/user';
+import { Duration } from '@scrapper-gate/shared/common';
 import { createMockUser } from '@scrapper-gate/shared/domain/user/mocks';
 import {
   MouseButton,
@@ -54,6 +55,9 @@ describe('ScrapperModel', () => {
           mouseButton: MouseButton.Right,
           url: faker.internet.url(),
           conditionalRules: [],
+          waitIntervalTimeout: null,
+          waitIntervalCheck: null,
+          waitDuration: null,
         }),
       ],
     });
@@ -95,7 +99,7 @@ describe('ScrapperModel', () => {
               step: stepJson,
               state: RunState.Pending,
               performance: {
-                duration: 25,
+                duration: Duration.fromMs(25),
               },
               values: [
                 ScrapperRunStepValueModel.create({

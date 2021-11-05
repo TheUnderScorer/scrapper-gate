@@ -3,8 +3,8 @@ import { DurationInput } from '@scrapper-gate/shared/schema';
 import { ValueTransformer } from 'typeorm';
 
 export const durationTransformer: ValueTransformer = {
-  to: (duration?: Duration): DurationInput | undefined =>
-    duration ? duration.toInput() : undefined,
+  to: (duration?: Duration): DurationInput | null =>
+    duration ? duration.toInput() : null,
   from: (record?: DurationInput) =>
-    record ? Duration.fromInput(record) : undefined,
+    record ? Duration.fromInput(record) : null,
 };

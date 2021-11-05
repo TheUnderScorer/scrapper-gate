@@ -298,7 +298,7 @@ describe('PlayWright scrapper runner', () => {
         variables: [],
       });
 
-      expect(performance?.duration).toBeGreaterThan(0);
+      expect(performance?.duration?.ms).toBeGreaterThan(0);
 
       const { values } = await runner.ReadText({
         variables: [],
@@ -521,7 +521,7 @@ describe('PlayWright scrapper runner', () => {
         variables: [],
       });
 
-      expect(performance?.duration).toBeGreaterThanOrEqual(waitDuration.ms);
+      expect(performance?.duration?.ms).toBeGreaterThanOrEqual(waitDuration.ms);
     });
 
     it('should read element attributes', async () => {

@@ -62,7 +62,7 @@ export class ScrapperStepInputDto
         getValue: (step) => step.key,
         isTarget: (parent, value) => parent.id === value.id,
         getAdditionalKeys: (context) =>
-          context.variables.map((v) => v.key).filter(ExcludeFalsy),
+          context.variables?.map((v) => v.key).filter(ExcludeFalsy),
       })
     ))
   key?: string;

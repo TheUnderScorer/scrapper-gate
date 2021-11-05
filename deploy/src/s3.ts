@@ -4,6 +4,7 @@ import { createItemName, onlyOnLocalEnv, onlyOnRealEnv } from './utils';
 // Bucket for storing scrapper screenshots
 const bucket = new aws.s3.Bucket(createItemName('scrapper-screenshots'), {
   bucket: onlyOnLocalEnv(() => createItemName('scrapper-screenshots')),
+  forceDestroy: onlyOnLocalEnv(() => true),
 });
 const ssmParameter = onlyOnRealEnv(
   () =>

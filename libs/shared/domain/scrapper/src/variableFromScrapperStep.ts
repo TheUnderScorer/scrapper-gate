@@ -16,4 +16,6 @@ export const variableFromScrapperStep = (step: ScrapperStepForVariable) =>
     key: step.key,
     type: step.valueType,
     scope: VariableScope.Scrapper,
+    value: step.value,
+    defaultValue: step.defaultValue,
   });

@@ -8,7 +8,9 @@ export const makeDateResolver =
     primitiveValueResolver(
       {
         ...rule,
-        value: rule.value ? new Date(rule.value as string) : undefined,
+        value: rule.value
+          ? new Date(rule.value as string).valueOf()
+          : undefined,
       },
       date
     );

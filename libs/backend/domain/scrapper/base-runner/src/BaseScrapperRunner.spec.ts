@@ -41,7 +41,7 @@ describe('BaseScrapperRunner', () => {
       promptText: 'Test',
     };
 
-    runner.ChangeRunSettings({
+    await runner.ChangeRunSettings({
       step: {
         ...(await createMockScrapperStep({})),
         newRunSettings,
