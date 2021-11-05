@@ -5,7 +5,7 @@ import { arrayValueResolver } from './arrayValueResolver';
 
 export interface HtmlElementResolverElementDefinition {
   textContent?: string;
-  attributes?: Record<string, string>;
+  attributes?: Record<string, unknown>;
   tag?: string;
 }
 
@@ -38,17 +38,14 @@ const resolveValue = (
 
 // Create element definition from html element that is parsable by html element resolver
 export const createHtmlResolverElementDefinition = (
-  element: Pick<Element, 'tagName' | 'textContent' | 'attributes'>
+  element: Pick<Element, 'tagName' | 'textContent'> & {
+    attributes?: Record<string, unknown>;
+  }
 ): HtmlElementResolverElementDefinition => {
   return {
     tag: element.tagName,
     textContent: element.textContent ?? '',
-    attributes: Array.from(element.attributes).reduce((acc, attr) => {
-      return {
-        ...acc,
-        [attr.name]: attr.value,
-      };
-    }, {}),
+    attributes: element.attributes,
   };
 };
 

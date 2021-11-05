@@ -36,7 +36,11 @@ import { Browser, BrowserContext, ElementHandle, Page } from 'playwright';
 import { handleToSourceElement } from './handleToSourceElement';
 import { mouseButtonMap } from './mouseButtonMap';
 import {
+  GetElementsResult,
   PlayWrightScrapperRunnerDependencies,
+  PreRunParams,
+  PreRunParamsWithElements,
+  PreRunParamsWithoutElements,
   RawScrapperRunScreenshotValue,
 } from './PlayWrightScrapperRunner.types';
 import { resolveCondition } from './resolveCondition';
@@ -272,18 +276,31 @@ export class PlayWrightScrapperRunner
 
   async Wait(params: ScrapperStepHandlerParams) {
     try {
-      const { elements } = await this.preRun(params);
+      await this.preRun({
+        ...params,
+        getElements: false,
+      });
 
       switch (params.step.waitType) {
         case ScrapperWaitType.Time:
           return super.Wait(params);
 
         case ScrapperWaitType.Condition:
-          await repeatUntil(async () => resolveCondition(params, elements), {
-            conditionChecker: Boolean,
-            timeout: params.step.waitIntervalTimeout?.ms,
-            waitAfterIteration: params.step.waitIntervalCheck?.ms,
-          });
+          await repeatUntil(
+            async () => {
+              const { elements } = await this.getElements(
+                params.step.allSelectors ?? [],
+                ScrapperNoElementsFoundBehavior.Continue
+              );
+
+              return resolveCondition(params, elements);
+            },
+            {
+              conditionChecker: Boolean,
+              timeout: params.step.waitIntervalTimeout?.ms,
+              waitAfterIteration: params.step.waitIntervalCheck?.ms,
+            }
+          );
           break;
       }
 
@@ -411,7 +428,10 @@ export class PlayWrightScrapperRunner
     }
   }
 
-  private async getElements(selectors: Selector[]) {
+  private async getElements(
+    selectors: Selector[],
+    noElementsFoundBehavior = this.runSettings?.noElementsFoundBehavior
+  ): Promise<GetElementsResult> {
     const target = this.page;
 
     const querySelector = selectors
@@ -445,10 +465,7 @@ export class PlayWrightScrapperRunner
     } catch (e) {
       this.logger.error(e);
 
-      if (
-        this.runSettings?.noElementsFoundBehavior ===
-        ScrapperNoElementsFoundBehavior.Fail
-      ) {
+      if (noElementsFoundBehavior === ScrapperNoElementsFoundBehavior.Fail) {
         throw new NoElementsFoundError();
       }
     }
@@ -467,7 +484,21 @@ export class PlayWrightScrapperRunner
     };
   }
 
-  private async preRun({ step }: ScrapperStepHandlerParams) {
+  private async preRun(params: PreRunParamsWithoutElements): Promise<void>;
+
+  private async preRun(
+    params: PreRunParamsWithElements
+  ): Promise<GetElementsResult>;
+
+  private async preRun(
+    params: ScrapperStepHandlerParams
+  ): Promise<GetElementsResult>;
+
+  private async preRun({
+    step,
+    noElementsFoundBehavior,
+    getElements = true,
+  }: PreRunParams): Promise<GetElementsResult | void> {
     if (!this.page) {
       throw new Error('Page was closed or was not initialized properly.');
     }
@@ -498,7 +529,11 @@ export class PlayWrightScrapperRunner
       this.logger.debug('Not navigating to other page.', this.page.url());
     }
 
-    return this.getElements(step.allSelectors ?? []);
+    if (!getElements) {
+      return;
+    }
+
+    return this.getElements(step.allSelectors ?? [], noElementsFoundBehavior);
   }
 
   // TODO Screenshot on error?

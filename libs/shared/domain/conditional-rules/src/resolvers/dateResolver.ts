@@ -5,4 +5,10 @@ import { primitiveValueResolver } from './primitiveValueResolver';
 export const makeDateResolver =
   (date: Perhaps<Date> = new Date()): RuleResolver =>
   (rule) =>
-    primitiveValueResolver(rule, date);
+    primitiveValueResolver(
+      {
+        ...rule,
+        value: rule.value ? new Date(rule.value as string) : undefined,
+      },
+      date
+    );
