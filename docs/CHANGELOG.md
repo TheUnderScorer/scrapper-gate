@@ -1,3 +1,15 @@
+# [1.0.0-test.18](https://github.com/TheUnderScorer/scrapper-gate/compare/v1.0.0-test.17...v1.0.0-test.18) (2021-11-05)
+
+
+### Bug Fixes
+
+* **scrapper-builder:** Fix conditional rules not being saved ([28fbc6a](https://github.com/TheUnderScorer/scrapper-gate/commit/28fbc6a48807d8e73f73f5ad0756dc7c26696cbb))
+
+
+### Features
+
+* Add "wait" step ([6481e08](https://github.com/TheUnderScorer/scrapper-gate/commit/6481e088ef1607a65f6ce21287dce52fe4ed8548))
+
 # [1.0.0-test.17](https://github.com/TheUnderScorer/scrapper-gate/compare/v1.0.0-test.16...v1.0.0-test.17) (2021-11-02)
 
 
