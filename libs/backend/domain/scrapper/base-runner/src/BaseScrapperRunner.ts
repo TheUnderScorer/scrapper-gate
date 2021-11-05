@@ -1,5 +1,5 @@
 import { PerformanceManager } from '@scrapper-gate/backend/perf-hooks-utils';
-import { wait } from '@scrapper-gate/shared/common';
+import { Duration, ExistsInObject, wait } from '@scrapper-gate/shared/common';
 import {
   CommonScrapperStepResult,
   ScrapperRunner,
@@ -85,11 +85,13 @@ export class BaseScrapperRunner
 
   protected async getCommonStepResult(
     step: ScrapperStep
-  ): Promise<CommonScrapperStepResult> {
+  ): Promise<ExistsInObject<CommonScrapperStepResult>> {
     const entry = await this.getPerformanceMark(step);
 
     return {
-      performance: entry,
+      performance: {
+        duration: Duration.fromMs(entry?.duration ?? 0),
+      },
     };
   }
 }

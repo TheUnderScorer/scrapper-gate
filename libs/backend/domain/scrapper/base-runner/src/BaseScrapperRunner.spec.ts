@@ -67,9 +67,6 @@ describe('BaseScrapperRunner', () => {
       variables: [],
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const resultDuration = Duration.fromMs(result.performance!.duration!);
-
-    expect(resultDuration.seconds).toBeGreaterThanOrEqual(2);
+    expect(result.performance?.duration?.seconds).toBeGreaterThanOrEqual(2);
   });
 });

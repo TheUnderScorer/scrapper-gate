@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { createBaseEntity } from '@scrapper-gate/shared/common';
+import { createBaseEntity, Duration } from '@scrapper-gate/shared/common';
 import {
   createMockScrapper,
   createMockScrapperRun,
@@ -95,14 +95,14 @@ describe('Scrapper run processor', () => {
 
     runner.Click.mockResolvedValue({
       performance: {
-        duration: 25,
+        duration: Duration.fromMs(25),
       },
     });
 
     runner.Condition.mockResolvedValue({
       result: true,
       performance: {
-        duration: 25,
+        duration: Duration.fromMs(25),
       },
     });
 
@@ -132,14 +132,14 @@ describe('Scrapper run processor', () => {
 
     runner.Click.mockResolvedValue({
       performance: {
-        duration: 25,
+        duration: Duration.fromMs(25),
       },
     });
 
     runner.Condition.mockResolvedValue({
       result: false,
       performance: {
-        duration: 25,
+        duration: Duration.fromMs(25),
       },
     });
 
@@ -168,7 +168,7 @@ describe('Scrapper run processor', () => {
       throw new ScrapperRunError({
         url: 'http://example.org',
         performance: {
-          duration: 25,
+          duration: Duration.fromMs(25),
         },
         browserVersion: '1.0',
         message: 'Error!',
@@ -211,13 +211,13 @@ describe('Scrapper run processor', () => {
 
     runner.Click.mockResolvedValue({
       performance: {
-        duration: 25,
+        duration: Duration.fromMs(25),
       },
     });
 
     runner.ReadText.mockResolvedValue({
       performance: {
-        duration: 25,
+        duration: Duration.fromMs(25),
       },
     });
 
@@ -252,20 +252,20 @@ describe('Scrapper run processor', () => {
 
     runner.Click.mockResolvedValue({
       performance: {
-        duration: 25,
+        duration: Duration.fromMs(25),
       },
     });
 
     runner.ReadText.mockResolvedValue({
       performance: {
-        duration: 25,
+        duration: Duration.fromMs(25),
       },
     });
 
     runner.Condition.mockResolvedValue({
       result: true,
       performance: {
-        duration: 25,
+        duration: Duration.fromMs(25),
       },
     });
 
@@ -307,20 +307,20 @@ describe('Scrapper run processor', () => {
 
     runner.Click.mockResolvedValue({
       performance: {
-        duration: 25,
+        duration: Duration.fromMs(25),
       },
     });
 
     runner.ReadText.mockResolvedValue({
       performance: {
-        duration: 25,
+        duration: Duration.fromMs(25),
       },
     });
 
     runner.Condition.mockResolvedValue({
       result: false,
       performance: {
-        duration: 25,
+        duration: Duration.fromMs(25),
       },
     });
 
@@ -385,7 +385,7 @@ describe('Scrapper run processor', () => {
 
     runner.ReadText.mockResolvedValue({
       performance: {
-        duration: 0,
+        duration: Duration.fromMs(0),
       },
       values: [
         {
@@ -399,13 +399,13 @@ describe('Scrapper run processor', () => {
 
     runner.Click.mockResolvedValue({
       performance: {
-        duration: 5,
+        duration: Duration.fromMs(5),
       },
     });
 
     runner.Type.mockResolvedValue({
       performance: {
-        duration: 5,
+        duration: Duration.fromMs(5),
       },
     });
 

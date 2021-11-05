@@ -37,7 +37,9 @@ query GetMyScrapperRun($id: ID!) {
       startedAt
       state
       performance {
-        duration
+        duration {
+          ...FullDuration
+        }
       }
       step {
         ...ScrapperBuilderStep

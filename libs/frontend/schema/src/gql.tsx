@@ -750,7 +750,9 @@ export const GetMyScrapperRunDocument = gql`
         startedAt
         state
         performance {
-          duration
+          duration {
+            ...FullDuration
+          }
         }
         step {
           ...ScrapperBuilderStep
@@ -780,6 +782,7 @@ export const GetMyScrapperRunDocument = gql`
   }
   ${ScrapperRunScrapperFragmentDoc}
   ${ScrapperBuilderStepFragmentDoc}
+  ${FullDurationFragmentDoc}
   ${FileLinkFileFragmentDoc}
 `;
 

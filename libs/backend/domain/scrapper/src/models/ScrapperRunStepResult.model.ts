@@ -1,9 +1,11 @@
 import { BaseModel } from '@scrapper-gate/backend/base-model';
+import { BackendRunnerPerformanceEntry } from '@scrapper-gate/backend/common';
+import { durationTransformer } from '@scrapper-gate/backend/db-utils';
 import { Entities } from '@scrapper-gate/shared/common';
 import { pickIdsFromNodeLike } from '@scrapper-gate/shared/node';
 import {
   ErrorObject,
-  RunnerPerformanceEntry,
+  Maybe,
   RunState,
   ScrapperRunStepResult,
   ScrapperStep,
@@ -30,8 +32,22 @@ export class ScrapperRunStepResultModel
   @Column({
     type: 'jsonb',
     nullable: true,
+    transformer: {
+      to(value?: Maybe<BackendRunnerPerformanceEntry>) {
+        return {
+          ...value,
+          duration: durationTransformer.to(value?.duration),
+        };
+      },
+      from(value: BackendRunnerPerformanceEntry) {
+        return {
+          ...value,
+          duration: durationTransformer.from(value?.duration),
+        };
+      },
+    },
   })
-  performance?: RunnerPerformanceEntry;
+  performance?: BackendRunnerPerformanceEntry;
 
   @Column({
     nullable: true,

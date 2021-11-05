@@ -545,9 +545,7 @@ export class PlayWrightScrapperRunner
     const { performance } = await this.getCommonStepResult(params.step);
 
     return new ScrapperRunError({
-      performance: {
-        duration: performance?.duration ?? 0,
-      },
+      performance,
       message: error.message,
       url: this.page.url(),
       browserVersion: this.browserVersion,

@@ -333,7 +333,7 @@ export type RunnerError = ErrorObjectInterface & {
 };
 
 export type RunnerPerformanceEntry = {
-  duration?: Maybe<Scalars['Float']>;
+  duration?: Maybe<Duration>;
 };
 
 export enum RunnerTrigger {
@@ -841,7 +841,7 @@ export type GetMyScrapperRunQuery = {
             ScrapperRunStepResult,
             'id' | 'endedAt' | 'startedAt' | 'state'
           > & {
-            performance?: Maybe<Pick<RunnerPerformanceEntry, 'duration'>>;
+            performance?: Maybe<{ duration?: Maybe<FullDurationFragment> }>;
             step: ScrapperBuilderStepFragment;
             screenshots?: Maybe<Array<Maybe<FileLinkFileFragment>>>;
             error?: Maybe<Pick<ErrorObject, 'date' | 'message' | 'name'>>;
@@ -1592,7 +1592,11 @@ export type RunnerPerformanceEntryResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['RunnerPerformanceEntry'] = ResolversParentTypes['RunnerPerformanceEntry']
 > = ResolversObject<{
-  duration?: Resolver<Maybe<ResolversTypes['Float']>, ParentType, ContextType>;
+  duration?: Resolver<
+    Maybe<ResolversTypes['Duration']>,
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 

@@ -17,7 +17,7 @@ export const runnerSchema = gql`
   }
 
   type RunnerPerformanceEntry {
-    duration: Float
+    duration: Duration
   }
 
   type RunnerError implements ErrorObjectInterface {

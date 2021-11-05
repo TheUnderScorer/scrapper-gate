@@ -18,6 +18,8 @@ export interface CreateMockScrapperStepArgs {
 
 type MockScrapperStep = ScrapperStep & {
   waitDuration?: Maybe<Duration>;
+  waitIntervalTimeout?: Maybe<Duration>;
+  waitIntervalCheck?: Maybe<Duration>;
   nextStep?: Maybe<MockScrapperStep>;
   stepOnTrue?: Maybe<MockScrapperStep>;
   stepOnFalse?: Maybe<MockScrapperStep>;
