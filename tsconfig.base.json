@@ -123,6 +123,9 @@
       "@scrapper-gate/shared/constructor": [
         "libs/shared/constructor/src/index.ts"
       ],
+      "@scrapper-gate/shared/data-object": [
+        "libs/shared/data-object/src/index.ts"
+      ],
       "@scrapper-gate/shared/domain/auth": [
         "libs/shared/domain/auth/src/index.ts"
       ],

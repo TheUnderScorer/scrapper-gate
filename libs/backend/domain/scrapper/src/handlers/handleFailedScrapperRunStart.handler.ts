@@ -1,6 +1,6 @@
 import { ScrapperRunRepository } from '../repositories/ScrapperRun.repository';
 import {
-  ErrorObjectDto,
+  ErrorObjectModel,
   RunFailedToStartError,
 } from '@scrapper-gate/shared/errors';
 import { RunState } from '@scrapper-gate/shared/schema';
@@ -19,7 +19,7 @@ export const handleFailedScrapperRunStartHandler =
       command.payload.runId
     );
 
-    const error = ErrorObjectDto.createFromError(new RunFailedToStartError());
+    const error = ErrorObjectModel.fromError(new RunFailedToStartError());
 
     run.state = RunState.Failed;
     run.error = error;

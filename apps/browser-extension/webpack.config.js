@@ -5,6 +5,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const webpack = require('webpack');
 const { createPipe } = require('remeda');
+const MonacoPlugin = require('monaco-editor-webpack-plugin');
 
 function copyManifest(config) {
   config.plugins.push(
@@ -127,6 +128,17 @@ function setupEntries(config) {
   return config;
 }
 
+// TODO Remove unnecessary features
+function setupMonaco(config) {
+  config.plugins.push(
+    new MonacoPlugin({
+      languages: ['typescript', 'javascript'],
+    })
+  );
+
+  return config;
+}
+
 module.exports = createPipe(
   createConfig,
   setupEntries,
@@ -135,5 +147,6 @@ module.exports = createPipe(
   setupAliases,
   setupDevServer,
   setupShims,
-  modifyBundle
+  modifyBundle,
+  setupMonaco
 );

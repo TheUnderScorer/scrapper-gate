@@ -33,4 +33,10 @@ export const palette = {
   gradients: {
     primaryMainToDark: `linear-gradient(45deg, ${primary.main} 30%, ${primary.dark} 90%)`,
   },
+  bordersColors: {
+    outlinedInput:
+      defaultTheme.palette.mode === 'light'
+        ? 'rgba(0, 0, 0, 0.23)'
+        : 'rgba(255, 255, 255, 0.23)',
+  },
 };

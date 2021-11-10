@@ -69,4 +69,9 @@ export const scrapperStepActionDefinitions: ScrapperStepActionDefinitions = {
       ConditionalRuleTypes.HtmlElement,
     ],
   },
+  [ScrapperAction.RunJavascript]: {
+    description: 'Run JavaScript code in current page',
+    returnsValue: true,
+    returnsTextValue: true,
+  },
 };

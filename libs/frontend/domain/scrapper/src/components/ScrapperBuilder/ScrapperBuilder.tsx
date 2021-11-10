@@ -17,6 +17,7 @@ import {
   FormEditableText,
   joiValidationResolver,
   mergeValidators,
+  setErrorMutator,
   UnsavedFormAlert,
   useDebouncedValidator,
 } from '@scrapper-gate/frontend/form';
@@ -102,6 +103,7 @@ export const ScrapperBuilder = ({
   loading,
   initialScrapper,
   ElementPicker,
+  CodeEditor,
   runUrlCreator,
   ...rest
 }: ScrapperBuilderProps) => {
@@ -120,9 +122,10 @@ export const ScrapperBuilder = ({
         {...props}
         fieldNameCreator={props.getFieldName}
         ElementPicker={ElementPicker}
+        CodeEditor={CodeEditor}
       />
     ),
-    [ElementPicker]
+    [CodeEditor, ElementPicker]
   );
 
   const nodeCreationInterceptor = useCallback(
@@ -199,7 +202,7 @@ export const ScrapperBuilder = ({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const debouncedValidate = useDebouncedValidator<any>({
     validate,
-    ms: 250,
+    ms: 200,
   });
 
   const handleSubmit = useCallback(
@@ -267,6 +270,7 @@ export const ScrapperBuilder = ({
 
   return (
     <Form
+      mutators={{ setError: setErrorMutator }}
       validate={debouncedValidate}
       onSubmit={handleSubmit}
       initialValues={initialValues}

@@ -371,6 +371,7 @@ export enum ScrapperAction {
   Screenshot = 'Screenshot',
   ChangeRunSettings = 'ChangeRunSettings',
   Wait = 'Wait',
+  RunJavascript = 'RunJavascript',
   Condition = 'Condition',
 }
 
@@ -510,6 +511,7 @@ export type ScrapperStep = BaseEntity &
     waitDuration?: Maybe<Duration>;
     waitIntervalCheck?: Maybe<Duration>;
     waitIntervalTimeout?: Maybe<Duration>;
+    jsCode?: Maybe<Scalars['String']>;
   };
 
 export type ScrapperStepInput = {
@@ -539,6 +541,7 @@ export type ScrapperStepInput = {
   waitDuration?: Maybe<DurationInput>;
   waitIntervalCheck?: Maybe<DurationInput>;
   waitIntervalTimeout?: Maybe<DurationInput>;
+  jsCode?: Maybe<Scalars['String']>;
 };
 
 export enum ScrapperType {
@@ -771,6 +774,7 @@ export type ScrapperBuilderStepFragment = Pick<
   | 'createdAt'
   | 'updatedAt'
   | 'mouseButton'
+  | 'jsCode'
   | 'fullPageScreenshot'
   | 'isFirst'
   | 'navigateToUrl'
@@ -1949,6 +1953,7 @@ export type ScrapperStepResolvers<
     ParentType,
     ContextType
   >;
+  jsCode?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 

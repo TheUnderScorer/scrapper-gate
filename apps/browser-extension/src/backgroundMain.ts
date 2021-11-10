@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { logger } from '@scrapper-gate/shared/logger/console';
 import browser from 'webextension-polyfill';
+import { cleanupOnInit } from './extension/background/cleanupOnInit';
+import { cleanupStoresForTab } from './extension/background/cleanupStoresForTab';
 import { handlers } from './extension/background/messageHandlers/handlers';
 import {
   Message,
   MessageTypes,
 } from './extension/browser/communication/messageResult.types';
-import { logger } from '@scrapper-gate/shared/logger/console';
-import { cleanupStoresForTab } from './extension/background/cleanupStoresForTab';
-import { cleanupOnInit } from './extension/background/cleanupOnInit';
 
 logger.debug('Background script started');
 

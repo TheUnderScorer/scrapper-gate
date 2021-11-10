@@ -407,6 +407,10 @@ export class PlayWrightScrapperRunner
     };
   }
 
+  async RunJavascript(params: ScrapperStepHandlerParams): Promise<never> {
+    throw new Error('Not implemented');
+  }
+
   async Type(params: ScrapperStepHandlerParams) {
     try {
       const { elements } = await this.preRun(params);

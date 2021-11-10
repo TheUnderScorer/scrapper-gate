@@ -9,6 +9,7 @@ import { NavigateToSections } from './stepSections/NavigateToSections';
 import { ReadAttributeSections } from './stepSections/ReadAttributeSections';
 import { ReadTextSections } from './stepSections/ReadTextSections';
 import { ReloadSections } from './stepSections/ReloadSections';
+import { RunJavascriptSections } from './stepSections/RunJavascriptSections';
 import { ScreenshotSections } from './stepSections/ScreenshotSections';
 import { TypeSections } from './stepSections/TypeSections';
 import { WaitSections } from './stepSections/WaitSections';
@@ -29,4 +30,5 @@ export const sections: Sections = {
   [ScrapperAction.Screenshot]: ScreenshotSections,
   [ScrapperAction.ChangeRunSettings]: ChangeRunSettingsSections,
   [ScrapperAction.Wait]: WaitSections,
+  [ScrapperAction.RunJavascript]: RunJavascriptSections,
 };

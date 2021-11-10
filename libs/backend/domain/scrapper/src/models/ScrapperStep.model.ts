@@ -200,6 +200,12 @@ export class ScrapperStepModel
   })
   waitIntervalTimeout?: Maybe<Duration>;
 
+  @Column({
+    nullable: true,
+    type: 'text',
+  })
+  jsCode?: Maybe<string>;
+
   @Enumerable(true)
   get allSelectors(): Maybe<Selector[]> {
     const selectors = [...(this.selectors ?? [])];

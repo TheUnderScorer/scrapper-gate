@@ -1534,6 +1534,29 @@
       },
       "tags": []
     },
+    "shared-data-object": {
+      "root": "libs/shared/data-object",
+      "sourceRoot": "libs/shared/data-object/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["libs/shared/data-object/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shared/data-object"],
+          "options": {
+            "jestConfig": "libs/shared/data-object/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
     "shared-domain-auth": {
       "root": "libs/shared/domain/auth",
       "sourceRoot": "libs/shared/domain/auth/src",

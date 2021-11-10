@@ -77,6 +77,7 @@ export const scrapperSchema = gql`
     waitDuration: Duration
     waitIntervalCheck: Duration
     waitIntervalTimeout: Duration
+    jsCode: String
   }
 
   input ScrapperStepInput {
@@ -106,6 +107,7 @@ export const scrapperSchema = gql`
     waitDuration: DurationInput
     waitIntervalCheck: DurationInput
     waitIntervalTimeout: DurationInput
+    jsCode: String
   }
 
   type ScrapperRunStepResult implements BaseEntity {
@@ -206,6 +208,7 @@ export const scrapperSchema = gql`
     Screenshot
     ChangeRunSettings
     Wait
+    RunJavascript
     Condition
   }
 

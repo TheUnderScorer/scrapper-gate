@@ -23,3 +23,4 @@ export * from './components/UnsavedFormAlert/UnsavedFormAlert.types';
 export * from './hooks/useSetFormAsNonDirty';
 export * from './components/FormDurationInputField/FormDurationInputField';
 export * from './components/FormDurationInputField/FormDurationInputField.types';
+export * from './mutators/setErrorMutator';

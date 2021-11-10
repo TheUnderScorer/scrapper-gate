@@ -24,6 +24,9 @@ export interface BasePalette {
   greyVariant: typeof colors.grey;
   flowBuilderColors: FlowBuilderColors;
   gradients: Gradients;
+  bordersColors: {
+    outlinedInput: string;
+  };
 }
 
 export interface DomainIcons {

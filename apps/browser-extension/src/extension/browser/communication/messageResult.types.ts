@@ -14,7 +14,7 @@ export enum MessageTypes {
   Test = 'Test',
 }
 
-type MessagePayload<Payload> = Payload | null | undefined;
+export type MessagePayload<Payload> = Payload | null | undefined;
 
 export interface ContentToggleHookPayload {
   visible: boolean;

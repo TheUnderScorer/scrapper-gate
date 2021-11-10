@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any,@typescript-eslint/no-non-null-assertion */
+import { DataObject } from '@scrapper-gate/shared/data-object';
 import { clone } from 'remeda';
-import { DataObject } from './DataObject';
 import { MaybePromise } from './promise';
 
 type UpdateMap<Entity, Input extends Partial<Entity>> = {

@@ -1,4 +1,5 @@
 import { TextFieldProps } from '@mui/material';
+import { CodeEditorProps } from '@scrapper-gate/frontend/code-editor';
 import {
   BaseNodeProperties,
   FlowBuilderFormState,
@@ -29,6 +30,12 @@ export interface ScrapperElementPickerProps
   onElements?: (elements: HTMLElement[]) => unknown;
 }
 
+export interface ScrapperCodeEditorProps
+  extends Omit<CodeEditorProps, 'onChange' | 'value' | 'onMount'> {
+  name: string;
+  initialValue?: string;
+}
+
 export type ScrapperBuilderNode = Node<ScrapperBuilderNodeProperties>;
 
 export type ScrapperBuilderNodeProperties = BaseNodeProperties &
@@ -36,6 +43,7 @@ export type ScrapperBuilderNodeProperties = BaseNodeProperties &
   Pick<Partial<ScrapperStepInput>, 'id' | 'action'>;
 
 export type ScrapperElementPicker = ComponentType<ScrapperElementPickerProps>;
+export type ScrapperCodeEditor = ComponentType<ScrapperCodeEditorProps>;
 
 export interface ScrapperBuilderProps
   extends Pick<
@@ -45,11 +53,12 @@ export interface ScrapperBuilderProps
     Pick<RunScrapperDialogProps, 'runUrlCreator'> {
   initialScrapper?: ScrapperBuilderScrapperFragment;
   ElementPicker: ScrapperElementPicker;
+  CodeEditor: ScrapperCodeEditor;
   browserUrl?: Perhaps<string>;
 }
 
 export interface ScrapperStepFormProps
-  extends Pick<ScrapperBuilderProps, 'ElementPicker'>,
+  extends Pick<ScrapperBuilderProps, 'ElementPicker' | 'CodeEditor'>,
     Pick<NodeContentProps, 'nodeIndex'> {
   fieldNameCreator: FieldNameCreator;
 }
