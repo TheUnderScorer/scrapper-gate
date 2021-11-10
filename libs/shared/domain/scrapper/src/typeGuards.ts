@@ -1,8 +1,8 @@
-import { ConditionalRunScrapperStepResult, ScrapperReadValue } from './types';
+import { ConditionalRunScrapperStepResult, ScrapperValue } from './types';
 
 export const isReadTextScrapperStepResult = (
   value: unknown
-): value is ScrapperReadValue =>
+): value is ScrapperValue =>
   Boolean(value && typeof value === 'object' && 'value' in value);
 
 export const isConditionalScrapperStepResult = (

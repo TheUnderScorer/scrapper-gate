@@ -26,9 +26,9 @@ export const RunJavascriptSections = ({
  * @returns {?Result}
  */
 function ${scrapperJavascriptFunctionName}(context) {
-  return {
-    values: 'my_value'
-  }
+    return {
+      values: 'my_value'
+    }
 }
         `}
           additionalJsLib={`

@@ -1,6 +1,7 @@
 import {
   Box,
   CircularProgress,
+  debounce,
   FormHelperText,
   FormLabel,
   Paper,
@@ -31,6 +32,7 @@ export const CodeEditor = ({
   const valueRef = useRef(value);
 
   const [preventChange, setPreventChange] = useState(false);
+  const [didOutsideChange, setDidOutsideChange] = useState(false);
 
   const [loaded, setLoaded] = useState(false);
   const [editor, setEditor] =
@@ -85,18 +87,68 @@ export const CodeEditor = ({
 
     const model = editor?.getModel();
 
-    if (!model) {
+    if (!model || didOutsideChange) {
       return;
     }
 
-    if (editor && value && model.getValue() !== value) {
+    if (editor && value && editor.getValue() !== value) {
+      logger.debug('Changing value from external source:', {
+        value,
+        modelValue: model.getValue(),
+        editorValue: editor.getValue(),
+        editorValueChanged: editor.getValue() === value,
+        modelValueChanged: editor.getValue() === value,
+      });
+
       setPreventChange(true);
 
       editor.setValue(value);
 
       setPreventChange(false);
+
+      setDidOutsideChange(true);
     }
-  }, [editor, value]);
+  }, [didOutsideChange, editor, value]);
+
+  useEffect(() => {
+    if (editor) {
+      const model = editor.getModel();
+
+      if (model) {
+        const handler = debounce(() => {
+          const markers = monaco.editor
+            .getModelMarkers({})
+            .filter(
+              (marker) => marker.severity === monaco.MarkerSeverity.Error
+            );
+
+          if (onErrorChange) {
+            const error =
+              markers.length > 0
+                ? new Error(first(markers).message)
+                : undefined;
+
+            logger.debug(`Error markers:`, {
+              error,
+              markers,
+            });
+
+            onErrorChange(error);
+          }
+        }, 1000);
+
+        const sub = model.onDidChangeContent(handler);
+
+        return () => {
+          handler.clear();
+
+          sub?.dispose();
+        };
+      }
+    }
+
+    return undefined;
+  }, [editor, onErrorChange]);
 
   useEffect(() => {
     if (editor) {
@@ -105,28 +157,6 @@ export const CodeEditor = ({
       if (model) {
         const sub = model.onDidChangeContent(() => {
           const newValue = editor.getValue();
-
-          setTimeout(() => {
-            const markers = monaco.editor
-              .getModelMarkers({})
-              .filter(
-                (marker) => marker.severity === monaco.MarkerSeverity.Error
-              );
-
-            if (onErrorChange) {
-              const error =
-                markers.length > 0
-                  ? new Error(first(markers).message)
-                  : undefined;
-
-              logger.debug(`Error markers:`, {
-                error,
-                markers,
-              });
-
-              onErrorChange(error);
-            }
-          }, 1000);
 
           if (newValue === valueRef.current || preventChange) {
             return;

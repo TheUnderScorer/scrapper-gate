@@ -1,3 +1,4 @@
+import { wait } from '@scrapper-gate/shared/common';
 import { ErrorObjectModel } from '@scrapper-gate/shared/errors';
 import { logger } from '@scrapper-gate/shared/logger/console';
 import { ErrorObject, Maybe } from '@scrapper-gate/shared/schema';
@@ -28,6 +29,8 @@ export const updateEditorState = async (
       await browser.storage.local.set({
         [createCodeEditorStoreKey(sessionId)]: state,
       });
+
+      await wait(50);
     })
     .catch(logger.error);
 };

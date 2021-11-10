@@ -23,7 +23,7 @@ export const runnerSchema = gql`
   type RunnerError implements ErrorObjectInterface {
     name: String!
     message: String
-    date: Date!
+    date: Date
     stepId: ID
   }
 

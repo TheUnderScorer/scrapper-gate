@@ -58,6 +58,7 @@ const renderCmp = (
               <Box width="600px" height="600px">
                 <ScrapperBuilder
                   ElementPicker={jest.fn()}
+                  CodeEditor={jest.fn()}
                   browserUrl="http://example.org"
                   {...props}
                 />

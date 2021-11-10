@@ -468,8 +468,12 @@ export class PlayWrightScrapperRunner
 
       const rest = await this.getCommonStepResult(params.step);
 
+      const valuesArray = result?.values ? castAsArray(result.values) : [];
+
       return {
-        values: result?.values ? castAsArray(result.values) : [],
+        values: valuesArray.map((val) => ({
+          value: val,
+        })),
         performance: rest?.performance,
       };
     } catch (e) {

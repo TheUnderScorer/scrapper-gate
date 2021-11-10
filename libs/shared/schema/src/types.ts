@@ -131,13 +131,13 @@ export enum DurationUnit {
 export type ErrorObject = ErrorObjectInterface & {
   name: Scalars['String'];
   message?: Maybe<Scalars['String']>;
-  date: Scalars['Date'];
+  date?: Maybe<Scalars['Date']>;
 };
 
 export type ErrorObjectInterface = {
   name: Scalars['String'];
   message?: Maybe<Scalars['String']>;
-  date: Scalars['Date'];
+  date?: Maybe<Scalars['Date']>;
 };
 
 export type File = BaseEntity & {
@@ -328,7 +328,7 @@ export type Runnable = {
 export type RunnerError = ErrorObjectInterface & {
   name: Scalars['String'];
   message?: Maybe<Scalars['String']>;
-  date: Scalars['Date'];
+  date?: Maybe<Scalars['Date']>;
   stepId?: Maybe<Scalars['ID']>;
 };
 
@@ -1371,7 +1371,7 @@ export type ErrorObjectResolvers<
 > = ResolversObject<{
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   message?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  date?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  date?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -1386,7 +1386,7 @@ export type ErrorObjectInterfaceResolvers<
   >;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   message?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  date?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  date?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
 }>;
 
 export type FileResolvers<
@@ -1587,7 +1587,7 @@ export type RunnerErrorResolvers<
 > = ResolversObject<{
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   message?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  date?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  date?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
   stepId?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;

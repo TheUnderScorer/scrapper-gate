@@ -1,3 +1,4 @@
+// TODO Fix circular dependency
 import { DataObject } from '@scrapper-gate/shared/data-object';
 import { ErrorObject, Maybe } from '@scrapper-gate/shared/schema';
 
@@ -9,7 +10,7 @@ export class ErrorObjectModel
 
   public name: string;
 
-  public date: Date;
+  public date?: Maybe<Date>;
 
   public message?: Maybe<string>;
 
@@ -20,7 +21,7 @@ export class ErrorObjectModel
         'date' in error
           ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
             new Date((error as Record<string, any>).date)
-          : new Date(),
+          : undefined,
       message: error.message,
       name: error.name,
     });
@@ -34,9 +35,9 @@ export class ErrorObjectModel
     return error;
   }
 
-  toJSON(): Omit<ErrorObject, 'date'> & { date: string } {
+  toJSON(): Omit<ErrorObject, 'date'> & { date?: string } {
     return {
-      date: this.date.toISOString(),
+      date: this.date?.toISOString(),
       message: this.message,
       name: this.name,
     };

@@ -31,17 +31,14 @@ export type RunScrapperStepResult =
   | ConditionalRunScrapperStepResult
   | ScreenshotRunScrapperStepResult;
 
-export type ScrapperReadValue = Pick<
-  ScrapperRunValue,
-  'value' | 'sourceElement'
->;
+export type ScrapperValue = Pick<ScrapperRunValue, 'value' | 'sourceElement'>;
 
 export interface ReadValueScrapperStepResult extends CommonScrapperStepResult {
-  values?: ScrapperReadValue[];
+  values?: ScrapperValue[];
 }
 
 export interface RunJavascriptStepResult extends CommonScrapperStepResult {
-  values?: unknown[];
+  values?: ScrapperValue[];
 }
 
 export type CommonScrapperStepResult = Pick<

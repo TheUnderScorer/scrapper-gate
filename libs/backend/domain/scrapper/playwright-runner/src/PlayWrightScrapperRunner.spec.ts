@@ -236,7 +236,7 @@ describe('PlayWright scrapper runner', () => {
           },
         });
 
-        expect(values).toEqual(['test']);
+        expect(values?.map((v) => v.value)).toEqual(['test']);
       });
 
       it('should store code errors', async () => {
@@ -308,7 +308,7 @@ describe('PlayWright scrapper runner', () => {
           },
         });
 
-        expect(values).toEqual([
+        expect(values?.map((v) => v.value)).toEqual([
           'article.html',
           'popup.html',
           'dynamic-elements.html',
