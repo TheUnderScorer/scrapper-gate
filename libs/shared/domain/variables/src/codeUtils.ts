@@ -9,11 +9,12 @@ export interface VariableTsCodeType {
   value?: any;
 }
 
-export const variableCodeTsType = `
-  type Variable {
-    key: string;
-    value?: any;
-  }
+export const variableTypeDef = `
+/**
+ * @typedef {Object} Variable - Defines scrapper variable
+ * @property {string} key - a unique variable key
+ * @property {any} value - variable value
+ */
 `;
 
 export const variablesToCodeTsType = (
@@ -26,6 +27,17 @@ export const variablesToCodeTsType = (
       key: v.key!,
       value: getVariableValue(v),
     }));
+
+export const createInjectableIntoCodeVariables = (variables: Variable[]) => {
+  const tsTypeVariables = variablesToCodeTsType(variables);
+
+  return tsTypeVariables.reduce((acc, tsType) => {
+    return {
+      ...acc,
+      [tsType.key]: tsType,
+    };
+  }, {});
+};
 
 export const variablesToConstDeclaration = (variables: Variable[]) => {
   const keys = variables

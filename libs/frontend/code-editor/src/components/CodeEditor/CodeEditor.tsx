@@ -107,7 +107,11 @@ export const CodeEditor = ({
           const newValue = editor.getValue();
 
           setTimeout(() => {
-            const markers = monaco.editor.getModelMarkers({});
+            const markers = monaco.editor
+              .getModelMarkers({})
+              .filter(
+                (marker) => marker.severity === monaco.MarkerSeverity.Error
+              );
 
             if (onErrorChange) {
               const error =

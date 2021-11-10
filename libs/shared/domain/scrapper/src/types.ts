@@ -31,10 +31,17 @@ export type RunScrapperStepResult =
   | ConditionalRunScrapperStepResult
   | ScreenshotRunScrapperStepResult;
 
-export type ReadTextValue = Pick<ScrapperRunValue, 'value' | 'sourceElement'>;
+export type ScrapperReadValue = Pick<
+  ScrapperRunValue,
+  'value' | 'sourceElement'
+>;
 
 export interface ReadValueScrapperStepResult extends CommonScrapperStepResult {
-  values?: ReadTextValue[];
+  values?: ScrapperReadValue[];
+}
+
+export interface RunJavascriptStepResult extends CommonScrapperStepResult {
+  values?: unknown[];
 }
 
 export type CommonScrapperStepResult = Pick<
@@ -71,6 +78,10 @@ export type ScrapperStepHandlers = BaseScrapperStepHandlers & {
   [ScrapperAction.ReadText]: (
     params: ScrapperStepHandlerParams
   ) => MaybePromise<ReadValueScrapperStepResult>;
+
+  [ScrapperAction.RunJavascript]: (
+    params: ScrapperStepHandlerParams
+  ) => MaybePromise<RunJavascriptStepResult>;
 
   [ScrapperAction.ReadAttribute]: (
     params: ScrapperStepHandlerParams
