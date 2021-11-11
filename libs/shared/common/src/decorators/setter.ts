@@ -1,5 +1,5 @@
 import 'reflect-metadata';
-import { Jsonable } from '../types';
+import { Jsonable } from '@scrapper-gate/shared/data-structures';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 

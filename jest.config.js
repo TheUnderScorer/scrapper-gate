@@ -58,5 +58,6 @@ module.exports = {
     '<rootDir>/libs/backend/domain/scrapper/base-runner',
     '<rootDir>/libs/frontend/code-editor',
     '<rootDir>/libs/shared/data-object',
+    '<rootDir>/libs/shared/data-structures',
   ],
 };

@@ -145,9 +145,11 @@ export class PlayWrightScrapperRunner
     this.page.once('close', () => {
       this.logger.debug('Page closed', this.context.pages().length);
 
-      this.page.off('dialog', onDialog).off('popup', onPopup);
+      if (this.page) {
+        this.page.off('dialog', onDialog).off('popup', onPopup);
 
-      this.logger.debug(`Removed listeners from page: ${this.page.url()}`);
+        this.logger.debug(`Removed listeners from page: ${this.page.url()}`);
+      }
 
       this.page = last(this.context.pages());
 

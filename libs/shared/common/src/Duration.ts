@@ -1,3 +1,4 @@
+import { Clonable, WithValue } from '@scrapper-gate/shared/data-structures';
 import {
   Duration as DurationType,
   DurationInput,
@@ -5,7 +6,6 @@ import {
   Maybe,
 } from '@scrapper-gate/shared/schema';
 import { filter, map, pipe } from 'remeda';
-import { Clonable, WithValue } from './types';
 
 export class Duration implements WithValue<number>, DurationType, Clonable {
   private readonly msValue: number;

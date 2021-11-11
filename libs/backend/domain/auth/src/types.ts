@@ -1,4 +1,4 @@
-import { Dictionary } from '@scrapper-gate/shared/common';
+import { Dictionary } from '@scrapper-gate/shared/data-structures';
 
 export interface TokenUserData {
   userId: string;

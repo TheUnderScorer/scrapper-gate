@@ -1,12 +1,12 @@
 import { Constructor } from '@scrapper-gate/shared/constructor';
-import { filter, pipe, reduce } from 'remeda';
-import type { PartialDeep } from 'type-fest';
 import {
   Clonable,
   Dictionary,
   Jsonable,
   OmitFunctions,
-} from '../../common/src/types';
+} from '@scrapper-gate/shared/data-structures';
+import { filter, pipe, reduce } from 'remeda';
+import type { PartialDeep } from 'type-fest';
 
 export interface DataObjectConstructor<T> extends Constructor<DataObject<T>> {
   create(payload: PartialDeep<OmitFunctions<T>>): T;
