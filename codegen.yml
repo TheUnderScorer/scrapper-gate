@@ -6,7 +6,8 @@ schema:
 
 documents: null
 config:
-  useIndexSignature: true
+  useIndexSignature: false
+  declarationKind: 'interface'
 generates:
   ./libs/shared/schema/src/types.ts:
     documents:
