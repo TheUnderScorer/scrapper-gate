@@ -13,7 +13,7 @@ export interface RadioGroupProps {
   label?: ReactNode;
   radioProps?: Pick<
     TileRadioProps,
-    'width' | 'height' | 'className' | 'checkedBackgroundColor'
+    'width' | 'height' | 'className' | 'checkedBackgroundColor' | 'sx'
   >;
 }
 
@@ -57,7 +57,7 @@ export const RadioGroup: FC<RadioGroupProps> = <ValueType extends unknown>({
             icon={icon}
             checked={value === optionValue}
             disabled={disabled}
-            onClick={handleClick(optionValue as ValueType)}
+            onSelect={handleClick(optionValue as ValueType)}
             {...radioProps}
           />
         </Grid>

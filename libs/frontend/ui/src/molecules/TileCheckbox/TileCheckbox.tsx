@@ -36,7 +36,7 @@ export const TileCheckbox = ({
   icon,
   width,
   height,
-  onClick,
+  onSelect,
   children,
   containerProps,
   showCheckbox = true,
@@ -97,7 +97,7 @@ export const TileCheckbox = ({
         'tile-checkbox-container',
         containerProps?.className
       )}
-      onClick={paperProps.disabled ? undefined : onClick}
+      onClick={paperProps.disabled ? undefined : onSelect}
     >
       <Box position="relative" width={size.width} height={size.height}>
         {showCheckbox && direction === 'vertical' && (

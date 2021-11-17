@@ -53,7 +53,7 @@ export const TileRadio = ({
           userSelect: 'none',
         }}
       >
-        {icon}
+        <span className="tile-radio-icon">{icon}</span>
         <Typography variant={description ? 'h6' : 'body2'}>{title}</Typography>
         {description && (
           <Typography className="no-bold" whiteSpace="pre-line" variant="body2">

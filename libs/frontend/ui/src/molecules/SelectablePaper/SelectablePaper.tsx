@@ -1,12 +1,13 @@
 import { Box, BoxProps, Paper, PaperProps } from '@mui/material';
 import { ThemedSxProps } from '@scrapper-gate/frontend/theme';
 import classNames from 'classnames';
-import React, { MouseEventHandler, ReactNode } from 'react';
+import React, { ReactNode } from 'react';
+import { Key } from 'ts-key-enum';
 
 export interface SelectablePaperProps extends ThemedSxProps {
   checked?: boolean;
   disabled?: boolean;
-  onClick?: MouseEventHandler;
+  onSelect?: () => unknown;
   width?: number | string;
   height?: number | string;
   className?: string;
@@ -20,7 +21,7 @@ export const SelectablePaper = ({
   children,
   disabled,
   checked,
-  onClick,
+  onSelect,
   height = '100px',
   width = '100px',
   className,
@@ -32,8 +33,14 @@ export const SelectablePaper = ({
     <Box width={width} height={height} className={className} {...boxProps}>
       <Paper
         {...paperProps}
+        tabIndex={0}
         role="radio"
-        onClick={disabled ? undefined : onClick}
+        onClick={disabled ? undefined : onSelect}
+        onKeyDown={(event) => {
+          if ([Key.Enter, ' '].includes(event.key as Key)) {
+            onSelect?.();
+          }
+        }}
         className={classNames(
           {
             checked,
