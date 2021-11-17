@@ -1,23 +1,34 @@
+import { ExpandMore } from '@mui/icons-material';
 import {
-  Accordion,
+  Accordion as AccordionCmp,
   AccordionDetails,
+  AccordionProps,
   AccordionSummary,
   Box,
   FormControlLabel,
   Switch,
   Typography,
 } from '@mui/material';
-import { ExpandMore } from '@mui/icons-material';
+import { Meta } from '@storybook/react';
 import React from 'react';
 
 export default {
   title: 'UI/Accordion',
-};
+  component: AccordionCmp,
+  argTypes: {
+    variant: {
+      control: {
+        type: 'select',
+        options: ['elevation', 'outlined', 'transparent'],
+      },
+    },
+  },
+} as Meta;
 
-export const Transparent = () => {
+export const Accordion = (args: Pick<AccordionProps, 'variant'>) => {
   return (
     <Box width="400px">
-      <Accordion variant="transparent">
+      <AccordionCmp {...args}>
         <AccordionSummary expandIcon={<ExpandMore />}>
           <Typography>Run configuration</Typography>
         </AccordionSummary>
@@ -28,7 +39,11 @@ export const Transparent = () => {
           />
           <FormControlLabel label="Use proxy" control={<Switch />} />
         </AccordionDetails>
-      </Accordion>
+      </AccordionCmp>
     </Box>
   );
+};
+
+Accordion.args = {
+  variant: 'transparent',
 };

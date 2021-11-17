@@ -15,6 +15,7 @@ services:
       SERVER_URL: http://api:3000
       NX_API_URL: http://api:3000
       NX_SECURITY_URL: http://security:50050
+      INITIAL_ACTIVE_TAB_URL: http://test-sites:80
     command: [sh, -c, "xvfb-run --auto-servernum -- npx nx run browser-extension-e2e:e2e"]
     volumes:
       - ./artifacts:/app/artifacts

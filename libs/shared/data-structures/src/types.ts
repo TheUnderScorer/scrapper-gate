@@ -16,3 +16,7 @@ export interface Clonable {
 export interface WithValue<T> {
   valueOf: () => T;
 }
+
+export interface Comparable {
+  equals: (other: this) => boolean;
+}

@@ -8,6 +8,7 @@ import {
 } from '@scrapper-gate/shared/common';
 import { InvalidSelectorProvidedError } from '@scrapper-gate/shared/errors';
 import { Selector, SelectorType } from '@scrapper-gate/shared/schema';
+import classNames from 'classnames';
 import React, {
   MutableRefObject,
   useCallback,
@@ -291,7 +292,11 @@ export const HtmlElementPicker = ({
   );
 
   return (
-    <Grid className={className} container direction="column">
+    <Grid
+      className={classNames(className, 'html-element-picker-wrapper')}
+      container
+      direction="column"
+    >
       {input}
       <Box mt={1}>
         <Tooltip

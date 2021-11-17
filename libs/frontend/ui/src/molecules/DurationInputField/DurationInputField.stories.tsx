@@ -1,19 +1,33 @@
+import { DurationInputFieldProps } from './DurationInputField.types';
 import { Duration } from '@scrapper-gate/shared/common';
+import { Meta } from '@storybook/react';
 import { useState } from 'react';
 import 'reflect-metadata';
-import { DurationInputField } from './DurationInputField';
+import { DurationInputField as Field } from './DurationInputField';
 
 export default {
-  title: 'UI/Duration Input Field',
-};
+  title: 'UI/DurationInputField',
+  argTypes: {
+    label: {
+      control: 'text',
+    },
+  },
+  component: Field,
+} as Meta;
 
-export const Component = () => {
+export const DurationInputField = (
+  args: Pick<DurationInputFieldProps, 'label'>
+) => {
   const [value, setValue] = useState(Duration.fromMinutes(60).toInput());
 
   return (
     <>
-      <DurationInputField label="Duration" value={value} onChange={setValue} />
+      <Field {...args} name="duration" value={value} onChange={setValue} />
       <pre>{JSON.stringify(value, null, ' ')}</pre>
     </>
   );
+};
+
+DurationInputField.args = {
+  label: 'Duration',
 };

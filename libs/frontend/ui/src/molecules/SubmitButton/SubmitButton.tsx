@@ -2,7 +2,7 @@ import { Check } from '@mui/icons-material';
 import { Button, CircularProgress } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import classNames from 'classnames';
-import React, { FC, MouseEventHandler } from 'react';
+import React, { MouseEventHandler, PropsWithChildren } from 'react';
 import { useFormState } from 'react-final-form';
 import { PrimaryIconButton } from '../../atoms/Buttons/Buttons';
 
@@ -36,7 +36,7 @@ export interface SubmitButtonProps {
   type?: 'icon' | 'button';
 }
 
-export const SubmitButton: FC<SubmitButtonProps> = ({
+export const SubmitButton = ({
   didSubmit,
   children,
   loading,
@@ -44,7 +44,7 @@ export const SubmitButton: FC<SubmitButtonProps> = ({
   onClick,
   className,
   type = 'button',
-}) => {
+}: PropsWithChildren<SubmitButtonProps>) => {
   const formState = useFormState({
     subscription: {
       dirty: true,

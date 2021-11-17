@@ -52,6 +52,7 @@ export const ScrapperBuilderStepFragmentDoc = gql`
     updatedAt
     mouseButton
     jsCode
+    clickTimes
     fullPageScreenshot
     isFirst
     navigateToUrl

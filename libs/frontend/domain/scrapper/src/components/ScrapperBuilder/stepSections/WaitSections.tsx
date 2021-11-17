@@ -13,6 +13,7 @@ import {
 import React from 'react';
 import { scrapperActionIcons } from '../../../dictionary/scrapperActionIcons';
 import { useScrapperConditionalRules } from '../../../hooks/useScrapperConditionalRules';
+import { ScrapperKey } from '../commonFields/ScrapperKey';
 import { Url } from '../commonFields/Url';
 import { ScrapperStepFormProps } from '../ScrapperBuilder.types';
 
@@ -33,6 +34,7 @@ export const WaitSections = ({
 
   return (
     <>
+      <ScrapperKey fieldNameCreator={fieldNameCreator} />
       <EnumSelect
         enumObj={ScrapperWaitType}
         dictionary={{

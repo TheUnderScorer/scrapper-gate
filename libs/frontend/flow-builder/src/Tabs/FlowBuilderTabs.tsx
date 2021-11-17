@@ -18,7 +18,7 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
   [`&.${classes.paper}`]: {
     borderLeft: 'none',
     borderRight: 'none',
-    backgroundColor: theme.palette.greyVariant['100'],
+    backgroundColor: theme.palette.greyVariant?.['100'],
   },
 }));
 

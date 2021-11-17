@@ -51,7 +51,7 @@ export const EnumSelect = ({
     >
       {emptyOptionLabel && <MenuItem value="">{emptyOptionLabel}</MenuItem>}
       {enumArray.map((item) => (
-        <MenuItem key={item.value} value={item.value}>
+        <MenuItem key={item.value} value={item.value} data-value={item.value}>
           {item.icon && <ListItemIcon>{item.icon}</ListItemIcon>}
           <ListItemText>{item.label}</ListItemText>
         </MenuItem>

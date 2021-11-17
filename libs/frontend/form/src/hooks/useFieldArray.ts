@@ -13,7 +13,8 @@ import { v4 } from 'uuid';
 
 const defaultValue: unknown[] = [];
 
-export const useFieldArray = <T extends Record<string, unknown>>(
+// eslint-disable-next-line @typescript-eslint/ban-types
+export const useFieldArray = <T extends object>(
   name: string,
   props?: UseFieldConfig<T[]>
 ) => {
@@ -23,7 +24,7 @@ export const useFieldArray = <T extends Record<string, unknown>>(
     ...props,
     format: (value) =>
       value?.map((value) => {
-        if (!value.id) {
+        if (!(value as Record<string, unknown>).id) {
           (value as Record<string, unknown>).id = v4();
         }
 
@@ -38,7 +39,7 @@ export const useFieldArray = <T extends Record<string, unknown>>(
     (item: Omit<T, 'id'>) => {
       const result = {
         ...item,
-        id: item?.id ?? v4(),
+        id: (item as Record<string, unknown>)?.id ?? v4(),
       };
 
       onChange([...(value ?? []), result]);

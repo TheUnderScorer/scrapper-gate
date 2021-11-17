@@ -5,3 +5,4 @@ export * as flowBuilderUtils from './utils';
 export * as flowBuilderConstants from './nodeTypes/constants';
 export * from './utils/recreateNodes';
 export * from './constants';
+export * from './getFieldName';

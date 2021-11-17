@@ -1,4 +1,8 @@
-import { Clonable, WithValue } from '@scrapper-gate/shared/data-structures';
+import {
+  Clonable,
+  Comparable,
+  WithValue,
+} from '@scrapper-gate/shared/data-structures';
 import {
   Duration as DurationType,
   DurationInput,
@@ -7,9 +11,12 @@ import {
 } from '@scrapper-gate/shared/schema';
 import { filter, map, pipe } from 'remeda';
 
-export class Duration implements WithValue<number>, DurationType, Clonable {
+export class Duration
+  implements WithValue<number>, DurationType, Clonable, Comparable
+{
   private readonly msValue: number;
 
+  // noinspection TypeScriptFieldCanBeMadeReadonly
   private unit: DurationUnit;
 
   private constructor(msValue: number, unit: DurationUnit) {
@@ -42,6 +49,12 @@ export class Duration implements WithValue<number>, DurationType, Clonable {
       ...this.toJSON(),
       enteredUnit: unit,
     });
+  }
+
+  equals(other: Duration) {
+    return (
+      this.unit === other.enteredUnit && this.valueOf() === other.valueOf()
+    );
   }
 
   modify(value: number) {

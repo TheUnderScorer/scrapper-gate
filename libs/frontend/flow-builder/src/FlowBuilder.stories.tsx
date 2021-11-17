@@ -1,4 +1,3 @@
-import { Box, Typography } from '@mui/material';
 import {
   AccountTreeSharp,
   ArrowBack,
@@ -8,11 +7,13 @@ import {
   StopSharp,
   Visibility,
 } from '@mui/icons-material';
+import { Box, Typography } from '@mui/material';
 import { QueryParamProvider } from '@scrapper-gate/frontend/common';
 import { FormTextField } from '@scrapper-gate/frontend/form';
 import { PrimaryLightIconButton } from '@scrapper-gate/frontend/ui';
 import { wait } from '@scrapper-gate/shared/common';
 import { action } from '@storybook/addon-actions';
+import { Meta } from '@storybook/react';
 import { FORM_ERROR } from 'final-form';
 import React, { useCallback, useMemo } from 'react';
 import { Form } from 'react-final-form';
@@ -31,7 +32,8 @@ import {
 
 export default {
   title: 'UI/Flow Builder',
-};
+  component: FlowBuilder,
+} as Meta;
 
 const handleAddNode = basicHandleAddNode(() => new Date().toISOString());
 

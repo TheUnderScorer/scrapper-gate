@@ -13,7 +13,9 @@ import React, { forwardRef, memo, useMemo } from 'react';
 import { NodeProps } from 'react-flow-renderer';
 import { BaseNodeProperties } from '../FlowBuilder.types';
 import { useNodeError } from '../hooks/useNodeError';
+import { useNodeIndex } from '../hooks/useNodeIndex';
 import { useRemoveItems } from '../hooks/useRemoveItems';
+import { useWasRecentlyCreated } from '../hooks/useWasRecentlyCreated';
 import { defaultNodeSize } from '../nodeTypes/constants';
 import { useFlowBuilderContextSelector } from '../providers/FlowBuilderProps.provider';
 import { FlowBuilderNodeBoxIcon } from './BoxIcon/FlowBuilderNodeBoxIcon';
@@ -58,7 +60,11 @@ export type FlowBuilderNodeProps = NodeProps<BaseNodeProperties>;
 
 const BaseFlowBuilderNode = forwardRef<HTMLDivElement, FlowBuilderNodeProps>(
   (node, ref) => {
+    const index = useNodeIndex(node.id);
+
     const error = useNodeError(node.id);
+
+    const wasRecentlyCreated = useWasRecentlyCreated(node.id);
 
     const removeItems = useRemoveItems();
 
@@ -105,12 +111,18 @@ const BaseFlowBuilderNode = forwardRef<HTMLDivElement, FlowBuilderNodeProps>(
 
     return (
       <Root
+        data-id={node.id}
+        data-key={nodeKey}
+        data-index={index}
         id={`node-${node.id}`}
         onContextMenu={stopPropagation}
         ref={ref}
         className={classNames(
           'flow-builder-node',
-          `flow-builder-node-${node.type}`
+          `flow-builder-node-${node.type}`,
+          {
+            'was-recently-created': wasRecentlyCreated,
+          }
         )}
       >
         <Box position="relative" textAlign="center" width={defaultNodeSize}>

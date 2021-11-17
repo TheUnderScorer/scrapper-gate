@@ -110,7 +110,11 @@ export const FormEditableText = ({
               }}
             />
             <Tooltip title="Finish edit">
-              <IconButton size="small" onClick={() => finishEdit()}>
+              <IconButton
+                className="form-editable-text-confirm"
+                size="small"
+                onClick={() => finishEdit()}
+              >
                 <Check />
               </IconButton>
             </Tooltip>

@@ -1,7 +1,7 @@
 import { InputAdornment, MenuItem, Select, TextField } from '@mui/material';
 import {
   Duration,
-  saveParseFloat,
+  safeParseFloat,
   toDisplayText,
 } from '@scrapper-gate/shared/common';
 import { DurationUnit } from '@scrapper-gate/shared/schema';
@@ -45,9 +45,10 @@ export const DurationInputField = ({
     <TextField
       {...rest}
       value={inputValue?.value}
+      className="duration-input-text-field"
       onChange={(event) =>
         onChange?.({
-          value: saveParseFloat(event.target.value),
+          value: safeParseFloat(event.target.value),
           unit: inputValue?.unit ?? DurationUnit.Milliseconds,
         })
       }
@@ -55,6 +56,7 @@ export const DurationInputField = ({
         endAdornment: (
           <InputAdornment position="end">
             <Select
+              className="duration-input-field-select"
               variant="standard"
               value={inputValue?.unit ?? DurationUnit.Milliseconds}
               onChange={(event) => {

@@ -169,7 +169,7 @@ export const FlowBuilderCanvas = () => {
     return (
       <Centered
         sx={{
-          backgroundColor: (theme) => theme.palette.greyVariant['100'],
+          backgroundColor: (theme) => theme.palette.greyVariant?.['100'],
           flex: 1,
           position: 'relative',
         }}
@@ -200,7 +200,7 @@ export const FlowBuilderCanvas = () => {
             canDrop,
           })}
           sx={{
-            backgroundColor: (theme) => theme.palette.greyVariant['100'],
+            backgroundColor: (theme) => theme.palette.greyVariant?.['100'],
             flex: 1,
             position: 'relative',
 

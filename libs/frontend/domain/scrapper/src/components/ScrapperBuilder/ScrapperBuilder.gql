@@ -51,6 +51,7 @@ fragment ScrapperBuilderStep on ScrapperStep {
     updatedAt
     mouseButton
     jsCode
+    clickTimes
     fullPageScreenshot
     isFirst
     navigateToUrl

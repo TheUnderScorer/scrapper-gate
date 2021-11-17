@@ -34,6 +34,11 @@ export const ScrapperTypeSelection = ({ name }: ScrapperTypeSelectionProps) => {
         width: 350,
         height: 250,
         checkedBackgroundColor: 'primary',
+        sx: {
+          '& .tile-radio-icon svg': {
+            fontSize: (theme) => theme.typography.h4.fontSize,
+          },
+        },
       }}
       name={name}
       options={scrapperTypeSelectionOptions}
