@@ -6,7 +6,7 @@ export interface UseFieldHasErrorProps {
 }
 
 export const useFieldHasError = ({
-  showErrorOnlyOnTouched,
+  showErrorOnlyOnTouched = true,
   meta,
 }: UseFieldHasErrorProps) => {
   if (!showErrorOnlyOnTouched) {

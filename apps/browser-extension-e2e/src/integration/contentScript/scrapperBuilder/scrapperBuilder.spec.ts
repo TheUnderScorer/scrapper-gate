@@ -1,3 +1,4 @@
+import { first } from '@scrapper-gate/shared/common';
 import { ScrapperAction, ScrapperType } from '@scrapper-gate/shared/schema';
 import { Page } from 'playwright';
 import { createNewUserWithScrapper } from '../../../actions/createNewUserWithScrapper';
@@ -131,5 +132,51 @@ describe('Scrapper builder', () => {
     await page.openNode(key, 'key');
 
     await newHandler.assertAll();
+  });
+
+  describe('Read attribute action', () => {
+    it('should suggest attributes from selected elements', async () => {
+      const browser = await createBrowser();
+      const browserPage = await createNewUserWithScrapper(
+        browser,
+        ScrapperType.RealBrowser
+      );
+
+      const page = new ScrapperBuilderPage(browserPage);
+
+      const { id, node } = await connectFirstNodeToStartNode(
+        page,
+        browserPage,
+        ScrapperAction.ReadAttribute
+      );
+
+      const { handler, fieldNameCreator } =
+        await getScrapperFieldHandlerForAction({
+          scraperPage: page,
+          page: browserPage,
+          action: ScrapperAction.ReadAttribute,
+          node,
+        });
+
+      await page.openNode(id);
+
+      await handler.fill(fieldNameCreator('selectors'), 'a');
+
+      const attributesField = await handler.getField(
+        fieldNameCreator('attributeToRead')
+      );
+
+      await attributesField.click();
+
+      await browserPage.waitForSelector('.variables-autocomplete-suggestion');
+
+      const suggestions = await browserPage.$$(
+        '.variables-autocomplete-suggestion'
+      );
+
+      expect(suggestions).toHaveLength(1);
+
+      expect(await first(suggestions).textContent()).toEqual('href');
+    });
   });
 });

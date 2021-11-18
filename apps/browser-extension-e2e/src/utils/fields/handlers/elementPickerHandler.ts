@@ -19,9 +19,9 @@ export const elementPickerHandler = (
   mode: 'type' | 'selectElement'
 ): FieldHandler<HTMLElement, string[]> => ({
   providedValue: selectors,
-  fill: async (field) => {
+  async fill(field) {
     if (mode === 'type') {
-      for (const selector of selectors) {
+      for (const selector of this.providedValue) {
         await field.fill(selector);
         await field.press('Enter');
       }
@@ -31,7 +31,7 @@ export const elementPickerHandler = (
 
     throw new Error(`${mode} is not supported for html element picker.`);
   },
-  getInputValue: async (field) => {
+  async getInputValue(field) {
     const wrapper = await getWrapper(field);
     const selectors = await wrapper.$$('.selector-list-item');
 

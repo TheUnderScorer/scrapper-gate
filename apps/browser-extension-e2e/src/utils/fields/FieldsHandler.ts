@@ -8,9 +8,16 @@ export class FieldsHandler<Fields extends FieldHandlersMap> {
     return this.page.waitForSelector(`[name="${key}"]`);
   }
 
-  async fill(key: keyof Fields) {
+  async fill<Key extends keyof Fields>(
+    key: Key,
+    value?: Fields[Key]['handler']['providedValue']
+  ) {
     const field = await this.getField(key);
     const { handler } = this.fields[key];
+
+    if (value) {
+      handler.providedValue = value;
+    }
 
     await field.scrollIntoViewIfNeeded();
 
