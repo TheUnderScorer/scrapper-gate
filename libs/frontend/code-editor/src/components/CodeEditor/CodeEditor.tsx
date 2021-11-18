@@ -13,14 +13,11 @@ import * as monaco from 'monaco-editor';
 import React, { useEffect, useRef, useState } from 'react';
 import { useUnmount } from 'react-use';
 import type { CodeEditorProps } from './CodeEditor.types';
-import { CodeEditorToolbar } from './Toolbar/CodeEditorToolbar';
 
 export const CodeEditor = ({
   additionalJsLib,
   additionalTsLib,
   onMount,
-  runnable,
-  runProps,
   language = 'javascript',
   onChange,
   value,
@@ -210,9 +207,6 @@ export const CodeEditor = ({
           className="code-editor-container"
           ref={containerRef}
         />
-        {runnable && loaded && (
-          <CodeEditorToolbar code={value ?? ''} {...runProps} />
-        )}
         {helperText && <FormHelperText>{helperText}</FormHelperText>}
       </Stack>
     </Paper>

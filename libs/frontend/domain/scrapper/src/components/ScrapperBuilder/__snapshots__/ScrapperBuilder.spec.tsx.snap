@@ -63,14 +63,12 @@ Object {
                       />
                     </button>
                     <div
-                      class="MuiButtonGroup-root MuiButtonGroup-outlined css-1up00uy-MuiButtonGroup-root"
+                      class="MuiButtonGroup-root MuiButtonGroup-outlined css-iajp3t-MuiButtonGroup-root"
                       role="group"
                     >
                       <span
-                        class="MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedOutlined MuiButtonGroup-groupedOutlinedHorizontal MuiButtonGroup-groupedOutlinedPrimary"
-                        color="primary"
+                        class=""
                         data-mui-internal-clone-element="true"
-                        variant="outlined"
                       >
                         <button
                           class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge undo-btn css-1nvo327-MuiButtonBase-root-MuiIconButton-root"
@@ -92,10 +90,8 @@ Object {
                         </button>
                       </span>
                       <span
-                        class="MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedOutlined MuiButtonGroup-groupedOutlinedHorizontal MuiButtonGroup-groupedOutlinedPrimary"
-                        color="primary"
+                        class=""
                         data-mui-internal-clone-element="true"
-                        variant="outlined"
                       >
                         <button
                           class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge redo-btn css-1nvo327-MuiButtonBase-root-MuiIconButton-root"
@@ -319,7 +315,7 @@ Object {
                             class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
                           >
                             <legend
-                              class="css-1a1ihhj"
+                              class="css-nnbavb"
                             >
                               <span
                                 class="notranslate"
@@ -754,6 +750,48 @@ Object {
                           </div>
                         </li>
                         <li
+                          class="MuiListItem-root MuiListItem-gutters MuiListItem-padding FlowBuilderSidebarItem-tile item-Action css-1v9fd58-MuiListItem-root"
+                          draggable="true"
+                        >
+                          <div
+                            class="MuiListItemIcon-root css-cveggr-MuiListItemIcon-root"
+                          >
+                            <div
+                              class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded action-node-box css-1hpjjg8-MuiPaper-root"
+                              style="width: 50px; height: 50px; position: relative;"
+                            >
+                              <div
+                                class="centered MuiBox-root css-9hmjl0"
+                              >
+                                <span
+                                  class="MuiBox-root css-vxcmzt"
+                                >
+                                  <svg
+                                    aria-hidden="true"
+                                    class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-egrpcv-MuiSvgIcon-root"
+                                    data-testid="CodeIcon"
+                                    focusable="false"
+                                    viewBox="0 0 24 24"
+                                  >
+                                    <path
+                                      d="M9.4 16.6 4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0 4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"
+                                    />
+                                  </svg>
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div
+                            class="MuiListItemText-root FlowBuilderSidebarItem-text css-tlelie-MuiListItemText-root"
+                          >
+                            <span
+                              class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-18fn6n9-MuiTypography-root"
+                            >
+                              Run JavaScript
+                            </span>
+                          </div>
+                        </li>
+                        <li
                           class="MuiListItem-root MuiListItem-gutters MuiListItem-padding FlowBuilderSidebarItem-tile item-Conditional css-1v9fd58-MuiListItem-root"
                           draggable="true"
                         >
@@ -966,7 +1004,7 @@ Object {
                             class="MuiBox-root css-n085mf"
                           >
                             <button
-                              class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButtonBase-root Mui-focusVisible css-1f1sisq-MuiButtonBase-root-MuiButton-root"
+                              class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButtonBase-root Mui-focusVisible  css-1f1sisq-MuiButtonBase-root-MuiButton-root"
                               tabindex="0"
                               type="button"
                             >
@@ -1064,14 +1102,12 @@ Object {
                     />
                   </button>
                   <div
-                    class="MuiButtonGroup-root MuiButtonGroup-outlined css-1up00uy-MuiButtonGroup-root"
+                    class="MuiButtonGroup-root MuiButtonGroup-outlined css-iajp3t-MuiButtonGroup-root"
                     role="group"
                   >
                     <span
-                      class="MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedOutlined MuiButtonGroup-groupedOutlinedHorizontal MuiButtonGroup-groupedOutlinedPrimary"
-                      color="primary"
+                      class=""
                       data-mui-internal-clone-element="true"
-                      variant="outlined"
                     >
                       <button
                         class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge undo-btn css-1nvo327-MuiButtonBase-root-MuiIconButton-root"
@@ -1093,10 +1129,8 @@ Object {
                       </button>
                     </span>
                     <span
-                      class="MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedOutlined MuiButtonGroup-groupedOutlinedHorizontal MuiButtonGroup-groupedOutlinedPrimary"
-                      color="primary"
+                      class=""
                       data-mui-internal-clone-element="true"
-                      variant="outlined"
                     >
                       <button
                         class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge redo-btn css-1nvo327-MuiButtonBase-root-MuiIconButton-root"
@@ -1320,7 +1354,7 @@ Object {
                           class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
                         >
                           <legend
-                            class="css-1a1ihhj"
+                            class="css-nnbavb"
                           >
                             <span
                               class="notranslate"
@@ -1755,6 +1789,48 @@ Object {
                         </div>
                       </li>
                       <li
+                        class="MuiListItem-root MuiListItem-gutters MuiListItem-padding FlowBuilderSidebarItem-tile item-Action css-1v9fd58-MuiListItem-root"
+                        draggable="true"
+                      >
+                        <div
+                          class="MuiListItemIcon-root css-cveggr-MuiListItemIcon-root"
+                        >
+                          <div
+                            class="MuiPaper-root MuiPaper-outlined MuiPaper-rounded action-node-box css-1hpjjg8-MuiPaper-root"
+                            style="width: 50px; height: 50px; position: relative;"
+                          >
+                            <div
+                              class="centered MuiBox-root css-9hmjl0"
+                            >
+                              <span
+                                class="MuiBox-root css-vxcmzt"
+                              >
+                                <svg
+                                  aria-hidden="true"
+                                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-egrpcv-MuiSvgIcon-root"
+                                  data-testid="CodeIcon"
+                                  focusable="false"
+                                  viewBox="0 0 24 24"
+                                >
+                                  <path
+                                    d="M9.4 16.6 4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0 4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"
+                                  />
+                                </svg>
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="MuiListItemText-root FlowBuilderSidebarItem-text css-tlelie-MuiListItemText-root"
+                        >
+                          <span
+                            class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-18fn6n9-MuiTypography-root"
+                          >
+                            Run JavaScript
+                          </span>
+                        </div>
+                      </li>
+                      <li
                         class="MuiListItem-root MuiListItem-gutters MuiListItem-padding FlowBuilderSidebarItem-tile item-Conditional css-1v9fd58-MuiListItem-root"
                         draggable="true"
                       >
@@ -1967,7 +2043,7 @@ Object {
                           class="MuiBox-root css-n085mf"
                         >
                           <button
-                            class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButtonBase-root Mui-focusVisible css-1f1sisq-MuiButtonBase-root-MuiButton-root"
+                            class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButtonBase-root Mui-focusVisible  css-1f1sisq-MuiButtonBase-root-MuiButton-root"
                             tabindex="0"
                             type="button"
                           >

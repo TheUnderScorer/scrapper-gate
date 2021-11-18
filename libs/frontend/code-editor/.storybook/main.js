@@ -1,5 +1,5 @@
 const rootMain = require('../../../../.storybook/main');
-const rootWebpackConfig = require('../../../../.storybook/webpack.config');
+const MonacoPlugin = require('monaco-editor-webpack-plugin');
 
 module.exports = {
   ...rootMain,
@@ -18,10 +18,11 @@ module.exports = {
       config = await rootMain.webpackFinal(config, { configType });
     }
 
-    // for backwards compatibility call the `rootWebpackConfig`
-    // this can be removed once that one is migrated fully to
-    // use the `webpackFinal` property in the `main.js` file
-    config = rootWebpackConfig({ config });
+    config.plugins.push(
+      new MonacoPlugin({
+        languages: ['javascript', 'typescript'],
+      })
+    );
 
     // add your own webpack tweaks if needed
 
