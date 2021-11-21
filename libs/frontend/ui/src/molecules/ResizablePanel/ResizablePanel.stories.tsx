@@ -2,7 +2,7 @@ import { Box, Paper } from '@mui/material';
 import { ResizablePanel } from './ResizablePanel';
 
 export default {
-  title: 'UI/Resizable Panel',
+  title: 'Molecules/Resizable Panel',
 };
 
 export const Component = () => {

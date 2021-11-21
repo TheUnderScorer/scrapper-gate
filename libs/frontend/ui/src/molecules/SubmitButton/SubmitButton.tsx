@@ -1,10 +1,9 @@
 import { Check } from '@mui/icons-material';
-import { Button, CircularProgress } from '@mui/material';
+import { Button, CircularProgress, IconButton } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import classNames from 'classnames';
 import React, { MouseEventHandler, PropsWithChildren } from 'react';
 import { useFormState } from 'react-final-form';
-import { PrimaryIconButton } from '../../atoms/Buttons/Buttons';
 
 const PREFIX = 'SubmitButton';
 
@@ -13,7 +12,7 @@ const classes = {
   base: `${PREFIX}-base`,
 };
 
-const StyledPrimaryIconButton = styled(PrimaryIconButton)(({ theme }) => ({
+const StyledPrimaryIconButton = styled(IconButton)(({ theme }) => ({
   [`& .${classes.btn}`]: {
     width: theme.spacing(13),
   },
@@ -79,6 +78,15 @@ export const SubmitButton = ({
 
   return (
     <StyledPrimaryIconButton
+      sx={{
+        boxShadow: 'none',
+
+        '&. loading': {
+          backgroundColor: (theme) => theme.palette.background.paper,
+          color: (theme) => theme.palette.primary.main,
+        },
+      }}
+      color="primary"
       type={buttonType}
       onClick={onClick}
       disabled={disabled || loading || !formState.dirty}

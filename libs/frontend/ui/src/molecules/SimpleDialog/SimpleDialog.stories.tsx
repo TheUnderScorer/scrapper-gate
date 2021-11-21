@@ -4,7 +4,7 @@ import { Button } from '@mui/material';
 import React from 'react';
 
 export default {
-  title: 'UI/Simple Dialog',
+  title: 'Molecules/Simple Dialog',
   component: SimpleDialog,
 };
 

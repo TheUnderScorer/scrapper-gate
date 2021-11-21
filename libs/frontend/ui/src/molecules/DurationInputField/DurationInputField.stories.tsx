@@ -6,7 +6,7 @@ import 'reflect-metadata';
 import { DurationInputField as Field } from './DurationInputField';
 
 export default {
-  title: 'UI/DurationInputField',
+  title: 'Molecules/DurationInputField',
   argTypes: {
     label: {
       control: 'text',

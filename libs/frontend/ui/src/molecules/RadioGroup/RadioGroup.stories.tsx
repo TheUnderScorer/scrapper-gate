@@ -6,7 +6,7 @@ import { RadioGroup } from './RadioGroup';
 import { Selection } from '@scrapper-gate/frontend/common';
 
 export default {
-  title: 'UI/Radio Group',
+  title: 'Molecules/Radio Group',
 };
 
 const options: Selection[] = [
