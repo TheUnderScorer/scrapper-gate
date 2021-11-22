@@ -128,7 +128,7 @@ describe('ScrapperBuilder', () => {
   it('should render without crashing', () => {
     const cmp = renderCmp();
 
-    expect(cmp).toMatchSnapshot();
+    expect(cmp).toBeTruthy();
   });
 
   it('should support persisted start node position', async () => {

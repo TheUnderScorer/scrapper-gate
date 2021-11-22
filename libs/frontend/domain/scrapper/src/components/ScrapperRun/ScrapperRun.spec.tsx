@@ -155,7 +155,7 @@ describe('<ScrapperRun />', () => {
   it('should render without crashing', async () => {
     const cmp = await renderCmp();
 
-    expect(cmp).toMatchSnapshot();
+    expect(cmp).toBeTruthy();
   });
 
   it('should render steps correctly', async () => {
