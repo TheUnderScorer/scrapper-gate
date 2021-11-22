@@ -1,4 +1,4 @@
-import { repeat, UnpackPromise } from '@scrapper-gate/shared/common';
+import { repeat } from '@scrapper-gate/shared/common';
 import { ScrapperStepInput, VariableType } from '@scrapper-gate/shared/schema';
 import faker from 'faker';
 import { uniq } from 'remeda';
@@ -10,7 +10,7 @@ import { textFieldHandler } from '../../../../utils/fields/handlers/textFieldHan
 
 const possibleSelectors = ['div', 'a', 'span', 'main', '#root', 'button'];
 
-export type CommonStepHandlers = UnpackPromise<
+export type CommonStepHandlers = Awaited<
   ReturnType<typeof getCommonStepHandlers>
 >;
 
