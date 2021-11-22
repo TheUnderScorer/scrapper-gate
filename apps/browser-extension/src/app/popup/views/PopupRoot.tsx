@@ -42,6 +42,7 @@ export const PopupRoot = () => {
           </Centered>
         </Box>
       )}
+
       {!loading && (
         <>
           {!isAuthorized && (

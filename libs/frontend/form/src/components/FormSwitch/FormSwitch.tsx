@@ -32,7 +32,7 @@ export const FormSwitch = ({
       <FormControlLabel
         {...labelProps}
         disabled={rest.disabled}
-        label={label}
+        label={label ?? ''}
         control={<BaseSwitch {...rest} {...input} />}
       />
       {helperText && <FormHelperText>{helperText}</FormHelperText>}

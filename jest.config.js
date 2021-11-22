@@ -56,5 +56,8 @@ module.exports = {
     '<rootDir>/libs/backend/common',
     '<rootDir>/libs/backend/domain/conditional-rules',
     '<rootDir>/libs/backend/domain/scrapper/base-runner',
+    '<rootDir>/libs/frontend/code-editor',
+    '<rootDir>/libs/shared/data-object',
+    '<rootDir>/libs/shared/data-structures',
   ],
 };

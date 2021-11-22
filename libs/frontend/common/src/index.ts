@@ -23,3 +23,4 @@ export * from './openState/useMemoryOpenState';
 export * from './openState/useQueryParamOpenState';
 export * from './openState/types';
 export * from './hooks/useListNavigation';
+export * from './hooks/useConst';

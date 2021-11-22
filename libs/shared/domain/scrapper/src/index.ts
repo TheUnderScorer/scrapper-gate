@@ -10,3 +10,4 @@ export * from './logic/scrapperActionHasTextValue';
 export * from './scrapperActionDefinitions';
 export * from './typeGuards';
 export * from './variableFromScrapperStep';
+export * from './constants';

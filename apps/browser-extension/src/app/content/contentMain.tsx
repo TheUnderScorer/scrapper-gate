@@ -17,13 +17,13 @@ import { logger } from '@scrapper-gate/shared/logger/console';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import 'react-flow-renderer/dist/style.css';
-import './content.css';
 import { ContentRouter } from '../../extension/contentScript/components/ContentRouter';
 import { contentContainer } from '../../extension/contentScript/contentContainer';
 import '../../wdyr';
 import { useTokensStore } from '../auth/useTokensStore';
-import { ContentRoot } from './views/ContentRoot';
+import './content.css';
 import { ContentErrorBoundary } from './ContentErrorBoundary';
+import { ContentRoot } from './views/ContentRoot';
 
 logger.debug('Starting content script... ;)');
 

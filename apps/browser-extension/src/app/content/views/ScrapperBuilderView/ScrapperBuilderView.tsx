@@ -8,6 +8,7 @@ import {
 import React from 'react';
 import { useHistory, useRouteMatch } from 'react-router-dom';
 import { useLocation } from 'react-use';
+import { IframeCodeEditor } from '../../../popup/components/IframeCodeEditor/IframeCodeEditor';
 import { ContentDrawer } from '../../components/ContentDrawer/ContentDrawer';
 import { ScrapperElementPicker } from '../../components/ScrapperElementPicker/ScrapperElementPicker';
 
@@ -34,6 +35,7 @@ export const ScrapperBuilderView = () => {
   return (
     <ContentDrawer queryKey="drawerOpen">
       <ScrapperBuilder
+        CodeEditor={IframeCodeEditor}
         runUrlCreator={browserExtensionRoutes.content.scrapperRun}
         ElementPicker={ScrapperElementPicker}
         browserUrl={location.href}

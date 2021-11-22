@@ -29,6 +29,7 @@ export const scrapperStepInputKeys = getAllObjectKeys<ScrapperStepInput>({
   waitType: true,
   waitIntervalTimeout: true,
   waitIntervalCheck: true,
+  jsCode: true,
 });
 
 export const pickScrapperInput = pick<

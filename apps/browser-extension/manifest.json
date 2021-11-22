@@ -29,7 +29,7 @@
   "host_permissions": ["*://*/*"],
   "web_accessible_resources": [
     {
-      "resources": ["*.js", "*.json", "*.map"],
+      "resources": ["*.js", "*.json", "*.map", "index.html"],
       "matches": ["*://*/*"]
     }
   ]

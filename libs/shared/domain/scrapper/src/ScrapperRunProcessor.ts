@@ -7,7 +7,7 @@ import {
 } from '@scrapper-gate/shared/common';
 import { resolveVariables } from '@scrapper-gate/shared/domain/variables';
 import {
-  ErrorObjectDto,
+  ErrorObjectModel,
   InvalidType,
   ScrapperRunError,
 } from '@scrapper-gate/shared/errors';
@@ -113,7 +113,7 @@ export class ScrapperRunProcessor implements Disposable {
 
       this.logger.error(`Step ${step?.id} failed: ${error.message}`);
 
-      const errorObject = ErrorObjectDto.createFromError(error);
+      const errorObject = ErrorObjectModel.fromError(error);
 
       scrapperRun.error = {
         ...errorObject,
@@ -219,7 +219,7 @@ export class ScrapperRunProcessor implements Disposable {
         throw error;
       }
 
-      const errorObject = ErrorObjectDto.createFromError(error);
+      const errorObject = ErrorObjectModel.fromError(error);
 
       // Persist error on step level
       stepResult.state = RunState.Failed;

@@ -1,4 +1,4 @@
-import { DataObject } from '@scrapper-gate/shared/common';
+import { DataObject } from '@scrapper-gate/shared/data-object';
 import { BaseEntity, Maybe } from '@scrapper-gate/shared/schema';
 import {
   BeforeInsert,

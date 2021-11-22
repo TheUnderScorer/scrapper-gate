@@ -3,6 +3,7 @@ import {
   ArrowBack,
   ArrowForward,
   AvTimer,
+  Code,
   Input,
   Mouse,
   ReadMore,
@@ -26,4 +27,5 @@ export const scrapperActionIcons: Record<ScrapperAction, ReactNode> = {
   [ScrapperAction.Screenshot]: <Screenshot />,
   [ScrapperAction.ChangeRunSettings]: <Settings />,
   [ScrapperAction.Wait]: <AvTimer />,
+  [ScrapperAction.RunJavascript]: <Code />,
 };

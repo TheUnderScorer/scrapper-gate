@@ -1,15 +1,24 @@
 import { Constructor } from '@scrapper-gate/shared/constructor';
+import {
+  Clonable,
+  Dictionary,
+  Jsonable,
+  OmitFunctions,
+} from '@scrapper-gate/shared/data-structures';
 import { filter, pipe, reduce } from 'remeda';
 import type { PartialDeep } from 'type-fest';
-import { Clonable, Dictionary, Jsonable, OmitFunctions } from './types';
 
 export interface DataObjectConstructor<T> extends Constructor<DataObject<T>> {
   create(payload: PartialDeep<OmitFunctions<T>>): T;
 }
 
 export abstract class DataObject<Entity> implements Jsonable, Clonable {
+  protected readonly = false;
+
   fill(payload: PartialDeep<Entity>): this {
-    Object.assign(this, payload);
+    if (!this.readonly) {
+      Object.assign(this, payload);
+    }
 
     return this;
   }
@@ -20,6 +29,8 @@ export abstract class DataObject<Entity> implements Jsonable, Clonable {
     >)();
 
     instance.fill(this);
+
+    instance.readonly = this.readonly;
 
     return instance as this;
   }
@@ -47,7 +58,14 @@ export abstract class DataObject<Entity> implements Jsonable, Clonable {
     payload: PartialDeep<OmitFunctions<T>>
   ) {
     const entity = new this();
+    const readonly = entity.readonly;
 
-    return entity.fill(payload as T);
+    entity.readonly = false;
+
+    entity.fill(payload as T);
+
+    entity.readonly = readonly;
+
+    return entity;
   }
 }

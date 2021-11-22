@@ -12,4 +12,5 @@ export const scrapperActionTextMap: Record<ScrapperAction, string> = {
   [ScrapperAction.ChangeRunSettings]: 'Change run settings',
   [ScrapperAction.Condition]: 'Conditional',
   [ScrapperAction.Wait]: 'Wait',
+  [ScrapperAction.RunJavascript]: 'Run JavaScript',
 };

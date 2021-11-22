@@ -5,17 +5,21 @@ import {
 import { BaseScrapperRunner } from '@scrapper-gate/backend/domain/scrapper/base-runner';
 import {
   areUrlsEqual,
+  castAsArray,
   isError,
   last,
   mapSelectorsToXpathExpression,
   repeatUntil,
 } from '@scrapper-gate/shared/common';
 import {
+  RunJavascriptStepResult,
+  scrapperJavascriptFunctionName,
   ScrapperRunner,
   ScrapperRunScreenshotValue,
   ScrapperStepHandlerParams,
   ScreenshotRunScrapperStepResult,
 } from '@scrapper-gate/shared/domain/scrapper';
+import { createInjectableIntoCodeVariables } from '@scrapper-gate/shared/domain/variables';
 import {
   NoElementsFoundError,
   ScrapperRunError,
@@ -24,6 +28,7 @@ import { Logger } from '@scrapper-gate/shared/logger';
 import {
   BrowserType,
   FileType,
+  Maybe,
   ScrapperDialogBehaviour,
   ScrapperNoElementsFoundBehavior,
   ScrapperRunValue,
@@ -32,7 +37,14 @@ import {
   Selector,
   SelectorType,
 } from '@scrapper-gate/shared/schema';
-import { Browser, BrowserContext, ElementHandle, Page } from 'playwright';
+import {
+  Browser,
+  BrowserContext,
+  Dialog,
+  ElementHandle,
+  Page,
+} from 'playwright';
+import { PageMissingError } from './errors/PageMissingError';
 import { handleToSourceElement } from './handleToSourceElement';
 import { mouseButtonMap } from './mouseButtonMap';
 import {
@@ -106,7 +118,7 @@ export class PlayWrightScrapperRunner
     await this.page.waitForLoadState('networkidle');
 
     // TODO Support all kind of dialogs
-    this.page.on('dialog', async (dialog) => {
+    const onDialog = async (dialog: Dialog) => {
       switch (this.runSettings?.dialogBehaviour) {
         case ScrapperDialogBehaviour.AlwaysConfirm:
           await dialog.accept(this.runSettings?.promptText ?? undefined);
@@ -115,9 +127,10 @@ export class PlayWrightScrapperRunner
         default:
           await dialog.dismiss();
       }
-    });
+    };
+    this.page.on('dialog', onDialog);
 
-    this.page.on('popup', async (page) => {
+    const onPopup = async (page: Page) => {
       this.logger.info('Popup opened', {
         url: page.url(),
         pages: this.context.pages().length,
@@ -126,12 +139,23 @@ export class PlayWrightScrapperRunner
       this.page = page;
 
       await this.setupPage();
-    });
+    };
+    this.page.on('popup', onPopup);
 
     this.page.once('close', () => {
       this.logger.debug('Page closed', this.context.pages().length);
 
+      if (this.page) {
+        this.page.off('dialog', onDialog).off('popup', onPopup);
+
+        this.logger.debug(`Removed listeners from page: ${this.page.url()}`);
+      }
+
       this.page = last(this.context.pages());
+
+      if (this.page) {
+        this.setupPage();
+      }
     });
   }
 
@@ -407,6 +431,58 @@ export class PlayWrightScrapperRunner
     };
   }
 
+  async RunJavascript(
+    params: ScrapperStepHandlerParams
+  ): Promise<RunJavascriptStepResult> {
+    try {
+      await this.preRun({
+        ...params,
+        getElements: false,
+      });
+
+      this.page.on('console', (msg) => {
+        console.log(msg.text());
+      });
+
+      const result = await this.page.evaluate(
+        async ([code, variables, fnName]) => {
+          const fullCode = `
+          ${code}
+
+          return ${fnName}({
+            variables: ${JSON.stringify(variables)}
+          })
+        `;
+
+          console.log('Running: ', fullCode);
+
+          // eslint-disable-next-line no-new-func
+          return new Function(fullCode)() as Maybe<
+            Pick<RunJavascriptStepResult, 'values'>
+          >;
+        },
+        [
+          params.step.jsCode,
+          createInjectableIntoCodeVariables(params.variables),
+          scrapperJavascriptFunctionName,
+        ]
+      );
+
+      const rest = await this.getCommonStepResult(params.step);
+
+      const valuesArray = result?.values ? castAsArray(result.values) : [];
+
+      return {
+        values: valuesArray.map((val) => ({
+          value: val,
+        })),
+        performance: rest?.performance,
+      };
+    } catch (e) {
+      throw await this.onError(e, params);
+    }
+  }
+
   async Type(params: ScrapperStepHandlerParams) {
     try {
       const { elements } = await this.preRun(params);
@@ -500,7 +576,7 @@ export class PlayWrightScrapperRunner
     getElements = true,
   }: PreRunParams): Promise<GetElementsResult | void> {
     if (!this.page) {
-      throw new Error('Page was closed or was not initialized properly.');
+      throw new PageMissingError();
     }
 
     this.logger.debug('Pre run:', step);

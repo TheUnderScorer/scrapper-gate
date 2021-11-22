@@ -1,4 +1,5 @@
-import { DataObject, Enumerable } from '@scrapper-gate/shared/common';
+import { Enumerable } from '@scrapper-gate/shared/common';
+import { DataObject } from '@scrapper-gate/shared/data-object';
 import {
   ConditionalRuleTypes,
   HtmlElementRuleMeta,

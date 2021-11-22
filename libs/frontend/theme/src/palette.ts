@@ -1,4 +1,4 @@
-import { colors, createTheme, PaletteOptions } from '@mui/material';
+import { colors, createTheme } from '@mui/material';
 import { getContrast } from '@scrapper-gate/shared/common';
 import tinycolor from 'tinycolor2';
 
@@ -11,7 +11,7 @@ export const primary = {
   contrastText: defaultTheme.palette.common.white,
 };
 
-export const palette: PaletteOptions = {
+export const palette = {
   ...defaultTheme.palette,
   primary,
   primaryLight: tinycolor(primary.dark).setAlpha(0.5).toRgbString(),
@@ -32,5 +32,11 @@ export const palette: PaletteOptions = {
   },
   gradients: {
     primaryMainToDark: `linear-gradient(45deg, ${primary.main} 30%, ${primary.dark} 90%)`,
+  },
+  bordersColors: {
+    outlinedInput:
+      defaultTheme.palette.mode === 'light'
+        ? 'rgba(0, 0, 0, 0.23)'
+        : 'rgba(255, 255, 255, 0.23)',
   },
 };

@@ -11,4 +11,8 @@ export const themeStyles = (theme: Theme) => css`
   .MuiPickersBasePicker-pickerView {
     pointer-events: all;
   }
+
+  .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+    border-color: ${theme.palette.bordersColors.outlinedInput};
+  }
 `;

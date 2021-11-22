@@ -77,6 +77,9 @@
       "@scrapper-gate/frontend/block-editor": [
         "libs/frontend/block-editor/src/index.ts"
       ],
+      "@scrapper-gate/frontend/code-editor": [
+        "libs/frontend/code-editor/src/index.ts"
+      ],
       "@scrapper-gate/frontend/common": ["libs/frontend/common/src/index.ts"],
       "@scrapper-gate/frontend/data-grid": [
         "libs/frontend/data-grid/src/index.ts"
@@ -119,6 +122,12 @@
       "@scrapper-gate/shared/common": ["libs/shared/common/src/index.ts"],
       "@scrapper-gate/shared/constructor": [
         "libs/shared/constructor/src/index.ts"
+      ],
+      "@scrapper-gate/shared/data-object": [
+        "libs/shared/data-object/src/index.ts"
+      ],
+      "@scrapper-gate/shared/data-structures": [
+        "libs/shared/data-structures/src/index.ts"
       ],
       "@scrapper-gate/shared/domain/auth": [
         "libs/shared/domain/auth/src/index.ts"

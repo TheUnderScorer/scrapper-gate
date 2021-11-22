@@ -2,7 +2,6 @@ export * from './disposable';
 export * from './environment';
 export * from './colors';
 export * from './types';
-export * from './DataObject';
 export * from './entities';
 export * from './timeout';
 export * from './array/array';

@@ -39,7 +39,6 @@ export const FlowBuilderSidebar = () => {
       maxWidth="400px"
       paperProps={{
         square: true,
-        elevation: 1,
         variant: 'outlined',
         sx: {
           padding: (theme) => theme.spacing(2),

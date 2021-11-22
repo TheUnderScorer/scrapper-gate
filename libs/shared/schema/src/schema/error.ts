@@ -4,12 +4,12 @@ export const errorSchema = gql`
   interface ErrorObjectInterface {
     name: String!
     message: String
-    date: Date!
+    date: Date
   }
 
   type ErrorObject implements ErrorObjectInterface {
     name: String!
     message: String
-    date: Date!
+    date: Date
   }
 `;
