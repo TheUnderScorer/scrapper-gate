@@ -212,6 +212,12 @@ export const BlockEditor = forwardRef<HTMLInputElement, BlockEditorProps>(
           onBlur={handleBlur}
           error={error}
           value={value ?? ''}
+          sx={{
+            ...props.sx,
+            '& .MuiInputBase-input': {
+              minHeight: 'auto !important',
+            },
+          }}
           InputProps={{
             ...props.InputProps,
             inputProps: {

@@ -5,13 +5,14 @@ import {
   Dropdown,
   MenuItemProperties,
 } from '@scrapper-gate/frontend/ui';
-import { ConditionalRule } from '@scrapper-gate/shared/schema';
+import { ConditionalRule } from '@scrapper-gate/shared/domain/conditional-rules';
 import React, { useMemo } from 'react';
-import { ConditionalRulesSelection } from '../../../types';
+import { FrontendConditionalRuleDefinition } from '../../../types';
 
 export interface ConditionalRulesSelectionDropdownProps {
-  onAdd: (rule: Omit<ConditionalRule, 'id'>) => unknown;
-  definitions: ConditionalRulesSelection[];
+  onAdd: (rule: ConditionalRule) => unknown;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  definitions: FrontendConditionalRuleDefinition<any>[];
 }
 
 export const ConditionalRulesSelectionDropdown = ({
@@ -26,7 +27,7 @@ export const ConditionalRulesSelectionDropdown = ({
         id: 'rule_subheader',
       },
       ...definitions.map((definition) => ({
-        id: definition.value.type,
+        id: definition.definition.type,
         content: definition.label,
         icon: definition.icon,
         sx: {
@@ -34,9 +35,8 @@ export const ConditionalRulesSelectionDropdown = ({
         },
         onClick: () =>
           onAdd({
-            type: definition.value.type,
-            when: definition.value.defaultWhen,
-          }),
+            ruleType: definition.definition.type,
+          } as ConditionalRule),
       })),
     ],
     [definitions, onAdd]

@@ -16,12 +16,12 @@ import {
 } from '@scrapper-gate/frontend/form';
 import { Centered } from '@scrapper-gate/frontend/ui';
 import {
-  ConditionalRuleGroupInput,
-  ConditionalRuleGroupType,
+  ConditionalRuleGroup,
+  ConditionalRuleGroupMatchType,
 } from '@scrapper-gate/shared/schema';
 import classNames from 'classnames';
 import React, { useCallback, useState } from 'react';
-import { ConditionalRulesSelection } from '../../types';
+import { FrontendConditionalRuleDefinition } from '../../types';
 import {
   ConditionalRulesGroup,
   ConditionalRulesGroupProps,
@@ -59,9 +59,10 @@ const StyledBox = styled(Box)(({ theme }) => ({
 }));
 
 export interface ConditionalRulesProps
-  extends FieldProps<Omit<ConditionalRuleGroupInput, 'id'>[]>,
+  extends FieldProps<ConditionalRuleGroup[]>,
     Pick<ConditionalRulesGroupProps, 'fieldVariant'> {
-  definitions: ConditionalRulesSelection[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  definitions: FrontendConditionalRuleDefinition<any>[];
   name: string;
   helperText?: string;
   label?: string;
@@ -81,12 +82,13 @@ export const ConditionalRules = ({
   const [activeRole, setActiveRole] = useState<string | undefined>();
   const [activeGroupId, setActiveGroupId] = useState<string | undefined>();
 
-  const { input, meta, append, remove } = useFieldArray<
-    Omit<ConditionalRuleGroupInput, 'id'>
-  >(name, {
-    ...rest,
-    initialValue: rest.initialValue ?? defaultValue,
-  });
+  const { input, meta, append, remove } = useFieldArray<ConditionalRuleGroup>(
+    name,
+    {
+      ...rest,
+      initialValue: rest.initialValue ?? defaultValue,
+    }
+  );
   const hasError = useFieldHasError({
     meta,
     showErrorOnlyOnTouched: rest.showErrorOnlyOnTouched,
@@ -98,7 +100,7 @@ export const ConditionalRules = ({
 
   const handleAddRulesSection = useCallback(() => {
     const result = append({
-      type: ConditionalRuleGroupType.Any,
+      matchType: ConditionalRuleGroupMatchType.Any,
       rules: [],
     });
 
@@ -123,7 +125,6 @@ export const ConditionalRules = ({
                 onOpen={() => setActiveGroupId(group.id)}
                 activeRowId={activeRole}
                 onEdit={setActiveRole}
-                onEditClose={() => setActiveRole(undefined)}
                 onRemove={remove}
                 name={getFieldName(`[${index}]`)}
                 fieldVariant={fieldVariant}

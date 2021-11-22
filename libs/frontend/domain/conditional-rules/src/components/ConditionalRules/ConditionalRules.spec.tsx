@@ -8,7 +8,9 @@ import { act, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 import { Form } from 'react-final-form';
-import { baseRulesSelection } from '../../baseRules';
+import { dateRule } from '../../rules/dateRule';
+import { htmlRule } from '../../rules/htmlRule';
+import { variableRule } from '../../rules/variableRule';
 import { ConditionalRules, ConditionalRulesProps } from './ConditionalRules';
 
 const renderCmp = (props: Partial<ConditionalRulesProps> = {}) => {
@@ -19,7 +21,13 @@ const renderCmp = (props: Partial<ConditionalRulesProps> = {}) => {
           onSubmit={jest.fn()}
           render={() => (
             <ConditionalRules
-              definitions={props.definitions ?? baseRulesSelection}
+              definitions={
+                props.definitions ?? [
+                  dateRule,
+                  htmlRule.withoutPicker(),
+                  variableRule,
+                ]
+              }
               name="rules"
             />
           )}
@@ -56,7 +64,6 @@ describe('<ConditionalRules />', () => {
     const rules = cmp.container.querySelectorAll('.conditional-rules-rule');
 
     expect(rules).toHaveLength(1);
-    expect(rules[0].querySelector('.Mui-expanded')).toBeInTheDocument();
   });
 
   it('should remove group', () => {

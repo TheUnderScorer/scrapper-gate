@@ -27,8 +27,6 @@ generates:
       - typescript
       - typescript-operations
       - typescript-resolvers
-      - add:
-          content: "import {WhatValue, ConditionalRuleValue} from './scalars'"
 
   ./libs/frontend/schema/src/gql.tsx:
     preset: import-types

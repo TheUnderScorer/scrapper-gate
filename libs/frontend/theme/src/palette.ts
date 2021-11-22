@@ -7,14 +7,18 @@ const defaultTheme = createTheme();
 export const primary = {
   dark: colors.deepPurple['800'],
   main: colors.deepPurple['500'],
-  light: colors.deepPurple['100'],
+  light: tinycolor(colors.deepPurple['800']).setAlpha(0.5).toRgbString(),
   contrastText: defaultTheme.palette.common.white,
 };
 
 export const palette = {
   ...defaultTheme.palette,
   primary,
-  primaryLight: tinycolor(primary.dark).setAlpha(0.5).toRgbString(),
+  // Primary light is added as separate color, in order to be accessible via "color" prop
+  primaryLight: {
+    contrastText: primary.dark,
+    main: primary.light,
+  },
   success: {
     ...defaultTheme.palette.success,
     contrastText: defaultTheme.palette.common.white,

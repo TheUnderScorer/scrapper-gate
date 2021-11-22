@@ -98,16 +98,34 @@ export const ScrapperBuilderStepFragmentDoc = gql`
       y
     }
     conditionalRules {
-      id
-      type
+      matchType
       rules {
-        id
-        meta
-        type
-        value
-        what
-        whatValue
-        when
+        ... on HtmlConditionalRule {
+          attribute {
+            attribute
+            value
+          }
+          condition
+          matchType
+          ruleType
+          selectors {
+            type
+            value
+          }
+          tagName
+          type
+        }
+        ... on DateConditionalRule {
+          condition
+          expectedDate
+          ruleType
+        }
+        ... on VariableConditionalRule {
+          condition
+          expectedValue
+          ruleType
+          variableKey
+        }
       }
     }
   }

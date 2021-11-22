@@ -1,44 +1,18 @@
-import { Box, Link, MenuItem, Stack, Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Stack } from '@mui/material';
 import { VariablesTextField } from '@scrapper-gate/frontend/domain/variables';
+import { EnumSelect, useFormFieldValue } from '@scrapper-gate/frontend/form';
+import { HtmlElementPickerProps } from '@scrapper-gate/frontend/ui';
 import {
-  EnumSelect,
-  FormSelect,
-  useFormFieldValue,
-} from '@scrapper-gate/frontend/form';
-import {
-  ExternalLink,
-  HtmlElementPicker,
-  HtmlElementPickerProps,
-} from '@scrapper-gate/frontend/ui';
-import {
-  ConditionalRuleWhen,
-  HtmlElementWhat,
-} from '@scrapper-gate/shared/domain/conditional-rules';
-import {
-  ConditionalRuleGroupType,
-  Selector,
+  ConditionalRuleType,
+  HtmlConditionalRuleType,
 } from '@scrapper-gate/shared/schema';
-import React, { ReactNode, useEffect, useMemo } from 'react';
-import { useField } from 'react-final-form';
-import { ruleLabels } from '../../labels';
-import { ConditionalRuleDefinitionsProps } from '../../types';
-import { valueSupportedWhen } from '../../valueSupportedWhen';
-
-const PREFIX = 'HtmlElementRule';
-
-const classes = {
-  select: `${PREFIX}-select`,
-};
-
-const StyledStack = styled(Stack)(() => ({
-  [`& .${classes.select}`]: {
-    minWidth: '150px',
-  },
-}));
+import React, { ReactNode } from 'react';
+import { useSupportsValue } from '../../hooks/useSupportsValue';
+import { ConditionalRuleProps } from '../../types';
+import { ConditionSelect } from '../ConditionSelect/ConditionSelect';
 
 export interface HtmlElementRuleProps
-  extends ConditionalRuleDefinitionsProps,
+  extends ConditionalRuleProps<ConditionalRuleType.HtmlElement>,
     Omit<HtmlElementPickerProps, 'name'> {
   picker?: ReactNode;
 }
@@ -48,109 +22,47 @@ export const HtmlElementRule = ({
   getName,
   spacing,
   fieldVariant,
-  picker,
-  ...rest
 }: HtmlElementRuleProps) => {
-  const selectors = useFormFieldValue<Selector[]>(getName('meta.selectors'));
-  const whatValue = useFormFieldValue(getName('what'));
+  const supportsValue = useSupportsValue(definition, getName);
+  const type = useFormFieldValue<HtmlConditionalRuleType>(getName('type'));
 
-  const {
-    input: { onChange: onChangeWhen, value: whenValue },
-  } = useField(getName('when'));
-
-  const whenOptions = useMemo(() => {
-    if (!whatValue) {
-      return [ConditionalRuleWhen.Exists, ConditionalRuleWhen.NotExists];
-    }
-
-    return Object.values(ConditionalRuleWhen);
-  }, [whatValue]);
-
-  const supportsValue = useMemo(() => {
-    return whatValue && valueSupportedWhen.includes(whenValue);
-  }, [whatValue, whenValue]);
-
-  useEffect(() => {
-    if (!whatValue && !whenOptions.includes(whenValue)) {
-      onChangeWhen(ConditionalRuleWhen.Exists);
-    }
-  }, [onChangeWhen, whatValue, whenOptions, whenValue]);
+  const valueName =
+    type === HtmlConditionalRuleType.Tag ? 'tagName' : 'attribute.value';
 
   return (
-    <StyledStack direction="column" spacing={spacing}>
-      <EnumSelect
-        helperText={
-          <>
-            You can check if selected elements have a given attribute or tag
-            name. <Link>Learn more</Link>
-          </>
-        }
-        className={classes.select}
-        label={ruleLabels.what}
-        emptyOptionLabel="None"
-        defaultValue=""
-        variant={fieldVariant}
-        enumObj={HtmlElementWhat}
-        name={getName('what')}
-      />
-      {whatValue === HtmlElementWhat.Attribute && (
-        <VariablesTextField
-          helperText={
-            <>
-              Element attribute to check. For example: class or id.
-              <ExternalLink href="https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes">
-                Learn more about attributes.
-              </ExternalLink>
-            </>
-          }
+    <Stack direction="column" spacing={spacing}>
+      <Stack direction="row" spacing={spacing} alignItems="center">
+        <EnumSelect
+          enumObj={HtmlConditionalRuleType}
+          name={getName('type')}
+          defaultValue={HtmlConditionalRuleType.Element}
           variant={fieldVariant}
-          name={getName('meta.attribute')}
-          label="Attribute"
+          size="small"
         />
-      )}
-
-      <EnumSelect
-        className={classes.select}
-        label={ruleLabels.when}
-        defaultValue={ConditionalRuleWhen.Exists}
-        variant={fieldVariant}
-        enumObj={whenOptions}
-        name={getName('when')}
-      />
-      {supportsValue && (
-        <VariablesTextField
-          variant={fieldVariant}
-          name={getName('value')}
-          label={ruleLabels.value}
-        />
-      )}
-      <Box width="100%">
-        {picker ?? (
-          <HtmlElementPicker
-            label="Selectors"
+        {type === HtmlConditionalRuleType.Attribute && (
+          <VariablesTextField
+            placeholder="Attribute to check, ex. class"
+            sx={{ minWidth: 225 }}
+            name={getName('attribute.name')}
             variant={fieldVariant}
-            name={getName('meta.selectors')}
-            {...rest}
+            size="small"
           />
         )}
-      </Box>
-      {Boolean(selectors?.length) && (
-        <Stack spacing={spacing} direction="row" alignItems="center">
-          <FormSelect
-            size="small"
-            defaultValue={ConditionalRuleGroupType.Any}
+        <ConditionSelect
+          definition={definition}
+          getName={getName}
+          fieldVariant={fieldVariant}
+        />
+        {supportsValue && (
+          <VariablesTextField
+            sx={{ minWidth: 150 }}
+            name={getName(valueName)}
+            placeholder="Expected value..."
             variant={fieldVariant}
-            className={classes.select}
-            name={getName('meta.type')}
-          >
-            <MenuItem value={ConditionalRuleGroupType.Any}>
-              At least one
-            </MenuItem>
-            <MenuItem value={ConditionalRuleGroupType.All}>All</MenuItem>
-          </FormSelect>
-          <Typography>elements must match this condition.</Typography>
-        </Stack>
-      )}
-    </StyledStack>
+            size="small"
+          />
+        )}
+      </Stack>
+    </Stack>
   );
 };

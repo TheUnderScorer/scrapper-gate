@@ -1,10 +1,10 @@
-import { TextField, TextFieldProps } from '@mui/material';
+import { Box, TextField, TextFieldProps } from '@mui/material';
 import { DesktopDatePicker, DesktopDatePickerProps } from '@mui/lab';
 import { useContainerStore } from '@scrapper-gate/frontend/common';
 import { DateFormat, tryDateCast } from '@scrapper-gate/shared/common';
 import classNames from 'classnames';
 import { format } from 'date-fns';
-import React from 'react';
+import React, { MutableRefObject, useRef } from 'react';
 import { useField } from 'react-final-form';
 import { useFieldHasError } from '../../hooks/useFieldHasError';
 import { FieldProps } from '../../types';
@@ -13,7 +13,7 @@ export interface FormDatePickerProps<T>
   extends Omit<Partial<DesktopDatePickerProps>, 'name' | 'value'>,
     Pick<
       TextFieldProps,
-      'helperText' | 'variant' | 'placeholder' | 'fullWidth'
+      'helperText' | 'variant' | 'placeholder' | 'fullWidth' | 'sx' | 'size'
     > {
   name: string;
   fieldProps?: FieldProps<T>;
@@ -32,6 +32,8 @@ export const FormDatePicker = <T extends unknown>({
   onChange,
   ...rest
 }: FormDatePickerProps<T>) => {
+  const containerRef = useRef<HTMLDivElement>();
+
   const container = useContainerStore((store) => store.container);
 
   const { input, meta } = useField(name, {
@@ -58,59 +60,64 @@ export const FormDatePicker = <T extends unknown>({
   });
 
   return (
-    <DesktopDatePicker
-      {...rest}
-      {...input}
-      onChange={(date, selectionState) => {
-        input.onChange(date);
-        onChange?.(date, selectionState);
-      }}
-      PopperProps={{
-        container,
-        style: {
-          pointerEvents: 'all',
-        },
-      }}
-      renderInput={(props) => {
-        const date = tryDateCast(input.value);
-
-        const inputValue =
-          date instanceof Date
-            ? format(date, rest.inputFormat ?? DateFormat.Date)
-            : date;
-
-        const additionalProps = {
-          helperText: hasError ? meta.error.message : rest.helperText,
-          variant: variant ?? props.variant,
-          placeholder: placeholder ?? props.placeholder,
-          fullWidth,
-          id: name,
-          name,
-          error: hasError,
-          inputProps: {
-            ...props.inputProps,
-            // By default mui provides us value with today date, we don't want that
-            value: formatTextFieldValue
-              ? formatTextFieldValue(inputValue as string)
-              : inputValue,
+    <Box ref={containerRef as MutableRefObject<HTMLDivElement>}>
+      <DesktopDatePicker
+        {...rest}
+        {...input}
+        onChange={(date, selectionState) => {
+          input.onChange(date);
+          onChange?.(date, selectionState);
+        }}
+        PopperProps={{
+          container,
+          anchorEl: containerRef.current,
+          style: {
+            pointerEvents: 'all',
           },
-        };
+        }}
+        renderInput={(props) => {
+          const date = tryDateCast(input.value);
 
-        if (rest.renderInput) {
-          return rest.renderInput({
-            ...props,
-            ...additionalProps,
-          });
-        }
+          const inputValue =
+            date instanceof Date
+              ? format(date, rest.inputFormat ?? DateFormat.Date)
+              : date;
 
-        return (
-          <TextField
-            {...props}
-            className={classNames(props.className, rest.className)}
-            {...additionalProps}
-          />
-        );
-      }}
-    />
+          const additionalProps = {
+            helperText: hasError ? meta.error.message : rest.helperText,
+            variant: variant ?? props.variant,
+            placeholder: placeholder ?? props.placeholder,
+            fullWidth,
+            id: name,
+            size: rest.size,
+            name,
+            error: hasError,
+            inputProps: {
+              ...props.inputProps,
+              // By default mui provides us value with today date, we don't want that
+              value: formatTextFieldValue
+                ? formatTextFieldValue(inputValue as string)
+                : inputValue,
+            },
+          };
+
+          if (rest.renderInput) {
+            return rest.renderInput({
+              ...props,
+              ...additionalProps,
+              size: rest.size,
+            });
+          }
+
+          return (
+            <TextField
+              {...props}
+              className={classNames(props.className, rest.className)}
+              {...additionalProps}
+            />
+          );
+        }}
+      />
+    </Box>
   );
 };

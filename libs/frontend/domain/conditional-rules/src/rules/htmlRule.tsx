@@ -1,139 +1,45 @@
-import { TextFieldProps } from '@mui/material';
 import { Code } from '@mui/icons-material';
+import { TextFieldProps } from '@mui/material';
 import { HtmlElementPickerProps } from '@scrapper-gate/frontend/ui';
-import { toDisplayText } from '@scrapper-gate/shared/common';
-import {
-  ConditionalRuleTypes,
-  ConditionalRuleWhen,
-  HtmlElementRuleMeta,
-  HtmlElementWhat,
-} from '@scrapper-gate/shared/domain/conditional-rules';
-import { ConditionalRule } from '@scrapper-gate/shared/schema';
+import { conditionalRuleDefinitions } from '@scrapper-gate/shared/domain/conditional-rules';
+import { ConditionalRuleType } from '@scrapper-gate/shared/schema';
 import { ReactNode } from 'react';
+import { HtmlElementRuleFooter } from '../components/HtmlElementRule/Footer/HtmlElementRuleFooter';
 import { HtmlElementRule } from '../components/HtmlElementRule/HtmlElementRule';
-import {
-  ConditionalRulesSelection,
-  RuleTitleDefinition,
-  RuleTitleDefinitionType,
-} from '../types';
-
-const createTitle = (rule: ConditionalRule): RuleTitleDefinition[] => {
-  const meta = rule.meta as HtmlElementRuleMeta;
-
-  const base = {
-    type: RuleTitleDefinitionType.Text,
-    text: 'Html element',
-  };
-
-  if (!rule.when) {
-    return [base];
-  }
-
-  if (!rule.what) {
-    return [
-      base,
-      {
-        type: RuleTitleDefinitionType.Highlight,
-        text: toDisplayText(rule.when).toLowerCase(),
-      },
-    ];
-  }
-
-  switch (rule.what) {
-    case HtmlElementWhat.Tag:
-      if (!rule.value) {
-        return [
-          {
-            type: RuleTitleDefinitionType.Text,
-            text: 'Html element tag name',
-          },
-          {
-            type: RuleTitleDefinitionType.Highlight,
-            text: toDisplayText(rule.when).toLowerCase(),
-          },
-        ];
-      }
-
-      return [
-        base,
-        {
-          type: RuleTitleDefinitionType.Highlight,
-          text: 'tag name',
-        },
-        {
-          type: RuleTitleDefinitionType.Highlight,
-          text: toDisplayText(rule.when).toLowerCase(),
-        },
-        {
-          type: RuleTitleDefinitionType.Value,
-          text: rule.value?.toString() ?? '',
-        },
-      ];
-
-    case HtmlElementWhat.Attribute:
-      if (!meta?.attribute) {
-        return [base];
-      }
-
-      return [
-        base,
-        {
-          type: RuleTitleDefinitionType.Highlight,
-          text: 'attribute',
-        },
-        {
-          type: RuleTitleDefinitionType.Text,
-          text: rule.meta?.attribute,
-        },
-        {
-          type: RuleTitleDefinitionType.Highlight,
-          text: toDisplayText(rule.when).toLowerCase(),
-        },
-        {
-          type: RuleTitleDefinitionType.Value,
-          text: rule.value?.toString() ?? '',
-        },
-      ];
-
-    default:
-      return [base];
-  }
-};
-
-export const makeHtmlElementRule = (
-  htmlElementProps: Omit<HtmlElementPickerProps, 'name'>
-): ConditionalRulesSelection => ({
-  label: 'HTML Element',
-  icon: <Code />,
-  value: {
-    Component: (props) => <HtmlElementRule {...props} {...htmlElementProps} />,
-    type: ConditionalRuleTypes.HtmlElement,
-    createTitle: createTitle,
-    defaultWhen: ConditionalRuleWhen.Exists,
-  },
-});
+import { FrontendConditionalRuleDefinition } from '../types';
 
 export interface HtmlRulePickerProps {
   name: string;
   variant?: TextFieldProps['variant'];
 }
 
-export const makeHtmlElementRuleWithPicker = (
-  pickerFactory: (props: HtmlRulePickerProps) => ReactNode
-): ConditionalRulesSelection => ({
-  label: 'HTML Element',
-  icon: <Code />,
-  value: {
-    createTitle,
-    type: ConditionalRuleTypes.HtmlElement,
-    Component: (props) => (
-      <HtmlElementRule
+export const htmlRule = {
+  withoutPicker: (
+    htmlElementProps?: Omit<HtmlElementPickerProps, 'name'>
+  ): FrontendConditionalRuleDefinition<ConditionalRuleType.HtmlElement> => ({
+    label: 'HTML Element',
+    icon: <Code />,
+    Component: (props) => <HtmlElementRule {...props} {...htmlElementProps} />,
+    FooterComponent: (props) => (
+      <HtmlElementRuleFooter {...props} {...htmlElementProps} />
+    ),
+    definition: conditionalRuleDefinitions[ConditionalRuleType.HtmlElement],
+  }),
+  withPicker: (
+    pickerFactory: (props: HtmlRulePickerProps) => ReactNode
+  ): FrontendConditionalRuleDefinition<ConditionalRuleType.HtmlElement> => ({
+    label: 'HTML Element',
+    icon: <Code />,
+    definition: conditionalRuleDefinitions[ConditionalRuleType.HtmlElement],
+    FooterComponent: (props) => (
+      <HtmlElementRuleFooter
         {...props}
         picker={pickerFactory({
-          name: props.getName('meta.selectors'),
+          name: props.getName('selectors'),
           variant: props.fieldVariant,
         })}
       />
     ),
-  },
-});
+    Component: (props) => <HtmlElementRule {...props} />,
+  }),
+};

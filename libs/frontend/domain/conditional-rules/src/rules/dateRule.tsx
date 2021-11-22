@@ -1,20 +1,13 @@
 import { DateRange } from '@mui/icons-material';
-import { DateFormat } from '@scrapper-gate/shared/common';
-import { ConditionalRuleTypes } from '@scrapper-gate/shared/domain/conditional-rules';
-import { format } from 'date-fns';
+import { conditionalRuleDefinitions } from '@scrapper-gate/shared/domain/conditional-rules';
+import { ConditionalRuleType } from '@scrapper-gate/shared/schema';
 import { DateRule } from '../components/DateRule/DateRule';
-import { ConditionalRulesSelection } from '../types';
-import { baseCreateTitle } from '../utils/title';
+import { FrontendConditionalRuleDefinition } from '../types';
 
-export const dateRule: ConditionalRulesSelection = {
-  label: 'Date',
-  icon: <DateRange />,
-  value: {
+export const dateRule: FrontendConditionalRuleDefinition<ConditionalRuleType.Date> =
+  {
+    label: 'Date',
+    icon: <DateRange />,
     Component: DateRule,
-    type: ConditionalRuleTypes.Date,
-    createTitle: baseCreateTitle({
-      valueFormatter: (value) =>
-        format(new Date(value as string), DateFormat.Date),
-    }),
-  },
-};
+    definition: conditionalRuleDefinitions[ConditionalRuleType.Date],
+  };

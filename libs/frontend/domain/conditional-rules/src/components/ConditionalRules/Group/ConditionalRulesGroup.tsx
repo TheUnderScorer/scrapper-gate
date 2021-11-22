@@ -18,10 +18,8 @@ import {
 } from '@scrapper-gate/frontend/form';
 import { AppTheme } from '@scrapper-gate/frontend/theme';
 import { Centered, Emoji } from '@scrapper-gate/frontend/ui';
-import {
-  ConditionalRule,
-  ConditionalRuleGroupType,
-} from '@scrapper-gate/shared/schema';
+import { ConditionalRule } from '@scrapper-gate/shared/domain/conditional-rules';
+import { ConditionalRuleGroupMatchType } from '@scrapper-gate/shared/schema';
 import classNames from 'classnames';
 import React, { memo } from 'react';
 import {
@@ -75,7 +73,7 @@ const StyledAccordion = styled(Accordion)(({ theme }) => ({
 export interface ConditionalRulesGroupProps
   extends Pick<
     ConditionalRulesRuleProps,
-    'fieldVariant' | 'definitions' | 'onEdit' | 'onEditClose'
+    'fieldVariant' | 'definitions' | 'onEdit'
   > {
   index: number;
   name: string;
@@ -159,11 +157,15 @@ const BaseConditionalRulesGroup = ({
           alignItems="center"
           direction="row"
         >
-          <FormSelect size="small" variant={fieldVariant} name={`${name}.type`}>
-            <MenuItem value={ConditionalRuleGroupType.Any}>
+          <FormSelect
+            size="small"
+            variant={fieldVariant}
+            name={`${name}.matchType`}
+          >
+            <MenuItem value={ConditionalRuleGroupMatchType.Any}>
               At least one
             </MenuItem>
-            <MenuItem value={ConditionalRuleGroupType.All}>All</MenuItem>
+            <MenuItem value={ConditionalRuleGroupMatchType.All}>All</MenuItem>
           </FormSelect>
           <Typography>of the rules must be true.</Typography>
         </Stack>
@@ -178,7 +180,6 @@ const BaseConditionalRulesGroup = ({
           {rules.map((rule, rowIndex) => (
             <ConditionalRulesRule
               hasError={Boolean(meta.error?.[rowIndex])}
-              isEdit={activeRowId === rule.id}
               name={`${name}.rules[${rowIndex}]`}
               key={rule.id}
               value={rule}

@@ -52,3 +52,4 @@ export * from './molecules/Autocomplete/Autocomplete.types';
 export * from './molecules/DurationInputField/DurationInputField';
 export * from './molecules/DurationInputField/DurationInputField.types';
 export * from './molecules/Select/Select';
+export * from './molecules/Select/Select.types';

@@ -1,16 +1,22 @@
 import { primitiveValueResolver } from './primitiveValueResolver';
 import { getVariableValue } from '@scrapper-gate/shared/domain/variables';
 import { RuleResolver } from '../types';
-import { Variable } from '@scrapper-gate/shared/schema';
+import { ConditionalRuleType, Variable } from '@scrapper-gate/shared/schema';
 
 export const makeVariableResolver =
-  (variables: Variable[]): RuleResolver =>
+  (variables: Variable[]): RuleResolver<ConditionalRuleType.Variable> =>
   (rule) => {
-    const variable = variables.find((variable) => variable.key === rule.what);
+    const variable = variables.find(
+      (variable) => variable.key === rule.variableKey
+    );
 
     if (!variable) {
       return false;
     }
 
-    return primitiveValueResolver(rule, getVariableValue(variable));
+    return primitiveValueResolver({
+      expectedValue: rule.expectedValue,
+      value: getVariableValue({ variable, raw: true }),
+      condition: rule.condition,
+    });
   };

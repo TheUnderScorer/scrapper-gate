@@ -1,26 +1,21 @@
 /*eslint-disable*/
-import { addDecorator } from '@storybook/react';
-import { withKnobs } from '@storybook/addon-knobs';
-import { withActions } from '@storybook/addon-actions';
-
 import { SnackbarProvider } from '@scrapper-gate/frontend/snackbars';
 import React from 'react';
 import { ThemeProvider } from '../../../theme/src';
+import { ThemeProvider as EmotionThemeProvider } from 'emotion-theming';
 import { LocalizationProvider } from '@mui/lab';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 
-addDecorator(withKnobs);
-
-addDecorator(withActions);
-
-addDecorator((storyFn) => {
-  return (
-    <ThemeProvider>
-      <SnackbarProvider>
-        <LocalizationProvider dateAdapter={AdapterDateFns}>
-          {storyFn()}
-        </LocalizationProvider>
-      </SnackbarProvider>
-    </ThemeProvider>
-  );
-});
+export const decorators = [
+  (storyFn) => {
+    return (
+      <ThemeProvider EmotionThemeProvider={EmotionThemeProvider}>
+        <SnackbarProvider>
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            {storyFn()}
+          </LocalizationProvider>
+        </SnackbarProvider>
+      </ThemeProvider>
+    );
+  },
+];

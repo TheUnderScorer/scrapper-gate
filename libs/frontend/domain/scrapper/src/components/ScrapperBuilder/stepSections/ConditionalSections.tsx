@@ -1,5 +1,5 @@
 import { ConditionalRules } from '@scrapper-gate/frontend/domain/conditional-rules';
-import { ConditionalRuleGroupType } from '@scrapper-gate/shared/schema';
+import { ConditionalRuleGroupMatchType } from '@scrapper-gate/shared/schema';
 import React from 'react';
 import { useFormState } from 'react-final-form';
 import { useScrapperConditionalRules } from '../../../hooks/useScrapperConditionalRules';
@@ -38,7 +38,7 @@ export const ConditionalSections = ({
         fieldVariant="standard"
         initialValue={[
           {
-            type: ConditionalRuleGroupType.Any,
+            matchType: ConditionalRuleGroupMatchType.Any,
             rules: [],
           },
         ]}

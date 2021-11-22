@@ -1,12 +1,10 @@
 import { BaseModel } from '@scrapper-gate/backend/base-model';
-import {
-  durationTransformer,
-  makeDataObjectArrayTransformer,
-} from '@scrapper-gate/backend/db-utils';
-import { ConditionalRuleGroupModel } from '@scrapper-gate/backend/domain/conditional-rules';
+import { durationTransformer } from '@scrapper-gate/backend/db-utils';
 import { UserModel } from '@scrapper-gate/backend/domain/user';
 import { Duration, Entities, Enumerable } from '@scrapper-gate/shared/common';
+import { isHtmlConditionalRule } from '@scrapper-gate/shared/domain/conditional-rules';
 import {
+  ConditionalRuleGroup,
   Maybe,
   MouseButton,
   NodePosition,
@@ -137,9 +135,8 @@ export class ScrapperStepModel
   @Column({
     nullable: true,
     type: 'jsonb',
-    transformer: makeDataObjectArrayTransformer(ConditionalRuleGroupModel),
   })
-  conditionalRules?: Maybe<ConditionalRuleGroupModel[]>;
+  conditionalRules?: Maybe<ConditionalRuleGroup[]>;
 
   @Column({
     nullable: true,
@@ -212,7 +209,11 @@ export class ScrapperStepModel
 
     if (this.conditionalRules?.length) {
       this.conditionalRules.forEach((group) => {
-        selectors.push(...group.selectors);
+        group.rules?.forEach((rule) => {
+          if (isHtmlConditionalRule(rule) && rule.selectors) {
+            selectors.push(...rule.selectors);
+          }
+        });
       });
     }
 

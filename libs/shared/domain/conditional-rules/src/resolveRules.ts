@@ -1,8 +1,8 @@
 import {
   ConditionalRuleGroup,
-  ConditionalRuleGroupType,
+  ConditionalRuleGroupMatchType,
 } from '@scrapper-gate/shared/schema';
-import { ResolveConditionResult, RuleResolvers } from './types';
+import { ResolveConditionResult, RuleResolver, RuleResolvers } from './types';
 
 export interface ResolveRulesParams {
   resolvers: RuleResolvers;
@@ -16,12 +16,20 @@ export const resolveRules = async ({
   let result = false;
 
   for (const group of ruleGroups) {
-    for (const rule of group.rules) {
-      if (!rule.type) {
-        continue;
-      }
+    if (!group.rules) {
+      continue;
+    }
 
-      const resolver = resolvers[rule.type];
+    if (result) {
+      return {
+        result,
+      };
+    }
+
+    for (const rule of group.rules) {
+      const resolver = resolvers[rule.ruleType] as RuleResolver<
+        typeof rule.ruleType
+      >;
 
       if (!resolver) {
         continue;
@@ -30,8 +38,8 @@ export const resolveRules = async ({
       result = await resolver(rule);
 
       if (
-        (result && group.type === ConditionalRuleGroupType.Any) ||
-        (!result && group.type === ConditionalRuleGroupType.All)
+        (result && group.matchType === ConditionalRuleGroupMatchType.Any) ||
+        (!result && group.matchType === ConditionalRuleGroupMatchType.All)
       ) {
         break;
       }

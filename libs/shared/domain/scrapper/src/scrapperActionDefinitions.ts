@@ -1,11 +1,13 @@
-import { ConditionalRuleTypes } from '@scrapper-gate/shared/domain/conditional-rules';
-import { ScrapperAction } from '@scrapper-gate/shared/schema';
+import {
+  ConditionalRuleType,
+  ScrapperAction,
+} from '@scrapper-gate/shared/schema';
 
 export interface ScrapperStepActionDefinition {
   description: string;
   returnsValue: boolean;
   returnsTextValue?: boolean;
-  supportedConditionalTypes?: ConditionalRuleTypes[];
+  supportedConditionalTypes?: ConditionalRuleType[];
 }
 
 export type ScrapperStepActionDefinitions = {
@@ -40,9 +42,9 @@ export const scrapperStepActionDefinitions: ScrapperStepActionDefinitions = {
     description: 'Runs given conditional checks.',
     returnsValue: false,
     supportedConditionalTypes: [
-      ConditionalRuleTypes.Date,
-      ConditionalRuleTypes.HtmlElement,
-      ConditionalRuleTypes.Variable,
+      ConditionalRuleType.Date,
+      ConditionalRuleType.HtmlElement,
+      ConditionalRuleType.Variable,
     ],
   },
   [ScrapperAction.ReloadPage]: {
@@ -65,8 +67,8 @@ export const scrapperStepActionDefinitions: ScrapperStepActionDefinitions = {
     description: 'Waits until selected condition happens.',
     returnsValue: false,
     supportedConditionalTypes: [
-      ConditionalRuleTypes.Date,
-      ConditionalRuleTypes.HtmlElement,
+      ConditionalRuleType.Date,
+      ConditionalRuleType.HtmlElement,
     ],
   },
   [ScrapperAction.RunJavascript]: {

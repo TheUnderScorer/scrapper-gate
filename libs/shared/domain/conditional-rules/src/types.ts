@@ -1,42 +1,11 @@
 import { MaybePromise } from '@scrapper-gate/shared/common';
 import {
-  ConditionalRule,
   ConditionalRuleGroup,
-  ConditionalRuleGroupType,
-  Selector,
+  ConditionalRuleType,
+  DateConditionalRule,
+  HtmlConditionalRule,
+  VariableConditionalRule,
 } from '@scrapper-gate/shared/schema';
-
-export enum ConditionalRuleTypes {
-  Date = 'Date',
-  HtmlElement = 'HtmlElement',
-  Variable = 'Variable',
-}
-
-export enum ConditionalRuleWhen {
-  Exists = 'Exists',
-  NotExists = 'NotExists',
-  Equals = 'Equals',
-  NotEqual = 'NotEqual',
-  LessThan = 'LessThan',
-  LessThanOrEqual = 'LessThanOrEqual',
-  MoreThan = 'MoreThan',
-  MoreThanOrEqual = 'MoreThanOrEqual',
-  Empty = 'Empty',
-  NotEmpty = 'NotEmpty',
-  Includes = 'Includes',
-  NotIncludes = 'NotIncludes',
-}
-
-export interface HtmlElementRuleMeta {
-  selectors: Selector[];
-  attribute?: string;
-  type: ConditionalRuleGroupType;
-}
-
-export enum HtmlElementWhat {
-  Attribute = 'Attribute',
-  Tag = 'Tag',
-}
 
 export interface ResolveConditionResult {
   result: boolean;
@@ -47,6 +16,27 @@ export interface RuleResolverContext {
   rules: ConditionalRuleGroup[];
 }
 
-export type RuleResolvers = Record<string, RuleResolver>;
+export type ConditionalRulesMap = {
+  [ConditionalRuleType.Date]: DateConditionalRule;
+  [ConditionalRuleType.HtmlElement]: HtmlConditionalRule;
+  [ConditionalRuleType.Variable]: VariableConditionalRule;
+};
 
-export type RuleResolver = (rule: ConditionalRule) => MaybePromise<boolean>;
+export type ConditionalRule =
+  | ({
+      type: ConditionalRuleType.Date;
+    } & DateConditionalRule)
+  | ({
+      type: ConditionalRuleType.HtmlElement;
+    } & HtmlConditionalRule)
+  | ({
+      type: ConditionalRuleType.Variable;
+    } & VariableConditionalRule);
+
+export type RuleResolvers = {
+  [Key in ConditionalRuleType]?: RuleResolver<Key>;
+};
+
+export type RuleResolver<Type extends ConditionalRuleType> = (
+  rule: ConditionalRulesMap[Type]
+) => MaybePromise<boolean>;

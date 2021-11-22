@@ -1,6 +1,9 @@
 import { ExcludeFalsy } from '@scrapper-gate/shared/common';
-import { ConditionalRule } from '@scrapper-gate/shared/schema';
-import { HtmlElementRuleMeta, HtmlElementWhat, RuleResolver } from '../types';
+import {
+  ConditionalRuleType,
+  HtmlConditionalRuleType,
+} from '@scrapper-gate/shared/schema';
+import { RuleResolver } from '../types';
 import { arrayValueResolver } from './arrayValueResolver';
 
 export interface HtmlElementResolverElementDefinition {
@@ -10,34 +13,11 @@ export interface HtmlElementResolverElementDefinition {
 }
 
 export interface HtmlElementResolverParams {
-  elements?: HtmlElementResolverElementDefinition[];
+  elements: HtmlElementResolverElementDefinition[];
 }
 
-const resolveValue = (
-  rule: ConditionalRule,
-  elements: HtmlElementResolverElementDefinition[],
-  meta: HtmlElementRuleMeta
-): unknown[] => {
-  switch (rule.what) {
-    case HtmlElementWhat.Attribute:
-      if (!meta.attribute) {
-        return [];
-      }
-
-      return elements
-        .map((el) => el?.attributes?.[meta.attribute as string])
-        .filter(ExcludeFalsy);
-
-    case HtmlElementWhat.Tag:
-      return elements.map((el) => el.tag?.toLowerCase()).filter(ExcludeFalsy);
-
-    default:
-      return [];
-  }
-};
-
 // Create element definition from html element that is parsable by html element resolver
-export const createHtmlResolverElementDefinition = (
+const createElementDefinition = (
   element: Pick<Element, 'tagName' | 'textContent'> & {
     attributes?: Record<string, unknown>;
   }
@@ -49,26 +29,59 @@ export const createHtmlResolverElementDefinition = (
   };
 };
 
-export const makeHtmlElementResolver =
-  ({ elements }: HtmlElementResolverParams): RuleResolver =>
+const make =
+  ({
+    elements,
+  }: HtmlElementResolverParams): RuleResolver<ConditionalRuleType.HtmlElement> =>
   (rule) => {
-    const meta = rule.meta as HtmlElementRuleMeta;
+    switch (rule.type) {
+      case HtmlConditionalRuleType.Attribute: {
+        const attribute = rule.attribute?.attribute;
 
-    if (!rule.what) {
-      return arrayValueResolver(rule, elements, meta.type);
+        if (!attribute) {
+          return false;
+        }
+
+        const attributes = elements
+          .map((el) => el.attributes?.[attribute])
+          .filter(ExcludeFalsy);
+
+        return arrayValueResolver({
+          condition: rule.condition,
+          expectedValue: rule.attribute?.value,
+          values: attributes,
+          matchType: rule.matchType,
+        });
+      }
+
+      case HtmlConditionalRuleType.Tag: {
+        const { tagName } = rule;
+
+        if (!tagName) {
+          return false;
+        }
+
+        return arrayValueResolver({
+          condition: rule.condition,
+          expectedValue: tagName.toLowerCase(),
+          values: elements.map((el) => el.tag?.toLowerCase()),
+        });
+      }
+
+      case HtmlConditionalRuleType.Element:
+        return arrayValueResolver({
+          condition: rule.condition,
+          values: elements.map((el) => el.textContent),
+          matchType: rule.matchType,
+          expectedValue: rule.expectedTextContent,
+        });
+
+      default:
+        return false;
     }
-
-    const value = resolveValue(rule, elements ?? [], meta);
-
-    return arrayValueResolver(
-      {
-        ...rule,
-        value:
-          rule.what === HtmlElementWhat.Tag
-            ? rule.value?.toString().toLowerCase()
-            : rule.value,
-      },
-      value,
-      meta.type
-    );
   };
+
+export const htmlElementResolver = {
+  make,
+  createElementDefinition,
+};

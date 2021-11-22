@@ -269,31 +269,6 @@
       },
       "tags": []
     },
-    "backend-domain-conditional-rules": {
-      "root": "libs/backend/domain/conditional-rules",
-      "sourceRoot": "libs/backend/domain/conditional-rules/src",
-      "projectType": "library",
-      "targets": {
-        "lint": {
-          "executor": "@nrwl/linter:eslint",
-          "outputs": ["{options.outputFile}"],
-          "options": {
-            "lintFilePatterns": [
-              "libs/backend/domain/conditional-rules/**/*.ts"
-            ]
-          }
-        },
-        "test": {
-          "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/backend/domain/conditional-rules"],
-          "options": {
-            "jestConfig": "libs/backend/domain/conditional-rules/jest.config.js",
-            "passWithNoTests": true
-          }
-        }
-      },
-      "tags": []
-    },
     "backend-domain-files": {
       "root": "libs/backend/domain/files",
       "sourceRoot": "libs/backend/domain/files/src",

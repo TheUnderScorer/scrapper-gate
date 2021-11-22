@@ -4,7 +4,7 @@ import { toDisplayText } from '@scrapper-gate/shared/common';
 import { ListItemIcon, ListItemText, MenuItem } from '@mui/material';
 import { FormSelect, FormSelectProps } from '../FormSelect/FormSelect';
 
-export interface EnumSelectProps extends FormSelectProps {
+export interface EnumSelectProps extends FormSelectProps<string> {
   enumObj: Record<string, number | string> | Array<number | string>;
   dictionary?: Record<string, Pick<Partial<Selection>, 'label' | 'icon'>>;
   emptyOptionLabel?: string;

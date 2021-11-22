@@ -1,26 +1,29 @@
-import { variableRule } from '../../rules/variableRule';
 import { FormVariablesProvider } from '@scrapper-gate/frontend/domain/variables';
-import {
-  ConditionalRuleTypes,
-  ConditionalRuleWhen,
-} from '@scrapper-gate/shared/domain/conditional-rules';
 import { createVariable } from '@scrapper-gate/shared/domain/variables';
 import {
-  ConditionalRuleGroupType,
+  ConditionalRuleCondition,
+  ConditionalRuleGroup,
+  ConditionalRuleGroupMatchType,
+  ConditionalRuleType,
+  HtmlConditionalRuleType,
   Variable,
   VariableScope,
   VariableType,
 } from '@scrapper-gate/shared/schema';
+import { Meta } from '@storybook/react';
 import { subDays, subHours } from 'date-fns';
 import React, { useMemo } from 'react';
 import { Form } from 'react-final-form';
+import { ConditionalRulesContextProvider } from '../../providers/ConditionalRulesContext.provider';
 import { dateRule } from '../../rules/dateRule';
-import { makeHtmlElementRule } from '../../rules/htmlRule';
-import { ConditionalRules } from './ConditionalRules';
+import { htmlRule } from '../../rules/htmlRule';
+import { variableRule } from '../../rules/variableRule';
+import { ConditionalRules as ConditionalRulesComponent } from './ConditionalRules';
 
 export default {
-  title: 'Conditional Rules',
-};
+  title: 'ConditionalRules',
+  component: ConditionalRulesComponent,
+} as Meta;
 
 const variables: Variable[] = [
   createVariable({
@@ -37,28 +40,29 @@ const variables: Variable[] = [
   }),
 ];
 
-const conditionalRules = [
+const conditionalRules: ConditionalRuleGroup[] = [
   {
-    type: ConditionalRuleGroupType.All,
+    matchType: ConditionalRuleGroupMatchType.All,
     rules: [
       {
-        value: '{{Date}}',
-        when: ConditionalRuleWhen.Equals,
-        type: ConditionalRuleTypes.Date,
-        id: '#id',
+        ruleType: ConditionalRuleType.Date,
+        expectedDate: new Date(),
+        condition: ConditionalRuleCondition.Equals,
       },
       {
-        type: ConditionalRuleTypes.HtmlElement,
+        ruleType: ConditionalRuleType.HtmlElement,
+        type: HtmlConditionalRuleType.Element,
+        condition: ConditionalRuleCondition.NotExists,
       },
     ],
   },
 ];
 
-export const Component = () => {
+export const ConditionalRules = () => {
   const rules = useMemo(
     () => [
       dateRule,
-      makeHtmlElementRule({
+      htmlRule.withoutPicker({
         highlightId: 'highlight',
       }),
       variableRule,
@@ -76,13 +80,15 @@ export const Component = () => {
       render={(props) => (
         <FormVariablesProvider name="variables">
           <form>
-            <ConditionalRules
-              fieldVariant="outlined"
-              helperText="Configure rules that happen when various stuff happens."
-              label="Rules"
-              definitions={rules}
-              name="conditionalRules"
-            />
+            <ConditionalRulesContextProvider context={{}}>
+              <ConditionalRulesComponent
+                fieldVariant="outlined"
+                helperText="Configure rules that happen when various stuff happens."
+                label="Rules"
+                definitions={rules}
+                name="conditionalRules"
+              />
+            </ConditionalRulesContextProvider>
             <pre>{JSON.stringify(props.values, null, ' ')}</pre>
           </form>
         </FormVariablesProvider>

@@ -1,11 +1,9 @@
-import {
-  ConditionalRuleTypes,
-  ConditionalRuleWhen,
-  HtmlElementRuleMeta,
-} from '@scrapper-gate/shared/domain/conditional-rules';
 import { createMockScrapperStep } from '@scrapper-gate/shared/domain/scrapper/mocks';
 import {
-  ConditionalRuleGroupType,
+  ConditionalRuleCondition,
+  ConditionalRuleGroupMatchType,
+  ConditionalRuleType,
+  HtmlConditionalRuleType,
   ScrapperAction,
   Selector,
 } from '@scrapper-gate/shared/schema';
@@ -20,21 +18,19 @@ export async function createScrapperStepForConditionalTest(
   step.action = ScrapperAction.Condition;
   step.conditionalRules = [
     {
-      id: '1',
-      type: ConditionalRuleGroupType.All,
+      matchType: ConditionalRuleGroupMatchType.All,
       rules: [
         {
-          id: '1',
-          type: ConditionalRuleTypes.HtmlElement,
-          when: ConditionalRuleWhen.Exists,
-          meta: {
-            selectors,
-            type: ConditionalRuleGroupType.All,
-          } as HtmlElementRuleMeta,
+          ruleType: ConditionalRuleType.HtmlElement,
+          condition: ConditionalRuleCondition.Exists,
+          selectors,
+          type: HtmlConditionalRuleType.Element,
+          matchType: ConditionalRuleGroupMatchType.All,
         },
       ],
     },
   ];
+
   step.allSelectors = selectors;
   return step;
 }

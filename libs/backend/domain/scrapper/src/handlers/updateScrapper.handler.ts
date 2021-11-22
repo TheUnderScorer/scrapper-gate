@@ -2,7 +2,6 @@ import {
   findEntitiesToRemove,
   nodeLikeItemsToModels,
 } from '@scrapper-gate/backend/crud';
-import { ConditionalRuleGroupModel } from '@scrapper-gate/backend/domain/conditional-rules';
 import {
   VariableModel,
   VariableRepository,
@@ -78,9 +77,6 @@ export const updateScrapperHandler =
                 waitIntervalTimeout: payload.waitIntervalTimeout
                   ? Duration.fromInput(payload.waitIntervalTimeout)
                   : null,
-                conditionalRules: payload.conditionalRules?.map((rule) =>
-                  ConditionalRuleGroupModel.create(rule)
-                ),
               }),
             input: steps ?? [],
             existingSteps,

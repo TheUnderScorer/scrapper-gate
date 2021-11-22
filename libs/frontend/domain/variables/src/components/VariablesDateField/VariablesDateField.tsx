@@ -63,14 +63,17 @@ export const VariablesDateField = (props: VariablesDateFieldProps) => {
   );
 
   const renderInput = useCallback(
-    ({ value, onChange, ...fieldProps }: MuiTextFieldPropsType) => (
-      <VariablesTextField
-        name={props.name}
-        {...fieldProps}
-        className={classNames(fieldProps.className, props.className)}
-        dateFormat={props.inputFormat}
-      />
-    ),
+    ({ value, onChange, ...fieldProps }: MuiTextFieldPropsType) => {
+      return (
+        <VariablesTextField
+          name={props.name}
+          {...fieldProps}
+          className={classNames(fieldProps.className, props.className)}
+          dateFormat={props.inputFormat}
+          sx={props.sx}
+        />
+      );
+    },
     [props]
   );
 
@@ -80,6 +83,7 @@ export const VariablesDateField = (props: VariablesDateFieldProps) => {
         {...props}
         formatValue={formatValue}
         renderInput={renderInput}
+        PopperProps={{}}
       />
     </VariablesProvider>
   );

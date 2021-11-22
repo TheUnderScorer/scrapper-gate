@@ -5,20 +5,18 @@ import {
   ListItemIcon,
   ListItemText,
   MenuItem,
-  Select,
-  SelectProps,
   TextFieldProps,
   useTheme,
 } from '@mui/material';
 import { AppTheme } from '@scrapper-gate/frontend/theme';
-import { Emoji } from '@scrapper-gate/frontend/ui';
+import { Emoji, Select, SelectProps } from '@scrapper-gate/frontend/ui';
 import React, { Children, PropsWithChildren, useMemo } from 'react';
 import { useField } from 'react-final-form';
 import { useToggle } from 'react-use';
 
-export interface FormSelectProps
+export interface FormSelectProps<T>
   extends Pick<
-      SelectProps,
+      SelectProps<T>,
       | 'multiple'
       | 'variant'
       | 'fullWidth'
@@ -32,13 +30,14 @@ export interface FormSelectProps
       | 'open'
       | 'disabled'
       | 'renderValue'
+      | 'chip'
     >,
-    Pick<TextFieldProps, 'label' | 'helperText'> {
+    Pick<TextFieldProps, 'label' | 'helperText' | 'sx'> {
   name: string;
   initialOpen?: boolean;
 }
 
-export const FormSelect = ({
+export const FormSelect = <T extends unknown>({
   label,
   name,
   defaultValue,
@@ -48,7 +47,7 @@ export const FormSelect = ({
   helperText,
   initialOpen,
   ...props
-}: PropsWithChildren<FormSelectProps>) => {
+}: PropsWithChildren<FormSelectProps<T>>) => {
   const theme = useTheme() as AppTheme;
 
   const [open, toggleOpen] = useToggle(Boolean(initialOpen));
@@ -64,7 +63,11 @@ export const FormSelect = ({
   const childrenCount = useMemo(() => Children.count(children), [children]);
 
   return (
-    <FormControl id={name} variant={variant} error={Boolean(error)}>
+    <FormControl
+      id={name}
+      variant={variant === 'plain' ? 'outlined' : variant}
+      error={Boolean(error)}
+    >
       {label && <InputLabel htmlFor={name}>{label}</InputLabel>}
       <Select
         {...input}
@@ -73,6 +76,7 @@ export const FormSelect = ({
         onClose={() => toggleOpen(false)}
         label={label}
         multiple={multiple}
+        variant={variant}
         {...props}
       >
         {childrenCount > 0 ? (

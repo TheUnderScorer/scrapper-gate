@@ -1,30 +1,34 @@
 import {
-  ConditionalRuleTypes,
+  htmlElementResolver,
   HtmlElementResolverParams,
   makeDateResolver,
-  makeHtmlElementResolver,
   makeVariableResolver,
   RuleResolvers,
 } from '@scrapper-gate/shared/domain/conditional-rules';
-import { ScrapperStep, Variable } from '@scrapper-gate/shared/schema';
+import {
+  ConditionalRuleType,
+  ScrapperStep,
+  Variable,
+} from '@scrapper-gate/shared/schema';
 import { filter, pipe } from 'remeda';
 import { scrapperStepActionDefinitions } from './scrapperActionDefinitions';
 
 export interface ScrapperConditionsResolversParams {
-  htmlResolver: HtmlElementResolverParams;
+  htmlResolverParams: HtmlElementResolverParams;
   variables: Variable[];
   step: Pick<ScrapperStep, 'action' | 'conditionalRules'>;
 }
 
 export const makeScrapperConditionsResolvers = ({
-  htmlResolver,
+  htmlResolverParams,
   variables,
   step,
 }: ScrapperConditionsResolversParams): RuleResolvers => {
   const definitions = {
-    [ConditionalRuleTypes.Date]: makeDateResolver(),
-    [ConditionalRuleTypes.HtmlElement]: makeHtmlElementResolver(htmlResolver),
-    [ConditionalRuleTypes.Variable]: makeVariableResolver(variables),
+    [ConditionalRuleType.Date]: makeDateResolver(),
+    [ConditionalRuleType.HtmlElement]:
+      htmlElementResolver.make(htmlResolverParams),
+    [ConditionalRuleType.Variable]: makeVariableResolver(variables),
   };
 
   const actionDefinition = scrapperStepActionDefinitions[step.action];
@@ -34,7 +38,7 @@ export const makeScrapperConditionsResolvers = ({
     filter(([ruleType]) =>
       Boolean(
         actionDefinition.supportedConditionalTypes?.includes(
-          ruleType as ConditionalRuleTypes
+          ruleType as ConditionalRuleType
         )
       )
     ),

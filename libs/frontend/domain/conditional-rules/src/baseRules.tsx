@@ -1,4 +1,3 @@
-import { ConditionalRulesSelection } from './types';
-import { dateRule } from './rules/dateRule';
+import { FrontendConditionalRuleDefinition } from './types';
 
-export const baseRulesSelection: ConditionalRulesSelection[] = [dateRule];
+export const baseRulesSelection: FrontendConditionalRuleDefinition[] = [];

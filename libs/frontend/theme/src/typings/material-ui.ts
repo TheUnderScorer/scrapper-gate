@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { colors, Theme } from '@mui/material';
-import { Palette } from '@mui/material/styles';
-import { ReactNode } from 'react';
+import type { Palette } from '@mui/material/styles';
+// eslint-disable-next-line no-restricted-imports
+import type { PaletteColor } from '@mui/material/styles/createPalette';
+import type { ReactNode } from 'react';
 
 interface FlowBuilderColors {
   action: string;
@@ -20,7 +22,7 @@ interface Gradients {
 }
 
 export interface BasePalette {
-  primaryLight: string;
+  primaryLight: Pick<PaletteColor, 'main' | 'contrastText'>;
   greyVariant: typeof colors.grey;
   flowBuilderColors: FlowBuilderColors;
   gradients: Gradients;
@@ -84,6 +86,25 @@ declare module '@mui/material/Button/Button' {
     info: true;
     success: true;
     warning: true;
+    primaryLight: true;
+  }
+}
+
+declare module '@mui/material/IconButton/IconButton' {
+  interface IconButtonPropsColorOverrides {
+    primaryLight: true;
+  }
+}
+
+declare module '@mui/material/Fab/Fab' {
+  interface FabPropsColorOverrides {
+    primaryLight: true;
+  }
+}
+
+declare module '@mui/material/Chip/Chip' {
+  interface ChipPropsColorOverrides {
+    primaryLight: true;
   }
 }
 

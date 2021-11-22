@@ -54,7 +54,6 @@ module.exports = {
     '<rootDir>/libs/shared/domain/scrapper/mocks',
     '<rootDir>/libs/shared/domain/user/mocks',
     '<rootDir>/libs/backend/common',
-    '<rootDir>/libs/backend/domain/conditional-rules',
     '<rootDir>/libs/backend/domain/scrapper/base-runner',
     '<rootDir>/libs/frontend/code-editor',
     '<rootDir>/libs/shared/data-object',

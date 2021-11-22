@@ -22,8 +22,7 @@ export class BaseSchema<T> {
   static toJoi() {
     return joi.object().custom((value, helpers) => {
       const result = jf.validateAsClass(value, this, {
-        allowUnknown: helpers.prefs.allowUnknown,
-        abortEarly: helpers.prefs.abortEarly,
+        ...helpers.prefs,
       });
 
       // TODO Map paths to actual path using "state" ?

@@ -5,7 +5,7 @@ import {
   useFormFieldValue,
 } from '@scrapper-gate/frontend/form';
 import {
-  ConditionalRuleGroupType,
+  ConditionalRuleGroupMatchType,
   DurationUnit,
   Maybe,
   ScrapperWaitType,
@@ -72,7 +72,7 @@ export const WaitSections = ({
             fieldVariant="standard"
             initialValue={[
               {
-                type: ConditionalRuleGroupType.Any,
+                matchType: ConditionalRuleGroupMatchType.Any,
                 rules: [],
               },
             ]}

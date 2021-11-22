@@ -2,7 +2,7 @@ import {
   ScrapperRunModel,
   ScrapperRunRepository,
 } from '@scrapper-gate/backend/domain/scrapper';
-import { RunState } from '@scrapper-gate/shared/schema';
+import { RunState, ScrapperStep } from '@scrapper-gate/shared/schema';
 import gql from 'graphql-tag';
 import { BasicQueryTestCases } from '../../../../../tests/api/BasicQueryTestCases';
 import { createScrapper } from '../../tests/createScrapper';
@@ -47,7 +47,7 @@ describe('Get my scrapper runs', () => {
           index: 1,
           state: RunState.Pending,
           scrapper,
-          steps: scrapper.steps ?? [],
+          steps: scrapper.steps ?? ([] as ScrapperStep[]),
           createdBy: user,
         });
 

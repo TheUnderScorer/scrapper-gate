@@ -1,7 +1,7 @@
 import {
-  ConditionalRulesSelection,
   dateRule,
-  makeHtmlElementRuleWithPicker,
+  FrontendConditionalRuleDefinition,
+  htmlRule,
   variableRule,
 } from '@scrapper-gate/frontend/domain/conditional-rules';
 import {
@@ -36,7 +36,7 @@ export function useScrapperConditionalRules({
     ? scrapperStepActionDefinitions[action]
     : undefined;
 
-  return useMemo<ConditionalRulesSelection[]>(() => {
+  return useMemo<FrontendConditionalRuleDefinition[]>(() => {
     if (!actionDefinition) {
       return [];
     }
@@ -44,7 +44,7 @@ export function useScrapperConditionalRules({
     const rules = [
       dateRule,
       variableRule,
-      makeHtmlElementRuleWithPicker(({ name, variant }) => (
+      htmlRule.withPicker(({ name, variant }) => (
         <ElementPicker
           nodeIndex={nodeIndex}
           name={name}
@@ -56,7 +56,7 @@ export function useScrapperConditionalRules({
     ];
 
     return rules.filter((rule) =>
-      actionDefinition.supportedConditionalTypes?.includes(rule.value.type)
+      actionDefinition.supportedConditionalTypes?.includes(rule.definition.type)
     );
   }, [
     ElementPicker,

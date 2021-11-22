@@ -25,7 +25,7 @@ export const variablesToCodeTsType = (
     .map((v) => ({
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       key: v.key!,
-      value: getVariableValue(v),
+      value: getVariableValue({ variable: v }),
     }));
 
 export const createInjectableIntoCodeVariables = (variables: Variable[]) => {

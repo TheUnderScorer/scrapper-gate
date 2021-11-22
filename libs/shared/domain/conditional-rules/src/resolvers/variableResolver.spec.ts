@@ -1,27 +1,31 @@
 import { createVariable } from '@scrapper-gate/shared/domain/variables';
 import {
-  ConditionalRule,
-  ConditionalRuleGroupType,
+  ConditionalRuleCondition,
+  ConditionalRuleGroupMatchType,
+  ConditionalRuleType,
   Variable,
+  VariableConditionalRule,
   VariableScope,
   VariableType,
 } from '@scrapper-gate/shared/schema';
-import { v4 } from 'uuid';
+import { subSeconds } from 'date-fns';
 import { resolveRules } from '../resolveRules';
-import { ConditionalRuleTypes, ConditionalRuleWhen } from '../types';
 import { makeVariableResolver } from './variableResolver';
 
 describe('Variable resolver', () => {
   it.each<
-    [rule: ConditionalRule, variables: Variable[], expectedResult: boolean]
+    [
+      rule: VariableConditionalRule,
+      variables: Variable[],
+      expectedResult: boolean
+    ]
   >([
     [
       {
-        id: v4(),
-        type: ConditionalRuleTypes.Variable,
-        when: ConditionalRuleWhen.Equals,
-        value: 'Test',
-        what: 'test',
+        condition: ConditionalRuleCondition.Equals,
+        ruleType: ConditionalRuleType.Variable,
+        expectedValue: 'Test',
+        variableKey: 'test',
       },
       [
         createVariable({
@@ -35,11 +39,10 @@ describe('Variable resolver', () => {
     ],
     [
       {
-        id: v4(),
-        type: ConditionalRuleTypes.Variable,
-        when: ConditionalRuleWhen.Equals,
-        value: 'Test',
-        what: 'test',
+        condition: ConditionalRuleCondition.Equals,
+        ruleType: ConditionalRuleType.Variable,
+        expectedValue: 'Test',
+        variableKey: 'test',
       },
       [
         createVariable({
@@ -53,11 +56,10 @@ describe('Variable resolver', () => {
     ],
     [
       {
-        id: v4(),
-        type: ConditionalRuleTypes.Variable,
-        when: ConditionalRuleWhen.Includes,
-        value: 'Test',
-        what: 'test',
+        ruleType: ConditionalRuleType.Variable,
+        condition: ConditionalRuleCondition.Includes,
+        variableKey: 'test',
+        expectedValue: 'Test',
       },
       [
         createVariable({
@@ -71,11 +73,10 @@ describe('Variable resolver', () => {
     ],
     [
       {
-        id: v4(),
-        type: ConditionalRuleTypes.Variable,
-        when: ConditionalRuleWhen.Equals,
-        value: 'Test',
-        what: 'test',
+        ruleType: ConditionalRuleType.Variable,
+        variableKey: 'test',
+        condition: ConditionalRuleCondition.Equals,
+        expectedValue: 'Test',
       },
       [
         createVariable({
@@ -87,17 +88,67 @@ describe('Variable resolver', () => {
       ],
       false,
     ],
+    [
+      {
+        ruleType: ConditionalRuleType.Variable,
+        variableKey: 'test',
+        condition: ConditionalRuleCondition.MoreThan,
+        expectedValue: 45,
+      },
+      [
+        createVariable({
+          type: VariableType.Number,
+          value: 50,
+          scope: VariableScope.Global,
+          key: 'test',
+        }),
+      ],
+      true,
+    ],
+    [
+      {
+        ruleType: ConditionalRuleType.Variable,
+        variableKey: 'test',
+        condition: ConditionalRuleCondition.LessThan,
+        expectedValue: '55',
+      },
+      [
+        createVariable({
+          type: VariableType.Number,
+          value: 50,
+          scope: VariableScope.Global,
+          key: 'test',
+        }),
+      ],
+      true,
+    ],
+    [
+      {
+        ruleType: ConditionalRuleType.Variable,
+        variableKey: 'test',
+        condition: ConditionalRuleCondition.LessThan,
+        expectedValue: new Date(),
+      },
+      [
+        createVariable({
+          type: VariableType.Date,
+          value: subSeconds(new Date(), 60),
+          scope: VariableScope.Global,
+          key: 'test',
+        }),
+      ],
+      true,
+    ],
   ])(
     'should return true if rule has passed',
     async (rule, variables, expectedResult) => {
       const { result } = await resolveRules({
         resolvers: {
-          [ConditionalRuleTypes.Variable]: makeVariableResolver(variables),
+          [ConditionalRuleType.Variable]: makeVariableResolver(variables),
         },
         ruleGroups: [
           {
-            id: v4(),
-            type: ConditionalRuleGroupType.Any,
+            matchType: ConditionalRuleGroupMatchType.Any,
             rules: [rule],
           },
         ],

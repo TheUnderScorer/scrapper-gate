@@ -1,22 +1,25 @@
+import { ConditionalRule } from '@scrapper-gate/shared/domain/conditional-rules';
 import {
   ConditionalRuleGroupInput,
-  ConditionalRuleGroupType,
+  ConditionalRuleGroupMatchType,
+  ConditionalRuleType,
 } from '@scrapper-gate/shared/schema';
-import { array } from 'joiful';
 import { BaseSchema } from '../../BaseSchema';
+import { conditionalRules } from '../../decorators/conditionalRules';
 import { requiredEnum } from '../../decorators/enum';
-import { uuid } from '../../decorators/uuid';
-import { ScrapperConditionalRuleInputDto } from './ScrapperConditionalRuleInputDto';
 
 export class ScrapperConditionalRuleGroupInputDto
   extends BaseSchema<ConditionalRuleGroupInput>
-  implements ConditionalRuleGroupInput {
-  @(uuid().required())
-  id: string;
+  implements ConditionalRuleGroupInput
+{
+  // TODO Extract this array to shared const
+  @conditionalRules([
+    ConditionalRuleType.Variable,
+    ConditionalRuleType.Date,
+    ConditionalRuleType.HtmlElement,
+  ])
+  rules: ConditionalRule[];
 
-  @array({ elementClass: ScrapperConditionalRuleInputDto })
-  rules: ScrapperConditionalRuleInputDto[];
-
-  @requiredEnum(ConditionalRuleGroupType)
-  type: ConditionalRuleGroupType;
+  @requiredEnum(ConditionalRuleGroupMatchType)
+  type: ConditionalRuleGroupMatchType;
 }

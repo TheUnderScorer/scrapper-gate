@@ -56,6 +56,7 @@ export const HtmlElementPicker = ({
   shouldAddSelectorOnEnter,
   TextFieldComponent,
   onElements,
+  sx,
 }: HtmlElementPickerProps) => {
   const [open, toggleOpen] = useToggle(false);
   const [clickEnabled, toggleClickEnabled] = useToggle(false);
@@ -296,6 +297,7 @@ export const HtmlElementPicker = ({
       className={classNames(className, 'html-element-picker-wrapper')}
       container
       direction="column"
+      sx={sx}
     >
       {input}
       <Box mt={1}>

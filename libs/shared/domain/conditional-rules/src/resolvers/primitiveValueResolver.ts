@@ -1,45 +1,67 @@
-import { ConditionalRule } from '@scrapper-gate/shared/schema';
-import { ConditionalRuleWhen } from '../types';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { ConditionalRuleCondition } from '@scrapper-gate/shared/schema';
 
-export const primitiveValueResolver = (
-  rule: ConditionalRule,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  value: any
-) => {
-  const actualValue = value?.valueOf();
+const getValue = <V>(value: V) => {
+  if (value instanceof Date) {
+    return value.valueOf();
+  }
 
-  switch (rule.when) {
-    case ConditionalRuleWhen.NotEqual:
-      return actualValue?.toString() !== rule.value?.toString();
+  if (typeof value === 'object') {
+    return 'valueOf' in value && typeof (value as any).valueOf === 'function'
+      ? (value as any).valueOf()
+      : (value as any).toString();
+  }
 
-    case ConditionalRuleWhen.Equals:
-      return actualValue?.toString() === rule.value?.toString();
+  return value;
+};
 
-    case ConditionalRuleWhen.Includes:
-      return actualValue?.toString()?.includes(rule.value?.toString());
+interface PrimitiveValueResolverParams<V = any, E = any> {
+  expectedValue?: E;
+  value?: V;
+  condition: ConditionalRuleCondition;
+}
 
-    case ConditionalRuleWhen.NotIncludes:
-      return !actualValue?.toString()?.includes(rule.value?.toString());
+export const primitiveValueResolver = <V = any, E = any>({
+  condition,
+  ...params
+}: PrimitiveValueResolverParams<V, E>) => {
+  const value = getValue(params.value);
+  const expectedValue = getValue(params.expectedValue);
 
-    case ConditionalRuleWhen.LessThan:
-      return Number(actualValue) < Number(rule.value);
+  const includes = () => value?.toString()?.includes(expectedValue?.toString());
 
-    case ConditionalRuleWhen.LessThanOrEqual:
-      return Number(actualValue) <= Number(rule.value);
+  switch (condition) {
+    case ConditionalRuleCondition.NotEqual:
+      return value?.toString() !== expectedValue?.toString();
 
-    case ConditionalRuleWhen.MoreThan:
-      return Number(actualValue) > Number(rule.value);
+    case ConditionalRuleCondition.Equals:
+      return value?.toString() === expectedValue?.toString();
 
-    case ConditionalRuleWhen.MoreThanOrEqual:
-      return Number(actualValue) >= Number(rule.value);
+    case ConditionalRuleCondition.Includes:
+      return includes();
 
-    case ConditionalRuleWhen.Empty:
-    case ConditionalRuleWhen.NotExists:
-      return !actualValue;
+    case ConditionalRuleCondition.NotIncludes:
+      return !includes();
 
-    case ConditionalRuleWhen.NotEmpty:
-    case ConditionalRuleWhen.Exists:
-      return Boolean(actualValue);
+    case ConditionalRuleCondition.LessThan:
+      return Number(expectedValue) > Number(value);
+
+    case ConditionalRuleCondition.LessThanOrEqual:
+      return Number(expectedValue) >= Number(value);
+
+    case ConditionalRuleCondition.MoreThan:
+      return Number(expectedValue) < Number(value);
+
+    case ConditionalRuleCondition.MoreThanOrEqual:
+      return Number(expectedValue) <= Number(value);
+
+    case ConditionalRuleCondition.Empty:
+    case ConditionalRuleCondition.NotExists:
+      return !value;
+
+    case ConditionalRuleCondition.NotEmpty:
+    case ConditionalRuleCondition.Exists:
+      return Boolean(value);
 
     default:
       return false;

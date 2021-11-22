@@ -109,7 +109,7 @@ export class ScrapperRunModel
   ) {
     return this.create({
       scrapper,
-      steps: scrapper.steps ?? [],
+      steps: scrapper.steps ?? ([] as ScrapperStep[]),
       state,
       variables: scrapper.variables,
       startedAt: new Date(),
