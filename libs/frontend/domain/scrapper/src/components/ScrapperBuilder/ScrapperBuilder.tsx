@@ -1,4 +1,4 @@
-import { IconButton, Stack, useTheme } from '@mui/material';
+import { Fab, Stack, Tooltip, useTheme } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useIsUsingElementPicker } from '@scrapper-gate/frontend/common';
 import {
@@ -218,12 +218,18 @@ export const ScrapperBuilder = ({
       try {
         const steps = nodesToScrapperSteps(values.items);
 
+        logger.debug(`Submit:`, {
+          steps,
+          values,
+        });
+
         await updateScrapper({
           variables: {
             input: {
               id: initialScrapper.id,
               steps,
               name: values.name,
+              // TODO Handle this on scalar level
               variables: values.variables.map(extractVariableInput),
               runSettings: values.runSettings,
               startNodePosition: startNode?.position,
@@ -297,9 +303,18 @@ export const ScrapperBuilder = ({
                 [FlowBuilderNodeTypes.Start]: ScrapperBuilderStartNodeContent,
               }}
               additionalActions={
-                <IconButton onClick={() => runScrapperDialog()} size="large">
-                  {theme.icons.run}
-                </IconButton>
+                <Tooltip title="Run scrapper">
+                  <Fab
+                    onClick={() => runScrapperDialog()}
+                    size="small"
+                    color="secondary"
+                    sx={{
+                      boxShadow: 'none',
+                    }}
+                  >
+                    {theme.icons.run}
+                  </Fab>
+                </Tooltip>
               }
               title={
                 <Stack alignItems="center" spacing={1} direction="row">

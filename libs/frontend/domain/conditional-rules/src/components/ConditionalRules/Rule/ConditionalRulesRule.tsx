@@ -1,4 +1,3 @@
-import { Delete } from '@mui/icons-material';
 import {
   Divider,
   IconButton,
@@ -6,6 +5,7 @@ import {
   Stack,
   TextFieldProps,
   Tooltip,
+  useTheme,
 } from '@mui/material';
 import { BaseEntity } from '@scrapper-gate/shared/schema';
 import React, { memo, useMemo } from 'react';
@@ -23,6 +23,7 @@ export interface ConditionalRulesRuleProps {
   hasError?: boolean;
 }
 
+// TODO Show error
 const BaseConditionalRulesRule = ({
   definitions,
   onRowRemove,
@@ -31,6 +32,8 @@ const BaseConditionalRulesRule = ({
   name,
   hasError,
 }: ConditionalRulesRuleProps) => {
+  const theme = useTheme();
+
   const definition = useMemo(() => {
     return definitions.find((def) => def.definition.type === value.ruleType);
   }, [definitions, value.ruleType]);
@@ -40,9 +43,16 @@ const BaseConditionalRulesRule = ({
 
   return (
     <Paper
-      sx={{ width: '100%', padding: (theme) => theme.spacing(2) }}
+      sx={{
+        width: '100%',
+        padding: (theme) => theme.spacing(2),
+        overflow: 'auto',
+        borderColor: (theme) =>
+          hasError ? theme.palette.error.main : undefined,
+      }}
       className="conditional-rules-rule"
-      elevation={2}
+      elevation={hasError ? undefined : 2}
+      variant={hasError ? 'outlined' : undefined}
     >
       <Stack direction="column" spacing={4}>
         <Stack
@@ -69,17 +79,15 @@ const BaseConditionalRulesRule = ({
                 onRowRemove?.();
               }}
               className="remove-rules-rule"
+              color="error"
               sx={{
                 '&.remove-rules-rule': {
                   marginLeft: 'auto',
-                },
-
-                '&, & svg': {
-                  color: (theme) => theme.palette.error.main,
+                  paddingLeft: (theme) => theme.spacing(1),
                 },
               }}
             >
-              <Delete />
+              {theme.icons.remove}
             </IconButton>
           </Tooltip>
         </Stack>

@@ -1,21 +1,31 @@
+import * as jf from 'joiful';
 import { validateAsClass } from 'joiful';
 import { supportsVariables } from './supportsVariables';
-import * as jf from 'joiful';
 
 class Test {
   @supportsVariables({
     baseSchema: jf.any(),
     onIncludesVariableKey: (joi) => {
-      return joi.string();
+      return joi.string().required();
     },
     onNotIncludesVariableKey: (joi) => {
-      return joi.string().uri();
+      return joi.string().uri().required();
     },
   })
-  url?: unknown;
+  url: any;
 }
 
 describe('Supports variables', () => {
+  it('should validate empty string', () => {
+    const obj = {};
+
+    const result = validateAsClass(obj, Test, {
+      allowUnknown: false,
+    });
+
+    expect(result.error).toBeTruthy();
+  });
+
   it.each(['{{Test}}', 'Hello, {{World}}'])(
     'should trigger validation if contains variable key',
     (value) => {

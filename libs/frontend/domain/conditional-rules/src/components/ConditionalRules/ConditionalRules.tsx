@@ -2,13 +2,12 @@ import { Add } from '@mui/icons-material';
 import {
   Box,
   Divider,
-  Fab,
   FormHelperText,
   FormLabel,
   Stack,
   Typography,
+  Fab,
 } from '@mui/material';
-import { styled } from '@mui/material/styles';
 import {
   FieldProps,
   useFieldArray,
@@ -19,44 +18,12 @@ import {
   ConditionalRuleGroup,
   ConditionalRuleGroupMatchType,
 } from '@scrapper-gate/shared/schema';
-import classNames from 'classnames';
 import React, { useCallback, useState } from 'react';
 import { FrontendConditionalRuleDefinition } from '../../types';
 import {
   ConditionalRulesGroup,
   ConditionalRulesGroupProps,
 } from './Group/ConditionalRulesGroup';
-
-const PREFIX = 'ConditionalRules';
-
-const classes = {
-  btn: `${PREFIX}-btn`,
-  fab: `${PREFIX}-fab`,
-  divider: `${PREFIX}-divider`,
-  dividerText: `${PREFIX}-dividerText`,
-};
-
-const StyledBox = styled(Box)(({ theme }) => ({
-  [`& .${classes.btn}`]: {
-    marginTop: theme.spacing(4),
-  },
-
-  [`& .${classes.fab}`]: {
-    boxShadow: 'none',
-  },
-
-  [`& .${classes.divider}`]: {
-    alignSelf: 'center',
-    margin: `${theme.spacing(1)} 0`,
-    height: '40px',
-  },
-
-  [`& .${classes.dividerText}`]: {
-    position: 'absolute',
-    top: '19px',
-    background: theme.palette.background.paper,
-  },
-}));
 
 export interface ConditionalRulesProps
   extends FieldProps<ConditionalRuleGroup[]>,
@@ -108,12 +75,12 @@ export const ConditionalRules = ({
   }, [append]);
 
   return (
-    <StyledBox>
+    <Box>
       {label && <FormLabel error={hasError}>{label}</FormLabel>}
       {helperText && (
         <FormHelperText error={hasError}>{helperText}</FormHelperText>
       )}
-      <Box mt={2}>
+      <Box>
         {value.map((group, index) => {
           const hasNext = Boolean(value[index + 1]);
 
@@ -134,11 +101,22 @@ export const ConditionalRules = ({
               {hasNext && (
                 <Box display="flex" justifyContent="center" position="relative">
                   <Divider
-                    className={classes.divider}
+                    sx={{
+                      alignSelf: 'center',
+                      margin: (theme) => `${theme.spacing(1)} 0`,
+                      height: '40px',
+                    }}
                     orientation="vertical"
                     flexItem
                   />
-                  <Typography className={classes.dividerText} variant="caption">
+                  <Typography
+                    sx={{
+                      position: 'absolute',
+                      top: '19px',
+                      background: (theme) => theme.palette.background.paper,
+                    }}
+                    variant="caption"
+                  >
                     OR
                   </Typography>
                 </Box>
@@ -147,13 +125,20 @@ export const ConditionalRules = ({
           );
         })}
       </Box>
-      <Centered className={classes.btn}>
+      <Centered
+        sx={{
+          marginTop: (theme) => theme.spacing(4),
+        }}
+      >
         <Fab
-          className={classNames(classes.fab, 'add-rules-group')}
-          color="primary"
+          className="add-rules-group"
+          color="secondary"
           size="small"
           variant="extended"
           onClick={handleAddRulesSection}
+          sx={{
+            boxShadow: 'none',
+          }}
         >
           <Add />
           Add rules group
@@ -162,6 +147,6 @@ export const ConditionalRules = ({
       {hasError && (
         <FormHelperText error={hasError}>{meta.error.message}</FormHelperText>
       )}
-    </StyledBox>
+    </Box>
   );
 };

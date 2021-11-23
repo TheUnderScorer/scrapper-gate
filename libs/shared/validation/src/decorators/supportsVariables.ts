@@ -23,6 +23,7 @@ export const supportsVariables = <T extends AnySchemaModifiers>({
   onIncludesVariableKey,
   baseSchema,
 }: SupportsVariablesParams<T>) =>
+  // Seems like "custom" is not triggered if key does not exist
   baseSchema.custom(({ joi }) => {
     return joi.custom((value) => {
       const isVariable = containsVariableKey(value);

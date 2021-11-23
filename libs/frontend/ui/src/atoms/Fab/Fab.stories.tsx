@@ -1,5 +1,5 @@
 import { FabProps } from '@mui/material';
-import { Fab as Btn } from './Fab';
+import { Fab as Btn } from '@mui/material';
 import * as Icons from '@mui/icons-material';
 import { Meta } from '@storybook/react';
 import * as faker from 'faker';
@@ -24,7 +24,6 @@ export default {
         'error',
         'info',
         'warning',
-        'primaryLight',
       ],
     },
   },

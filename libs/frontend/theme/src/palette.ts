@@ -1,23 +1,25 @@
 import { colors, createTheme } from '@mui/material';
 import { getContrast } from '@scrapper-gate/shared/common';
-import tinycolor from 'tinycolor2';
 
 const defaultTheme = createTheme();
 
+const primaryColor = colors.deepPurple;
+
 export const primary = {
-  dark: colors.deepPurple['800'],
-  main: colors.deepPurple['500'],
-  light: tinycolor(colors.deepPurple['800']).setAlpha(0.5).toRgbString(),
+  dark: primaryColor['800'],
+  main: primaryColor['500'],
+  light: primaryColor['100'],
   contrastText: defaultTheme.palette.common.white,
 };
 
 export const palette = {
   ...defaultTheme.palette,
   primary,
-  // Primary light is added as separate color, in order to be accessible via "color" prop
-  primaryLight: {
+  secondary: {
+    dark: primaryColor['200'],
     contrastText: primary.dark,
     main: primary.light,
+    light: primaryColor['50'],
   },
   success: {
     ...defaultTheme.palette.success,
@@ -33,6 +35,8 @@ export const palette = {
     startText: defaultTheme.palette.common.white,
     end: defaultTheme.palette.error.main,
     endText: defaultTheme.palette.common.white,
+    sourceHandle: primary.main,
+    targetHandle: colors.green['300'],
   },
   gradients: {
     primaryMainToDark: `linear-gradient(45deg, ${primary.main} 30%, ${primary.dark} 90%)`,

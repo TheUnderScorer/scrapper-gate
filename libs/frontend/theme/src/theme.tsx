@@ -1,4 +1,4 @@
-import { Delete, PlayArrow } from '@mui/icons-material';
+import { Close, Delete, PlayArrow } from '@mui/icons-material';
 import { createTheme, SimplePaletteColorOptions } from '@mui/material/styles';
 import React from 'react';
 import { conditionalStopPropagation } from './conditionalStopPropagation';
@@ -122,5 +122,6 @@ export const getTheme = ({ isContent, container, htmlFontSize }: ThemeParams) =>
     icons: {
       run: <PlayArrow />,
       delete: <Delete />,
+      remove: <Close />,
     },
   });

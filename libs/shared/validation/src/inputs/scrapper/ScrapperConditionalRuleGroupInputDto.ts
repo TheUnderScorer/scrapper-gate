@@ -21,5 +21,5 @@ export class ScrapperConditionalRuleGroupInputDto
   rules: ConditionalRule[];
 
   @requiredEnum(ConditionalRuleGroupMatchType)
-  type: ConditionalRuleGroupMatchType;
+  matchType: ConditionalRuleGroupMatchType;
 }

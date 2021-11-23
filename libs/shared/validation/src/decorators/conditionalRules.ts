@@ -5,8 +5,8 @@ import { HtmlConditionalRuleDto } from '../inputs/conditionalRules/HtmlCondition
 import { VariableConditionalRuleDto } from '../inputs/conditionalRules/VariableConditionalRuleDto';
 
 export const conditionalRules = (supportedTypes: ConditionalRuleType[]) => {
-  return jf.object().custom(({ joi }) => {
-    return joi
+  return jf.any().custom(({ joi }) => {
+    const ruleSchema = joi
       .object()
       .schema({
         ruleType: joi.string().valid(...supportedTypes),
@@ -27,5 +27,7 @@ export const conditionalRules = (supportedTypes: ConditionalRuleType[]) => {
           },
         ],
       });
+
+    return joi.array().items(DateConditionalRuleDto.toJoi());
   });
 };

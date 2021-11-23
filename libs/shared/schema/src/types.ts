@@ -26,6 +26,7 @@ export interface Scalars {
   ConditionalRuleInput: any;
   ConditionalValue: any;
   Date: Date;
+  DateOrVariableKey: any;
   Record: any;
   ScrapperRunValueType: any;
   Url: any;
@@ -77,7 +78,7 @@ export interface ConditionalRuleGroup {
 
 export interface ConditionalRuleGroupInput {
   rules: Array<Scalars['ConditionalRuleInput']>;
-  type: ConditionalRuleGroupMatchType;
+  matchType: ConditionalRuleGroupMatchType;
 }
 
 export enum ConditionalRuleGroupMatchType {
@@ -117,7 +118,7 @@ export interface CreatedBy {
 }
 
 export interface DateConditionalRule extends ConditionalRule {
-  expectedDate: Scalars['Date'];
+  expectedDate: Scalars['DateOrVariableKey'];
   condition: ConditionalRuleCondition;
   ruleType: ConditionalRuleType;
 }
@@ -1109,6 +1110,7 @@ export type ResolversTypes = {
     | ResolversTypes['ScrapperStep'];
   Date: ResolverTypeWrapper<Scalars['Date']>;
   DateConditionalRule: ResolverTypeWrapper<DateConditionalRule>;
+  DateOrVariableKey: ResolverTypeWrapper<Scalars['DateOrVariableKey']>;
   Duration: ResolverTypeWrapper<Duration>;
   Float: ResolverTypeWrapper<Scalars['Float']>;
   DurationInput: DurationInput;
@@ -1220,6 +1222,7 @@ export type ResolversParentTypes = {
     | ResolversParentTypes['ScrapperStep'];
   Date: Scalars['Date'];
   DateConditionalRule: DateConditionalRule;
+  DateOrVariableKey: Scalars['DateOrVariableKey'];
   Duration: Duration;
   Float: Scalars['Float'];
   DurationInput: DurationInput;
@@ -1439,7 +1442,11 @@ export type DateConditionalRuleResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['DateConditionalRule'] = ResolversParentTypes['DateConditionalRule']
 > = {
-  expectedDate?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  expectedDate?: Resolver<
+    ResolversTypes['DateOrVariableKey'],
+    ParentType,
+    ContextType
+  >;
   condition?: Resolver<
     ResolversTypes['ConditionalRuleCondition'],
     ParentType,
@@ -1452,6 +1459,11 @@ export type DateConditionalRuleResolvers<
   >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
+
+export interface DateOrVariableKeyScalarConfig
+  extends GraphQLScalarTypeConfig<ResolversTypes['DateOrVariableKey'], any> {
+  name: 'DateOrVariableKey';
+}
 
 export type DurationResolvers<
   ContextType = any,
@@ -2248,6 +2260,7 @@ export type Resolvers<ContextType = any> = {
   CreatedBy?: CreatedByResolvers<ContextType>;
   Date?: GraphQLScalarType;
   DateConditionalRule?: DateConditionalRuleResolvers<ContextType>;
+  DateOrVariableKey?: GraphQLScalarType;
   Duration?: DurationResolvers<ContextType>;
   ErrorObject?: ErrorObjectResolvers<ContextType>;
   ErrorObjectInterface?: ErrorObjectInterfaceResolvers<ContextType>;

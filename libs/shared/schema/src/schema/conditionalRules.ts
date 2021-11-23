@@ -37,7 +37,7 @@ export const conditionalRulesSchema = gql`
   }
 
   type DateConditionalRule implements ConditionalRule {
-    expectedDate: Date!
+    expectedDate: DateOrVariableKey!
     condition: ConditionalRuleCondition!
     ruleType: ConditionalRuleType!
   }
@@ -82,6 +82,6 @@ export const conditionalRulesSchema = gql`
 
   input ConditionalRuleGroupInput {
     rules: [ConditionalRuleInput!]!
-    type: ConditionalRuleGroupMatchType!
+    matchType: ConditionalRuleGroupMatchType!
   }
 `;

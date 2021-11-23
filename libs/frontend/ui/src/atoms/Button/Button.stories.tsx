@@ -19,7 +19,6 @@ export default {
         'error',
         'info',
         'warning',
-        'primaryLight',
       ],
     },
   },

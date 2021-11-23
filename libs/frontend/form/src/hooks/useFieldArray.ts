@@ -1,6 +1,7 @@
-import { logger } from '@scrapper-gate/shared/logger/console';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { removeAtIndex } from '@scrapper-gate/shared/common';
-import { BaseEntity } from '@scrapper-gate/shared/schema';
+import { logger } from '@scrapper-gate/shared/logger/console';
+import { BaseEntity, Maybe } from '@scrapper-gate/shared/schema';
 import get from 'lodash.get';
 import { useCallback, useMemo } from 'react';
 import {
@@ -9,9 +10,12 @@ import {
   UseFieldConfig,
   useForm,
 } from 'react-final-form';
+import { clone } from 'remeda';
 import { v4 } from 'uuid';
 
 const defaultValue: unknown[] = [];
+
+const idGeneratedSymbol = Symbol('idGenerated');
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export const useFieldArray = <T extends object>(
@@ -20,16 +24,29 @@ export const useFieldArray = <T extends object>(
 ) => {
   const { getState } = useForm();
 
-  const field = useField(name, {
-    ...props,
-    format: (value) =>
-      value?.map((value) => {
-        if (!(value as Record<string, unknown>).id) {
-          (value as Record<string, unknown>).id = v4();
+  const format = useCallback(
+    (value?: T[]) =>
+      value?.map((item) => {
+        const valueClone = clone(item) as Record<string | symbol, unknown>;
+
+        if (!valueClone.id) {
+          valueClone.id = v4();
+          valueClone[idGeneratedSymbol] = true;
         }
 
-        return value;
+        if ((item as Record<symbol, unknown>)[idGeneratedSymbol]) {
+          valueClone[idGeneratedSymbol] = true;
+        }
+
+        return valueClone;
       }) ?? (defaultValue as T[]),
+    []
+  );
+
+  const field = useField(name, {
+    ...props,
+    format,
+    formatOnBlur: true,
   });
   const {
     input: { onChange, value },
@@ -37,10 +54,17 @@ export const useFieldArray = <T extends object>(
 
   const append = useCallback(
     (item: Omit<T, 'id'>) => {
-      const result = {
+      const itemId = (item as Record<string, unknown>)?.id;
+      const result: Record<string | symbol, unknown> = {
         ...item,
-        id: (item as Record<string, unknown>)?.id ?? v4(),
+        id: itemId ?? v4(),
       };
+
+      if (!itemId) {
+        result[idGeneratedSymbol] = true;
+      }
+
+      logger.debug('Append:', result);
 
       onChange([...(value ?? []), result]);
 
@@ -72,4 +96,26 @@ export const useFieldArray = <T extends object>(
     }),
     [field, append, remove]
   );
+};
+
+/**
+ * Strips ids used by useFieldArray hook
+ * */
+useFieldArray.stripIds = <T extends Record<string, any>>(
+  values?: Maybe<T[]>
+) => {
+  if (!values) {
+    return [];
+  }
+
+  return values?.map((item) => {
+    const valueClone = clone(item) as Record<string | symbol, unknown>;
+
+    if ((item as Record<symbol, unknown>)[idGeneratedSymbol]) {
+      delete valueClone[idGeneratedSymbol];
+      delete valueClone.id;
+    }
+
+    return valueClone;
+  }) as T[];
 };

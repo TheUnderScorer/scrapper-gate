@@ -5,12 +5,18 @@ import {
   InMemoryCache,
 } from '@apollo/client';
 import { WithUseTokenStoreHook } from '@scrapper-gate/frontend/domain/auth';
+import { DateOrVariableKeyScalar } from '@scrapper-gate/shared/domain/variables';
+import { DateScalar, typeDefs } from '@scrapper-gate/shared/schema';
+import { withScalars } from 'apollo-link-scalars';
+import { makeExecutableSchema } from 'graphql-tools';
 import React, { PropsWithChildren, useMemo } from 'react';
 import { httpLink } from './httpLink';
 import { onErrorLink } from './onErrorLink';
-import { removeTypenameLink } from './removeTypenameLink';
 import { restLink } from './restLink';
 
+const executableSchema = makeExecutableSchema({
+  typeDefs,
+});
 export const ApiClientProvider = ({
   children,
   useTokensStore,
@@ -22,7 +28,14 @@ export const ApiClientProvider = ({
     return new ApolloClient({
       link: from([
         onErrorLink,
-        removeTypenameLink,
+        withScalars({
+          schema: executableSchema,
+          typesMap: {
+            DateOrVariableKey: DateOrVariableKeyScalar,
+            Date: DateScalar,
+          },
+          removeTypenameFromInputs: true,
+        }),
         restLink(tokens),
         httpLink({ tokens, setTokens }),
       ]),

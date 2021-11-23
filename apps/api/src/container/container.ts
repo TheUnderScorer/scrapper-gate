@@ -31,6 +31,7 @@ import { v4 } from 'uuid';
 import { apolloServerFactory } from '../apolloServer';
 import { registerServerCqrs } from '../cqrs';
 import { entityDefinitions } from '../database';
+import { conditionalRulesResolver } from '../resolvers/conditionalRules/conditionalRules.resolver';
 import { fileResolver } from '../resolvers/file/file.resolver';
 import { rootResolver } from '../resolvers/root.resolver';
 import { scrapperResolver } from '../resolvers/scrapper/scrapper.resolver';
@@ -91,6 +92,7 @@ export const createContainer = async ({
       asFunction(scrapperResolver),
       asFunction(rootResolver),
       asFunction(fileResolver),
+      asValue(conditionalRulesResolver),
     ]),
     apolloServer: asFunction(apolloServerFactory).singleton(),
     container: asValue(container),

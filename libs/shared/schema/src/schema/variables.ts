@@ -2,6 +2,7 @@ import gql from 'graphql-tag';
 
 export const variablesSchema = gql`
   scalar VariableValue
+  scalar DateOrVariableKey
 
   enum VariableScope {
     Global

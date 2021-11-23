@@ -194,7 +194,7 @@ export const BasicPreset = () => {
                 onConnect={basicConnect}
                 nodeContents={nodeContents}
                 additionalActions={
-                  <IconButton color="primaryLight" size="small">
+                  <IconButton color="secondary" size="small">
                     <PlayArrowSharp />
                   </IconButton>
                 }

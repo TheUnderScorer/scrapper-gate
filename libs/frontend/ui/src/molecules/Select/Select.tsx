@@ -37,7 +37,7 @@ export const Select = <T extends unknown>({
         chip
           ? (value) => (
               <Chip
-                color="primaryLight"
+                color="secondary"
                 clickable
                 label={
                   rest.renderValue ? rest.renderValue(value) : (value as any)

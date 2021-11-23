@@ -238,15 +238,17 @@ export const FlowBuilderCanvas = () => {
               left: '-2px',
             },
             '& .react-flow__handle.target::after': {
-              background: (theme) => theme.palette.secondary.light,
+              background: (theme) =>
+                theme.palette.flowBuilderColors.targetHandle,
             },
             '& .react-flow__handle.source::after': {
-              background: (theme) => theme.palette.primary.dark,
+              background: (theme) =>
+                theme.palette.flowBuilderColors.sourceHandle,
             },
             '& #react-flow__arrow polyline, & #react-flow__arrowclosed polyline':
               {
-                stroke: (theme) => theme.palette.secondary.light,
-                fill: (theme) => theme.palette.secondary.light,
+                stroke: (theme) => theme.palette.flowBuilderColors.targetHandle,
+                fill: (theme) => theme.palette.flowBuilderColors.targetHandle,
               },
             '& .react-flow__handle-connecting': {
               '&:not(.react-flow__handle-valid)::after': {

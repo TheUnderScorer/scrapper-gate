@@ -1,4 +1,4 @@
-import { Delete, ExpandMore } from '@mui/icons-material';
+import { ExpandMore } from '@mui/icons-material';
 import {
   Accordion,
   AccordionDetails,
@@ -10,7 +10,6 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
-import { styled } from '@mui/material/styles';
 import {
   FormSelect,
   useFieldArray,
@@ -27,48 +26,6 @@ import {
   ConditionalRulesRuleProps,
 } from '../Rule/ConditionalRulesRule';
 import { ConditionalRulesSelectionDropdown } from '../SelectionDropdown/ConditionalRulesSelectionDropdown';
-
-const PREFIX = 'ConditionalRulesGroup';
-
-const classes = {
-  btn: `${PREFIX}-btn`,
-  btnContainer: `${PREFIX}-btnContainer`,
-  paper: `${PREFIX}-paper`,
-  typeSection: `${PREFIX}-typeSection`,
-  summaryStack: `${PREFIX}-summaryStack`,
-  accordion: `${PREFIX}-accordion`,
-};
-
-const StyledAccordion = styled(Accordion)(({ theme }) => ({
-  [`& .${classes.btn}`]: {
-    '&, & svg': {
-      color: theme.palette.error.main,
-    },
-  },
-
-  [`& .${classes.btnContainer}`]: {
-    marginTop: theme.spacing(2),
-  },
-
-  [`& .${classes.paper}`]: {
-    padding: `${theme.spacing(4)} 0`,
-  },
-
-  [`& .${classes.typeSection}`]: {
-    marginBottom: theme.spacing(2),
-  },
-
-  [`& .${classes.summaryStack}`]: {
-    width: '100%',
-    paddingRight: theme.spacing(2),
-  },
-
-  [`&.${classes.accordion}`]: {
-    '&.hasError': {
-      borderColor: theme.palette.error.main,
-    },
-  },
-}));
 
 export interface ConditionalRulesGroupProps
   extends Pick<
@@ -111,16 +68,17 @@ const BaseConditionalRulesGroup = ({
   });
 
   return (
-    <StyledAccordion
-      className={classNames(
-        'conditional-rules-group',
-        { hasError },
-        classes.accordion
-      )}
+    <Accordion
+      className={classNames('conditional-rules-group', { hasError })}
       expanded={open}
       onChange={(event, expanded) => (expanded ? onOpen?.() : onClose?.())}
       variant="outlined"
       key={index}
+      sx={{
+        '&.hasError': {
+          borderColor: (theme) => theme.palette.error.main,
+        },
+      }}
     >
       <AccordionSummary
         expandIcon={
@@ -130,7 +88,10 @@ const BaseConditionalRulesGroup = ({
         }
       >
         <Stack
-          className={classes.summaryStack}
+          sx={{
+            width: '100%',
+            paddingRight: (theme) => theme.spacing(2),
+          }}
           direction="row"
           justifyContent="space-between"
         >
@@ -143,16 +104,19 @@ const BaseConditionalRulesGroup = ({
 
                 onRemove?.(index);
               }}
-              className={classNames(classes.btn, 'remove-rules-group')}
+              className="remove-rules-group"
+              color="error"
             >
-              <Delete />
+              {theme.icons.remove}
             </IconButton>
           </Tooltip>
         </Stack>
       </AccordionSummary>
       <AccordionDetails>
         <Stack
-          className={classes.typeSection}
+          sx={{
+            marginBottom: (theme) => theme.spacing(2),
+          }}
           spacing={1}
           alignItems="center"
           direction="row"
@@ -199,7 +163,7 @@ const BaseConditionalRulesGroup = ({
           />
         </Stack>
       </AccordionDetails>
-    </StyledAccordion>
+    </Accordion>
   );
 };
 

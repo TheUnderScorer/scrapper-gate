@@ -33,7 +33,7 @@ export interface BlockEditorProps
   initialFocused?: boolean;
   editorInstanceRef?: Ref<Editor>;
   decorators?: Decorator[];
-  onChange?: (text: string) => unknown;
+  onChange?: (text: string | undefined) => unknown;
 
   value?: string;
   // Used in case if value was passed as date

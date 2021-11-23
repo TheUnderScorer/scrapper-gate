@@ -22,6 +22,7 @@ import { createEditor, Descendant, Editor } from 'slate';
 import { Editable, ReactEditor, Slate, withReact } from 'slate-react';
 import { composeDecorators } from '../../composeDecorators';
 import { composeLeafs } from '../../composeLeafs';
+import { getEmptyValue } from '../../getEmptyValue';
 import { withSingleLine } from '../../plugins/withSingleLine';
 import { textSerializeStrategy } from '../../serializeStrategies/textSerialize.strategy';
 import { BlockEditorProvider } from './BlockEditor.provider';
@@ -99,17 +100,6 @@ const BlockEditorField = forwardRef<
     );
   }
 );
-
-const getEmptyValue = () => [
-  {
-    type: 'text',
-    children: [
-      {
-        text: '',
-      },
-    ],
-  },
-];
 
 export const BlockEditor = forwardRef<HTMLInputElement, BlockEditorProps>(
   (
@@ -215,7 +205,9 @@ export const BlockEditor = forwardRef<HTMLInputElement, BlockEditorProps>(
           sx={{
             ...props.sx,
             '& .MuiInputBase-input': {
+              /* Important is required because Slate applies inline styles */
               minHeight: 'auto !important',
+              whiteSpace: 'nowrap !important' as 'nowrap',
             },
           }}
           InputProps={{

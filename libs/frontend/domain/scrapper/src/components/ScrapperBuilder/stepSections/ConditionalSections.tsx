@@ -35,7 +35,7 @@ export const ConditionalSections = ({
         helperText="Configure conditional rules for this step"
         definitions={rules}
         name={fieldNameCreator('conditionalRules')}
-        fieldVariant="standard"
+        fieldVariant="outlined"
         initialValue={[
           {
             matchType: ConditionalRuleGroupMatchType.Any,
