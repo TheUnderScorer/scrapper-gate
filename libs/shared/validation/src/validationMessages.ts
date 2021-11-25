@@ -10,4 +10,7 @@ export const validationMessages = {
   [JoiMessages.Number]: 'Must be a number.',
   [JoiMessages.Empty]: 'This field cannot be empty.',
   [JoiMessages.Unique]: 'This field value must be unique.',
+  [JoiMessages.String]: 'Must be a text.',
+  [JoiMessages.InvalidConditionalRule]: 'Invalid conditional rule selected.',
+  [JoiMessages.Date]: 'Must be a valid date.',
 };

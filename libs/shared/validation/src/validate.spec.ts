@@ -1,28 +1,25 @@
-import * as jf from 'joiful';
+import joi from 'joi';
 import { validate } from './validate';
 import { ValidationError } from './ValidationError';
 
-class Schema {
-  @(jf.number().required().integer())
-  intValue!: number;
-
-  @(jf.string().email().optional())
-  email?: string;
-}
+const schema = joi.object({
+  intValue: joi.number().required().integer(),
+  email: joi.string().email().optional(),
+});
 
 describe('validate', () => {
   it('should throw error if validation fails', () => {
     const input = {};
 
-    expect(() => validate(input, Schema)).toThrow(ValidationError);
+    expect(() => validate(input, schema)).toThrow(ValidationError);
   });
 
   it('should not throw if validation succeeds', () => {
-    const input = new Schema();
+    const input = {
+      intValue: 5,
+      email: 'test@test.com',
+    };
 
-    input.intValue = 5;
-    input.email = 'test@test.com';
-
-    expect(() => validate(input, Schema)).not.toThrow();
+    expect(() => validate(input, schema)).not.toThrow();
   });
 });

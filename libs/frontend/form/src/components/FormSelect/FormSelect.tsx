@@ -13,6 +13,8 @@ import { Emoji, Select, SelectProps } from '@scrapper-gate/frontend/ui';
 import React, { Children, PropsWithChildren, useMemo } from 'react';
 import { useField } from 'react-final-form';
 import { useToggle } from 'react-use';
+import { useFieldHasError } from '../../hooks/useFieldHasError';
+import { FieldProps } from '../../types';
 
 export interface FormSelectProps<T>
   extends Pick<
@@ -35,6 +37,7 @@ export interface FormSelectProps<T>
     Pick<TextFieldProps, 'label' | 'helperText' | 'sx'> {
   name: string;
   initialOpen?: boolean;
+  fieldProps?: FieldProps<T>;
 }
 
 export const FormSelect = <T extends unknown>({
@@ -46,18 +49,24 @@ export const FormSelect = <T extends unknown>({
   multiple,
   helperText,
   initialOpen,
+  fieldProps,
   ...props
 }: PropsWithChildren<FormSelectProps<T>>) => {
   const theme = useTheme() as AppTheme;
 
   const [open, toggleOpen] = useToggle(Boolean(initialOpen));
 
-  const {
-    input,
-    meta: { error },
-  } = useField(name, {
+  const { input, meta } = useField(name, {
     multiple,
     initialValue: defaultValue,
+    ...fieldProps,
+  });
+
+  const { error } = meta;
+
+  const hasError = useFieldHasError({
+    meta,
+    showErrorOnlyOnTouched: fieldProps?.showErrorOnlyOnTouched,
   });
 
   const childrenCount = useMemo(() => Children.count(children), [children]);
@@ -66,7 +75,7 @@ export const FormSelect = <T extends unknown>({
     <FormControl
       id={name}
       variant={variant === 'plain' ? 'outlined' : variant}
-      error={Boolean(error)}
+      error={hasError}
     >
       {label && <InputLabel htmlFor={name}>{label}</InputLabel>}
       <Select
@@ -90,8 +99,10 @@ export const FormSelect = <T extends unknown>({
           </MenuItem>
         )}
       </Select>
-      {(helperText || error) && (
-        <FormHelperText>{error?.message ?? helperText}</FormHelperText>
+      {(helperText || hasError) && (
+        <FormHelperText>
+          {hasError ? error?.message : helperText}
+        </FormHelperText>
       )}
     </FormControl>
   );

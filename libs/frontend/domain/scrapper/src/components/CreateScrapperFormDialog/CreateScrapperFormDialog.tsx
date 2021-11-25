@@ -4,13 +4,17 @@ import {
   Dialog,
   useDialogMethods,
 } from '@scrapper-gate/frontend/dialogs';
-import { FormTextField } from '@scrapper-gate/frontend/form';
+import {
+  FormTextField,
+  joiValidationResolver,
+} from '@scrapper-gate/frontend/form';
 import { useSnackbarOnError } from '@scrapper-gate/frontend/snackbars';
 import {
   CreateScrapperInput,
   CreateScrapperMutation,
   ScrapperType,
 } from '@scrapper-gate/shared/schema';
+import { CreateScrapperInputSchema } from '@scrapper-gate/shared/validation';
 import React, { useCallback } from 'react';
 import { Form } from 'react-final-form';
 import { useCreateScrapper } from '../../hooks/useCreateScrapper';
@@ -21,6 +25,8 @@ export interface CreateScrapperFormProps extends BaseDialogProps {
 }
 
 export const createScrapperDialogId = 'CREATE_SCRAPPER_DIALOG';
+
+const validate = joiValidationResolver(CreateScrapperInputSchema);
 
 export const CreateScrapperFormDialog = ({
   onCreate,
@@ -62,6 +68,7 @@ export const CreateScrapperFormDialog = ({
         type: ScrapperType.Simple,
       }}
       onSubmit={handleSubmit}
+      validate={validate}
       render={(props) => (
         <Dialog
           onSubmit={props.handleSubmit}

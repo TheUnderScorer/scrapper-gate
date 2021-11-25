@@ -20,7 +20,7 @@ const decorators = [
 ];
 
 export const BaseEditor = () => {
-  const [value, setValue] = useState<string>('Hello world!');
+  const [value, setValue] = useState<string | undefined>('Hello world!');
 
   return (
     <Stack direction="column" spacing={2}>
@@ -54,7 +54,9 @@ export const BaseEditor = () => {
 };
 
 export const InShadowDom = () => {
-  const [value, setValue] = useState<string>('Hello world from shadow dom!');
+  const [value, setValue] = useState<string | undefined>(
+    'Hello world from shadow dom!'
+  );
 
   return (
     <Scoped>

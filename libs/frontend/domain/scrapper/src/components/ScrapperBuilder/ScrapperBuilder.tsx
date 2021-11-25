@@ -38,7 +38,6 @@ import {
 } from '@scrapper-gate/shared/domain/variables';
 import { logger } from '@scrapper-gate/shared/logger/console';
 import { VariableScope } from '@scrapper-gate/shared/schema';
-import { ScrapperBuilderDto } from '@scrapper-gate/shared/validation';
 import React, { useCallback, useMemo } from 'react';
 import { Form } from 'react-final-form';
 import { Node } from 'react-flow-renderer';
@@ -48,6 +47,7 @@ import { scrapperStepsToNodes } from '../../shared/scrapperStepsToNodes';
 import { useRunScraperDialog } from '../RunScrapperDialog/useRunScraperDialog';
 import { ScrapperBuilderNodeContent } from './NodeContent/ScrapperBuilderNodeContent';
 import { nodesToScrapperSteps } from './nodesToScrapperSteps';
+import { ScrapperBuilderSchema } from './schema/ScrapperBuilder.schema';
 import {
   ScrapperBuilderFormState,
   ScrapperBuilderNode,
@@ -175,7 +175,7 @@ export const ScrapperBuilder = ({
     () =>
       mergeValidators<ScrapperBuilderFormState>(
         (value) =>
-          joiValidationResolver(ScrapperBuilderDto, {
+          joiValidationResolver(ScrapperBuilderSchema, {
             allowUnknown: true,
             presence: 'optional',
             context: {

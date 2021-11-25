@@ -6,7 +6,8 @@ import {
   ConditionalRuleType,
   HtmlConditionalRuleType,
 } from '@scrapper-gate/shared/schema';
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect } from 'react';
+import { useForm } from 'react-final-form';
 import { useSupportsValue } from '../../hooks/useSupportsValue';
 import { ConditionalRuleProps } from '../../types';
 import { ConditionSelect } from '../ConditionSelect/ConditionSelect';
@@ -26,8 +27,21 @@ export const HtmlElementRule = ({
   const supportsValue = useSupportsValue(definition, getName);
   const type = useFormFieldValue<HtmlConditionalRuleType>(getName('type'));
 
+  const { change, getFieldState } = useForm();
+
   const valueName =
     type === HtmlConditionalRuleType.Tag ? 'tagName' : 'attribute.value';
+
+  // Provides some initial value to "attribute.attribute" field, otherwise validation is never triggered
+  useEffect(() => {
+    if (type === HtmlConditionalRuleType.Attribute) {
+      const attributeField = getFieldState(getName('attribute'));
+
+      if (!attributeField) {
+        change(getName('attribute.attribute'), '');
+      }
+    }
+  }, [change, getFieldState, getName, type]);
 
   return (
     <Stack direction="column" spacing={spacing}>
@@ -43,7 +57,7 @@ export const HtmlElementRule = ({
           <VariablesTextField
             placeholder="Attribute to check, ex. class"
             sx={{ minWidth: 225 }}
-            name={getName('attribute.name')}
+            name={getName('attribute.attribute')}
             variant={fieldVariant}
             size="small"
           />

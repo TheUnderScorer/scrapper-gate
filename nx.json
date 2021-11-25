@@ -21,7 +21,8 @@
         "cacheableOperations": ["build", "lint", "test", "e2e"],
         "accessToken": "NGU1YWZmY2QtNDYzMS00ODk1LTk1ODEtMjM4NjBmMTQ5ODM2fHJlYWQtd3JpdGU=",
         "canTrackAnalytics": false,
-        "showUsageWarnings": true
+        "showUsageWarnings": true,
+        "parallel": 1
       }
     }
   },

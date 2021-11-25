@@ -1,5 +1,5 @@
 import * as validation from '@scrapper-gate/shared/validation';
-import { BaseSchemaConstructor } from '@scrapper-gate/shared/validation';
+import { validate } from '@scrapper-gate/shared/validation';
 import {
   defaultFieldResolver,
   GraphQLField,
@@ -7,6 +7,7 @@ import {
   GraphQLObjectType,
 } from 'graphql';
 import { SchemaDirectiveVisitor } from 'graphql-tools';
+import { isSchema } from 'joi';
 
 export class ValidateDtoDirective extends SchemaDirectiveVisitor {
   visitFieldDefinition(
@@ -15,21 +16,17 @@ export class ValidateDtoDirective extends SchemaDirectiveVisitor {
   ) {
     const { resolve = defaultFieldResolver } = field;
 
-    const { dto, key } = this.args;
-    const Schema = (validation as Record<
-      string,
-      BaseSchemaConstructor<unknown> | unknown
-    >)[dto] as BaseSchemaConstructor<unknown>;
+    const { schema, key } = this.args;
+    const Schema = (validation as Record<string, unknown>)[schema];
 
-    // eslint-disable-next-line no-prototype-builtins
-    if (!validation.BaseSchema.isPrototypeOf(Schema)) {
-      throw new TypeError(`Provided DTO ${dto} does not extend BaseSchema.`);
+    if (!isSchema(Schema)) {
+      throw new TypeError(`Provided DTO ${schema} does not extend BaseSchema.`);
     }
 
     field.resolve = async (source, args, context, info) => {
       const argToCheck = args[key];
 
-      await Schema.validate(argToCheck, {
+      validate(argToCheck, Schema, {
         allowUnknown: true,
         abortEarly: true,
         context: argToCheck,

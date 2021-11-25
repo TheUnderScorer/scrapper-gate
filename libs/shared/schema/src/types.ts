@@ -98,7 +98,7 @@ export type ConditionalRuleUnion =
   | VariableConditionalRule;
 
 export interface CreateScrapperInput {
-  name?: Maybe<Scalars['String']>;
+  name: Scalars['String'];
   type: ScrapperType;
 }
 
@@ -1303,7 +1303,7 @@ export type RestDirectiveResolver<
 > = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type ValidateDtoDirectiveArgs = {
-  dto: Scalars['String'];
+  schema: Scalars['String'];
   key: Scalars['String'];
 };
 

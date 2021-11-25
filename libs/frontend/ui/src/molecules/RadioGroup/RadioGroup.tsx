@@ -1,8 +1,8 @@
-import React, { FC, ReactNode, useCallback } from 'react';
 import { Grid, GridSpacing, InputLabel } from '@mui/material';
+import { Selection } from '@scrapper-gate/frontend/common';
+import React, { ReactNode, useCallback } from 'react';
 import { useField } from 'react-final-form';
 import { TileRadio } from '../TileRadio/TileRadio';
-import { Selection } from '@scrapper-gate/frontend/common';
 import { TileRadioProps } from '../TileRadio/TileRadio.types';
 
 export interface RadioGroupProps {
@@ -17,7 +17,7 @@ export interface RadioGroupProps {
   >;
 }
 
-export const RadioGroup: FC<RadioGroupProps> = <ValueType extends unknown>({
+export const RadioGroup = <ValueType extends unknown>({
   name,
   options,
   disabled,

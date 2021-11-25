@@ -10,6 +10,7 @@ export const FormDurationInputField = ({
   ...rest
 }: FormDurationInputFieldProps) => {
   const field = useField(name, fieldProps);
+  const valueField = useField(`${name}.value`);
 
   const hasError = useFieldHasError({
     meta: field.meta,
@@ -20,7 +21,8 @@ export const FormDurationInputField = ({
     <DurationInputField
       {...rest}
       {...field.input}
-      helperText={hasError ? field.meta.error.message : rest?.helperText}
+      error={hasError}
+      helperText={hasError ? valueField.meta.error.message : rest?.helperText}
       id={rest?.id ?? name}
     />
   );
