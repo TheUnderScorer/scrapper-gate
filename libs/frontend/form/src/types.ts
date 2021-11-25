@@ -1,10 +1,11 @@
 import { UseFieldConfig } from 'react-final-form';
-import { UseFieldHasErrorProps } from './hooks/useFieldHasError';
+import { UseFieldErrorProps } from './hooks/useFieldError';
 
 export type FieldProps<T> = UseFieldConfig<T> &
-  Pick<UseFieldHasErrorProps, 'showErrorOnlyOnTouched'>;
+  Pick<UseFieldErrorProps, 'showErrorOnlyOnTouched'>;
 
 export interface FormFieldProps<T> {
+  // Props that will be passed to "useField" hook
   fieldProps?: FieldProps<T>;
   name: string;
 }

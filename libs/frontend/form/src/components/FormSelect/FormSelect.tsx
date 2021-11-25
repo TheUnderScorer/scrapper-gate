@@ -13,7 +13,7 @@ import { Emoji, Select, SelectProps } from '@scrapper-gate/frontend/ui';
 import React, { Children, PropsWithChildren, useMemo } from 'react';
 import { useField } from 'react-final-form';
 import { useToggle } from 'react-use';
-import { useFieldHasError } from '../../hooks/useFieldHasError';
+import { useFieldError } from '../../hooks/useFieldError';
 import { FormFieldProps } from '../../types';
 
 export interface FormSelectProps<T>
@@ -61,9 +61,7 @@ export const FormSelect = <T extends unknown>({
     ...fieldProps,
   });
 
-  const { error } = meta;
-
-  const hasError = useFieldHasError({
+  const error = useFieldError({
     meta,
     showErrorOnlyOnTouched: fieldProps?.showErrorOnlyOnTouched,
   });
@@ -74,7 +72,7 @@ export const FormSelect = <T extends unknown>({
     <FormControl
       id={name}
       variant={variant === 'plain' ? 'outlined' : variant}
-      error={hasError}
+      error={Boolean(error)}
     >
       {label && <InputLabel htmlFor={name}>{label}</InputLabel>}
       <Select
@@ -98,10 +96,8 @@ export const FormSelect = <T extends unknown>({
           </MenuItem>
         )}
       </Select>
-      {(helperText || hasError) && (
-        <FormHelperText>
-          {hasError ? error?.message : helperText}
-        </FormHelperText>
+      {(helperText || error) && (
+        <FormHelperText>{error ? error?.message : helperText}</FormHelperText>
       )}
     </FormControl>
   );

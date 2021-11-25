@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import { format } from 'date-fns';
 import React, { MutableRefObject, useRef } from 'react';
 import { useField } from 'react-final-form';
-import { useFieldHasError } from '../../hooks/useFieldHasError';
+import { useFieldError } from '../../hooks/useFieldError';
 import { FormFieldProps } from '../../types';
 
 export interface FormDatePickerProps<T>
@@ -53,7 +53,7 @@ export const FormDatePicker = <T extends unknown>({
       return value;
     },
   });
-  const hasError = useFieldHasError({
+  const error = useFieldError({
     meta,
     showErrorOnlyOnTouched: fieldProps?.showErrorOnlyOnTouched,
   });
@@ -83,14 +83,14 @@ export const FormDatePicker = <T extends unknown>({
               : date;
 
           const additionalProps = {
-            helperText: hasError ? meta.error.message : rest.helperText,
+            helperText: error ? error.message : rest.helperText,
             variant: variant ?? props.variant,
             placeholder: placeholder ?? props.placeholder,
             fullWidth,
             id: name,
             size: rest.size,
             name,
-            error: hasError,
+            error: Boolean(error),
             inputProps: {
               ...props.inputProps,
               // By default mui provides us value with today date, we don't want that

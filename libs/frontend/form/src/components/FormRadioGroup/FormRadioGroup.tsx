@@ -1,7 +1,7 @@
 import { RadioGroup } from '@scrapper-gate/frontend/ui';
 import React, { useEffect } from 'react';
 import { useField, useForm } from 'react-final-form';
-import { useFieldHasError } from '../../hooks/useFieldHasError';
+import { useFieldError } from '../../hooks/useFieldError';
 import { FormRadioGroupProps } from './FormRadioGroup.types';
 
 export const FormRadioGroup = <T extends unknown>({
@@ -14,7 +14,7 @@ export const FormRadioGroup = <T extends unknown>({
 
   const { mutators } = useForm();
 
-  const hasError = useFieldHasError({
+  const error = useFieldError({
     meta,
     showErrorOnlyOnTouched: fieldProps?.showErrorOnlyOnTouched,
   });
@@ -29,8 +29,8 @@ export const FormRadioGroup = <T extends unknown>({
     <RadioGroup
       {...rest}
       {...input}
-      helperText={hasError ? meta.error?.message : helperText}
-      error={hasError}
+      helperText={error ? error?.message : helperText}
+      error={Boolean(error)}
     />
   );
 };

@@ -1,7 +1,7 @@
 import { BlockEditor } from '@scrapper-gate/frontend/block-editor';
 import React from 'react';
 import { useField } from 'react-final-form';
-import { useFieldHasError } from '../../hooks/useFieldHasError';
+import { useFieldError } from '../../hooks/useFieldError';
 import { FormBlockEditorProps } from './FormBlockEditor.types';
 
 export const FormBlockEditor = ({
@@ -13,7 +13,7 @@ export const FormBlockEditor = ({
 }: FormBlockEditorProps) => {
   const { input, meta } = useField(name);
 
-  const hasError = useFieldHasError({
+  const error = useFieldError({
     meta,
     showErrorOnlyOnTouched: fieldProps?.showErrorOnlyOnTouched,
   });
@@ -32,8 +32,8 @@ export const FormBlockEditor = ({
         rest.onBlur?.(event);
       }}
       ref={blockEditorRef}
-      error={hasError}
-      helperText={hasError ? meta.error.message : rest.helperText}
+      error={Boolean(error)}
+      helperText={error ? error.message : rest.helperText}
     />
   );
 };

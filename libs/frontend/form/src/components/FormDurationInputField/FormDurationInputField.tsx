@@ -1,7 +1,7 @@
 import { DurationInputField } from '@scrapper-gate/frontend/ui';
 import React from 'react';
 import { useField } from 'react-final-form';
-import { useFieldHasError } from '../../hooks/useFieldHasError';
+import { useFieldError } from '../../hooks/useFieldError';
 import { FormDurationInputFieldProps } from './FormDurationInputField.types';
 
 export const FormDurationInputField = ({
@@ -12,7 +12,7 @@ export const FormDurationInputField = ({
   const field = useField(name, fieldProps);
   const valueField = useField(`${name}.value`);
 
-  const hasError = useFieldHasError({
+  const error = useFieldError({
     meta: field.meta,
     showErrorOnlyOnTouched: fieldProps?.showErrorOnlyOnTouched,
   });
@@ -21,8 +21,8 @@ export const FormDurationInputField = ({
     <DurationInputField
       {...rest}
       {...field.input}
-      error={hasError}
-      helperText={hasError ? valueField.meta.error.message : rest?.helperText}
+      error={Boolean(error)}
+      helperText={error ? valueField.meta.error.message : rest?.helperText}
       id={rest?.id ?? name}
     />
   );

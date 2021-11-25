@@ -13,7 +13,7 @@ import {
 import {
   FormSelect,
   useFieldArray,
-  useFieldHasError,
+  useFieldError,
 } from '@scrapper-gate/frontend/form';
 import { AppTheme } from '@scrapper-gate/frontend/theme';
 import { Centered, Emoji } from '@scrapper-gate/frontend/ui';
@@ -62,14 +62,16 @@ const BaseConditionalRulesGroup = ({
     meta,
   } = useFieldArray<ConditionalRule>(`${name}.rules`);
 
-  const hasError = useFieldHasError({
+  const error = useFieldError({
     meta,
     showErrorOnlyOnTouched: false,
   });
 
   return (
     <Accordion
-      className={classNames('conditional-rules-group', { hasError })}
+      className={classNames('conditional-rules-group', {
+        hasError: Boolean(error),
+      })}
       expanded={open}
       onChange={(event, expanded) => (expanded ? onOpen?.() : onClose?.())}
       variant="outlined"

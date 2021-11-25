@@ -2,7 +2,7 @@ import { TextField, TextFieldProps } from '@mui/material';
 import { setRefValue } from '@scrapper-gate/frontend/common';
 import React, { Ref, useState } from 'react';
 import { useField } from 'react-final-form';
-import { useFieldHasError } from '../../hooks/useFieldHasError';
+import { useFieldError } from '../../hooks/useFieldError';
 import { FormFieldProps } from '../../types';
 
 export interface FormTextFieldProps<T>
@@ -48,7 +48,7 @@ export const FormTextField = <T extends unknown>({
     ...fieldProps,
   });
 
-  const hasError = useFieldHasError({
+  const error = useFieldError({
     meta,
     showErrorOnlyOnTouched: fieldProps?.showErrorOnlyOnTouched,
   });
@@ -66,8 +66,8 @@ export const FormTextField = <T extends unknown>({
         setRefValue(inputRef!, element);
       }}
       variant={variant}
-      error={hasError}
-      helperText={hasError ? meta.error.message : helperText}
+      error={Boolean(error)}
+      helperText={error ? error.message : helperText}
       id={id ?? input.name}
       InputProps={rest.InputProps}
       {...rest}

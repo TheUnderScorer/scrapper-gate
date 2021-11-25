@@ -2,16 +2,16 @@ import { Add } from '@mui/icons-material';
 import {
   Box,
   Divider,
+  Fab,
   FormHelperText,
   FormLabel,
   Stack,
   Typography,
-  Fab,
 } from '@mui/material';
 import {
   FieldProps,
   useFieldArray,
-  useFieldHasError,
+  useFieldError,
 } from '@scrapper-gate/frontend/form';
 import { Centered } from '@scrapper-gate/frontend/ui';
 import {
@@ -28,8 +28,7 @@ import {
 export interface ConditionalRulesProps
   extends FieldProps<ConditionalRuleGroup[]>,
     Pick<ConditionalRulesGroupProps, 'fieldVariant'> {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  definitions: FrontendConditionalRuleDefinition<any>[];
+  definitions: FrontendConditionalRuleDefinition[];
   name: string;
   helperText?: string;
   label?: string;
@@ -56,7 +55,7 @@ export const ConditionalRules = ({
       initialValue: rest.initialValue ?? defaultValue,
     }
   );
-  const hasError = useFieldHasError({
+  const error = useFieldError({
     meta,
     showErrorOnlyOnTouched: rest.showErrorOnlyOnTouched,
   });
@@ -73,6 +72,8 @@ export const ConditionalRules = ({
 
     setActiveGroupId(result.id as string);
   }, [append]);
+
+  const hasError = Boolean(error);
 
   return (
     <Box>
@@ -144,9 +145,7 @@ export const ConditionalRules = ({
           Add rules group
         </Fab>
       </Centered>
-      {hasError && (
-        <FormHelperText error={hasError}>{meta.error.message}</FormHelperText>
-      )}
+      {hasError && <FormHelperText error>{error?.message}</FormHelperText>}
     </Box>
   );
 };
