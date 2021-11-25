@@ -1,4 +1,5 @@
 import { Stack, Typography } from '@mui/material';
+import { createTextSerializeStrategy } from '@scrapper-gate/frontend/block-editor';
 import { VariablesDateField } from '@scrapper-gate/frontend/domain/variables';
 import { useFormFieldValue } from '@scrapper-gate/frontend/form';
 import { DateFormat } from '@scrapper-gate/shared/common';
@@ -8,6 +9,9 @@ import { ConditionalRuleProps } from '../../types';
 import { ConditionSelect } from '../ConditionSelect/ConditionSelect';
 
 const now = new Date();
+
+const dateFormat = DateFormat.Date;
+const serializeStrategy = createTextSerializeStrategy(dateFormat);
 
 export const DateRule = ({
   getName,
@@ -29,13 +33,14 @@ export const DateRule = ({
         definition={definition}
       />
       <VariablesDateField
+        serializeStrategy={serializeStrategy}
         size="small"
         sx={{
           minWidth: '150px',
         }}
         variant={fieldVariant}
         name={getName('expectedDate')}
-        inputFormat={DateFormat.Date}
+        inputFormat={dateFormat}
         fieldProps={{
           initialValue: value ?? now,
         }}

@@ -1,5 +1,7 @@
 import { ChangeEvent } from 'react';
-import { textSerializeStrategy } from '../../libs/frontend/block-editor/src/serializeStrategies/textSerialize.strategy';
+import { createTextSerializeStrategy } from '../../libs/frontend/block-editor/src/serializeStrategies/textSerialize.strategy';
+
+const textStrategy = createTextSerializeStrategy();
 
 export const mockSlate = () => {
   const actual = require('slate-react');
@@ -8,7 +10,7 @@ export const mockSlate = () => {
     Slate: jest.fn((props) => {
       const modifiedOnchange = (e: ChangeEvent<HTMLInputElement>) => {
         const text = e.target.value;
-        const newValue = textSerializeStrategy.deserialize(text);
+        const newValue = textStrategy.deserialize(text);
 
         props.onChange(newValue);
       };

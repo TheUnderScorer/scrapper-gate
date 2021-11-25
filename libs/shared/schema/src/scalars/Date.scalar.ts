@@ -10,7 +10,6 @@ export const dateScalarSupportedKinds: string[] = [
 export const DateScalar = new GraphQLScalarType({
   name: 'Date',
   serialize: (value?: Date) => {
-    console.log({ value });
     return isDate(value) ? value?.toISOString() : value;
   },
   parseValue: (value) => (value ? new Date(value) : value),

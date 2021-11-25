@@ -24,7 +24,7 @@ import { composeDecorators } from '../../composeDecorators';
 import { composeLeafs } from '../../composeLeafs';
 import { getEmptyValue } from '../../getEmptyValue';
 import { withSingleLine } from '../../plugins/withSingleLine';
-import { textSerializeStrategy } from '../../serializeStrategies/textSerialize.strategy';
+import { createTextSerializeStrategy } from '../../serializeStrategies/textSerialize.strategy';
 import { BlockEditorProvider } from './BlockEditor.provider';
 import { BlockEditorProps, SlateProps } from './BlockEditor.types';
 
@@ -101,6 +101,8 @@ const BlockEditorField = forwardRef<
   }
 );
 
+const defaultStrategy = createTextSerializeStrategy();
+
 export const BlockEditor = forwardRef<HTMLInputElement, BlockEditorProps>(
   (
     {
@@ -112,6 +114,7 @@ export const BlockEditor = forwardRef<HTMLInputElement, BlockEditorProps>(
       onChange,
       initialFocused = false,
       editorInstanceRef,
+      serializeStrategy = defaultStrategy,
       ...props
     },
     ref
@@ -130,20 +133,20 @@ export const BlockEditor = forwardRef<HTMLInputElement, BlockEditorProps>(
     const [didInternalChange, setDidInternalChange] = useState(false);
 
     const [state, setState] = useState<Descendant[]>(
-      value ? textSerializeStrategy.deserialize(value) : getEmptyValue()
+      value ? serializeStrategy.deserialize(value) : getEmptyValue()
     );
 
     const handleStateChange = useCallback(
       (newState: Descendant[]) => {
         setDidInternalChange(true);
 
-        onChange?.(textSerializeStrategy.serialize(newState));
+        onChange?.(serializeStrategy.serialize(newState));
 
         setState(newState);
 
         setTimeout(() => setDidInternalChange(false), 100);
       },
-      [onChange]
+      [onChange, serializeStrategy]
     );
 
     const handleFocus = useCallback(
@@ -182,8 +185,8 @@ export const BlockEditor = forwardRef<HTMLInputElement, BlockEditorProps>(
         focus: point,
       };
 
-      setState(textSerializeStrategy.deserialize(value));
-    }, [didInternalChange, editor, previousValue, value]);
+      setState(serializeStrategy.deserialize(value));
+    }, [didInternalChange, editor, previousValue, serializeStrategy, value]);
 
     useEffect(() => {
       if (editor && editorInstanceRef) {

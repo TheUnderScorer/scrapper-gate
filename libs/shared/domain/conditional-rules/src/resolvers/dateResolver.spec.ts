@@ -1,3 +1,4 @@
+import { DateFormat } from '@scrapper-gate/shared/common';
 import {
   ConditionalRuleCondition,
   ConditionalRuleGroupMatchType,
@@ -55,7 +56,10 @@ describe('Date resolver', () => {
     async (rule, date, expectedResult) => {
       const { result } = await resolveRules({
         resolvers: {
-          [ConditionalRuleType.Date]: makeDateResolver(date),
+          [ConditionalRuleType.Date]: makeDateResolver(
+            date,
+            DateFormat.DateTime
+          ),
         },
         ruleGroups: [
           {

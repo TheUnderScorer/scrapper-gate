@@ -19,16 +19,29 @@ interface PrimitiveValueResolverParams<V = any, E = any> {
   expectedValue?: E;
   value?: V;
   condition: ConditionalRuleCondition;
+  customHandlers?: {
+    [Key in ConditionalRuleCondition]?: (
+      value: V,
+      expectedValue?: E
+    ) => boolean;
+  };
 }
 
 export const primitiveValueResolver = <V = any, E = any>({
   condition,
+  customHandlers,
   ...params
 }: PrimitiveValueResolverParams<V, E>) => {
   const value = getValue(params.value);
   const expectedValue = getValue(params.expectedValue);
 
   const includes = () => value?.toString()?.includes(expectedValue?.toString());
+
+  const customHandler = customHandlers?.[condition];
+
+  if (customHandler) {
+    return customHandler(value, expectedValue);
+  }
 
   switch (condition) {
     case ConditionalRuleCondition.NotEqual:

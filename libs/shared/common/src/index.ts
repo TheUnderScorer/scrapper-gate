@@ -39,3 +39,4 @@ export * from './partial.types';
 export * from './typeGuards/isError';
 export * from './Duration';
 export * from './number';
+export * from './date';

@@ -5,7 +5,9 @@ import { format, isValid } from 'date-fns';
 import { Descendant, Node } from 'slate';
 import { SerializeStrategy } from '../types';
 
-export const textSerializeStrategy: SerializeStrategy = {
+export const createTextSerializeStrategy = (
+  dateFormat = DateFormat.DateTime
+): SerializeStrategy => ({
   serialize(value: Descendant[]): string | undefined {
     const result = value.map((value) => Node.string(value)).join('\n');
 
@@ -27,8 +29,7 @@ export const textSerializeStrategy: SerializeStrategy = {
       return getEmptyValue();
     }
 
-    // TODO Support other date formats?
-    const parsedValue = isDate ? format(value, DateFormat.DateTime) : value;
+    const parsedValue = isDate ? format(value, dateFormat) : value;
 
     if (typeof parsedValue !== 'string') {
       return getEmptyValue();
@@ -43,4 +44,4 @@ export const textSerializeStrategy: SerializeStrategy = {
 
     return result;
   },
-};
+});

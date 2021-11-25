@@ -35,9 +35,9 @@ export const HtmlElementRule = ({
   // Provides some initial value to "attribute.attribute" field, otherwise validation is never triggered
   useEffect(() => {
     if (type === HtmlConditionalRuleType.Attribute) {
-      const attributeField = getFieldState(getName('attribute'));
+      const attribute = getFieldState(getName('attribute.attribute'));
 
-      if (!attributeField) {
+      if (!attribute?.value) {
         change(getName('attribute.attribute'), '');
       }
     }
@@ -55,7 +55,7 @@ export const HtmlElementRule = ({
         />
         {type === HtmlConditionalRuleType.Attribute && (
           <VariablesTextField
-            placeholder="Attribute to check, ex. class"
+            placeholder="Attribute to check, ex. class..."
             sx={{ minWidth: 225 }}
             name={getName('attribute.attribute')}
             variant={fieldVariant}

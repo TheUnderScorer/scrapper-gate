@@ -23,7 +23,6 @@ export interface ConditionalRulesRuleProps {
   hasError?: boolean;
 }
 
-// TODO Show error
 const BaseConditionalRulesRule = ({
   definitions,
   onRowRemove,
