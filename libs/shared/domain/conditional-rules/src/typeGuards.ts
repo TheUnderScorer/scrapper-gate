@@ -9,7 +9,7 @@ export const isHtmlConditionalRule = (
 ): rule is HtmlConditionalRule => {
   return Boolean(
     typeof rule === 'object' &&
-      'type' in rule &&
-      rule.type === ConditionalRuleType.HtmlElement
+      'ruleType' in rule &&
+      rule.ruleType === ConditionalRuleType.HtmlElement
   );
 };
