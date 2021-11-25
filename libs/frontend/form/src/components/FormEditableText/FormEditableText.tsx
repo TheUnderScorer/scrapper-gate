@@ -9,29 +9,17 @@ import {
   Typography,
   TypographyProps,
 } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import classNames from 'classnames';
 import React, { useCallback, useState } from 'react';
 import { useField } from 'react-final-form';
 import { useBoolean } from 'react-use';
 import { Key } from 'ts-key-enum';
+import { FormFieldProps } from '../../types';
 
-const PREFIX = 'FormEditableText';
-
-const classes = {
-  text: `${PREFIX}-text`,
-};
-
-const StyledClickAwayListener = styled(ClickAwayListener)(() => ({
-  [`& .${classes.text}`]: {
-    cursor: 'pointer',
-  },
-}));
-
-export interface FormEditableTextProps extends Omit<TextFieldProps, 'name'> {
+export interface FormEditableTextProps
+  extends Omit<TextFieldProps, 'name'>,
+    FormFieldProps<string> {
   onEditFinish?: (value: string) => unknown;
   textProps?: TypographyProps;
-  name: string;
 }
 
 export const FormEditableText = ({
@@ -40,11 +28,12 @@ export const FormEditableText = ({
   textProps,
   name,
   variant,
+  fieldProps,
   ...rest
 }: FormEditableTextProps) => {
   const {
     input: { value, onChange },
-  } = useField(name);
+  } = useField(name, fieldProps);
   const [internalValue, setInternalValue] = useState(value ?? '');
 
   const [isEdit, toggleIsEdit] = useBoolean(false);
@@ -67,12 +56,15 @@ export const FormEditableText = ({
   }, [internalValue, onChange, onEditFinish, toggleIsEdit, value]);
 
   return (
-    <StyledClickAwayListener onClickAway={() => finishEdit()}>
+    <ClickAwayListener onClickAway={() => finishEdit()}>
       <span className={className}>
         {!isEdit && (
           <Tooltip title="Click to edit">
             <Typography
-              className={classNames(classes.text, 'form-editable-text')}
+              sx={{
+                cursor: 'pointer',
+              }}
+              className="form-editable-text"
               onClick={() => toggleIsEdit(true)}
               {...textProps}
             >
@@ -121,6 +113,6 @@ export const FormEditableText = ({
           </Stack>
         )}
       </span>
-    </StyledClickAwayListener>
+    </ClickAwayListener>
   );
 };

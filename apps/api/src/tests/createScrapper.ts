@@ -24,6 +24,7 @@ export const createScrapper = async (token: string) => {
       {
         input: {
           type: ScrapperType.RealBrowser,
+          name: 'Test',
         },
       }
     ),

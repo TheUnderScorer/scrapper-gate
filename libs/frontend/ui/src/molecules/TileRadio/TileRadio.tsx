@@ -9,6 +9,7 @@ export const TileRadio = ({
   title,
   children,
   description,
+  name,
   ...props
 }: TileRadioProps) => {
   return (
@@ -38,6 +39,7 @@ export const TileRadio = ({
                 : undefined,
           }}
           checked={props.checked}
+          name={name}
           disabled={props.disabled}
           color={
             props?.checkedBackgroundColor === 'primary' ? 'default' : 'primary'

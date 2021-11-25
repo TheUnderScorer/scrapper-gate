@@ -71,7 +71,6 @@ export const LoginForm = ({
               name="username"
               variant="filled"
               disabled={loading}
-              showErrorOnlyOnTouched
             />
             <FormTextField
               label="Password"
@@ -80,8 +79,9 @@ export const LoginForm = ({
               name="password"
               variant="filled"
               disabled={loading}
-              type="password"
-              showErrorOnlyOnTouched
+              fieldProps={{
+                type: 'password',
+              }}
             />
             {type === LoginFormType.Signup && (
               <FormCheckbox

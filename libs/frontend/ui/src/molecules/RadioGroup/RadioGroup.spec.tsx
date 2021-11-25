@@ -4,8 +4,7 @@ import { Selection } from '@scrapper-gate/frontend/common';
 import { ThemeProvider } from '@scrapper-gate/frontend/theme';
 import { act, render, RenderResult } from '@testing-library/react';
 import fireEvent from '@testing-library/user-event';
-import React from 'react';
-import { Form } from 'react-final-form';
+import React, { useState } from 'react';
 import { RadioGroup } from './RadioGroup';
 
 const options: Selection[] = [
@@ -21,17 +20,23 @@ const options: Selection[] = [
   },
 ];
 
+const Wrapper = () => {
+  const [value, setValue] = useState<string | undefined>(undefined);
+
+  return (
+    <RadioGroup
+      options={options}
+      value={value}
+      onChange={setValue}
+      name="test"
+    />
+  );
+};
+
 const renderCmp = (): RenderResult =>
   render(
     <ThemeProvider>
-      <Form
-        onSubmit={jest.fn()}
-        render={() => (
-          <div>
-            <RadioGroup name="test" options={options} />
-          </div>
-        )}
-      />
+      <Wrapper />
     </ThemeProvider>
   );
 

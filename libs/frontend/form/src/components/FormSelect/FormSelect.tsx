@@ -14,7 +14,7 @@ import React, { Children, PropsWithChildren, useMemo } from 'react';
 import { useField } from 'react-final-form';
 import { useToggle } from 'react-use';
 import { useFieldHasError } from '../../hooks/useFieldHasError';
-import { FieldProps } from '../../types';
+import { FormFieldProps } from '../../types';
 
 export interface FormSelectProps<T>
   extends Pick<
@@ -34,10 +34,9 @@ export interface FormSelectProps<T>
       | 'renderValue'
       | 'chip'
     >,
-    Pick<TextFieldProps, 'label' | 'helperText' | 'sx'> {
-  name: string;
+    Pick<TextFieldProps, 'label' | 'helperText' | 'sx'>,
+    FormFieldProps<T> {
   initialOpen?: boolean;
-  fieldProps?: FieldProps<T>;
 }
 
 export const FormSelect = <T extends unknown>({

@@ -2,12 +2,9 @@
 import { logger } from '@scrapper-gate/shared/logger/console';
 import { MutableState, FieldValidator } from 'final-form';
 
-type SetErrorArgs = [name: string, error?: Error | string];
+type Args = [name: string, error?: Error | string];
 
-export const setErrorMutator = (
-  args: SetErrorArgs,
-  state: MutableState<any>
-) => {
+export const setErrorMutator = (args: Args, state: MutableState<any>) => {
   const [name, error] = args;
 
   Object.assign(state.fields[name], {

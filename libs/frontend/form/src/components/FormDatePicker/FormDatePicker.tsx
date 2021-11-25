@@ -1,5 +1,5 @@
-import { Box, TextField, TextFieldProps } from '@mui/material';
 import { DesktopDatePicker, DesktopDatePickerProps } from '@mui/lab';
+import { Box, TextField, TextFieldProps } from '@mui/material';
 import { useContainerStore } from '@scrapper-gate/frontend/common';
 import { DateFormat, tryDateCast } from '@scrapper-gate/shared/common';
 import classNames from 'classnames';
@@ -7,16 +7,15 @@ import { format } from 'date-fns';
 import React, { MutableRefObject, useRef } from 'react';
 import { useField } from 'react-final-form';
 import { useFieldHasError } from '../../hooks/useFieldHasError';
-import { FieldProps } from '../../types';
+import { FormFieldProps } from '../../types';
 
 export interface FormDatePickerProps<T>
   extends Omit<Partial<DesktopDatePickerProps>, 'name' | 'value'>,
     Pick<
       TextFieldProps,
       'helperText' | 'variant' | 'placeholder' | 'fullWidth' | 'sx' | 'size'
-    > {
-  name: string;
-  fieldProps?: FieldProps<T>;
+    >,
+    FormFieldProps<T> {
   formatTextFieldValue?: (value: string | null) => string | null;
   formatValue?: (value: unknown) => string | Date;
 }

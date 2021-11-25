@@ -7,6 +7,7 @@ import {
 import {
   FormTextField,
   joiValidationResolver,
+  setFieldTouched,
 } from '@scrapper-gate/frontend/form';
 import { useSnackbarOnError } from '@scrapper-gate/frontend/snackbars';
 import {
@@ -67,6 +68,9 @@ export const CreateScrapperFormDialog = ({
       initialValues={{
         type: ScrapperType.Simple,
       }}
+      mutators={{
+        setFieldTouched,
+      }}
       onSubmit={handleSubmit}
       validate={validate}
       render={(props) => (
@@ -83,7 +87,13 @@ export const CreateScrapperFormDialog = ({
           maxWidth="xl"
           title="Create scrapper"
         >
-          <Stack className="create-scrapper-form" spacing={4}>
+          <Stack
+            sx={{
+              paddingTop: (theme) => theme.spacing(1),
+            }}
+            className="create-scrapper-form"
+            spacing={4}
+          >
             <ScrapperTypeSelection name="type" />
             <FormTextField
               label="Scrapper name"

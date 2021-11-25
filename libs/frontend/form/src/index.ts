@@ -24,3 +24,5 @@ export * from './hooks/useSetFormAsNonDirty';
 export * from './components/FormDurationInputField/FormDurationInputField';
 export * from './components/FormDurationInputField/FormDurationInputField.types';
 export * from './mutators/setErrorMutator';
+export * from './components/FormRadioGroup/FormRadioGroup';
+export * from './mutators/setFieldTouched';

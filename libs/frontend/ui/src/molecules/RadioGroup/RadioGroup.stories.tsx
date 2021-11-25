@@ -1,13 +1,17 @@
 import { Description, Home } from '@mui/icons-material';
-import React from 'react';
-import { Form } from 'react-final-form';
-import { action } from '@storybook/addon-actions';
-import { RadioGroup } from './RadioGroup';
 import { Selection } from '@scrapper-gate/frontend/common';
+import { Meta } from '@storybook/react';
+import React, { useState } from 'react';
+import { RadioGroup as Component, RadioGroupProps } from './RadioGroup';
 
 export default {
   title: 'Molecules/Radio Group',
-};
+  component: Component,
+  args: {
+    label: 'Test value',
+    name: 'test',
+  },
+} as Meta;
 
 const options: Selection[] = [
   {
@@ -22,18 +26,19 @@ const options: Selection[] = [
   },
 ];
 
-export const Controlled = () => {
+export const RadioGroup = (
+  args: Omit<RadioGroupProps<string>, 'value' | 'onChange' | 'options'>
+) => {
+  const [value, setValue] = useState<string | undefined>(undefined);
+
   return (
-    <Form
-      onSubmit={action('submit')}
-      render={({ values }) => (
-        <div>
-          <RadioGroup label="Test value" name="test" options={options} />
-          <div>
-            <pre>Values: {JSON.stringify(values, null, ' ')}</pre>
-          </div>
-        </div>
-      )}
-    />
+    <div>
+      <Component
+        value={value}
+        onChange={setValue}
+        options={options}
+        {...args}
+      />
+    </div>
   );
 };

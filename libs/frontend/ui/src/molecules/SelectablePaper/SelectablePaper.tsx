@@ -1,10 +1,18 @@
-import { Box, BoxProps, Paper, PaperProps } from '@mui/material';
+import {
+  Box,
+  BoxProps,
+  Paper,
+  PaperProps,
+  TextFieldProps,
+} from '@mui/material';
 import { ThemedSxProps } from '@scrapper-gate/frontend/theme';
 import classNames from 'classnames';
 import React, { ReactNode } from 'react';
 import { Key } from 'ts-key-enum';
 
-export interface SelectablePaperProps extends ThemedSxProps {
+export interface SelectablePaperProps
+  extends ThemedSxProps,
+    Pick<TextFieldProps, 'error'> {
   checked?: boolean;
   disabled?: boolean;
   onSelect?: () => unknown;
@@ -28,6 +36,7 @@ export const SelectablePaper = ({
   boxProps,
   paperProps,
   checkedBackgroundColor,
+  error,
 }: SelectablePaperProps) => {
   return (
     <Box width={width} height={height} className={className} {...boxProps}>
@@ -59,6 +68,8 @@ export const SelectablePaper = ({
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
+          borderColor: (theme) =>
+            error ? theme.palette.error.main : undefined,
 
           '&.disabled': {
             backgroundColor: (theme) => theme.palette.action.disabledBackground,

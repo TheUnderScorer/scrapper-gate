@@ -68,7 +68,9 @@ export const TypeSections = ({
       />
       <FormTextField
         name={fieldNameCreator('typeDelay')}
-        type="number"
+        fieldProps={{
+          type: 'number',
+        }}
         disabled={formState.submitting}
         InputProps={{
           startAdornment: (

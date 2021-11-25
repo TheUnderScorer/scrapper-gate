@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Checkbox,
   CheckboxProps,
@@ -7,16 +6,15 @@ import {
   FormControlLabelProps,
   FormHelperText,
 } from '@mui/material';
+import React from 'react';
 import { useField } from 'react-final-form';
 import { useFieldHasError } from '../../hooks/useFieldHasError';
-import { FieldProps } from '../../types';
+import { FormFieldProps } from '../../types';
 
 export interface FormCheckboxProps<T>
   extends Pick<FormControlLabelProps, 'label'>,
-    Omit<CheckboxProps, 'name' | 'defaultValue'> {
-  fieldProps?: FieldProps<T>;
-  name: string;
-}
+    Omit<CheckboxProps, 'name' | 'defaultValue'>,
+    FormFieldProps<T> {}
 
 export const FormCheckbox = <T extends unknown>({
   name,
