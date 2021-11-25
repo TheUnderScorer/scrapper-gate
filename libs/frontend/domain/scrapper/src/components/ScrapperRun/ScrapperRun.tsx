@@ -188,6 +188,7 @@ export const ScrapperRun = ({
                 {data?.getMyScrapperRun && (
                   <Typography>
                     <RunState
+                      showMessage={false}
                       showIcon
                       runMutationCalled
                       state={data.getMyScrapperRun.state}

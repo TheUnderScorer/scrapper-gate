@@ -23,6 +23,7 @@ export const RunState = ({
   showIcon,
   showMessageAndIcon = true,
   showMessage = true,
+  iconMode = 'chip',
 }: RunStateProps) => {
   const running = isRunning(state);
 
@@ -105,6 +106,7 @@ export const RunState = ({
         <Stack alignItems="center" direction="row" spacing={1}>
           {showIcon && (
             <RunStateIcon
+              mode={iconMode}
               entity={entity}
               state={state}
               runMutationCalled={runMutationCalled}

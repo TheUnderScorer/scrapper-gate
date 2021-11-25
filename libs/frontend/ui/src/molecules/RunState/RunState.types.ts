@@ -5,6 +5,7 @@ import {
 } from '@scrapper-gate/shared/routing';
 import { RunState } from '@scrapper-gate/shared/schema';
 import { MouseEventHandler } from 'react';
+import { RunStateIconProps } from './Icon/RunStateIcon.types';
 
 export enum RunStateEntity {
   Scrapper = 'scrapper',
@@ -23,4 +24,5 @@ export interface RunStateProps extends ReturnableRoute {
   showIcon?: boolean;
   showMessageAndIcon?: boolean;
   showMessage?: boolean;
+  iconMode?: RunStateIconProps['mode'];
 }

@@ -151,6 +151,7 @@ export const RunScrapperDialog = ({
         >
           <DialogContentText component="div" whiteSpace="pre-wrap">
             <RunState
+              iconMode="icon"
               returnUrl={returnUrl}
               showIcon
               onRunUrlClick={cancel}

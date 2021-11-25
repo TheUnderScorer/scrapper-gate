@@ -11,4 +11,5 @@ export interface RunStateIconProps
   className?: string;
   showTooltip?: boolean;
   title?: ReactNode;
+  mode?: 'chip' | 'icon';
 }
