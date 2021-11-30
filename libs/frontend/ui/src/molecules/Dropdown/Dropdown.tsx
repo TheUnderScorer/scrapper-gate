@@ -47,7 +47,6 @@ export const Dropdown = ({
       )}
       <Menu
         open={open}
-        keepMounted
         anchorEl={anchorEl}
         onClose={handleClose}
         disablePortal={false}

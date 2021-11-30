@@ -1,8 +1,10 @@
 import { first } from '@scrapper-gate/shared/common';
 import { ScrapperAction, ScrapperType } from '@scrapper-gate/shared/schema';
 import { Page } from 'playwright';
+import { persistTestArtifact } from '../../../../../../tests/utils/artifacts';
 import { createNewUserWithScrapper } from '../../../actions/createNewUserWithScrapper';
 import { createBrowser } from '../../../browser';
+import { getTestId } from '../../../getTestId';
 import { ScrapperBuilderPage } from '../../../pages/ScrapperBuilderPage';
 import { dragElementBy } from '../../../utils/drag';
 import { getScrapperFieldHandlerForAction } from './getScrapperFieldHandlerForAction';
@@ -82,57 +84,60 @@ describe('Scrapper builder', () => {
     await connectFirstNodeToStartNode(page, browserPage);
   });
 
-  // TODO Replace with all actions after refactoring conditional step
-  it.each([
-    ScrapperAction.Screenshot,
-    ScrapperAction.ReloadPage,
-    ScrapperAction.NavigateTo,
-    ScrapperAction.ReadAttribute,
-    ScrapperAction.Wait,
-    ScrapperAction.GoBack,
-    ScrapperAction.ChangeRunSettings,
-    ScrapperAction.Click,
-    ScrapperAction.ReadText,
-  ])('should edit single step for %s', async (action) => {
-    const browser = await createBrowser();
-    const browserPage = await createNewUserWithScrapper(
-      browser,
-      ScrapperType.RealBrowser
-    );
+  it.each(Object.values(ScrapperAction))(
+    'should edit single step for %s',
+    async (action) => {
+      const browser = await createBrowser();
+      const browserPage = await createNewUserWithScrapper(
+        browser,
+        ScrapperType.RealBrowser
+      );
 
-    const page = new ScrapperBuilderPage(browserPage);
+      const page = new ScrapperBuilderPage(browserPage);
 
-    const { id, node } = await connectFirstNodeToStartNode(
-      page,
-      browserPage,
-      action
-    );
+      const { id, node } = await connectFirstNodeToStartNode(
+        page,
+        browserPage,
+        action
+      );
 
-    const { handler, fieldNameCreator, getHandlerForIndex } =
-      await getScrapperFieldHandlerForAction({
-        action,
-        node,
-        page: browserPage,
-        scraperPage: page,
-      });
+      const { handler, fieldNameCreator, getHandlerForIndex } =
+        await getScrapperFieldHandlerForAction({
+          action,
+          node,
+          page: browserPage,
+          scrapperPage: page,
+        });
 
-    await page.openNode(id);
+      try {
+        await page.openNode(id);
 
-    await handler.fillAll();
+        await handler.fillAll();
 
-    const key = await handler.getValue(fieldNameCreator('key'));
+        const key = await handler.getValue(fieldNameCreator('key'));
 
-    await page.closeCurrentNode();
+        await page.closeCurrentNode();
 
-    await page.submit();
+        await page.submit();
 
-    const newNodeIndex = await page.getNodeIndex(key, 'key');
-    const newHandler = await getHandlerForIndex(newNodeIndex);
+        const newNodeIndex = await page.getNodeIndex(key, 'key');
+        const newHandler = await getHandlerForIndex(newNodeIndex);
 
-    await page.openNode(key, 'key');
+        await page.openNode(key, 'key');
 
-    await newHandler.assertAll();
-  });
+        await newHandler.assertAll();
+      } catch (error) {
+        const formState = await page.getFormState();
+
+        await persistTestArtifact(
+          `${getTestId(browserPage)}-scrapper-builder-state.json`,
+          Buffer.from(JSON.stringify(formState, null, ' '))
+        );
+
+        throw error;
+      }
+    }
+  );
 
   describe('Read attribute action', () => {
     it('should suggest attributes from selected elements', async () => {
@@ -152,7 +157,7 @@ describe('Scrapper builder', () => {
 
       const { handler, fieldNameCreator } =
         await getScrapperFieldHandlerForAction({
-          scraperPage: page,
+          scrapperPage: page,
           page: browserPage,
           action: ScrapperAction.ReadAttribute,
           node,

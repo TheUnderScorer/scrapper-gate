@@ -12,40 +12,48 @@ import { getBaseConditionalRuleMap } from './baseConditionalRuleMap';
 
 const base = getBaseConditionalRuleMap(ConditionalRuleType.Variable);
 
-export const VariableConditionalRuleSchema =
-  joi.object<VariableConditionalRule>({
-    ...base,
-    variableKey: noSpecialChars({
-      schema: joi.string().required(),
-    }),
-    expectedValue: joi.any().custom((value, helpers) => {
-      const variables = helpers.prefs.context?.variables as Variable[];
+export const VariableConditionalRuleSchema = joi.object<
+  VariableConditionalRule & { __typename: string }
+>({
+  ...base,
+  variableKey: noSpecialChars({
+    schema: joi.string().required(),
+  }),
+  __typename: joi.string(),
+  expectedValue: joi.any().custom((value, helpers) => {
+    const variables = helpers.prefs.context?.variables as Variable[];
 
-      if (!variables?.length) {
-        return value;
-      }
-
-      const expectedKey = first(
-        helpers.state.ancestors as [VariableConditionalRule]
-      )?.variableKey;
-      const variable = variables.find((v) => v.key === expectedKey);
-
-      if (variable) {
-        const clonedVariable = clone(
-          omit(variable, ['createdAt', 'deletedAt', 'updatedAt'])
-        );
-
-        clonedVariable.value = value;
-
-        const result = VariableInputSchema.validate(clonedVariable, {
-          context: helpers.prefs.context,
-        });
-
-        if (result.error) {
-          return helpers.error(first(result.error.details).type);
-        }
-      }
-
+    if (!variables?.length) {
       return value;
-    }),
-  });
+    }
+
+    const expectedKey = first(
+      helpers.state.ancestors as [VariableConditionalRule]
+    )?.variableKey;
+    const variable = variables.find((v) => v.key === expectedKey);
+
+    if (variable) {
+      const clonedVariable = clone(
+        omit(variable as Variable & { __typename: string }, [
+          'createdAt',
+          'deletedAt',
+          'updatedAt',
+          '__typename',
+        ])
+      );
+
+      clonedVariable.value = value;
+
+      const result = VariableInputSchema.validate(clonedVariable, {
+        context: helpers.prefs.context,
+        allowUnknown: true,
+      });
+
+      if (result.error) {
+        return helpers.error(first(result.error.details).type);
+      }
+    }
+
+    return value;
+  }),
+});

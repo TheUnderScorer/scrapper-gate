@@ -47,7 +47,12 @@ export const ConditionalRulesSelectionDropdown = ({
       items={items}
       activator={({ onClick }) => (
         <Centered>
-          <Button startIcon={<Add />} onClick={onClick} variant="outlined">
+          <Button
+            className="add-rule"
+            startIcon={<Add />}
+            onClick={onClick}
+            variant="outlined"
+          >
             Add rule
           </Button>
         </Centered>

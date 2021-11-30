@@ -5,28 +5,10 @@ import {
   IconButtonProps,
   Tooltip,
 } from '@mui/material';
-import { styled } from '@mui/material/styles';
 import classNames from 'classnames';
 import React, { useMemo } from 'react';
 import { useFormState } from 'react-final-form';
 import { TooltipText } from '../../atoms/TooltipText/TooltipText';
-
-const PREFIX = 'FormStateIcon';
-
-const classes = {
-  icon: `${PREFIX}-icon`,
-};
-
-const StyledTooltip = styled(Tooltip)(({ theme }) => ({
-  [`& .${classes.icon}`]: {
-    '&.success': {
-      color: theme.palette.success.main,
-    },
-    '&.error': {
-      color: theme.palette.error.main,
-    },
-  },
-}));
 
 export type FormStateIconProps = IconButtonProps;
 
@@ -70,28 +52,36 @@ export const FormStateIcon = (props: FormStateIconProps) => {
   }, [formState.validating, hasError]);
 
   return (
-    <StyledTooltip title={error ? <TooltipText>{error}</TooltipText> : ''}>
+    <Tooltip title={error ? <TooltipText>{error}</TooltipText> : ''}>
       <span>
         <IconButton
           component="span"
           disableRipple
           disableFocusRipple
           disableTouchRipple
+          sx={{
+            '&.success': {
+              color: (theme) => theme.palette.success.main,
+            },
+            '&.error': {
+              color: (theme) => theme.palette.error.main,
+            },
+          }}
           {...props}
           className={classNames(
-            classes.icon,
             hasError
               ? 'error'
               : formState.validating
               ? 'validating'
               : 'success',
-            props.className
+            props.className,
+            'form-state-icon'
           )}
           size="large"
         >
           {formState.submitting ? <CircularProgress size={20} /> : stateIcon}
         </IconButton>
       </span>
-    </StyledTooltip>
+    </Tooltip>
   );
 };

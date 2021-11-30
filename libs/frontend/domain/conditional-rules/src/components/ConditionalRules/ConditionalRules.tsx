@@ -76,7 +76,7 @@ export const ConditionalRules = ({
   const hasError = Boolean(error);
 
   return (
-    <Box>
+    <Box className="conditional-rules" data-name={name}>
       {label && <FormLabel error={hasError}>{label}</FormLabel>}
       {helperText && (
         <FormHelperText error={hasError}>{helperText}</FormHelperText>

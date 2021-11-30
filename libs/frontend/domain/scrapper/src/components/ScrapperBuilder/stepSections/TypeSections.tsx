@@ -44,6 +44,7 @@ export const TypeSections = ({
         disabled={formState.submitting}
       />
       <ElementPicker
+        disabled={formState.submitting}
         nodeIndex={nodeIndex}
         fieldNameCreator={fieldNameCreator}
         elementsValidator={elementsValidator}

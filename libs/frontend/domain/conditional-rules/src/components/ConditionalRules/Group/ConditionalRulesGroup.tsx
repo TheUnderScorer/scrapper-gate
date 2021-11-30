@@ -71,11 +71,13 @@ const BaseConditionalRulesGroup = ({
     <Accordion
       className={classNames('conditional-rules-group', {
         hasError: Boolean(error),
+        open,
       })}
       expanded={open}
       onChange={(event, expanded) => (expanded ? onOpen?.() : onClose?.())}
       variant="outlined"
       key={index}
+      data-index={index}
       sx={{
         '&.hasError': {
           borderColor: (theme) => theme.palette.error.main,
@@ -83,6 +85,7 @@ const BaseConditionalRulesGroup = ({
       }}
     >
       <AccordionSummary
+        className="rule-group-summary"
         expandIcon={
           <IconButton size="small">
             <ExpandMore />
@@ -124,6 +127,7 @@ const BaseConditionalRulesGroup = ({
           direction="row"
         >
           <FormSelect
+            className="match-type-select"
             size="small"
             variant={fieldVariant}
             name={`${name}.matchType`}
@@ -145,6 +149,7 @@ const BaseConditionalRulesGroup = ({
           )}
           {rules.map((rule, rowIndex) => (
             <ConditionalRulesRule
+              index={rowIndex}
               hasError={Boolean(meta.error?.[rowIndex])}
               name={`${name}.rules[${rowIndex}]`}
               key={rule.id}

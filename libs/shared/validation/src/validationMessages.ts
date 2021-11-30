@@ -13,4 +13,5 @@ export const validationMessages = {
   [JoiMessages.String]: 'Must be a text.',
   [JoiMessages.InvalidConditionalRule]: 'Invalid conditional rule selected.',
   [JoiMessages.Date]: 'Must be a valid date.',
+  [JoiMessages.UnknownObjectKey]: 'Invalid key found inside object.',
 };

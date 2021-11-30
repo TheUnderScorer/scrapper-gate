@@ -40,3 +40,4 @@ export * from './typeGuards/isError';
 export * from './Duration';
 export * from './number';
 export * from './date';
+export * from './getErrorMessage';

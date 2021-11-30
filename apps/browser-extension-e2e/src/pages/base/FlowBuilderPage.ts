@@ -1,3 +1,4 @@
+import { InvalidType } from '@scrapper-gate/shared/errors';
 import { ElementHandle, Page } from 'playwright';
 import { dragElementBy, DragXY } from '../../utils/drag';
 import { repeatUntil } from '../../utils/repeatUntil';
@@ -27,6 +28,14 @@ export class FlowBuilderPage {
   };
 
   constructor(protected readonly page: Page) {}
+
+  async switchToTab(tabId: string) {
+    await this.page.click(`.flow-builder-tab[data-value="${tabId}"]`);
+  }
+
+  async switchToMainTab() {
+    await this.switchToTab('main');
+  }
 
   async addNodeViaContextMenu(label: string) {
     const canvas = await this.getCanvas();
@@ -59,6 +68,28 @@ export class FlowBuilderPage {
         conditionChecker: Boolean,
       }
     );
+
+    const formState = await this.getFormSubmitState();
+
+    if (formState !== 'success') {
+      throw new InvalidType(formState, 'success');
+    }
+  }
+
+  async getFormSubmitState() {
+    const icon = await this.page.waitForSelector('.form-state-icon');
+
+    return icon.evaluate((element) => {
+      if (element.classList.contains('validating')) {
+        return 'validating';
+      }
+
+      if (element.classList.contains('error')) {
+        return 'error';
+      }
+
+      return 'success';
+    });
   }
 
   async dragSelectionIntoCanvas(selectionLabel: string) {

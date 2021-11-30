@@ -8,6 +8,16 @@ import {
 import { omit, pick } from 'remeda';
 import { ConditionalRulesMap } from './types';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type SupportedConditionsCallback<
+  Type extends ConditionalRuleType,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  Ctx = any
+> = (
+  rule: ConditionalRulesMap[Type],
+  ctx: Ctx
+) => Record<string, ConditionalRuleCondition> | undefined;
+
 export interface ConditionalRuleDefinition<
   Type extends ConditionalRuleType,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -17,10 +27,7 @@ export interface ConditionalRuleDefinition<
   description: string;
   supportedConditions?:
     | Record<string, ConditionalRuleCondition>
-    | ((
-        rule: ConditionalRulesMap[Type],
-        ctx: Ctx
-      ) => Record<string, ConditionalRuleCondition> | undefined);
+    | SupportedConditionsCallback<Type, Ctx>;
   valueSupportedConditions?: ConditionalRuleCondition[];
 }
 
@@ -73,7 +80,6 @@ export const conditionalRuleDefinitions: ConditionalRuleDefinitions = {
     valueSupportedConditions: defaultValueSupportedCondition,
     supportedConditions: (rule) => {
       switch (rule.type) {
-        // TODO Check text content of element
         case HtmlConditionalRuleType.Element:
           return omit(TextConditionalRuleCondition, [
             ConditionalRuleCondition.Equals,

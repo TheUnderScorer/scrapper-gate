@@ -45,9 +45,20 @@ export const FlowBuilderTabs = ({
         onChange={(event, value) => onChange(value)}
         className={classes.tabs}
       >
-        <Tab label={mainTabLabel} value={mainTab} />
+        <Tab
+          label={mainTabLabel}
+          value={mainTab}
+          className="flow-builder-tab"
+          data-value={mainTab}
+        />
         {tabs?.map((tab) => (
-          <Tab label={tab.label} value={tab.value} key={tab.value} />
+          <Tab
+            label={tab.label}
+            value={tab.value}
+            key={tab.value}
+            className="flow-builder-tab"
+            data-value={tab.value}
+          />
         ))}
       </Tabs>
     </StyledPaper>

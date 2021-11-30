@@ -54,9 +54,10 @@ export const IframeCodeEditor = (props: ScrapperCodeEditorProps) => {
         </Centered>
       )}
       <StyledIframe
+        data-name={props.name}
         key={sessionId}
         onLoad={() => setLoaded(true)}
-        className={classNames({ loaded })}
+        className={classNames({ loaded }, 'iframe-code-editor')}
         src={url}
       />
       <Stack

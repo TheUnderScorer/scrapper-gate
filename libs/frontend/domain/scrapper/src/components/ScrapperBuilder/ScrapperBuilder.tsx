@@ -15,6 +15,7 @@ import {
 } from '@scrapper-gate/frontend/flow-builder';
 import {
   FormEditableText,
+  ExposeFormState,
   joiValidationResolver,
   mergeValidators,
   setErrorMutator,
@@ -38,7 +39,7 @@ import {
 } from '@scrapper-gate/shared/domain/variables';
 import { logger } from '@scrapper-gate/shared/logger/console';
 import { VariableScope } from '@scrapper-gate/shared/schema';
-import React, { useCallback, useMemo } from 'react';
+import React, { MutableRefObject, useCallback, useMemo, useRef } from 'react';
 import { Form } from 'react-final-form';
 import { Node } from 'react-flow-renderer';
 import { v4 as uuid } from 'uuid';
@@ -107,6 +108,8 @@ export const ScrapperBuilder = ({
   runUrlCreator,
   ...rest
 }: ScrapperBuilderProps) => {
+  const containerRef = useRef<HTMLFormElement>();
+
   const theme = useTheme();
 
   const snackbarOnError = useSnackbarOnError();
@@ -284,7 +287,9 @@ export const ScrapperBuilder = ({
       render={(props) => (
         <FormVariablesProvider>
           <UnsavedFormAlert />
+          <ExposeFormState targetRef={containerRef} />
           <StyledForm
+            ref={containerRef as MutableRefObject<HTMLFormElement>}
             className="scrapper-builder-form"
             onSubmit={props.handleSubmit}
           >

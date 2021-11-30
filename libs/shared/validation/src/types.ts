@@ -14,6 +14,7 @@ export enum JoiMessages {
   Empty = 'string.empty',
   Unique = 'any.unique',
   InvalidConditionalRule = 'InvalidConditionalRule',
+  UnknownObjectKey = 'object.unknown',
 }
 
 export interface SchemaModifierParams<Schema extends AnySchema = AnySchema> {

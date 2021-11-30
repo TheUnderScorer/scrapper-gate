@@ -16,7 +16,11 @@ import { restLink } from './restLink';
 
 const executableSchema = makeExecutableSchema({
   typeDefs,
+  resolverValidationOptions: {
+    requireResolversForResolveType: false,
+  },
 });
+
 export const ApiClientProvider = ({
   children,
   useTokensStore,

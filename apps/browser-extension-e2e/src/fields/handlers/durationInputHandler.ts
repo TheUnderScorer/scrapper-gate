@@ -41,6 +41,8 @@ export const durationInputHandler = (
 
       return Duration.fromUnit(parseFloat(inputValue), unit as DurationUnit);
     },
-    compare: (duration) => Boolean(duration && value.equals(duration)),
+    compare: (duration) => {
+      expect(Boolean(duration && value.equals(duration))).toEqual(true);
+    },
   };
 };

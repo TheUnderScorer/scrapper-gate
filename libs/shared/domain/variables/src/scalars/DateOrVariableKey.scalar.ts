@@ -9,8 +9,6 @@ export const DateOrVariableKeyScalar = new GraphQLScalarType({
   name: 'DateOrVariableKey',
   serialize: DateScalar.serialize,
   parseValue: (value) => {
-    console.log({ value });
-
     if (containsVariableKey(value)) {
       return value;
     }

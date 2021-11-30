@@ -1,11 +1,17 @@
 import { FieldNameCreator } from '@scrapper-gate/frontend/form';
 import { Duration } from '@scrapper-gate/shared/common';
-import { DurationUnit, ScrapperWaitType } from '@scrapper-gate/shared/schema';
+import {
+  DurationUnit,
+  ScrapperWaitType,
+  Variable,
+} from '@scrapper-gate/shared/schema';
 import faker from 'faker';
-import { FieldHandlersMap } from '../../../../utils/fields/fields.types';
-import { durationInputHandler } from '../../../../utils/fields/handlers/durationInputHandler';
-import { selectHandler } from '../../../../utils/fields/handlers/selectHandler';
+import { FieldHandlersMap } from '../../../../fields/fields.types';
+import { conditionalRulesHandler } from '../../../../fields/handlers/conditionalRules/conditionalRulesHandler';
+import { durationInputHandler } from '../../../../fields/handlers/durationInputHandler';
+import { selectHandler } from '../../../../fields/handlers/selectHandler';
 import { CommonStepHandlers } from './commonStepHandlers';
+import { getConditionalRules } from './condition';
 
 const randomDuration = () =>
   Duration.fromUnit(
@@ -19,8 +25,11 @@ const randomDuration = () =>
 
 export const waitSection = async (
   fieldNameCreator: FieldNameCreator,
-  commonFields: CommonStepHandlers
+  commonFields: CommonStepHandlers,
+  variables: Variable[]
 ) => {
+  const variable = faker.random.arrayElement(variables);
+
   const waitType = faker.random.objectElement(ScrapperWaitType);
 
   const cases: FieldHandlersMap = {
@@ -44,7 +53,12 @@ export const waitSection = async (
       handler: durationInputHandler(randomDuration()),
     };
 
-    // TODO Add conditional rules after refactor
+    cases[fieldNameCreator('conditionalRules')] = {
+      handler: conditionalRulesHandler(
+        getConditionalRules(variable),
+        variables
+      ),
+    };
   }
 
   return cases;

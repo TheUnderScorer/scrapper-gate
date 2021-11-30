@@ -577,6 +577,7 @@ export interface ScrapperStepInput {
   waitIntervalCheck?: Maybe<DurationInput>;
   waitIntervalTimeout?: Maybe<DurationInput>;
   jsCode?: Maybe<Scalars['String']>;
+  typeValue?: Maybe<Scalars['String']>;
 }
 
 export enum ScrapperType {

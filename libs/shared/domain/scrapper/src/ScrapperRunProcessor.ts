@@ -199,7 +199,10 @@ export class ScrapperRunProcessor implements Disposable {
         nextStepId = step.nextStep?.id;
       } else {
         if (!isConditionalScrapperStepResult(runResult)) {
-          throw new InvalidType('ConditionalRunScrapperStepResult');
+          throw new InvalidType(
+            JSON.stringify(runResult),
+            'ConditionalRunScrapperStepResult'
+          );
         }
 
         nextStepId = getNextStepIdFromCondition(preparedStep, runResult.result);

@@ -1,4 +1,7 @@
-import { ConditionalRules } from '@scrapper-gate/frontend/domain/conditional-rules';
+import {
+  ConditionalRules,
+  ConditionalRulesContextProvider,
+} from '@scrapper-gate/frontend/domain/conditional-rules';
 import {
   EnumSelect,
   FormDurationInputField,
@@ -33,7 +36,7 @@ export const WaitSections = ({
   });
 
   return (
-    <>
+    <ConditionalRulesContextProvider context={{}}>
       <ScrapperKey fieldNameCreator={fieldNameCreator} />
       <EnumSelect
         enumObj={ScrapperWaitType}
@@ -88,6 +91,6 @@ export const WaitSections = ({
         />
       )}
       <Url fieldNameCreator={fieldNameCreator} nodeIndex={nodeIndex} />
-    </>
+    </ConditionalRulesContextProvider>
   );
 };

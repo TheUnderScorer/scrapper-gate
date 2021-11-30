@@ -4,8 +4,9 @@ import {
   ScrapperNoElementsFoundBehavior,
 } from '@scrapper-gate/shared/schema';
 import faker from 'faker';
-import { blockEditorHandler } from '../../../../utils/fields/handlers/blockEditorHandler';
-import { selectHandler } from '../../../../utils/fields/handlers/selectHandler';
+import { blockEditorHandler } from '../../../../fields/handlers/blockEditorHandler';
+import { selectHandler } from '../../../../fields/handlers/selectHandler';
+
 import { CommonStepHandlers } from './commonStepHandlers';
 
 export const changeRunSettings = (

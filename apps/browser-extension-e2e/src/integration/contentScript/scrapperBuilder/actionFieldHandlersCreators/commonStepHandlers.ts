@@ -2,11 +2,11 @@ import { repeat } from '@scrapper-gate/shared/common';
 import { ScrapperStepInput, VariableType } from '@scrapper-gate/shared/schema';
 import faker from 'faker';
 import { uniq } from 'remeda';
-import { FieldHandlerMapEntry } from '../../../../utils/fields/fields.types';
-import { blockEditorHandler } from '../../../../utils/fields/handlers/blockEditorHandler';
-import { elementPickerHandler } from '../../../../utils/fields/handlers/elementPickerHandler';
-import { selectHandler } from '../../../../utils/fields/handlers/selectHandler';
-import { textFieldHandler } from '../../../../utils/fields/handlers/textFieldHandler';
+import { FieldHandlerMapEntry } from '../../../../fields/fields.types';
+import { blockEditorHandler } from '../../../../fields/handlers/blockEditorHandler';
+import { elementPickerHandler } from '../../../../fields/handlers/elementPickerHandler';
+import { selectHandler } from '../../../../fields/handlers/selectHandler';
+import { textFieldHandler } from '../../../../fields/handlers/textFieldHandler';
 
 const possibleSelectors = ['div', 'a', 'span', 'main', '#root', 'button'];
 
@@ -20,7 +20,7 @@ export async function getCommonStepHandlers(
 ) {
   const keyHandler: Record<string, FieldHandlerMapEntry> = {
     [fieldNameCreator('key')]: {
-      handler: textFieldHandler(input?.key ?? faker.random.word()),
+      handler: textFieldHandler(input?.key ?? faker.lorem.word()),
     },
   };
 

@@ -4,35 +4,39 @@ import {
   MouseButton,
   ScrapperAction,
   ScrapperStepInput,
+  Variable,
 } from '@scrapper-gate/shared/schema';
 import * as faker from 'faker';
 import { ElementHandle, Page } from 'playwright';
 import { map, pipe } from 'remeda';
+import { FieldsHandler } from '../../../fields/FieldsHandler';
+import { blockEditorHandler } from '../../../fields/handlers/blockEditorHandler';
+import { iframeCodeEditorHandler } from '../../../fields/handlers/iframeCodeEditorHandler';
+import { selectHandler } from '../../../fields/handlers/selectHandler';
+import { textFieldHandler } from '../../../fields/handlers/textFieldHandler';
 import { ScrapperBuilderPage } from '../../../pages/ScrapperBuilderPage';
-import { FieldsHandler } from '../../../utils/fields/FieldsHandler';
-import { blockEditorHandler } from '../../../utils/fields/handlers/blockEditorHandler';
-import { selectHandler } from '../../../utils/fields/handlers/selectHandler';
-import { textFieldHandler } from '../../../utils/fields/handlers/textFieldHandler';
 import { changeRunSettings } from './actionFieldHandlersCreators/changeRunSettings';
 import { getCommonStepHandlers } from './actionFieldHandlersCreators/commonStepHandlers';
+import { condition } from './actionFieldHandlersCreators/condition';
 import { screenshot } from './actionFieldHandlersCreators/screenshot';
 import { waitSection } from './actionFieldHandlersCreators/wait';
+import { createScrapperVariables } from './createScrapperVariables';
 
 interface ScrapperFieldHandlerForActionParams {
   action: ScrapperAction;
   node: ElementHandle;
-  scraperPage: ScrapperBuilderPage;
+  scrapperPage: ScrapperBuilderPage;
   input?: Partial<ScrapperStepInput>;
   page: Page;
 }
 
-// TODO Inclue Conditional action after refactor
 const getFieldHandlersMapForAction = async (
   params: ScrapperFieldHandlerForActionParams & {
     fieldNameCreator: FieldNameCreator;
+    variables: Variable[];
   }
 ) => {
-  const { fieldNameCreator, input, action } = params;
+  const { fieldNameCreator, input, action, variables } = params;
 
   const commonFields = await getCommonStepHandlers(fieldNameCreator, input);
   const { keyHandler, url, selectors, valueType } = commonFields;
@@ -61,6 +65,32 @@ const getFieldHandlersMapForAction = async (
         ...valueType,
       };
 
+    case ScrapperAction.RunJavascript:
+      return {
+        ...keyHandler,
+        ...url,
+        [fieldNameCreator('jsCode')]: {
+          handler: iframeCodeEditorHandler(
+            input?.jsCode ?? `const runStep = () => ({values: ['test']})`
+          ),
+        },
+      };
+
+    case ScrapperAction.Type:
+      return {
+        ...keyHandler,
+        ...url,
+        ...selectors,
+        [fieldNameCreator('typeValue')]: {
+          handler: blockEditorHandler(input?.typeValue ?? faker.random.word()),
+        },
+        [fieldNameCreator('typeDelay')]: {
+          handler: textFieldHandler(
+            input?.typeDelay ?? faker.datatype.number(999)
+          ),
+        },
+      };
+
     case ScrapperAction.ChangeRunSettings:
       return changeRunSettings(fieldNameCreator, commonFields);
 
@@ -77,7 +107,7 @@ const getFieldHandlersMapForAction = async (
     }
 
     case ScrapperAction.Wait: {
-      return waitSection(fieldNameCreator, commonFields);
+      return waitSection(fieldNameCreator, commonFields, variables);
     }
 
     case ScrapperAction.ReadAttribute:
@@ -100,20 +130,27 @@ const getFieldHandlersMapForAction = async (
     case ScrapperAction.Screenshot: {
       return screenshot(fieldNameCreator, commonFields);
     }
+
+    case ScrapperAction.Condition: {
+      return condition(fieldNameCreator, commonFields, variables);
+    }
   }
 };
 
 export const getScrapperFieldHandlerForAction = async (
   params: ScrapperFieldHandlerForActionParams
 ) => {
-  const { action, node, scraperPage, page } = params;
+  const { action, node, scrapperPage, page } = params;
 
-  const nodeIndex = await scraperPage.getNodeIndex(node);
+  const nodeIndex = await scrapperPage.getNodeIndex(node);
   const fieldNameCreator = makeGetFieldName(nodeIndex);
+
+  const variables = await createScrapperVariables(scrapperPage);
 
   const fieldsMap = await getFieldHandlersMapForAction({
     ...params,
     fieldNameCreator,
+    variables,
   });
 
   if (!fieldsMap) {

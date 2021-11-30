@@ -13,11 +13,13 @@ export interface HtmlRulePickerProps {
   variant?: TextFieldProps['variant'];
 }
 
+const htmlRuleLabel = 'HTML Element';
+
 export const htmlRule = {
   withoutPicker: (
     htmlElementProps?: Omit<HtmlElementPickerProps, 'name'>
   ): FrontendConditionalRuleDefinition<ConditionalRuleType.HtmlElement> => ({
-    label: 'HTML Element',
+    label: htmlRuleLabel,
     icon: <Code />,
     Component: (props) => <HtmlElementRule {...props} {...htmlElementProps} />,
     FooterComponent: (props) => (
@@ -28,7 +30,7 @@ export const htmlRule = {
   withPicker: (
     pickerFactory: (props: HtmlRulePickerProps) => ReactNode
   ): FrontendConditionalRuleDefinition<ConditionalRuleType.HtmlElement> => ({
-    label: 'HTML Element',
+    label: htmlRuleLabel,
     icon: <Code />,
     definition: conditionalRuleDefinitions[ConditionalRuleType.HtmlElement],
     FooterComponent: (props) => (

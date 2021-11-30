@@ -72,6 +72,9 @@ export const VariablesTable = ({ name, scope }: VariablesTableProps) => {
       className="add-variable"
       onClick={addVariable}
       color="primary"
+      sx={{
+        boxShadow: 'none',
+      }}
     >
       <Stack direction="row" spacing={1}>
         <Add />

@@ -5,7 +5,9 @@ export const textFieldHandler = (
 ): FieldHandler<HTMLElement, string | number> => ({
   providedValue: value,
   fill: async (field) => {
-    await field.fill(value.toString());
+    if (value) {
+      await field.fill(value.toString());
+    }
   },
   getInputValue: async (field) => {
     return field.inputValue();

@@ -16,6 +16,7 @@ export const GenericMenuItem = forwardRef<HTMLLIElement, MenuItemProperties>(
     if (type === 'subHeader') {
       return (
         <ListSubheader
+          id={id}
           sx={{
             lineHeight: 'inherit',
             marginBottom: (theme) => theme.spacing(1),
@@ -30,6 +31,7 @@ export const GenericMenuItem = forwardRef<HTMLLIElement, MenuItemProperties>(
     if (type === 'divider') {
       return (
         <ListItem
+          id={id}
           color={color}
           disableGutters
           sx={{
@@ -43,7 +45,7 @@ export const GenericMenuItem = forwardRef<HTMLLIElement, MenuItemProperties>(
 
     if (type === 'input') {
       return (
-        <ListItem disabled={disabled} color={color} sx={sx}>
+        <ListItem id={id} disabled={disabled} color={color} sx={sx}>
           {content}
         </ListItem>
       );

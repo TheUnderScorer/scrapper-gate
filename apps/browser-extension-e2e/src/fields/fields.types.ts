@@ -23,7 +23,7 @@ export interface FieldHandler<T, V = any> {
    *
    * @see getInputValue
    * */
-  compare?: (inputValue?: V) => boolean;
+  compare?: (inputValue?: V) => void;
 }
 
 export interface FieldHandlerMapEntry {

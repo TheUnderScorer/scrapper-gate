@@ -10,6 +10,7 @@ import React, { ReactNode, useEffect } from 'react';
 import { useForm } from 'react-final-form';
 import { useSupportsValue } from '../../hooks/useSupportsValue';
 import { ConditionalRuleProps } from '../../types';
+import { getHtmlRuleValueName } from '../../utils/htmlRule';
 import { ConditionSelect } from '../ConditionSelect/ConditionSelect';
 
 export interface HtmlElementRuleProps
@@ -29,8 +30,7 @@ export const HtmlElementRule = ({
 
   const { change, getFieldState } = useForm();
 
-  const valueName =
-    type === HtmlConditionalRuleType.Tag ? 'tagName' : 'attribute.value';
+  const valueName = getHtmlRuleValueName(type);
 
   // Provides some initial value to "attribute.attribute" field, otherwise validation is never triggered
   useEffect(() => {

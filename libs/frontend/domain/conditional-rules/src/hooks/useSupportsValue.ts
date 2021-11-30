@@ -2,7 +2,10 @@ import {
   FieldNameCreator,
   useFormFieldValue,
 } from '@scrapper-gate/frontend/form';
-import { ConditionalRuleDefinition } from '@scrapper-gate/shared/domain/conditional-rules';
+import {
+  ConditionalRuleDefinition,
+  ruleSupportsValue,
+} from '@scrapper-gate/shared/domain/conditional-rules';
 import {
   ConditionalRuleCondition,
   ConditionalRuleType,
@@ -18,10 +21,7 @@ export const useSupportsValue = <Type extends ConditionalRuleType>(
   );
 
   return useMemo(
-    () =>
-      condition &&
-      (!definition.valueSupportedConditions ||
-        definition.valueSupportedConditions.includes(condition)),
-    [definition.valueSupportedConditions, condition]
+    () => condition && ruleSupportsValue(definition, condition),
+    [condition, definition]
   );
 };

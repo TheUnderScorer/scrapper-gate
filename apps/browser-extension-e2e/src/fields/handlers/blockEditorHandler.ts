@@ -1,3 +1,4 @@
+import { clearFocusedFieldWithKeyboard } from '../../utils/clearFocusedFieldWithKeyboard';
 import { FieldHandler } from '../fields.types';
 
 export const blockEditorHandler = (
@@ -6,11 +7,9 @@ export const blockEditorHandler = (
   providedValue: value,
   fill: async (field, page) => {
     await field.focus();
+    await clearFocusedFieldWithKeyboard(page);
 
-    await page.keyboard.press('Control+A');
-    await page.keyboard.press('Backspace');
-
-    await field.fill(value);
+    await field.fill(value.toString());
   },
   getInputValue: async (field) => {
     const value = await field.textContent();

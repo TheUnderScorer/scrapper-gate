@@ -21,6 +21,7 @@ export interface ConditionalRulesRuleProps {
   name: string;
   onEdit?: (rowId: string) => void;
   hasError?: boolean;
+  index: number;
 }
 
 const BaseConditionalRulesRule = ({
@@ -30,6 +31,7 @@ const BaseConditionalRulesRule = ({
   fieldVariant,
   name,
   hasError,
+  index,
 }: ConditionalRulesRuleProps) => {
   const theme = useTheme();
 
@@ -42,6 +44,9 @@ const BaseConditionalRulesRule = ({
 
   return (
     <Paper
+      data-index={index}
+      data-name={name}
+      data-rule-type={definition?.definition.type}
       sx={{
         width: '100%',
         padding: (theme) => theme.spacing(2),
