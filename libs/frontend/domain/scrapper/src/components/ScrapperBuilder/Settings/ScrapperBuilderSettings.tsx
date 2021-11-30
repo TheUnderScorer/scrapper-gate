@@ -11,7 +11,7 @@ export const ScrapperBuilderSettings = () => {
         padding: (theme) => theme.spacing(2),
       }}
     >
-      <Card>
+      <Card variant="outlined">
         <CardHeader title="Run settings" />
         <CardContent>
           <ScrapperRunSettingsForm

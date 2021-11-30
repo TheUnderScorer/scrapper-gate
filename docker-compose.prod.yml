@@ -10,7 +10,6 @@ services:
       args:
         NX_API_URL: http://api:3000
         NX_SECURITY_URL: http://security:50050
-        VERSION: ${VERSION:-latest}
     environment:
       SERVER_URL: http://api:3000
       NX_API_URL: http://api:3000
@@ -64,8 +63,6 @@ services:
     build:
       context: .
       dockerfile: apps/api/docker/Dockerfile
-      args:
-        VERSION: ${VERSION:-latest}
     ports:
       - "3000:3000"
 
