@@ -134,7 +134,7 @@ jobs:
           cache: 'npm'
 
       - name: Start docker
-        run: docker-compose up -d
+        run: docker compose up -d
 
       - name: Setup env
         run: cp .local.env.dist .local.env
@@ -172,7 +172,7 @@ jobs:
       - uses: leonardodino/setup-playwright@main
 
       - name: Start docker
-        run: sudo docker-compose up -d
+        run: sudo docker compose up -d
 
       - name: Install dependencies
         run: npm ci --legacy-peer-deps && npm i ts-node -g && npm ci --prefix deploy && curl -fsSL https://get.pulumi.com | sh
@@ -222,7 +222,7 @@ jobs:
           cache: 'npm'
 
       - name: Start docker
-        run: docker-compose up -d
+        run: docker compose up -d
 
       - name: Setup env
         run: cp .local.env.dist .local.env
@@ -335,7 +335,7 @@ jobs:
           VERSION: ${{env.BASE_IMAGE_TAG}}
 
       - name: Write API logs
-        run: docker-compose -f docker-compose.prod.yml logs api > api-logs.log
+        run: docker compose -f docker compose.prod.yml logs api > api-logs.log
         if: ${{ failure() }}
 
       - uses: actions/upload-artifact@v2
