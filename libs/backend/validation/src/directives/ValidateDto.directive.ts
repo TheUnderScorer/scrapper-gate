@@ -20,7 +20,9 @@ export class ValidateDtoDirective extends SchemaDirectiveVisitor {
     const Schema = (validation as Record<string, unknown>)[schema];
 
     if (!isSchema(Schema)) {
-      throw new TypeError(`Provided DTO ${schema} does not extend BaseSchema.`);
+      throw new TypeError(
+        `Provided schema ${schema} is not a valid validation schema.`
+      );
     }
 
     field.resolve = async (source, args, context, info) => {
