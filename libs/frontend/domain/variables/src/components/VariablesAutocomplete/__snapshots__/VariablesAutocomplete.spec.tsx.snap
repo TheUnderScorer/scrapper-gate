@@ -13,7 +13,7 @@ Object {
         class="MuiBox-root css-8atqhb"
       >
         <div
-          class="MuiFormControl-root MuiTextField-root block-editor-text-field css-136h9lv-MuiFormControl-root-MuiTextField-root"
+          class="MuiFormControl-root MuiTextField-root block-editor-text-field css-9e6gxp-MuiFormControl-root-MuiTextField-root"
         >
           <div
             class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl css-11zt3ho-MuiInputBase-root-MuiOutlinedInput-root"
@@ -64,7 +64,7 @@ Object {
               class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
             >
               <legend
-                class="css-1a1ihhj"
+                class="css-nnbavb"
               >
                 <span
                   class="notranslate"
@@ -152,7 +152,7 @@ Object {
       class="MuiBox-root css-8atqhb"
     >
       <div
-        class="MuiFormControl-root MuiTextField-root block-editor-text-field css-136h9lv-MuiFormControl-root-MuiTextField-root"
+        class="MuiFormControl-root MuiTextField-root block-editor-text-field css-9e6gxp-MuiFormControl-root-MuiTextField-root"
       >
         <div
           class="MuiOutlinedInput-root MuiInputBase-root MuiInputBase-colorPrimary MuiInputBase-formControl css-11zt3ho-MuiInputBase-root-MuiOutlinedInput-root"
@@ -203,7 +203,7 @@ Object {
             class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
           >
             <legend
-              class="css-1a1ihhj"
+              class="css-nnbavb"
             >
               <span
                 class="notranslate"

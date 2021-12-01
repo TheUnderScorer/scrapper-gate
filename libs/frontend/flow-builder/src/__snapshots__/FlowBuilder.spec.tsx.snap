@@ -48,14 +48,12 @@ Object {
                     />
                   </button>
                   <div
-                    class="MuiButtonGroup-root MuiButtonGroup-outlined css-1up00uy-MuiButtonGroup-root"
+                    class="MuiButtonGroup-root MuiButtonGroup-outlined css-iajp3t-MuiButtonGroup-root"
                     role="group"
                   >
                     <span
-                      class="MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedOutlined MuiButtonGroup-groupedOutlinedHorizontal MuiButtonGroup-groupedOutlinedPrimary"
-                      color="primary"
+                      class=""
                       data-mui-internal-clone-element="true"
-                      variant="outlined"
                     >
                       <button
                         class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge undo-btn css-1nvo327-MuiButtonBase-root-MuiIconButton-root"
@@ -77,10 +75,8 @@ Object {
                       </button>
                     </span>
                     <span
-                      class="MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedOutlined MuiButtonGroup-groupedOutlinedHorizontal MuiButtonGroup-groupedOutlinedPrimary"
-                      color="primary"
+                      class=""
                       data-mui-internal-clone-element="true"
-                      variant="outlined"
                     >
                       <button
                         class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge redo-btn css-1nvo327-MuiButtonBase-root-MuiIconButton-root"
@@ -107,11 +103,11 @@ Object {
                   />
                   <span
                     aria-label=""
-                    class="css-y0eob7"
+                    class=""
                     data-mui-internal-clone-element="true"
                   >
                     <span
-                      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge FormStateIcon-icon success FlowBuilderHeader-iconButton css-1nvo327-MuiButtonBase-root-MuiIconButton-root"
+                      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge success FlowBuilderHeader-iconButton form-state-icon css-69ab03-MuiButtonBase-root-MuiIconButton-root"
                       role="button"
                       tabindex="0"
                     >
@@ -158,7 +154,8 @@ Object {
                 >
                   <button
                     aria-selected="true"
-                    class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary Mui-selected css-160wo69-MuiButtonBase-root-MuiTab-root"
+                    class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary Mui-selected flow-builder-tab css-160wo69-MuiButtonBase-root-MuiTab-root"
+                    data-value="main"
                     role="tab"
                     tabindex="0"
                     type="button"
@@ -260,7 +257,7 @@ Object {
                           class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
                         >
                           <legend
-                            class="css-1a1ihhj"
+                            class="css-nnbavb"
                           >
                             <span
                               class="notranslate"
@@ -272,7 +269,7 @@ Object {
                       </div>
                     </div>
                     <ul
-                      class="MuiList-root MuiList-padding css-n1y23x-MuiList-root"
+                      class="MuiList-root MuiList-padding flow-builder-selection-list css-n1y23x-MuiList-root"
                     >
                       <li
                         class="MuiListItem-root MuiListItem-gutters MuiListItem-padding FlowBuilderSidebarItem-tile item-Action css-1v9fd58-MuiListItem-root"
@@ -410,7 +407,7 @@ Object {
                 </div>
               </div>
               <div
-                class="flow-builder-canvas MuiBox-root css-pqu56z"
+                class="flow-builder-canvas MuiBox-root css-srr71u"
               >
                 <div
                   class="react-flow"
@@ -429,6 +426,8 @@ Object {
                       >
                         <div
                           class="flow-builder-node flow-builder-node-Action css-37h7p1"
+                          data-id="1"
+                          data-index="0"
                           id="node-1"
                         >
                           <div
@@ -509,6 +508,8 @@ Object {
                       >
                         <div
                           class="flow-builder-node flow-builder-node-Action css-37h7p1"
+                          data-id="2"
+                          data-index="1"
                           id="node-2"
                         >
                           <div
@@ -609,6 +610,8 @@ Object {
                       >
                         <div
                           class="flow-builder-node flow-builder-node-Action css-37h7p1"
+                          data-id="3"
+                          data-index="2"
                           id="node-3"
                         >
                           <div
@@ -777,7 +780,7 @@ Object {
                           class="MuiBox-root css-n085mf"
                         >
                           <button
-                            class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButtonBase-root Mui-focusVisible css-1f1sisq-MuiButtonBase-root-MuiButton-root"
+                            class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButtonBase-root Mui-focusVisible close-node css-1f1sisq-MuiButtonBase-root-MuiButton-root"
                             tabindex="0"
                             type="button"
                           >
@@ -813,204 +816,6 @@ Object {
           </div>
         </div>
       </form>
-    </div>
-    <div
-      aria-hidden="true"
-      class="MuiModal-root MuiModal-hidden MuiPopover-root MuiMenu-root css-1ykk5yh-MuiModal-root-MuiPopover-root-MuiMenu-root"
-      role="presentation"
-      style="pointer-events: all;"
-    >
-      <div
-        aria-hidden="true"
-        class="MuiBackdrop-root MuiBackdrop-invisible css-g3hgs1-MuiBackdrop-root-MuiModal-backdrop"
-        style="opacity: 0; visibility: hidden;"
-      />
-      <div
-        data-test="sentinelStart"
-        tabindex="0"
-      />
-      <div
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiMenu-paper MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiPopover-paper css-1poimk-MuiPaper-root-MuiMenu-paper-MuiPaper-root-MuiPopover-paper"
-        style="opacity: 0; transform: scale(0.75, 0.5625); visibility: hidden;"
-        tabindex="-1"
-      >
-        <ul
-          class="MuiList-root MuiList-padding MuiMenu-list css-6hp17o-MuiList-root-MuiMenu-list"
-          role="menu"
-          tabindex="-1"
-        >
-          <li
-            class="MuiMenuItem-root MuiMenuItem-gutters MuiButtonBase-root FlowBuilderNode-deleteStep css-1krmi1q-MuiButtonBase-root-MuiMenuItem-root"
-            id="delete-step-1"
-            role="menuitem"
-            tabindex="-1"
-          >
-            <div
-              class="MuiListItemIcon-root css-cveggr-MuiListItemIcon-root"
-            >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-egrpcv-MuiSvgIcon-root"
-                data-testid="DeleteSharpIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M6 21h12V7H6v14zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
-                />
-              </svg>
-            </div>
-            <div
-              class="MuiListItemText-root css-tlelie-MuiListItemText-root"
-            >
-              <span
-                class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-18fn6n9-MuiTypography-root"
-              >
-                Delete step
-              </span>
-            </div>
-            <span
-              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-            />
-          </li>
-        </ul>
-      </div>
-      <div
-        data-test="sentinelEnd"
-        tabindex="0"
-      />
-    </div>
-    <div
-      aria-hidden="true"
-      class="MuiModal-root MuiModal-hidden MuiPopover-root MuiMenu-root css-1ykk5yh-MuiModal-root-MuiPopover-root-MuiMenu-root"
-      role="presentation"
-      style="pointer-events: all;"
-    >
-      <div
-        aria-hidden="true"
-        class="MuiBackdrop-root MuiBackdrop-invisible css-g3hgs1-MuiBackdrop-root-MuiModal-backdrop"
-        style="opacity: 0; visibility: hidden;"
-      />
-      <div
-        data-test="sentinelStart"
-        tabindex="0"
-      />
-      <div
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiMenu-paper MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiPopover-paper css-1poimk-MuiPaper-root-MuiMenu-paper-MuiPaper-root-MuiPopover-paper"
-        style="opacity: 0; transform: scale(0.75, 0.5625); visibility: hidden;"
-        tabindex="-1"
-      >
-        <ul
-          class="MuiList-root MuiList-padding MuiMenu-list css-6hp17o-MuiList-root-MuiMenu-list"
-          role="menu"
-          tabindex="-1"
-        >
-          <li
-            class="MuiMenuItem-root MuiMenuItem-gutters MuiButtonBase-root FlowBuilderNode-deleteStep css-1krmi1q-MuiButtonBase-root-MuiMenuItem-root"
-            id="delete-step-2"
-            role="menuitem"
-            tabindex="-1"
-          >
-            <div
-              class="MuiListItemIcon-root css-cveggr-MuiListItemIcon-root"
-            >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-egrpcv-MuiSvgIcon-root"
-                data-testid="DeleteSharpIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M6 21h12V7H6v14zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
-                />
-              </svg>
-            </div>
-            <div
-              class="MuiListItemText-root css-tlelie-MuiListItemText-root"
-            >
-              <span
-                class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-18fn6n9-MuiTypography-root"
-              >
-                Delete step
-              </span>
-            </div>
-            <span
-              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-            />
-          </li>
-        </ul>
-      </div>
-      <div
-        data-test="sentinelEnd"
-        tabindex="0"
-      />
-    </div>
-    <div
-      aria-hidden="true"
-      class="MuiModal-root MuiModal-hidden MuiPopover-root MuiMenu-root css-1ykk5yh-MuiModal-root-MuiPopover-root-MuiMenu-root"
-      role="presentation"
-      style="pointer-events: all;"
-    >
-      <div
-        aria-hidden="true"
-        class="MuiBackdrop-root MuiBackdrop-invisible css-g3hgs1-MuiBackdrop-root-MuiModal-backdrop"
-        style="opacity: 0; visibility: hidden;"
-      />
-      <div
-        data-test="sentinelStart"
-        tabindex="0"
-      />
-      <div
-        class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiMenu-paper MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation8 MuiPopover-paper css-1poimk-MuiPaper-root-MuiMenu-paper-MuiPaper-root-MuiPopover-paper"
-        style="opacity: 0; transform: scale(0.75, 0.5625); visibility: hidden;"
-        tabindex="-1"
-      >
-        <ul
-          class="MuiList-root MuiList-padding MuiMenu-list css-6hp17o-MuiList-root-MuiMenu-list"
-          role="menu"
-          tabindex="-1"
-        >
-          <li
-            class="MuiMenuItem-root MuiMenuItem-gutters MuiButtonBase-root FlowBuilderNode-deleteStep css-1krmi1q-MuiButtonBase-root-MuiMenuItem-root"
-            id="delete-step-3"
-            role="menuitem"
-            tabindex="-1"
-          >
-            <div
-              class="MuiListItemIcon-root css-cveggr-MuiListItemIcon-root"
-            >
-              <svg
-                aria-hidden="true"
-                class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-egrpcv-MuiSvgIcon-root"
-                data-testid="DeleteSharpIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M6 21h12V7H6v14zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"
-                />
-              </svg>
-            </div>
-            <div
-              class="MuiListItemText-root css-tlelie-MuiListItemText-root"
-            >
-              <span
-                class="MuiTypography-root MuiTypography-body1 MuiListItemText-primary css-18fn6n9-MuiTypography-root"
-              >
-                Delete step
-              </span>
-            </div>
-            <span
-              class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-            />
-          </li>
-        </ul>
-      </div>
-      <div
-        data-test="sentinelEnd"
-        tabindex="0"
-      />
     </div>
   </body>,
   "container": <div>
@@ -1057,14 +862,12 @@ Object {
                   />
                 </button>
                 <div
-                  class="MuiButtonGroup-root MuiButtonGroup-outlined css-1up00uy-MuiButtonGroup-root"
+                  class="MuiButtonGroup-root MuiButtonGroup-outlined css-iajp3t-MuiButtonGroup-root"
                   role="group"
                 >
                   <span
-                    class="MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedOutlined MuiButtonGroup-groupedOutlinedHorizontal MuiButtonGroup-groupedOutlinedPrimary"
-                    color="primary"
+                    class=""
                     data-mui-internal-clone-element="true"
-                    variant="outlined"
                   >
                     <button
                       class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge undo-btn css-1nvo327-MuiButtonBase-root-MuiIconButton-root"
@@ -1086,10 +889,8 @@ Object {
                     </button>
                   </span>
                   <span
-                    class="MuiButtonGroup-grouped MuiButtonGroup-groupedHorizontal MuiButtonGroup-groupedOutlined MuiButtonGroup-groupedOutlinedHorizontal MuiButtonGroup-groupedOutlinedPrimary"
-                    color="primary"
+                    class=""
                     data-mui-internal-clone-element="true"
-                    variant="outlined"
                   >
                     <button
                       class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-sizeLarge redo-btn css-1nvo327-MuiButtonBase-root-MuiIconButton-root"
@@ -1116,11 +917,11 @@ Object {
                 />
                 <span
                   aria-label=""
-                  class="css-y0eob7"
+                  class=""
                   data-mui-internal-clone-element="true"
                 >
                   <span
-                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge FormStateIcon-icon success FlowBuilderHeader-iconButton css-1nvo327-MuiButtonBase-root-MuiIconButton-root"
+                    class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeLarge success FlowBuilderHeader-iconButton form-state-icon css-69ab03-MuiButtonBase-root-MuiIconButton-root"
                     role="button"
                     tabindex="0"
                   >
@@ -1167,7 +968,8 @@ Object {
               >
                 <button
                   aria-selected="true"
-                  class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary Mui-selected css-160wo69-MuiButtonBase-root-MuiTab-root"
+                  class="MuiButtonBase-root MuiTab-root MuiTab-textColorPrimary Mui-selected flow-builder-tab css-160wo69-MuiButtonBase-root-MuiTab-root"
+                  data-value="main"
                   role="tab"
                   tabindex="0"
                   type="button"
@@ -1269,7 +1071,7 @@ Object {
                         class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
                       >
                         <legend
-                          class="css-1a1ihhj"
+                          class="css-nnbavb"
                         >
                           <span
                             class="notranslate"
@@ -1281,7 +1083,7 @@ Object {
                     </div>
                   </div>
                   <ul
-                    class="MuiList-root MuiList-padding css-n1y23x-MuiList-root"
+                    class="MuiList-root MuiList-padding flow-builder-selection-list css-n1y23x-MuiList-root"
                   >
                     <li
                       class="MuiListItem-root MuiListItem-gutters MuiListItem-padding FlowBuilderSidebarItem-tile item-Action css-1v9fd58-MuiListItem-root"
@@ -1419,7 +1221,7 @@ Object {
               </div>
             </div>
             <div
-              class="flow-builder-canvas MuiBox-root css-pqu56z"
+              class="flow-builder-canvas MuiBox-root css-srr71u"
             >
               <div
                 class="react-flow"
@@ -1438,6 +1240,8 @@ Object {
                     >
                       <div
                         class="flow-builder-node flow-builder-node-Action css-37h7p1"
+                        data-id="1"
+                        data-index="0"
                         id="node-1"
                       >
                         <div
@@ -1518,6 +1322,8 @@ Object {
                     >
                       <div
                         class="flow-builder-node flow-builder-node-Action css-37h7p1"
+                        data-id="2"
+                        data-index="1"
                         id="node-2"
                       >
                         <div
@@ -1618,6 +1424,8 @@ Object {
                     >
                       <div
                         class="flow-builder-node flow-builder-node-Action css-37h7p1"
+                        data-id="3"
+                        data-index="2"
                         id="node-3"
                       >
                         <div
@@ -1786,7 +1594,7 @@ Object {
                         class="MuiBox-root css-n085mf"
                       >
                         <button
-                          class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButtonBase-root Mui-focusVisible css-1f1sisq-MuiButtonBase-root-MuiButton-root"
+                          class="MuiButton-root MuiButton-outlined MuiButton-outlinedPrimary MuiButton-sizeMedium MuiButton-outlinedSizeMedium MuiButton-disableElevation MuiButtonBase-root Mui-focusVisible close-node css-1f1sisq-MuiButtonBase-root-MuiButton-root"
                           tabindex="0"
                           type="button"
                         >
