@@ -197,7 +197,7 @@ jobs:
         run: |
           PROJECTS=$(TS_NODE_PROJECT=tsconfig.node.json ts-node tools/scripts/gatherProjects.ts --filter="backend-*")
           echo "$PROJECTS"
-          npx nx run-many --target=test --projects=$PROJECTS --parallel --maxParallel=2
+          npx nx run-many --target=test --projects=$PROJECTS --parallel --maxParallel=2 --runInBand
 
       - uses: actions/upload-artifact@v2
         if: ${{ failure() }}
@@ -279,7 +279,7 @@ jobs:
         run: cp .local.env.dist .local.env
 
       - name: Test
-        run: npx nx run-many --target=test --projects=api,browser-extension --parallel --maxParallel=2
+        run: npx nx run-many --target=test --projects=api,browser-extension --parallel --maxParallel=2 --runInBand
 
   test-e2e:
     needs:
