@@ -58,6 +58,9 @@ describe('<ConditionalRules />', () => {
 
     act(() => {
       userEvent.click(cmp.getByText('Add rule'));
+    });
+
+    act(() => {
       userEvent.click(cmp.getByText('Date'));
     });
 
@@ -91,6 +94,9 @@ describe('<ConditionalRules />', () => {
 
     act(() => {
       userEvent.click(cmp.getByText('Add rule'));
+    });
+
+    act(() => {
       userEvent.click(cmp.getByText('Date'));
     });
 
