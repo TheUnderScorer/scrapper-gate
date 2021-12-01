@@ -187,6 +187,9 @@ jobs:
           stack-name: development
           work-dir: deploy
           cloud-url: local
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+          PULUMI_CONFIG_PASSPHRASE: test
 
       - name: Setup env
         run: cp .local.env.dist .local.env
@@ -270,6 +273,9 @@ jobs:
           stack-name: development
           work-dir: deploy
           cloud-url: local
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+          PULUMI_CONFIG_PASSPHRASE: test
 
       - name: Setup env
         run: cp .local.env.dist .local.env
@@ -311,6 +317,7 @@ jobs:
           cloud-url: local
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+          PULUMI_CONFIG_PASSPHRASE: test
 
       - name: "setup buildx"
         uses: docker/setup-buildx-action@v1
