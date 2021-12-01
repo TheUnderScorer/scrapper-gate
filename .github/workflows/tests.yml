@@ -187,6 +187,7 @@ jobs:
           stack-name: development-backend-tests
           work-dir: deploy
           cloud-url: local
+          upsert: true
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
           PULUMI_CONFIG_PASSPHRASE: test
@@ -273,6 +274,7 @@ jobs:
           stack-name: development-apps
           work-dir: deploy
           cloud-url: local
+          upsert: true
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
           PULUMI_CONFIG_PASSPHRASE: test
@@ -315,6 +317,7 @@ jobs:
           stack-name: development-e2e
           work-dir: deploy
           cloud-url: local
+          upsert: true
         env:
           PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
           PULUMI_CONFIG_PASSPHRASE: test
