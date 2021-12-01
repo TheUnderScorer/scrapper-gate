@@ -180,6 +180,9 @@ jobs:
       - name: Wait for localstack
         run: sudo AWS_S3_ENDPOINT=http://localhost:4566 node docker/localstack/waitForLocalStack.mjs
 
+      - name: Copy pulumi config
+        run: cp deploy/Pulumi.development.yaml deploy/Pulumi.development-backend-tests.yaml
+
       - uses: pulumi/actions@v3
         name: Start pulumi
         with:
@@ -269,6 +272,9 @@ jobs:
       - name: Wait for localstack
         run: sudo AWS_S3_ENDPOINT=http://localhost:4566 node docker/localstack/waitForLocalStack.mjs
 
+      - name: Copy pulumi config
+        run: cp deploy/Pulumi.development.yaml deploy/Pulumi.development-apps.yaml
+
       - uses: pulumi/actions@v3
         name: Start pulumi
         with:
@@ -313,6 +319,9 @@ jobs:
 
       - name: Wait for localstack
         run: sudo AWS_S3_ENDPOINT=http://localhost:4566 node docker/localstack/waitForLocalStack.mjs
+
+      - name: Copy pulumi config
+        run: cp deploy/Pulumi.development.yaml deploy/Pulumi.development-e2e.yaml
 
       - uses: pulumi/actions@v3
         name: Start pulumi
