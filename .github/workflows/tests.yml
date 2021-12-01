@@ -369,7 +369,7 @@ jobs:
         run: npx nx run browser-extension-e2e:e2e-docker
 
       - name: Write API logs
-        run: docker compose -f docker compose.prod.yml logs api > api-logs.log
+        run: docker compose -f docker-compose.prod.yml logs api > api-logs.log
         if: ${{ failure() }}
 
       - uses: actions/upload-artifact@v2
