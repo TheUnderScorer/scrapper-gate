@@ -17,4 +17,4 @@ COPY --from=builder /app/dist/apps/api ./
 
 RUN npm install --production
 
-CMD ["node", "apps/api/src/main.js"]
+CMD ["node", "main.js"]

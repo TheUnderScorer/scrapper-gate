@@ -237,7 +237,7 @@
     "mockzilla": "^0.12.0",
     "mockzilla-webextension": "^0.13.0",
     "monaco-editor-webpack-plugin": "^6.0.0",
-    "ora": "^6.0.1",
+    "ora": "5.4.1",
     "prettier": "2.3.2",
     "serverless": "2.58.0",
     "serverless-offline": "^7.0.0",

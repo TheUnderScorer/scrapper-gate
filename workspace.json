@@ -7,20 +7,12 @@
       "projectType": "application",
       "targets": {
         "build": {
-          "executor": "./tools/executors/ttsc:build",
+          "executor": "@nrwl/node:build",
           "options": {
-            "targetDirectory": "apps/api",
-            "appName": "scrapper-gate-api",
-            "tsConfigPath": "apps/api/tsconfig.app.json",
-            "depCheckIgnorePatterns": [
-              "libs/frontend/*",
-              "jest.*",
-              "package.*",
-              ".eslint*",
-              "serverless*",
-              "tests*",
-              "webpack*"
-            ]
+            "main": "apps/api/src/main.ts",
+            "outputPath": "dist/apps/api",
+            "tsConfig": "apps/api/tsconfig.app.json",
+            "generatePackageJson": true
           }
         },
         "build-docker": {
