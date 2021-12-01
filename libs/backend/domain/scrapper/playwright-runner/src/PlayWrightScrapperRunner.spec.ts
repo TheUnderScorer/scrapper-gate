@@ -20,6 +20,7 @@ import {
   ConditionalRuleGroupMatchType,
   ConditionalRuleType,
   FileType,
+  HtmlConditionalRuleType,
   MouseButton,
   RunState,
   ScrapperAction,
@@ -604,6 +605,7 @@ describe('PlayWright scrapper runner', () => {
                 matchType: ConditionalRuleGroupMatchType.All,
                 rules: [
                   {
+                    type: HtmlConditionalRuleType.Element,
                     ruleType: ConditionalRuleType.HtmlElement,
                     condition: ConditionalRuleCondition.Exists,
                     selectors: [

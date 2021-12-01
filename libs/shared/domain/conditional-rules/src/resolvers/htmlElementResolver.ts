@@ -68,16 +68,13 @@ const make =
         });
       }
 
-      case HtmlConditionalRuleType.Element:
+      default:
         return arrayValueResolver({
           condition: rule.condition,
           values: elements.map((el) => el.textContent),
           matchType: rule.matchType,
           expectedValue: rule.expectedTextContent,
         });
-
-      default:
-        return false;
     }
   };
 
