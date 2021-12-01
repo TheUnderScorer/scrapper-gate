@@ -296,10 +296,15 @@ jobs:
       - name: Wait for localstack
         run: sudo AWS_S3_ENDPOINT=http://localhost:4566 node docker/localstack/waitForLocalStack.mjs
 
-      - name: Start pulumi
-        run: cd deploy && pulumi login --local && pulumi stack init development && pulumi stack select development && pulumi up -y
+      - uses: pulumi/actions@v3
+        name: Start pulumi
+        with:
+          command: up
+          stack-name: development
+          work-dir: deploy
+          cloud-url: local
         env:
-          PULUMI_CONFIG_PASSPHRASE: test
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
 
       - name: "setup buildx"
         uses: docker/setup-buildx-action@v1
