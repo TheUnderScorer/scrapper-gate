@@ -281,11 +281,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: "load base image"
-        run: |
-          docker load --input /tmp/docker.tar
-          docker image ls -a
-
       - name: Set Node.js 16.x
         uses: actions/setup-node@v2
         with:
@@ -322,6 +317,11 @@ jobs:
         with:
           name: docker
           path: /tmp
+
+      - name: "load base image"
+        run: |
+          docker load --input /tmp/docker.tar
+          docker image ls -a
 
       - name: Setup env
         run: cp .local.env.dist .local.env
