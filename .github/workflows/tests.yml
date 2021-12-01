@@ -184,7 +184,7 @@ jobs:
         name: Start pulumi
         with:
           command: up
-          stack-name: development
+          stack-name: development-backend-tests
           work-dir: deploy
           cloud-url: local
         env:
@@ -270,7 +270,7 @@ jobs:
         name: Start pulumi
         with:
           command: up
-          stack-name: development
+          stack-name: development-apps
           work-dir: deploy
           cloud-url: local
         env:
@@ -312,7 +312,7 @@ jobs:
         name: Start pulumi
         with:
           command: up
-          stack-name: development
+          stack-name: development-e2e
           work-dir: deploy
           cloud-url: local
         env:
