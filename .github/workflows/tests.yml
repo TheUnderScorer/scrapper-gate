@@ -188,7 +188,6 @@ jobs:
           work-dir: deploy
           cloud-url: local
         env:
-          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
           PULUMI_CONFIG_PASSPHRASE: test
 
       - name: Setup env
@@ -274,7 +273,6 @@ jobs:
           work-dir: deploy
           cloud-url: local
         env:
-          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
           PULUMI_CONFIG_PASSPHRASE: test
 
       - name: Setup env
@@ -316,7 +314,7 @@ jobs:
           work-dir: deploy
           cloud-url: local
         env:
-          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
+
           PULUMI_CONFIG_PASSPHRASE: test
 
       - name: "setup buildx"
