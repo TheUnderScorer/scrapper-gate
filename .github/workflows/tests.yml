@@ -184,7 +184,7 @@ jobs:
         run: cp deploy/Pulumi.development.yaml deploy/Pulumi.development-backend-tests.yaml
 
       - name: Start pulumi
-        run: cd deploy && pulumi login --local && pulumi stack init development-backend-tests && pulumi stack select development-backend-tests && pulumi up -y
+        run: cd deploy && pulumi login --local && node scripts/upLocally.mjs
         env:
           PULUMI_CONFIG_PASSPHRASE: test
 
@@ -267,7 +267,7 @@ jobs:
         run: cp deploy/Pulumi.development.yaml deploy/Pulumi.development-apps-tests.yaml
 
       - name: Start pulumi
-        run: cd deploy && pulumi login --local && pulumi stack init development-apps-tests && pulumi stack select development-apps-tests && pulumi up -y
+        run: cd deploy && pulumi login --local && node scripts/upLocally.mjs
         env:
           PULUMI_CONFIG_PASSPHRASE: test
 
@@ -306,7 +306,7 @@ jobs:
         run: cp deploy/Pulumi.development.yaml deploy/Pulumi.development-e2e.yaml
 
       - name: Start pulumi
-        run: cd deploy && pulumi login --local && pulumi stack init development-e2e && pulumi stack select development-e2e && pulumi up -y
+        run: cd deploy && pulumi login --local && node scripts/upLocally.mjs
         env:
           PULUMI_CONFIG_PASSPHRASE: test
 

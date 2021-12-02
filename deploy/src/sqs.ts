@@ -2,25 +2,27 @@ import * as aws from '@pulumi/aws';
 import { createItemName, onlyOnLocalEnv, onlyOnRealEnv } from './utils';
 
 // Queue for running real browser scrappers
-const chromiumSqs = new aws.sqs.Queue(createItemName('scrapper-chromium'), {
+const chromiumQueue = 'scrapper-chromium';
+const chromiumSqs = new aws.sqs.Queue(createItemName(chromiumQueue), {
   fifoQueue: false,
-  name: onlyOnLocalEnv(() => createItemName('scrapper-chromium')),
+  name: onlyOnLocalEnv(() => createItemName(chromiumQueue)),
 });
 const chromiumSqsSsmParam = onlyOnRealEnv(
   () =>
-    new aws.ssm.Parameter(createItemName('scrapper-chromium-queue'), {
+    new aws.ssm.Parameter(createItemName(`${chromiumQueue}-queue`), {
       value: chromiumSqs.arn,
       type: 'String',
-      name: createItemName('scrapper-chromium-queue'),
+      name: createItemName(`${chromiumQueue}-queue`),
     })
 );
 
 // Queue used for local testing
+const testQueue = 'message-queue-test';
 const testSqs = onlyOnLocalEnv(
   () =>
-    new aws.sqs.Queue(createItemName('message-queue-test'), {
+    new aws.sqs.Queue(createItemName(testQueue), {
       fifoQueue: true,
-      name: createItemName('message-queue-test.fifo'),
+      name: createItemName(`${testQueue}.fifo`),
     })
 );
 
