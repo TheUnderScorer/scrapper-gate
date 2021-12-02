@@ -1,14 +1,19 @@
 import { $ } from 'zx';
-import { Policy } from 'cockatiel';
+import { ConsecutiveBreaker, Policy, TimeoutStrategy } from 'cockatiel';
 import { logger } from '@nrwl/devkit';
 
-const retry = Policy.handleAll().retry().attempts(3).exponential();
+const timeoutPolicy = Policy.timeout(120_000, TimeoutStrategy.Aggressive);
+const circuitBreaker = Policy.handleAll().circuitBreaker(10 * 1000, new ConsecutiveBreaker(2));
+const retry = Policy.handleAll().retry().attempts(5).exponential();
+
+const policy = Policy.wrap(retry, circuitBreaker, timeoutPolicy);
+
 const stack = 'development';
 
 async function up() {
   try {
     await $`pulumi stack init ${stack} && pulumi stack select ${stack} && pulumi up -y`;
-  } catch(error) {
+  } catch (error) {
     logger.error(error);
 
     await $`pulumi destroy -y`;
@@ -20,11 +25,11 @@ async function up() {
 async function main() {
   logger.info('Spinning up local env...');
 
-  retry.onRetry((data) => {
+  policy.onFailure((data) => {
     logger.error(JSON.stringify(data));
   });
 
-  await retry.execute(() => up());
+  await policy.execute(() => up());
 }
 
 main().catch(() => {
