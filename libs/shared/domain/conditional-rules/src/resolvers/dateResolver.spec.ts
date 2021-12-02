@@ -5,12 +5,11 @@ import {
   ConditionalRuleType,
   DateConditionalRule,
 } from '@scrapper-gate/shared/schema';
-import { addSeconds } from 'date-fns';
+import { addDays, addSeconds } from 'date-fns';
 import { resolveRules } from '../resolveRules';
 import { makeDateResolver } from './dateResolver';
 
 const now = new Date();
-
 describe('Date resolver', () => {
   it.each<
     [rule: DateConditionalRule, date: Date | null, expectedResult: boolean]
@@ -28,7 +27,7 @@ describe('Date resolver', () => {
       {
         ruleType: ConditionalRuleType.Date,
         condition: ConditionalRuleCondition.Equals,
-        expectedDate: addSeconds(now, 30),
+        expectedDate: addDays(now, 30),
       },
       now,
       false,
@@ -46,7 +45,7 @@ describe('Date resolver', () => {
       {
         ruleType: ConditionalRuleType.Date,
         condition: ConditionalRuleCondition.LessThan,
-        expectedDate: addSeconds(now, 30),
+        expectedDate: addDays(now, 1),
       },
       now,
       true,
