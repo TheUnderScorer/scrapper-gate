@@ -175,7 +175,7 @@ jobs:
         run: sudo docker compose up -d
 
       - name: Install dependencies
-        run: npm ci --legacy-peer-deps && npm i ts-node -g && npm ci --prefix deploy
+        run: npm ci --legacy-peer-deps && npm i ts-node -g && npm ci --prefix deploy && curl -fsSL https://get.pulumi.com | sh
 
       - name: Wait for localstack
         run: sudo AWS_S3_ENDPOINT=http://localhost:4566 node docker/localstack/waitForLocalStack.mjs
@@ -183,19 +183,10 @@ jobs:
       - name: Copy pulumi config
         run: cp deploy/Pulumi.development.yaml deploy/Pulumi.development-backend-tests.yaml
 
-      - uses: pulumi/actions@v3
-        name: Start pulumi
-        with:
-          command: up
-          stack-name: development-backend-tests
-          work-dir: deploy
-          cloud-url: local
-          upsert: true
+      - name: Start pulumi
+        run: cd deploy && pulumi login --local && pulumi stack init development-backend-tests && pulumi stack select development-backend-tests && pulumi up -y
         env:
-          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
           PULUMI_CONFIG_PASSPHRASE: test
-          AWS_ACCESS_KEY_ID: test
-          AWS_SECRET_ACCESS_KEY: test
 
       - name: Setup env
         run: cp .local.env.dist .local.env
