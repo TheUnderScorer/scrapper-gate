@@ -125,20 +125,19 @@ const bootstrap = async (dbConnection?: Connection) => {
       args: awsChromeLambda.args,
     });
 
-    const connectionProvided = Boolean(dbConnection);
+    const connectionProvided = dbConnection instanceof Connection;
 
-    const connection =
-      dbConnection instanceof Connection
-        ? dbConnection
-        : await createConnection({
-            host: process.env.DB_HOST,
-            database: process.env.DB_NAME,
-            username: process.env.DB_USER,
-            password: process.env.DB_PASSWORD,
-            entities: entityDefinitions.map((entity) => entity.model),
-            type: 'postgres',
-            synchronize: false,
-          });
+    const connection = connectionProvided
+      ? dbConnection
+      : await createConnection({
+          host: process.env.DB_HOST,
+          database: process.env.DB_NAME,
+          username: process.env.DB_USER,
+          password: process.env.DB_PASSWORD,
+          entities: entityDefinitions.map((entity) => entity.model),
+          type: 'postgres',
+          synchronize: false,
+        });
 
     await connection.query('SELECT 1+1');
 
