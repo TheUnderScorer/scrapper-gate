@@ -12,3 +12,5 @@ config:
   aws:secretKey: test
   aws:skipCredentialsValidation: "true"
   aws:skipRequestingAccountId: "true"
+  aws:skipMetadataApiCheck: "true"
+  aws:skipGetEc2Platforms: "true"
