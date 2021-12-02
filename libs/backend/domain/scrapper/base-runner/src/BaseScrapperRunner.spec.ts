@@ -67,6 +67,6 @@ describe('BaseScrapperRunner', () => {
       variables: [],
     });
 
-    expect(result.performance?.duration?.seconds).toBeGreaterThanOrEqual(2);
+    expect(result.performance?.duration?.seconds).toBeGreaterThanOrEqual(1.99);
   });
 });
