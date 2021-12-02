@@ -6,6 +6,7 @@ import {
   ruleSupportsValue,
   SupportedConditionsCallback,
 } from '@scrapper-gate/shared/domain/conditional-rules';
+import { scrapperStepActionDefinitions } from '@scrapper-gate/shared/domain/scrapper';
 import {
   ConditionalRule,
   ConditionalRuleCondition,
@@ -13,6 +14,7 @@ import {
   ConditionalRuleType,
   HtmlConditionalRule,
   HtmlConditionalRuleType,
+  ScrapperAction,
   Variable,
   VariableType,
 } from '@scrapper-gate/shared/schema';
@@ -68,7 +70,7 @@ const createHtmlRule = (): HtmlConditionalRule => {
 
 export const getConditionalRules = (
   variable: Variable,
-  disabledTypes?: ConditionalRuleType[]
+  allowedTypes?: ConditionalRuleType[]
 ) => {
   const groups = [
     {
@@ -105,15 +107,15 @@ export const getConditionalRules = (
     },
   ];
 
-  if (!disabledTypes?.length) {
+  if (!allowedTypes?.length) {
     return groups;
   }
 
   return groups.map((group) => {
     return {
       ...group,
-      rules: (group.rules as ConditionalRule[]).filter(
-        (rule) => !disabledTypes.includes(rule.ruleType)
+      rules: (group.rules as ConditionalRule[]).filter((rule) =>
+        allowedTypes.includes(rule.ruleType)
       ),
     };
   });
@@ -131,7 +133,11 @@ export const condition = (
     ...commonFields.url,
     [fieldNameCreator('conditionalRules')]: {
       handler: conditionalRulesHandler(
-        getConditionalRules(variable),
+        getConditionalRules(
+          variable,
+          scrapperStepActionDefinitions[ScrapperAction.Condition]
+            .supportedConditionalTypes
+        ),
         variables
       ),
     },
