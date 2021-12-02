@@ -6,7 +6,15 @@ const retry = Policy.handleAll().retry().attempts(3).exponential();
 const stack = 'development';
 
 async function up() {
-  await $`pulumi stack init ${stack} && pulumi stack select ${stack} && pulumi up -y`;
+  try {
+    await $`pulumi stack init ${stack} && pulumi stack select ${stack} && pulumi up -y`;
+  } catch(error) {
+    logger.error(error);
+
+    await $`pulumi destroy -y`;
+
+    throw error;
+  }
 }
 
 async function main() {
