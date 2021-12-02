@@ -2,7 +2,7 @@ import { $ } from 'zx';
 import { ConsecutiveBreaker, Policy, TimeoutStrategy } from 'cockatiel';
 import { logger } from '@nrwl/devkit';
 
-const timeoutPolicy = Policy.timeout(120_000, TimeoutStrategy.Aggressive);
+const timeoutPolicy = Policy.timeout(9000_000, TimeoutStrategy.Aggressive);
 const circuitBreaker = Policy.handleAll().circuitBreaker(10 * 1000, new ConsecutiveBreaker(2));
 const retry = Policy.handleAll().retry().attempts(5).exponential();
 
