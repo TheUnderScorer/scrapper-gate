@@ -1,6 +1,7 @@
 import { FieldNameCreator } from '@scrapper-gate/frontend/form';
 import { Duration } from '@scrapper-gate/shared/common';
 import {
+  ConditionalRuleType,
   DurationUnit,
   ScrapperWaitType,
   Variable,
@@ -55,7 +56,7 @@ export const waitSection = async (
 
     cases[fieldNameCreator('conditionalRules')] = {
       handler: conditionalRulesHandler(
-        getConditionalRules(variable),
+        getConditionalRules(variable, [ConditionalRuleType.Variable]),
         variables
       ),
     };

@@ -27,6 +27,7 @@ export interface FlowBuilderTabsProps {
   onChange: (value: string) => unknown;
   tabs?: Array<FlowBuilderTabsSelection>;
   mainTabLabel?: string;
+  loading?: boolean;
 }
 
 export const mainTab = 'main';
@@ -36,6 +37,7 @@ export const FlowBuilderTabs = ({
   onChange,
   mainTabLabel = 'Steps',
   tabs,
+  loading,
 }: FlowBuilderTabsProps) => {
   return (
     <StyledPaper square variant="outlined" className={classes.paper}>
@@ -46,6 +48,7 @@ export const FlowBuilderTabs = ({
         className={classes.tabs}
       >
         <Tab
+          disabled={loading}
           label={mainTabLabel}
           value={mainTab}
           className="flow-builder-tab"
@@ -53,6 +56,7 @@ export const FlowBuilderTabs = ({
         />
         {tabs?.map((tab) => (
           <Tab
+            disabled={loading}
             label={tab.label}
             value={tab.value}
             key={tab.value}

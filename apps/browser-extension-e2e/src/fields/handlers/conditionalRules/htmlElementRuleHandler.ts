@@ -35,7 +35,7 @@ export const htmlElementRuleHandler =
 
       if (rule.type === HtmlConditionalRuleType.Attribute) {
         fieldsMap[fieldNameCreator('attribute.attribute')] = {
-          handler: blockEditorHandler(rule.attribute!.attribute),
+          handler: blockEditorHandler(rule.attribute?.attribute ?? ''),
         };
       }
 

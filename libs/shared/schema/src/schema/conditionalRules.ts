@@ -43,7 +43,7 @@ export const conditionalRulesSchema = gql`
   }
 
   type HtmlConditionalRuleAttribute {
-    attribute: String!
+    attribute: String
     value: String
   }
 

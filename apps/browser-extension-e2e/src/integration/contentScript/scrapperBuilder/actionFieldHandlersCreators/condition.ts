@@ -7,6 +7,7 @@ import {
   SupportedConditionsCallback,
 } from '@scrapper-gate/shared/domain/conditional-rules';
 import {
+  ConditionalRule,
   ConditionalRuleCondition,
   ConditionalRuleGroupMatchType,
   ConditionalRuleType,
@@ -65,40 +66,58 @@ const createHtmlRule = (): HtmlConditionalRule => {
   return rule;
 };
 
-export const getConditionalRules = (variable: Variable) => [
-  {
-    matchType: ConditionalRuleGroupMatchType.Any,
-    rules: [createHtmlRule()],
-  },
-  {
-    matchType: ConditionalRuleGroupMatchType.Any,
-    rules: [
-      {
-        ruleType: ConditionalRuleType.Date,
-        expectedDate: format(faker.date.soon(), DateFormat.Date),
-        condition: ConditionalRuleCondition.Equals,
-      },
-      {
-        ruleType: ConditionalRuleType.Variable,
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        variableKey: variable.key!,
-        expectedValue: (() => {
-          switch (variable.type) {
-            case VariableType.Number:
-              return faker.datatype.number();
+export const getConditionalRules = (
+  variable: Variable,
+  disabledTypes?: ConditionalRuleType[]
+) => {
+  const groups = [
+    {
+      matchType: ConditionalRuleGroupMatchType.Any,
+      rules: [createHtmlRule()],
+    },
+    {
+      matchType: ConditionalRuleGroupMatchType.Any,
+      rules: [
+        {
+          ruleType: ConditionalRuleType.Date,
+          expectedDate: format(faker.date.soon(), DateFormat.Date),
+          condition: ConditionalRuleCondition.Equals,
+        },
+        {
+          ruleType: ConditionalRuleType.Variable,
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          variableKey: variable.key!,
+          expectedValue: (() => {
+            switch (variable.type) {
+              case VariableType.Number:
+                return faker.datatype.number();
 
-            case VariableType.Date:
-              return format(faker.date.recent(), DateFormat.Date);
+              case VariableType.Date:
+                return format(faker.date.recent(), DateFormat.Date);
 
-            default:
-              return faker.random.word();
-          }
-        })(),
-        condition: ConditionalRuleCondition.Equals,
-      },
-    ],
-  },
-];
+              default:
+                return faker.random.word();
+            }
+          })(),
+          condition: ConditionalRuleCondition.Equals,
+        },
+      ],
+    },
+  ];
+
+  if (!disabledTypes?.length) {
+    return groups;
+  }
+
+  return groups.map((group) => {
+    return {
+      ...group,
+      rules: (group.rules as ConditionalRule[]).filter(
+        (rule) => !disabledTypes.includes(rule.ruleType)
+      ),
+    };
+  });
+};
 
 export const condition = (
   fieldNameCreator: FieldNameCreator,

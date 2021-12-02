@@ -53,6 +53,7 @@ fragment ScrapperBuilderStep on ScrapperStep {
     jsCode
     clickTimes
     fullPageScreenshot
+    typeValue
     isFirst
     navigateToUrl
     nextStep {

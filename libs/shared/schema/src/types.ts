@@ -210,7 +210,7 @@ export interface HtmlConditionalRule extends ConditionalRule {
 }
 
 export interface HtmlConditionalRuleAttribute {
-  attribute: Scalars['String'];
+  attribute?: Maybe<Scalars['String']>;
   value?: Maybe<Scalars['String']>;
 }
 
@@ -820,6 +820,7 @@ export type ScrapperBuilderStepFragment = Pick<
   | 'jsCode'
   | 'clickTimes'
   | 'fullPageScreenshot'
+  | 'typeValue'
   | 'isFirst'
   | 'navigateToUrl'
   | 'reloadDelay'
@@ -1592,7 +1593,11 @@ export type HtmlConditionalRuleAttributeResolvers<
   ContextType = any,
   ParentType extends ResolversParentTypes['HtmlConditionalRuleAttribute'] = ResolversParentTypes['HtmlConditionalRuleAttribute']
 > = {
-  attribute?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  attribute?: Resolver<
+    Maybe<ResolversTypes['String']>,
+    ParentType,
+    ContextType
+  >;
   value?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };

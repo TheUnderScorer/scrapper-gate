@@ -41,7 +41,7 @@ export const apolloServerFactory = ({
     }),
     introspection: true,
     formatError: (error) => {
-      logger.error('Graphql error:', error);
+      logger.error(`Graphql error: ${JSON.stringify(error)}`);
 
       return {
         ...error,

@@ -153,7 +153,11 @@ export const FlowBuilderHeader = ({
                 </SkeletonComponentOrIcon>
               </>
             )}
-            {additionalActions}
+            {additionalActions && (
+              <SkeletonComponentOrIcon loading={loading} width={30} height={30}>
+                {additionalActions}
+              </SkeletonComponentOrIcon>
+            )}
             {!readOnly && (
               <>
                 <Divider orientation="vertical" className={classes.divider} />
