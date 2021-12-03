@@ -313,6 +313,7 @@ describe('PlayWright scrapper runner', () => {
           'dynamic-elements.html',
           'blog/index.html',
           'alert/index.html',
+          'input/index.html',
         ]);
       });
     });
