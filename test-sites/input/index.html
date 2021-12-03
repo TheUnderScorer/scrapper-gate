@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <meta charset='UTF-8' />
+  <title>Input tests</title>
+  <style>
+      input {
+          margin-bottom: 15px;
+      }
+  </style>
+</head>
+<body>
+<main>
+  <input type='text' id='input'>
+  <div id='input-value'>
+    <p>Input value: <span id='input-value-text'></span></p>
+  </div>
+</main>
+</body>
+<script>
+  const input = document.querySelector('#input');
+  const inputValueText = document.querySelector('#input-value-text');
+
+  input.addEventListener('input', () => {
+    inputValueText.textContent = input.value;
+  });
+</script>
+</html>

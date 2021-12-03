@@ -49,6 +49,7 @@ fragment ScrapperBuilderStep on ScrapperStep {
     key
     createdAt
     updatedAt
+    clearInputBeforeTyping
     mouseButton
     jsCode
     clickTimes

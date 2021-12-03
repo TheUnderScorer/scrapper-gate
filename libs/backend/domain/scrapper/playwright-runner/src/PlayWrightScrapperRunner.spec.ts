@@ -29,6 +29,7 @@ import {
   ScrapperStep,
   ScrapperWaitType,
   VariableScope,
+  VariableType,
 } from '@scrapper-gate/shared/schema';
 import {
   asClass,
@@ -641,6 +642,60 @@ describe('PlayWright scrapper runner', () => {
         expect(performance?.duration?.ms).toBeGreaterThanOrEqual(
           waitDuration.ms
         );
+      });
+    });
+
+    describe('Type action', () => {
+      it('should clear input before typing if required', async () => {
+        const url = 'http://localhost:8080/input/index.html';
+
+        const runner = await bootstrapRunner(type);
+
+        const allSelectors = [
+          {
+            value: 'input',
+          },
+        ];
+
+        await runner.Type({
+          variables: [],
+          step: {
+            ...(await createMockScrapperStep({})),
+            url,
+            action: ScrapperAction.Type,
+            typeValue: 'Test',
+            allSelectors,
+          },
+        });
+
+        await runner.Type({
+          variables: [],
+          step: {
+            ...(await createMockScrapperStep({})),
+            url,
+            action: ScrapperAction.Type,
+            typeValue: 'Another value',
+            clearInputBeforeTyping: true,
+            allSelectors,
+          },
+        });
+
+        const { values } = await runner.ReadText({
+          variables: [],
+          step: {
+            ...(await createMockScrapperStep({})),
+            useUrlFromPreviousStep: true,
+            action: ScrapperAction.ReadText,
+            allSelectors: [
+              {
+                value: '#input-value-text',
+              },
+            ],
+            valueType: VariableType.Text,
+          },
+        });
+
+        expect(first(values).value).toEqual('Another value');
       });
     });
 

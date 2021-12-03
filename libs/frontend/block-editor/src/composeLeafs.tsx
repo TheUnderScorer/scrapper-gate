@@ -11,5 +11,10 @@ export const composeLeafs =
       }
     }
 
+    console.log({
+      attributes: props.attributes,
+      children: props.children,
+    });
+
     return <span {...props.attributes}>{props.children}</span>;
   };

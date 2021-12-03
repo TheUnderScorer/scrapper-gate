@@ -1,5 +1,6 @@
 import { getElementsBySelectors } from '@scrapper-gate/shared/common';
 import { InvalidSelectorProvidedError } from '@scrapper-gate/shared/errors';
+import { logger } from '@scrapper-gate/shared/logger/console';
 import { Selector } from '@scrapper-gate/shared/schema';
 import { useCallback } from 'react';
 import {
@@ -39,6 +40,8 @@ export const useHtmlPickerValidator = ({
             return elementsValidator(elements);
           }
         } catch (e) {
+          logger.error(`Html picker validation error:`, e);
+
           if (
             !validationRules?.includes(
               HtmlElementPickerValidationRules.ValidSelector

@@ -10,6 +10,7 @@ import {
   last,
   mapSelectorsToXpathExpression,
   repeatUntil,
+  resolveModifier,
 } from '@scrapper-gate/shared/common';
 import {
   RunJavascriptStepResult,
@@ -490,12 +491,18 @@ export class PlayWrightScrapperRunner
       const { step } = params;
 
       await Promise.all(
-        elements.map((el) =>
+        elements.map(async (el) => {
+          if (step.clearInputBeforeTyping) {
+            await el.focus();
+            await this.page.keyboard.press(`${resolveModifier()}+A`);
+            await this.page.keyboard.press('Backspace');
+          }
+
           // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          el.type(step.typeValue!, {
+          return el.type(step.typeValue!, {
             delay: step.typeDelay ?? undefined,
-          })
-        )
+          });
+        })
       );
 
       return this.getCommonStepResult(params.step);

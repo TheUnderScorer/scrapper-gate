@@ -11,6 +11,7 @@ import { ElementHandle, Page } from 'playwright';
 import { map, pipe } from 'remeda';
 import { FieldsHandler } from '../../../fields/FieldsHandler';
 import { blockEditorHandler } from '../../../fields/handlers/blockEditorHandler';
+import { checkboxHandler } from '../../../fields/handlers/checkboxHandler';
 import { iframeCodeEditorHandler } from '../../../fields/handlers/iframeCodeEditorHandler';
 import { selectHandler } from '../../../fields/handlers/selectHandler';
 import { textFieldHandler } from '../../../fields/handlers/textFieldHandler';
@@ -81,6 +82,9 @@ const getFieldHandlersMapForAction = async (
         ...keyHandler,
         ...url,
         ...selectors,
+        [fieldNameCreator('clearInputBeforeTyping')]: {
+          handler: checkboxHandler(faker.datatype.boolean()),
+        },
         [fieldNameCreator('typeValue')]: {
           handler: blockEditorHandler(input?.typeValue ?? faker.random.word()),
         },

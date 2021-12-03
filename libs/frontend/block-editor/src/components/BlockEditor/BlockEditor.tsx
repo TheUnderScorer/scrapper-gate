@@ -210,7 +210,6 @@ export const BlockEditor = forwardRef<HTMLInputElement, BlockEditorProps>(
             '& .MuiInputBase-input': {
               /* Important is required because Slate applies inline styles */
               minHeight: 'auto !important',
-              whiteSpace: 'nowrap !important' as 'nowrap',
             },
           }}
           InputProps={{

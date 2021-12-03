@@ -547,6 +547,7 @@ export interface ScrapperStep extends BaseEntity, CreatedBy {
   waitIntervalCheck?: Maybe<Duration>;
   waitIntervalTimeout?: Maybe<Duration>;
   jsCode?: Maybe<Scalars['String']>;
+  clearInputBeforeTyping?: Maybe<Scalars['Boolean']>;
 }
 
 export interface ScrapperStepInput {
@@ -578,6 +579,7 @@ export interface ScrapperStepInput {
   waitIntervalTimeout?: Maybe<DurationInput>;
   jsCode?: Maybe<Scalars['String']>;
   typeValue?: Maybe<Scalars['String']>;
+  clearInputBeforeTyping?: Maybe<Scalars['Boolean']>;
 }
 
 export enum ScrapperType {
@@ -816,6 +818,7 @@ export type ScrapperBuilderStepFragment = Pick<
   | 'key'
   | 'createdAt'
   | 'updatedAt'
+  | 'clearInputBeforeTyping'
   | 'mouseButton'
   | 'jsCode'
   | 'clickTimes'
@@ -2128,6 +2131,11 @@ export type ScrapperStepResolvers<
     ContextType
   >;
   jsCode?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  clearInputBeforeTyping?: Resolver<
+    Maybe<ResolversTypes['Boolean']>,
+    ParentType,
+    ContextType
+  >;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
