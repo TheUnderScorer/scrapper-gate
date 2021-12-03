@@ -1,37 +1,17 @@
-import { first } from '@scrapper-gate/shared/common';
+import { makeGetFieldName } from '@scrapper-gate/frontend/flow-builder';
+import { first, wait } from '@scrapper-gate/shared/common';
 import { ScrapperAction, ScrapperType } from '@scrapper-gate/shared/schema';
-import { Page } from 'playwright';
+import { get } from 'lodash';
 import { persistTestArtifact } from '../../../../../../tests/utils/artifacts';
 import { createNewUserWithScrapper } from '../../../actions/createNewUserWithScrapper';
 import { createBrowser } from '../../../browser';
+import { FieldsHandler } from '../../../fields/FieldsHandler';
+import { iframeCodeEditorHandler } from '../../../fields/handlers/iframeCodeEditorHandler';
+import { textFieldHandler } from '../../../fields/handlers/textFieldHandler';
 import { getTestId } from '../../../getTestId';
 import { ScrapperBuilderPage } from '../../../pages/ScrapperBuilderPage';
-import { dragElementBy } from '../../../utils/drag';
 import { getScrapperFieldHandlerForAction } from './getScrapperFieldHandlerForAction';
-
-async function connectFirstNodeToStartNode(
-  scrapperBuilderPage: ScrapperBuilderPage,
-  browserPage: Page,
-  action: ScrapperAction = ScrapperAction.Click
-) {
-  const { id, node } = await scrapperBuilderPage.dragStepIntoCanvas(action);
-
-  await dragElementBy(browserPage, node, {
-    x: 200,
-    y: 0,
-  });
-
-  await scrapperBuilderPage.dragCanvasBy({
-    x: -200,
-    y: 0,
-  });
-
-  await scrapperBuilderPage.connectNodes('start', id);
-
-  await scrapperBuilderPage.assertEdgesCount(1);
-
-  return { node, id };
-}
+import { connectFirstNodeToStartNode, deleteNodeCase } from './utils';
 
 describe('Scrapper builder', () => {
   it('should let user change scrapper name', async () => {
@@ -82,6 +62,14 @@ describe('Scrapper builder', () => {
     const page = new ScrapperBuilderPage(browserPage);
 
     await connectFirstNodeToStartNode(page, browserPage);
+  });
+
+  it('should delete node', async () => {
+    const { page } = await deleteNodeCase(true);
+
+    const nodes = await page.getAllNodes();
+
+    expect(nodes).toHaveLength(1);
   });
 
   it.each(Object.values(ScrapperAction))(
@@ -138,6 +126,53 @@ describe('Scrapper builder', () => {
       }
     }
   );
+
+  describe('Run javascript action', () => {
+    it('should fail validation if code syntax is not valid', async () => {
+      const browser = await createBrowser();
+      const browserPage = await createNewUserWithScrapper(
+        browser,
+        ScrapperType.RealBrowser
+      );
+
+      const page = new ScrapperBuilderPage(browserPage);
+
+      const { node, id } = await connectFirstNodeToStartNode(
+        page,
+        browserPage,
+        ScrapperAction.RunJavascript
+      );
+
+      const nodeIndex = await page.getNodeIndex(node);
+      const getFieldName = makeGetFieldName(nodeIndex);
+
+      const fieldsHandler = new FieldsHandler(
+        {
+          [getFieldName('key')]: {
+            handler: textFieldHandler('Test'),
+          },
+          [getFieldName('jsCode')]: {
+            handler: iframeCodeEditorHandler('() => {(;'),
+          },
+        },
+        browserPage
+      );
+
+      await page.openNode(id);
+
+      await fieldsHandler.fillAll();
+
+      await wait(1000);
+
+      const formState = await page.getFormState();
+
+      expect(formState.hasValidationErrors).toEqual(true);
+
+      const jsCodeError = get(formState.errors, getFieldName('jsCode'));
+
+      expect(jsCodeError).toBeTruthy();
+    });
+  });
 
   describe('Read attribute action', () => {
     it('should suggest attributes from selected elements', async () => {

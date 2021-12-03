@@ -2,6 +2,7 @@
 import { scrapperActionTextMap } from '@scrapper-gate/frontend/domain/scrapper';
 import { last, wait } from '@scrapper-gate/shared/common';
 import { ScrapperAction, Variable } from '@scrapper-gate/shared/schema';
+import { FormState } from 'final-form';
 import { FieldsHandler } from '../fields/FieldsHandler';
 import { selectHandler } from '../fields/handlers/selectHandler';
 import { textFieldHandler } from '../fields/handlers/textFieldHandler';
@@ -74,7 +75,7 @@ export class ScrapperBuilderPage extends FlowBuilderPage {
       throw new Error('Form state is not available');
     }
 
-    return JSON.parse(formState);
+    return JSON.parse(formState) as FormState<unknown>;
   }
 
   async getName() {

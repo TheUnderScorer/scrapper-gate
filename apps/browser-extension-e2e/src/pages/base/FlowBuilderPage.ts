@@ -8,6 +8,8 @@ type By = 'id' | 'key' | 'index';
 export class FlowBuilderPage {
   private static selectors = {
     canvas: '.flow-builder-canvas',
+    undo: '.undo-btn',
+    redo: '.redo-btn',
     selection: (label: string) =>
       `.flow-builder-selection-list :text("${label}")`,
     selectionFromContextMenu: (label: string) =>
@@ -35,6 +37,31 @@ export class FlowBuilderPage {
 
   async switchToMainTab() {
     await this.switchToTab('main');
+  }
+
+  async getAllNodes() {
+    return this.page.$$('.flow-builder-node');
+  }
+
+  async undo() {
+    await this.page.click(FlowBuilderPage.selectors.undo);
+  }
+
+  async redo() {
+    await this.page.click(FlowBuilderPage.selectors.redo);
+  }
+
+  async deleteNode(value: string, by: By = 'id') {
+    const node = await this.getNode(value, by);
+    const dropdownTrigger = await node.waitForSelector(
+      '.node-dropdown-trigger'
+    );
+
+    await dropdownTrigger.click();
+
+    const deleteBtn = await this.page.waitForSelector(':text("Delete step")');
+
+    await deleteBtn.click();
   }
 
   async addNodeViaContextMenu(label: string) {
