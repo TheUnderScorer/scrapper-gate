@@ -4,7 +4,6 @@
   "license": "MIT",
   "scripts": {
     "nx": "nx",
-    "postnx": "node tools/removeFileExtensionFromTsPaths.ts",
     "start": "nx serve",
     "build": "nx build --prod",
     "build:docker-base": "docker build -f ./docker/base/Dockerfile -t scrapper-gate-base .",
