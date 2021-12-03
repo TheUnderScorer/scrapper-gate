@@ -50,6 +50,18 @@
             "jestConfig": "apps/api/jest.config.js",
             "passWithNoTests": true
           }
+        },
+        "version": {
+          "executor": "@jscutlery/semver:version",
+          "postTargets": ["api:github"]
+        },
+        "github": {
+          "executor": "@jscutlery/semver:github",
+          "options": {
+            "tag": "${tag}",
+            "notesFile": "apps/api/CHANGELOG.md",
+            "baseBranch": "master"
+          }
         }
       },
       "tags": []
@@ -622,6 +634,18 @@
           "options": {
             "jestConfig": "apps/browser-extension/jest.config.js",
             "passWithNoTests": true
+          }
+        },
+        "version": {
+          "executor": "@jscutlery/semver:version",
+          "postTargets": ["browser-extension:github"]
+        },
+        "github": {
+          "executor": "@jscutlery/semver:github",
+          "options": {
+            "tag": "${tag}",
+            "notesFile": "apps/browser-extension/CHANGELOG.md",
+            "baseBranch": "master"
           }
         }
       },
@@ -1450,6 +1474,18 @@
           "options": {
             "jestConfig": "apps/lambdas/jest.config.js",
             "passWithNoTests": true
+          }
+        },
+        "version": {
+          "executor": "@jscutlery/semver:version",
+          "postTargets": ["lambdas"]
+        },
+        "github": {
+          "executor": "@jscutlery/semver:github",
+          "options": {
+            "tag": "${tag}",
+            "notesFile": "apps/lambdas/CHANGELOG.md",
+            "baseBranch": "master"
           }
         }
       },
