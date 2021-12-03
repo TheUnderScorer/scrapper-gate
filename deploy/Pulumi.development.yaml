@@ -13,4 +13,5 @@ config:
   aws:skipCredentialsValidation: "true"
   aws:skipRequestingAccountId: "true"
   aws:skipMetadataApiCheck: "true"
+  aws:skipRegionValidation: "true"
   aws:skipGetEc2Platforms: "true"
