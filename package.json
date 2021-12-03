@@ -35,8 +35,6 @@
     "send-sqs-message": "TS_NODE_PROJECT=tsconfig.node.json ts-node-dev -r tsconfig-paths/register -r dotenv/config tools/cli/sendScrapperRunnerMessage.ts dotenv_config_path=\".local.env\" --",
     "ts-node": "TS_NODE_PROJECT=tsconfig.node.json ts-node -r tsconfig-paths/register --",
     "gather-projects": "npm run ts-node tools/scripts/gatherProjects.ts --",
-    "release": "npx semantic-release",
-    "release:dry": "npx semantic-release -d",
     "typecheck": "tsc --noEmit -p tsconfig.base.json",
     "start-local-env": "node scripts/startLocalEnv.mjs",
     "stop-local-env": "cd deploy && pulumi stack select development && pulumi destroy -y && cd .. && docker compose down -v",
@@ -177,11 +175,6 @@
     "@nrwl/web": "13.2.2",
     "@nrwl/workspace": "13.2.2",
     "@playwright/test": "^1.12.0",
-    "@semantic-release/changelog": "^5.0.1",
-    "@semantic-release/exec": "^5.0.0",
-    "@semantic-release/git": "^9.0.0",
-    "@semantic-release/github": "^7.2.0",
-    "@semantic-release/npm": "^7.0.5",
     "@storybook/addon-actions": "6.3.8",
     "@storybook/addon-docs": "6.3.8",
     "@storybook/addon-essentials": "6.3.8",
@@ -259,40 +252,5 @@
     "webpack-target-webextension": "^0.4.0",
     "yargs": "^15.4.1",
     "zx": "^4.2.0"
-  },
-  "release": {
-    "branches": [
-      "+([0-9])?(.{+([0-9]),x}).x",
-      "master",
-      "next",
-      {
-        "name": "test",
-        "prerelease": true
-      }
-    ],
-    "plugins": [
-      "@semantic-release/commit-analyzer",
-      "@semantic-release/release-notes-generator",
-      [
-        "@semantic-release/changelog",
-        {
-          "changelogFile": "docs/CHANGELOG.md"
-        }
-      ],
-      "@semantic-release/npm",
-      [
-        "@semantic-release/git",
-        {
-          "assets": [
-            "docs/CHANGELOG.md",
-            "package.json",
-            "package-lock.json"
-          ]
-        }
-      ],
-      [
-        "@semantic-release/github"
-      ]
-    ]
   }
 }
