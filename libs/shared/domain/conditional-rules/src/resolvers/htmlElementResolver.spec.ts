@@ -1,22 +1,20 @@
-import { ConditionalRuleGroupType } from '@scrapper-gate/shared/schema';
-import { v4 } from 'uuid';
+import {
+  ConditionalRuleCondition,
+  ConditionalRuleGroupMatchType,
+  ConditionalRuleType,
+  HtmlConditionalRuleType,
+} from '@scrapper-gate/shared/schema';
 import { resolveRules } from '../resolveRules';
 import {
-  ConditionalRuleWhen,
-  ConditionalRuleTypes,
-  HtmlElementRuleMeta,
-  HtmlElementWhat,
-} from '../types';
-import {
+  htmlElementResolver,
   HtmlElementResolverElementDefinition,
-  makeHtmlElementResolver,
 } from './htmlElementResolver';
 
 describe('Html element resolver', () => {
   it.each<
     [
       elements: HtmlElementResolverElementDefinition[],
-      when: ConditionalRuleWhen,
+      condition: ConditionalRuleCondition,
       expectedResult: boolean
     ]
   >([
@@ -25,10 +23,10 @@ describe('Html element resolver', () => {
         {
           attributes: {},
           tag: 'DIV',
-          textContent: '',
+          textContent: 'text content',
         },
       ],
-      ConditionalRuleWhen.NotEmpty,
+      ConditionalRuleCondition.NotEmpty,
       true,
     ],
     [
@@ -39,32 +37,29 @@ describe('Html element resolver', () => {
           textContent: '',
         },
       ],
-      ConditionalRuleWhen.Empty,
-      false,
+      ConditionalRuleCondition.Empty,
+      true,
     ],
-    [[], ConditionalRuleWhen.Empty, true],
-    [[], ConditionalRuleWhen.NotEmpty, false],
+    [[], ConditionalRuleCondition.Exists, false],
+    [[], ConditionalRuleCondition.NotExists, true],
   ])(
-    'should return correct result without "what"',
-    async (elements, when, expectedResult) => {
+    'should return correct result for html element',
+    async (elements, condition, expectedResult) => {
       const { result } = await resolveRules({
         resolvers: {
-          [ConditionalRuleTypes.HtmlElement]: makeHtmlElementResolver({
+          [ConditionalRuleType.HtmlElement]: htmlElementResolver.make({
             elements,
           }),
         },
         ruleGroups: [
           {
-            id: v4(),
-            type: ConditionalRuleGroupType.Any,
+            matchType: ConditionalRuleGroupMatchType.Any,
             rules: [
               {
-                id: v4(),
-                type: ConditionalRuleTypes.HtmlElement,
-                when,
-                meta: {
-                  type: ConditionalRuleGroupType.All,
-                },
+                ruleType: ConditionalRuleType.HtmlElement,
+                type: HtmlConditionalRuleType.Element,
+                condition,
+                matchType: ConditionalRuleGroupMatchType.All,
               },
             ],
           },
@@ -78,7 +73,7 @@ describe('Html element resolver', () => {
   it.each<
     [
       elements: HtmlElementResolverElementDefinition[],
-      when: ConditionalRuleWhen,
+      condition: ConditionalRuleCondition,
       attribute: string,
       expectedResult: boolean,
       expectedAttributeValue?: string
@@ -94,7 +89,7 @@ describe('Html element resolver', () => {
           textContent: '',
         },
       ],
-      ConditionalRuleWhen.Equals,
+      ConditionalRuleCondition.Equals,
       'data-id',
       true,
       '#test',
@@ -109,7 +104,7 @@ describe('Html element resolver', () => {
           textContent: '',
         },
       ],
-      ConditionalRuleWhen.NotEqual,
+      ConditionalRuleCondition.NotEqual,
       'data-id',
       false,
       '#test',
@@ -124,7 +119,7 @@ describe('Html element resolver', () => {
           textContent: '',
         },
       ],
-      ConditionalRuleWhen.LessThan,
+      ConditionalRuleCondition.LessThan,
       'data-id',
       true,
       '2',
@@ -139,35 +134,32 @@ describe('Html element resolver', () => {
           textContent: '',
         },
       ],
-      ConditionalRuleWhen.MoreThan,
+      ConditionalRuleCondition.MoreThan,
       'data-id',
       false,
       '2',
     ],
   ])(
     'should return correct result for attribute',
-    async (elements, when, attribute, expectedResult, attributeValue) => {
+    async (elements, condition, attribute, expectedResult, attributeValue) => {
       const { result } = await resolveRules({
         resolvers: {
-          [ConditionalRuleTypes.HtmlElement]: makeHtmlElementResolver({
+          [ConditionalRuleType.HtmlElement]: htmlElementResolver.make({
             elements,
           }),
         },
         ruleGroups: [
           {
-            id: v4(),
-            type: ConditionalRuleGroupType.Any,
+            matchType: ConditionalRuleGroupMatchType.Any,
             rules: [
               {
-                id: v4(),
-                type: ConditionalRuleTypes.HtmlElement,
-                what: HtmlElementWhat.Attribute,
-                when,
-                value: attributeValue,
-                meta: {
-                  type: ConditionalRuleGroupType.All,
+                ruleType: ConditionalRuleType.HtmlElement,
+                type: HtmlConditionalRuleType.Attribute,
+                condition,
+                attribute: {
                   attribute,
-                } as HtmlElementRuleMeta,
+                  value: attributeValue,
+                },
               },
             ],
           },
@@ -181,7 +173,7 @@ describe('Html element resolver', () => {
   it.each<
     [
       elements: HtmlElementResolverElementDefinition[],
-      when: ConditionalRuleWhen,
+      condition: ConditionalRuleCondition,
       expectedResult: boolean,
       expectedTagValue?: string
     ]
@@ -196,7 +188,7 @@ describe('Html element resolver', () => {
           textContent: '',
         },
       ],
-      ConditionalRuleWhen.Equals,
+      ConditionalRuleCondition.Equals,
       true,
       'div',
     ],
@@ -210,7 +202,7 @@ describe('Html element resolver', () => {
           textContent: '',
         },
       ],
-      ConditionalRuleWhen.Equals,
+      ConditionalRuleCondition.Equals,
       false,
       'span',
     ],
@@ -224,33 +216,29 @@ describe('Html element resolver', () => {
           textContent: '',
         },
       ],
-      ConditionalRuleWhen.NotEqual,
+      ConditionalRuleCondition.NotEqual,
       true,
       'span',
     ],
   ])(
     'should return correct result for tag',
-    async (elements, when, expectedResult, expectedTag) => {
+    async (elements, condition, expectedResult, expectedTag) => {
       const { result } = await resolveRules({
         resolvers: {
-          [ConditionalRuleTypes.HtmlElement]: makeHtmlElementResolver({
+          [ConditionalRuleType.HtmlElement]: htmlElementResolver.make({
             elements,
           }),
         },
         ruleGroups: [
           {
-            id: v4(),
-            type: ConditionalRuleGroupType.Any,
+            matchType: ConditionalRuleGroupMatchType.Any,
             rules: [
               {
-                id: v4(),
-                type: ConditionalRuleTypes.HtmlElement,
-                what: HtmlElementWhat.Tag,
-                when,
-                value: expectedTag,
-                meta: {
-                  type: ConditionalRuleGroupType.All,
-                } as HtmlElementRuleMeta,
+                ruleType: ConditionalRuleType.HtmlElement,
+                type: HtmlConditionalRuleType.Tag,
+                condition,
+                tagName: expectedTag,
+                matchType: ConditionalRuleGroupMatchType.All,
               },
             ],
           },

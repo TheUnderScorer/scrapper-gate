@@ -1,15 +1,13 @@
 import { AttachMoney } from '@mui/icons-material';
-import { baseCreateTitle } from '../utils/title';
-import { ConditionalRuleTypes } from '@scrapper-gate/shared/domain/conditional-rules';
+import { conditionalRuleDefinitions } from '@scrapper-gate/shared/domain/conditional-rules';
+import { ConditionalRuleType } from '@scrapper-gate/shared/schema';
 import { VariableRule } from '../components/VariableRule/VariableRule';
-import { ConditionalRulesSelection } from '../types';
+import { FrontendConditionalRuleDefinition } from '../types';
 
-export const variableRule: ConditionalRulesSelection = {
-  label: 'Variable',
-  icon: <AttachMoney />,
-  value: {
+export const variableRule: FrontendConditionalRuleDefinition<ConditionalRuleType.Variable> =
+  {
+    label: 'Variable',
+    icon: <AttachMoney />,
     Component: VariableRule,
-    type: ConditionalRuleTypes.Variable,
-    createTitle: baseCreateTitle(),
-  },
-};
+    definition: conditionalRuleDefinitions[ConditionalRuleType.Variable],
+  };

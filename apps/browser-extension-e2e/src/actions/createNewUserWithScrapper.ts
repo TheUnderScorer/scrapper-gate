@@ -1,4 +1,5 @@
 import { scrapperTypeSelectionOptions } from '@scrapper-gate/frontend/domain/scrapper';
+import { browserExtensionRoutes } from '@scrapper-gate/shared/routing';
 import { ScrapperType } from '@scrapper-gate/shared/schema';
 import { BrowserContext } from 'playwright';
 import { openContentScriptUrl } from '../utils/contentScript';
@@ -20,10 +21,9 @@ export async function createNewUserWithScrapper(
     throw new TypeError(`Unable to find label for scrapper type: ${type}`);
   }
 
-  // TODO Move content script routes to shared routes
   const createScrapperPage = await openContentScriptUrl(
     browser,
-    '/create-scrapper'
+    browserExtensionRoutes.content.createScrapper
   );
 
   await repeatUntil(async () => {
@@ -43,6 +43,12 @@ export async function createNewUserWithScrapper(
 
   await createScrapperPage.type('[name="name"]', 'Test scrapper');
   await createScrapperPage.click('[type="submit"]');
+
+  await repeatUntil(async () => {
+    const form = await createScrapperPage.$('.scrapper-builder-form');
+
+    expect(form).toBeTruthy();
+  });
 
   return createScrapperPage;
 }

@@ -4,6 +4,7 @@ import { Ref } from 'react';
 import { Editor } from 'slate';
 import { Slate } from 'slate-react';
 import { Decorator } from '../../Decorator';
+import { SerializeStrategy } from '../../types';
 
 export type SlateProps = PropsOf<typeof Slate>;
 
@@ -33,7 +34,8 @@ export interface BlockEditorProps
   initialFocused?: boolean;
   editorInstanceRef?: Ref<Editor>;
   decorators?: Decorator[];
-  onChange?: (text: string) => unknown;
+  serializeStrategy?: SerializeStrategy;
+  onChange?: (text: string | undefined) => unknown;
 
   value?: string;
   // Used in case if value was passed as date

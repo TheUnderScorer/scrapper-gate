@@ -4,7 +4,7 @@ import { toDisplayText } from '@scrapper-gate/shared/common';
 import { ListItemIcon, ListItemText, MenuItem } from '@mui/material';
 import { FormSelect, FormSelectProps } from '../FormSelect/FormSelect';
 
-export interface EnumSelectProps extends FormSelectProps {
+export interface EnumSelectProps extends FormSelectProps<string> {
   enumObj: Record<string, number | string> | Array<number | string>;
   dictionary?: Record<string, Pick<Partial<Selection>, 'label' | 'icon'>>;
   emptyOptionLabel?: string;
@@ -51,7 +51,7 @@ export const EnumSelect = ({
     >
       {emptyOptionLabel && <MenuItem value="">{emptyOptionLabel}</MenuItem>}
       {enumArray.map((item) => (
-        <MenuItem key={item.value} value={item.value}>
+        <MenuItem key={item.value} value={item.value} data-value={item.value}>
           {item.icon && <ListItemIcon>{item.icon}</ListItemIcon>}
           <ListItemText>{item.label}</ListItemText>
         </MenuItem>

@@ -7,7 +7,7 @@ import { CheckboxGroup } from './CheckboxGroup';
 import { Selection } from '@scrapper-gate/frontend/common';
 
 export default {
-  title: 'UI/Checkbox Group',
+  title: 'Molecules/Checkbox Group',
 };
 
 const options: Selection[] = [

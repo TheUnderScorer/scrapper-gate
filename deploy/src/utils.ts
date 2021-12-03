@@ -1,7 +1,12 @@
 import * as pulumi from '@pulumi/pulumi';
+import { first } from 'remeda';
 import { Stack } from './types';
 
-export const getStack = () => pulumi.getStack() as Stack;
+export const getStack = () => {
+  const stack = pulumi.getStack();
+
+  return first(stack.split('-')) as Stack;
+};
 
 export const createItemName = (name: string) => `${getStack()}-${name}`;
 

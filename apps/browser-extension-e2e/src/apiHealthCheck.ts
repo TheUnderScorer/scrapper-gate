@@ -3,7 +3,7 @@ import { request } from 'http';
 import { URL } from 'url';
 
 export async function apiHealthCheck() {
-  const url = new URL(process.env.SERVER_URL || 'http://localhost:3000');
+  const url = new URL(process.env.SERVER_URL || 'http://localhost:3001');
 
   url.pathname = apiRoutes.health;
 

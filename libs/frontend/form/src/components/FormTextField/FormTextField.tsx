@@ -2,8 +2,8 @@ import { TextField, TextFieldProps } from '@mui/material';
 import { setRefValue } from '@scrapper-gate/frontend/common';
 import React, { Ref, useState } from 'react';
 import { useField } from 'react-final-form';
-import { useFieldHasError } from '../../hooks/useFieldHasError';
-import { FieldProps } from '../../types';
+import { useFieldError } from '../../hooks/useFieldError';
+import { FormFieldProps } from '../../types';
 
 export interface FormTextFieldProps<T>
   extends Pick<
@@ -22,21 +22,20 @@ export interface FormTextFieldProps<T>
       | 'onKeyPress'
       | 'inputProps'
     >,
-    FieldProps<T> {
+    FormFieldProps<T> {
   name: string;
   inputRef?: Ref<HTMLInputElement>;
   focusOnMount?: boolean;
 }
 
 export const FormTextField = <T extends unknown>({
-  defaultValue,
   name,
   variant,
   id,
-  showErrorOnlyOnTouched,
   inputRef,
   focusOnMount,
   helperText,
+  fieldProps,
   ...rest
 }: FormTextFieldProps<T>) => {
   const [didFocus, setDidFocus] = useState(false);
@@ -44,13 +43,14 @@ export const FormTextField = <T extends unknown>({
   const { input, meta } = useField(name, {
     ...rest,
     parse: (value) => {
-      return rest.type === 'number' ? parseFloat(value) : value;
+      return fieldProps?.type === 'number' ? parseFloat(value) : value;
     },
+    ...fieldProps,
   });
 
-  const hasError = useFieldHasError({
+  const error = useFieldError({
     meta,
-    showErrorOnlyOnTouched,
+    showErrorOnlyOnTouched: fieldProps?.showErrorOnlyOnTouched,
   });
 
   return (
@@ -66,8 +66,8 @@ export const FormTextField = <T extends unknown>({
         setRefValue(inputRef!, element);
       }}
       variant={variant}
-      error={hasError}
-      helperText={hasError ? meta.error.message : helperText}
+      error={Boolean(error)}
+      helperText={error ? error.message : helperText}
       id={id ?? input.name}
       InputProps={rest.InputProps}
       {...rest}

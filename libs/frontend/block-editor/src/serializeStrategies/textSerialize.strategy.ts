@@ -1,26 +1,38 @@
+import { getEmptyValue } from '../getEmptyValue';
 import { DateFormat } from '@scrapper-gate/shared/common';
 import { logger } from '@scrapper-gate/shared/logger/console';
-import { format } from 'date-fns';
+import { format, isValid } from 'date-fns';
 import { Descendant, Node } from 'slate';
 import { SerializeStrategy } from '../types';
 
-export const textSerializeStrategy: SerializeStrategy = {
-  serialize(value: Descendant[]): string {
-    logger.debug('Serialize:', value);
+export const createTextSerializeStrategy = (
+  dateFormat = DateFormat.DateTime
+): SerializeStrategy => ({
+  serialize(value: Descendant[]): string | undefined {
+    const result = value.map((value) => Node.string(value)).join('\n');
 
-    return value.map((value) => Node.string(value)).join('\n');
+    logger.debug('Serialize:', {
+      value,
+      result,
+    });
+
+    return result || undefined;
   },
   deserialize(value: unknown): Descendant[] {
     if (!value) {
       return [];
     }
 
-    // TODO Support other date formats?
-    const parsedValue =
-      value instanceof Date ? format(value, DateFormat.DateTime) : value;
+    const isDate = value instanceof Date;
+
+    if (isDate && !isValid(value)) {
+      return getEmptyValue();
+    }
+
+    const parsedValue = isDate ? format(value, dateFormat) : value;
 
     if (typeof parsedValue !== 'string') {
-      return [];
+      return getEmptyValue();
     }
 
     const result = parsedValue.split('\n').map((value) => ({
@@ -32,4 +44,4 @@ export const textSerializeStrategy: SerializeStrategy = {
 
     return result;
   },
-};
+});

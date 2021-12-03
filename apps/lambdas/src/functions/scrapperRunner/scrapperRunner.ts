@@ -19,7 +19,10 @@ import { ScrapperRunnerMessagePayload } from '@scrapper-gate/shared/domain/scrap
 import { Logger } from '@scrapper-gate/shared/logger';
 import { logger } from '@scrapper-gate/shared/logger/console';
 import { BrowserType } from '@scrapper-gate/shared/schema';
-import { ScrapperRunnerMessageDto } from '@scrapper-gate/shared/validation';
+import {
+  ScrapperRunnerMessagePayloadSchema,
+  validate,
+} from '@scrapper-gate/shared/validation';
 import {
   asClass,
   asFunction,
@@ -62,7 +65,10 @@ export const scrapperRunner = async (
           ) as Message<ScrapperRunnerMessagePayload>;
 
           try {
-            const message = ScrapperRunnerMessageDto.validate(body.payload);
+            const message = validate(
+              body.payload,
+              ScrapperRunnerMessagePayloadSchema
+            );
 
             await unitOfWork.run(
               (ctx) => {
@@ -119,20 +125,19 @@ const bootstrap = async (dbConnection?: Connection) => {
       args: awsChromeLambda.args,
     });
 
-    const connectionProvided = Boolean(dbConnection);
+    const connectionProvided = dbConnection instanceof Connection;
 
-    const connection =
-      dbConnection instanceof Connection
-        ? dbConnection
-        : await createConnection({
-            host: process.env.DB_HOST,
-            database: process.env.DB_NAME,
-            username: process.env.DB_USER,
-            password: process.env.DB_PASSWORD,
-            entities: entityDefinitions.map((entity) => entity.model),
-            type: 'postgres',
-            synchronize: false,
-          });
+    const connection = connectionProvided
+      ? dbConnection
+      : await createConnection({
+          host: process.env.DB_HOST,
+          database: process.env.DB_NAME,
+          username: process.env.DB_USER,
+          password: process.env.DB_PASSWORD,
+          entities: entityDefinitions.map((entity) => entity.model),
+          type: 'postgres',
+          synchronize: false,
+        });
 
     await connection.query('SELECT 1+1');
 

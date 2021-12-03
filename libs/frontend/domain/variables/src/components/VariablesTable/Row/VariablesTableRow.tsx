@@ -1,29 +1,15 @@
-import { Delete } from '@mui/icons-material';
 import {
   IconButton,
   TableCell,
   TableRow,
   Tooltip,
   Typography,
+  useTheme,
 } from '@mui/material';
-import { styled } from '@mui/material/styles';
 import { EnumSelect, FormTextField } from '@scrapper-gate/frontend/form';
 import { VariableScope, VariableType } from '@scrapper-gate/shared/schema';
-import classNames from 'classnames';
 import React, { memo } from 'react';
 import { VariableValueField } from '../../VariableValueField/VariableValueField';
-
-const PREFIX = 'VariablesTableRow';
-
-const classes = {
-  delete: `${PREFIX}-delete`,
-};
-
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  [`& .${classes.delete}`]: {
-    color: theme.palette.error.main,
-  },
-}));
 
 export interface VariablesTableRowProps {
   index: number;
@@ -40,8 +26,10 @@ const BaseVariablesTableRow = ({
   type,
   scope,
 }: VariablesTableRowProps) => {
+  const theme = useTheme();
+
   return (
-    <StyledTableRow className="variable-row">
+    <TableRow data-index={index} className="variable-row">
       <TableCell>
         <FormTextField
           fullWidth
@@ -69,6 +57,9 @@ const BaseVariablesTableRow = ({
       </TableCell>
       <TableCell>
         <EnumSelect
+          sx={{
+            width: 125,
+          }}
           fullWidth
           variant="standard"
           enumObj={VariableType}
@@ -79,14 +70,15 @@ const BaseVariablesTableRow = ({
         <Tooltip title="Remove variable">
           <IconButton
             onClick={() => onDelete?.(index)}
-            className={classNames(classes.delete, 'delete-variable')}
+            className="delete-variable"
             size="large"
+            color="error"
           >
-            <Delete />
+            {theme.icons.remove}
           </IconButton>
         </Tooltip>
       </TableCell>
-    </StyledTableRow>
+    </TableRow>
   );
 };
 

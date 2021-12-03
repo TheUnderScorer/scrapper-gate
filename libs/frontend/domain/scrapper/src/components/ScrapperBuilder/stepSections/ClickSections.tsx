@@ -1,12 +1,12 @@
-import React from 'react';
-import { Box, MenuItem } from '@mui/material';
-import { ScrapperKey } from '../commonFields/ScrapperKey';
-import { useFormState } from 'react-final-form';
+import { Box } from '@mui/material';
+import { EnumSelect, useFormFieldValue } from '@scrapper-gate/frontend/form';
 import { Incrementator } from '@scrapper-gate/frontend/ui';
-import { ScrapperStepFormProps } from '../ScrapperBuilder.types';
+import { MouseButton } from '@scrapper-gate/shared/schema';
+import React from 'react';
+import { useFormState } from 'react-final-form';
+import { ScrapperKey } from '../commonFields/ScrapperKey';
 import { Url } from '../commonFields/Url';
-import { mouseButtonsMapArr } from '../../../dictionary/mouseButtonsMap';
-import { FormSelect, useFormFieldValue } from '@scrapper-gate/frontend/form';
+import { ScrapperStepFormProps } from '../ScrapperBuilder.types';
 
 export const ClickSections = ({
   ElementPicker,
@@ -27,17 +27,12 @@ export const ClickSections = ({
         fieldNameCreator={fieldNameCreator}
         disabled={formState.submitting}
       />
-      <FormSelect
+      <EnumSelect
+        enumObj={MouseButton}
         variant="outlined"
         label="Mouse button"
         name={fieldNameCreator('mouseButton')}
-      >
-        {mouseButtonsMapArr.map(([key, label]) => (
-          <MenuItem key={key} value={key}>
-            {label}
-          </MenuItem>
-        ))}
-      </FormSelect>
+      />
       <Url
         nodeIndex={nodeIndex}
         fieldNameCreator={fieldNameCreator}

@@ -28,16 +28,9 @@ describe('Popup', () => {
     it.each(Object.values(ScrapperType))(
       'should let user create new scrapper %s',
       async (type) => {
-        const page = await createNewUserWithScrapper(
-          await createBrowser(),
-          type
-        );
-
-        await repeatUntil(async () => {
-          const form = await page.$('.scrapper-builder-form');
-
-          expect(form).toBeTruthy();
-        });
+        await expect(
+          createNewUserWithScrapper(await createBrowser(), type)
+        ).resolves.not.toThrow();
       }
     );
 

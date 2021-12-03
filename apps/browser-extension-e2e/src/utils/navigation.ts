@@ -7,6 +7,11 @@ export interface NavigateToPopupOptions {
   logoutIfAuthorized?: boolean;
 }
 
+const authRoutes = [
+  browserExtensionRoutes.popup.login,
+  browserExtensionRoutes.popup.signUp,
+];
+
 export const navigateToPopup = async (
   page: Page,
   { logoutIfAuthorized }: NavigateToPopupOptions = {}
@@ -17,8 +22,10 @@ export const navigateToPopup = async (
     waitUntil: 'networkidle',
   });
 
+  const pageUrl = page.url();
+
   const result = {
-    isAuthorized: !page.url().includes(browserExtensionRoutes.popup.login),
+    isAuthorized: !authRoutes.some((route) => pageUrl.includes(route)),
   };
 
   if (result.isAuthorized && logoutIfAuthorized) {

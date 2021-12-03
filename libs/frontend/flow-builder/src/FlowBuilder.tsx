@@ -96,6 +96,7 @@ export const FlowBuilder = <
                           onChange={setActiveTab}
                           tabs={tabs}
                           mainTabLabel={mainTabLabel}
+                          loading={props?.loading}
                         />
                         <Box flex={1} overflow="hidden">
                           <FlowBuilderContent

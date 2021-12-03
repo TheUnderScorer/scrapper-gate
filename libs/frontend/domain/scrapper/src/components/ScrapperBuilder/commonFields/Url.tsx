@@ -1,11 +1,5 @@
-import { Info, Language, MyLocation } from '@mui/icons-material';
-import {
-  Button,
-  IconButton,
-  InputAdornment,
-  Stack,
-  Tooltip,
-} from '@mui/material';
+import { Info, Language, MyLocation, OpenInBrowser } from '@mui/icons-material';
+import { IconButton, InputAdornment, Stack, Tooltip } from '@mui/material';
 import { BlockEditorProps } from '@scrapper-gate/frontend/block-editor';
 import { VariablesTextField } from '@scrapper-gate/frontend/domain/variables';
 import { NodeContentProps } from '@scrapper-gate/frontend/flow-builder';
@@ -68,38 +62,50 @@ export const Url = ({
 
   return (
     <Stack spacing={1} direction="column">
-      <VariablesTextField
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <Language />
-            </InputAdornment>
-          ),
-          endAdornment: !isOnStepUrl && (
-            <InputAdornment position="end">
-              <Tooltip
-                placement="top"
-                arrow
-                title={<TooltipText>Fill with current URL</TooltipText>}
-              >
-                <span>
-                  <IconButton
-                    disabled={urlDisabled}
-                    onClick={fillWithLocation}
-                    size="large"
-                  >
-                    <MyLocation />
-                  </IconButton>
-                </span>
-              </Tooltip>
-            </InputAdornment>
-          ),
-        }}
-        label={label}
-        name={fieldNameCreator(name)}
-        disabled={urlDisabled}
-        {...rest}
-      />
+      <Stack spacing={1} direction="row" alignItems="center">
+        <VariablesTextField
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <Language />
+              </InputAdornment>
+            ),
+            endAdornment: !isOnStepUrl && (
+              <InputAdornment position="end">
+                <Tooltip
+                  placement="top"
+                  arrow
+                  title={<TooltipText>Fill with current URL</TooltipText>}
+                >
+                  <span>
+                    <IconButton
+                      disabled={urlDisabled}
+                      onClick={fillWithLocation}
+                      size="large"
+                    >
+                      <MyLocation />
+                    </IconButton>
+                  </span>
+                </Tooltip>
+              </InputAdornment>
+            ),
+          }}
+          label={label}
+          name={fieldNameCreator(name)}
+          disabled={urlDisabled}
+          sx={{
+            flex: 1,
+          }}
+          {...rest}
+        />
+        {!isOnStepUrl && !disabled && value && (
+          <Tooltip title="Open step url">
+            <IconButton href={value}>
+              <OpenInBrowser />
+            </IconButton>
+          </Tooltip>
+        )}
+      </Stack>
 
       <Stack alignItems="center" direction="row" justifyContent="space-between">
         {allowPreviousStepUrl && canUsePreviousStepUrl && (
@@ -123,9 +129,6 @@ export const Url = ({
               <Info />
             </IconButton>
           </Stack>
-        )}
-        {!isOnStepUrl && !disabled && value && (
-          <Button href={value}>Open step URL</Button>
         )}
       </Stack>
     </Stack>

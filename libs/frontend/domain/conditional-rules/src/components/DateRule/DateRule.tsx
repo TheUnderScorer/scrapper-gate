@@ -1,77 +1,50 @@
-import { MenuItem, Stack } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Stack, Typography } from '@mui/material';
+import { createTextSerializeStrategy } from '@scrapper-gate/frontend/block-editor';
 import { VariablesDateField } from '@scrapper-gate/frontend/domain/variables';
-import { FormSelect, useFormFieldValue } from '@scrapper-gate/frontend/form';
-import { DateFormat, toDisplayText } from '@scrapper-gate/shared/common';
-import { ConditionalRuleWhen } from '@scrapper-gate/shared/domain/conditional-rules';
-import classNames from 'classnames';
-import React, { useMemo } from 'react';
-import { ruleLabels } from '../../labels';
-import { ConditionalRuleDefinitionsProps } from '../../types';
-
-const PREFIX = 'DateRule';
-
-const classes = {
-  select: `${PREFIX}-select`,
-  date: `${PREFIX}-date`,
-};
-
-const StyledStack = styled(Stack)(() => ({
-  [`& .${classes.select}`]: {
-    minWidth: 100,
-  },
-
-  [`& .${classes.date}`]: {
-    flex: 1,
-  },
-}));
-
-const supportedWhen = [
-  ConditionalRuleWhen.MoreThan,
-  ConditionalRuleWhen.MoreThanOrEqual,
-  ConditionalRuleWhen.Equals,
-  ConditionalRuleWhen.NotEqual,
-  ConditionalRuleWhen.LessThan,
-  ConditionalRuleWhen.LessThanOrEqual,
-];
+import { useFormFieldValue } from '@scrapper-gate/frontend/form';
+import { DateFormat } from '@scrapper-gate/shared/common';
+import { ConditionalRuleType } from '@scrapper-gate/shared/schema';
+import React from 'react';
+import { ConditionalRuleProps } from '../../types';
+import { ConditionSelect } from '../ConditionSelect/ConditionSelect';
 
 const now = new Date();
+
+const dateFormat = DateFormat.Date;
+const serializeStrategy = createTextSerializeStrategy(dateFormat);
 
 export const DateRule = ({
   getName,
   spacing,
   fieldVariant,
-}: ConditionalRuleDefinitionsProps) => {
-  const value = useFormFieldValue(getName('value'));
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const initialValue = useMemo(() => (value ? undefined : now), []);
+  definition,
+}: ConditionalRuleProps<ConditionalRuleType.Date>) => {
+  const value = useFormFieldValue<Date | undefined>(getName('expectedDate'));
 
   return (
-    <StyledStack spacing={spacing}>
-      <FormSelect
-        label={ruleLabels.when}
-        className={classNames('date-rule-select', classes.select)}
-        defaultValue={ConditionalRuleWhen.Equals}
-        variant={fieldVariant}
-        name={getName('when')}
-      >
-        {supportedWhen.map((when) => (
-          <MenuItem key={when} value={when}>
-            {toDisplayText(when)}
-          </MenuItem>
-        ))}
-      </FormSelect>
+    <Stack spacing={spacing} direction="row" alignItems="center">
+      <Typography variant="body2">Date</Typography>
+      <ConditionSelect
+        sx={{
+          minWidth: 150,
+        }}
+        fieldVariant={fieldVariant}
+        getName={getName}
+        definition={definition}
+      />
       <VariablesDateField
-        fullWidth
-        className={classes.date}
+        serializeStrategy={serializeStrategy}
+        size="small"
+        sx={{
+          minWidth: '150px',
+        }}
         variant={fieldVariant}
-        name={getName('value')}
-        label={ruleLabels.value}
-        inputFormat={DateFormat.Date}
+        name={getName('expectedDate')}
+        inputFormat={dateFormat}
         fieldProps={{
-          initialValue,
+          initialValue: value ?? now,
         }}
       />
-    </StyledStack>
+    </Stack>
   );
 };

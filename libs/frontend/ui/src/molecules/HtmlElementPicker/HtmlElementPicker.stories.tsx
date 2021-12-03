@@ -6,7 +6,7 @@ import { HtmlElementPickerValidationRules } from './HtmlElementPicker.types';
 import { highlight } from '../../styles/highlight';
 
 export default {
-  title: 'UI/HTML Element Picker',
+  title: 'Molecules/HTML Element Picker',
   component: HtmlElementPicker,
 };
 

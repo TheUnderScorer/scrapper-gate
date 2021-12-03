@@ -78,12 +78,9 @@ export const FlowBuilderHeader = ({
     subscription: {
       submitting: true,
       errors: true,
-      hasValidationErrors: true,
       validating: true,
     },
   });
-
-  const hasErrors = formState.hasValidationErrors;
 
   const setItems = useFlowBuilderItemsSelector((ctx) => ctx.setItems);
   const getItems = useFlowBuilderItemsSelector((ctx) => ctx.getItems);
@@ -156,7 +153,11 @@ export const FlowBuilderHeader = ({
                 </SkeletonComponentOrIcon>
               </>
             )}
-            {additionalActions}
+            {additionalActions && (
+              <SkeletonComponentOrIcon loading={loading} width={30} height={30}>
+                {additionalActions}
+              </SkeletonComponentOrIcon>
+            )}
             {!readOnly && (
               <>
                 <Divider orientation="vertical" className={classes.divider} />
@@ -174,7 +175,7 @@ export const FlowBuilderHeader = ({
                   height={30}
                 >
                   <Fab
-                    disabled={formState.submitting || hasErrors}
+                    disabled={formState.submitting}
                     className={classNames(
                       classes.fab,
                       'flow-builder-submit-btn'

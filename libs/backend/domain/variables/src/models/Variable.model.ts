@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { BaseModel } from '@scrapper-gate/backend/base-model';
 import { UserModel } from '@scrapper-gate/backend/domain/user';
 import { Entities } from '@scrapper-gate/shared/common';
@@ -37,7 +38,7 @@ export class VariableModel
     transformer: valueTransformer,
     nullable: true,
   })
-  value?: Maybe<unknown>;
+  value?: any;
 
   @Column({
     nullable: true,
@@ -50,7 +51,7 @@ export class VariableModel
     transformer: valueTransformer,
     nullable: true,
   })
-  defaultValue?: Maybe<unknown>;
+  defaultValue?: any;
 
   @Column({
     type: 'enum',

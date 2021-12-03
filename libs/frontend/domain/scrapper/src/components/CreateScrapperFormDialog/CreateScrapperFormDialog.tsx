@@ -4,13 +4,18 @@ import {
   Dialog,
   useDialogMethods,
 } from '@scrapper-gate/frontend/dialogs';
-import { FormTextField } from '@scrapper-gate/frontend/form';
+import {
+  FormTextField,
+  joiValidationResolver,
+  setFieldTouched,
+} from '@scrapper-gate/frontend/form';
 import { useSnackbarOnError } from '@scrapper-gate/frontend/snackbars';
 import {
   CreateScrapperInput,
   CreateScrapperMutation,
   ScrapperType,
 } from '@scrapper-gate/shared/schema';
+import { CreateScrapperInputSchema } from '@scrapper-gate/shared/validation';
 import React, { useCallback } from 'react';
 import { Form } from 'react-final-form';
 import { useCreateScrapper } from '../../hooks/useCreateScrapper';
@@ -21,6 +26,8 @@ export interface CreateScrapperFormProps extends BaseDialogProps {
 }
 
 export const createScrapperDialogId = 'CREATE_SCRAPPER_DIALOG';
+
+const validate = joiValidationResolver(CreateScrapperInputSchema);
 
 export const CreateScrapperFormDialog = ({
   onCreate,
@@ -61,7 +68,11 @@ export const CreateScrapperFormDialog = ({
       initialValues={{
         type: ScrapperType.Simple,
       }}
+      mutators={{
+        setFieldTouched,
+      }}
       onSubmit={handleSubmit}
+      validate={validate}
       render={(props) => (
         <Dialog
           onSubmit={props.handleSubmit}
@@ -76,7 +87,13 @@ export const CreateScrapperFormDialog = ({
           maxWidth="xl"
           title="Create scrapper"
         >
-          <Stack className="create-scrapper-form" spacing={4}>
+          <Stack
+            sx={{
+              paddingTop: (theme) => theme.spacing(1),
+            }}
+            className="create-scrapper-form"
+            spacing={4}
+          >
             <ScrapperTypeSelection name="type" />
             <FormTextField
               label="Scrapper name"

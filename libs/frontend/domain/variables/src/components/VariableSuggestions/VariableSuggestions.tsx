@@ -104,7 +104,9 @@ export const VariableSuggestions = ({
         dense
         subheader={
           filteredVariables.length ? (
-            <ListSubheader component="li">Variables</ListSubheader>
+            <ListSubheader disableSticky component="li">
+              Variables
+            </ListSubheader>
           ) : undefined
         }
       >

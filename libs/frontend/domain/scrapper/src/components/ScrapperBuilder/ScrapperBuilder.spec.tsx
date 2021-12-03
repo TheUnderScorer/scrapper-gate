@@ -70,6 +70,12 @@ const renderCmp = (
     </MockedProvider>
   );
 
+const disabledActions = [
+  ScrapperAction.Condition,
+  ScrapperAction.Wait,
+  ScrapperAction.RunJavascript,
+];
+
 const setupScrapperSteps = async () => {
   const basePosition: XYPosition = {
     x: 50,
@@ -78,7 +84,7 @@ const setupScrapperSteps = async () => {
 
   scrapper.steps = await Promise.all([
     createMockScrapperStep({
-      disabledActions: [ScrapperAction.Condition],
+      disabledActions,
       createdBy: scrapper.createdBy,
       intercept: (step) => {
         step.isFirst = true;
@@ -88,17 +94,17 @@ const setupScrapperSteps = async () => {
     }),
 
     createMockScrapperStep({
-      disabledActions: [ScrapperAction.Condition],
+      disabledActions,
       createdBy: scrapper.createdBy,
     }),
 
     createMockScrapperStep({
-      disabledActions: [ScrapperAction.Condition],
+      disabledActions,
       createdBy: scrapper.createdBy,
     }),
 
     createMockScrapperStep({
-      disabledActions: [ScrapperAction.Condition],
+      disabledActions,
       createdBy: scrapper.createdBy,
     }),
   ]);
@@ -271,6 +277,7 @@ describe('ScrapperBuilder', () => {
 
         expect(stepVariable).toEqual({
           ...stepInput,
+          conditionalRules: [],
           isFirst: Boolean(step?.isFirst),
           nextStepId: step!.nextStep?.id,
         });

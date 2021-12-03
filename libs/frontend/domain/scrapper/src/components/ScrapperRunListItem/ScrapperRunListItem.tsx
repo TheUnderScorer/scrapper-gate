@@ -38,6 +38,7 @@ export const ScrapperRunListItem = ({
           <Stack direction="row" spacing={2}>
             <Typography>{scrapperRun.scrapper?.name}</Typography>
             <RunState
+              iconMode="icon"
               runMutationCalled
               state={scrapperRun.state}
               showMessage={false}

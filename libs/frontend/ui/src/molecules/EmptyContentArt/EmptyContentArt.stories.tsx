@@ -3,7 +3,7 @@ import { action } from '@storybook/addon-actions';
 import { EmptyContentArt } from './EmptyContentArt';
 
 export default {
-  title: 'UI/EmptyContentArt',
+  title: 'Molecules/EmptyContentArt',
 };
 
 export const Component = () => {

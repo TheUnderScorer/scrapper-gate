@@ -25,7 +25,7 @@ import {
   ScrapperForRunFragment,
   ScrapperRunSettingsInput,
 } from '@scrapper-gate/shared/schema';
-import { ScrapperRunSettingsInputDto } from '@scrapper-gate/shared/validation';
+import { ScrapperRunSettingsInputSchema } from '@scrapper-gate/shared/validation';
 import React, { useCallback } from 'react';
 import { Form } from 'react-final-form';
 import { useMount } from 'react-use';
@@ -35,7 +35,7 @@ import { RunScrapperDialogProps } from './RunScrapperDialog.types';
 
 export const runScrapperDialogId = 'RUN_SCRAPPER';
 
-const validate = joiValidationResolver(ScrapperRunSettingsInputDto);
+const validate = joiValidationResolver(ScrapperRunSettingsInputSchema);
 
 export const RunScrapperDialog = ({
   scrapper,
@@ -151,6 +151,7 @@ export const RunScrapperDialog = ({
         >
           <DialogContentText component="div" whiteSpace="pre-wrap">
             <RunState
+              iconMode="icon"
               returnUrl={returnUrl}
               showIcon
               onRunUrlClick={cancel}

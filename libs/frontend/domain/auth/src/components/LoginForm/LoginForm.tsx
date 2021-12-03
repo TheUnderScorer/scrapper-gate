@@ -16,15 +16,19 @@ import { ErrorAlert } from '@scrapper-gate/frontend/ui';
 import React from 'react';
 import { Form } from 'react-final-form';
 import { Link } from 'react-router-dom';
-import { LoginFormProps, LoginFormType } from './LoginForm.types';
-import { LoginFormDto } from './LoginFormDto';
+import {
+  LoginFormInput,
+  LoginFormProps,
+  LoginFormType,
+} from './LoginForm.types';
+import { LoginFormSchema } from './LoginForm.schema';
 import { useLoginForm } from './useLoginForm';
 
 const StyledForm = styled('form')(() => ({
   width: '100%',
 }));
 
-const validate = joiValidationResolver(LoginFormDto);
+const validate = joiValidationResolver(LoginFormSchema);
 
 export const LoginForm = ({
   afterLogin,
@@ -41,7 +45,7 @@ export const LoginForm = ({
   });
 
   return (
-    <Form<LoginFormDto>
+    <Form<LoginFormInput>
       validate={(values) =>
         validate({
           ...values,
@@ -67,7 +71,6 @@ export const LoginForm = ({
               name="username"
               variant="filled"
               disabled={loading}
-              showErrorOnlyOnTouched
             />
             <FormTextField
               label="Password"
@@ -76,8 +79,9 @@ export const LoginForm = ({
               name="password"
               variant="filled"
               disabled={loading}
-              type="password"
-              showErrorOnlyOnTouched
+              fieldProps={{
+                type: 'password',
+              }}
             />
             {type === LoginFormType.Signup && (
               <FormCheckbox

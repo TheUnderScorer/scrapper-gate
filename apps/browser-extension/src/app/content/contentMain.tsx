@@ -31,7 +31,7 @@ document.body.appendChild(contentContainer);
 
 ReactDOM.render(
   <React.StrictMode>
-    <Global styles={[highlight(palette.primaryLight)]} />
+    <Global styles={[highlight(palette.primary.light)]} />
     <Scoped>
       {(shadowRoot, container) => (
         <ContentErrorBoundary>

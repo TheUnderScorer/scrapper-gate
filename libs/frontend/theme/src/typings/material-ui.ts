@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-empty-interface */
 
 import { colors, Theme } from '@mui/material';
-import { Palette } from '@mui/material/styles';
-import { ReactNode } from 'react';
+// eslint-disable-next-line no-restricted-imports
+import type { Palette } from '@mui/material/styles';
+import type { ReactNode } from 'react';
 
 interface FlowBuilderColors {
   action: string;
@@ -13,6 +14,8 @@ interface FlowBuilderColors {
   startText: string;
   end: string;
   endText: string;
+  sourceHandle: string;
+  targetHandle: string;
 }
 
 interface Gradients {
@@ -20,7 +23,6 @@ interface Gradients {
 }
 
 export interface BasePalette {
-  primaryLight: string;
   greyVariant: typeof colors.grey;
   flowBuilderColors: FlowBuilderColors;
   gradients: Gradients;
@@ -32,6 +34,7 @@ export interface BasePalette {
 export interface DomainIcons {
   run: ReactNode;
   delete: ReactNode;
+  remove: ReactNode;
 }
 
 export interface Emojis {

@@ -8,6 +8,7 @@ import {
 } from '@scrapper-gate/shared/common';
 import { InvalidSelectorProvidedError } from '@scrapper-gate/shared/errors';
 import { Selector, SelectorType } from '@scrapper-gate/shared/schema';
+import classNames from 'classnames';
 import React, {
   MutableRefObject,
   useCallback,
@@ -55,6 +56,7 @@ export const HtmlElementPicker = ({
   shouldAddSelectorOnEnter,
   TextFieldComponent,
   onElements,
+  sx,
 }: HtmlElementPickerProps) => {
   const [open, toggleOpen] = useToggle(false);
   const [clickEnabled, toggleClickEnabled] = useToggle(false);
@@ -291,7 +293,12 @@ export const HtmlElementPicker = ({
   );
 
   return (
-    <Grid className={className} container direction="column">
+    <Grid
+      className={classNames(className, 'html-element-picker-wrapper')}
+      container
+      direction="column"
+      sx={sx}
+    >
       {input}
       <Box mt={1}>
         <Tooltip

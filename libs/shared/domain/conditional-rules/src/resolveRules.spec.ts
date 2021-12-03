@@ -1,215 +1,72 @@
-import { ConditionalRuleGroupType } from '@scrapper-gate/shared/schema';
-import { v4 } from 'uuid';
+import {
+  ConditionalRuleCondition,
+  ConditionalRuleGroupMatchType,
+  ConditionalRuleType,
+} from '@scrapper-gate/shared/schema';
 import { resolveRules, ResolveRulesParams } from './resolveRules';
 
 describe('Resolve rules', () => {
+  const stubRules = [
+    {
+      ruleType: ConditionalRuleType.Date,
+      expectedDate: new Date(),
+      condition: ConditionalRuleCondition.Equals,
+    },
+  ];
+
   it.each<[params: ResolveRulesParams, expectedResult: boolean]>([
+    // Case: match type set to "all, first rule returns true
     [
       {
         resolvers: {
-          testTrue: jest.fn(() => true),
-          testFalse: jest.fn(() => false),
+          Date: jest.fn().mockReturnValueOnce(true).mockReturnValueOnce(false),
         },
         ruleGroups: [
           {
-            id: v4(),
-            type: ConditionalRuleGroupType.All,
-            rules: [
-              {
-                id: v4(),
-                type: 'testTrue',
-              },
-              {
-                id: v4(),
-                type: 'testFalse',
-              },
-            ],
+            matchType: ConditionalRuleGroupMatchType.All,
+            rules: stubRules,
+          },
+          {
+            matchType: ConditionalRuleGroupMatchType.All,
+            rules: stubRules,
+          },
+        ],
+      },
+      true,
+    ],
+    // Case: match type set to "all, first rule returns false, second true
+    [
+      {
+        resolvers: {
+          Date: jest.fn().mockReturnValueOnce(false).mockReturnValueOnce(true),
+        },
+        ruleGroups: [
+          {
+            matchType: ConditionalRuleGroupMatchType.All,
+            rules: [...stubRules, ...stubRules],
           },
         ],
       },
       false,
     ],
+    // Case: match type set to "any", second rule returns true
     [
       {
         resolvers: {
-          testTrue: jest.fn(() => true),
-          testFalse: jest.fn(() => false),
+          Date: jest.fn().mockReturnValueOnce(false).mockReturnValueOnce(true),
         },
         ruleGroups: [
           {
-            id: v4(),
-            type: ConditionalRuleGroupType.Any,
-            rules: [
-              {
-                id: v4(),
-                type: 'testTrue',
-              },
-              {
-                id: v4(),
-                type: 'testFalse',
-              },
-            ],
+            matchType: ConditionalRuleGroupMatchType.Any,
+            rules: stubRules,
+          },
+          {
+            matchType: ConditionalRuleGroupMatchType.All,
+            rules: stubRules,
           },
         ],
       },
       true,
-    ],
-    [
-      {
-        resolvers: {
-          testTrue: jest.fn(() => true),
-          testFalse: jest.fn(() => false),
-        },
-        ruleGroups: [
-          {
-            id: v4(),
-            type: ConditionalRuleGroupType.Any,
-            rules: [
-              {
-                id: v4(),
-                type: 'testTrue',
-              },
-              {
-                id: v4(),
-                type: 'testFalse',
-              },
-            ],
-          },
-          {
-            id: v4(),
-            type: ConditionalRuleGroupType.Any,
-            rules: [
-              {
-                id: v4(),
-                type: 'testTrue',
-              },
-            ],
-          },
-        ],
-      },
-      true,
-    ],
-    [
-      {
-        resolvers: {
-          testTrue: jest.fn(() => true),
-          testFalse: jest.fn(() => false),
-        },
-        ruleGroups: [
-          {
-            id: v4(),
-            type: ConditionalRuleGroupType.All,
-            rules: [
-              {
-                id: v4(),
-                type: 'testTrue',
-              },
-              {
-                id: v4(),
-                type: 'testTrue',
-              },
-            ],
-          },
-        ],
-      },
-      true,
-    ],
-    [
-      {
-        resolvers: {
-          testTrue: jest.fn(() => true),
-          testFalse: jest.fn(() => false),
-        },
-        ruleGroups: [
-          {
-            id: v4(),
-            type: ConditionalRuleGroupType.All,
-            rules: [
-              {
-                id: v4(),
-                type: 'testTrue',
-              },
-              {
-                id: v4(),
-                type: 'testTrue',
-              },
-            ],
-          },
-          {
-            id: v4(),
-            type: ConditionalRuleGroupType.All,
-            rules: [
-              {
-                id: v4(),
-                type: 'testTrue',
-              },
-            ],
-          },
-        ],
-      },
-      true,
-    ],
-    [
-      {
-        resolvers: {
-          testTrue: jest.fn(() => true),
-          testFalse: jest.fn(() => false),
-        },
-        ruleGroups: [
-          {
-            id: v4(),
-            type: ConditionalRuleGroupType.All,
-            rules: [
-              {
-                id: v4(),
-                type: 'testFalse',
-              },
-            ],
-          },
-          {
-            id: v4(),
-            type: ConditionalRuleGroupType.All,
-            rules: [
-              {
-                id: v4(),
-                type: 'testTrue',
-              },
-            ],
-          },
-        ],
-      },
-      true,
-    ],
-    [
-      {
-        resolvers: {
-          testTrue: jest.fn(() => true),
-          testFalse: jest.fn(() => false),
-        },
-        ruleGroups: [
-          {
-            id: v4(),
-            type: ConditionalRuleGroupType.All,
-            rules: [
-              {
-                id: v4(),
-                type: 'testFalse',
-              },
-            ],
-          },
-          {
-            id: v4(),
-            type: ConditionalRuleGroupType.All,
-            rules: [
-              {
-                id: v4(),
-                type: 'testFalse',
-              },
-            ],
-          },
-        ],
-      },
-      false,
     ],
   ])('should return correct result', async (params, expectedResult) => {
     const { result } = await resolveRules(params);

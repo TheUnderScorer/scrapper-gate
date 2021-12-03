@@ -65,7 +65,7 @@ export const ReadAttributeSections = ({
       />
       <EnumSelect
         enumObj={VariableType}
-        name="valueType"
+        name={fieldNameCreator('valueType')}
         label="Value type"
         defaultValue={VariableType.Text}
       />

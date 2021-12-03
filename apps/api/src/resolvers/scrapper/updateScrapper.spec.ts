@@ -1,4 +1,3 @@
-import '../../typings/global';
 import {
   ScrapperModel,
   ScrapperRepository,
@@ -15,11 +14,14 @@ import {
   ScrapperInput,
   VariableInput,
   VariableScope,
+  VariableType,
 } from '@scrapper-gate/shared/schema';
+import faker from 'faker';
 import gql from 'graphql-tag';
 import { v4 as uuid } from 'uuid';
 import { createScrapper } from '../../tests/createScrapper';
 import { createUser } from '../../tests/createUser';
+import '../../typings/global';
 
 const mutation = gql`
   mutation UpdateScrapper($input: ScrapperInput!) {
@@ -48,10 +50,13 @@ const updateSteps = async (accessToken: string, scrapper: ScrapperModel) => {
     payload: makeGraphqlRequest<{ input: ScrapperInput }>(mutation, {
       input: {
         id: scrapper.id,
+        name: 'test',
         steps: [
           {
             id: firstStepId,
             action: ScrapperAction.Click,
+            url: faker.internet.url(),
+            key: 'test',
             clickTimes: 1,
             mouseButton: MouseButton.Left,
             nextStepId: id,
@@ -63,6 +68,8 @@ const updateSteps = async (accessToken: string, scrapper: ScrapperModel) => {
           {
             id,
             action: ScrapperAction.ReadText,
+            url: faker.internet.url(),
+            key: 'test1',
             position: {
               x: 250,
               y: 0,
@@ -151,6 +158,7 @@ describe('Update scrapper', () => {
         value: 'test',
         defaultValue: 'default',
         scope: VariableScope.Global,
+        type: VariableType.Text,
       },
     ];
 
@@ -187,10 +195,12 @@ describe('Update scrapper', () => {
     const existingVariable = VariableModel.create({
       key: 'existing',
       scope: VariableScope.Scrapper,
+      type: VariableType.Text,
     });
     const toRemoveVariable = VariableModel.create({
       key: 'toRemove',
       scope: VariableScope.Scrapper,
+      type: VariableType.Text,
     });
 
     scrapper.variables = [existingVariable, toRemoveVariable];
@@ -203,12 +213,14 @@ describe('Update scrapper', () => {
         value: 'test',
         defaultValue: 'default',
         scope: VariableScope.Scrapper,
+        type: VariableType.Text,
       },
       {
         id: existingVariable.id,
         key: existingVariable.key,
         value: 'value update',
         scope: VariableScope.Scrapper,
+        type: VariableType.Text,
       },
     ];
 
@@ -332,10 +344,13 @@ describe('Update scrapper', () => {
       payload: makeGraphqlRequest<{ input: ScrapperInput }>(mutation, {
         input: {
           id: scrapper.id,
+          name: 'test',
           steps: [
             {
               id: secondStep.id,
+              key: 'test',
               action: ScrapperAction.Condition,
+              url: faker.internet.url(),
               clickTimes: 1,
               mouseButton: MouseButton.Left,
               position: {
@@ -373,14 +388,17 @@ describe('Update scrapper', () => {
       payload: makeGraphqlRequest<{ input: ScrapperInput }>(mutation, {
         input: {
           id: scrapper.id,
+          name: 'test',
           steps: [
             {
               id: firstStepId,
+              key: 'condition',
               action: ScrapperAction.Condition,
               stepIdOnTrue: trueStepId,
               stepIdOnFalse: falseStepId,
               clickTimes: 1,
               mouseButton: MouseButton.Left,
+              url: faker.internet.url(),
               position: {
                 x: 0,
                 y: 0,
@@ -390,6 +408,7 @@ describe('Update scrapper', () => {
               key: 'true',
               id: trueStepId,
               action: ScrapperAction.ReadText,
+              useUrlFromPreviousStep: true,
               position: {
                 x: 250,
                 y: 0,
@@ -399,6 +418,7 @@ describe('Update scrapper', () => {
               key: 'false',
               id: falseStepId,
               action: ScrapperAction.Click,
+              url: faker.internet.url(),
               position: {
                 x: -250,
                 y: 0,

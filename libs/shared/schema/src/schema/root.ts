@@ -5,13 +5,13 @@ export const rootSchema = gql`
   scalar Url
 
   # Performs validation of given dto from "@scrapper-gate/shared/validation"
-  # "dto" must match existing schema in validation package
+  # "schema" must match existing schema in validation package
   # "key" must match field property to be validated
   # Ex: type Mutation {
-  #     // "dto" matches schema export from validation package, key matches field that will be validated
-  #     createPost($input: PostInput!) @validateDto(dto: "PostInputDto", key: "input")
+  #     // "schema" matches schema export from validation package, key matches field that will be validated
+  #     createPost($input: PostInput!) @validateDto(dto: "PostInputSchema", key: "input")
   # }
-  directive @validateDto(dto: String!, key: String!) on FIELD_DEFINITION
+  directive @validateDto(schema: String!, key: String!) on FIELD_DEFINITION
 
   scalar Record
 

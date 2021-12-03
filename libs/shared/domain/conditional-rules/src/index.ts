@@ -5,3 +5,6 @@ export * from './resolvers/arrayValueResolver';
 export * from './resolvers/primitiveValueResolver';
 export * from './resolveRules';
 export * from './resolvers/variableResolver';
+export * from './conditionalRuleDefinitions';
+export * from './typeGuards';
+export * from './ruleSupportsValue';

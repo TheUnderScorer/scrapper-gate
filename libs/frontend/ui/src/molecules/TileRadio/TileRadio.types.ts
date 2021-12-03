@@ -5,4 +5,5 @@ export interface TileRadioProps extends SelectablePaperProps {
   title: string;
   icon?: ReactNode;
   description?: string;
+  name?: string;
 }

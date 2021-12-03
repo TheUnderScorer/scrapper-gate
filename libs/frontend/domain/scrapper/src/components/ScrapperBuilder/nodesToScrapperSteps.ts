@@ -4,6 +4,7 @@ import {
   FlowBuilderNodeTypes,
   flowBuilderUtils,
 } from '@scrapper-gate/frontend/flow-builder';
+import { useFieldArray } from '@scrapper-gate/frontend/form';
 import { first, getById } from '@scrapper-gate/shared/common';
 import { pickScrapperInput } from '@scrapper-gate/shared/domain/scrapper';
 import {
@@ -11,6 +12,7 @@ import {
   ScrapperStepInput,
 } from '@scrapper-gate/shared/schema';
 import { Edge, getOutgoers, isEdge, isNode, Node } from 'react-flow-renderer';
+import { filter, map, pipe } from 'remeda';
 import { ScrapperBuilderNodeProperties } from './ScrapperBuilder.types';
 
 const allowedNodeTypes = [
@@ -60,36 +62,43 @@ export const nodesToScrapperSteps = (
     throw new Error('Failed to find first node.');
   }
 
-  const rawSteps: ScrapperStepInput[] = nodes
-    .filter(
+  return pipe(
+    nodes,
+    filter(
       (item) =>
         isNode(item) &&
         allowedNodeTypes.includes(item.type as FlowBuilderNodeTypes)
-    )
-    .map((node) => {
+    ),
+    map((node) => {
       return pickScrapperInput({
         ...node.data,
         position: (node as Node<ScrapperBuilderNodeProperties>).position,
         id: node.id,
         isFirst: node.id === firstNode.id,
+        conditionalRules: useFieldArray
+          .stripIds(node.data?.conditionalRules)
+          .map((group) => ({
+            ...group,
+            rules: useFieldArray.stripIds(group.rules),
+          })),
       });
-    });
+    }),
+    map((step) => {
+      const node = getById(nodes, step.id);
 
-  return rawSteps.map((step) => {
-    const node = getById(nodes, step.id);
+      const outgoers = getOutgoers(node as Node, nodes);
 
-    const outgoers = getOutgoers(node as Node, nodes);
+      if (!outgoers.length) {
+        return step;
+      }
 
-    if (!outgoers.length) {
-      return step;
-    }
+      if (node?.data?.action !== ScrapperAction.Condition) {
+        step.nextStepId = outgoers[0].id;
 
-    if (node?.data?.action !== ScrapperAction.Condition) {
-      step.nextStepId = outgoers[0].id;
+        return step;
+      }
 
-      return step;
-    }
-
-    return handleConditionalNodes(nodes, step);
-  });
+      return handleConditionalNodes(nodes, step);
+    })
+  );
 };

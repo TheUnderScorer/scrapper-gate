@@ -1,108 +1,68 @@
+import { DateFormat } from '@scrapper-gate/shared/common';
 import {
-  ConditionalRule,
-  ConditionalRuleGroupType,
+  ConditionalRuleCondition,
+  ConditionalRuleGroupMatchType,
+  ConditionalRuleType,
+  DateConditionalRule,
 } from '@scrapper-gate/shared/schema';
-import { addSeconds, subSeconds } from 'date-fns';
-import { v4 } from 'uuid';
+import { addDays, addSeconds } from 'date-fns';
 import { resolveRules } from '../resolveRules';
-import { ConditionalRuleWhen, ConditionalRuleTypes } from '../types';
 import { makeDateResolver } from './dateResolver';
 
 const now = new Date();
-
 describe('Date resolver', () => {
-  it.each<[rule: ConditionalRule, date: Date | null, expectedResult: boolean]>([
+  it.each<
+    [rule: DateConditionalRule, date: Date | null, expectedResult: boolean]
+  >([
     [
       {
-        id: v4(),
-        type: ConditionalRuleTypes.Date,
-        when: ConditionalRuleWhen.Equals,
-        value: now.valueOf(),
+        ruleType: ConditionalRuleType.Date,
+        condition: ConditionalRuleCondition.Equals,
+        expectedDate: now,
       },
       now,
       true,
     ],
     [
       {
-        id: v4(),
-        type: ConditionalRuleTypes.Date,
-        when: ConditionalRuleWhen.Equals,
-        value: addSeconds(now, 30).valueOf(),
+        ruleType: ConditionalRuleType.Date,
+        condition: ConditionalRuleCondition.Equals,
+        expectedDate: addDays(now, 30),
       },
       now,
       false,
     ],
     [
       {
-        id: v4(),
-        type: ConditionalRuleTypes.Date,
-        when: ConditionalRuleWhen.LessThan,
-        value: addSeconds(now, 30).valueOf(),
+        ruleType: ConditionalRuleType.Date,
+        condition: ConditionalRuleCondition.MoreThan,
+        expectedDate: addSeconds(now, 30),
+      },
+      now,
+      false,
+    ],
+    [
+      {
+        ruleType: ConditionalRuleType.Date,
+        condition: ConditionalRuleCondition.LessThan,
+        expectedDate: addDays(now, 1),
       },
       now,
       true,
-    ],
-    [
-      {
-        id: v4(),
-        type: ConditionalRuleTypes.Date,
-        when: ConditionalRuleWhen.LessThan,
-        value: subSeconds(now, 30).valueOf(),
-      },
-      now,
-      false,
-    ],
-    [
-      {
-        id: v4(),
-        type: ConditionalRuleTypes.Date,
-        when: ConditionalRuleWhen.MoreThan,
-        value: now.valueOf(),
-      },
-      subSeconds(now, 30),
-      false,
-    ],
-    [
-      {
-        id: v4(),
-        type: ConditionalRuleTypes.Date,
-        when: ConditionalRuleWhen.MoreThan,
-        value: now.valueOf(),
-      },
-      addSeconds(now, 30),
-      true,
-    ],
-    [
-      {
-        id: v4(),
-        type: ConditionalRuleTypes.Date,
-        when: ConditionalRuleWhen.Exists,
-        value: now.valueOf(),
-      },
-      null,
-      false,
-    ],
-    [
-      {
-        id: v4(),
-        type: ConditionalRuleTypes.Date,
-        when: ConditionalRuleWhen.NotEmpty,
-        value: now.valueOf(),
-      },
-      null,
-      false,
     ],
   ])(
     'should return true if rule has passed',
     async (rule, date, expectedResult) => {
       const { result } = await resolveRules({
         resolvers: {
-          [ConditionalRuleTypes.Date]: makeDateResolver(date),
+          [ConditionalRuleType.Date]: makeDateResolver(
+            date,
+            DateFormat.DateTime
+          ),
         },
         ruleGroups: [
           {
-            id: v4(),
-            type: ConditionalRuleGroupType.Any,
+            matchType: ConditionalRuleGroupMatchType.Any,
             rules: [rule],
           },
         ],

@@ -34,7 +34,7 @@ export const VariableDetails = ({
       sx={sx}
       subheader={
         hideTitle ? undefined : (
-          <ListSubheader disableGutters>
+          <ListSubheader disableSticky disableGutters>
             <Stack spacing={1} direction="row" alignItems="center">
               <VariableIcon scope={variable.scope} />
               <span>{variable.key}</span>

@@ -19,6 +19,7 @@ export interface RunScrapperHandlerDependencies {
   eventsBus: EventsBus;
 }
 
+// TODO Move ScrapperRunProcessor to backend
 export class RunScrapperHandler implements CommandHandler<RunScrapperCommand> {
   constructor(private readonly dependencies: RunScrapperHandlerDependencies) {}
 

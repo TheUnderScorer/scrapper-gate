@@ -44,6 +44,7 @@ export const TypeSections = ({
         disabled={formState.submitting}
       />
       <ElementPicker
+        disabled={formState.submitting}
         nodeIndex={nodeIndex}
         fieldNameCreator={fieldNameCreator}
         elementsValidator={elementsValidator}
@@ -68,7 +69,9 @@ export const TypeSections = ({
       />
       <FormTextField
         name={fieldNameCreator('typeDelay')}
-        type="number"
+        fieldProps={{
+          type: 'number',
+        }}
         disabled={formState.submitting}
         InputProps={{
           startAdornment: (

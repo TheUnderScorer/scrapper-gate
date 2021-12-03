@@ -1,4 +1,4 @@
-import { Delete, ExpandMore } from '@mui/icons-material';
+import { ExpandMore } from '@mui/icons-material';
 import {
   Accordion,
   AccordionDetails,
@@ -10,18 +10,15 @@ import {
   Typography,
   useTheme,
 } from '@mui/material';
-import { styled } from '@mui/material/styles';
 import {
   FormSelect,
   useFieldArray,
-  useFieldHasError,
+  useFieldError,
 } from '@scrapper-gate/frontend/form';
 import { AppTheme } from '@scrapper-gate/frontend/theme';
 import { Centered, Emoji } from '@scrapper-gate/frontend/ui';
-import {
-  ConditionalRule,
-  ConditionalRuleGroupType,
-} from '@scrapper-gate/shared/schema';
+import { ConditionalRule } from '@scrapper-gate/shared/domain/conditional-rules';
+import { ConditionalRuleGroupMatchType } from '@scrapper-gate/shared/schema';
 import classNames from 'classnames';
 import React, { memo } from 'react';
 import {
@@ -30,52 +27,10 @@ import {
 } from '../Rule/ConditionalRulesRule';
 import { ConditionalRulesSelectionDropdown } from '../SelectionDropdown/ConditionalRulesSelectionDropdown';
 
-const PREFIX = 'ConditionalRulesGroup';
-
-const classes = {
-  btn: `${PREFIX}-btn`,
-  btnContainer: `${PREFIX}-btnContainer`,
-  paper: `${PREFIX}-paper`,
-  typeSection: `${PREFIX}-typeSection`,
-  summaryStack: `${PREFIX}-summaryStack`,
-  accordion: `${PREFIX}-accordion`,
-};
-
-const StyledAccordion = styled(Accordion)(({ theme }) => ({
-  [`& .${classes.btn}`]: {
-    '&, & svg': {
-      color: theme.palette.error.main,
-    },
-  },
-
-  [`& .${classes.btnContainer}`]: {
-    marginTop: theme.spacing(2),
-  },
-
-  [`& .${classes.paper}`]: {
-    padding: `${theme.spacing(4)} 0`,
-  },
-
-  [`& .${classes.typeSection}`]: {
-    marginBottom: theme.spacing(2),
-  },
-
-  [`& .${classes.summaryStack}`]: {
-    width: '100%',
-    paddingRight: theme.spacing(2),
-  },
-
-  [`&.${classes.accordion}`]: {
-    '&.hasError': {
-      borderColor: theme.palette.error.main,
-    },
-  },
-}));
-
 export interface ConditionalRulesGroupProps
   extends Pick<
     ConditionalRulesRuleProps,
-    'fieldVariant' | 'definitions' | 'onEdit' | 'onEditClose'
+    'fieldVariant' | 'definitions' | 'onEdit'
   > {
   index: number;
   name: string;
@@ -107,24 +62,30 @@ const BaseConditionalRulesGroup = ({
     meta,
   } = useFieldArray<ConditionalRule>(`${name}.rules`);
 
-  const hasError = useFieldHasError({
+  const error = useFieldError({
     meta,
     showErrorOnlyOnTouched: false,
   });
 
   return (
-    <StyledAccordion
-      className={classNames(
-        'conditional-rules-group',
-        { hasError },
-        classes.accordion
-      )}
+    <Accordion
+      className={classNames('conditional-rules-group', {
+        hasError: Boolean(error),
+        open,
+      })}
       expanded={open}
       onChange={(event, expanded) => (expanded ? onOpen?.() : onClose?.())}
       variant="outlined"
       key={index}
+      data-index={index}
+      sx={{
+        '&.hasError': {
+          borderColor: (theme) => theme.palette.error.main,
+        },
+      }}
     >
       <AccordionSummary
+        className="rule-group-summary"
         expandIcon={
           <IconButton size="small">
             <ExpandMore />
@@ -132,7 +93,10 @@ const BaseConditionalRulesGroup = ({
         }
       >
         <Stack
-          className={classes.summaryStack}
+          sx={{
+            width: '100%',
+            paddingRight: (theme) => theme.spacing(2),
+          }}
           direction="row"
           justifyContent="space-between"
         >
@@ -145,25 +109,33 @@ const BaseConditionalRulesGroup = ({
 
                 onRemove?.(index);
               }}
-              className={classNames(classes.btn, 'remove-rules-group')}
+              className="remove-rules-group"
+              color="error"
             >
-              <Delete />
+              {theme.icons.remove}
             </IconButton>
           </Tooltip>
         </Stack>
       </AccordionSummary>
       <AccordionDetails>
         <Stack
-          className={classes.typeSection}
+          sx={{
+            marginBottom: (theme) => theme.spacing(2),
+          }}
           spacing={1}
           alignItems="center"
           direction="row"
         >
-          <FormSelect size="small" variant={fieldVariant} name={`${name}.type`}>
-            <MenuItem value={ConditionalRuleGroupType.Any}>
+          <FormSelect
+            className="match-type-select"
+            size="small"
+            variant={fieldVariant}
+            name={`${name}.matchType`}
+          >
+            <MenuItem value={ConditionalRuleGroupMatchType.Any}>
               At least one
             </MenuItem>
-            <MenuItem value={ConditionalRuleGroupType.All}>All</MenuItem>
+            <MenuItem value={ConditionalRuleGroupMatchType.All}>All</MenuItem>
           </FormSelect>
           <Typography>of the rules must be true.</Typography>
         </Stack>
@@ -177,8 +149,8 @@ const BaseConditionalRulesGroup = ({
           )}
           {rules.map((rule, rowIndex) => (
             <ConditionalRulesRule
+              index={rowIndex}
               hasError={Boolean(meta.error?.[rowIndex])}
-              isEdit={activeRowId === rule.id}
               name={`${name}.rules[${rowIndex}]`}
               key={rule.id}
               value={rule}
@@ -198,7 +170,7 @@ const BaseConditionalRulesGroup = ({
           />
         </Stack>
       </AccordionDetails>
-    </StyledAccordion>
+    </Accordion>
   );
 };
 

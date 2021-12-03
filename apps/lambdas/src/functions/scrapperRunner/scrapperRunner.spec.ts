@@ -31,7 +31,10 @@ let scrapperRepository: ScrapperRepository;
 let scrapperRunRepository: ScrapperRunRepository;
 
 async function createScrapper() {
-  const scrapper = ScrapperModel.create(createMockScrapper());
+  const scrapper = ScrapperModel.create({
+    ...createMockScrapper(),
+    steps: [],
+  });
   await userRepository.save(scrapper.createdBy);
 
   scrapper.type = ScrapperType.RealBrowser;

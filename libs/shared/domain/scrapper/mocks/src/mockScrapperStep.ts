@@ -1,10 +1,12 @@
 import { Duration, repeatUntil } from '@scrapper-gate/shared/common';
 import { createMockUser } from '@scrapper-gate/shared/domain/user/mocks';
 import {
+  DurationUnit,
   Maybe,
   MouseButton,
   ScrapperAction,
   ScrapperStep,
+  ScrapperWaitType,
   User,
 } from '@scrapper-gate/shared/schema';
 import faker from 'faker';
@@ -47,6 +49,7 @@ export const createMockScrapperStep = async ({
     updatedAt: new Date(),
     url: faker.internet.url(),
     useUrlFromPreviousStep: faker.datatype.boolean(),
+    key: faker.random.word(),
     position: {
       x: faker.datatype.number(500),
       y: faker.datatype.number(500),
@@ -59,6 +62,15 @@ export const createMockScrapperStep = async ({
         Object.values(MouseButton)
       );
       baseStep.clickTimes = faker.datatype.number(4);
+
+      break;
+
+    case ScrapperAction.Wait:
+      baseStep.waitType = ScrapperWaitType.Time;
+      baseStep.waitDuration = Duration.fromUnit(
+        faker.datatype.number(9999),
+        faker.random.objectElement(DurationUnit) as DurationUnit
+      );
 
       break;
 

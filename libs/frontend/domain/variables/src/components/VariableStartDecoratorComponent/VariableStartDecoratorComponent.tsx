@@ -20,7 +20,7 @@ export const VariableStartDecoratorComponent = ({
 }: DecoratorComponentProps) => {
   const containerRef = useRef<HTMLElement>();
 
-  const { focused, editor } = useBlockEditorContext();
+  const { editor, focused } = useBlockEditorContext();
   const { selection } = editor;
 
   const selectionStart = Number(selection?.anchor?.offset);

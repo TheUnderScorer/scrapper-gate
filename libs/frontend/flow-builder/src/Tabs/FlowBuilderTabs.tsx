@@ -18,7 +18,7 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
   [`&.${classes.paper}`]: {
     borderLeft: 'none',
     borderRight: 'none',
-    backgroundColor: theme.palette.greyVariant['100'],
+    backgroundColor: theme.palette.greyVariant?.['100'],
   },
 }));
 
@@ -27,6 +27,7 @@ export interface FlowBuilderTabsProps {
   onChange: (value: string) => unknown;
   tabs?: Array<FlowBuilderTabsSelection>;
   mainTabLabel?: string;
+  loading?: boolean;
 }
 
 export const mainTab = 'main';
@@ -36,6 +37,7 @@ export const FlowBuilderTabs = ({
   onChange,
   mainTabLabel = 'Steps',
   tabs,
+  loading,
 }: FlowBuilderTabsProps) => {
   return (
     <StyledPaper square variant="outlined" className={classes.paper}>
@@ -45,9 +47,22 @@ export const FlowBuilderTabs = ({
         onChange={(event, value) => onChange(value)}
         className={classes.tabs}
       >
-        <Tab label={mainTabLabel} value={mainTab} />
+        <Tab
+          disabled={loading}
+          label={mainTabLabel}
+          value={mainTab}
+          className="flow-builder-tab"
+          data-value={mainTab}
+        />
         {tabs?.map((tab) => (
-          <Tab label={tab.label} value={tab.value} key={tab.value} />
+          <Tab
+            disabled={loading}
+            label={tab.label}
+            value={tab.value}
+            key={tab.value}
+            className="flow-builder-tab"
+            data-value={tab.value}
+          />
         ))}
       </Tabs>
     </StyledPaper>

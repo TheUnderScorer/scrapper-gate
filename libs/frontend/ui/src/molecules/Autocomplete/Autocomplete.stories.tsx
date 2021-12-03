@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Autocomplete } from './Autocomplete';
 
 export default {
-  title: 'UI/Autocomplete',
+  title: 'Molecules/Autocomplete',
 };
 
 const options = ['Test', 'Another'];

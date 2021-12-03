@@ -1,5 +1,4 @@
-ARG VERSION=latest
-FROM ghcr.io/theunderscorer/scrapper-gate-base:${VERSION} as builder
+FROM scrapper-gate-base as builder
 WORKDIR /app
 
 RUN apt-get update -y
@@ -18,4 +17,4 @@ COPY --from=builder /app/dist/apps/api ./
 
 RUN npm install --production
 
-CMD ["node", "apps/api/src/main.js"]
+CMD ["node", "main.js"]

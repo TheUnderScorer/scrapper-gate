@@ -1,15 +1,14 @@
-import { Global, ThemeProvider as EmotionThemeProvider } from '@emotion/react';
-import { Delete, PlayArrow } from '@mui/icons-material';
-import { CssBaseline } from '@mui/material';
 import {
-  createTheme,
-  SimplePaletteColorOptions,
-  ThemeProvider as MuiThemeProvider,
-} from '@mui/material/styles';
+  Global,
+  ThemeProvider as DefaultEmotionThemeProvider,
+  ThemeProviderProps as EmotionThemeProviderProps,
+} from '@emotion/react';
+import { CssBaseline } from '@mui/material';
+import { ThemeProvider as MuiThemeProvider } from '@mui/material/styles';
 import { useContainerStore } from '@scrapper-gate/frontend/common';
-import React, { KeyboardEvent, PropsWithChildren, useMemo } from 'react';
-import { Key } from 'ts-key-enum';
-import { palette } from './palette';
+import { ThemeProvider as EmotionThemeProvider } from 'emotion-theming';
+import React, { ComponentType, PropsWithChildren, useMemo } from 'react';
+import { getTheme } from './theme';
 import { themeStyles } from './themeStyles';
 import './typings/material-ui';
 
@@ -17,22 +16,14 @@ export interface ThemeProviderProps {
   htmlFontSize?: number;
   isContent?: boolean;
   container?: HTMLElement;
+  EmotionThemeProvider?: ComponentType<EmotionThemeProviderProps>;
 }
-
-const allowedKeys = [Key.ArrowUp, Key.ArrowDown, Key.Enter];
-
-const conditionalStopPropagation = (event: KeyboardEvent) => {
-  if (allowedKeys.includes(event.key as Key)) {
-    return;
-  }
-
-  event.stopPropagation();
-};
 
 export const ThemeProvider = ({
   isContent,
   children,
   container: propContainer,
+  EmotionThemeProvider = DefaultEmotionThemeProvider,
   ...rest
 }: PropsWithChildren<ThemeProviderProps>) => {
   const storeContainer = useContainerStore((store) => store.container);
@@ -47,121 +38,12 @@ export const ThemeProvider = ({
 
   const theme = useMemo(
     () =>
-      createTheme({
-        palette,
-        components: {
-          MuiButton: {
-            defaultProps: {
-              disableElevation: true,
-            },
-            styleOverrides: {
-              containedPrimary: {
-                background: palette.gradients.primaryMainToDark,
-                color: (palette.primary as SimplePaletteColorOptions)
-                  .contrastText,
-              },
-            },
-          },
-          MuiFab: {
-            styleOverrides: {
-              primary: {
-                '&:not[disabled]': {
-                  background: palette.gradients.primaryMainToDark,
-                },
-              },
-            },
-          },
-          MuiPopover: {
-            defaultProps: {
-              disableEnforceFocus: isContent,
-              container,
-            },
-          },
-          MuiTooltip: {
-            defaultProps: {
-              PopperProps: {
-                container,
-              },
-            },
-          },
-          MuiModal: {
-            defaultProps: {
-              disableEnforceFocus: isContent,
-              container,
-            },
-          },
-          MuiMenu: {
-            defaultProps: {
-              container,
-              style: {
-                pointerEvents: 'all',
-              },
-            },
-          },
-          MuiAccordion: {
-            variants: [
-              {
-                props: {
-                  variant: 'transparent',
-                },
-                style: {
-                  background: 'transparent',
-                  border: 'none',
-                },
-              },
-            ],
-          },
-          MuiDialog: {
-            defaultProps: {
-              container,
-              disableEnforceFocus: isContent,
-              disableAutoFocus: isContent,
-              disableRestoreFocus: isContent,
-              BackdropProps: {
-                style: {
-                  pointerEvents: 'all',
-                },
-              },
-              PaperProps: {
-                style: {
-                  pointerEvents: 'all',
-                },
-              },
-            },
-          },
-          MuiInput: {
-            defaultProps: {
-              onKeyDown: conditionalStopPropagation,
-              onKeyUp: conditionalStopPropagation,
-              onKeyPress: conditionalStopPropagation,
-            },
-          },
-          MuiTextField: {
-            defaultProps: {
-              onKeyDown: conditionalStopPropagation,
-              onKeyUp: conditionalStopPropagation,
-              onKeyPress: conditionalStopPropagation,
-            },
-          },
-        },
-        typography: {
-          fontSize: 13,
-          htmlFontSize: rest.htmlFontSize ?? htmlFontSize,
-        },
-        zIndex: {
-          modal: 1400,
-        },
-        emojis: {
-          empty: '😯',
-          error: '😵',
-          success: '😁',
-        },
-        icons: {
-          run: <PlayArrow />,
-          delete: <Delete />,
-        },
+      getTheme({
+        isContent,
+        container,
+        htmlFontSize: htmlFontSize ?? rest.htmlFontSize,
       }),
-    [container, htmlFontSize, isContent, rest.htmlFontSize]
+    [container, htmlFontSize, isContent, rest]
   );
 
   const styles = useMemo(() => themeStyles(theme), [theme]);

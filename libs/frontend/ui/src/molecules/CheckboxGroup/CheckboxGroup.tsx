@@ -61,7 +61,7 @@ export const CheckboxGroup: FC<CheckboxGroupProps> = <
             icon={icon}
             checked={values.includes(itemValue)}
             disabled={disabled}
-            onClick={handleClick(itemValue as ValueType)}
+            onSelect={handleClick(itemValue as ValueType)}
           />
         </Grid>
       ))}

@@ -9,7 +9,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useKeyboardShortcuts } from '@scrapper-gate/frontend/keyboard-shortcuts';
-import { CancelButton } from '../../../atoms/Buttons/Buttons';
+import { CancelButton } from '../../../atoms/Button/Buttons';
 import { Selector } from '@scrapper-gate/shared/schema';
 import React, { ReactNode } from 'react';
 import Draggable from 'react-draggable';

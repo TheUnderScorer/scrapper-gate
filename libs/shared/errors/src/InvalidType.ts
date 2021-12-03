@@ -1,5 +1,5 @@
 export class InvalidType extends TypeError {
-  constructor(expectedType: string) {
-    super(`Got invalid type, expected: ${expectedType}`);
+  constructor(receivedType: string, expectedType: string) {
+    super(`Got invalid type, expected: ${expectedType}, got: ${receivedType}`);
   }
 }

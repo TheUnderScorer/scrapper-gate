@@ -1,17 +1,17 @@
-import { Box, CircularProgress, Tooltip } from '@mui/material';
+import { Box, Chip, CircularProgress, Tooltip } from '@mui/material';
 import { Check, Error, Pending, Warning } from '@mui/icons-material';
 import { isRunning } from '@scrapper-gate/shared/run-states';
 import { RunState } from '@scrapper-gate/shared/schema';
-import { ReactNode, useMemo } from 'react';
+import { ReactElement, ReactNode, useMemo } from 'react';
 import { RunStateIconProps } from './RunStateIcon.types';
 
 const titleStateMap: Record<RunState, string> = {
-  [RunState.Pending]: 'This step is currently pending.',
-  [RunState.Cancelled]: 'This step run was cancelled.',
-  [RunState.Completed]: 'This step was completed.',
-  [RunState.Failed]: 'This step has failed.',
-  [RunState.Skipped]: 'This step was skipped.',
-  [RunState.InProgress]: 'This step is currently running',
+  [RunState.Pending]: 'Pending...',
+  [RunState.Cancelled]: 'Cancelled',
+  [RunState.Completed]: 'Completed',
+  [RunState.Failed]: 'Failed',
+  [RunState.Skipped]: 'Skipped',
+  [RunState.InProgress]: 'In progress...',
 };
 
 const stateIcons: {
@@ -30,6 +30,7 @@ export const RunStateIcon = ({
   showTooltip,
   sx,
   title,
+  mode = 'icon',
 }: RunStateIconProps) => {
   const icon = useMemo(() => {
     const running = isRunning(state);
@@ -49,8 +50,18 @@ export const RunStateIcon = ({
     return running ? <CircularProgress size={20} /> : null;
   }, [runMutationCalled, runMutationLoading, state]);
 
-  if (!icon) {
+  if (!icon || !state) {
     return null;
+  }
+
+  if (mode === 'chip') {
+    return (
+      <Chip
+        color="secondary"
+        icon={icon as ReactElement}
+        label={title ?? titleStateMap[state]}
+      />
+    );
   }
 
   return (

@@ -1,3 +1,4 @@
+encryptionsalt: v1:VV0uBvo8roI=:v1:NUFBpnhEK2KYXeKx:Mkv/1AoPmaBsKfy3P/znpaHtkXdP4g==
 config:
   aws:accessKey: test
   aws:endpoints:
@@ -7,7 +8,10 @@ config:
       sqs: http://localhost:4566
       ssm: http://localhost:4566
   aws:region: eu-west-1
-  aws:s3ForcePathStyle: true
+  aws:s3ForcePathStyle: "true"
   aws:secretKey: test
-  aws:skipCredentialsValidation: true
-  aws:skipRequestingAccountId: true
+  aws:skipCredentialsValidation: "true"
+  aws:skipRequestingAccountId: "true"
+  aws:skipMetadataApiCheck: "true"
+  aws:skipRegionValidation: "true"
+  aws:skipGetEc2Platforms: "true"

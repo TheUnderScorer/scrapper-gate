@@ -14,16 +14,23 @@ import {
   useVariablesContext,
   VariablesProvider,
 } from '../../providers/VariablesProvider';
-import { VariablesTextField } from '../VariablesTextField/VariablesTextField';
+import {
+  VariablesTextField,
+  VariablesTextFieldProps,
+} from '../VariablesTextField/VariablesTextField';
 
 export type VariablesDateFieldProps = Omit<
   FormDatePickerProps<Date>,
   'formatTextFieldValue'
->;
+> &
+  Pick<VariablesTextFieldProps, 'serializeStrategy'>;
 
 const defaultArray: any[] = [];
 
-export const VariablesDateField = (props: VariablesDateFieldProps) => {
+export const VariablesDateField = ({
+  serializeStrategy,
+  ...props
+}: VariablesDateFieldProps) => {
   const { variables } = useVariablesContext();
 
   const filterVariables = useCallback(
@@ -63,15 +70,25 @@ export const VariablesDateField = (props: VariablesDateFieldProps) => {
   );
 
   const renderInput = useCallback(
-    ({ value, onChange, ...fieldProps }: MuiTextFieldPropsType) => (
-      <VariablesTextField
-        name={props.name}
-        {...fieldProps}
-        className={classNames(fieldProps.className, props.className)}
-        dateFormat={props.inputFormat}
-      />
-    ),
-    [props]
+    ({ value, onChange, ...fieldProps }: MuiTextFieldPropsType) => {
+      return (
+        <VariablesTextField
+          name={props.name}
+          {...fieldProps}
+          className={classNames(fieldProps.className, props.className)}
+          dateFormat={props.inputFormat}
+          sx={props.sx}
+          serializeStrategy={serializeStrategy}
+        />
+      );
+    },
+    [
+      props.className,
+      props.inputFormat,
+      props.name,
+      props.sx,
+      serializeStrategy,
+    ]
   );
 
   return (
@@ -80,6 +97,7 @@ export const VariablesDateField = (props: VariablesDateFieldProps) => {
         {...props}
         formatValue={formatValue}
         renderInput={renderInput}
+        PopperProps={{}}
       />
     </VariablesProvider>
   );

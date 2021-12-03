@@ -1,16 +1,25 @@
 import { Box } from '@mui/material';
 import { scrapperJavascriptFunctionName } from '@scrapper-gate/shared/domain/scrapper';
 import { variableTypeDef } from '@scrapper-gate/shared/domain/variables';
+import { useFormState } from 'react-final-form';
 import { ScrapperKey } from '../commonFields/ScrapperKey';
+import { Url } from '../commonFields/Url';
 import { ScrapperStepFormProps } from '../ScrapperBuilder.types';
 
 export const RunJavascriptSections = ({
   fieldNameCreator,
   CodeEditor,
+  nodeIndex,
 }: ScrapperStepFormProps) => {
+  const { submitting } = useFormState({
+    subscription: {
+      submitting: true,
+    },
+  });
+
   return (
     <>
-      <ScrapperKey fieldNameCreator={fieldNameCreator} />
+      <ScrapperKey disabled={submitting} fieldNameCreator={fieldNameCreator} />
       <Box width="100%" height="100%">
         <CodeEditor
           initialValue={`// Enter your code here.
@@ -50,6 +59,11 @@ ${variableTypeDef}
           language="javascript"
         />
       </Box>
+      <Url
+        disabled={submitting}
+        fieldNameCreator={fieldNameCreator}
+        nodeIndex={nodeIndex}
+      />
     </>
   );
 };

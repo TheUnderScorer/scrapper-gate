@@ -6,7 +6,8 @@ schema:
 
 documents: null
 config:
-  useIndexSignature: true
+  useIndexSignature: false
+  declarationKind: 'interface'
 generates:
   ./libs/shared/schema/src/types.ts:
     documents:
@@ -26,8 +27,6 @@ generates:
       - typescript
       - typescript-operations
       - typescript-resolvers
-      - add:
-          content: "import {WhatValue, ConditionalRuleValue} from './scalars'"
 
   ./libs/frontend/schema/src/gql.tsx:
     preset: import-types

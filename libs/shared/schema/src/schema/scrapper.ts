@@ -108,6 +108,7 @@ export const scrapperSchema = gql`
     waitIntervalCheck: DurationInput
     waitIntervalTimeout: DurationInput
     jsCode: String
+    typeValue: String
   }
 
   type ScrapperRunStepResult implements BaseEntity {
@@ -229,7 +230,7 @@ export const scrapperSchema = gql`
   }
 
   input CreateScrapperInput {
-    name: String
+    name: String!
     type: ScrapperType!
   }
 
@@ -251,7 +252,7 @@ export const scrapperSchema = gql`
     ): SendScrapperToQueueResult! @auth
     updateScrapper(input: ScrapperInput!): Scrapper!
       @auth
-      @validateDto(dto: "ScrapperInputDto", key: "input")
+      @validateDto(schema: "ScrapperInputSchema", key: "input")
   }
 
   extend type Query {

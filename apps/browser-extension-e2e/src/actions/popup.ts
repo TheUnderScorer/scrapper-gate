@@ -7,9 +7,7 @@ const password = 'testpassword123';
 export async function register(browser: BrowserContext) {
   const page = await browser.newPage();
 
-  await navigateToPopup(page, {
-    logoutIfAuthorized: true,
-  });
+  await navigateToPopup(page);
 
   await page.click('.sign-up');
 

@@ -74,6 +74,7 @@ export const FlowBuilderSidebar = () => {
           />
           {Boolean(filteredSelection?.length) && (
             <List
+              className="flow-builder-selection-list"
               sx={{
                 overflow: 'auto',
                 flex: 1,

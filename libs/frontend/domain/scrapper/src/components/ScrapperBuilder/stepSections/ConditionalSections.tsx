@@ -1,5 +1,8 @@
-import { ConditionalRules } from '@scrapper-gate/frontend/domain/conditional-rules';
-import { ConditionalRuleGroupType } from '@scrapper-gate/shared/schema';
+import {
+  ConditionalRules,
+  ConditionalRulesContextProvider,
+} from '@scrapper-gate/frontend/domain/conditional-rules';
+import { ConditionalRuleGroupMatchType } from '@scrapper-gate/shared/schema';
 import React from 'react';
 import { useFormState } from 'react-final-form';
 import { useScrapperConditionalRules } from '../../../hooks/useScrapperConditionalRules';
@@ -25,7 +28,7 @@ export const ConditionalSections = ({
   });
 
   return (
-    <>
+    <ConditionalRulesContextProvider context={{}}>
       <ScrapperKey
         fieldNameCreator={fieldNameCreator}
         disabled={formState.submitting}
@@ -35,10 +38,10 @@ export const ConditionalSections = ({
         helperText="Configure conditional rules for this step"
         definitions={rules}
         name={fieldNameCreator('conditionalRules')}
-        fieldVariant="standard"
+        fieldVariant="outlined"
         initialValue={[
           {
-            type: ConditionalRuleGroupType.Any,
+            matchType: ConditionalRuleGroupMatchType.Any,
             rules: [],
           },
         ]}
@@ -48,6 +51,6 @@ export const ConditionalSections = ({
         nodeIndex={rest.nodeIndex}
         disabled={formState.submitting}
       />
-    </>
+    </ConditionalRulesContextProvider>
   );
 };

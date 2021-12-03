@@ -7,6 +7,7 @@ import React, { useCallback, useEffect, useMemo } from 'react';
 import { Node } from 'react-flow-renderer';
 import { useDebounce, usePrevious } from 'react-use';
 import { BaseNodeProperties } from '../../FlowBuilder.types';
+import { makeGetFieldName } from '../../getFieldName';
 import { useFlowBuilderActiveNode } from '../../providers/FlowBuilderActiveNode.provider';
 import {
   FlowBuilderItemsContext,
@@ -54,11 +55,7 @@ export const FlowBuilderNodeContent = () => {
   );
 
   const getFieldName = useMemo(() => {
-    return (name?: string) => {
-      const base = `items[${activeNodeIndex}].data`;
-
-      return name ? `${base}.${name}` : base;
-    };
+    return makeGetFieldName(activeNodeIndex);
   }, [activeNodeIndex]);
 
   const ContentComponent = useMemo(() => {
@@ -156,6 +153,7 @@ export const FlowBuilderNodeContent = () => {
               />
               <Box paddingLeft={2}>
                 <Button
+                  className="close-node"
                   variant="outlined"
                   onClick={handleClose}
                   color="primary"

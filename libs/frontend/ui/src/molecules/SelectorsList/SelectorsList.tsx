@@ -77,6 +77,7 @@ export const SelectorsList = ({
           className="selector-list-item"
           disableGutters
           key={selector.value}
+          data-value={selector.value}
         >
           <ListItemText
             primary={`${selector.value} (${selector.elements.length})`}

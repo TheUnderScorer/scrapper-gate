@@ -1,4 +1,4 @@
-import { IconButton, Stack, useTheme } from '@mui/material';
+import { Fab, Stack, Tooltip, useTheme } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useIsUsingElementPicker } from '@scrapper-gate/frontend/common';
 import {
@@ -15,6 +15,7 @@ import {
 } from '@scrapper-gate/frontend/flow-builder';
 import {
   FormEditableText,
+  ExposeFormState,
   joiValidationResolver,
   mergeValidators,
   setErrorMutator,
@@ -38,8 +39,7 @@ import {
 } from '@scrapper-gate/shared/domain/variables';
 import { logger } from '@scrapper-gate/shared/logger/console';
 import { VariableScope } from '@scrapper-gate/shared/schema';
-import { ScrapperBuilderDto } from '@scrapper-gate/shared/validation';
-import React, { useCallback, useMemo } from 'react';
+import React, { MutableRefObject, useCallback, useMemo, useRef } from 'react';
 import { Form } from 'react-final-form';
 import { Node } from 'react-flow-renderer';
 import { v4 as uuid } from 'uuid';
@@ -48,6 +48,7 @@ import { scrapperStepsToNodes } from '../../shared/scrapperStepsToNodes';
 import { useRunScraperDialog } from '../RunScrapperDialog/useRunScraperDialog';
 import { ScrapperBuilderNodeContent } from './NodeContent/ScrapperBuilderNodeContent';
 import { nodesToScrapperSteps } from './nodesToScrapperSteps';
+import { ScrapperBuilderSchema } from './schema/ScrapperBuilder.schema';
 import {
   ScrapperBuilderFormState,
   ScrapperBuilderNode,
@@ -107,6 +108,8 @@ export const ScrapperBuilder = ({
   runUrlCreator,
   ...rest
 }: ScrapperBuilderProps) => {
+  const containerRef = useRef<HTMLFormElement>();
+
   const theme = useTheme();
 
   const snackbarOnError = useSnackbarOnError();
@@ -175,7 +178,7 @@ export const ScrapperBuilder = ({
     () =>
       mergeValidators<ScrapperBuilderFormState>(
         (value) =>
-          joiValidationResolver(ScrapperBuilderDto, {
+          joiValidationResolver(ScrapperBuilderSchema, {
             allowUnknown: true,
             presence: 'optional',
             context: {
@@ -218,12 +221,18 @@ export const ScrapperBuilder = ({
       try {
         const steps = nodesToScrapperSteps(values.items);
 
+        logger.debug(`Submit:`, {
+          steps,
+          values,
+        });
+
         await updateScrapper({
           variables: {
             input: {
               id: initialScrapper.id,
               steps,
               name: values.name,
+              // TODO Handle this on scalar level
               variables: values.variables.map(extractVariableInput),
               runSettings: values.runSettings,
               startNodePosition: startNode?.position,
@@ -278,7 +287,9 @@ export const ScrapperBuilder = ({
       render={(props) => (
         <FormVariablesProvider>
           <UnsavedFormAlert />
+          <ExposeFormState targetRef={containerRef} />
           <StyledForm
+            ref={containerRef as MutableRefObject<HTMLFormElement>}
             className="scrapper-builder-form"
             onSubmit={props.handleSubmit}
           >
@@ -297,9 +308,18 @@ export const ScrapperBuilder = ({
                 [FlowBuilderNodeTypes.Start]: ScrapperBuilderStartNodeContent,
               }}
               additionalActions={
-                <IconButton onClick={() => runScrapperDialog()} size="large">
-                  {theme.icons.run}
-                </IconButton>
+                <Tooltip title="Run scrapper">
+                  <Fab
+                    onClick={() => runScrapperDialog()}
+                    size="small"
+                    color="secondary"
+                    sx={{
+                      boxShadow: 'none',
+                    }}
+                  >
+                    {theme.icons.run}
+                  </Fab>
+                </Tooltip>
               }
               title={
                 <Stack alignItems="center" spacing={1} direction="row">

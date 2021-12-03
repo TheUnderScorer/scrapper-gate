@@ -1,33 +1,60 @@
-import { ConditionalRuleWhen } from '../types';
 import {
-  ConditionalRule,
-  ConditionalRuleGroupType,
+  ConditionalRuleCondition,
+  ConditionalRuleGroupMatchType,
+  Maybe,
 } from '@scrapper-gate/shared/schema';
 import { primitiveValueResolver } from './primitiveValueResolver';
 
-export const arrayValueResolver = (
-  rule: ConditionalRule,
-  value: unknown[] = [],
-  type: ConditionalRuleGroupType = ConditionalRuleGroupType.All
-) => {
+interface ArrayValueResolverParams<V, E> {
+  condition: ConditionalRuleCondition;
+  expectedValue?: E;
+  values?: V[];
+  matchType?: Maybe<ConditionalRuleGroupMatchType>;
+  customHandlers?: {
+    [Key in ConditionalRuleCondition]?: (
+      value: V,
+      expectedValue?: E
+    ) => boolean;
+  };
+}
+
+export const arrayValueResolver = <V, E>({
+  condition,
+  expectedValue,
+  values = [],
+  customHandlers,
+  matchType = ConditionalRuleGroupMatchType.All,
+}: ArrayValueResolverParams<V, E>): boolean => {
   const matchFn =
-    type === ConditionalRuleGroupType.All
-      ? value?.every.bind(value)
-      : value?.some.bind(value);
+    matchType === ConditionalRuleGroupMatchType.All
+      ? values.every.bind(values)
+      : values.some.bind(values);
 
-  switch (rule.when) {
-    case ConditionalRuleWhen.Empty:
-    case ConditionalRuleWhen.NotExists:
-      return !value.length || matchFn?.((value) => !value);
+  const customHandler = customHandlers?.[condition];
 
-    case ConditionalRuleWhen.NotEmpty:
-    case ConditionalRuleWhen.Exists:
-      return value.length > 0 && matchFn?.(Boolean);
+  if (customHandler) {
+    return matchFn((value) => customHandler(value, expectedValue));
+  }
+
+  switch (condition) {
+    case ConditionalRuleCondition.Empty:
+    case ConditionalRuleCondition.NotExists:
+      return !values.length || matchFn?.((value) => !value);
+
+    case ConditionalRuleCondition.NotEmpty:
+    case ConditionalRuleCondition.Exists:
+      return values.length > 0 && matchFn?.(Boolean);
 
     default:
       return (
-        value.length > 0 &&
-        matchFn?.((value) => primitiveValueResolver(rule, value))
+        values.length > 0 &&
+        matchFn?.((value) =>
+          primitiveValueResolver({
+            condition,
+            value,
+            expectedValue,
+          })
+        )
       );
   }
 };

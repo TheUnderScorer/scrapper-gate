@@ -9,6 +9,7 @@ export const TileRadio = ({
   title,
   children,
   description,
+  name,
   ...props
 }: TileRadioProps) => {
   return (
@@ -38,6 +39,7 @@ export const TileRadio = ({
                 : undefined,
           }}
           checked={props.checked}
+          name={name}
           disabled={props.disabled}
           color={
             props?.checkedBackgroundColor === 'primary' ? 'default' : 'primary'
@@ -53,7 +55,7 @@ export const TileRadio = ({
           userSelect: 'none',
         }}
       >
-        {icon}
+        <span className="tile-radio-icon">{icon}</span>
         <Typography variant={description ? 'h6' : 'body2'}>{title}</Typography>
         {description && (
           <Typography className="no-bold" whiteSpace="pre-line" variant="body2">

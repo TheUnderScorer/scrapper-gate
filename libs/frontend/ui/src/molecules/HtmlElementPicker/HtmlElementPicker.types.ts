@@ -1,4 +1,5 @@
 import { TextFieldProps } from '@mui/material';
+import { ThemedSxProps } from '@scrapper-gate/frontend/theme';
 import { ReactNode, KeyboardEvent, ComponentType } from 'react';
 import { Selector, SelectorType } from '@scrapper-gate/shared/schema';
 
@@ -7,7 +8,7 @@ export enum HtmlElementPickerValidationRules {
   ElementsExist = 'ElementsExist',
 }
 
-export interface HtmlElementPickerProps {
+export interface HtmlElementPickerProps extends ThemedSxProps {
   name: string;
   variant?: TextFieldProps['variant'];
   className?: string;

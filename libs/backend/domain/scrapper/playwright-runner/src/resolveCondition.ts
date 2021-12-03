@@ -11,7 +11,7 @@ export async function resolveCondition(
 ) {
   const { result } = await resolveScrapperStepRules({
     step: params.step,
-    htmlResolver: {
+    htmlResolverParams: {
       elements: await elementHandlesToHtmlElementRuleDefinition(elements),
     },
     variables: params.variables ?? [],

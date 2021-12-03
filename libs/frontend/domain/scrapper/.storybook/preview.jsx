@@ -1,16 +1,18 @@
 /*eslint-disable*/
-import { addDecorator } from '@storybook/react';
 import { ThemeProvider } from '../../../theme/src';
 import { SnackbarProvider } from '@scrapper-gate/frontend/snackbars';
 import React from 'react';
 import { DialogController } from '../../../dialogs/src';
+import { ThemeProvider as EmotionThemeProvider } from 'emotion-theming';
 
-addDecorator((storyFn) => {
-  return (
-    <ThemeProvider>
-      <SnackbarProvider>
-        <DialogController>{storyFn()}</DialogController>
-      </SnackbarProvider>
-    </ThemeProvider>
-  );
-});
+export const decorators = [
+  (storyFn) => {
+    return (
+      <ThemeProvider EmotionThemeProvider={EmotionThemeProvider}>
+        <SnackbarProvider>
+          <DialogController>{storyFn()}</DialogController>
+        </SnackbarProvider>
+      </ThemeProvider>
+    );
+  },
+];

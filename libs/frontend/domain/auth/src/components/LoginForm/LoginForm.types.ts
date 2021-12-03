@@ -19,4 +19,5 @@ export interface LoginFormProps extends WithUseTokenStoreHook {
 
 export interface LoginFormInput extends LoginInput {
   acceptTerms?: boolean;
+  type: LoginFormType;
 }

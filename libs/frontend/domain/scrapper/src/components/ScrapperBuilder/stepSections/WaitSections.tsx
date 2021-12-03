@@ -1,11 +1,14 @@
-import { ConditionalRules } from '@scrapper-gate/frontend/domain/conditional-rules';
+import {
+  ConditionalRules,
+  ConditionalRulesContextProvider,
+} from '@scrapper-gate/frontend/domain/conditional-rules';
 import {
   EnumSelect,
   FormDurationInputField,
   useFormFieldValue,
 } from '@scrapper-gate/frontend/form';
 import {
-  ConditionalRuleGroupType,
+  ConditionalRuleGroupMatchType,
   DurationUnit,
   Maybe,
   ScrapperWaitType,
@@ -13,6 +16,7 @@ import {
 import React from 'react';
 import { scrapperActionIcons } from '../../../dictionary/scrapperActionIcons';
 import { useScrapperConditionalRules } from '../../../hooks/useScrapperConditionalRules';
+import { ScrapperKey } from '../commonFields/ScrapperKey';
 import { Url } from '../commonFields/Url';
 import { ScrapperStepFormProps } from '../ScrapperBuilder.types';
 
@@ -32,7 +36,8 @@ export const WaitSections = ({
   });
 
   return (
-    <>
+    <ConditionalRulesContextProvider context={{}}>
+      <ScrapperKey fieldNameCreator={fieldNameCreator} />
       <EnumSelect
         enumObj={ScrapperWaitType}
         dictionary={{
@@ -70,7 +75,7 @@ export const WaitSections = ({
             fieldVariant="standard"
             initialValue={[
               {
-                type: ConditionalRuleGroupType.Any,
+                matchType: ConditionalRuleGroupMatchType.Any,
                 rules: [],
               },
             ]}
@@ -86,6 +91,6 @@ export const WaitSections = ({
         />
       )}
       <Url fieldNameCreator={fieldNameCreator} nodeIndex={nodeIndex} />
-    </>
+    </ConditionalRulesContextProvider>
   );
 };

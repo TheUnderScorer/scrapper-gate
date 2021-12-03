@@ -1,5 +1,5 @@
 import { Selection } from '@scrapper-gate/frontend/common';
-import { RadioGroup } from '@scrapper-gate/frontend/ui';
+import { FormRadioGroup } from '@scrapper-gate/frontend/form';
 import { ScrapperType } from '@scrapper-gate/shared/schema';
 import React from 'react';
 import { scrapperTypeIconMap } from '../../dictionary/scrapperTypeIconMap';
@@ -29,11 +29,16 @@ export const scrapperTypeSelectionOptions: Selection[] = [
 
 export const ScrapperTypeSelection = ({ name }: ScrapperTypeSelectionProps) => {
   return (
-    <RadioGroup
+    <FormRadioGroup
       radioProps={{
         width: 350,
         height: 250,
         checkedBackgroundColor: 'primary',
+        sx: {
+          '& .tile-radio-icon svg': {
+            fontSize: (theme) => theme.typography.h4.fontSize,
+          },
+        },
       }}
       name={name}
       options={scrapperTypeSelectionOptions}

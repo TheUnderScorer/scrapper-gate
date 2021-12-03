@@ -10,19 +10,17 @@ import {
   isError,
   wait,
 } from '@scrapper-gate/shared/common';
-import {
-  ConditionalRuleTypes,
-  ConditionalRuleWhen,
-  HtmlElementRuleMeta,
-} from '@scrapper-gate/shared/domain/conditional-rules';
 import { createMockScrapperStep } from '@scrapper-gate/shared/domain/scrapper/mocks';
 import { createMockUser } from '@scrapper-gate/shared/domain/user/mocks';
 import { createVariable } from '@scrapper-gate/shared/domain/variables';
 import { logger } from '@scrapper-gate/shared/logger/console';
 import {
   BrowserType,
-  ConditionalRuleGroupType,
+  ConditionalRuleCondition,
+  ConditionalRuleGroupMatchType,
+  ConditionalRuleType,
   FileType,
+  HtmlConditionalRuleType,
   MouseButton,
   RunState,
   ScrapperAction,
@@ -570,14 +568,12 @@ describe('PlayWright scrapper runner', () => {
             waitIntervalTimeout: Duration.fromSeconds(8),
             conditionalRules: [
               {
-                id: v4(),
-                type: ConditionalRuleGroupType.All,
+                matchType: ConditionalRuleGroupMatchType.All,
                 rules: [
                   {
-                    id: v4(),
-                    type: ConditionalRuleTypes.Date,
-                    when: ConditionalRuleWhen.MoreThanOrEqual,
-                    value: addSeconds(new Date(), 5).toISOString(),
+                    ruleType: ConditionalRuleType.Date,
+                    condition: ConditionalRuleCondition.MoreThanOrEqual,
+                    expectedDate: addSeconds(new Date(), 5),
                   },
                 ],
               },
@@ -606,20 +602,17 @@ describe('PlayWright scrapper runner', () => {
             ],
             conditionalRules: [
               {
-                id: v4(),
-                type: ConditionalRuleGroupType.All,
+                matchType: ConditionalRuleGroupMatchType.All,
                 rules: [
                   {
-                    id: v4(),
-                    type: ConditionalRuleTypes.HtmlElement,
-                    when: ConditionalRuleWhen.Exists,
-                    meta: {
-                      selectors: [
-                        {
-                          value: 'a',
-                        },
-                      ],
-                    } as HtmlElementRuleMeta,
+                    type: HtmlConditionalRuleType.Element,
+                    ruleType: ConditionalRuleType.HtmlElement,
+                    condition: ConditionalRuleCondition.Exists,
+                    selectors: [
+                      {
+                        value: 'a',
+                      },
+                    ],
                   },
                 ],
               },

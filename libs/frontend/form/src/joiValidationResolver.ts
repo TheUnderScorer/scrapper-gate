@@ -1,24 +1,20 @@
 import { logger } from '@scrapper-gate/shared/logger/console';
 import {
-  BaseSchemaConstructor,
+  validate,
+  ValidateParams,
   ValidationError as AppValidationError,
 } from '@scrapper-gate/shared/validation';
 import { ValidationErrors } from 'final-form';
-import { ValidationOptions } from 'joiful/validation';
+import { AnySchema } from 'joi';
 import set from 'lodash.set';
 
 export const joiValidationResolver =
-  (
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    schema: BaseSchemaConstructor<any>,
-    joiOptions?: ValidationOptions
-  ) =>
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  (data: any): ValidationErrors => {
+  <Schema extends AnySchema>(schema: Schema, joiOptions?: ValidateParams) =>
+  (data: unknown): ValidationErrors => {
     try {
       logger.debug('Validating:', data);
 
-      schema.validate(data, joiOptions);
+      validate(data, schema, joiOptions);
 
       return {};
     } catch (error) {

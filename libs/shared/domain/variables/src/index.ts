@@ -7,3 +7,4 @@ export * from './extractVariableInput';
 export * from './getVariableValue';
 export { parseVariableValue } from './parseVariableValue';
 export * from './codeUtils';
+export * from './scalars/DateOrVariableKey.scalar';

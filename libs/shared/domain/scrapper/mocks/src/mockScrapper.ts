@@ -10,9 +10,9 @@ export const createMockScrapper = (createdBy = createMockUser()): Scrapper => ({
   name: faker.random.word(),
   createdAt: new Date(),
   updatedAt: new Date(),
-  steps: [],
   variables: [],
   type: ScrapperType.RealBrowser,
   isRunning: false,
   lastRun: createMockScrapperRun([], createdBy),
+  steps: [],
 });

@@ -32,7 +32,10 @@ export const resolveVariables = <T = unknown>({
       (acc, variable) => ({
         ...acc,
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        [variable.key!]: getVariableValue(variable, dateFormat),
+        [variable.key!]: getVariableValue({
+          variable: variable,
+          dateFormat: dateFormat,
+        }),
       }),
       {}
     );
