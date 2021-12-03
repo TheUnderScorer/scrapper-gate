@@ -41,3 +41,4 @@ export * from './Duration';
 export * from './number';
 export * from './date';
 export * from './getErrorMessage';
+export * from './keyboard/modifier';

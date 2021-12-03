@@ -50,6 +50,7 @@ export const ScrapperBuilderStepFragmentDoc = gql`
     key
     createdAt
     updatedAt
+    clearInputBeforeTyping
     mouseButton
     jsCode
     clickTimes

@@ -7,6 +7,7 @@ import {
   removeAtIndex,
 } from '@scrapper-gate/shared/common';
 import { InvalidSelectorProvidedError } from '@scrapper-gate/shared/errors';
+import { logger } from '@scrapper-gate/shared/logger/console';
 import { Selector, SelectorType } from '@scrapper-gate/shared/schema';
 import classNames from 'classnames';
 import React, {
@@ -145,7 +146,12 @@ export const HtmlElementPicker = ({
     ) {
       try {
         getElementsBySelectors([newSelector], document);
-      } catch {
+      } catch (error) {
+        logger.error(
+          `Failed to get elements by selector ${newSelector}: `,
+          error
+        );
+
         setAddError(new InvalidSelectorProvidedError());
         return;
       }

@@ -29,6 +29,7 @@ import {
   ScrapperStep,
   ScrapperWaitType,
   VariableScope,
+  VariableType,
 } from '@scrapper-gate/shared/schema';
 import {
   asClass,
@@ -312,6 +313,7 @@ describe('PlayWright scrapper runner', () => {
           'dynamic-elements.html',
           'blog/index.html',
           'alert/index.html',
+          'input/index.html',
         ]);
       });
     });
@@ -644,6 +646,60 @@ describe('PlayWright scrapper runner', () => {
       });
     });
 
+    describe('Type action', () => {
+      it('should clear input before typing if required', async () => {
+        const url = 'http://localhost:8080/input/index.html';
+
+        const runner = await bootstrapRunner(type);
+
+        const allSelectors = [
+          {
+            value: 'input',
+          },
+        ];
+
+        await runner.Type({
+          variables: [],
+          step: {
+            ...(await createMockScrapperStep({})),
+            url,
+            action: ScrapperAction.Type,
+            typeValue: 'Test',
+            allSelectors,
+          },
+        });
+
+        await runner.Type({
+          variables: [],
+          step: {
+            ...(await createMockScrapperStep({})),
+            url,
+            action: ScrapperAction.Type,
+            typeValue: 'Another value',
+            clearInputBeforeTyping: true,
+            allSelectors,
+          },
+        });
+
+        const { values } = await runner.ReadText({
+          variables: [],
+          step: {
+            ...(await createMockScrapperStep({})),
+            useUrlFromPreviousStep: true,
+            action: ScrapperAction.ReadText,
+            allSelectors: [
+              {
+                value: '#input-value-text',
+              },
+            ],
+            valueType: VariableType.Text,
+          },
+        });
+
+        expect(first(values).value).toEqual('Another value');
+      });
+    });
+
     describe('Read element attribute action', () => {
       it('should read element attributes', async () => {
         const runner = await bootstrapRunner(type);
@@ -664,61 +720,70 @@ describe('PlayWright scrapper runner', () => {
           },
         });
 
-        expect(values).toHaveLength(5);
         expect(values).toMatchInlineSnapshot(`
-        Array [
-          Object {
-            "sourceElement": Object {
-              "classNames": Array [
-                "",
-              ],
-              "id": "",
-              "tag": "a",
+          Array [
+            Object {
+              "sourceElement": Object {
+                "classNames": Array [
+                  "",
+                ],
+                "id": "",
+                "tag": "a",
+              },
+              "value": "article.html",
             },
-            "value": "article.html",
-          },
-          Object {
-            "sourceElement": Object {
-              "classNames": Array [
-                "",
-              ],
-              "id": "",
-              "tag": "a",
+            Object {
+              "sourceElement": Object {
+                "classNames": Array [
+                  "",
+                ],
+                "id": "",
+                "tag": "a",
+              },
+              "value": "popup.html",
             },
-            "value": "popup.html",
-          },
-          Object {
-            "sourceElement": Object {
-              "classNames": Array [
-                "",
-              ],
-              "id": "",
-              "tag": "a",
+            Object {
+              "sourceElement": Object {
+                "classNames": Array [
+                  "",
+                ],
+                "id": "",
+                "tag": "a",
+              },
+              "value": "dynamic-elements.html",
             },
-            "value": "dynamic-elements.html",
-          },
-          Object {
-            "sourceElement": Object {
-              "classNames": Array [
-                "",
-              ],
-              "id": "",
-              "tag": "a",
+            Object {
+              "sourceElement": Object {
+                "classNames": Array [
+                  "",
+                ],
+                "id": "",
+                "tag": "a",
+              },
+              "value": "blog/index.html",
             },
-            "value": "blog/index.html",
-          },
-          Object {
-            "sourceElement": Object {
-              "classNames": Array [
-                "",
-              ],
-              "id": "",
-              "tag": "a",
+            Object {
+              "sourceElement": Object {
+                "classNames": Array [
+                  "",
+                ],
+                "id": "",
+                "tag": "a",
+              },
+              "value": "alert/index.html",
             },
-            "value": "alert/index.html",
-          },
-        ]
-      `);
+            Object {
+              "sourceElement": Object {
+                "classNames": Array [
+                  "",
+                ],
+                "id": "",
+                "tag": "a",
+              },
+              "value": "input/index.html",
+            },
+          ]
+        `);
       });
     });
   });

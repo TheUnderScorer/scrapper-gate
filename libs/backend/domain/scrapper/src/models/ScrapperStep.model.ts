@@ -203,6 +203,12 @@ export class ScrapperStepModel
   })
   jsCode?: Maybe<string>;
 
+  @Column({
+    nullable: true,
+    type: 'boolean',
+  })
+  clearInputBeforeTyping?: Maybe<boolean>;
+
   @Enumerable(true)
   get allSelectors(): Maybe<Selector[]> {
     const selectors = [...(this.selectors ?? [])];
