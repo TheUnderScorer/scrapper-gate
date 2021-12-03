@@ -719,61 +719,70 @@ describe('PlayWright scrapper runner', () => {
           },
         });
 
-        expect(values).toHaveLength(5);
         expect(values).toMatchInlineSnapshot(`
-        Array [
-          Object {
-            "sourceElement": Object {
-              "classNames": Array [
-                "",
-              ],
-              "id": "",
-              "tag": "a",
+          Array [
+            Object {
+              "sourceElement": Object {
+                "classNames": Array [
+                  "",
+                ],
+                "id": "",
+                "tag": "a",
+              },
+              "value": "article.html",
             },
-            "value": "article.html",
-          },
-          Object {
-            "sourceElement": Object {
-              "classNames": Array [
-                "",
-              ],
-              "id": "",
-              "tag": "a",
+            Object {
+              "sourceElement": Object {
+                "classNames": Array [
+                  "",
+                ],
+                "id": "",
+                "tag": "a",
+              },
+              "value": "popup.html",
             },
-            "value": "popup.html",
-          },
-          Object {
-            "sourceElement": Object {
-              "classNames": Array [
-                "",
-              ],
-              "id": "",
-              "tag": "a",
+            Object {
+              "sourceElement": Object {
+                "classNames": Array [
+                  "",
+                ],
+                "id": "",
+                "tag": "a",
+              },
+              "value": "dynamic-elements.html",
             },
-            "value": "dynamic-elements.html",
-          },
-          Object {
-            "sourceElement": Object {
-              "classNames": Array [
-                "",
-              ],
-              "id": "",
-              "tag": "a",
+            Object {
+              "sourceElement": Object {
+                "classNames": Array [
+                  "",
+                ],
+                "id": "",
+                "tag": "a",
+              },
+              "value": "blog/index.html",
             },
-            "value": "blog/index.html",
-          },
-          Object {
-            "sourceElement": Object {
-              "classNames": Array [
-                "",
-              ],
-              "id": "",
-              "tag": "a",
+            Object {
+              "sourceElement": Object {
+                "classNames": Array [
+                  "",
+                ],
+                "id": "",
+                "tag": "a",
+              },
+              "value": "alert/index.html",
             },
-            "value": "alert/index.html",
-          },
-        ]
-      `);
+            Object {
+              "sourceElement": Object {
+                "classNames": Array [
+                  "",
+                ],
+                "id": "",
+                "tag": "a",
+              },
+              "value": "input/index.html",
+            },
+          ]
+        `);
       });
     });
   });
