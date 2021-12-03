@@ -293,20 +293,19 @@ jobs:
           node-version: 16.x
           cache: 'npm'
 
+      - uses: actions/setup-python@v2
+
       - name: Start docker
         run: sudo docker compose up -d
 
       - name: Install dependencies
-        run: npm ci --legacy-peer-deps && npm i ts-node -g && npm run build:tools && npm ci --prefix deploy && curl -fsSL https://get.pulumi.com | sh
+        run: npm ci --legacy-peer-deps && npm i ts-node -g && npm run build:tools && npm ci --prefix deploy && curl -fsSL https://get.pulumi.com | sh && pip install pulumi-local
 
       - name: Wait for localstack
         run: sudo AWS_S3_ENDPOINT=http://localhost:4566 node docker/localstack/waitForLocalStack.mjs
 
-      - name: Copy pulumi config
-        run: cp deploy/Pulumi.development.yaml deploy/Pulumi.development-e2e.yaml
-
       - name: Start pulumi
-        run: cd deploy && pulumi login --local && node scripts/upLocally.mjs
+        run: cd deploy && pulumi login --local && pulumilocal up -y
         env:
           PULUMI_CONFIG_PASSPHRASE: test
 
