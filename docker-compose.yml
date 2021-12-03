@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   localstack:
-    image: localstack/localstack@sha256:1fee24851b25eb1426cbdd2c9a6ea3b4a9ed43209096e20f8556cb0473532a24
+    image: localstack/localstack:0.13.0.8
     networks:
       - app
     volumes:
