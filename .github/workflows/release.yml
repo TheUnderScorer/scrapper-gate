@@ -34,11 +34,30 @@ jobs:
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
 
-      - name: Build
-        run: npm run build:tools && npx nx build && npx nx build api
+      - name: Prerelease
+        if: github.ref == 'refs/heads/test'
+        run: nx affected --target=version --base=test --head=HEAD --releaseAs=prerelease --baseBranch test
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push prerelease
+        if: github.ref == 'refs/heads/test'
+        run: git push --follow-tags origin test
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Release
-        run: npm run release
+        if: github.ref == 'refs/heads/master'
+        run: nx affected --target=version --base=master --head=HEAD --baseBranch master
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push release
+        if: github.ref == 'refs/heads/master'
+        run: git push --follow-tags origin master
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
