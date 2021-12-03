@@ -36,14 +36,14 @@ jobs:
 
       - name: Prerelease
         if: github.ref == 'refs/heads/test'
-        run: nx affected --target=version --base=test --head=HEAD --push --releaseAs=prerelease
+        run: nx affected --target=version --base=test --head=HEAD --push --releaseAs=prerelease --baseBranch test
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Release
         if: github.ref == 'refs/heads/master'
-        run: nx affected --target=version --base=master --head=HEAD --push
+        run: nx affected --target=version --base=master --head=HEAD --push --baseBranch master
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
