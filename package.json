@@ -249,7 +249,7 @@
     "url-loader": "^4.1.1",
     "webpack-extension-reloader": "^1.1.4",
     "webpack-target-webextension": "^0.4.0",
-    "yargs": "^15.4.1",
+    "yargs": "^17.3.0",
     "zx": "^4.2.0"
   }
 }

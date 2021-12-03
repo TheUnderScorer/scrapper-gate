@@ -638,7 +638,9 @@
         },
         "version": {
           "executor": "@jscutlery/semver:version",
-          "postTargets": ["browser-extension:github"]
+          "options": {
+            "postTargets": ["browser-extension:bumpManifest", "browserExtension:github"]
+          }
         },
         "github": {
           "executor": "@jscutlery/semver:github",
@@ -646,6 +648,12 @@
             "tag": "${tag}",
             "notesFile": "apps/browser-extension/CHANGELOG.md",
             "baseBranch": "master"
+          }
+        },
+        "bumpManifest": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "node apps/browser-extension/scripts/bumpManifest.mjs --nv ${version} --dryRun=${dryRun} --commitToGit"
           }
         }
       },
