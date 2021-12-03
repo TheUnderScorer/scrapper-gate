@@ -1,3 +1,24 @@
+# [1.0.0-test.19](https://github.com/TheUnderScorer/scrapper-gate/compare/v1.0.0-test.18...v1.0.0-test.19) (2021-12-03)
+
+
+### Bug Fixes
+
+* **variables:** Remove sticky header from suggestions ([261f2e3](https://github.com/TheUnderScorer/scrapper-gate/commit/261f2e387081d443a8f9b349940139b383e8bd00))
+
+
+### Features
+
+* **conditional-rules:** Improve ui ([c19a098](https://github.com/TheUnderScorer/scrapper-gate/commit/c19a098d19b0b0de9660a841791ecb89509b5d50))
+* **scrapper-builder:** Replace open step url button with icon ([8b01131](https://github.com/TheUnderScorer/scrapper-gate/commit/8b011318857e6f27098bfe7a0f568a87f92f06f4))
+* **ui:** Make selectable paper accessible by keyboard ([bebe07b](https://github.com/TheUnderScorer/scrapper-gate/commit/bebe07b6a822078873421b276943fa4cfaa48546))
+
+
+### Reverts
+
+* Revert "ci: Test usage of pulumi local" ([09aef35](https://github.com/TheUnderScorer/scrapper-gate/commit/09aef35f4d7fd557d2f43ea3b0f881a5b072530f))
+* Revert "ci: Restore old pulumi setup for e2e" ([6f06a56](https://github.com/TheUnderScorer/scrapper-gate/commit/6f06a56da1797fc896e416c6d636ed1e0b0193c9))
+* Revert "ci: Remove pulumi token" ([5ed1635](https://github.com/TheUnderScorer/scrapper-gate/commit/5ed1635a8d874d555d74f5df2f55535201125756))
+
 # [1.0.0-test.18](https://github.com/TheUnderScorer/scrapper-gate/compare/v1.0.0-test.17...v1.0.0-test.18) (2021-11-05)
 
 
