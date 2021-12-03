@@ -180,11 +180,8 @@ jobs:
       - name: Wait for localstack
         run: sudo AWS_S3_ENDPOINT=http://localhost:4566 node docker/localstack/waitForLocalStack.mjs
 
-      - name: Copy pulumi config
-        run: cp deploy/Pulumi.development.yaml deploy/Pulumi.development-backend-tests.yaml
-
       - name: Start pulumi
-        run: cd deploy && pulumi login --local && node scripts/upLocally.mjs
+        run: cd deploy && pulumi login --local && pulumi stack init development && pulumi stack select development && pulumi up -y
         env:
           PULUMI_CONFIG_PASSPHRASE: test
 
@@ -263,11 +260,8 @@ jobs:
       - name: Wait for localstack
         run: sudo AWS_S3_ENDPOINT=http://localhost:4566 node docker/localstack/waitForLocalStack.mjs
 
-      - name: Copy pulumi config
-        run: cp deploy/Pulumi.development.yaml deploy/Pulumi.development-apps-tests.yaml
-
       - name: Start pulumi
-        run: cd deploy && pulumi login --local && node scripts/upLocally.mjs
+        run: cd deploy && pulumi login --local && pulumi stack init development && pulumi stack select development && pulumi up -y
         env:
           PULUMI_CONFIG_PASSPHRASE: test
 
@@ -302,11 +296,8 @@ jobs:
       - name: Wait for localstack
         run: sudo AWS_S3_ENDPOINT=http://localhost:4566 node docker/localstack/waitForLocalStack.mjs
 
-      - name: Copy pulumi config
-        run: cp deploy/Pulumi.development.yaml deploy/Pulumi.development-e2e.yaml
-
       - name: Start pulumi
-        run: cd deploy && pulumi login --local && node scripts/upLocally.mjs
+        run: cd deploy && pulumi login --local && pulumi stack init development && pulumi stack select development && pulumi up -y
         env:
           PULUMI_CONFIG_PASSPHRASE: test
 
