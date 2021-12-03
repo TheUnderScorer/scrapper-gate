@@ -5,11 +5,6 @@ import { Stack } from './types';
 export const getStack = () => {
   const stack = pulumi.getStack();
 
-  // This comes from pulumi-local
-  if (stack.toLowerCase() === 'localstack') {
-    return Stack.Development;
-  }
-
   return first(stack.split('-')) as Stack;
 };
 
