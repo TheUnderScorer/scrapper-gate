@@ -1486,7 +1486,7 @@
         },
         "version": {
           "executor": "@jscutlery/semver:version",
-          "postTargets": ["lambdas"]
+          "postTargets": ["lambdas:github"]
         },
         "github": {
           "executor": "@jscutlery/semver:github",
