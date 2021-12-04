@@ -639,7 +639,7 @@
         "version": {
           "executor": "@jscutlery/semver:version",
           "options": {
-            "postTargets": ["browser-extension:bumpManifest", "browserExtension:github"]
+            "postTargets": ["browser-extension:bumpManifest", "browser-extension:github"]
           }
         },
         "github": {
