@@ -53,7 +53,9 @@
         },
         "version": {
           "executor": "@jscutlery/semver:version",
-          "postTargets": ["api:github"]
+          "options": {
+            "postTargets": ["api:github"]
+          }
         },
         "github": {
           "executor": "@jscutlery/semver:github",
@@ -1486,7 +1488,9 @@
         },
         "version": {
           "executor": "@jscutlery/semver:version",
-          "postTargets": ["lambdas:github"]
+          "options": {
+            "postTargets": ["lambdas:github"]
+          }
         },
         "github": {
           "executor": "@jscutlery/semver:github",

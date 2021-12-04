@@ -21,17 +21,19 @@ const args = yargs(process.argv)
     alias: 'nv'
   }).parse();
 
+const parsedVersion = args.newVersion.replace(/-/g, '.')
+
 if (args.dryRun) {
   console.log('Dry run set, skipping manifest version bump.');
 } else {
   const manifestPath = path.resolve(dirname, '../manifest.json');
   const manifest = JSON.parse(fs.readFileSync(manifestPath).toString());
 
-  manifest.version = args.newVersion;
+  manifest.version = parsedVersion;
 
   fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
 
-  console.log(`Updated manifest to version ${args.newVersion}`);
+  console.log(`Updated manifest to version ${parsedVersion}`);
 
   if (args.commitToGit) {
     await $`git add ${manifestPath}`;
