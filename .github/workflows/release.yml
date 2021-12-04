@@ -31,6 +31,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: List known tags
+        run: git tag
+
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
 
