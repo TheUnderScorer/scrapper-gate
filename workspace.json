@@ -73,7 +73,8 @@
               "releaseAs": "prerelease",
               "baseBranch": "test",
               "skipRootChangelog": true,
-              "skipProjectChangelog": true
+              "skipProjectChangelog": true,
+              "preid": "test"
             }
           }
         },
@@ -814,7 +815,8 @@
               "releaseAs": "prerelease",
               "baseBranch": "test",
               "skipRootChangelog": true,
-              "skipProjectChangelog": true
+              "skipProjectChangelog": true,
+              "preid": "test"
             }
           }
         },
@@ -1817,7 +1819,8 @@
               "releaseAs": "prerelease",
               "baseBranch": "test",
               "skipRootChangelog": true,
-              "skipProjectChangelog": true
+              "skipProjectChangelog": true,
+              "preid": "test"
             }
           }
         },
