@@ -80,12 +80,12 @@
           "options": {
             "tag": "${tag}",
             "notesFile": "apps/api/CHANGELOG.md",
-            "baseBranch": "master",
+            "branch": "master",
             "title": "Api release: ${version}"
           },
           "configurations": {
             "prerelease": {
-              "baseBranch": "test",
+              "branch": "test",
               "prerelease": true,
               "title": "Api pre-release: ${version}"
             }
@@ -819,12 +819,12 @@
           "options": {
             "tag": "${tag}",
             "notesFile": "apps/browser-extension/CHANGELOG.md",
-            "baseBranch": "master",
+            "branch": "master",
             "title": "Browser extension release: ${version}"
           },
           "configurations": {
             "prerelease": {
-              "baseBranch": "test",
+              "branch": "test",
               "prerelease": true,
               "title": "Browser extension pre-release: ${version}"
             }
@@ -1820,12 +1820,12 @@
           "options": {
             "tag": "${tag}",
             "notesFile": "apps/lambdas/CHANGELOG.md",
-            "baseBranch": "master",
+            "branch": "master",
             "title": "Lambdas release: ${version}"
           },
           "configurations": {
             "prerelease": {
-              "baseBranch": "test",
+              "branch": "test",
               "prerelease": true,
               "title": "Lambdas pre-release: ${version}"
             }
