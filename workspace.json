@@ -80,12 +80,12 @@
           "options": {
             "tag": "${tag}",
             "notesFile": "apps/api/CHANGELOG.md",
-            "branch": "master",
+            "target": "master",
             "title": "Api release: ${version}"
           },
           "configurations": {
             "prerelease": {
-              "branch": "test",
+              "target": "test",
               "prerelease": true,
               "title": "Api pre-release: ${version}"
             }
@@ -819,12 +819,12 @@
           "options": {
             "tag": "${tag}",
             "notesFile": "apps/browser-extension/CHANGELOG.md",
-            "branch": "master",
+            "target": "master",
             "title": "Browser extension release: ${version}"
           },
           "configurations": {
             "prerelease": {
-              "branch": "test",
+              "target": "test",
               "prerelease": true,
               "title": "Browser extension pre-release: ${version}"
             }
@@ -833,7 +833,7 @@
         "bumpManifest": {
           "executor": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "node apps/browser-extension/scripts/bumpManifest.mjs --nv ${version} --commitToGit"
+            "command": "node apps/browser-extension/scripts/bumpManifest.mjs --nv ${version}"
           }
         }
       },
@@ -1820,12 +1820,12 @@
           "options": {
             "tag": "${tag}",
             "notesFile": "apps/lambdas/CHANGELOG.md",
-            "branch": "master",
+            "target": "master",
             "title": "Lambdas release: ${version}"
           },
           "configurations": {
             "prerelease": {
-              "branch": "test",
+              "target": "test",
               "prerelease": true,
               "title": "Lambdas pre-release: ${version}"
             }
