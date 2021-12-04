@@ -62,7 +62,8 @@
           "options": {
             "postTargets": [
               "api:github"
-            ]
+            ],
+            "baseBranch": "master"
           },
           "configurations": {
             "prerelease": {
@@ -79,7 +80,8 @@
           "options": {
             "tag": "${tag}",
             "notesFile": "apps/api/CHANGELOG.md",
-            "baseBranch": "master"
+            "baseBranch": "master",
+            "title": "Api release: ${version}"
           },
           "configurations": {
             "prerelease": {
@@ -798,7 +800,8 @@
             "postTargets": [
               "browser-extension:bumpManifest",
               "browser-extension:github"
-            ]
+            ],
+            "baseBranch": "master"
           },
           "configurations": {
             "prerelease": {
@@ -816,7 +819,8 @@
           "options": {
             "tag": "${tag}",
             "notesFile": "apps/browser-extension/CHANGELOG.md",
-            "baseBranch": "master"
+            "baseBranch": "master",
+            "title": "Browser extension release: ${version}"
           },
           "configurations": {
             "prerelease": {
@@ -1798,7 +1802,8 @@
           "options": {
             "postTargets": [
               "lambdas:github"
-            ]
+            ],
+            "baseBranch": "master"
           },
           "configurations": {
             "prerelease": {
@@ -1815,7 +1820,8 @@
           "options": {
             "tag": "${tag}",
             "notesFile": "apps/lambdas/CHANGELOG.md",
-            "baseBranch": "master"
+            "baseBranch": "master",
+            "title": "Lambdas release: ${version}"
           },
           "configurations": {
             "prerelease": {
