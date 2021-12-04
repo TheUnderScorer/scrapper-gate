@@ -36,14 +36,7 @@ jobs:
 
       - name: Prerelease
         if: github.ref == 'refs/heads/test'
-        run: npx nx run-many --target=version --all --maxParallel=1 --configuration=prerelease
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Push prerelease
-        if: github.ref == 'refs/heads/test'
-        run: git push --follow-tags origin test
+        run: npx nx run-many --target=version --all --maxParallel=1 --configuration=prerelease --push
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -51,13 +44,6 @@ jobs:
       - name: Release
         if: github.ref == 'refs/heads/master'
         run: npx nx run-many --target=version --all --maxParallel=1
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Push release
-        if: github.ref == 'refs/heads/master'
-        run: git push --follow-tags origin master
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
