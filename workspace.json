@@ -71,7 +71,9 @@
                 "api:github:prerelease"
               ],
               "releaseAs": "prerelease",
-              "baseBranch": "test"
+              "baseBranch": "test",
+              "skipRootChangelog": true,
+              "skipProjectChangelog": true
             }
           }
         },
@@ -810,7 +812,9 @@
                 "browser-extension:github:prerelease"
               ],
               "releaseAs": "prerelease",
-              "baseBranch": "test"
+              "baseBranch": "test",
+              "skipRootChangelog": true,
+              "skipProjectChangelog": true
             }
           }
         },
@@ -1811,7 +1815,9 @@
                 "lambdas:github:prerelease"
               ],
               "releaseAs": "prerelease",
-              "baseBranch": "test"
+              "baseBranch": "test",
+              "skipRootChangelog": true,
+              "skipProjectChangelog": true
             }
           }
         },
