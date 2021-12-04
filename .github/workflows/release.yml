@@ -36,7 +36,7 @@ jobs:
 
       - name: Prerelease
         if: github.ref == 'refs/heads/test'
-        run: npx nx run-many --target=version:prerelease --all --maxParallel=1
+        run: npx nx run-many --target=version --all --maxParallel=1 --configuration=prerelease
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
