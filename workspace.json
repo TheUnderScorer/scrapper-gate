@@ -812,7 +812,10 @@
           }
         }
       },
-      "tags": []
+      "tags": [],
+      "implicitDependencies": [
+        "api"
+      ]
     },
     "browser-extension-e2e": {
       "root": "apps/browser-extension-e2e",
