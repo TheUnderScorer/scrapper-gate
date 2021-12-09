@@ -58,41 +58,20 @@
           }
         },
         "version": {
-          "executor": "@jscutlery/semver:version",
+          "executor": "@theunderscorer/nx-semantic-release:semantic-release",
           "options": {
-            "postTargets": [
-              "api:github"
-            ],
-            "baseBranch": "master",
-            "versionTagPrefix": "${target}@"
-          },
-          "configurations": {
-            "prerelease": {
-              "postTargets": [
-                "api:github:prerelease"
-              ],
-              "releaseAs": "prerelease",
-              "baseBranch": "test",
-              "skipRootChangelog": true,
-              "skipProjectChangelog": true,
-              "versionTagPrefix": "${target}-pre-release@"
-            }
-          }
-        },
-        "github": {
-          "executor": "@jscutlery/semver:github",
-          "options": {
-            "tag": "${tag}",
-            "notesFile": "apps/api/CHANGELOG.md",
-            "target": "master",
-            "title": "Api release: ${version}"
-          },
-          "configurations": {
-            "prerelease": {
-              "target": "test",
-              "prerelease": true,
-              "title": "Api pre-release: ${version}"
-            }
+            "buildTarget": "api:build",
+            "github": true,
+            "outputPath": "dist/apps/api",
+            "repositoryUrl": "https://github.com/TheUnderScorer/scrapper-gate",
+            "branches": [
+              "+([0-9])?(.{+([0-9]),x}).x",
+              "master",
+              {
+                "name": "test",
+                "prerelease": true
+              }
+            ]
           }
         }
       },
@@ -799,43 +778,31 @@
           }
         },
         "version": {
-          "executor": "@jscutlery/semver:version",
+          "executor": "@theunderscorer/nx-semantic-release:semantic-release",
           "options": {
-            "postTargets": [
-              "browser-extension:bumpManifest",
-              "browser-extension:github"
+            "buildTarget": "browser-extension:build",
+            "github": true,
+            "outputPath": "dist/apps/browser-extension",
+            "repositoryUrl": "https://github.com/TheUnderScorer/scrapper-gate",
+            "gitAssets": [
+              "apps/browser-extension/manifest.json"
             ],
-            "baseBranch": "master",
-            "versionTagPrefix": "${target}@"
-          },
-          "configurations": {
-            "prerelease": {
-              "postTargets": [
-                "browser-extension:bumpManifest",
-                "browser-extension:github:prerelease"
-              ],
-              "releaseAs": "prerelease",
-              "baseBranch": "test",
-              "skipRootChangelog": true,
-              "skipProjectChangelog": true,
-              "versionTagPrefix": "${target}-pre-release@"
-            }
-          }
-        },
-        "github": {
-          "executor": "@jscutlery/semver:github",
-          "options": {
-            "tag": "${tag}",
-            "notesFile": "apps/browser-extension/CHANGELOG.md",
-            "target": "master",
-            "title": "Browser extension release: ${version}"
-          },
-          "configurations": {
-            "prerelease": {
-              "target": "test",
-              "prerelease": true,
-              "title": "Browser extension pre-release: ${version}"
-            }
+            "plugins": [
+              [
+                "@semantic-release/exec",
+                {
+                  "prepareCmd": "node apps/browser-extension/scripts/syncManifestVersion.mjs"
+                }
+              ]
+            ],
+            "branches": [
+              "+([0-9])?(.{+([0-9]),x}).x",
+              "master",
+              {
+                "name": "test",
+                "prerelease": true
+              }
+            ]
           }
         },
         "bumpManifest": {
@@ -1751,30 +1718,9 @@
       "projectType": "application",
       "targets": {
         "build": {
-          "executor": "@nrwl/node:build",
-          "outputs": [
-            "{options.outputPath}"
-          ],
+          "executor": "@nrwl/workspace:run-commands",
           "options": {
-            "outputPath": "dist/apps/lambdas",
-            "main": "apps/lambdas/src/main.ts",
-            "tsConfig": "apps/lambdas/tsconfig.app.json",
-            "assets": [
-              "apps/lambdas/src/assets"
-            ]
-          },
-          "configurations": {
-            "production": {
-              "optimization": true,
-              "extractLicenses": true,
-              "inspect": false,
-              "fileReplacements": [
-                {
-                  "replace": "apps/lambdas/src/environments/environment.ts",
-                  "with": "apps/lambdas/src/environments/environment.prod.ts"
-                }
-              ]
-            }
+            "command": "echo \"Nothing to build\""
           }
         },
         "serve": {
@@ -1806,42 +1752,16 @@
           }
         },
         "version": {
-          "executor": "@jscutlery/semver:version",
-          "options": {
-            "postTargets": [
-              "lambdas:github"
-            ],
-            "baseBranch": "master",
-            "versionTagPrefix": "${target}@"
-          },
-          "configurations": {
-            "prerelease": {
-              "postTargets": [
-                "lambdas:github:prerelease"
-              ],
-              "releaseAs": "prerelease",
-              "baseBranch": "test",
-              "skipRootChangelog": true,
-              "skipProjectChangelog": true,
-              "versionTagPrefix": "${target}-pre-release@"
+          "github": true,
+          "repositoryUrl": "https://github.com/TheUnderScorer/scrapper-gate",
+          "branches": [
+            "+([0-9])?(.{+([0-9]),x}).x",
+            "master",
+            {
+              "name": "test",
+              "prerelease": true
             }
-          }
-        },
-        "github": {
-          "executor": "@jscutlery/semver:github",
-          "options": {
-            "tag": "${tag}",
-            "notesFile": "apps/lambdas/CHANGELOG.md",
-            "target": "master",
-            "title": "Lambdas release: ${version}"
-          },
-          "configurations": {
-            "prerelease": {
-              "target": "test",
-              "prerelease": true,
-              "title": "Lambdas pre-release: ${version}"
-            }
-          }
+          ]
         }
       },
       "tags": []

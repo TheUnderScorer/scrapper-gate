@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          fetch-depth: 0
+          persist-credentials: false
 
       - name: Set Node.js 16.x
         uses: actions/setup-node@v2
@@ -31,22 +31,11 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: List known tags
-        run: git tag
-
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
 
-      - name: Prerelease
-        if: github.ref == 'refs/heads/test'
-        run: npx nx run-many --target=version --all --maxParallel=1 --configuration=prerelease --push
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Release
-        if: github.ref == 'refs/heads/master'
-        run: npx nx run-many --target=version --all --maxParallel=1 --push
+        run: npx nx run-many --target=version --all --maxParallel=1
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
