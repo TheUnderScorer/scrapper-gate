@@ -63,7 +63,7 @@
             "buildTarget": "api:build",
             "github": true,
             "outputPath": "dist/apps/api",
-            "repositoryUrl": "https://github.com/TheUnderScorer/scrapper-gate",
+            "repositoryUrl": "https://github.com/TheUnderScorer/scrapper-gate.git",
             "branches": [
               "+([0-9])?(.{+([0-9]),x}).x",
               "master",
@@ -783,7 +783,7 @@
             "buildTarget": "browser-extension:build",
             "github": true,
             "outputPath": "dist/apps/browser-extension",
-            "repositoryUrl": "https://github.com/TheUnderScorer/scrapper-gate",
+            "repositoryUrl": "https://github.com/TheUnderScorer/scrapper-gate.git",
             "gitAssets": [
               "apps/browser-extension/manifest.json"
             ],
@@ -1757,7 +1757,7 @@
         "version": {
           "executor": "@theunderscorer/nx-semantic-release:semantic-release",
           "github": true,
-          "repositoryUrl": "https://github.com/TheUnderScorer/scrapper-gate",
+          "repositoryUrl": "https://github.com/TheUnderScorer/scrapper-gate.git",
           "branches": [
             "+([0-9])?(.{+([0-9]),x}).x",
             "master",
