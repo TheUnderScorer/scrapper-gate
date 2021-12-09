@@ -1755,6 +1755,7 @@
           }
         },
         "version": {
+          "executor": "@theunderscorer/nx-semantic-release:semantic-release",
           "github": true,
           "repositoryUrl": "https://github.com/TheUnderScorer/scrapper-gate",
           "branches": [
