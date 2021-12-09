@@ -1758,17 +1758,19 @@
         },
         "version": {
           "executor": "@theunderscorer/nx-semantic-release:semantic-release",
-          "commitMessage": "chore(lambdas): release ${nextRelease.version} [skip ci]\\n\\n${nextRelease.notes}",
-          "github": true,
-          "repositoryUrl": "https://github.com/TheUnderScorer/scrapper-gate.git",
-          "branches": [
-            "+([0-9])?(.{+([0-9]),x}).x",
-            "master",
-            {
-              "name": "test",
-              "prerelease": true
-            }
-          ]
+          "options": {
+            "commitMessage": "chore(lambdas): release ${nextRelease.version} [skip ci]\\n\\n${nextRelease.notes}",
+            "github": true,
+            "repositoryUrl": "https://github.com/TheUnderScorer/scrapper-gate.git",
+            "branches": [
+              "+([0-9])?(.{+([0-9]),x}).x",
+              "master",
+              {
+                "name": "test",
+                "prerelease": true
+              }
+            ]
+          }
         }
       },
       "tags": []
