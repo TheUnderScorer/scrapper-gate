@@ -1,7 +1,7 @@
 {
   "name": "lambdas",
-  "version": "0.0.1-0",
-  "private": true,
+  "version": "1.0.0-test.1",
+  "private": true
   "repository": {
     "url": "https://github.com/TheUnderScorer/scrapper-gate",
     "type": "git"
