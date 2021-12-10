@@ -190,7 +190,7 @@
     "@testing-library/react": "12.1.2",
     "@testing-library/react-hooks": "7.0.2",
     "@testing-library/user-event": "^13.1.1",
-    "@theunderscorer/nx-semantic-release": "1.0.4",
+    "@theunderscorer/nx-semantic-release": "1.0.5",
     "@types/aws-lambda": "^8.10.77",
     "@types/chrome": "^0.0.134",
     "@types/dagre": "^0.7.44",
