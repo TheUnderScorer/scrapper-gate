@@ -1,6 +1,10 @@
 {
   "name": "scrapper-gate",
   "license": "MIT",
+  "repository": {
+    "url": "https://github.com/TheUnderScorer/scrapper-gate",
+    "type": "git"
+  },
   "scripts": {
     "nx": "nx",
     "start": "nx serve",
