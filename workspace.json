@@ -60,6 +60,7 @@
         "version": {
           "executor": "@theunderscorer/nx-semantic-release:semantic-release",
           "options": {
+            "repositoryUrl": "https://github.com/TheUnderScorer/scrapper-gate.git",
             "github": true,
             "outputPath": "dist/apps/api",
             "commitMessage": "chore(api): release ${nextRelease.version} [skip ci]\\n\\n${nextRelease.notes}",
@@ -779,6 +780,7 @@
         "version": {
           "executor": "@theunderscorer/nx-semantic-release:semantic-release",
           "options": {
+            "repositoryUrl": "https://github.com/TheUnderScorer/scrapper-gate.git",
             "github": true,
             "outputPath": "dist/apps/browser-extension",
             "commitMessage": "chore(browser-extension): release ${nextRelease.version} [skip ci]\\n\\n${nextRelease.notes}",
@@ -1755,6 +1757,7 @@
         "version": {
           "executor": "@theunderscorer/nx-semantic-release:semantic-release",
           "options": {
+            "repositoryUrl": "https://github.com/TheUnderScorer/scrapper-gate.git",
             "commitMessage": "chore(lambdas): release ${nextRelease.version} [skip ci]\\n\\n${nextRelease.notes}",
             "github": true,
             "branches": [

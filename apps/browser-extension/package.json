@@ -3,7 +3,7 @@
   "version": "0.0.1-0",
   "private": true,
   "repository": {
-    "url": "https://github.com/TheUnderScorer/scrapper-gate",
+    "url": "https://github.com/TheUnderScorer/scrapper-gate.git",
     "type": "git"
   }
 }

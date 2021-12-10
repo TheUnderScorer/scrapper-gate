@@ -2,7 +2,7 @@
   "name": "scrapper-gate",
   "license": "MIT",
   "repository": {
-    "url": "https://github.com/TheUnderScorer/scrapper-gate",
+    "url": "https://github.com/TheUnderScorer/scrapper-gate.git",
     "type": "git"
   },
   "scripts": {
